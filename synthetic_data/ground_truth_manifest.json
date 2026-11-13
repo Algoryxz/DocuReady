@@ -1,0 +1,110 @@
+{
+  "dataset_name": "DocuReady Synthetic Multi-Document Evaluation Dataset",
+  "version": "1.0.0",
+  "date_created": "2026-11-13",
+  "description": "Completely synthetic multi-document applicant packets covering 8 standard defect patterns.",
+  "packets": {
+    "PKT_01_CLEAN": {
+      "packet_id": "PKT_01_CLEAN",
+      "description": "Standard fully consistent applicant packet. All 6 documents match exactly.",
+      "folder": "pkt_01_clean",
+      "expected_status": "READY_TO_SUBMIT",
+      "expected_score_min": 95,
+      "expected_defects_count": 0,
+      "expected_failure_rules": []
+    },
+    "PKT_LOOP3_DEMO": {
+      "packet_id": "PKT_LOOP3_DEMO",
+      "description": "Loop 3 Multi-Modal Challenge Packet: Mixed vector and degraded OCR scans (uneven lighting, perspective distortion, low-resolution) with caste category defect.",
+      "folder": "pkt_loop3_demo",
+      "expected_status": "REVIEW_RECOMMENDED",
+      "expected_score_min": 60,
+      "expected_defects_count": 1,
+      "expected_failure_rules": [
+        "RULE-CST-01"
+      ]
+    },
+    "PKT_02_NAME_CONFLICT": {
+      "packet_id": "PKT_02_NAME_CONFLICT",
+      "description": "Marksheet belongs to Rajesh Kumar Patel instead of applicant Smruti Ranjan Nayak.",
+      "folder": "pkt_02_name_conflict",
+      "expected_status": "ACTION_REQUIRED",
+      "expected_score_min": 0,
+      "expected_defects_count": 1,
+      "expected_failure_rules": [
+        "RULE-NAME-01"
+      ]
+    },
+    "PKT_03_DOB_CONFLICT": {
+      "packet_id": "PKT_03_DOB_CONFLICT",
+      "description": "Date of Birth mismatch: Application form declares 14/05/2003 but Marksheet states 14/05/2005.",
+      "folder": "pkt_03_dob_conflict",
+      "expected_status": "ACTION_REQUIRED",
+      "expected_score_min": 0,
+      "expected_defects_count": 1,
+      "expected_failure_rules": [
+        "RULE-DOB-01"
+      ]
+    },
+    "PKT_04_INCOME_CONFLICT": {
+      "packet_id": "PKT_04_INCOME_CONFLICT",
+      "description": "Income Certificate states Rs. 3,20,000/- (exceeding statutory 2.5L ceiling and conflicting with declared 1.8L).",
+      "folder": "pkt_04_income_conflict",
+      "expected_status": "REJECT_PRECHECK",
+      "expected_score_min": 0,
+      "expected_defects_count": 2,
+      "expected_failure_rules": [
+        "RULE-INC-01",
+        "RULE-INC-02"
+      ]
+    },
+    "PKT_05_MISSING_CERTIFICATE": {
+      "packet_id": "PKT_05_MISSING_CERTIFICATE",
+      "description": "Mandatory Caste Certificate is absent from the packet.",
+      "folder": "pkt_05_missing_certificate",
+      "expected_status": "REJECT_PRECHECK",
+      "expected_score_min": 0,
+      "expected_defects_count": 1,
+      "expected_failure_rules": [
+        "RULE-DOC-01"
+      ]
+    },
+    "PKT_06_MULTIPLE_DEFECTS": {
+      "packet_id": "PKT_06_MULTIPLE_DEFECTS",
+      "description": "Multiple defects: Expired income certificate, academic marks below cutoff, DOB mismatch, passbook name discrepancy.",
+      "folder": "pkt_06_multiple_defects",
+      "expected_status": "ACTION_REQUIRED",
+      "expected_score_min": 0,
+      "expected_defects_count": 4,
+      "expected_failure_rules": [
+        "RULE-EXP-01",
+        "RULE-MRK-01",
+        "RULE-DOB-01",
+        "RULE-NAME-01"
+      ]
+    },
+    "PKT_07_UNREADABLE_DOC": {
+      "packet_id": "PKT_07_UNREADABLE_DOC",
+      "description": "Income Certificate has illegible scan / corrupt text quality.",
+      "folder": "pkt_07_unreadable_doc",
+      "expected_status": "UNREADABLE_PACKET",
+      "expected_score_min": 0,
+      "expected_defects_count": 1,
+      "expected_failure_rules": [
+        "RULE-DOC-02"
+      ]
+    },
+    "PKT_08_AMBIGUOUS_EVIDENCE": {
+      "packet_id": "PKT_08_AMBIGUOUS_EVIDENCE",
+      "description": "Date format ambiguity (04/05/2003 vs 05/04/2003) and Name initial variation ('S R Nayak' vs 'Smruti Ranjan Nayak').",
+      "folder": "pkt_08_ambiguous_evidence",
+      "expected_status": "REVIEW_RECOMMENDED",
+      "expected_score_min": 75,
+      "expected_defects_count": 2,
+      "expected_failure_rules": [
+        "RULE-DOB-02",
+        "RULE-NAME-02"
+      ]
+    }
+  }
+}

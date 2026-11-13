@@ -1,0 +1,13 @@
+{
+  "native_vector_per_page_ms": 4.39,
+  "ocr_render_200dpi_ms": 209.17,
+  "ocr_osd_full_res_ms": 1457.32,
+  "ocr_osd_downsampled_ms": 1266.57,
+  "ocr_token_extraction_ms": 994.53,
+  "spatial_clustering_ms": 0.32,
+  "field_search_ms": 0.45,
+  "calibrator_ms": 0.03,
+  "total_ocr_page_unoptimized_ms": 2661.82,
+  "total_ocr_page_optimized_ms": 2471.06,
+  "full_packet_6docs_ms": 9684.76
+}

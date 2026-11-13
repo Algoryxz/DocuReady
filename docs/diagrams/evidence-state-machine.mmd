@@ -1,0 +1,31 @@
+stateDiagram-v2
+    [*] --> Ingested: Document Loaded
+    Ingested --> Extracted: Tokens & Coordinates Extracted
+
+    Extracted --> CalibrationCalculation: Compute 9 Calibration Features
+    state CalibrationCalculation {
+        OCR_Confidence: Base OCR token confidence
+        Label_Distance: Distance to anchor label
+        Format_Regex: Regex validity check
+        Layout_Alignment: Margin and grid alignment
+        Source_Penalty: Vector vs OCR prior
+    }
+
+    CalibrationCalculation --> StateAssignment: Logistic Probability P
+    
+    state StateAssignment {
+        [*] --> VERIFIED: P >= 0.85
+        [*] --> PROVISIONAL: 0.60 <= P < 0.85
+        [*] --> UNCERTAIN: P < 0.60
+    }
+
+    state DownstreamRuleImpact {
+        VERIFIED --> HardRuleEnforcement: Fully Actionable Violations Emitted
+        PROVISIONAL --> SoftWarningEnforcement: Emits Warning + Quality Check
+        UNCERTAIN --> SafetyDowngrade: Violations Downgraded to MANUAL_REVIEW
+    }
+
+    HardRuleEnforcement --> AuditReportReady
+    SoftWarningEnforcement --> AuditReportReady
+    SafetyDowngrade --> AuditReportReady
+    AuditReportReady --> [*]

@@ -1,0 +1,728 @@
+{
+  "corpus_name": "DocuReady Realistic Document Scans Corpus (Loop 2)",
+  "total_samples": 60,
+  "date_created": "2026-11-13",
+  "description": "60 multi-condition applicant documents with controlled optical, perspective and physical degradations.",
+  "samples": {
+    "SMP_01": {
+      "sample_id": "SMP_01",
+      "document_type": "INCOME_CERT",
+      "file_name": "smp_01_income_cert_clean.pdf",
+      "generation_method": "ReportLab Vector",
+      "degradation_applied": "None (Clean Digital Vector)",
+      "expected_extraction": "NATIVE_VECTOR",
+      "expected_audit_status": "PASS",
+      "expected_fields": {
+        "applicant_name": "SMRUTI RANJAN NAYAK"
+      }
+    },
+    "SMP_02": {
+      "sample_id": "SMP_02",
+      "document_type": "CASTE_CERT",
+      "file_name": "smp_02_caste_cert_clean.pdf",
+      "generation_method": "ReportLab Vector",
+      "degradation_applied": "None (Clean Digital Vector)",
+      "expected_extraction": "NATIVE_VECTOR",
+      "expected_audit_status": "PASS",
+      "expected_fields": {
+        "applicant_name": "SMRUTI RANJAN NAYAK"
+      }
+    },
+    "SMP_03": {
+      "sample_id": "SMP_03",
+      "document_type": "RESIDENCE_CERT",
+      "file_name": "smp_03_residence_cert_clean.pdf",
+      "generation_method": "ReportLab Vector",
+      "degradation_applied": "None (Clean Digital Vector)",
+      "expected_extraction": "NATIVE_VECTOR",
+      "expected_audit_status": "PASS",
+      "expected_fields": {
+        "applicant_name": "SMRUTI RANJAN NAYAK"
+      }
+    },
+    "SMP_04": {
+      "sample_id": "SMP_04",
+      "document_type": "MARKSHEET",
+      "file_name": "smp_04_marksheet_clean.pdf",
+      "generation_method": "ReportLab Vector",
+      "degradation_applied": "None (Clean Digital Vector)",
+      "expected_extraction": "NATIVE_VECTOR",
+      "expected_audit_status": "PASS",
+      "expected_fields": {
+        "applicant_name": "SMRUTI RANJAN NAYAK"
+      }
+    },
+    "SMP_05": {
+      "sample_id": "SMP_05",
+      "document_type": "BANK_PASSBOOK",
+      "file_name": "smp_05_bank_passbook_clean.pdf",
+      "generation_method": "ReportLab Vector",
+      "degradation_applied": "None (Clean Digital Vector)",
+      "expected_extraction": "NATIVE_VECTOR",
+      "expected_audit_status": "PASS",
+      "expected_fields": {
+        "applicant_name": "SMRUTI RANJAN NAYAK"
+      }
+    },
+    "SMP_06": {
+      "sample_id": "SMP_06",
+      "document_type": "APPLICATION_FORM",
+      "file_name": "smp_06_application_form_clean.pdf",
+      "generation_method": "ReportLab Vector",
+      "degradation_applied": "None (Clean Digital Vector)",
+      "expected_extraction": "NATIVE_VECTOR",
+      "expected_audit_status": "PASS",
+      "expected_fields": {
+        "applicant_name": "SMRUTI RANJAN NAYAK"
+      }
+    },
+    "SMP_07": {
+      "sample_id": "SMP_07",
+      "document_type": "INCOME_CERT",
+      "file_name": "smp_07_income_cert_clean.pdf",
+      "generation_method": "ReportLab Vector",
+      "degradation_applied": "None (Clean Digital Vector)",
+      "expected_extraction": "NATIVE_VECTOR",
+      "expected_audit_status": "PASS",
+      "expected_fields": {
+        "applicant_name": "SMRUTI RANJAN NAYAK"
+      }
+    },
+    "SMP_08": {
+      "sample_id": "SMP_08",
+      "document_type": "CASTE_CERT",
+      "file_name": "smp_08_caste_cert_clean.pdf",
+      "generation_method": "ReportLab Vector",
+      "degradation_applied": "None (Clean Digital Vector)",
+      "expected_extraction": "NATIVE_VECTOR",
+      "expected_audit_status": "PASS",
+      "expected_fields": {
+        "applicant_name": "SMRUTI RANJAN NAYAK"
+      }
+    },
+    "SMP_09": {
+      "sample_id": "SMP_09",
+      "document_type": "MARKSHEET",
+      "file_name": "smp_09_marksheet_clean.pdf",
+      "generation_method": "ReportLab Vector",
+      "degradation_applied": "None (Clean Digital Vector)",
+      "expected_extraction": "NATIVE_VECTOR",
+      "expected_audit_status": "PASS",
+      "expected_fields": {
+        "applicant_name": "SMRUTI RANJAN NAYAK"
+      }
+    },
+    "SMP_10": {
+      "sample_id": "SMP_10",
+      "document_type": "APPLICATION_FORM",
+      "file_name": "smp_10_application_form_clean.pdf",
+      "generation_method": "ReportLab Vector",
+      "degradation_applied": "None (Clean Digital Vector)",
+      "expected_extraction": "NATIVE_VECTOR",
+      "expected_audit_status": "PASS",
+      "expected_fields": {
+        "applicant_name": "SMRUTI RANJAN NAYAK"
+      }
+    },
+    "SMP_11": {
+      "sample_id": "SMP_11",
+      "document_type": "SCAN_DOCUMENT",
+      "file_name": "smp_11_raster_scan.pdf",
+      "generation_method": "Raster Scanned",
+      "degradation_applied": "Raster Image at 200 DPI (Zero Selectable Vector Text)",
+      "expected_extraction": "LOCAL_OCR",
+      "expected_audit_status": "PASS",
+      "expected_fields": {
+        "applicant_name": "SMRUTI RANJAN NAYAK"
+      }
+    },
+    "SMP_12": {
+      "sample_id": "SMP_12",
+      "document_type": "SCAN_DOCUMENT",
+      "file_name": "smp_12_raster_scan.pdf",
+      "generation_method": "Raster Scanned",
+      "degradation_applied": "Raster Image at 200 DPI (Zero Selectable Vector Text)",
+      "expected_extraction": "LOCAL_OCR",
+      "expected_audit_status": "PASS",
+      "expected_fields": {
+        "applicant_name": "SMRUTI RANJAN NAYAK"
+      }
+    },
+    "SMP_13": {
+      "sample_id": "SMP_13",
+      "document_type": "SCAN_DOCUMENT",
+      "file_name": "smp_13_raster_scan.pdf",
+      "generation_method": "Raster Scanned",
+      "degradation_applied": "Raster Image at 200 DPI (Zero Selectable Vector Text)",
+      "expected_extraction": "LOCAL_OCR",
+      "expected_audit_status": "PASS",
+      "expected_fields": {
+        "applicant_name": "SMRUTI RANJAN NAYAK"
+      }
+    },
+    "SMP_14": {
+      "sample_id": "SMP_14",
+      "document_type": "SCAN_DOCUMENT",
+      "file_name": "smp_14_raster_scan.pdf",
+      "generation_method": "Raster Scanned",
+      "degradation_applied": "Raster Image at 200 DPI (Zero Selectable Vector Text)",
+      "expected_extraction": "LOCAL_OCR",
+      "expected_audit_status": "PASS",
+      "expected_fields": {
+        "applicant_name": "SMRUTI RANJAN NAYAK"
+      }
+    },
+    "SMP_15": {
+      "sample_id": "SMP_15",
+      "document_type": "SCAN_DOCUMENT",
+      "file_name": "smp_15_raster_scan.pdf",
+      "generation_method": "Raster Scanned",
+      "degradation_applied": "Raster Image at 200 DPI (Zero Selectable Vector Text)",
+      "expected_extraction": "LOCAL_OCR",
+      "expected_audit_status": "PASS",
+      "expected_fields": {
+        "applicant_name": "SMRUTI RANJAN NAYAK"
+      }
+    },
+    "SMP_16": {
+      "sample_id": "SMP_16",
+      "document_type": "SCAN_DOCUMENT",
+      "file_name": "smp_16_raster_scan.pdf",
+      "generation_method": "Raster Scanned",
+      "degradation_applied": "Raster Image at 200 DPI (Zero Selectable Vector Text)",
+      "expected_extraction": "LOCAL_OCR",
+      "expected_audit_status": "PASS",
+      "expected_fields": {
+        "applicant_name": "SMRUTI RANJAN NAYAK"
+      }
+    },
+    "SMP_17": {
+      "sample_id": "SMP_17",
+      "document_type": "SCAN_DOCUMENT",
+      "file_name": "smp_17_raster_scan.pdf",
+      "generation_method": "Raster Scanned",
+      "degradation_applied": "Raster Image at 200 DPI (Zero Selectable Vector Text)",
+      "expected_extraction": "LOCAL_OCR",
+      "expected_audit_status": "PASS",
+      "expected_fields": {
+        "applicant_name": "SMRUTI RANJAN NAYAK"
+      }
+    },
+    "SMP_18": {
+      "sample_id": "SMP_18",
+      "document_type": "SCAN_DOCUMENT",
+      "file_name": "smp_18_raster_scan.pdf",
+      "generation_method": "Raster Scanned",
+      "degradation_applied": "Raster Image at 200 DPI (Zero Selectable Vector Text)",
+      "expected_extraction": "LOCAL_OCR",
+      "expected_audit_status": "PASS",
+      "expected_fields": {
+        "applicant_name": "SMRUTI RANJAN NAYAK"
+      }
+    },
+    "SMP_19": {
+      "sample_id": "SMP_19",
+      "document_type": "INCOME_CERT",
+      "file_name": "smp_19_rotated_2deg.pdf",
+      "generation_method": "Raster Rotated",
+      "degradation_applied": "Skewed/Rotated by 2.0 degrees",
+      "expected_extraction": "LOCAL_OCR",
+      "expected_audit_status": "PASS",
+      "expected_fields": {
+        "applicant_name": "SMRUTI RANJAN NAYAK"
+      }
+    },
+    "SMP_20": {
+      "sample_id": "SMP_20",
+      "document_type": "INCOME_CERT",
+      "file_name": "smp_20_rotated_-3deg.pdf",
+      "generation_method": "Raster Rotated",
+      "degradation_applied": "Skewed/Rotated by -3.0 degrees",
+      "expected_extraction": "LOCAL_OCR",
+      "expected_audit_status": "PASS",
+      "expected_fields": {
+        "applicant_name": "SMRUTI RANJAN NAYAK"
+      }
+    },
+    "SMP_21": {
+      "sample_id": "SMP_21",
+      "document_type": "INCOME_CERT",
+      "file_name": "smp_21_rotated_5deg.pdf",
+      "generation_method": "Raster Rotated",
+      "degradation_applied": "Skewed/Rotated by 5.0 degrees",
+      "expected_extraction": "LOCAL_OCR",
+      "expected_audit_status": "PASS",
+      "expected_fields": {
+        "applicant_name": "SMRUTI RANJAN NAYAK"
+      }
+    },
+    "SMP_22": {
+      "sample_id": "SMP_22",
+      "document_type": "INCOME_CERT",
+      "file_name": "smp_22_rotated_-4deg.pdf",
+      "generation_method": "Raster Rotated",
+      "degradation_applied": "Skewed/Rotated by -4.5 degrees",
+      "expected_extraction": "LOCAL_OCR",
+      "expected_audit_status": "PASS",
+      "expected_fields": {
+        "applicant_name": "SMRUTI RANJAN NAYAK"
+      }
+    },
+    "SMP_23": {
+      "sample_id": "SMP_23",
+      "document_type": "INCOME_CERT",
+      "file_name": "smp_23_rotated_90deg.pdf",
+      "generation_method": "Raster Rotated",
+      "degradation_applied": "Skewed/Rotated by 90.0 degrees",
+      "expected_extraction": "UNEXTRACTED_OR_OCR",
+      "expected_audit_status": "REVIEW",
+      "expected_fields": {
+        "applicant_name": "SMRUTI RANJAN NAYAK"
+      }
+    },
+    "SMP_24": {
+      "sample_id": "SMP_24",
+      "document_type": "INCOME_CERT",
+      "file_name": "smp_24_rotated_180deg.pdf",
+      "generation_method": "Raster Rotated",
+      "degradation_applied": "Skewed/Rotated by 180.0 degrees",
+      "expected_extraction": "UNEXTRACTED_OR_OCR",
+      "expected_audit_status": "REVIEW",
+      "expected_fields": {
+        "applicant_name": "SMRUTI RANJAN NAYAK"
+      }
+    },
+    "SMP_25": {
+      "sample_id": "SMP_25",
+      "document_type": "DEGRADED_SCAN",
+      "file_name": "smp_25_low_dpi.pdf",
+      "generation_method": "Raster Low-Res",
+      "degradation_applied": "Downsampled to 70 DPI equivalent with pixel blur",
+      "expected_extraction": "LOCAL_OCR",
+      "expected_audit_status": "REVIEW",
+      "expected_fields": {
+        "applicant_name": "SMRUTI RANJAN NAYAK"
+      }
+    },
+    "SMP_26": {
+      "sample_id": "SMP_26",
+      "document_type": "DEGRADED_SCAN",
+      "file_name": "smp_26_low_dpi.pdf",
+      "generation_method": "Raster Low-Res",
+      "degradation_applied": "Downsampled to 70 DPI equivalent with pixel blur",
+      "expected_extraction": "LOCAL_OCR",
+      "expected_audit_status": "REVIEW",
+      "expected_fields": {
+        "applicant_name": "SMRUTI RANJAN NAYAK"
+      }
+    },
+    "SMP_27": {
+      "sample_id": "SMP_27",
+      "document_type": "DEGRADED_SCAN",
+      "file_name": "smp_27_low_dpi.pdf",
+      "generation_method": "Raster Low-Res",
+      "degradation_applied": "Downsampled to 70 DPI equivalent with pixel blur",
+      "expected_extraction": "LOCAL_OCR",
+      "expected_audit_status": "REVIEW",
+      "expected_fields": {
+        "applicant_name": "SMRUTI RANJAN NAYAK"
+      }
+    },
+    "SMP_28": {
+      "sample_id": "SMP_28",
+      "document_type": "DEGRADED_SCAN",
+      "file_name": "smp_28_low_dpi.pdf",
+      "generation_method": "Raster Low-Res",
+      "degradation_applied": "Downsampled to 70 DPI equivalent with pixel blur",
+      "expected_extraction": "LOCAL_OCR",
+      "expected_audit_status": "REVIEW",
+      "expected_fields": {
+        "applicant_name": "SMRUTI RANJAN NAYAK"
+      }
+    },
+    "SMP_29": {
+      "sample_id": "SMP_29",
+      "document_type": "DEGRADED_SCAN",
+      "file_name": "smp_29_low_dpi.pdf",
+      "generation_method": "Raster Low-Res",
+      "degradation_applied": "Downsampled to 70 DPI equivalent with pixel blur",
+      "expected_extraction": "LOCAL_OCR",
+      "expected_audit_status": "REVIEW",
+      "expected_fields": {
+        "applicant_name": "SMRUTI RANJAN NAYAK"
+      }
+    },
+    "SMP_30": {
+      "sample_id": "SMP_30",
+      "document_type": "DEGRADED_SCAN",
+      "file_name": "smp_30_low_dpi.pdf",
+      "generation_method": "Raster Low-Res",
+      "degradation_applied": "Downsampled to 70 DPI equivalent with pixel blur",
+      "expected_extraction": "LOCAL_OCR",
+      "expected_audit_status": "REVIEW",
+      "expected_fields": {
+        "applicant_name": "SMRUTI RANJAN NAYAK"
+      }
+    },
+    "SMP_31": {
+      "sample_id": "SMP_31",
+      "document_type": "MOBILE_PHOTO",
+      "file_name": "smp_31_mobile_perspective.pdf",
+      "generation_method": "Perspective Skew",
+      "degradation_applied": "Smartphone trapezoidal perspective warp angle",
+      "expected_extraction": "LOCAL_OCR",
+      "expected_audit_status": "REVIEW",
+      "expected_fields": {
+        "applicant_name": "SMRUTI RANJAN NAYAK"
+      }
+    },
+    "SMP_32": {
+      "sample_id": "SMP_32",
+      "document_type": "MOBILE_PHOTO",
+      "file_name": "smp_32_mobile_perspective.pdf",
+      "generation_method": "Perspective Skew",
+      "degradation_applied": "Smartphone trapezoidal perspective warp angle",
+      "expected_extraction": "LOCAL_OCR",
+      "expected_audit_status": "REVIEW",
+      "expected_fields": {
+        "applicant_name": "SMRUTI RANJAN NAYAK"
+      }
+    },
+    "SMP_33": {
+      "sample_id": "SMP_33",
+      "document_type": "MOBILE_PHOTO",
+      "file_name": "smp_33_mobile_perspective.pdf",
+      "generation_method": "Perspective Skew",
+      "degradation_applied": "Smartphone trapezoidal perspective warp angle",
+      "expected_extraction": "LOCAL_OCR",
+      "expected_audit_status": "REVIEW",
+      "expected_fields": {
+        "applicant_name": "SMRUTI RANJAN NAYAK"
+      }
+    },
+    "SMP_34": {
+      "sample_id": "SMP_34",
+      "document_type": "MOBILE_PHOTO",
+      "file_name": "smp_34_mobile_perspective.pdf",
+      "generation_method": "Perspective Skew",
+      "degradation_applied": "Smartphone trapezoidal perspective warp angle",
+      "expected_extraction": "LOCAL_OCR",
+      "expected_audit_status": "REVIEW",
+      "expected_fields": {
+        "applicant_name": "SMRUTI RANJAN NAYAK"
+      }
+    },
+    "SMP_35": {
+      "sample_id": "SMP_35",
+      "document_type": "MOBILE_PHOTO",
+      "file_name": "smp_35_mobile_perspective.pdf",
+      "generation_method": "Perspective Skew",
+      "degradation_applied": "Smartphone trapezoidal perspective warp angle",
+      "expected_extraction": "LOCAL_OCR",
+      "expected_audit_status": "REVIEW",
+      "expected_fields": {
+        "applicant_name": "SMRUTI RANJAN NAYAK"
+      }
+    },
+    "SMP_36": {
+      "sample_id": "SMP_36",
+      "document_type": "MOBILE_PHOTO",
+      "file_name": "smp_36_mobile_perspective.pdf",
+      "generation_method": "Perspective Skew",
+      "degradation_applied": "Smartphone trapezoidal perspective warp angle",
+      "expected_extraction": "LOCAL_OCR",
+      "expected_audit_status": "REVIEW",
+      "expected_fields": {
+        "applicant_name": "SMRUTI RANJAN NAYAK"
+      }
+    },
+    "SMP_37": {
+      "sample_id": "SMP_37",
+      "document_type": "SHADOWED_SCAN",
+      "file_name": "smp_37_shadow_gradient.pdf",
+      "generation_method": "Non-uniform Lighting",
+      "degradation_applied": "Desk lamp lighting gradient with 45% shadow",
+      "expected_extraction": "LOCAL_OCR",
+      "expected_audit_status": "REVIEW",
+      "expected_fields": {
+        "applicant_name": "SMRUTI RANJAN NAYAK"
+      }
+    },
+    "SMP_38": {
+      "sample_id": "SMP_38",
+      "document_type": "SHADOWED_SCAN",
+      "file_name": "smp_38_shadow_gradient.pdf",
+      "generation_method": "Non-uniform Lighting",
+      "degradation_applied": "Desk lamp lighting gradient with 45% shadow",
+      "expected_extraction": "LOCAL_OCR",
+      "expected_audit_status": "REVIEW",
+      "expected_fields": {
+        "applicant_name": "SMRUTI RANJAN NAYAK"
+      }
+    },
+    "SMP_39": {
+      "sample_id": "SMP_39",
+      "document_type": "SHADOWED_SCAN",
+      "file_name": "smp_39_shadow_gradient.pdf",
+      "generation_method": "Non-uniform Lighting",
+      "degradation_applied": "Desk lamp lighting gradient with 45% shadow",
+      "expected_extraction": "LOCAL_OCR",
+      "expected_audit_status": "REVIEW",
+      "expected_fields": {
+        "applicant_name": "SMRUTI RANJAN NAYAK"
+      }
+    },
+    "SMP_40": {
+      "sample_id": "SMP_40",
+      "document_type": "SHADOWED_SCAN",
+      "file_name": "smp_40_shadow_gradient.pdf",
+      "generation_method": "Non-uniform Lighting",
+      "degradation_applied": "Desk lamp lighting gradient with 45% shadow",
+      "expected_extraction": "LOCAL_OCR",
+      "expected_audit_status": "REVIEW",
+      "expected_fields": {
+        "applicant_name": "SMRUTI RANJAN NAYAK"
+      }
+    },
+    "SMP_41": {
+      "sample_id": "SMP_41",
+      "document_type": "SHADOWED_SCAN",
+      "file_name": "smp_41_shadow_gradient.pdf",
+      "generation_method": "Non-uniform Lighting",
+      "degradation_applied": "Desk lamp lighting gradient with 45% shadow",
+      "expected_extraction": "LOCAL_OCR",
+      "expected_audit_status": "REVIEW",
+      "expected_fields": {
+        "applicant_name": "SMRUTI RANJAN NAYAK"
+      }
+    },
+    "SMP_42": {
+      "sample_id": "SMP_42",
+      "document_type": "SHADOWED_SCAN",
+      "file_name": "smp_42_shadow_gradient.pdf",
+      "generation_method": "Non-uniform Lighting",
+      "degradation_applied": "Desk lamp lighting gradient with 45% shadow",
+      "expected_extraction": "LOCAL_OCR",
+      "expected_audit_status": "REVIEW",
+      "expected_fields": {
+        "applicant_name": "SMRUTI RANJAN NAYAK"
+      }
+    },
+    "SMP_43": {
+      "sample_id": "SMP_43",
+      "document_type": "COMPRESSED_FILE",
+      "file_name": "smp_43_jpeg_artifacts.pdf",
+      "generation_method": "Lossy Compression",
+      "degradation_applied": "Severe JPEG quantization ringing artifacts (Q=15)",
+      "expected_extraction": "LOCAL_OCR",
+      "expected_audit_status": "REVIEW",
+      "expected_fields": {
+        "applicant_name": "SMRUTI RANJAN NAYAK"
+      }
+    },
+    "SMP_44": {
+      "sample_id": "SMP_44",
+      "document_type": "COMPRESSED_FILE",
+      "file_name": "smp_44_jpeg_artifacts.pdf",
+      "generation_method": "Lossy Compression",
+      "degradation_applied": "Severe JPEG quantization ringing artifacts (Q=15)",
+      "expected_extraction": "LOCAL_OCR",
+      "expected_audit_status": "REVIEW",
+      "expected_fields": {
+        "applicant_name": "SMRUTI RANJAN NAYAK"
+      }
+    },
+    "SMP_45": {
+      "sample_id": "SMP_45",
+      "document_type": "COMPRESSED_FILE",
+      "file_name": "smp_45_jpeg_artifacts.pdf",
+      "generation_method": "Lossy Compression",
+      "degradation_applied": "Severe JPEG quantization ringing artifacts (Q=15)",
+      "expected_extraction": "LOCAL_OCR",
+      "expected_audit_status": "REVIEW",
+      "expected_fields": {
+        "applicant_name": "SMRUTI RANJAN NAYAK"
+      }
+    },
+    "SMP_46": {
+      "sample_id": "SMP_46",
+      "document_type": "COMPRESSED_FILE",
+      "file_name": "smp_46_jpeg_artifacts.pdf",
+      "generation_method": "Lossy Compression",
+      "degradation_applied": "Severe JPEG quantization ringing artifacts (Q=15)",
+      "expected_extraction": "LOCAL_OCR",
+      "expected_audit_status": "REVIEW",
+      "expected_fields": {
+        "applicant_name": "SMRUTI RANJAN NAYAK"
+      }
+    },
+    "SMP_47": {
+      "sample_id": "SMP_47",
+      "document_type": "STAMPED_CERT",
+      "file_name": "smp_47_overlapping_seal.pdf",
+      "generation_method": "Sealed Physical",
+      "degradation_applied": "Revenue round stamp ink overlapping demographic text",
+      "expected_extraction": "LOCAL_OCR",
+      "expected_audit_status": "REVIEW",
+      "expected_fields": {
+        "applicant_name": "SMRUTI RANJAN NAYAK"
+      }
+    },
+    "SMP_48": {
+      "sample_id": "SMP_48",
+      "document_type": "STAMPED_CERT",
+      "file_name": "smp_48_overlapping_seal.pdf",
+      "generation_method": "Sealed Physical",
+      "degradation_applied": "Revenue round stamp ink overlapping demographic text",
+      "expected_extraction": "LOCAL_OCR",
+      "expected_audit_status": "REVIEW",
+      "expected_fields": {
+        "applicant_name": "SMRUTI RANJAN NAYAK"
+      }
+    },
+    "SMP_49": {
+      "sample_id": "SMP_49",
+      "document_type": "STAMPED_CERT",
+      "file_name": "smp_49_overlapping_seal.pdf",
+      "generation_method": "Sealed Physical",
+      "degradation_applied": "Revenue round stamp ink overlapping demographic text",
+      "expected_extraction": "LOCAL_OCR",
+      "expected_audit_status": "REVIEW",
+      "expected_fields": {
+        "applicant_name": "SMRUTI RANJAN NAYAK"
+      }
+    },
+    "SMP_50": {
+      "sample_id": "SMP_50",
+      "document_type": "STAMPED_CERT",
+      "file_name": "smp_50_overlapping_seal.pdf",
+      "generation_method": "Sealed Physical",
+      "degradation_applied": "Revenue round stamp ink overlapping demographic text",
+      "expected_extraction": "LOCAL_OCR",
+      "expected_audit_status": "REVIEW",
+      "expected_fields": {
+        "applicant_name": "SMRUTI RANJAN NAYAK"
+      }
+    },
+    "SMP_51": {
+      "sample_id": "SMP_51",
+      "document_type": "ANNOTATED_DOC",
+      "file_name": "smp_51_handwritten_annotations.pdf",
+      "generation_method": "Physical Markup",
+      "degradation_applied": "Ink ballpoint pen verification marks and marginal notes",
+      "expected_extraction": "LOCAL_OCR",
+      "expected_audit_status": "PASS",
+      "expected_fields": {
+        "applicant_name": "SMRUTI RANJAN NAYAK"
+      }
+    },
+    "SMP_52": {
+      "sample_id": "SMP_52",
+      "document_type": "ANNOTATED_DOC",
+      "file_name": "smp_52_handwritten_annotations.pdf",
+      "generation_method": "Physical Markup",
+      "degradation_applied": "Ink ballpoint pen verification marks and marginal notes",
+      "expected_extraction": "LOCAL_OCR",
+      "expected_audit_status": "PASS",
+      "expected_fields": {
+        "applicant_name": "SMRUTI RANJAN NAYAK"
+      }
+    },
+    "SMP_53": {
+      "sample_id": "SMP_53",
+      "document_type": "ANNOTATED_DOC",
+      "file_name": "smp_53_handwritten_annotations.pdf",
+      "generation_method": "Physical Markup",
+      "degradation_applied": "Ink ballpoint pen verification marks and marginal notes",
+      "expected_extraction": "LOCAL_OCR",
+      "expected_audit_status": "PASS",
+      "expected_fields": {
+        "applicant_name": "SMRUTI RANJAN NAYAK"
+      }
+    },
+    "SMP_54": {
+      "sample_id": "SMP_54",
+      "document_type": "ANNOTATED_DOC",
+      "file_name": "smp_54_handwritten_annotations.pdf",
+      "generation_method": "Physical Markup",
+      "degradation_applied": "Ink ballpoint pen verification marks and marginal notes",
+      "expected_extraction": "LOCAL_OCR",
+      "expected_audit_status": "PASS",
+      "expected_fields": {
+        "applicant_name": "SMRUTI RANJAN NAYAK"
+      }
+    },
+    "SMP_55": {
+      "sample_id": "SMP_55",
+      "document_type": "INCOME_CERT",
+      "file_name": "smp_55_multipage_layout_1.pdf",
+      "generation_method": "Multi-Page ReportLab",
+      "degradation_applied": "Two-page document with demographics on page 2",
+      "expected_extraction": "NATIVE_VECTOR",
+      "expected_audit_status": "PASS",
+      "expected_fields": {
+        "applicant_name": "SMRUTI RANJAN NAYAK",
+        "annual_income": 180000.0
+      }
+    },
+    "SMP_56": {
+      "sample_id": "SMP_56",
+      "document_type": "INCOME_CERT",
+      "file_name": "smp_56_multipage_layout_2.pdf",
+      "generation_method": "Multi-Page ReportLab",
+      "degradation_applied": "Two-page document with demographics on page 2",
+      "expected_extraction": "NATIVE_VECTOR",
+      "expected_audit_status": "PASS",
+      "expected_fields": {
+        "applicant_name": "SMRUTI RANJAN NAYAK",
+        "annual_income": 180000.0
+      }
+    },
+    "SMP_57": {
+      "sample_id": "SMP_57",
+      "document_type": "INCOME_CERT",
+      "file_name": "smp_57_multipage_layout_3.pdf",
+      "generation_method": "Multi-Page ReportLab",
+      "degradation_applied": "Two-page document with demographics on page 2",
+      "expected_extraction": "NATIVE_VECTOR",
+      "expected_audit_status": "PASS",
+      "expected_fields": {
+        "applicant_name": "SMRUTI RANJAN NAYAK",
+        "annual_income": 180000.0
+      }
+    },
+    "SMP_58": {
+      "sample_id": "SMP_58",
+      "document_type": "INCOME_CERT",
+      "file_name": "smp_58_multipage_layout_4.pdf",
+      "generation_method": "Multi-Page ReportLab",
+      "degradation_applied": "Two-page document with demographics on page 2",
+      "expected_extraction": "NATIVE_VECTOR",
+      "expected_audit_status": "PASS",
+      "expected_fields": {
+        "applicant_name": "SMRUTI RANJAN NAYAK",
+        "annual_income": 180000.0
+      }
+    },
+    "SMP_59": {
+      "sample_id": "SMP_59",
+      "document_type": "BLANK_PAGE",
+      "file_name": "smp_59_blank_scan.pdf",
+      "generation_method": "Zero Content",
+      "degradation_applied": "Completely blank page with zero text or graphics",
+      "expected_extraction": "UNEXTRACTED",
+      "expected_audit_status": "UNKNOWN",
+      "expected_fields": {}
+    },
+    "SMP_60": {
+      "sample_id": "SMP_60",
+      "document_type": "CORRUPTED_STREAM",
+      "file_name": "smp_60_corrupted_header.pdf",
+      "generation_method": "Corrupt Bytes",
+      "degradation_applied": "Non-PDF corrupted byte sequence",
+      "expected_extraction": "UNEXTRACTED",
+      "expected_audit_status": "UNKNOWN",
+      "expected_fields": {}
+    }
+  }
+}

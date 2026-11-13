@@ -1,0 +1,368 @@
+{
+  "Mode A: Uncalibrated (Loop 2)": {
+    "mode_name": "Mode A: Uncalibrated (Loop 2)",
+    "total_samples": 100,
+    "exact_match_pct": 69.0,
+    "normalized_match_pct": 69.0,
+    "coverage_pct": 83.0,
+    "precision_on_covered_pct": 83.13,
+    "abstention_pct": 17.0,
+    "false_accept_pct": 14.0,
+    "false_reject_pct": 6.0,
+    "ece": 0.072,
+    "mean_latency_ms": 1746.1,
+    "category_breakdown": {
+      "CLEAN_VECTOR": {
+        "total": 20,
+        "exact": 17,
+        "norm": 17,
+        "abstained": 3,
+        "false_accept": 0
+      },
+      "RASTER_SCAN_CLEAN": {
+        "total": 20,
+        "exact": 16,
+        "norm": 16,
+        "abstained": 3,
+        "false_accept": 1
+      },
+      "ROTATED_SCAN": {
+        "total": 10,
+        "exact": 3,
+        "norm": 3,
+        "abstained": 2,
+        "false_accept": 5
+      },
+      "LOW_RESOLUTION": {
+        "total": 10,
+        "exact": 6,
+        "norm": 6,
+        "abstained": 2,
+        "false_accept": 2
+      },
+      "PERSPECTIVE_DISTORTION": {
+        "total": 10,
+        "exact": 6,
+        "norm": 6,
+        "abstained": 1,
+        "false_accept": 3
+      },
+      "UNEVEN_LIGHTING": {
+        "total": 10,
+        "exact": 5,
+        "norm": 5,
+        "abstained": 3,
+        "false_accept": 2
+      },
+      "FAINT_CONTRAST": {
+        "total": 10,
+        "exact": 7,
+        "norm": 7,
+        "abstained": 2,
+        "false_accept": 1
+      },
+      "STAMPS_AND_SEALS": {
+        "total": 5,
+        "exact": 5,
+        "norm": 5,
+        "abstained": 0,
+        "false_accept": 0
+      },
+      "AMBIGUOUS_DATE_CURRENCY": {
+        "total": 5,
+        "exact": 4,
+        "norm": 4,
+        "abstained": 1,
+        "false_accept": 0
+      }
+    },
+    "field_breakdown": {
+      "annual_income": {
+        "total": 17,
+        "exact": 11,
+        "norm": 11,
+        "abstained": 0,
+        "false_accept": 6
+      },
+      "caste_category": {
+        "total": 17,
+        "exact": 15,
+        "norm": 15,
+        "abstained": 0,
+        "false_accept": 2
+      },
+      "certificate_no": {
+        "total": 17,
+        "exact": 17,
+        "norm": 17,
+        "abstained": 0,
+        "false_accept": 0
+      },
+      "percentage": {
+        "total": 17,
+        "exact": 16,
+        "norm": 16,
+        "abstained": 1,
+        "false_accept": 0
+      },
+      "ifsc": {
+        "total": 16,
+        "exact": 10,
+        "norm": 10,
+        "abstained": 0,
+        "false_accept": 6
+      },
+      "applicant_name": {
+        "total": 16,
+        "exact": 0,
+        "norm": 0,
+        "abstained": 16,
+        "false_accept": 0
+      }
+    }
+  },
+  "Mode B: Conservative Abstain (tau=0.85)": {
+    "mode_name": "Mode B: Conservative Abstain (tau=0.85)",
+    "total_samples": 100,
+    "exact_match_pct": 55.0,
+    "normalized_match_pct": 55.0,
+    "coverage_pct": 57.0,
+    "precision_on_covered_pct": 96.49,
+    "abstention_pct": 43.0,
+    "false_accept_pct": 2.0,
+    "false_reject_pct": 12.0,
+    "ece": 0.0098,
+    "mean_latency_ms": 1821.3,
+    "category_breakdown": {
+      "CLEAN_VECTOR": {
+        "total": 20,
+        "exact": 17,
+        "norm": 17,
+        "abstained": 3,
+        "false_accept": 0
+      },
+      "RASTER_SCAN_CLEAN": {
+        "total": 20,
+        "exact": 11,
+        "norm": 11,
+        "abstained": 9,
+        "false_accept": 0
+      },
+      "ROTATED_SCAN": {
+        "total": 10,
+        "exact": 2,
+        "norm": 2,
+        "abstained": 6,
+        "false_accept": 2
+      },
+      "LOW_RESOLUTION": {
+        "total": 10,
+        "exact": 5,
+        "norm": 5,
+        "abstained": 5,
+        "false_accept": 0
+      },
+      "PERSPECTIVE_DISTORTION": {
+        "total": 10,
+        "exact": 6,
+        "norm": 6,
+        "abstained": 4,
+        "false_accept": 0
+      },
+      "UNEVEN_LIGHTING": {
+        "total": 10,
+        "exact": 3,
+        "norm": 3,
+        "abstained": 7,
+        "false_accept": 0
+      },
+      "FAINT_CONTRAST": {
+        "total": 10,
+        "exact": 5,
+        "norm": 5,
+        "abstained": 5,
+        "false_accept": 0
+      },
+      "STAMPS_AND_SEALS": {
+        "total": 5,
+        "exact": 3,
+        "norm": 3,
+        "abstained": 2,
+        "false_accept": 0
+      },
+      "AMBIGUOUS_DATE_CURRENCY": {
+        "total": 5,
+        "exact": 3,
+        "norm": 3,
+        "abstained": 2,
+        "false_accept": 0
+      }
+    },
+    "field_breakdown": {
+      "annual_income": {
+        "total": 17,
+        "exact": 4,
+        "norm": 4,
+        "abstained": 13,
+        "false_accept": 0
+      },
+      "caste_category": {
+        "total": 17,
+        "exact": 15,
+        "norm": 15,
+        "abstained": 0,
+        "false_accept": 2
+      },
+      "certificate_no": {
+        "total": 17,
+        "exact": 17,
+        "norm": 17,
+        "abstained": 0,
+        "false_accept": 0
+      },
+      "percentage": {
+        "total": 17,
+        "exact": 16,
+        "norm": 16,
+        "abstained": 1,
+        "false_accept": 0
+      },
+      "ifsc": {
+        "total": 16,
+        "exact": 3,
+        "norm": 3,
+        "abstained": 13,
+        "false_accept": 0
+      },
+      "applicant_name": {
+        "total": 16,
+        "exact": 0,
+        "norm": 0,
+        "abstained": 16,
+        "false_accept": 0
+      }
+    }
+  },
+  "Mode C: Calibrated Label-Aware": {
+    "mode_name": "Mode C: Calibrated Label-Aware",
+    "total_samples": 100,
+    "exact_match_pct": 69.0,
+    "normalized_match_pct": 69.0,
+    "coverage_pct": 73.0,
+    "precision_on_covered_pct": 94.52,
+    "abstention_pct": 27.0,
+    "false_accept_pct": 4.0,
+    "false_reject_pct": 7.0,
+    "ece": 0.0229,
+    "mean_latency_ms": 1816.5,
+    "category_breakdown": {
+      "CLEAN_VECTOR": {
+        "total": 20,
+        "exact": 17,
+        "norm": 17,
+        "abstained": 3,
+        "false_accept": 0
+      },
+      "RASTER_SCAN_CLEAN": {
+        "total": 20,
+        "exact": 16,
+        "norm": 16,
+        "abstained": 4,
+        "false_accept": 0
+      },
+      "ROTATED_SCAN": {
+        "total": 10,
+        "exact": 3,
+        "norm": 3,
+        "abstained": 5,
+        "false_accept": 2
+      },
+      "LOW_RESOLUTION": {
+        "total": 10,
+        "exact": 6,
+        "norm": 6,
+        "abstained": 4,
+        "false_accept": 0
+      },
+      "PERSPECTIVE_DISTORTION": {
+        "total": 10,
+        "exact": 6,
+        "norm": 6,
+        "abstained": 2,
+        "false_accept": 2
+      },
+      "UNEVEN_LIGHTING": {
+        "total": 10,
+        "exact": 5,
+        "norm": 5,
+        "abstained": 5,
+        "false_accept": 0
+      },
+      "FAINT_CONTRAST": {
+        "total": 10,
+        "exact": 7,
+        "norm": 7,
+        "abstained": 3,
+        "false_accept": 0
+      },
+      "STAMPS_AND_SEALS": {
+        "total": 5,
+        "exact": 5,
+        "norm": 5,
+        "abstained": 0,
+        "false_accept": 0
+      },
+      "AMBIGUOUS_DATE_CURRENCY": {
+        "total": 5,
+        "exact": 4,
+        "norm": 4,
+        "abstained": 1,
+        "false_accept": 0
+      }
+    },
+    "field_breakdown": {
+      "annual_income": {
+        "total": 17,
+        "exact": 11,
+        "norm": 11,
+        "abstained": 4,
+        "false_accept": 2
+      },
+      "caste_category": {
+        "total": 17,
+        "exact": 15,
+        "norm": 15,
+        "abstained": 0,
+        "false_accept": 2
+      },
+      "certificate_no": {
+        "total": 17,
+        "exact": 17,
+        "norm": 17,
+        "abstained": 0,
+        "false_accept": 0
+      },
+      "percentage": {
+        "total": 17,
+        "exact": 16,
+        "norm": 16,
+        "abstained": 1,
+        "false_accept": 0
+      },
+      "ifsc": {
+        "total": 16,
+        "exact": 10,
+        "norm": 10,
+        "abstained": 6,
+        "false_accept": 0
+      },
+      "applicant_name": {
+        "total": 16,
+        "exact": 0,
+        "norm": 0,
+        "abstained": 16,
+        "false_accept": 0
+      }
+    }
+  }
+}

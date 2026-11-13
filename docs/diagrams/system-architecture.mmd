@@ -1,0 +1,53 @@
+graph TB
+    subgraph Client Layer
+        Browser[Streamlit Web UI]
+        CLI[DocuReady Command-Line Tool]
+    end
+
+    subgraph Ingestion & Preprocessing
+        InputDoc[PDF / Image Upload] --> DocRouter{Searchable Text?}
+        DocRouter -->|Yes| VectorExtract[PyMuPDF Vector Text Extractor]
+        DocRouter -->|No / Scanned| RasterPipeline[300 DPI Raster Engine]
+        RasterPipeline --> Preproc[Adaptive Preprocessing: Grayscale, Otsu, Deskew]
+        Preproc --> Tesseract[Tesseract OCR Engine]
+    end
+
+    subgraph Evidence & Calibration Pipeline
+        VectorExtract --> TokenStream[Token Stream + 72-DPI Bounding Boxes]
+        Tesseract --> TokenStream
+        TokenStream --> KVP[Key-Value & Anchor Extraction]
+        KVP --> Calibrator[9-Feature Logistic Calibrator]
+        Calibrator --> TriState[Tri-State Discretizer: VERIFIED / PROVISIONAL / UNCERTAIN]
+    end
+
+    subgraph Cross-Document Normalization
+        TriState --> NormNames[Name Normalizer: Salutations & Tokens]
+        TriState --> NormDates[Date Normalizer: ISO YYYY-MM-DD]
+        TriState --> NormIncome[Currency Normalizer: INR Values]
+        TriState --> NormCaste[Category Normalizer: Statutory Groups]
+    end
+
+    subgraph Statutory Rules Engine
+        NormNames --> ValEngine[10 Statutory Validation Rules]
+        NormDates --> ValEngine
+        NormIncome --> ValEngine
+        NormCaste --> ValEngine
+        ValEngine --> RawFindings[Raw Rule Findings]
+    end
+
+    subgraph Evidence Safety Layer
+        RawFindings --> SafetyFilter{Evidence State Guard}
+        SafetyFilter -->|All VERIFIED| HighCertainty[Definitive Violation / Warning]
+        SafetyFilter -->|PROVISIONAL| ProvisionalWarn[Downgrade to Warning + Quality Notice]
+        SafetyFilter -->|UNCERTAIN| UncertainReview[Downgrade to MANUAL_REVIEW]
+    end
+
+    subgraph Output & Remediation
+        HighCertainty --> AuditReport[Consolidated Audit Report]
+        ProvisionalWarn --> AuditReport
+        UncertainReview --> AuditReport
+        AuditReport --> JSONExport[JSON Report Export]
+        AuditReport --> PDFExport[Remediation Plan Export]
+        AuditReport --> Browser
+        AuditReport --> CLI
+    end

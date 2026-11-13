@@ -1,0 +1,31 @@
+sequenceDiagram
+    autonumber
+    actor Applicant as Applicant / CSC Operator
+    participant UI as DocuReady Interface
+    participant Ingest as Document Ingestion
+    participant Extractor as Extraction Pipeline
+    participant Calibrator as Calibration Engine
+    participant Validator as Statutory Engine
+    participant Safety as Safety Layer
+
+    Applicant->>UI: Upload Document Packet (6 Documents)
+    UI->>Ingest: Transmit Files
+    Ingest->>Extractor: Ingest Documents (PDF/Raster)
+    Extractor->>Extractor: Dual-Route Vector / OCR Extraction
+    Extractor->>Calibrator: Pass Extracted Fields & Metadata
+    Calibrator->>Calibrator: Compute 9 Calibration Features
+    Calibrator->>Calibrator: Calculate Probability & State (VERIFIED/PROVISIONAL/UNCERTAIN)
+    Calibrator->>Validator: Provide Calibrated Fields
+    Validator->>Validator: Normalize Names, Dates, Incomes
+    Validator->>Validator: Evaluate 10 Cross-Document Statutory Rules
+    Validator->>Safety: Send Raw Findings
+    Safety->>Safety: Check Evidence States of Supporting Fields
+    Safety->>Safety: Downgrade Uncertain Violations to REVIEW
+    Safety->>UI: Return Final Audit Findings & Remediation Steps
+    UI->>Applicant: Display Interactive Dashboard with PDF Bounding Boxes
+    opt Document Remediation
+        Applicant->>UI: Upload Replacement Document
+        UI->>Extractor: Re-extract Replaced Document
+        UI->>Validator: Re-run Cross-Document Audit
+        Validator->>UI: Display Updated Real-Time Audit Status
+    end
