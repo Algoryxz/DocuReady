@@ -367,3 +367,68 @@ Task **T0.1** deliverable implementation is complete, but task acceptance and Ga
   - Python 3.11: 77 passed, 1 failed (`PKT_07_UNREADABLE_DOC` failure due to Tesseract 5.5.0 OCR output vs snapshot empty values).
   - Python 3.12: 77 passed, 1 failed (`PKT_07_UNREADABLE_DOC` failure due to Tesseract 5.5.0 OCR output vs snapshot empty values).
 - Exact cross-platform parity requires formal adoption of the G0 baseline decision proposal documented in `docs/history/G0_BASELINE_DECISION.md` (`PENDING_DEEPTIMAN_DECISION`).
+
+---
+
+## Addendum: Supplemental Local Execution Evidence (14 November 2026)
+
+**Purpose:** Provide empirical local execution evidence under the modernized G0.1 runtime and test contract as required by the T0.1 acceptance criteria in `docs/BACKLOG.md` and `docs/STATUS.md`.
+
+### 1. Context and Modernized G0.1 Runtime Policy
+Following the baseline audit above, task G0.1 modernized the runtime support matrix and test baseline contract across PR #8 (merge commit `ac72e83e4b914c8647e7e7a812e0f0b8b5c95012`) and PR #10 (merge commit `407b100f07129263c17baf7944f8ac1511cc6edf`):
+- **Supported Runtime Range:** Declared as `>=3.11,<3.15` in `pyproject.toml`. Python 3.10 is retired. Python 3.15 is deferred pending upstream `onnxruntime` PyPI wheels.
+- **Provisional PDF Engine:** Pinned to `pymupdf==2.1` pending formal licensing review and alternative backend evaluation under Task T1.3 / ADR-001.
+- **Packet 7 OCR Comparison Contract:** Golden test harness updated in PR #8 to evaluate Packet 7 against semantic unreadable-document criteria rather than bit-for-bit OCR string parity, resolving the environment-dependent OCR text divergence between environments with and without Tesseract.
+- **CI Parity Evidence:** Linux CI on `main` passed all 4 matrix jobs (Python 3.11, 3.12, 3.13, 3.14) with 79 tests passed per job in run `43617979009` and PR #11 run `43621962132`.
+
+### 2. Tested Commit
+- **Commit SHA:** `c287b1fa433a601eb45289a5917cec5d5a928cb1` (Merge commit of PR #11 into `main`)
+- **Canonical Working Copy:** `C:\Users\AYUSH\Downloads\DocuReady-canonical`
+
+### 3. Local Host Execution Environment
+- **Operating System:** Microsoft Windows 11 Home Single Language (Version 10.0.26300, Build 26300, 64-bit AMD64)
+- **Python Executable:** `C:\Users\AYUSH\Downloads\DocuReady-canonical\.venv\Scripts\python.exe`
+- **Python Version:** 3.14.7 (`tags/v3.14.7:823f032`, MSC v.1944 64 bit)
+- **PyMuPDF Version:** `2.1` (provisional candidate pinned in G0.1)
+- **Pytest Version:** `9.2.0` (with plugins `anyio-4.16.0`, `cov-7.1.0`)
+- **Tesseract OCR Availability:**
+  - `tesseract` CLI on PATH: `None` (Not installed on local Windows host)
+  - Common installation paths (`C:\Program Files\Tesseract-OCR`, etc.): Not present
+  - `pytesseract` version: `0.3.13` (wrapper installed; direct engine invocation raises `tesseract is not installed or it's not in your PATH`)
+  - Installed Language Packs: None (`eng`, `ori`, `hin` are absent locally)
+
+### 4. Golden Baseline Test Suite Execution
+- **Command:** `python -m pytest -vv tests/test_golden_baseline.py`
+- **Result:** 13 passed in 1.66s (Exit code: 0)
+- **Detailed Verification:**
+  - `test_golden_baseline_packet_parity[PKT_01_CLEAN-pkt_01_clean]`: PASSED (exact parity)
+  - `test_golden_baseline_packet_parity[PKT_02_NAME_CONFLICT-pkt_02_name_conflict]`: PASSED (exact parity)
+  - `test_golden_baseline_packet_parity[PKT_03_DOB_CONFLICT-pkt_03_dob_conflict]`: PASSED (exact parity)
+  - `test_golden_baseline_packet_parity[PKT_04_INCOME_CONFLICT-pkt_04_income_conflict]`: PASSED (exact parity)
+  - `test_golden_baseline_packet_parity[PKT_05_MISSING_CERTIFICATE-pkt_05_missing_certificate]`: PASSED (exact parity)
+  - `test_golden_baseline_packet_parity[PKT_06_MULTIPLE_DEFECTS-pkt_06_multiple_defects]`: PASSED (exact parity)
+  - `test_golden_baseline_packet_parity[PKT_08_AMBIGUOUS_EVIDENCE-pkt_08_ambiguous_evidence]`: PASSED (exact parity)
+  - `test_golden_baseline_packet_07_semantic_ocr`: PASSED (verifies Packet 7 satisfies semantic unreadable-document contract)
+  - `test_path_normalization_designated_keys_only`: PASSED (verifies path normalization targets designated keys only)
+  - `test_non_path_values_untouched`: PASSED (verifies non-path values are completely untouched)
+  - `test_recursive_diff_diagnostics`: PASSED (verifies recursive mismatch detection)
+  - `test_deliberate_non_path_mismatch_detected`: PASSED (verifies non-path value discrepancies are flagged)
+  - `test_packet_07_ocr_field_filtering_preserves_deterministic_keys`: PASSED (verifies only documented OCR-dependent fields are excluded from Packet 7 comparison while deterministic fields remain enforced)
+
+### 5. Full Test Suite Execution
+- **Command:** `python -m pytest -q`
+- **Result:** 79 passed in 3.05s (Exit code: 0)
+- **Summary:** 79 passed, 0 failed, 0 skipped.
+
+### 6. Artifact Immutability and Checksum Verification
+- **Artifact:** `tests/golden/legacy_v0/GOLDEN_BASELINE.json`
+- **Algorithm:** SHA-256
+- **Computed Hash:** `E8FB1A6B842A47089937777133DE79E1E7F704BEE591D5B4471A1A90BC8C5FA9`
+- **Expected Hash:** `E8FB1A6B842A47089937777133DE79E1E7F704BEE591D5B4471A1A90BC8C5FA9`
+- **Status:** Unmodified and identical.
+- **Git Diff:** `git diff -- tests/golden/` produced 0 diff lines.
+
+### 7. Historical Audit Preservation & Task Status
+This addendum provides empirical verification of T0.1 criterion #2 on a local Windows host without rewriting the historical pre-G0.1 CI failures or baseline audit findings above.
+- **T0.1 Status:** Remains `review (pending acceptance)` by Deeptiman.
+- **Gate G0 Status:** Remains strictly `BLOCKED` pending formal acceptance of T0.1 and execution of downstream tasks T0.2 and T0.3.
