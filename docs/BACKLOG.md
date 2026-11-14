@@ -108,7 +108,7 @@ T1.x tasks are independent of each other and can run in parallel once G0 passes.
      - actual Track A/Track B branch and PR status, CI outcomes, and what is inherited from the baseline.
   7. Record the baseline checksum and prove that golden artifacts remain unchanged (`git diff -- tests/golden/`).
 - **Acceptance:**
-  - [ ] The existing eight-packet golden test passes in the CI Linux environment after path-only canonicalization.
+  - [ ] Golden regression tests pass in the CI Linux environment: 7 exact native vector packets (Packets 1–6 and 8) assert 100% bit-for-bit parity after path-only canonicalization, and Packet 7 asserts semantic unreadable-document contracts without brittle OCR text/confidence matching.
   - [ ] The same test is run locally on the available platform and results are recorded.
   - [ ] The expected golden artifact/checksum is unchanged; include `git diff -- tests/golden/` and checksum evidence.
   - [ ] Recursive diff diagnostics prove all remaining fields are unchanged, or clearly list every unresolved difference as `UNVERIFIED`/`BLOCKED`.
@@ -124,9 +124,28 @@ T1.x tasks are independent of each other and can run in parallel once G0 passes.
   - Do not start T0.2 or T0.3 before T0.1 is accepted.
 - **Gate:** G0
 
+#### G0.1 — Runtime support, PDF baseline & golden/OCR contract modernization
+- **Why:** T0.1 characterised baseline behaviour and resolved path discrepancies, but exposed that Python 3.10 cannot install PyMuPDF 2.1 (due to PyPI `Requires-Python: >=3.11` wheel metadata) and that Linux CI with Tesseract 5.5.0 produces non-empty OCR output on Packet 7 compared to historical empty snapshot values.
+- **Scope:** `pyproject.toml`, `.github/workflows/tests.yml`, `requirements/ci-lock-py*.txt`, `tests/test_golden_baseline.py`, `docs/history/G0_BASELINE_DECISION.md`.
+- **Behaviour:**
+  1. Retire Python 3.10 (EOL 1 October 2026); modernize declared Python support to `>=3.11,<3.16`.
+  2. Pin provisional technical baseline PDF engine to `pymupdf==2.1` to maintain vector geometry reproducibility (final backend/licensing review under T1.3 / ADR-001).
+  3. Generate and commit hash-checked per-Python lock files for Linux x86_64 across Python 3.11–3.15 (`requirements/ci-lock-py*.txt`) from `pyproject.toml` and the `all` extra.
+  4. Update CI workflow (`.github/workflows/tests.yml`) to run the blocking 5-version matrix (`3.11`, `3.12`, `3.13`, `3.14`, `3.15`) pinned to `ubuntu-24.04` with `fail-fast: false` and install via matching lockfiles.
+  5. Modernize golden test harness (`tests/test_golden_baseline.py`): enforce 100% bit-for-bit parity on native vector packets (Packets 1–6 and 8), and assert stable semantic unreadable document contracts for Packet 7 (`PKT_07_UNREADABLE_DOC`) without brittle string matching on environment-dependent OCR text or confidence scores.
+- **Acceptance:**
+  - [x] Python 3.10 retired and `requires-python = ">=3.11,<3.16"` declared in `pyproject.toml`.
+  - [x] Provisional technical baseline pinned to `pymupdf==2.1` in `dependencies`.
+  - [x] Hash-checked CI lock files generated and committed for Python 3.11–3.15.
+  - [x] CI workflow updated to 5-version blocking matrix on `ubuntu-24.04` installing from lock files.
+  - [x] Golden harness enforces 100% bit-for-bit vector parity on Packets 1–6 & 8, and semantic unreadable contract on Packet 7.
+  - [x] All 78 tests pass locally under Python 3.11+.
+  - [x] Decision record `docs/history/G0_BASELINE_DECISION.md` updated with Deeptiman's 14 November 2026 approval.
+- **Gate:** G0
+
 #### T0.2 — CI that exercises OCR
 - **Scope:** `.github/workflows/tests.yml`.
-- **Behaviour:** Install `tesseract-ocr`, `tesseract-ocr-eng`, `tesseract-ocr-ori`, `tesseract-ocr-hin` in CI. Matrix 3.10/3.11/3.12. Cache pip. Fail on warnings from our own code.
+- **Behaviour:** Install `tesseract-ocr`, `tesseract-ocr-eng`, `tesseract-ocr-ori`, `tesseract-ocr-hin` in CI. Matrix 3.11/3.12/3.13/3.14/3.15. Cache pip. Fail on warnings from our own code.
 - **Acceptance:**
   - [ ] Latest run on `main` is green and visible in the handoff (link or log tail)
   - [ ] A test that needs OCR is shown to have run (not skipped)

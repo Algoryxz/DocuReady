@@ -90,20 +90,21 @@ def pipeline():
     return AuditPipeline()
 
 
-PACKETS = [
+VECTOR_PACKETS = [
     ("PKT_01_CLEAN", "pkt_01_clean"),
     ("PKT_02_NAME_CONFLICT", "pkt_02_name_conflict"),
     ("PKT_03_DOB_CONFLICT", "pkt_03_dob_conflict"),
     ("PKT_04_INCOME_CONFLICT", "pkt_04_income_conflict"),
     ("PKT_05_MISSING_CERTIFICATE", "pkt_05_missing_certificate"),
     ("PKT_06_MULTIPLE_DEFECTS", "pkt_06_multiple_defects"),
-    ("PKT_07_UNREADABLE_DOC", "pkt_07_unreadable_doc"),
     ("PKT_08_AMBIGUOUS_EVIDENCE", "pkt_08_ambiguous_evidence"),
 ]
+PACKETS = VECTOR_PACKETS
 
 
-@pytest.mark.parametrize("packet_id,folder", PACKETS)
+@pytest.mark.parametrize("packet_id,folder", VECTOR_PACKETS)
 def test_golden_baseline_packet_parity(pipeline, golden_data, packet_id, folder, monkeypatch):
+    """Assert 100% bit-for-bit parity against committed golden baseline for vector packets."""
     monkeypatch.chdir(_REPO_ROOT)
     packet_path = f"synthetic_data/{folder}"
     assert (_REPO_ROOT / packet_path).is_dir(), f"Packet fixture directory missing at {packet_path}"
@@ -148,6 +149,78 @@ def test_golden_baseline_packet_parity(pipeline, golden_data, packet_id, folder,
     actual_json = json.dumps(actual_norm, indent=2, sort_keys=True)
     expected_json = json.dumps(expected_norm, indent=2, sort_keys=True)
     assert actual_json == expected_json
+
+
+def test_golden_baseline_packet_07_semantic_ocr(pipeline, golden_data, monkeypatch):
+    """
+    Verify Packet 7 (PKT_07_UNREADABLE_DOC) adheres to semantic unreadable-document contracts
+    without asserting exact string match on OCR text or confidence scores across differing
+    Tesseract installations / host environments.
+    """
+    monkeypatch.chdir(_REPO_ROOT)
+    packet_path = "synthetic_data/pkt_07_unreadable_doc"
+    assert (_REPO_ROOT / packet_path).is_dir(), f"Packet fixture directory missing at {packet_path}"
+
+    audit_res, docs = pipeline.load_and_audit_packet(packet_path, packet_id="PKT_07_UNREADABLE_DOC")
+
+    audit_dict = audit_res.model_dump(mode="json")
+    audit_dict["timestamp"] = "[NORMALIZED_AUDIT_TIMESTAMP]"
+    audit_dict["execution_time_ms"] = 0.0
+
+    docs_dict = {}
+    for dt, ed in docs.items():
+        key = dt.value if hasattr(dt, "value") else str(dt)
+        docs_dict[key] = ed.model_dump(mode="json")
+
+    expected_packet = golden_data["packets"]["PKT_07_UNREADABLE_DOC"]
+    expected_audit = expected_packet["audit_result"]
+    expected_docs = expected_packet["extracted_documents"]
+
+    # 1. Verify exact audit_result parity (all rules, status, score, findings match bit-for-bit)
+    actual_audit_norm = normalize_path_fields(audit_dict)
+    expected_audit_norm = normalize_path_fields(expected_audit)
+    audit_diffs = recursive_diff(expected_audit_norm, actual_audit_norm, path="audit_result")
+    if audit_diffs:
+        pytest.fail(
+            f"PKT_07_UNREADABLE_DOC audit_result mismatch ({len(audit_diffs)} differences found):\n"
+            + "\n  - ".join(audit_diffs)
+        )
+
+    # 2. Semantic assertions on unreadable document handling
+    assert "INCOME_CERT" in docs_dict, "INCOME_CERT missing from extracted documents"
+    income_doc = docs_dict["INCOME_CERT"]
+    assert income_doc["status"] == "UNREADABLE", (
+        f"Expected INCOME_CERT status 'UNREADABLE', got {income_doc['status']!r}"
+    )
+    assert income_doc["doc_type"] == "INCOME_CERT"
+    assert income_doc["fields"] == {}, f"Expected empty extracted fields, got {income_doc['fields']!r}"
+    assert income_doc["extraction_method"] == "LOCAL_OCR"
+    assert income_doc["page_count"] == 1
+    assert actual_audit_norm["overall_status"] == "UNREADABLE_PACKET"
+    assert actual_audit_norm["readiness_score"] == 75
+
+    # Verify RULE-DOC-02 presence in findings
+    rule_doc_02 = [f for f in actual_audit_norm["findings"] if f.get("rule_id") == "RULE-DOC-02"]
+    assert len(rule_doc_02) == 1, "Expected exactly one RULE-DOC-02 finding"
+    assert rule_doc_02[0]["status"] == "UNKNOWN"
+    assert rule_doc_02[0]["severity"] == "CRITICAL"
+    assert rule_doc_02[0]["field"] == "SCAN_QUALITY"
+    assert "INCOME_CERT" in rule_doc_02[0]["documents_involved"]
+
+    # 3. Verify exact parity for all native vector documents in PKT_07
+    for doc_name, exp_doc in expected_docs.items():
+        if doc_name == "INCOME_CERT":
+            continue
+        assert doc_name in docs_dict, f"Expected vector document {doc_name} missing from actual docs"
+        act_doc = docs_dict[doc_name]
+        exp_doc_norm = normalize_path_fields(exp_doc)
+        act_doc_norm = normalize_path_fields(act_doc)
+        vec_diffs = recursive_diff(exp_doc_norm, act_doc_norm, path=f"extracted_documents.{doc_name}")
+        if vec_diffs:
+            pytest.fail(
+                f"PKT_07_UNREADABLE_DOC vector document {doc_name} mismatch ({len(vec_diffs)} differences found):\n"
+                + "\n  - ".join(vec_diffs)
+            )
 
 
 # ---------------------------------------------------------------------------

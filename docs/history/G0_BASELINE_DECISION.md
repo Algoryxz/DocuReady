@@ -1,6 +1,6 @@
-# DocuReady — Gate G0 Baseline Environment Decision Proposal
+# DocuReady — Gate G0 Baseline Environment Decision Record
 
-**Decision Status:** `PENDING_DEEPTIMAN_DECISION`  
+**Decision Status:** `APPROVED (14 November 2026 by Deeptiman)`
 **Author:** Akriti (Platform & Baseline Delivery) with Susmita (Rules & Evaluation) & Deeptiman (Architecture Coordination)  
 **Date:** 14 November 2026  
 **Target Gate:** Gate G0 — Baseline Frozen  
@@ -147,11 +147,18 @@ To maintain strict deterministic regression guarantees while handling non-determ
 
 ---
 
-## 7. Recommendation & Handoff
+## 7. Decision & Acceptance Record
 
-Akriti and Susmita recommend **Option A** as a technical recommendation to freeze the baseline environment and unblock Gate G0.
+Deeptiman, as Product Owner, Architecture Lead, and final acceptance authority, formally approved **Option A** on 14 November 2026:
 
-This recommendation is explicitly submitted to Deeptiman for formal product and architecture decision:
-
-> **Decision Status:** `PENDING_DEEPTIMAN_DECISION`
-> *Option A is a recommendation only, not an accepted decision. No support-policy changes, packaging modifications, or final backend/licensing decisions have been implemented or settled. Execution awaits Deeptiman's explicit architectural decision.*
+> **Decision Status:** `APPROVED` (14 November 2026 by Deeptiman)
+> **Approved Actions & Execution Scope (Task G0.1):**
+> 1. **Retire Python 3.10**: Support range updated to `>=3.11,<3.16` in `pyproject.toml`.
+> 2. **Provisional Technical Baseline PDF Backend**: Pin `pymupdf==2.1` in `dependencies` to freeze vector geometry reproducibility across supported Python environments. Formal licensing assessment and ADR remain scheduled under Task T1.3.
+> 3. **Hash-Checked Dependency Locking**: Generate and commit per-Python lock files (`requirements/ci-lock-py311.txt`, `ci-lock-py312.txt`, `ci-lock-py313.txt`, `ci-lock-py314.txt`, `ci-lock-py315.txt`) compiled from `pyproject.toml` and the `all` extra.
+> 4. **Blocking 5-Version CI Matrix**: Configure `.github/workflows/tests.yml` with `python-version: ["3.11", "3.12", "3.13", "3.14", "3.15"]` on `ubuntu-24.04` with `fail-fast: false` and blocking jobs (no `continue-on-error`).
+> 5. **Partition Golden Parity**:
+>    - Enforce 100% bit-for-bit parity on native vector packets 1–6 and 8.
+>    - Evaluate Packet 7 (`PKT_07_UNREADABLE_DOC`) via semantic contract assertions (unreadable document status, unreadable packet status, RULE-DOC-02 unknown finding, and vector document parity) without asserting exact string match on OCR text or confidence scores.
+> 6. **Discovered Empirical Constraints**:
+>    - `onnxruntime` (a direct dependency of `pymupdf 2.1`) has not yet published `cp315` wheels on PyPI. Python 3.15 lock resolution and execution in CI will empirically report this dependency availability state.
