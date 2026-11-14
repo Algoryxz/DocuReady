@@ -1,8 +1,10 @@
-# DocuReady
+<div align="center">
+  <img src="assets/branding/docuready-logo.png" alt="DocuReady Logo" width="128" height="128" />
+  <h1>DocuReady</h1>
+  <p><strong>Deterministic, privacy-preserving, statutory pre-flight audit for government scholarship and citizen welfare applications.</strong></p>
+</div>
 
-> **Deterministic, privacy-preserving, statutory pre-flight audit for government scholarship and citizen welfare applications.**
-
-[![CI Tests](https://github.com/Algoryxz/DocuReady/actions/workflows/tests.yml/badge.svg)](https://github.com/Algoryxz/DocuReady/actions/workflows/tests.yml)
+[![CI Tests](https://github.com/Algoryxz/DocuReady/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/Algoryxz/DocuReady/actions/workflows/tests.yml)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 [![Python: 3.11–3.14](https://img.shields.io/badge/Python-3.11%20%7C%203.12%20%7C%203.13%20%7C%203.14-0A2540.svg)](pyproject.toml)
 [![Tests: 79 Passing](https://img.shields.io/badge/Tests-79%20Passing-008080.svg)](tests/)
@@ -32,7 +34,7 @@ flowchart LR
 
 ## The Problem
 
-Every year in India, over **80 million students and citizens** apply for educational scholarships, fee reimbursements, and public welfare entitlements. Approximately **18% to 32% of applications are summarily rejected or returned for correction** due to clerical discrepancies:
+Across government welfare portals, millions of students and citizens apply annually for educational scholarships, fee reimbursements, and statutory entitlements. A substantial proportion of initial submissions are rejected or returned for correction due to simple clerical discrepancies:
 
 - **Demographic Inconsistencies:** Spelling variations between certificates (e.g., initials vs. expanded names, honorifics, or transliteration divergence).
 - **Date of Birth Mismatches:** Discrepancies between matriculation marksheets, Aadhaar, and portal declarations, compounded by format ambiguities (`DD/MM/YYYY` vs. `MM/DD/YYYY`).
@@ -46,8 +48,8 @@ Because scrutiny occurs weeks or months after submission, **application windows 
 
 ## Key Capabilities
 
-- **Deterministic & Explainable:** Zero stochastic hallucination or black-box LLMs in the audit path. Every finding cites an enacted statutory clause, official gazette, or ministry guideline.
-- **100% Local & DPDP Compliant:** Runs entirely on standard consumer hardware without network connectivity. Sensitive citizen PII never leaves the local machine.
+- **Deterministic & Explainable:** Employs explicit rule engines and deterministic normalizers rather than stochastic LLMs in the core audit path. Every finding references a specific rule clause, guideline, or format specification.
+- **Local Execution & Privacy-Preserving Architecture:** Designed for offline operation on standard hardware without requiring outbound telemetry. Sensitive document data remains within the local execution environment.
 - **Calibrated Evidence Safety Layer:** Employs a 9-feature logistic calibration engine. Low-quality or degraded OCR text is classified as `UNCERTAIN` and safely downgraded to `MANUAL REVIEW` rather than issuing an unjustified rejection.
 - **Visual Bounding Box Provenance:** Every extracted value retains exact physical page number and bounding box coordinates (`[x0, y0, x1, y1]`), allowing instant visual inspection of the underlying PDF.
 - **Actionable Remediation Guidance:** Rather than emitting cryptic error codes, DocuReady provides step-by-step instructions: which issuing authority to approach, what replacement document is required, and how to rectify the issue.
@@ -134,6 +136,8 @@ DocuReady/
 ├── pyproject.toml                      # Standard PEP 517/518 build configuration
 ├── LICENSE                             # Apache 2.0 Open Source License
 ├── README.md                           # Repository documentation
+├── assets/                             # Repository branding assets
+│   └── branding/                       # DocuReady visual identity (logo)
 ├── requirements/                       # Hash-checked reproducible lockfiles
 │   ├── README.md                       # Lock maintenance guide
 │   ├── ci-lock-py3.11.txt              # Linux x86_64 lockfile for Python 3.11
@@ -333,26 +337,28 @@ pytest --cov=docuready --cov-report=term-missing
 
 ---
 
-## Security, Privacy & DPDP Compliance
+## Security, Privacy & Data Protection
 
-DocuReady is designed under strict privacy-by-design principles aligned with India's **Digital Personal Data Protection (DPDP) Act 2023**:
+DocuReady is architected around privacy-by-design principles informed by data protection frameworks such as India's **Digital Personal Data Protection (DPDP) Act 2023**:
 
-1. **Zero External Telemetry:** DocuReady makes zero outbound network requests. No user documents, metadata, analytics, or telemetry are ever transmitted.
-2. **Ephemeral File Lifecycles:** When files are uploaded via the Streamlit interface, they are processed in volatile temporary memory directories and immediately deleted upon session completion.
+1. **Zero External Telemetry:** Core audit pipeline makes zero outbound network requests. No user documents, metadata, analytics, or telemetry are transmitted.
+2. **Ephemeral File Lifecycles:** When files are uploaded via the reference Streamlit interface, they are processed in volatile temporary memory directories and cleaned up upon session completion.
 3. **PII Masking in Export Reports:** Exported JSON and Markdown reports automatically redact sensitive citizen identification (e.g. masking Aadhaar numbers to show only the last 4 digits: `XXXX-XXXX-1234`).
-4. **Offline Boundary Guarantee:** DocuReady functions solely as an offline demographic pre-submission linter. It does not store user data in persistent databases or connect to live government backend systems.
+4. **Offline Demographic Linter:** DocuReady functions solely as an offline demographic pre-submission linter. It does not store user data in persistent databases or connect to live government backend systems.
 
 ---
 
 ## Verified Benchmarks
 
-Evaluation performed on standard reference hardware (Intel Core i7-12700H, 16 GB RAM, Ubuntu 24.04 LTS):
+Evaluation performed on reference hardware (Intel Core i7-12700H, 16 GB RAM, Ubuntu 24.04 LTS) against the synthetic validation suite:
 
 | Benchmark Suite | Total Samples | Exact Match Accuracy | Mean Latency per Packet | Execution Pipeline |
 | :--- | :--- | :--- | :--- | :--- |
 | **Standard 8 Synthetic Packets** | 48 Documents | 100.0% | 0.38s | Native Vector Extraction |
 | **Degraded Physical Scans** | 60 Documents | 91.7% | 1.15s | Vector + Local Tesseract OCR |
 | **Held-Out Evaluation Suite** | 100 Documents | 93.0% | 1.12s | Vector + Local Tesseract OCR |
+
+*Note: Benchmarks reflect performance on synthetic test datasets under controlled test conditions and do not represent field portal acceptance guarantees.*
 
 ---
 
