@@ -65,7 +65,16 @@ In main CI run `43601998227` (executed on commit `7b55bf829cfba21ee7d277c9b3c933
 
 ## 3. Architectural Options for Gate G0
 
-### Option A: Retire Python 3.10, Validate Python 3.11–3.15, Select Compatible & Licensed PDF Backend (Recommended)
+> [!NOTE] Historical Proposal Context & Current Operative Policy
+> Sections 3 and 4 preserve the original architectural options and proposal wording evaluated during G0 baseline characterization. Statements indicating that Option A was pending approval or that test partitioning was subject to future team acceptance represent historical proposal state. The **current operative policy** formally approved by Deeptiman is recorded in §7.1 and amended in §7.2:
+> - **Python Support Range:** `>=3.11,<3.15` declared in `pyproject.toml`.
+> - **Blocking CI Matrix:** Python 3.11, 3.12, 3.13, and 3.14 on `ubuntu-24.04` with `fail-fast: false` (zero `continue-on-error`).
+> - **Python 3.15:** Formally deferred due to lack of official upstream `onnxruntime` wheels on PyPI (§7.2).
+> - **Provisional PDF Backend:** Pinned to `pymupdf==2.1` in `dependencies` to freeze vector coordinate reproducibility; licensing acceptability and alternative backends remain scheduled for review under Task T1.3 / ADR-001.
+> - **Golden Test Contract:** Packets 1–6 and 8 enforce 100% bit-for-bit parity. Packet 7 compares all deterministic fields of `INCOME_CERT` exactly, excluding strictly `raw_text` and `mean_ocr_confidence`.
+> - **Golden Baseline Artifact:** `tests/golden/legacy_v0/GOLDEN_BASELINE.json` remains completely unmodified.
+
+### Option A: Retire Python 3.10, Validate Python 3.11–3.15, Select Compatible & Licensed PDF Backend (Historically Recommended; Approved as Amended in §7.1 & §7.2)
 
 - **Description:**
   1. Retire Python 3.10 support. Python 3.10 reached upstream End-Of-Life (EOL) on **1 October 2026** (per [Python Developer's Guide](https://devguide.python.org/versions/)).
@@ -85,7 +94,7 @@ In main CI run `43601998227` (executed on commit `7b55bf829cfba21ee7d277c9b3c933
 - **Cons & Qualifications:**
   - Drops backwards compatibility for host environments running Python 3.10.
   - Python 3.13, 3.14, and 3.15 runtime compatibility remains unverified until matrix jobs are provisioned and executed.
-  - **Provisional Status:** PyMuPDF 2.1 serves strictly as a provisional technical baseline candidate to freeze reproducible geometry. The final PDF backend and licensing decision is NOT settled; it remains subject to the formal Task T1.3 evaluation and ADR. Option A remains a recommendation pending Deeptiman's formal acceptance (`PENDING_DEEPTIMAN_DECISION`).
+  - **Provisional Status:** PyMuPDF 2.1 serves strictly as a provisional technical baseline candidate to freeze reproducible geometry. The final PDF backend and licensing decision is NOT settled; it remains subject to the formal Task T1.3 evaluation and ADR. *(Historical proposal wording: Option A was originally marked `PENDING_DEEPTIMAN_DECISION`; it was subsequently approved as amended in §7.1 and §7.2).*
 
 ### Option B: Retain Python 3.10 Support via Older PyMuPDF
 
@@ -109,16 +118,17 @@ In main CI run `43601998227` (executed on commit `7b55bf829cfba21ee7d277c9b3c933
 
 ---
 
-## 4. Test Partitioning: Golden Parity vs OCR Integration (Proposed T0.2 Scope Extension)
+## 4. Test Partitioning: Golden Parity vs OCR Integration (Historical Proposal, Superseded by §7.1 & §7.2)
 
 To maintain strict deterministic regression guarantees while handling non-deterministic OCR engine output across platforms:
 
 1. **Preserve Packet 7 in Deterministic Regression Coverage:**
    - `PKT_07_UNREADABLE_DOC` must remain part of the golden baseline dataset inventory.
    - Do **NOT** normalize OCR text, confidence scores, or bounding boxes.
-2. **Proposed Partitioning Strategy for Task T0.2 (Subject to Team Acceptance):**
+2. **Historical Proposal: Partitioning Strategy for Task T0.2 (Superseded by Operative Contract in §7.1 & §7.2):**
+   - *(Historical proposal wording: Originally drafted as "Proposed Scope Extension (Subject to Team Acceptance)". The exact deterministic comparison contract for Packet 7 is now formally operative in `tests/test_golden_baseline.py` under Task G0.1 as approved in §7.1 and amended in §7.2).*
    - **Current T0.2 Baseline Requirements:** Task T0.2's core scope remains verifying and adding Odia (`ori`) and Hindi (`hin`) language pack support to CI alongside English (`eng`), and proving OCR tests run in automated workflows.
-   - **Proposed Scope Extension:** Partition test responsibilities so that:
+   - **Historical Proposed Scope Extension:** Partition test responsibilities so that:
      - **Golden Baseline Parity (`tests/test_golden_baseline.py`):** Focuses on deterministic vector PDF extraction (Packets 1–6 and 8). Validates 100% bit-for-bit parity of text tokens, bounding boxes, and rule findings under the standardized PDF engine.
      - **OCR Integration Test Suite (`tests/test_ocr_integration.py`):** Proposed as part of T0.2 to test Tesseract OCR execution, multi-lingual language packs (`eng`, `ori`, `hin`), and degraded image handling on `PKT_07_UNREADABLE_DOC`. Uses semantic property assertions (e.g. verifying extraction state degrades gracefully to `UNREADABLE` or triggers uncertainty handling) rather than brittle bit-for-bit string matches across disparate Tesseract engine versions.
 3. **Artifact Integrity:**

@@ -141,7 +141,7 @@ T1.x tasks are independent of each other and can run in parallel once G0 passes.
   - [x] CI workflow updated to 4-version blocking matrix on `ubuntu-24.04` installing from lock files.
   - [x] Golden harness enforces 100% bit-for-bit vector parity on Packets 1–6 & 8, and exact deterministic field comparison on Packet 7 (excluding only `raw_text` and `mean_ocr_confidence`).
   - [x] Full test suite (79 tests) passes locally under Python 3.11+.
-  - [ ] All four matrix jobs (3.11–3.14) pass in GitHub Actions CI (pending remote verification).
+  - [ ] All four matrix jobs (3.11–3.14) pass in GitHub Actions CI (Run 43614550313 passed with 79 tests per job, build, CLI, and wheel verification; pending verification of lock-based wheel check in corrective CI run).
   - [x] Decision record `docs/history/G0_BASELINE_DECISION.md` updated with Deeptiman's 14 November 2026 approval and amendment.
 - **Gate:** G0
 
