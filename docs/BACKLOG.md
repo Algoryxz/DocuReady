@@ -146,8 +146,9 @@ T1.x tasks are independent of each other and can run in parallel once G0 passes.
 - **Gate:** G0
 
 #### T0.2 — CI that exercises OCR
-- **Scope:** `.github/workflows/tests.yml`.
-- **Behaviour:** Install `tesseract-ocr`, `tesseract-ocr-eng`, `tesseract-ocr-ori`, `tesseract-ocr-hin` in CI. Matrix 3.11/3.12/3.13/3.14. Cache pip. Fail on warnings from our own code.
+- **Scope:** `.github/workflows/tests.yml`, `tests/test_ocr_integration.py`, `tests/test_warning_policy.py`, `pyproject.toml`.
+- **Status note:** Implementation merged across PR #14 (`28d8a858d72e72aefbae2144a089704b61922dcf`) and PR #18 (`1fbc3b69fac63249da66be24b69653bc09822766`). Main post-merge CI run 43627891431 passed all 88 tests across Python 3.11–3.14 with 0 skips. Formal task acceptance remains pending explicit decision by Deeptiman.
+- **Behaviour:** Install `tesseract-ocr`, `tesseract-ocr-eng`, `tesseract-ocr-ori`, `tesseract-ocr-hin` in CI. Matrix 3.11/3.12/3.13/3.14. Cache pip. Fail on warnings from our own code. Execute genuine OCR recognition proof against image-only raster PDF.
 - **Acceptance:**
   - [ ] Latest run on `main` is green and visible in the handoff (link or log tail)
   - [ ] A test that needs OCR is shown to have run (not skipped)
@@ -156,6 +157,7 @@ T1.x tasks are independent of each other and can run in parallel once G0 passes.
 
 #### T0.3 — Package contract verification
 - **Depends on:** T0.1, T0.2 (Start only after T0.2 ACCEPT).
+- **Status note:** Implementation was merged out of order in PR #17 (`40d2338acbca9ccf0a27f75ebe3413ae25d22cd5`) prior to the required T0.2 ACCEPT checkpoint. It delivered package contract tests (`tests/test_package_contract.py`) and gap inventory (`docs/history/PACKAGE_GAP_INVENTORY_T0.md`). While technical implementation is merged and verified in main CI run 43627891431, formal task acceptance and dependency-sequence resolution remain pending explicit decision by Deeptiman.
 - **Context:** PR #1 has already moved the project into `src/docuready/`, added `pyproject.toml`, and registered the `docuready` console script. **Do not repeat or reorganize the package move.**
 - **Scope:** `pyproject.toml`, package import/build checks, tests, and documentation of remaining gaps from target layout.
 - **Behaviour:**
