@@ -46,33 +46,39 @@ The system architecture is designed around four mandatory privacy requirements i
 
 ---
 
-## Data Classification and Handling
+## Target Data Classification and Handling (Controls Verification Pending)
 
-| Data Element | Sensitivity Level | Retention Policy | Protection Mechanism |
-| :--- | :--- | :--- | :--- |
-| **Applicant Name & DOB** | Personally Identifiable Information (PII) | In-memory only; cleared after audit | Ephemeral process memory, normalized in volatile heap |
-| **Bank Account & IFSC** | Sensitive Personal Data | In-memory only; masked in report summaries | Truncated display (`****1234`) in visual exports |
-| **Caste / Income Details**| Protected Statutory Data | In-memory only | Evaluated strictly against scheme rules; never indexed |
-| **Raw PDF / Image Pixmaps**| Ephemeral Binary Data | Transient disk/RAM buffer during extraction | Deleted immediately upon job completion |
+> [!NOTE]
+> The data classification, retention, and protection policies below specify **target controls** designed for the production architecture. While prototype implementations (e.g. Track A PR #3) explore ephemeral upload sandboxing and report redaction, full system-wide verification across all CLI and pipeline modes is pending the completion of Task T1.4 (Redaction and safe logging).
+
+| Data Element | Sensitivity Level | Target Retention Policy | Target Protection Mechanism | Implementation & Verification Status |
+| :--- | :--- | :--- | :--- | :--- |
+| **Applicant Name & DOB** | Personally Identifiable Information (PII) | Target: In-memory only; cleared after audit | Ephemeral process memory, normalized in volatile heap | **Verification Pending (T1.4)** — Requires automated tests verifying zero residual heap/disk persistence. |
+| **Bank Account & IFSC** | Sensitive Personal Data | Target: In-memory only; masked in report summaries | Truncated display (`****1234`) in visual and file exports | **Verification Pending (T1.4)** — Prototype redaction exists in PR #3 exporter; complete coverage across CLI and UI requires T1.4. |
+| **Caste / Income Details**| Protected Statutory Data | Target: In-memory only | Evaluated strictly against scheme rules; never indexed | **Verification Pending (T1.4)** — Evaluated in memory, but production-wide memory sanitization requires T1.4 tests. |
+| **Raw PDF / Image Pixmaps**| Ephemeral Binary Data | Target: Transient disk/RAM buffer during extraction | Deleted immediately upon job completion in `finally` blocks | **Verification Pending (T1.4)** — Ephemeral tempfile cleanup prototyped in Streamlit UI (PR #3); pipeline-wide enforcement pending T1.4. |
 
 ---
 
-## Threat Model and Mitigations
+## Threat Model and Proposed Mitigations
+
+> [!NOTE]
+> The threat matrix and defenses below define the **target threat model and proposed mitigations**. Defenses are categorized into currently demonstrated prototype capabilities versus target controls awaiting verification under Workstreams WS1–WS5.
 
 ```mermaid
 flowchart TD
     subgraph Attack Surface
-        T1[Threat: Malicious PDF Exploit / Buffer Overflow]
-        T2[Threat: PII Leakage via Log Files]
-        T3[Threat: Model Poisoning / Hallucinated Decisions]
-        T4[Threat: Insecure Deserialization]
+        T1[Threat: Malicious PDF Exploit / Memory Exhaustion]
+        T2[Threat: PII Leakage via System Logs]
+        T3[Threat: Model Poisoning / Hallucinated Findings]
+        T4[Threat: Insecure Data Deserialization]
     end
 
     subgraph Defenses
-        D1[Hardened PyMuPDF & File Validation Checks]
-        D2[Masked Structured Logging; No PII in Error Traces]
-        D3[Deterministic Rules Engine; Calibrated Confidence]
-        D4[Strict Pydantic / Dataclass Typed Schemas]
+        D1[Proposed: File Validation & Render Capping]
+        D2[Target: Masked Structured Logging - T1.4]
+        D3[Demonstrated: Deterministic Rules & Evidence Calibration]
+        D4[Demonstrated: Typed Dataclass Schemas]
     end
 
     T1 --> D1
@@ -81,16 +87,15 @@ flowchart TD
     T4 --> D4
 ```
 
-### 1. File Upload Hardening
-- Allowed file types: strictly `.pdf`, `.png`, `.jpg`, `.jpeg`.
-- File header magic-byte validation prevents malicious executable masquerading.
-- Maximum file size capped at 25 MB per document.
-- Memory consumption per render capped at 300 DPI to prevent denial-of-service memory exhaustion.
+### 1. File Upload Hardening (Target Mitigations — Pending T1.4)
+- **Allowed File Extensions**: Proposed restriction to `.pdf`, `.png`, `.jpg`, `.jpeg` (Streamlit prototype restricts to `.pdf`).
+- **File Header Magic-Byte Validation**: Target mitigation to prevent executable masquerading (planned under T1.4).
+- **File Size & Render Bounds**: Proposed cap of 10–25 MB per document and memory render capping at 300 DPI to mitigate resource exhaustion (planned under T1.4).
 
-### 2. Logging and Telemetry
-- Application logs contain execution metrics, rule evaluation durations, and error codes.
-- No applicant names, certificate numbers, or raw extracted text snippets are written to permanent stdout or file logs in production mode.
+### 2. Logging and Telemetry (Target Control — Pending T1.4)
+- **Target Structured Logging**: Execution metrics, rule evaluation durations, and error codes without raw PII.
+- **Verification Requirement**: Existing baseline logging contains unverified snippets; complete suppression of applicant names, account numbers, and PII from logs must be implemented and verified in Task T1.4.
 
-### 3. Dependency Vulnerability Auditing
-- PyMuPDF, pytesseract, Pillow, and Streamlit dependencies are pinned and regularly audited against known Common Vulnerabilities and Exposures (CVEs).
-- Sandboxed execution environments (Docker / microVMs) recommended for multi-tenant enterprise deployments.
+### 3. Dependency Vulnerability Auditing & Sandboxing (Target Control — Pending T5.1/T5.2)
+- **Supply-Chain Verification**: Regular automated auditing (`pip-audit`, CycloneDX SBOM) is scheduled for Gate G6 (Task T5.2).
+- **Execution Sandboxing**: Containerization (non-root, read-only filesystem) is planned under Task T5.1.

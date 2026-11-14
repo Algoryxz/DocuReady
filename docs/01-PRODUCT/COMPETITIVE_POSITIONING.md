@@ -70,9 +70,19 @@ Document automation systems broadly cluster into three enterprise categories, wh
 
 ---
 
-## 3. Why DocuReady Was Selected for HackNation 2026
+## 3. Project Selection Narrative & Evaluation Rationale (HackNation 2026)
 
-During HackNation Arena 1, 2, and 3, hundreds of problem statements across cybercrime, developer security, and civic tech were systematically evaluated. DocuReady was selected as the winner because:
-1. **Massive Real-World Impact**: Directly benefits millions of disadvantaged scholarship applicants who risk losing life-changing educational stipends due to avoidable clerical errors.
-2. **Defensible Technical Moat**: While generic LLMs hallucinate legal rules and commercial IDV vendors focus on single-document enterprise banking, DocuReady solves the complex **cross-document multi-modal consistency and safety problem**.
-3. **Privacy by Design (Target Architectural Commitment)**: Emphasizing a local-first design paradigm where citizen documents are processed locally without cloud exfiltration, establishing a target standard for ethical civic technology subject to Task T1.2 verification.
+> [!NOTE]
+> The narrative below reflects internal project documentation from early HackNation development phases (Arena 1, 2, and 3) documented in [`docs/03-RESEARCH/HACKNATION_IDEA_SELECTION.md`](../03-RESEARCH/HACKNATION_IDEA_SELECTION.md). Claims concerning competitive event selection, applicant volumes, and technical differentiation represent **internal project hypotheses / UNVERIFIED claims** that must not be cited as verified external statistics without primary event and administrative records (scheduled for formal review under Task T1.1).
+
+According to internal project evaluation records from HackNation Arena phases, the DocuReady concept was prioritized based on the following three internal project rationales:
+
+1. **Intended Real-World Impact (Project Narrative / `[UNVERIFIED]` Metric)**:
+   - *Internal Claim*: Aims to assist high volumes of disadvantaged welfare and scholarship applicants vulnerable to clerical rejection.
+   - *Status*: Quantitative figures concerning "millions of applicants" or specific rejection rates represent secondary estimates that remain `[UNVERIFIED]` pending primary government data verification in the Claims Register (Task T1.1).
+2. **Defensible Technical Scope (Target Capability Hypothesis)**:
+   - *Internal Claim*: While general-purpose LLMs risk hallucinating statutory clauses and commercial identity-verification vendors concentrate on single-document enterprise KYC, DocuReady focuses on deterministic, client-side **cross-document multi-modal consistency checking**.
+   - *Status*: Target capability hypothesis. Rule traceability requires Task T1.5 source verification; deterministic parsing accuracy is bounded by ongoing synthetic evaluation (Task T4.1).
+3. **Privacy by Design (Target Architectural Commitment — Pending T1.2 Verification)**:
+   - *Internal Claim*: Eliminates cloud transmission risk by executing document analysis locally on client devices.
+   - *Status*: Target architectural commitment. Active zero-exfiltration status remains `[UNVERIFIED]` until Task T1.2 automated contract tests pass and receive formal sign-off.
