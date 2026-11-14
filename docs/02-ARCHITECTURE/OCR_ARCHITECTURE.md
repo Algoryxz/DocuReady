@@ -1,5 +1,29 @@
 # DocuReady OCR Architecture
 
+## Ownership & Contribution Responsibilities
+
+| Role | Assignee | Primary Scope & Focus |
+|---|---|---|
+| **Primary Owner** | **Akriti** (Platform, Privacy & Delivery Lead) | Tesseract lifecycle, image preprocessing, language pack configuration, fallback triggers |
+| **Supporting Contributor** | **Susmita** (Domain Rules & Evaluation Lead) | Indic language test cases, regional numeral recognition, OCR ambiguity handling |
+| **Supporting Contributor** | **Deeptiman** (Product Owner & Integration Lead) | Language support priorities, OCR claim verification |
+
+### Detailed Responsibilities & Deliverables
+- **Primary Owner (Akriti)**:
+  - Implement and maintain local Tesseract OCR engine integration, image binarization, deskewing, and resolution normalization.
+  - Package and manage language pack dependencies (`eng`, `ori`, `hin`) and detect local engine availability via engine capability manifests.
+  - Implement robust fallbacks and graceful degradation when OCR binaries are missing.
+- **Domain Contributor (Susmita)**:
+  - Define test fixtures for regional script variations, Odia/Devanagari numerals, and noisy scan artifacts.
+- **Product Contributor (Deeptiman)**:
+  - Ensure documented OCR capabilities match actual tested configurations without over-promising multi-lingual readiness.
+
+### Coordination & Review Gates
+- OCR configuration changes and CI matrix integration belong to Akriti (Task T0.2 / T4.2).
+- Governed by [TEAM_RESPONSIBILITIES.md](../TEAM_RESPONSIBILITIES.md).
+
+---
+
 ## Overview
 
 DocuReady incorporates a fully local, privacy-preserving Optical Character Recognition (OCR) pipeline. No document pixels or text ever leave the local execution environment, satisfying strict statutory data protection and personal data privacy requirements (Digital Personal Data Protection Act, 2023).

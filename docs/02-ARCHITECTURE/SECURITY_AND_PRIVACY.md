@@ -1,5 +1,30 @@
 # Security and Privacy Architecture
 
+## Ownership & Contribution Responsibilities
+
+| Role | Assignee | Primary Scope & Focus |
+|---|---|---|
+| **Primary Owner** | **Akriti** (Platform, Privacy & Delivery Lead) | Zero-network enforcement, telemetry suppression, PII redaction, secure temp lifecycle |
+| **Supporting Contributor** | **Deeptiman** (Product Owner & Integration Lead) | Privacy policy compliance, public security claims, DPDP Act alignment |
+| **Supporting Contributor** | **Susmita** (Domain Rules & Evaluation Lead) | Sensitive field identification (Aadhaar, account numbers, personal identifiers) |
+
+### Detailed Responsibilities & Deliverables
+- **Primary Owner (Akriti)**:
+  - Enforce the absolute zero-network exfiltration guarantee via automated contract tests (`test_no_network.py`).
+  - Disable all third-party analytics, Streamlit telemetry (`gatherUsageStats = false`), and background HTTP requests.
+  - Implement default PII redaction (masking Aadhaar, bank accounts, phone numbers) across UI, CLI, and exported reports.
+  - Manage secure file permissions (`0700`), safe logging practices, and vulnerability reporting protocols.
+- **Product Contributor (Deeptiman)**:
+  - Verify that all public privacy statements in `README.md` and marketing materials match verified technical reality.
+- **Domain Contributor (Susmita)**:
+  - Maintain the registry of sensitive fields requiring redaction and safe handling.
+
+### Coordination & Review Gates
+- Any change to network access, telemetry, or file handling requires Akriti's sign-off and passing automated contract tests.
+- Governed by [TEAM_RESPONSIBILITIES.md](../TEAM_RESPONSIBILITIES.md) and Gate G1 (T1.2 / T1.4).
+
+---
+
 ## Core Philosophy: Local-First, Zero-Exfiltration
 
 DocuReady is designed for public sector and citizen document pre-validation. Applicant documents routinely contain sensitive demographic data, Aadhaar references, income details, bank account numbers, and caste information.

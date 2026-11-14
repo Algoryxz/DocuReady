@@ -1,10 +1,35 @@
 # DocuReady — Product Overview
 
+## Ownership & Contribution Responsibilities
+
+| Role | Assignee | Primary Scope & Focus |
+|---|---|---|
+| **Primary Owner** | **Deeptiman** (Product Owner & Integration Lead) | Product purpose, value proposition, user workflow, boundary definition, citizen outcomes |
+| **Supporting Contributor** | **Akriti** (Platform, Privacy & Delivery Lead) | Local-first runtime constraints, dual extraction pipeline workflow, performance feasibility |
+| **Supporting Contributor** | **Susmita** (Domain Rules & Evaluation Lead) | Document slot definitions, deterministic rule audit flow, findings classification |
+
+### Detailed Responsibilities & Deliverables
+- **Primary Owner (Deeptiman)**:
+  - Formulate and maintain the core product purpose, 6-stage workflow, and value proposition.
+  - Enforce the fundamental product contract: DocuReady checks documents against published requirements; "No issues found" means only that configured checks passed on supplied evidence—it never implies "approved" or "ready to submit".
+  - Ensure all public-facing workflow descriptions align with Gate G1 claims integrity.
+- **Platform Contributor (Akriti)**:
+  - Validate that extraction and remediation workflows (Steps 1, 2, and 5) map faithfully to system architecture capabilities (sub-second re-audit, local storage boundaries).
+- **Domain Contributor (Susmita)**:
+  - Ensure normalization, audit, and certificate generation stages (Steps 3, 4, and 6) accurately reflect rule-pack evaluation and finding schemas (`PASS`, `REVIEW`, `FAIL`, `UNKNOWN`).
+
+### Coordination & Review Gates
+- Changes to the core user journey or outcome definitions require sign-off from Deeptiman.
+- Architectural alignment must be reviewed by Akriti; domain finding alignment by Susmita.
+- Governed by [TEAM_RESPONSIBILITIES.md](../TEAM_RESPONSIBILITIES.md).
+
+---
+
 ## 1. What is DocuReady?
 
 **DocuReady** is an offline, client-side document pre-submission auditor designed to eliminate preventable administrative rejections for citizen welfare schemes, educational admissions, and public benefit programs.
 
-**Tagline:**  
+**Tagline:**
 > **Check your documents before you submit.**
 
 DocuReady shifts document verification from the post-submission administrative bottleneck to the pre-submission applicant interface. Before an applicant submits their application packet on an official portal (such as the National Scholarship Portal or State e-Despatch), DocuReady inspects the documents locally, extracts cross-document facts, tests deterministic statutory eligibility criteria, highlights discrepancies with exact bounding-box evidence, and guides the applicant through immediate remediation.

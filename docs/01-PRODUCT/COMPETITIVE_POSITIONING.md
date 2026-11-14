@@ -1,5 +1,29 @@
 # DocuReady — Competitive Positioning & Market Landscape
 
+## Ownership & Contribution Responsibilities
+
+| Role | Assignee | Primary Scope & Focus |
+|---|---|---|
+| **Primary Owner** | **Deeptiman** (Product Owner & Integration Lead) | Market positioning, competitor landscape analysis, value differentiation, HackNation defense |
+| **Supporting Contributor** | **Susmita** (Domain Rules & Evaluation Lead) | Bipartite matching differentiation, statutory rule traceability, evidence-backed evaluation |
+| **Supporting Contributor** | **Akriti** (Platform, Privacy & Delivery Lead) | Local-first privacy architecture, offline zero-exfiltration differentiators, cost per audit |
+
+### Detailed Responsibilities & Deliverables
+- **Primary Owner (Deeptiman)**:
+  - Articulate DocuReady's unique market position as an applicant-side pre-submission linter (contrasted with server-side government portals, enterprise KYC APIs, and general-purpose LLMs).
+  - Guarantee that all comparative claims in the positioning matrix are factual, fair, and demonstrable.
+  - Champion HackNation selection rationale and defensibility arguments.
+- **Domain Contributor (Susmita)**:
+  - Provide domain substance on why generic LLMs fail (hallucination of statutory clauses) and why cross-document graph matching is necessary.
+- **Platform Contributor (Akriti)**:
+  - Validate technical claims regarding offline zero-PII transmission, zero marginal operational cost, and sub-second local latency.
+
+### Coordination & Review Gates
+- All comparative metrics and public claims must be verified against the Claims Register (Task T1.1) and accepted by Deeptiman.
+- Governed by [TEAM_RESPONSIBILITIES.md](../TEAM_RESPONSIBILITIES.md).
+
+---
+
 ## 1. The Market Landscape
 
 Document automation systems broadly cluster into three enterprise categories, none of which address the citizen pre-submission linter problem:

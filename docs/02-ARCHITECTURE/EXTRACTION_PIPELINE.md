@@ -1,5 +1,29 @@
 # DocuReady Extraction Pipeline
 
+## Ownership & Contribution Responsibilities
+
+| Role | Assignee | Primary Scope & Focus |
+|---|---|---|
+| **Primary Owner** | **Akriti** (Platform, Privacy & Delivery Lead) | Vector PDF parsing, OCR routing, spatial Y-clustering, extraction orchestration |
+| **Supporting Contributor** | **Susmita** (Domain Rules & Evaluation Lead) | Target field schema, anchor keyword vocabulary, candidate extraction scoring |
+| **Supporting Contributor** | **Deeptiman** (Product Owner & Integration Lead) | Multi-format extraction requirements, speed/latency acceptance criteria |
+
+### Detailed Responsibilities & Deliverables
+- **Primary Owner (Akriti)**:
+  - Architect and maintain the dual-path extraction engine (native PyMuPDF / Pdfium vector text vs. local Tesseract OCR raster fallback).
+  - Implement spatial Y-clustering, line assembly, bounding-box coordinate normalization, and extraction error handling.
+  - Ensure extraction performance meets sub-second benchmarks on standard hardware.
+- **Domain Contributor (Susmita)**:
+  - Specify target fields per document type (Aadhaar, Marksheet, Income, Caste, Passbook) and regex/anchor patterns for high-precision capture.
+- **Product Contributor (Deeptiman)**:
+  - Validate that extraction accuracy and latency meet product requirements.
+
+### Coordination & Review Gates
+- Changes to extraction algorithms or PDF backends (e.g. ADR-001) require Akriti's lead and review from Susmita.
+- Governed by [TEAM_RESPONSIBILITIES.md](../TEAM_RESPONSIBILITIES.md).
+
+---
+
 ## Architectural Principles
 
 The extraction pipeline is designed to extract target evidence fields from heterogeneous applicant documents (both clean vector PDFs and degraded physical scans) while maintaining strict provenance and zero hallucinations.

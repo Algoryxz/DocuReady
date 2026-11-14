@@ -1,5 +1,30 @@
 # DocuReady — System Architecture Specification
 
+## Ownership & Contribution Responsibilities
+
+| Role | Assignee | Primary Scope & Focus |
+|---|---|---|
+| **Primary Owner** | **Akriti** (Platform, Privacy & Delivery Lead) | Modular decomposition, layer boundaries, component interfaces, packaging & deployment |
+| **Supporting Contributor** | **Susmita** (Domain Rules & Evaluation Lead) | Validation engine interfaces, calibrator contracts, decision safety integration |
+| **Supporting Contributor** | **Deeptiman** (Product Owner & Integration Lead) | Product contract compliance, user-facing workflow alignment, architectural acceptance |
+
+### Detailed Responsibilities & Deliverables
+- **Primary Owner (Akriti)**:
+  - Maintain the high-level system architecture, subsystem decoupling, and clean boundary definitions across presentation, orchestration, extraction, validation, and safety layers.
+  - Own `pyproject.toml`, packaging layout, CI/CD pipeline, and component dependency constraints.
+  - Enforce zero cross-layer leakages (e.g. UI code directly invoking extraction internals without orchestration).
+- **Domain Contributor (Susmita)**:
+  - Define data transfer objects and interfaces for `ConfidenceCalibrator`, `DocuReadyValidator`, and `DecisionSafetyLayer`.
+- **Product Contributor (Deeptiman)**:
+  - Review that system architecture supports all defined product workflows and non-functional guarantees.
+
+### Coordination & Review Gates
+- Changes to module interfaces or package dependencies require Akriti's technical approval.
+- Cross-cutting architectural changes require Deeptiman's acceptance under Architecture V2.
+- Governed by [TEAM_RESPONSIBILITIES.md](../TEAM_RESPONSIBILITIES.md).
+
+---
+
 ## 1. High-Level Modular Decomposition
 
 DocuReady is organized into distinct, loosely-coupled layers following clean architecture and bounded contexts:

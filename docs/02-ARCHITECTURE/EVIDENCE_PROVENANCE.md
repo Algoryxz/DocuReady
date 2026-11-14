@@ -1,5 +1,29 @@
 # Evidence Provenance and Calibration Architecture
 
+## Ownership & Contribution Responsibilities
+
+| Role | Assignee | Primary Scope & Focus |
+|---|---|---|
+| **Primary Owner** | **Susmita** (Domain Rules & Evaluation Lead) | Epistemic evidence modeling, 9-feature confidence calibration, provenance tracking, uncertainty states |
+| **Supporting Contributor** | **Akriti** (Platform, Privacy & Delivery Lead) | Bounding box spatial coordinate extraction, raw engine confidence capture, serialization |
+| **Supporting Contributor** | **Deeptiman** (Product Owner & Integration Lead) | User-facing evidence explanations, audit report provenance visibility |
+
+### Detailed Responsibilities & Deliverables
+- **Primary Owner (Susmita)**:
+  - Author and maintain the formal evidence provenance specification and `EvidenceState` domain lifecycle (`VERIFIED`, `PROVISIONAL`, `UNCERTAIN`).
+  - Design the 9-feature logistic calibration engine, scoring weights, and threshold definitions.
+  - Enforce strict epistemic honesty: raw OCR scores must never be equated with statutory verification.
+- **Platform Contributor (Akriti)**:
+  - Supply normalized bounding boxes ($x_0, y_0, x_1, y_1$), page numbers, and raw extraction tokens from PDF/OCR layers into the provenance contract.
+- **Product Contributor (Deeptiman)**:
+  - Review that evidential provenance representations translate clearly into the user-facing remediation interface.
+
+### Coordination & Review Gates
+- Changes to calibration formulas, feature weights, or evidence state thresholds require Susmita's explicit sign-off and evaluation harness verification.
+- Governed by [TEAM_RESPONSIBILITIES.md](../TEAM_RESPONSIBILITIES.md).
+
+---
+
 ## Abstract
 
 Traditional document processing systems treat extracted data as scalar strings (`name = "Aarav Sharma"`), stripping away contextual metadata and certainty scores. When an error occurs or a rule fails, the applicant cannot determine why the system made its decision or where the data came from.
