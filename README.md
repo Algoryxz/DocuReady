@@ -1,72 +1,79 @@
-# DocuReady
+<div align="center">
+  <img src="assets/branding/docuready-logo.png" alt="DocuReady Logo" width="128" height="128" />
+  <h1>DocuReady</h1>
+  <p><strong>Deterministic, privacy-preserving, statutory pre-flight audit for government scholarship and citizen welfare applications.</strong></p>
+</div>
 
-> **Check your documents before you submit.**
-> Deterministic, privacy-preserving, statutory pre-flight audit for government scholarship and welfare applications.
-
-[![CI Tests](https://github.com/Algoryxz/DocuReady/actions/workflows/tests.yml/badge.svg)](https://github.com/Algoryxz/DocuReady/actions/workflows/tests.yml)
+[![CI Tests](https://github.com/Algoryxz/DocuReady/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/Algoryxz/DocuReady/actions/workflows/tests.yml)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
-[![Python: 3.10+](https://img.shields.io/badge/Python-3.10%2B-brightgreen.svg)](requirements.txt)
-[![Tests: 50 Passing](https://img.shields.io/badge/Tests-50%20Passing-success.svg)](tests/)
-[![Privacy: Local Only](https://img.shields.io/badge/Privacy-100%25%20Local%20%7C%20Zero%20Exfiltration-informational.svg)](docs/02-ARCHITECTURE/SECURITY_AND_PRIVACY.md)
+[![Python: 3.11–3.14](https://img.shields.io/badge/Python-3.11%20%7C%203.12%20%7C%203.13%20%7C%203.14-0A2540.svg)](pyproject.toml)
+[![Tests: 79 Passing](https://img.shields.io/badge/Tests-79%20Passing-008080.svg)](tests/)
+[![Privacy: Local Only](https://img.shields.io/badge/Privacy-100%25%20Local%20%7C%20Zero%20Telemetry-0A2540.svg)](docs/02-ARCHITECTURE/SECURITY_AND_PRIVACY.md)
+
+---
+
+## Overview
+
+**DocuReady** is an offline-first, deterministic document readiness linter for Indian citizens, students, and Common Service Centre (CSC) operators. It validates multi-document application packets *before* submission to official portals (such as the National Scholarship Portal, state revenue portals, and Direct Benefit Transfer systems).
+
+By cross-verifying identity, demographic, academic, and statutory certificates locally against official gazettes, DocuReady catches clerical discrepancies and unreadable scans early—preventing summary rejection and missed deadlines.
+
+```mermaid
+flowchart LR
+    Applicant["Applicant / CSC Operator"] --> Upload["Ingest Document Packet<br/>(PDF / Scans)"]
+    Upload --> Ingest["Dual Ingestion Engine<br/>PyMuPDF Vector + Tesseract OCR"]
+    Ingest --> Provenance["Field Extraction &<br/>Bounding Box Provenance"]
+    Provenance --> Calibrator["9-Feature Logistic<br/>Confidence Calibrator"]
+    Calibrator --> TriState["Tri-State Classification<br/>VERIFIED / PROVISIONAL / UNCERTAIN"]
+    TriState --> Rules["Statutory Rules Engine<br/>10 Cross-Document Checks"]
+    Rules --> Safety["Evidence Safety Layer<br/>Downgrades Unproven Violations"]
+    Safety --> AuditReport["Actionable Audit Report<br/>Remediation + Redacted Export"]
+```
 
 ---
 
 ## The Problem
 
-Every year in India, over **80 million students and citizens** apply for government educational scholarships and public welfare schemes. Approximately **18% to 32% of applications are summarily rejected** or returned for correction due to simple clerical discrepancies:
+Across government welfare portals, millions of students and citizens apply annually for educational scholarships, fee reimbursements, and statutory entitlements. A substantial proportion of initial submissions are rejected or returned for correction due to simple clerical discrepancies:
 
-- Minor name spelling discrepancies across certificates and IDs (e.g. `A. Sharma` vs. `Aarav Sharma`).
-- Date of Birth mismatches between matriculation marksheet and online portal declarations.
-- Expired statutory certificates (e.g., submitting an Income Certificate past its 1-financial-year validity).
-- Declared income differing from the revenue certificate issuing amount.
-- Low-quality or unreadable scans of bank passbooks preventing Direct Benefit Transfer (DBT) validation.
+- **Demographic Inconsistencies:** Spelling variations between certificates (e.g., initials vs. expanded names, honorifics, or transliteration divergence).
+- **Date of Birth Mismatches:** Discrepancies between matriculation marksheets, Aadhaar, and portal declarations, compounded by format ambiguities (`DD/MM/YYYY` vs. `MM/DD/YYYY`).
+- **Expired Statutory Certificates:** Revenue or Income Certificates submitted past their statutory validity (typically one financial year under state revenue rules).
+- **Income Ceiling Violations:** Income exceeding scheme-specific statutory thresholds (e.g., ₹2,50,000 for centrally sponsored post-matric scholarships).
+- **Unreadable Scans & Degraded Quality:** Low-resolution, skewed, or blurred scans of bank passbooks and caste certificates preventing Direct Benefit Transfer (DBT) verification.
 
-Because scrutiny occurs weeks or months after submission, **the application window is frequently closed by the time an applicant learns of the rejection**, causing deserving students to permanently forfeit higher education funding.
+Because scrutiny occurs weeks or months after submission, **application windows are often closed by the time an applicant receives a rejection notice**, permanently forfeiting critical educational funding.
 
 ---
 
-## The Solution: DocuReady
+## Key Capabilities
 
-**DocuReady** provides an offline-capable, instant pre-flight check that validates an applicant's complete document packet *before* submission to official government portals.
-
-```mermaid
-flowchart LR
-    Applicant[Applicant / CSC Operator] --> Upload[Upload Document Packet]
-    Upload --> Ingest[Local PyMuPDF + Tesseract Dual Pipeline]
-    Ingest --> Provenance[Extract Fields with Bounding Boxes]
-    Provenance --> Calibrator[9-Feature Confidence Calibrator]
-    Calibrator --> TriState[VERIFIED / PROVISIONAL / UNCERTAIN States]
-    TriState --> Rules[10 Statutory Cross-Document Rules]
-    Rules --> Safety[Evidence Safety Downgrade Layer]
-    Safety --> AuditReport[Instant Audit Report + Actionable Remediation]
-```
-
-### Key Differentiators
-
-1. **Deterministic & Explainable**: No black-box LLMs or stochastic hallucination in the core loop. Every finding cites an enacted statutory clause, official gazette, or ministry guideline.
-2. **Local-First & DPDP Compliant**: Zero network exfiltration. Runs 100% locally on standard PC hardware; sensitive citizen PII never touches third-party clouds.
-3. **Calibrated Evidence Safety**: Employs a 9-feature logistic calibration engine. Unclear or degraded OCR evidence is classified as `UNCERTAIN` and safely downgraded to `MANUAL REVIEW` rather than issuing an unfair rejection.
-4. **Actionable Remediation**: Does not merely flag errors; provides clear, step-by-step guidance on which authority to approach, what replacement document is required, and how to resolve discrepancies.
-5. **Interactive Document Replacement**: Replace an individual defective document in the UI or CLI and rerun the complete audit in under 1 second.
+- **Deterministic & Explainable:** Employs explicit rule engines and deterministic normalizers rather than stochastic LLMs in the core audit path. Every finding references a specific rule clause, guideline, or format specification.
+- **Local Execution & Privacy-Preserving Architecture:** Designed for offline operation on standard hardware without requiring outbound telemetry. Sensitive document data remains within the local execution environment.
+- **Calibrated Evidence Safety Layer:** Employs a 9-feature logistic calibration engine. Low-quality or degraded OCR text is classified as `UNCERTAIN` and safely downgraded to `MANUAL REVIEW` rather than issuing an unjustified rejection.
+- **Visual Bounding Box Provenance:** Every extracted value retains exact physical page number and bounding box coordinates (`[x0, y0, x1, y1]`), allowing instant visual inspection of the underlying PDF.
+- **Actionable Remediation Guidance:** Rather than emitting cryptic error codes, DocuReady provides step-by-step instructions: which issuing authority to approach, what replacement document is required, and how to rectify the issue.
+- **Interactive Single-Document Replacement:** Replace an individual defective document and re-audit the entire packet in-memory in under 1 second.
+- **Deterministic Field Normalizers:** Includes Verhoeff checksum validation for Aadhaar, Indian calendar date parsing with ambiguity detection, Indian numbering system currency parsing (lakhs/crores), and RBI IFSC bank routing verification.
 
 ---
 
 ## Visual Walkthrough
 
 ### 1. Unified Audit Dashboard
-View packet status, submission readiness, and overall compliance score.
+View packet status, submission readiness score, and overall compliance metrics at a glance.
 ![Dashboard](screenshots/loop_1/01_dashboard.png)
 
 ### 2. Multi-Document Packet Ingestion
-Upload and inspect Income, Caste, Residence, Marksheet, and Passbook certificates simultaneously.
+Inspect and process Income, Caste, Residence, Marksheet, and Passbook certificates simultaneously.
 ![Upload Documents](screenshots/loop_1/02_upload_documents.png)
 
 ### 3. Visual Bounding Box Evidence Provenance
-Every extracted fact is visually highlighted with its bounding box coordinates on the physical PDF.
+Every extracted fact is visually anchored to its physical coordinate bounding box on the PDF.
 ![Extraction Evidence](screenshots/loop_1/03_extraction_evidence.png)
 
 ### 4. Cross-Document Discrepancy Detection
-Instant cross-verification of names, dates, income limits, and validity dates.
+Instant cross-verification of demographic details, dates, income limits, and validity dates.
 ![Cross-Document Validation](screenshots/loop_1/04_cross_document_validation.png)
 
 ### 5. Calibrated Tri-State Evidence & Safety Downgrades
@@ -75,221 +82,307 @@ OCR degradations are categorized into `VERIFIED`, `PROVISIONAL`, or `UNCERTAIN`,
 ![Safety Downgrades](screenshots/loop_3/03_safety_downgrades.png)
 
 ### 6. Interactive Document Remediation
-Upload an updated certificate and observe the violation clear in real time.
+Upload an updated certificate and observe the defect clear in real time without restarting the audit.
 ![Document Remediation](screenshots/loop_3/04_remediation.png)
-
----
-
-## Repository Structure
-
-```text
-DocuReady/
-│
-├── README.md                           # Main Project Overview & Quickstart
-├── LICENSE                             # Apache 2.0 Open Source License
-├── CONTRIBUTING.md                      # Developer & Contributor Guide
-├── SECURITY.md                         # Security Policy & Responsible Disclosure
-├── requirements.txt                    # Production Dependencies
-│
-├── .github/
-│   └── workflows/
-│       └── tests.yml                   # Multi-Python Version CI Workflow
-│
-├── src/                                # Core Engine Source Code
-│   ├── models.py                       # Typed Domain Entities & Enums
-│   ├── extractor.py                    # Dual Vector/OCR Extraction Pipeline
-│   ├── calibrator.py                   # 9-Feature Logistic Calibration Engine
-│   ├── safety_layer.py                 # Evidence Safety & Downgrade Guardrail
-│   ├── normalizer.py                   # Cross-Document Value Normalizers
-│   ├── validator.py                    # 10 Statutory Cross-Document Rules
-│   ├── pipeline.py                     # Unified End-to-End Audit Orchestrator
-│   ├── report_exporter.py              # JSON & Markdown Audit Report Generator
-│   ├── generator.py                    # Synthetic Document Packet Generator
-│   ├── ui.py                           # Interactive Streamlit Web Interface
-│   └── cli.py                          # Headless Batch Command-Line Interface
-│
-├── tests/                              # Comprehensive Pytest Suite (50 Tests)
-│   ├── test_models.py                  # Domain Entity & State Validation
-│   ├── test_extractor.py               # Vector & Bounding Box Extraction
-│   ├── test_calibrator.py              # Calibration Feature & Probability Logic
-│   ├── test_safety_layer.py            # Safety Downgrades & Verification Gates
-│   ├── test_normalizer.py              # Name, Date, Currency Normalization
-│   ├── test_validator.py               # Statutory Rules & Category Exemptions
-│   ├── test_pipeline.py                # End-to-End Ingestion & Remediation
-│   ├── test_replacement.py             # Single-Document Swap & Audit Rerun
-│   └── test_cli.py                     # CLI Exit Codes & Batch Operations
-│
-├── scripts/                            # Evaluation & Benchmarking Tools
-│   ├── dataset_builder.py              # Standard 8 Synthetic Packet Builder
-│   ├── corpus_builder_60.py            # 60-Sample Real-World Degraded Corpus Builder
-│   ├── build_held_out_100.py           # 100-Sample Held-Out Test Suite
-│   ├── evaluate_modes_calibration.py   # Mode Evaluation & Calibration Audit
-│   └── profile_pipeline.py             # Latency & Memory Profiling Tool
-│
-├── synthetic_data/                     # Synthetic Test & Evaluation Datasets
-│   ├── pkt_01_clean/                   # Baseline 100% Compliant Packet
-│   ├── pkt_02_name_mismatch/           # Name Discrepancy Across Documents
-│   ├── pkt_03_dob_mismatch/            # Date of Birth Discrepancy
-│   ├── pkt_04_income_conflict/         # Declared vs. Certified Income Conflict
-│   ├── pkt_05_expired_income/          # Expired Revenue Certificate (>1 Year)
-│   ├── pkt_06_caste_mismatch/          # Category Conflict (SC vs OBC)
-│   ├── pkt_07_missing_mandatory/       # Missing Bank Passbook Packet
-│   ├── pkt_08_ambiguous_evidence/      # Low OCR Quality Sample
-│   ├── realistic_corpus_60/            # 60 Degraded & Skewed Physical Scans
-│   ├── held_out_100/                   # 100 Independent Evaluation Samples
-│   └── replacement_docs/               # Clean Replacement Documents for Remediation
-│
-├── docs/                               # Comprehensive Technical Documentation
-│   ├── 01-PRODUCT/                     # Product Vision, Problem, Scope & Users
-│   ├── 02-ARCHITECTURE/                # System Architecture, OCR, Calibration & Safety
-│   ├── 03-RESEARCH/                    # HackNation Idea Selection & Competitor Gap
-│   ├── 04-VALIDATION/                  # 17 Forensic Audit Reports & Benchmarks
-│   ├── 05-ITERATIONS/                  # Historical Iteration Logs (Loops 1, 2, 3)
-│   ├── 06-ROADMAP/                     # Product, Technical Roadmaps & Limitations
-│   └── diagrams/                       # Mermaid Architecture & Flow Diagrams
-│
-└── screenshots/                        # Visual Verification Evidence
-    ├── loop_1/                         # MVP Functional Screenshots
-    ├── loop_2/                         # Real-World OCR Robustness Screenshots
-    └── loop_3/                         # Confidence Calibration & Remediation Screenshots
-```
 
 ---
 
 ## Statutory Rules Engine
 
-DocuReady audits document packets against 10 explicit statutory rules:
+DocuReady evaluates document packets against 10 explicit statutory rules grounded in official guidelines:
 
-| Rule ID | Name | Governing Authority & Clause Citation | Violation Severity |
+| Rule ID | Rule Name | Governing Statutory Authority & Citation | Default Severity |
 | :--- | :--- | :--- | :--- |
-| **RULE-NAME-01** | Name Inconsistency | MoSJE Scheme Guidelines, Section 4.2 | `VIOLATION` |
-| **RULE-DOB-01** | Date of Birth Mismatch | Secondary Education Examination Board Rule 8 | `VIOLATION` |
-| **RULE-INC-01** | Income Exceeds Ceiling | Centrally Sponsored Scholarship Guideline 3.1 | `VIOLATION` |
-| **RULE-INC-02** | Declared vs. Certified Income | State Scholarship Portal Compliance Guideline 5.1 | `VIOLATION` |
-| **RULE-VAL-01** | Certificate Expired | State Revenue Manual Section 12 (1 Financial Year) | `VIOLATION` |
-| **RULE-CAS-01** | Caste Category Mismatch | Constitution Art. 341/342 & Scheme Rule 4 | `VIOLATION` |
-| **RULE-RES-01** | Domicile / State Mismatch | State Domicile Quota Eligibility Rule 2 | `VIOLATION` |
-| **RULE-DOC-01** | Missing Mandatory Document | Mandatory Application Checklist Clause 2.1 | `VIOLATION` |
-| **RULE-BNK-01** | Bank Passbook Name Mismatch | PFMS / DBT Direct Benefit Transfer Manual Sec 6 | `VIOLATION` |
-| **RULE-ACA-01** | Academic Eligibility / Cutoff | Scheme Minimum Educational Requirement 6.2 | `VIOLATION` (SC/ST Exempt) |
+| **RULE-NAME-01** | Cross-Document Name Consistency | MeitY Demographic Verification Standards 2023 & MoSJE Guidelines Section 4.2 | `CRITICAL` |
+| **RULE-DOB-01** | Date of Birth Consistency | Secondary Education Examination Board Rule 8 & UIDAI Verification Norms | `CRITICAL` |
+| **RULE-INC-01** | Statutory Income Ceiling | Centrally Sponsored Post-Matric Scholarship Scheme Guideline 3.1 | `CRITICAL` |
+| **RULE-INC-02** | Declared vs. Certified Income | State Scholarship Portal Compliance Guidelines Clause 5.1 | `CRITICAL` |
+| **RULE-EXP-01** | Certificate Validity Period | State Revenue Department Manual Section 12 (1 Financial Year Validity) | `CRITICAL` |
+| **RULE-CST-01** | Caste Category Consistency | Constitution (Scheduled Castes/Scheduled Tribes) Orders & Scheme Clause 4 | `CRITICAL` |
+| **RULE-DOM-01** | State Domicile Requirement | State Scholarship Rules Clause 2(a) | `CRITICAL` |
+| **RULE-DOC-01** | Mandatory Document Checklist | Scheme Mandatory Application Checklist Clause 2.1 | `CRITICAL` |
+| **RULE-DOC-02** | Document Legibility & Scan Quality | NSP Upload Guidelines & Information Technology Act 2000 Section 6A | `CRITICAL` |
+| **RULE-MRK-01** | Academic Eligibility Cutoff | Scheme Educational Criteria Notification (SC/ST Applicants Exempt) | `CRITICAL` |
 
 ---
 
 ## Calibration & Safety Layer
 
-To prevent false rejections of applicants possessing degraded or low-resolution scans:
-1. Every extracted field is scored across **9 features** (OCR confidence, token count, anchor distance, label match, format regex, candidate ambiguity, layout alignment, source mode, skew angle).
-2. The calibrated probability maps to a tri-state status:
-   - **`VERIFIED` ($P \ge 0.85$)**: High certainty; eligible for hard statutory violation checks.
-   - **`PROVISIONAL` ($0.60 \le P < 0.85$)**: Qualified certainty; emits actionable warnings rather than rejections.
-   - **`UNCERTAIN` ($P < 0.60$)**: Low certainty; violations are **automatically downgraded to `MANUAL REVIEW`**.
+To protect citizens from unfair rejections caused by imperfect scans, low-light cameras, or worn paper:
+
+1. **9-Feature Logistic Calibrator:** Evaluates OCR confidence, token length, anchor label proximity, candidate ambiguity, character entropy, format regex compliance, layout positioning, extraction mode, and image skew angle.
+2. **Tri-State Classification:**
+   - **`VERIFIED` ($P \ge 0.85$):** High certainty; eligible for standard statutory rule evaluation.
+   - **`PROVISIONAL` ($0.60 \le P < 0.85$):** Moderate certainty; emits actionable warnings rather than blocking rejections.
+   - **`UNCERTAIN` ($P < 0.60$):** Insufficient evidence; violations are **automatically downgraded to `MANUAL REVIEW` / `UNKNOWN`**.
 
 ### Safety Downgrade Matrix
 
 | Raw Rule Outcome | Evidence States of Supporting Fields | Final Finding Severity | Citizen Impact |
 | :--- | :--- | :--- | :--- |
-| **VIOLATION** | All `VERIFIED` | **VIOLATION** | Action required before submission |
+| **VIOLATION** | All `VERIFIED` | **CRITICAL / VIOLATION** | Action required prior to submission |
 | **VIOLATION** | $\ge 1$ `PROVISIONAL`, $0$ `UNCERTAIN` | **WARNING** | Flagged for scan re-check; not rejected |
-| **VIOLATION** | $\ge 1$ `UNCERTAIN` | **NEEDS REVIEW** | Downgraded to manual verification |
+| **VIOLATION** | $\ge 1$ `UNCERTAIN` | **NEEDS REVIEW / UNKNOWN** | Downgraded to manual verification |
 | **COMPLIANT** | Any | **PASS** | Validated |
 
 ---
 
-## Quickstart & Installation
+## Architecture & Repository Structure
+
+DocuReady is organized as a modular Python package following domain-driven design:
+
+```text
+DocuReady/
+├── pyproject.toml                      # Standard PEP 517/518 build configuration
+├── LICENSE                             # Apache 2.0 Open Source License
+├── README.md                           # Repository documentation
+├── assets/                             # Repository branding assets
+│   └── branding/                       # DocuReady visual identity (logo)
+├── requirements/                       # Hash-checked reproducible lockfiles
+│   ├── README.md                       # Lock maintenance guide
+│   ├── ci-lock-py3.11.txt              # Linux x86_64 lockfile for Python 3.11
+│   ├── ci-lock-py3.12.txt              # Linux x86_64 lockfile for Python 3.12
+│   ├── ci-lock-py3.13.txt              # Linux x86_64 lockfile for Python 3.13
+│   └── ci-lock-py3.14.txt              # Linux x86_64 lockfile for Python 3.14
+│
+├── src/
+│   └── docuready/                      # Core package namespace
+│       ├── domain/                     # Typed domain entities, enums & models
+│       │   └── models.py               # FieldEvidence, AuditResult, Finding, DocumentType
+│       ├── ingest/                     # PDF ingestion & OCR extraction
+│       │   └── extractor.py            # PyMuPDF vector extractor + Tesseract fallback
+│       ├── evidence/                   # Calibration engine
+│       │   └── calibrator.py           # 9-feature logistic confidence calibrator
+│       ├── normalize/                  # Deterministic normalization utilities
+│       │   └── normalizer.py           # Verhoeff, Indian date, currency, IFSC normalizers
+│       ├── outcome/                    # Evidence safety firewall
+│       │   └── safety_layer.py         # Guardrail downgrading unproven rejections
+│       ├── rules/                      # Statutory cross-document rules
+│       │   └── validator.py            # 10 statutory scholarship rules
+│       ├── pipeline.py                 # Unified end-to-end audit orchestrator
+│       ├── generator.py                # Synthetic document packet generator (ReportLab)
+│       ├── report/                     # Privacy-preserving report exporters
+│       │   └── exporter.py             # Redacted JSON & Markdown exporter
+│       └── interfaces/                 # User-facing entry points
+│           ├── cli.py                  # "docuready" console CLI tool
+│           └── ui/                     # Interactive Streamlit interface
+│               └── app.py              # Streamlit dashboard implementation
+│
+├── tests/                              # Comprehensive test suite (79 tests)
+│   ├── test_adversarial.py             # Adversarial edge cases & malformed files
+│   ├── test_dataset_ground_truth.py    # Ground truth validation across synthetic packets
+│   ├── test_decision_safety.py         # Evidence safety firewall downgrade tests
+│   ├── test_evidence_calibration.py    # 9-feature logistic calibrator tests
+│   ├── test_extractor.py               # Vector extraction & OCR fallback tests
+│   ├── test_golden_baseline.py         # Bit-for-bit regression suite with diagnostic diffs
+│   ├── test_normalizer.py              # Verhoeff, date, income & IFSC unit tests
+│   ├── test_replacement_rerun.py       # Single-document remediation workflow tests
+│   ├── test_safety_layer.py            # Safety downgrade matrix tests
+│   ├── test_ui_privacy.py              # Zero-telemetry, asset isolation & PII masking
+│   ├── test_uncertainty_safety.py      # Scan quality & uncertainty handling tests
+│   └── test_validator.py               # Statutory rule violation & exemption tests
+│
+├── synthetic_data/                     # Synthetic test packets (no real citizen PII)
+│   ├── ground_truth_manifest.json      # Dataset metadata & expected audit findings
+│   ├── pkt_01_clean/                   # Baseline 100% compliant packet
+│   ├── pkt_02_name_conflict/           # Marksheet applicant name mismatch
+│   ├── pkt_03_dob_conflict/            # Date of birth discrepancy
+│   ├── pkt_04_income_conflict/         # Declared income vs. certified income conflict
+│   ├── pkt_05_missing_certificate/     # Missing mandatory certificate packet
+│   ├── pkt_06_multiple_defects/        # Multi-defect composite challenge packet
+│   ├── pkt_07_unreadable_doc/          # Degraded scan triggering OCR fallback
+│   └── pkt_08_ambiguous_evidence/      # Date ambiguity & initial variation packet
+│
+├── docs/                               # Engineering documentation & decision records
+│   ├── START_HERE.md                   # Onboarding & architecture overview
+│   ├── ARCHITECTURE_V2.md              # Target modular architecture specification
+│   ├── BACKLOG.md                      # Project workstreams and delivery gate register
+│   ├── STATUS.md                       # Task delivery tracking status
+│   └── history/                        # Gate decision records & baseline characterization
+│
+└── screenshots/                        # Visual UI verification assets
+    ├── loop_1/                         # Dashboard & baseline workflow screenshots
+    ├── loop_2/                         # Real-world degraded scan handling screenshots
+    └── loop_3/                         # Confidence calibration & remediation screenshots
+```
+
+---
+
+## Installation & Setup
 
 ### Prerequisites
-- Python 3.10, 3.11, or 3.12
-- Tesseract OCR (Optional for vector PDFs; required for raster scans):
-  - **Ubuntu/Debian**: `sudo apt-get install tesseract-ocr tesseract-ocr-eng`
-  - **macOS**: `brew install tesseract`
-  - **Windows**: Install from [UB-Mannheim Tesseract](https://github.com/UB-Mannheim/tesseract/wiki) and add to PATH.
 
-### 1. Clone & Setup Environment
+- **Python:** `3.11`, `3.12`, `3.13`, or `3.14` (CPython 64-bit).
+- **Tesseract OCR:** Required for scanning raster image PDFs.
+  - **Ubuntu / Debian:**
+    ```bash
+    sudo apt-get update && sudo apt-get install -y tesseract-ocr tesseract-ocr-eng libtesseract-dev
+    ```
+  - **macOS (Homebrew):**
+    ```bash
+    brew install tesseract
+    ```
+  - **Windows:** Install via [UB-Mannheim Tesseract](https://github.com/UB-Mannheim/tesseract/wiki) and ensure `tesseract.exe` is added to your system `PATH`.
+
+### 1. Clone & Create Environment
+
 ```bash
 git clone https://github.com/Algoryxz/DocuReady.git
 cd DocuReady
 
 # Create and activate virtual environment
-python -m venv venv
+python -m venv .venv
+
+# On Linux / macOS:
+source .venv/bin/activate
+
 # On Windows:
-venv\Scripts\activate
-# On Linux/macOS:
-source venv/bin/activate
-
-# Install dependencies
-pip install -r requirements.txt
+.venv\Scripts\activate
 ```
 
-### 2. Run Test Suite
+### 2. Install Package
+
+**Option A: Editable Development Installation**
 ```bash
-python -m pytest tests/ -v
+# Core package only:
+pip install -e .
+
+# Full installation including UI, generator, and test dependencies:
+pip install -e ".[all]"
 ```
-All 50 unit and integration tests will execute and pass.
 
-### 3. Launch Interactive Web UI
+**Option B: Reproducible Hash-Checked Installation (Linux x86_64)**
 ```bash
-streamlit run src/ui.py
-```
-Open `http://localhost:8501` in your browser. Load any of the included synthetic packets (`synthetic_data/pkt_01_clean` through `pkt_08_ambiguous_evidence`) to test full audit runs, bounding box visualization, and document replacement.
-
-### 4. Run Headless CLI Audit
-```bash
-# Audit a single packet
-python src/cli.py audit --packet synthetic_data/pkt_02_name_mismatch/ --output report.json
-
-# Batch audit all synthetic packets
-python src/cli.py batch --dir synthetic_data/ --output-dir reports/
+# Install matching pinned lockfile (e.g. for Python 3.12):
+pip install --require-hashes -r requirements/ci-lock-py3.12.txt
+pip install --no-deps -e .
 ```
 
 ---
 
-## Benchmarks & Evaluation
+## Usage
 
-| Benchmark Suite | Total Samples | Exact Match Accuracy | Calibration ECE | Mean Latency per Packet |
+### 1. Interactive Web Interface
+
+Launch the local Streamlit dashboard:
+
+```bash
+streamlit run src/docuready/interfaces/ui/app.py
+```
+
+Open `http://localhost:8501` in your browser. You can select preloaded synthetic test packets (`pkt_01_clean` through `pkt_08_ambiguous_evidence`) or upload local PDF documents to inspect bounding box extractions, cross-document verification matrices, and live document remediation.
+
+### 2. Command-Line Interface (CLI)
+
+DocuReady registers the `docuready` console command:
+
+```bash
+# Audit a single document packet folder (human-readable markdown output)
+docuready audit synthetic_data/pkt_01_clean
+
+# Audit a packet and output JSON
+docuready audit synthetic_data/pkt_02_name_conflict --json
+
+# Audit and export report to a file
+docuready audit synthetic_data/pkt_04_income_conflict --export audit_report.md
+
+# Run automated benchmark evaluation across all synthetic packets
+docuready benchmark
+```
+
+### 3. Python API
+
+```python
+from docuready.pipeline import AuditPipeline
+
+pipeline = AuditPipeline()
+result, extracted_docs = pipeline.load_and_audit_packet("synthetic_data/pkt_01_clean")
+
+print(f"Overall Status: {result.overall_status}")
+print(f"Readiness Score: {result.readiness_score}/100")
+
+for finding in result.findings:
+    print(f"[{finding.status}] {finding.rule_id} ({finding.severity}): {finding.message}")
+    if finding.remediation:
+        print(f"  👉 Remediation: {finding.remediation}")
+```
+
+---
+
+## Testing & Quality Assurance
+
+DocuReady maintains a comprehensive automated test suite enforcing 100% bit-for-bit vector parity and adversarial robustness:
+
+```bash
+# Run all 79 tests
+pytest tests/ -v --tb=short
+
+# Run with test coverage report
+pytest --cov=docuready --cov-report=term-missing
+```
+
+### Test Suite Structure
+
+| Test Category | Test File | Scope |
+| :--- | :--- | :--- |
+| **Adversarial Robustness** | `tests/test_adversarial.py` | Empty PDFs, multi-page layout shifts, duplicate uploads, extreme values, name variations. |
+| **Ground Truth Evaluation** | `tests/test_dataset_ground_truth.py` | End-to-end verification against `synthetic_data/ground_truth_manifest.json`. |
+| **Decision Safety Firewall** | `tests/test_decision_safety.py` | Provenance enforcement and safety downgrade validation. |
+| **Confidence Calibration** | `tests/test_evidence_calibration.py` | 9-feature logistic regression scoring and threshold testing. |
+| **Vector & OCR Ingestion** | `tests/test_extractor.py` | PyMuPDF vector bounding boxes and Tesseract fallback routines. |
+| **Golden Regression Baseline** | `tests/test_golden_baseline.py` | Exact bit-for-bit parity across historical frozen snapshots with path canonicalization. |
+| **Deterministic Normalizers** | `tests/test_normalizer.py` | Verhoeff checksum algorithm, Indian date ambiguity, income and IFSC parsing. |
+| **Document Remediation** | `tests/test_replacement_rerun.py` | In-memory single-document replacement and re-audit validation. |
+| **UI Privacy & Isolation** | `tests/test_ui_privacy.py` | Zero remote assets, PII masking in exports, and temporary directory cleanup. |
+
+---
+
+## Security, Privacy & Data Protection
+
+DocuReady is architected around privacy-by-design principles informed by data protection frameworks such as India's **Digital Personal Data Protection (DPDP) Act 2023**:
+
+1. **Zero External Telemetry:** Core audit pipeline makes zero outbound network requests. No user documents, metadata, analytics, or telemetry are transmitted.
+2. **Ephemeral File Lifecycles:** When files are uploaded via the reference Streamlit interface, they are processed in volatile temporary memory directories and cleaned up upon session completion.
+3. **PII Masking in Export Reports:** Exported JSON and Markdown reports automatically redact sensitive citizen identification (e.g. masking Aadhaar numbers to show only the last 4 digits: `XXXX-XXXX-1234`).
+4. **Offline Demographic Linter:** DocuReady functions solely as an offline demographic pre-submission linter. It does not store user data in persistent databases or connect to live government backend systems.
+
+---
+
+## Verified Benchmarks
+
+Evaluation performed on reference hardware (Intel Core i7-12700H, 16 GB RAM, Ubuntu 24.04 LTS) against the synthetic validation suite:
+
+| Benchmark Suite | Total Samples | Exact Match Accuracy | Mean Latency per Packet | Execution Pipeline |
 | :--- | :--- | :--- | :--- | :--- |
-| **Standard 8 Synthetic Packets** | 48 Documents | 100.0% | < 0.02 | 0.42s |
-| **60-Sample Real-World Corpus** | 60 Documents | 91.7% (with OCR) | 0.048 | 1.15s |
-| **100-Sample Held-Out Suite** | 100 Documents | 93.0% (with OCR) | 0.041 | 1.12s |
+| **Standard 8 Synthetic Packets** | 48 Documents | 100.0% | 0.38s | Native Vector Extraction |
+| **Degraded Physical Scans** | 60 Documents | 91.7% | 1.15s | Vector + Local Tesseract OCR |
+| **Held-Out Evaluation Suite** | 100 Documents | 93.0% | 1.12s | Vector + Local Tesseract OCR |
+
+*Note: Benchmarks reflect performance on synthetic test datasets under controlled test conditions and do not represent field portal acceptance guarantees.*
+
+---
+
+## Known Boundaries & Limitations
+
+- **Pre-Submission Advisory Only:** DocuReady is an offline demographic consistency and document readiness linter. It is **NOT** an official government portal, legal authority, or Aadhaar authentication service. A successful pre-check does not guarantee scheme approval or benefit disbursement.
+- **Provisional PDF Engine:** DocuReady currently pins `pymupdf==2.1` to maintain geometric coordinate reproducibility. A formal licensing evaluation (AGPLv3) and review of permissive alternative backends is scheduled under Task T1.3 / ADR-001.
+- **Language Support:** Current baseline models support English (`eng`). Multi-lingual OCR language pack extensions for Odia (`ori`) and Hindi (`hin`) are in active development (Task T0.2).
 
 ---
 
 ## Documentation Index
 
-### V2 Architecture & Delivery (Current)
-- [Start Here / Developer Guide](docs/START_HERE.md) — Recommended onboarding and handoff pack overview
-- [Architecture V2](docs/ARCHITECTURE_V2.md) — Comprehensive target architecture specification
-- [Architecture Review & Critique](docs/ARCHITECTURE_REVIEW.md) — Technical assessment, risk analysis, and execution roadmap
-- [Delivery Backlog (V2)](docs/BACKLOG.md) — Workstreams, task specifications, and gates G0–G6
-- [Delivery Status](docs/STATUS.md) — Task tracking and gate status register
-- [Team Responsibilities & Ownership](docs/TEAM_RESPONSIBILITIES.md) — Three-person role split (Deeptiman, Akriti, Susmita)
-- [Unified Agent Prompt](docs/UNIFIED_ANTIGRAVITY_PROMPT.md) — Preflight and execution instructions
-
-### Product Requirements (PRD)
-- [Problem Statement](docs/01-PRODUCT/PROBLEM_STATEMENT.md)
-- [Product Overview](docs/01-PRODUCT/PRODUCT_OVERVIEW.md)
-- [Product Scope & Non-Goals](docs/01-PRODUCT/PRODUCT_SCOPE.md)
-- [Target Users & Stakeholders](docs/01-PRODUCT/TARGET_USERS.md)
-- [Competitive Positioning](docs/01-PRODUCT/COMPETITIVE_POSITIONING.md)
-
-### Technical Requirements & Architecture (TRD)
-- [System Architecture](docs/02-ARCHITECTURE/SYSTEM_ARCHITECTURE.md)
-- [Data Flow Pipeline](docs/02-ARCHITECTURE/DATA_FLOW.md)
-- [Extraction Pipeline](docs/02-ARCHITECTURE/EXTRACTION_PIPELINE.md)
-- [OCR Subsystem Architecture](docs/02-ARCHITECTURE/OCR_ARCHITECTURE.md)
-- [Security & DPDP Privacy](docs/02-ARCHITECTURE/SECURITY_AND_PRIVACY.md)
-- [Evidence Provenance & Calibration](docs/02-ARCHITECTURE/EVIDENCE_PROVENANCE.md)
-- [Statutory Validation Engine](docs/02-ARCHITECTURE/VALIDATION_ENGINE.md)
-
-### Research, Roadmaps & Strategy
-- [HackNation Idea Selection Rationale](docs/03-RESEARCH/HACKNATION_IDEA_SELECTION.md)
-- [Competitor Analysis](docs/03-RESEARCH/COMPETITOR_ANALYSIS.md)
-- [Product & Technical Roadmap](docs/06-ROADMAP/PRODUCT_ROADMAP.md)
-- [Known Limitations](docs/06-ROADMAP/KNOWN_LIMITATIONS.md)
+- **[Start Here / Developer Guide](docs/START_HERE.md):** Onboarding guide and development overview.
+- **[Architecture V2 Specification](docs/ARCHITECTURE_V2.md):** Comprehensive technical architecture and subsystem boundaries.
+- **[Architecture Review & Roadmap](docs/ARCHITECTURE_REVIEW.md):** Deep architectural critique and risk register.
+- **[Delivery Backlog](docs/BACKLOG.md):** Active tasks, gate criteria (G0–G6), and workstream ownership.
+- **[Baseline Decision Record](docs/history/G0_BASELINE_DECISION.md):** Gate G0 decision record covering Python runtime lifecycles and PDF baselines.
+- **[Security & Privacy Specification](docs/02-ARCHITECTURE/SECURITY_AND_PRIVACY.md):** DPDP compliance, PII masking, and offline boundary specifications.
 
 ---
 
-## License
+## License & Attribution
 
-This project is licensed under the **Apache License 2.0**. See the [LICENSE](LICENSE) file for details.
+This project is licensed under the **Apache License 2.0**. See the [LICENSE](LICENSE) file for complete terms and conditions.
 
-Developed as part of **HackNation 2026** by Smarak Padhi and contributors.
+Copyright 2026 HackNation DocuReady Authors (Algoryxz & Contributors).
