@@ -213,7 +213,15 @@ class DocuReadyValidator:
 
         # If name fields exist and no FAIL/REVIEW was generated among primary docs, add PASS
         if len(name_fields) >= 2 and not any(f.field.startswith("APPLICANT_NAME") for f in findings):
-            primary_ev = [f.provenance for _, f in name_fields[:2] if f.provenance]
+            primary_ev = [
+                f.provenance or EvidenceProvenance(
+                    document_type=dt.value,
+                    file_name=documents[dt].file_path if dt in documents else "",
+                    extracted_field="applicant_name",
+                    raw_snippet=f.raw_value
+                )
+                for dt, f in name_fields[:2]
+            ]
             findings.append(Finding(
                 rule_id="RULE-NAME-PASS",
                 rule_name="Cross-Document Applicant Name Consistency",
@@ -234,8 +242,8 @@ class DocuReadyValidator:
 
         if dob_f_app and dob_f_mark:
             ev_dob = [
-                dob_f_app.provenance or EvidenceProvenance(document_type="APPLICATION_FORM", file_name="", raw_snippet=dob_f_app.raw_value),
-                dob_f_mark.provenance or EvidenceProvenance(document_type="MARKSHEET", file_name="", raw_snippet=dob_f_mark.raw_value)
+                dob_f_app.provenance or EvidenceProvenance(document_type="APPLICATION_FORM", file_name="", extracted_field="dob", raw_snippet=dob_f_app.raw_value),
+                dob_f_mark.provenance or EvidenceProvenance(document_type="MARKSHEET", file_name="", extracted_field="dob", raw_snippet=dob_f_mark.raw_value)
             ]
             d1, st1, amb1 = parse_and_normalize_date(dob_f_app.raw_value)
             d2, st2, amb2 = parse_and_normalize_date(dob_f_mark.raw_value)
@@ -324,7 +332,7 @@ class DocuReadyValidator:
 
         if inc_f_cert:
             cert_val = inc_f_cert.normalized_value
-            ev_inc_cert = inc_f_cert.provenance or EvidenceProvenance(document_type="INCOME_CERT", file_name="", raw_snippet=inc_f_cert.raw_value)
+            ev_inc_cert = inc_f_cert.provenance or EvidenceProvenance(document_type="INCOME_CERT", file_name="", extracted_field="annual_income", raw_snippet=inc_f_cert.raw_value)
 
             if cert_val is None:
                 findings.append(Finding(
@@ -394,7 +402,7 @@ class DocuReadyValidator:
                     app_val = inc_f_app.normalized_value
                     ev_both = [
                         ev_inc_cert,
-                        inc_f_app.provenance or EvidenceProvenance(document_type="APPLICATION_FORM", file_name="", raw_snippet=inc_f_app.raw_value)
+                        inc_f_app.provenance or EvidenceProvenance(document_type="APPLICATION_FORM", file_name="", extracted_field="annual_income", raw_snippet=inc_f_app.raw_value)
                     ]
                     if abs(cert_val - app_val) > 1.0:
                         if inc_f_cert.is_uncertain or inc_f_app.is_uncertain:
@@ -445,7 +453,7 @@ class DocuReadyValidator:
         # ----------------- 7. CERTIFICATE EXPIRY CHECK (INCOME CERTIFICATE) -----------------
         inc_date_f = get_f(DocumentType.INCOME_CERT, "issue_date")
         if inc_date_f and inc_date_f.raw_value:
-            ev_date = [inc_date_f.provenance or EvidenceProvenance(document_type="INCOME_CERT", file_name="", raw_snippet=inc_date_f.raw_value)]
+            ev_date = [inc_date_f.provenance or EvidenceProvenance(document_type="INCOME_CERT", file_name="", extracted_field="issue_date", raw_snippet=inc_date_f.raw_value)]
             p_date, st_date, _ = parse_and_normalize_date(inc_date_f.raw_value)
             if not p_date:
                 findings.append(Finding(
@@ -579,7 +587,7 @@ class DocuReadyValidator:
         app_acc = get_f(DocumentType.APPLICATION_FORM, "account_no")
 
         if pass_ifsc and pass_ifsc.raw_value:
-            ev_ifsc = [pass_ifsc.provenance or EvidenceProvenance(document_type="BANK_PASSBOOK", file_name="", raw_snippet=pass_ifsc.raw_value)]
+            ev_ifsc = [pass_ifsc.provenance or EvidenceProvenance(document_type="BANK_PASSBOOK", file_name="", extracted_field="ifsc", raw_snippet=pass_ifsc.raw_value)]
             if not validate_ifsc_code(pass_ifsc.raw_value):
                 findings.append(Finding(
                     rule_id="RULE-BNK-01",
@@ -635,7 +643,7 @@ class DocuReadyValidator:
         # ----------------- 10. DOMICILE STATE VALIDATION -----------------
         res_state_f = get_f(DocumentType.RESIDENCE_CERT, "state")
         if res_state_f and res_state_f.raw_value:
-            ev_dom = [res_state_f.provenance or EvidenceProvenance(document_type="RESIDENCE_CERT", file_name="", raw_snippet=res_state_f.raw_value)]
+            ev_dom = [res_state_f.provenance or EvidenceProvenance(document_type="RESIDENCE_CERT", file_name="", extracted_field="state", raw_snippet=res_state_f.raw_value)]
             st_val = res_state_f.raw_value.strip().upper()
             if st_val != self.scheme.target_state:
                 findings.append(Finding(
@@ -685,7 +693,7 @@ class DocuReadyValidator:
 
         if mark_pct_f and mark_pct_f.normalized_value is not None:
             pct_val = mark_pct_f.normalized_value
-            ev_pct = [mark_pct_f.provenance or EvidenceProvenance(document_type="MARKSHEET", file_name="", raw_snippet=mark_pct_f.raw_value)]
+            ev_pct = [mark_pct_f.provenance or EvidenceProvenance(document_type="MARKSHEET", file_name="", extracted_field="percentage", raw_snippet=mark_pct_f.raw_value)]
 
             # Check scheme-specific reservation cutoff policy
             if (is_sc or is_st) and self.scheme.sc_st_cutoff_policy == "PASS_ONLY":
@@ -767,7 +775,7 @@ class DocuReadyValidator:
                     ))
 
         # ----------------- INDEPENDENT DECISION SAFETY LAYER -----------------
-        findings = self.safety_layer.audit_findings(findings, documents, self.scheme.name)
+        findings = self.safety_layer.audit_findings(findings, documents, self.scheme.name, scheme_config=self.scheme)
 
         # ----------------- OVERALL STATUS & SCORE DETERMINATION -----------------
         score = 100 - sum(f.penalty for f in findings)

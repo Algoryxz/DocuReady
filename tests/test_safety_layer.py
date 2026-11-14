@@ -18,6 +18,50 @@ def safety_layer():
 
 
 def test_safety_layer_pass_through_of_pass_and_review(safety_layer):
+    ev_app = EvidenceProvenance(
+        document_type=DocumentType.APPLICATION_FORM.value,
+        file_name="app.pdf",
+        extracted_field="applicant_name",
+        raw_snippet="SMRUTI RANJAN NAYAK"
+    )
+    ev_inc = EvidenceProvenance(
+        document_type=DocumentType.INCOME_CERT.value,
+        file_name="inc.pdf",
+        extracted_field="applicant_name",
+        raw_snippet="SMRUTI RANJAN NAYAK"
+    )
+    doc_app = ExtractedDocument(
+        doc_type=DocumentType.APPLICATION_FORM,
+        file_path="app.pdf",
+        status="VALID",
+        fields={
+            "applicant_name": ExtractedField(
+                field_name="applicant_name",
+                raw_value="SMRUTI RANJAN NAYAK",
+                evidence_state=EvidenceState.VERIFIED_TEXT,
+                calibrated_confidence=0.98,
+                is_uncertain=False,
+                provenance=ev_app
+            )
+        }
+    )
+    doc_inc = ExtractedDocument(
+        doc_type=DocumentType.INCOME_CERT,
+        file_path="inc.pdf",
+        status="VALID",
+        fields={
+            "applicant_name": ExtractedField(
+                field_name="applicant_name",
+                raw_value="SMRUTI RANJAN NAYAK",
+                evidence_state=EvidenceState.VERIFIED_TEXT,
+                calibrated_confidence=0.98,
+                is_uncertain=False,
+                provenance=ev_inc
+            )
+        }
+    )
+    docs = {DocumentType.APPLICATION_FORM: doc_app, DocumentType.INCOME_CERT: doc_inc}
+
     pass_finding = Finding(
         rule_id="RULE-NAME-PASS",
         rule_name="Applicant Name Consistency",
@@ -25,16 +69,33 @@ def test_safety_layer_pass_through_of_pass_and_review(safety_layer):
         severity=Severity.INFO,
         penalty=0,
         field="APPLICANT_NAME",
-        documents_involved=[DocumentType.APPLICATION_FORM.value],
+        documents_involved=[DocumentType.APPLICATION_FORM.value, DocumentType.INCOME_CERT.value],
         message="Names match.",
-        evidence=[],
+        evidence=[ev_app, ev_inc],
         remediation="None",
         statutory_reference="MoSJE Guidelines Clause 5"
     )
-    res = safety_layer.audit_findings([pass_finding], {}, "Test Scheme")
+    res = safety_layer.audit_findings([pass_finding], docs, "Test Scheme")
     assert len(res) == 1
     assert res[0].status == FindingStatus.PASS
     assert res[0].rule_id == "RULE-NAME-PASS"
+
+    review_finding = Finding(
+        rule_id="RULE-NAME-02",
+        rule_name="Applicant Name Variation",
+        status=FindingStatus.REVIEW,
+        severity=Severity.REVIEW,
+        penalty=10,
+        field="APPLICANT_NAME_VARIATION",
+        documents_involved=[DocumentType.APPLICATION_FORM.value, DocumentType.INCOME_CERT.value],
+        message="Minor name variation.",
+        evidence=[ev_app, ev_inc],
+        remediation="Verify manually.",
+        statutory_reference="UIDAI Guidelines"
+    )
+    res_rev = safety_layer.audit_findings([review_finding], docs, "Test Scheme")
+    assert len(res_rev) == 1
+    assert res_rev[0].status == FindingStatus.REVIEW
 
 
 def test_safety_firewall_unverified_statutory_reference(safety_layer):
