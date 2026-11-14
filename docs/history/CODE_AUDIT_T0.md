@@ -1,26 +1,27 @@
 # DocuReady — T0 Code Audit: Characterising Current Behaviour
 
 **Author:** Akriti (Platform & Baseline Delivery) with Susmita (Rules & Citations) & Deeptiman (Architecture Coordination)
-**Date:** 14 November 2026 (Updated post-T0.1 Review Rework)
-**Status:** Canonical T0.1 Audit Deliverable (Review / Blocked)
+**Date:** 14 November 2026 (Updated post-PR #5 Merge & Main CI Run 43601998227)
+**Status:** Canonical T0.1 Audit Deliverable (Review / Pending Acceptance / Blocked)
 **Repository:** `Algoryxz/DocuReady`
-**Base Commit:** `6d1ea77e6e82eeccb3b69fa0a9120d416157c005` (incorporating merged PRs #1, #2, #3, and #4)
-**Task Branch:** `task/T0.1-characterise-current-behaviour` (PR #5)
+**Base Commit:** `7b55bf829cfba21ee7d277c9b3c933b702f92671` (incorporating merged PRs #1, #2, #3, #4, and #5)
+**Task Branch:** `docs/post-merge-g0-state-correction`
 
 ---
 
 ## Executive Summary
 
-Task **T0.1** establishes the baseline characterisation of DocuReady before modifying application behavior or beginning V2 structural migrations. This audit is grounded strictly in the verified source code and reproducible execution evidence across supported matrix environments.
+Task **T0.1** establishes the baseline characterisation of DocuReady before modifying application behavior or beginning V2 structural migrations. This audit is grounded strictly in the verified source code and completed execution evidence across supported matrix environments.
 
 Key findings of this baseline audit:
 1. **Cross-Platform Test Execution & Dependency Reproducibility:**
-   - In GitHub Actions CI (run `43599127726`), the test matrix on supported Python versions (`3.10`, `3.11`, `3.12`) failed:
-     - **Python 3.10 (66 passed, 8 failed):** PyPI does not distribute an `abi3` wheel for Python 3.10 for PyMuPDF 2.1; `pip` resolved `pymupdf>=1.23.0` to `PyMuPDF 1.28.2`. Version 1.28.2 exhibits different text search rect geometry and bounding-box rounding compared to PyMuPDF 2.1, causing bounding-box mismatches in all 8 golden baseline packets.
-     - **Python 3.11 (73 passed, 1 failed):** Installed `pymupdf==2.1`. All 7 native vector packets passed with 100% bit-for-bit parity. The single failure was `PKT_07_UNREADABLE_DOC`.
-     - **Python 3.12 (73 passed, 1 failed):** Installed `pymupdf==2.1`. All 7 native vector packets passed with 100% bit-for-bit parity. The single failure was `PKT_07_UNREADABLE_DOC`.
-     - **Root Cause of `PKT_07_UNREADABLE_DOC` Failure:** In the original Windows baseline environment (commit `9a0d00c8c9e02b2697d52589aa04ca211ffaf441`), Tesseract was **not installed** (`Tesseract OCR Binary: NOT INSTALLED`). When `pytesseract` failed silently on the corrupted scan, `raw_text` was recorded as `""` and `mean_ocr_confidence` was `0.0`. In Linux CI, Tesseract 5.5.0 (`tesseract-ocr-eng`) was installed via `apt-get`, producing non-empty OCR lines and non-zero confidence scores. Because the golden contract forbids normalizing OCR text or confidence scores, `PKT_07_UNREADABLE_DOC` failed comparison.
-   - **Local Execution:** 74/74 tests pass on the local Windows host, but this runs under **Python 3.14.7** (outside the project's declared supported range of `>=3.10,<3.13`) with no Tesseract binary installed.
+   - In GitHub Actions CI on `main` (run `43601998227` with `fail-fast: false`), all three supported matrix jobs ran to completion and failed:
+     - **Python 3.10 (70 passed, 8 failed):** PyPI package metadata for `PyMuPDF 2.1` explicitly declares `Requires-Python: >=3.11`. Under Python 3.10, `pip` resolves `pymupdf>=1.23.0` to `PyMuPDF 1.28.2`. Version 1.28.2 exhibits different text search rect geometry and bounding-box rounding compared to PyMuPDF 2.1, causing bounding-box coordinate mismatches across all 8 golden baseline packets.
+     - **Python 3.11 (77 passed, 1 failed):** Installed `pymupdf==2.1`. All 7 native vector packets passed bit-for-bit. The single failing test was `PKT_07_UNREADABLE_DOC`.
+     - **Python 3.12 (77 passed, 1 failed):** Installed `pymupdf==2.1`. All 7 native vector packets passed bit-for-bit. The single failing test was `PKT_07_UNREADABLE_DOC`.
+   - **Historical Tesseract Presence Status (UNVERIFIED):** In the original baseline commit (`9a0d00c8c9e02b2697d52589aa04ca211ffaf441`), `ENVIRONMENT_MANIFEST.md` and `T0.2.1_DEPENDENCY_AUDIT.md` were session scratch artifacts outside Git and were never committed to the canonical repository. The capture host's Tesseract binary presence must remain **UNVERIFIED** in tracked Git history.
+   - **Actual Exception Handling in `_ocr_page`:** In `src/docuready/ingest/extractor.py` (lines 427–442), `_ocr_page` wraps `pytesseract.image_to_data` in a broad `try...except Exception: pass`. When Tesseract is missing from `PATH` or fails, `TesseractNotFoundError` is silently swallowed without logging, leaving OCR output empty (`raw_text = ""` and `mean_ocr_confidence = 0.0`). This explains why a host lacking Tesseract produces an empty extraction rather than an explicit error. When Linux CI ran with Tesseract 5.5.0 installed (`tesseract-ocr-eng`), OCR lines were extracted from the corrupted scan (`raw_text = "[ZO ALITWNOD HOO - NVOS GALdNYHO"`, `mean_ocr_confidence = 0.502`). Per the golden canonicalization contract, non-path OCR values cannot be normalized, causing an explicit regression failure in `PKT_07_UNREADABLE_DOC`.
+   - **Test Suite Reconciliation (74 vs 78 Tests):** Prior to PR #5, the core test suite contained 74 test items across 12 test files. In PR #5, 4 comparison helper unit tests were added to `tests/test_golden_baseline.py` to verify path-only canonicalization invariance and recursive mismatch detection, expanding the suite to **78 test items**. All 78 tests pass locally on Windows 10/11 x64 under Python 3.14.7 without Tesseract, but 70/77 pass in Linux CI. The README badge stating "50 Passing" is an obsolete legacy badge from v0.
 2. **Current Calibration vs Target V2 Architecture:** The codebase currently runs `ConfidenceCalibrator` with 3 core feature weights (`w_token=0.55`, `w_label=0.20`, `w_format=0.25`) and heuristic thresholds (`tau_high=0.70`, `tau_abstain=0.45`). The 9-feature logistic sigmoid model in `docs/02-ARCHITECTURE/` is an architectural target to be realized in Gate G2 (tasks T1.2/T2.1).
 3. **Statutory Rules & Citations:** 34 unique rule IDs are evaluated across 36 literal `Finding` assignments in `src/docuready/rules/validator.py`. Citations have not yet been legally verified against official Odisha State Scholarship Portal (OSSP) gazettes (scheduled for task T1.5).
 4. **Zero Runtime Network Calls in Engine:** The core package contains zero runtime network requests (`requests`, `httpx`, `urllib`, `socket` absent; UI remote CDN calls removed in PR #3).
@@ -290,7 +291,7 @@ Every filesystem write and directory creation call site in `src/docuready/` was 
 | **PR #2** | `feature/prototype-decision-safety` | `1994f66` | Track B: Implemented `DecisionSafetyLayer`, non-rejection axioms, evidence-backed PASS verification, and 10 dedicated safety tests. |
 | **PR #3** | `feature/prototype-ui-privacy` | `6d1ea77` | Track A: Implemented ephemeral upload sandbox, report redaction, safe HTML escaping, demo runbook, and 6 dedicated privacy tests. |
 | **PR #4** | `docs/v2-architecture-team-ownership` | `a93ace2` | Integrated DocuReady V2 architecture documents, team responsibilities, and claims qualifications. |
-| **PR #5** | `task/T0.1-characterise-current-behaviour` | *Open* | Current T0.1 task PR. |
+| **PR #5** | `task/T0.1-characterise-current-behaviour` | `7b55bf8` | Merged into `main`. Delivered path-only test harness canonicalization, recursive diff diagnostics, 4 comparison invariant unit tests, and environment diagnostics step (`fail-fast: false`). |
 
 ---
 
@@ -342,7 +343,10 @@ Every filesystem write and directory creation call site in `src/docuready/` was 
 
 ## Conclusion & Gate G0 Status
 
-Task **T0.1** is currently in **review** and **BLOCKED**:
-- On Windows under Python 3.14 without Tesseract, all 8 golden baseline packets pass.
-- In Linux CI (run `43599127726`), Python 3.10 fails 8 tests due to PyMuPDF version mismatch (1.28.2 vs 2.1), while Python 3.11 and 3.12 fail 1 test (`PKT_07_UNREADABLE_DOC`) because Tesseract 5.5.0 produces OCR output where the baseline snapshot recorded empty values from a host without Tesseract.
-- Exact cross-platform parity requires formal resolution of dependency locking and OCR environment specification (T0.2 / G0).
+Task **T0.1** deliverable implementation is complete, but task acceptance and Gate G0 remain **BLOCKED**:
+- On Windows 10/11 x64 under Python 3.14.7 without Tesseract, all 78 tests pass locally.
+- In Linux CI across the supported matrix on `main` (run `43601998227`):
+  - Python 3.10: 70 passed, 8 failed (PyMuPDF version conflict: `Requires-Python: >=3.11` on 2.1 forces Python 3.10 onto 1.28.2, which has different bounding-box geometry).
+  - Python 3.11: 77 passed, 1 failed (`PKT_07_UNREADABLE_DOC` failure due to Tesseract 5.5.0 OCR output vs snapshot empty values).
+  - Python 3.12: 77 passed, 1 failed (`PKT_07_UNREADABLE_DOC` failure due to Tesseract 5.5.0 OCR output vs snapshot empty values).
+- Exact cross-platform parity requires formal adoption of the G0 baseline decision proposal documented in `docs/history/G0_BASELINE_DECISION.md` (`PENDING_DEEPTIMAN_DECISION`).
