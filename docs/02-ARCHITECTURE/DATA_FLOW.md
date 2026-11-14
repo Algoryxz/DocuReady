@@ -1,5 +1,29 @@
 # DocuReady Data Flow Architecture
 
+## Ownership & Contribution Responsibilities
+
+| Role | Assignee | Primary Scope & Focus |
+|---|---|---|
+| **Primary Owner** | **Akriti** (Platform, Privacy & Delivery Lead) | Intake-to-report lifecycle, ephemeral disk storage, memory bounds, trust boundaries |
+| **Supporting Contributor** | **Susmita** (Domain Rules & Evaluation Lead) | Extracted field entity flow, evidence state transitions, rule execution sequence |
+| **Supporting Contributor** | **Deeptiman** (Product Owner & Integration Lead) | End-to-end user data privacy contract, remediation loop semantics |
+
+### Detailed Responsibilities & Deliverables
+- **Primary Owner (Akriti)**:
+  - Specify the end-to-end data processing lifecycle from packet ingestion to report generation.
+  - Enforce ephemeral file storage protocols: unique temp directories (`0700`), guaranteed cleanup in `finally` blocks, zero disk persistence of unencrypted citizen PII.
+  - Define thread safety, process isolation, and memory bounding across pipeline stages.
+- **Domain Contributor (Susmita)**:
+  - Define data structures and state transitions between extraction, confidence calibration, bipartite matching, and decision safety.
+- **Product Contributor (Deeptiman)**:
+  - Confirm data flow aligns with user privacy expectations and instant document replacement re-auditing.
+
+### Coordination & Review Gates
+- Any change to file handling, caching, or data persistence requires Akriti's sign-off.
+- Governed by [TEAM_RESPONSIBILITIES.md](../TEAM_RESPONSIBILITIES.md) and Gate G1 (No-Network Contract).
+
+---
+
 ## End-to-End Data Pipeline
 
 DocuReady processes applicant documents through a five-stage deterministic pipeline. Data transitions strictly through typed domain models, preserving full provenance at every transformation step.

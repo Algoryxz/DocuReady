@@ -1,5 +1,30 @@
 # DocuReady — Product Scope & Non-Goals
 
+## Ownership & Contribution Responsibilities
+
+| Role | Assignee | Primary Scope & Focus |
+|---|---|---|
+| **Primary Owner** | **Deeptiman** (Product Owner & Integration Lead) | MVP scope boundaries, non-goals, exclusion rationale, statutory authority disclaimers |
+| **Supporting Contributor** | **Akriti** (Platform, Privacy & Delivery Lead) | Technical boundary enforcement (zero-network, local sandboxing, no cloud dependencies) |
+| **Supporting Contributor** | **Susmita** (Domain Rules & Evaluation Lead) | Scope of statutory rules, non-authenticity boundary, document slot coverage |
+
+### Detailed Responsibilities & Deliverables
+- **Primary Owner (Deeptiman)**:
+  - Define and protect in-scope vs. out-of-scope boundaries to prevent mission creep and over-claiming.
+  - Explicitly document statutory non-goals (no Aadhaar biometric checks, no live bank balance lookups, no forensic paper fraud detection, no final welfare benefit approvals).
+  - Prioritize core MVP features against gate milestones.
+- **Platform Contributor (Akriti)**:
+  - Enforce technical boundaries: ensure no-network guarantees and local-only compute remain inviolable non-functional requirements.
+- **Domain Contributor (Susmita)**:
+  - Clearly articulate the boundary between document consistency linting and official legal eligibility verification.
+
+### Coordination & Review Gates
+- Proposing new features into MVP scope requires unanimous consensus and Deeptiman's formal acceptance.
+- Any change affecting technical boundaries requires Akriti's sign-off; statutory boundary changes require Susmita's review.
+- Governed by [TEAM_RESPONSIBILITIES.md](../TEAM_RESPONSIBILITIES.md).
+
+---
+
 ## 1. What DocuReady IS (In-Scope)
 
 1. **Pre-Submission Client-Side Linter**:

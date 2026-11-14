@@ -1,5 +1,30 @@
 # DocuReady — Problem Statement
 
+## Ownership & Contribution Responsibilities
+
+| Role | Assignee | Primary Scope & Focus |
+|---|---|---|
+| **Primary Owner** | **Deeptiman** (Product Owner & Integration Lead) | Problem framing, citizen journey mapping, statutory vs. clerical distinction, product boundaries |
+| **Supporting Contributor** | **Susmita** (Domain Rules & Evaluation Lead) | Domain failure modes, statutory certificate expiry periods, regional demographic discrepancy taxonomy |
+| **Supporting Contributor** | **Akriti** (Platform, Privacy & Delivery Lead) | Client-side technical feasibility, device constraints, offline execution parameters |
+
+### Detailed Responsibilities & Deliverables
+- **Primary Owner (Deeptiman)**:
+  - Define the applicant problem statement accurately and defensibly without unsupported claims.
+  - Clearly distinguish clerical document discrepancies (inconsistencies across certificates) from statutory eligibility or authenticity determinations.
+  - Frame DocuReady strictly as an applicant-side pre-submission preparation aid and linter, never an official sanctioning or approval authority.
+- **Domain Contributor (Susmita)**:
+  - Provide domain-specific rejection patterns (e.g. initial expansion, Odisha Miscellaneous Certificates Rules validity windows, income ceiling breaches).
+  - Verify that statutory examples cited reflect actual public administrative realities.
+- **Platform Contributor (Akriti)**:
+  - Ensure stated operational limitations reflect realistic offline execution constraints across citizen laptops and CSC terminals.
+
+### Coordination & Review Gates
+- Any modification to problem boundaries or citizen promises requires Deeptiman's sign-off.
+- Governed by [TEAM_RESPONSIBILITIES.md](../TEAM_RESPONSIBILITIES.md) and Gate G1 (Honest Claims).
+
+---
+
 ## 1. The Citizen Welfare Application Bottleneck
 
 In India and across developing digital economies, governments deliver hundreds of welfare schemes via online portals (e.g., National Scholarship Portal, Odisha State Scholarship Portal, PM-YASASVI, Medhabruti). These programs disburse billions of rupees in educational stipends, tuition subsidies, and affirmative-action grants to millions of low-income, Scheduled Caste (SC), Scheduled Tribe (ST), and Other Backward Class (OBC) citizens.

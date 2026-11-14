@@ -1,6 +1,6 @@
 # DocuReady
 
-> **Check your documents before you submit.**  
+> **Check your documents before you submit.**
 > Deterministic, privacy-preserving, statutory pre-flight audit for government scholarship and welfare applications.
 
 [![CI Tests](https://github.com/Algoryxz/DocuReady/actions/workflows/tests.yml/badge.svg)](https://github.com/Algoryxz/DocuReady/actions/workflows/tests.yml)
@@ -255,14 +255,32 @@ python src/cli.py batch --dir synthetic_data/ --output-dir reports/
 
 ## Documentation Index
 
+### V2 Architecture & Delivery (Current)
+- [Start Here / Developer Guide](docs/START_HERE.md) — Recommended onboarding and handoff pack overview
+- [Architecture V2](docs/ARCHITECTURE_V2.md) — Comprehensive target architecture specification
+- [Architecture Review & Critique](docs/ARCHITECTURE_REVIEW.md) — Technical assessment, risk analysis, and execution roadmap
+- [Delivery Backlog (V2)](docs/BACKLOG.md) — Workstreams, task specifications, and gates G0–G6
+- [Delivery Status](docs/STATUS.md) — Task tracking and gate status register
+- [Team Responsibilities & Ownership](docs/TEAM_RESPONSIBILITIES.md) — Three-person role split (Deeptiman, Akriti, Susmita)
+- [Unified Agent Prompt](docs/UNIFIED_ANTIGRAVITY_PROMPT.md) — Preflight and execution instructions
+
+### Product Requirements (PRD)
+- [Problem Statement](docs/01-PRODUCT/PROBLEM_STATEMENT.md)
 - [Product Overview](docs/01-PRODUCT/PRODUCT_OVERVIEW.md)
+- [Product Scope & Non-Goals](docs/01-PRODUCT/PRODUCT_SCOPE.md)
+- [Target Users & Stakeholders](docs/01-PRODUCT/TARGET_USERS.md)
+- [Competitive Positioning](docs/01-PRODUCT/COMPETITIVE_POSITIONING.md)
+
+### Technical Requirements & Architecture (TRD)
 - [System Architecture](docs/02-ARCHITECTURE/SYSTEM_ARCHITECTURE.md)
 - [Data Flow Pipeline](docs/02-ARCHITECTURE/DATA_FLOW.md)
 - [Extraction Pipeline](docs/02-ARCHITECTURE/EXTRACTION_PIPELINE.md)
 - [OCR Subsystem Architecture](docs/02-ARCHITECTURE/OCR_ARCHITECTURE.md)
+- [Security & DPDP Privacy](docs/02-ARCHITECTURE/SECURITY_AND_PRIVACY.md)
 - [Evidence Provenance & Calibration](docs/02-ARCHITECTURE/EVIDENCE_PROVENANCE.md)
 - [Statutory Validation Engine](docs/02-ARCHITECTURE/VALIDATION_ENGINE.md)
-- [Security & DPDP Privacy](docs/02-ARCHITECTURE/SECURITY_AND_PRIVACY.md)
+
+### Research, Roadmaps & Strategy
 - [HackNation Idea Selection Rationale](docs/03-RESEARCH/HACKNATION_IDEA_SELECTION.md)
 - [Competitor Analysis](docs/03-RESEARCH/COMPETITOR_ANALYSIS.md)
 - [Product & Technical Roadmap](docs/06-ROADMAP/PRODUCT_ROADMAP.md)

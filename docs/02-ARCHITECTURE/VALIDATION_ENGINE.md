@@ -1,5 +1,29 @@
 # DocuReady Statutory Validation Engine
 
+## Ownership & Contribution Responsibilities
+
+| Role | Assignee | Primary Scope & Focus |
+|---|---|---|
+| **Primary Owner** | **Susmita** (Domain Rules & Evaluation Lead) | Deterministic rules engine, bipartite entity matching, statutory citations, decision safety firewall |
+| **Supporting Contributor** | **Akriti** (Platform, Privacy & Delivery Lead) | Pipeline integration, execution performance, injected time/clock abstraction |
+| **Supporting Contributor** | **Deeptiman** (Product Owner & Integration Lead) | Citizen-facing finding explanations, remediation action clarity, status terminology |
+
+### Detailed Responsibilities & Deliverables
+- **Primary Owner (Susmita)**:
+  - Architect and maintain the deterministic validation rule set, bipartite fuzzy string matching, date arithmetic, and income ceiling verifications.
+  - Own the statutory citation matrix, official gazette references, and rule pack YAML schema (`packs/`).
+  - Implement and maintain the `DecisionSafetyLayer` firewall: enforce symmetric resolution (prevent both unsupported PASS and unsupported FAIL) and downgrade uncertain evidence to human `REVIEW`.
+- **Platform Contributor (Akriti)**:
+  - Support high-performance rule execution, slot validation, and clock injection (`frozen_time`) for deterministic date testing.
+- **Product Contributor (Deeptiman)**:
+  - Review all citizen-facing finding explanations and remediation instructions for clarity and tone.
+
+### Coordination & Review Gates
+- Any addition, deletion, or threshold adjustment of validation rules requires Susmita's authoritative approval.
+- Governed by [TEAM_RESPONSIBILITIES.md](../TEAM_RESPONSIBILITIES.md) and Gates G2/G3.
+
+---
+
 ## Design Mission
 
 The DocuReady Validation Engine executes deterministic, legally grounded, cross-document checks against extracted applicant packets.
@@ -60,7 +84,7 @@ The central innovation of the DocuReady Validation Engine is its refusal to issu
 def apply_safety_downgrades(raw_finding: ValidationFinding, packet: DocumentPacket) -> ValidationFinding:
     supporting_fields = get_supporting_fields_for_rule(raw_finding.rule_id, packet)
     states = [f.evidence_state for f in supporting_fields]
-    
+
     if EvidenceState.UNCERTAIN in states:
         return raw_finding.downgrade(
             new_severity=FindingSeverity.REVIEW,
