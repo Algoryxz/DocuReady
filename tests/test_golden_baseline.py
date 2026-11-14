@@ -207,7 +207,26 @@ def test_golden_baseline_packet_07_semantic_ocr(pipeline, golden_data, monkeypat
     assert rule_doc_02[0]["field"] == "SCAN_QUALITY"
     assert "INCOME_CERT" in rule_doc_02[0]["documents_involved"]
 
-    # 3. Verify exact parity for all native vector documents in PKT_07
+    # 3. Compare INCOME_CERT exactly apart from raw_text and mean_ocr_confidence
+    assert "INCOME_CERT" in expected_docs, "INCOME_CERT missing from golden snapshot"
+    exp_income_raw = expected_docs["INCOME_CERT"]
+    act_income_raw = docs_dict["INCOME_CERT"]
+
+    # Narrowly scoped copy excluding only approved OCR-dependent fields without mutating originals
+    exp_income_filtered = {k: v for k, v in exp_income_raw.items() if k not in ("raw_text", "mean_ocr_confidence")}
+    act_income_filtered = {k: v for k, v in act_income_raw.items() if k not in ("raw_text", "mean_ocr_confidence")}
+
+    exp_income_norm = normalize_path_fields(exp_income_filtered)
+    act_income_norm = normalize_path_fields(act_income_filtered)
+
+    income_diffs = recursive_diff(exp_income_norm, act_income_norm, path="extracted_documents.INCOME_CERT")
+    if income_diffs:
+        pytest.fail(
+            f"PKT_07_UNREADABLE_DOC INCOME_CERT deterministic field mismatch ({len(income_diffs)} differences found):\n"
+            + "\n  - ".join(income_diffs)
+        )
+
+    # 4. Verify exact parity for all native vector documents in PKT_07
     for doc_name, exp_doc in expected_docs.items():
         if doc_name == "INCOME_CERT":
             continue
@@ -330,3 +349,42 @@ def test_deliberate_non_path_mismatch_detected():
     assert len(diffs) == 2
     assert any("readiness_score: Value mismatch" in d for d in diffs)
     assert any("mean_ocr_confidence: Value mismatch" in d for d in diffs)
+
+
+def test_packet_07_ocr_field_filtering_preserves_deterministic_keys():
+    """Verify that excluding OCR fields retains all deterministic metadata and catches changes."""
+    base_doc = {
+        "doc_type": "INCOME_CERT",
+        "file_path": "synthetic_data/pkt_07_unreadable_doc/income_cert.pdf",
+        "status": "UNREADABLE",
+        "fields": {},
+        "raw_text": "",
+        "page_count": 1,
+        "extraction_method": "LOCAL_OCR",
+        "mean_ocr_confidence": 0.0,
+    }
+    actual_doc = {
+        "doc_type": "INCOME_CERT",
+        "file_path": "synthetic_data/pkt_07_unreadable_doc/income_cert.pdf",
+        "status": "UNREADABLE",
+        "fields": {},
+        "raw_text": "[DIFFERENT_OCR_TEXT]",
+        "page_count": 1,
+        "extraction_method": "LOCAL_OCR",
+        "mean_ocr_confidence": 0.85,
+    }
+
+    # Filter only approved OCR fields
+    base_filtered = {k: v for k, v in base_doc.items() if k not in ("raw_text", "mean_ocr_confidence")}
+    actual_filtered = {k: v for k, v in actual_doc.items() if k not in ("raw_text", "mean_ocr_confidence")}
+
+    # With only OCR fields differing, filtered comparison succeeds
+    diffs = recursive_diff(base_filtered, actual_filtered)
+    assert not diffs, "Expected no diff when only raw_text and mean_ocr_confidence differ"
+
+    # If a deterministic field (e.g., status or page_count) differs, it is caught
+    corrupted_doc = dict(actual_filtered)
+    corrupted_doc["status"] = "PROCESSED"
+    corrupted_diffs = recursive_diff(base_filtered, corrupted_doc)
+    assert len(corrupted_diffs) == 1
+    assert "status: Value mismatch" in corrupted_diffs[0]

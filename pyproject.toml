@@ -7,7 +7,7 @@ name = "docuready"
 version = "0.1.0"
 description = "Local-first, deterministic pre-submission document readiness and cross-verification linter for Indian citizens and students"
 readme = "README.md"
-requires-python = ">=3.11,<3.16"
+requires-python = ">=3.11,<3.15"
 license = {text = "Apache-2.0"}
 authors = [
     {name = "DocuReady Contributors"}
@@ -30,7 +30,6 @@ classifiers = [
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
     "Programming Language :: Python :: 3.14",
-    "Programming Language :: Python :: 3.15",
     "Topic :: Office/Business",
     "Topic :: Utilities",
 ]
@@ -53,6 +52,8 @@ dev = [
     "pytest>=7.4.0",
     "pytest-cov>=4.1.0",
     "build>=1.0.0",
+    "setuptools>=61.0.0",
+    "wheel",
 ]
 all = [
     "streamlit>=1.30.0",
@@ -60,6 +61,8 @@ all = [
     "pytest>=7.4.0",
     "pytest-cov>=4.1.0",
     "build>=1.0.0",
+    "setuptools>=61.0.0",
+    "wheel",
 ]
 
 [project.scripts]
