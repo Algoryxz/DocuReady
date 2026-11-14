@@ -65,13 +65,18 @@ In main CI run `43601998227` (executed on commit `7b55bf829cfba21ee7d277c9b3c933
 
 ## 3. Architectural Options for Gate G0
 
-### Option A: Retire Python 3.10, Validate Python 3.11–3.14, Select Compatible & Licensed PDF Backend (Recommended)
+### Option A: Retire Python 3.10, Validate Python 3.11–3.15, Select Compatible & Licensed PDF Backend (Recommended)
 
 - **Description:**
-  1. Retire Python 3.10 support. Note that Python 3.10 reached upstream End-Of-Life (EOL) on **1 October 2026**.
-  2. Update `pyproject.toml` to `requires-python = ">=3.11,<3.15"`.
-  3. Validate matrix compatibility across Python 3.11, 3.12, 3.13, and 3.14. (Evidence currently demonstrates parity on Python 3.11 and 3.12; Python 3.13 and 3.14 remain to be validated).
-  4. Standardize on `pymupdf==2.1` as a provisional technical baseline candidate across supported environments to maintain geometric reproducibility, while explicitly recognizing that its licensing acceptability remains unsettled and pending review under Task T1.3.
+  1. Retire Python 3.10 support. Python 3.10 reached upstream End-Of-Life (EOL) on **1 October 2026** (per [Python Developer's Guide](https://devguide.python.org/versions/)).
+  2. Update `pyproject.toml` proposed support range to `requires-python = ">=3.11,<3.16"`. (Python 3.15 was released on **9 October 2026**).
+  3. Proposed validation matrix: Python 3.11, 3.12, 3.13, 3.14, and 3.15.
+     - **Python 3.11 Lifecycle Note:** Keep Python 3.11 in the proposed range while it remains security-supported, with its scheduled **October 2027** EOL recorded as an explicit milestone for the next support-policy review.
+     - **Verification Status:** Python 3.13–3.15 runtime compatibility remains **unverified** for DocuReady until automated CI workflows execute and demonstrate passing tests.
+  4. Standardize on `pymupdf==2.1` as a **provisional technical baseline candidate** across supported environments to maintain geometric reproducibility for native vector PDFs.
+     - **Official References:** [PyMuPDF PyPI Release 2.1](https://pypi.org/project/pymupdf/2.1/) and [PyMuPDF GitHub Repository](https://github.com/pymupdf/PyMuPDF).
+     - **Compatibility Notice:** Do not assume or claim that PyMuPDF compatibility on Python 3.15 is proven by package metadata or wheel availability alone; empirical execution in CI is required.
+     - **Licensing Notice:** Adopting PyMuPDF 2.1 provisionally does not settle the licensing decision or backend selection. A formal licensing audit, Architecture Decision Record (ADR), and evaluation of alternative backends remain outstanding under Task **T1.3**.
   5. Propose partitioning Golden Baseline Parity testing from OCR Integration testing (as detailed in §4).
 - **Pros:**
   - Preserves exact bit-for-bit bounding-box parity with `GOLDEN_BASELINE.json` across 7 of 8 packets on Python 3.11 and 3.12 immediately without invalidating historical records.
@@ -79,8 +84,8 @@ In main CI run `43601998227` (executed on commit `7b55bf829cfba21ee7d277c9b3c933
   - Aligns DocuReady with active Python release lifecycles.
 - **Cons & Qualifications:**
   - Drops backwards compatibility for host environments running Python 3.10.
-  - Python 3.13 and 3.14 runtime compatibility remains to be verified once added to the matrix.
-  - **Provisional Status:** PyMuPDF 2.1 serves strictly as a provisional technical baseline candidate to freeze reproducible geometry. The final PDF backend and licensing decision is NOT settled; it remains subject to the formal Task T1.3 evaluation and ADR. Option A remains a recommendation pending Deeptiman's formal acceptance.
+  - Python 3.13, 3.14, and 3.15 runtime compatibility remains unverified until matrix jobs are provisioned and executed.
+  - **Provisional Status:** PyMuPDF 2.1 serves strictly as a provisional technical baseline candidate to freeze reproducible geometry. The final PDF backend and licensing decision is NOT settled; it remains subject to the formal Task T1.3 evaluation and ADR. Option A remains a recommendation pending Deeptiman's formal acceptance (`PENDING_DEEPTIMAN_DECISION`).
 
 ### Option B: Retain Python 3.10 Support via Older PyMuPDF
 
