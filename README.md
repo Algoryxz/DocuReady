@@ -7,7 +7,7 @@
 [![CI Tests](https://github.com/Algoryxz/DocuReady/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/Algoryxz/DocuReady/actions/workflows/tests.yml)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 [![Python: 3.11–3.14](https://img.shields.io/badge/Python-3.11%20%7C%203.12%20%7C%203.13%20%7C%203.14-0A2540.svg)](pyproject.toml)
-[![Tests: 79 Passing](https://img.shields.io/badge/Tests-79%20Passing-008080.svg)](tests/)
+[![Tests: 83 Passing](https://img.shields.io/badge/Tests-83%20Passing-008080.svg)](tests/)
 [![Privacy: Local Only](https://img.shields.io/badge/Privacy-100%25%20Local%20%7C%20Zero%20Telemetry-0A2540.svg)](docs/02-ARCHITECTURE/SECURITY_AND_PRIVACY.md)
 
 ---
