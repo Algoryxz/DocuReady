@@ -32,11 +32,17 @@
 
 DocuReady is designed for public sector and citizen document pre-validation. Applicant documents routinely contain sensitive demographic data, Aadhaar references, income details, bank account numbers, and caste information.
 
-To guarantee compliance with statutory privacy mandates and the **Digital Personal Data Protection Act (DPDP), 2023**:
-1. **Zero External API Calls**: The core extraction and validation engine runs 100% locally. No document text, image, or metadata is ever transmitted over the network.
-2. **Ephemeral In-Memory Processing**: When operated in Streamlit or CLI mode, uploaded files are processed in ephemeral memory sessions and cleared upon session termination.
-3. **Deterministic Logic**: No proprietary third-party commercial LLM endpoints (OpenAI, Anthropic, Google Cloud Document AI) are invoked in the evaluation loop.
-4. **Synthetic Data Enforcement**: All development, testing, and benchmarking are performed strictly using synthetically generated citizen profiles and documents. Zero real applicant documents are ever stored or processed in this repository.
+### Target Security and Privacy Requirements (Verification Pending)
+
+The system architecture is designed around four mandatory privacy requirements intended to support alignment with statutory privacy principles and the Digital Personal Data Protection Act (DPDP), 2023. These technical controls and legal/privacy obligations require separate, empirical verification before any compliance claim can be made:
+
+1. **No External API Calls & Zero Network Transmission (Target Requirement — Pending T1.2 Verification)**: The core extraction and validation engine is designed to run 100% locally. Document text, images, and metadata must never be transmitted over the network; this property must be verified via automated contract tests (`test_no_network.py`) before being claimed as an active guarantee.
+2. **Ephemeral Upload Handling & Guaranteed Cleanup (Target Requirement — Pending T1.4 Verification)**: Uploaded files in Streamlit UI and CLI modes must be processed in isolated, ephemeral temporary directories (`0700`) and cleared immediately upon job completion or session termination via robust `finally` blocks.
+3. **Local-Only Deterministic Execution**: Evaluation logic relies on local parsing and deterministic rules rather than proprietary third-party commercial cloud LLM endpoints (e.g., OpenAI, Anthropic, Google Cloud Document AI).
+4. **Synthetic Data Enforcement**: All development, testing, and benchmarking must be performed strictly using synthetically generated citizen profiles and documents. Zero real applicant documents are ever stored, processed, or permitted in this repository.
+
+> [!WARNING]
+> DocuReady does not claim existing DPDP certification or guaranteed statutory legal compliance. Stated technical controls and legal/privacy obligations represent architectural targets that require rigorous contract-test proof and formal owner sign-off.
 
 ---
 

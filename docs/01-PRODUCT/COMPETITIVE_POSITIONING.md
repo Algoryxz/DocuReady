@@ -26,36 +26,47 @@
 
 ---
 
-## 1. The Market Landscape
+## 1. The Market Landscape (Proposed Positioning Hypothesis)
 
-Document automation systems broadly cluster into three enterprise categories, none of which address the citizen pre-submission linter problem:
+> [!NOTE]
+> The comparisons below represent a **proposed positioning hypothesis and target capability comparison**, not established marketing or legal claims. Competitor profiles are illustrative and require sourced validation before public use. DocuReady capabilities describe architectural targets that remain unverified until corresponding backlog tasks and contract tests are completed and accepted.
+
+Document automation systems broadly cluster into three enterprise categories, which contrast with DocuReady's target positioning as an applicant-side pre-submission linter:
 
 ```
-[Government Portals]              [Enterprise OCR / IDV]           [DocuReady Pre-Auditor]
-(NSP, e-Despatch, Digilocker)     (Signzy, IDfy, HyperVerge)       (Client-Side Linter)
-──────────────────────────────────────────────────────────────────────────────────────────
-• Server-side only               • Cloud API & B2B SaaS           • 100% Client-side & offline
-• Post-submission verification   • High cost per transaction      • Free & open-source
-• Opaque rejection notices       • PII sent to cloud servers      • Zero PII cloud exposure
-• No pre-submission feedback     • Single-doc verification        • Cross-document consistency
-• No remediation guidance        • No statutory scheme rules      • Built-in statutory linter
+[Government Portals]              [Enterprise KYC APIs]            [DocuReady Pre-Auditor (Target)]
+(NSP, e-Despatch, etc.)           (Commercial IDV vendors)         (Applicant-Side Linter)
+──────────────────────────────────────────────────────────────────────────────────────────────
+• Server-side backend             • Cloud API & B2B SaaS           • Target: Local client-side execution (T1.2)
+• Post-submission verification    • Commercial transactional model • Private development repo (Open source pending)
+• Opaque rejection notices        • Cloud-based processing         • Target: Zero PII cloud exposure (T1.2)
+• No pre-submission feedback      • Single-document focus          • Target: Cross-document consistency
+• No remediation guidance         • General identity validation    • Target: Sourced statutory rules (T1.5)
 ```
 
 ---
 
-## 2. Comparison Matrix
+## 2. Capability Comparison Matrix (Target Positioning Hypothesis)
 
-| Feature / Dimension | Official Govt Portals (NSP / State Portals) | Enterprise KYC APIs (HyperVerge, Signzy, IDfy) | Consumer LLM Assistants (ChatGPT, Claude) | DocuReady (Loop 3) |
+> [!IMPORTANT]
+> **Status of Comparison Dimensions:**
+> - **Local-First & Offline Execution**: Remains a target architectural capability until verified in CI and standalone distribution testing.
+> - **Zero PII Cloud Transmission**: Requires formal verification via Task T1.2 contract tests (`test_no_network.py`) before public claim.
+> - **Open Source Availability**: The canonical repository (`Algoryxz/DocuReady`) is currently private; public/open-source availability must not be claimed until an official public release.
+> - **Statutory Rule Traceability**: Requires source-backed verification under Task T1.5 (`sources.yaml`). Deterministic document-consistency checks must be distinguished from verified official statutory determinations.
+> - **Competitor Metrics & Pricing**: Industry figures and competitor comparisons are indicative hypotheses requiring primary source citations in the Claims Register (Task T1.1) prior to external publication.
+
+| Feature / Dimension | Official Govt Portals (Indicative) | Commercial Enterprise KYC APIs (Indicative) | Consumer LLM Assistants (Indicative) | DocuReady (V2 Target Hypothesis) |
 |---|---|---|---|---|
-| **Operating Location** | Server-side backend | Commercial Cloud API | Cloud AI Provider | **100% Offline / Local Device** |
-| **Verification Timing** | Post-submission (weeks/months) | Post-upload B2B verification | On-demand prompt | **Pre-submission (instant)** |
-| **Privacy / PII Risk** | Citizen data stored in central DB | Document images sent over WAN | PII sent to LLM training servers | **Zero network transmission** |
-| **Cross-Document Bipartite Matching** | Rare (isolated form fields) | Requires custom multi-call orchestration | Prone to hallucinated matches | **Built-in multi-doc graph** |
-| **Statutory Rule Traceability** | Hardcoded backend SQL checks | None (pure document extraction) | Unverified legal hallucination | **Verified legal citation matrix** |
-| **Evidence Provenance** | None visible to applicant | JSON bounding boxes returned | No bounding boxes | **Visual bounding box snippets** |
-| **Handling of OCR Uncertainty** | Rejects application summarily | Returns low raw confidence | Guesses or invents data | **Decision Safety Layer downgrades to REVIEW** |
-| **Remediation Workflow** | Re-apply next cycle | None (raw API output) | Conversational text | **Instant document replace & re-audit** |
-| **Per-Audit Cost** | Taxpayer subsidized | ₹5 - ₹25 per document call | API subscription cost | **₹0.00 (Zero marginal cost)** |
+| **Operating Location** | Server-side backend | Commercial Cloud API | Cloud AI Provider | **Target: Local device / offline execution (Pending T1.2)** |
+| **Verification Timing** | Post-submission (weeks/months) | Post-upload B2B verification | On-demand prompt | **Pre-submission (interactive linting)** |
+| **Privacy / PII Handling** | Central government database | Document images sent to vendor cloud | Data sent to LLM provider servers | **Target: Zero network transmission (Pending T1.2)** |
+| **Cross-Document Matching** | Rare (isolated form fields) | Multi-call orchestration required | Stochastic text generation / risk of hallucination | **Deterministic cross-document graph matching** |
+| **Rule Traceability** | Backend database validation | Extraction-only (no statutory scheme rules) | Unverified legal citations / hallucination risk | **Target: Primary-sourced statutory citations (Pending T1.5)** |
+| **Evidence Provenance** | Opaque to applicant | API coordinate response | No physical document provenance | **Target: Visual bounding-box snippet traceability** |
+| **Handling of OCR Uncertainty** | Summary rejection | Raw numeric confidence return | Uncalibrated token generation | **Target: Epistemic downgrade to human REVIEW** |
+| **Remediation Workflow** | Re-apply in next academic/fiscal cycle | None (developer API response) | Unstructured conversational text | **Interactive document replacement & re-audit** |
+| **Per-Audit Cost Model** | Taxpayer subsidized | Per-transaction commercial fee | Subscription or API token fee | **Target: Zero marginal compute cost (local execution)** |
 
 ---
 
@@ -64,4 +75,4 @@ Document automation systems broadly cluster into three enterprise categories, no
 During HackNation Arena 1, 2, and 3, hundreds of problem statements across cybercrime, developer security, and civic tech were systematically evaluated. DocuReady was selected as the winner because:
 1. **Massive Real-World Impact**: Directly benefits millions of disadvantaged scholarship applicants who risk losing life-changing educational stipends due to avoidable clerical errors.
 2. **Defensible Technical Moat**: While generic LLMs hallucinate legal rules and commercial IDV vendors focus on single-document enterprise banking, DocuReady solves the complex **cross-document multi-modal consistency and safety problem**.
-3. **Privacy by Design**: In an era of rampant identity theft and PII leaks, a tool that verifies citizen welfare documents **without uploading a single byte to the cloud** sets a new standard for ethical civic technology.
+3. **Privacy by Design (Target Architectural Commitment)**: Emphasizing a local-first design paradigm where citizen documents are processed locally without cloud exfiltration, establishing a target standard for ethical civic technology subject to Task T1.2 verification.
