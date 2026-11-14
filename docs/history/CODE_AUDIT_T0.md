@@ -5,7 +5,8 @@
 **Status:** Canonical T0.1 Audit Deliverable (Review / Pending Acceptance / Blocked)
 **Repository:** `Algoryxz/DocuReady`
 **Base Commit:** `7b55bf829cfba21ee7d277c9b3c933b702f92671` (incorporating merged PRs #1, #2, #3, #4, and #5)
-**Task Branch:** `docs/post-merge-g0-state-correction`
+**Task Branch:** `task/T0.1-characterise-current-behaviour` (PR #5)
+**Documentation Update Branch:** `docs/post-merge-g0-state-correction` (PR #6)
 
 ---
 
@@ -32,7 +33,7 @@ Key findings of this baseline audit:
      The function then returns `PageOCRData(data, dpi=dpi, rotation_applied=rot_applied)`. This fallback mechanism ensures that if OCR execution fails (such as when Tesseract is missing, times out, or encounters an internal processing error), empty OCR lines and zero confidence are returned rather than an unhandled exception crashing extraction. However, this fallback does not establish what was actually installed on the historical golden-baseline capture host. In current Linux CI with Tesseract 5.5.0 installed (`tesseract-ocr-eng`), OCR lines were extracted from `pkt_07_unreadable_doc/income_cert.pdf` (`raw_text = "[ZO ALITWNOD HOO - NVOS GALdNYHO"`, `mean_ocr_confidence = 0.502`). Because the golden canonicalization contract strictly forbids normalizing OCR text or confidence scores, `PKT_07_UNREADABLE_DOC` failed comparison.
    - **Test Suite Reconciliation (74 vs 78 Tests) & Platform Qualification:**
      - Prior to PR #5, the core test suite contained 74 test items across 12 test files. In PR #5, 4 comparison helper unit tests were added to `tests/test_golden_baseline.py` to verify path-only canonicalization invariance and recursive mismatch detection, expanding the suite to **78 test items**.
-     - **Local Host Execution:** Passes 78/78 tests on Windows 10/11 x64 under **Python 3.14.7** without Tesseract installed. This local execution is on an unreleased Python version outside the declared supported range (`>=3.10,<3.13`) and does not constitute proof that the declared supported range passes.
+     - **Local Host Execution:** Passes 78/78 tests specifically on **Microsoft Windows 11 Home Single Language x64 (build 10.0.26300)** under **Python 3.14.7** without Tesseract installed. This local execution is on an unreleased Python version clearly outside the project's declared supported range (`>=3.10,<3.13`) and does not constitute proof that the declared supported range passes. Furthermore, Windows 10 was not independently validated in this local run; only Windows 11 was tested.
      - **Supported Matrix CI Execution:** On Linux CI under the declared supported range (run `43601998227`), all 3 jobs ran to completion and failed:
        - Python 3.10: 70 passed, 8 failed (all 8 golden packets failed comparison due to PyMuPDF 1.28.2 bounding box differences).
        - Python 3.11: 77 passed, 1 failed (only `PKT_07_UNREADABLE_DOC` failed).
@@ -360,7 +361,7 @@ Every filesystem write and directory creation call site in `src/docuready/` was 
 ## Conclusion & Gate G0 Status
 
 Task **T0.1** deliverable implementation is complete, but task acceptance and Gate G0 remain **BLOCKED**:
-- On Windows 10/11 x64 under Python 3.14.7 without Tesseract, all 78 tests pass locally. (This execution is on an unreleased Python version outside the project's declared supported range of `>=3.10,<3.13` and does not demonstrate that supported runtimes pass).
+- On Microsoft Windows 11 Home Single Language x64 (build 10.0.26300) under Python 3.14.7 without Tesseract, all 78 tests pass locally. (This execution is on an unreleased Python version clearly outside the project's declared supported range of `>=3.10,<3.13` and does not demonstrate that supported runtimes pass; Windows 10 was not independently validated).
 - In Linux CI across the supported matrix on `main` (run `43601998227`):
   - Python 3.10: 70 passed, 8 failed (PyMuPDF version conflict: `Requires-Python: >=3.11` on 2.1 forces Python 3.10 onto 1.28.2, which has different bounding-box geometry).
   - Python 3.11: 77 passed, 1 failed (`PKT_07_UNREADABLE_DOC` failure due to Tesseract 5.5.0 OCR output vs snapshot empty values).

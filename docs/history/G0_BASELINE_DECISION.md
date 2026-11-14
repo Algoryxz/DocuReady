@@ -71,15 +71,16 @@ In main CI run `43601998227` (executed on commit `7b55bf829cfba21ee7d277c9b3c933
   1. Retire Python 3.10 support. Note that Python 3.10 reached upstream End-Of-Life (EOL) on **1 October 2026**.
   2. Update `pyproject.toml` to `requires-python = ">=3.11,<3.15"`.
   3. Validate matrix compatibility across Python 3.11, 3.12, 3.13, and 3.14. (Evidence currently demonstrates parity on Python 3.11 and 3.12; Python 3.13 and 3.14 remain to be validated).
-  4. Standardize on `pymupdf==2.1` (or its successor evaluated under T1.3) across all supported environments.
+  4. Standardize on `pymupdf==2.1` as a provisional technical baseline candidate across supported environments to maintain geometric reproducibility, while explicitly recognizing that its licensing acceptability remains unsettled and pending review under Task T1.3.
   5. Propose partitioning Golden Baseline Parity testing from OCR Integration testing (as detailed in §4).
 - **Pros:**
   - Preserves exact bit-for-bit bounding-box parity with `GOLDEN_BASELINE.json` across 7 of 8 packets on Python 3.11 and 3.12 immediately without invalidating historical records.
   - Eliminates the `cp311-abi3` wheel resolution dilemma on older Python runtimes.
   - Aligns DocuReady with active Python release lifecycles.
-- **Cons:**
+- **Cons & Qualifications:**
   - Drops backwards compatibility for host environments running Python 3.10.
   - Python 3.13 and 3.14 runtime compatibility remains to be verified once added to the matrix.
+  - **Provisional Status:** PyMuPDF 2.1 serves strictly as a provisional technical baseline candidate to freeze reproducible geometry. The final PDF backend and licensing decision is NOT settled; it remains subject to the formal Task T1.3 evaluation and ADR. Option A remains a recommendation pending Deeptiman's formal acceptance.
 
 ### Option B: Retain Python 3.10 Support via Older PyMuPDF
 
@@ -123,9 +124,10 @@ To maintain strict deterministic regression guarantees while handling non-determ
 ## 5. PyMuPDF Licensing Notice (Requirement for Task T1.3)
 
 - **License Context:** `PyMuPDF` is dual-licensed under GNU AGPLv3 and commercial terms from Artifex Software, Inc. DocuReady declares `Apache-2.0` in `pyproject.toml`.
+- **Provisional Technical Baseline Candidate:** PyMuPDF 2.1 is proposed strictly as a provisional technical baseline candidate to resolve geometry reproducibility in Gate G0. Adopting it as a provisional baseline does **not** constitute an accepted or settled licensing decision.
 - **Architectural Risk:** AGPLv3 contains strong copyleft requirements that apply when the software is operated as a network service. While DocuReady currently operates as a local-first offline CLI and desktop UI, public distribution or SaaS deployment could trigger copyleft obligations.
 - **Scope Notice:** This statement constitutes an architectural risk identification, not a definitive legal opinion.
-- **Next Steps:** A formal licensing audit and technical evaluation of permissive alternative PDF backends (e.g. `pypdf`, `pdfplumber`, `pdfminer.six`) is scheduled under Gate **G1 / Task T1.3** (`docs/STATUS.md`).
+- **Next Steps:** Neither the final PDF backend nor its licensing acceptability is settled. A formal licensing audit, ADR (Architecture Decision Record), and technical evaluation of permissive alternative PDF backends (e.g. `pypdf`, `pdfplumber`, `pdfminer.six`) is scheduled under Gate **G1 / Task T1.3** (`docs/STATUS.md`).
 
 ---
 
@@ -142,9 +144,9 @@ To maintain strict deterministic regression guarantees while handling non-determ
 
 ## 7. Recommendation & Handoff
 
-Akriti and Susmita recommend **Option A** as the technically sound path to freeze the baseline environment and unblock Gate G0.
+Akriti and Susmita recommend **Option A** as a technical recommendation to freeze the baseline environment and unblock Gate G0.
 
-This proposal is submitted to Deeptiman for formal product and architecture review:
+This recommendation is explicitly submitted to Deeptiman for formal product and architecture decision:
 
 > **Decision Status:** `PENDING_DEEPTIMAN_DECISION`
-> *No support-policy changes or packaging modifications have been applied. Execution awaits Deeptiman's formal decision.*
+> *Option A is a recommendation only, not an accepted decision. No support-policy changes, packaging modifications, or final backend/licensing decisions have been implemented or settled. Execution awaits Deeptiman's explicit architectural decision.*
