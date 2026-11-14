@@ -8,7 +8,7 @@ import os
 import json
 from typing import Dict, Any
 
-from src.generator import (
+from docuready.generator import (
     generate_income_certificate, generate_caste_certificate,
     generate_residence_certificate, generate_marksheet,
     generate_bank_passbook, generate_application_form
@@ -565,6 +565,6 @@ def build_demonstration_dataset(base_dir: str) -> Dict[str, Any]:
 
 if __name__ == "__main__":
     import sys
-    out_dir = sys.argv[1] if len(sys.argv) > 1 else "docuready-mvp/synthetic_data"
+    out_dir = sys.argv[1] if len(sys.argv) > 1 else "synthetic_data"
     m = build_demonstration_dataset(out_dir)
     print(f"Generated {len(m['packets'])} test packets in '{out_dir}'.")

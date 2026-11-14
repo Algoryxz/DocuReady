@@ -3,19 +3,23 @@ Unit tests for PyMuPDF document extraction and provenance tracking.
 """
 
 import os
-from src.models import DocumentType
-from src.extractor import DocumentExtractor
+from pathlib import Path
+from docuready.domain.models import DocumentType
+from docuready.ingest.extractor import DocumentExtractor
+
+_REPO_ROOT = Path(__file__).resolve().parents[1]
+_SYNTHETIC_DIR = _REPO_ROOT / "synthetic_data" if (_REPO_ROOT / "synthetic_data").is_dir() else Path.cwd() / "synthetic_data"
 
 
 def get_doc_path(relative_subpath):
     candidates = [
-        os.path.join("synthetic_data", relative_subpath),
-        os.path.join("docuready-mvp/synthetic_data", relative_subpath),
+        _SYNTHETIC_DIR / relative_subpath,
+        Path.cwd() / "synthetic_data" / relative_subpath,
     ]
     for c in candidates:
-        if os.path.exists(c):
-            return c
-    return candidates[0]
+        if c.is_file():
+            return str(c)
+    return str(candidates[0])
 
 
 def test_extractor_income_cert():

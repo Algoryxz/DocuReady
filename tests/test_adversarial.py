@@ -21,21 +21,20 @@ import pytest
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
 
-from src.models import (
+from pathlib import Path
+from docuready.domain.models import (
     DocumentType, ExtractedDocument, ExtractedField, FindingStatus, Severity
 )
-from src.extractor import DocumentExtractor, detect_document_type
-from src.normalizer import (
+from docuready.ingest.extractor import DocumentExtractor, detect_document_type
+from docuready.normalize.normalizer import (
     compare_names, parse_and_normalize_date, normalize_income
 )
-from src.validator import DocuReadyValidator, SchemeConfig
-from src.pipeline import AuditPipeline
+from docuready.rules.validator import DocuReadyValidator, SchemeConfig
+from docuready.pipeline import AuditPipeline
 
-ADVERSARIAL_TMP = (
-    os.path.join("synthetic_data", "adversarial_tmp")
-    if os.path.exists("synthetic_data")
-    else "docuready-mvp/synthetic_data/adversarial_tmp"
-)
+_REPO_ROOT = Path(__file__).resolve().parents[1]
+_SYNTHETIC_DIR = _REPO_ROOT / "synthetic_data" if (_REPO_ROOT / "synthetic_data").is_dir() else Path.cwd() / "synthetic_data"
+ADVERSARIAL_TMP = str(_SYNTHETIC_DIR / "adversarial_tmp")
 os.makedirs(ADVERSARIAL_TMP, exist_ok=True)
 
 

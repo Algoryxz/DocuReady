@@ -5,11 +5,11 @@ and evidence state safety intercepts.
 """
 
 import pytest
-from src.models import (
+from docuready.domain.models import (
     DocumentType, ExtractedDocument, ExtractedField, EvidenceProvenance,
     Finding, FindingStatus, Severity, EvidenceState
 )
-from src.safety_layer import DecisionSafetyLayer
+from docuready.outcome.safety_layer import DecisionSafetyLayer
 
 
 @pytest.fixture

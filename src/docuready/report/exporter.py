@@ -5,7 +5,7 @@ Exports audit results and evidence citations to structured JSON and formatted Ma
 
 import json
 from typing import Dict, Any
-from src.models import AuditResult, FindingStatus
+from docuready.domain.models import AuditResult, FindingStatus
 
 
 def export_audit_report_json(result: AuditResult, output_path: str) -> str:

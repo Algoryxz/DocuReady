@@ -2,7 +2,7 @@ name: CI Tests
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, "feature/**" ]
   pull_request:
     branches: [ main ]
 
@@ -26,13 +26,40 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y tesseract-ocr tesseract-ocr-eng libtesseract-dev
 
-    - name: Install Python Dependencies
+    - name: Install Build & Packaging Tools
       run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        python -m pip install --upgrade pip build
 
-    - name: Run Test Suite
-      env:
-        PYTHONPATH: src
+    - name: Build Distribution Packages (sdist and wheel)
+      run: |
+        python -m build
+
+    - name: Install Package in Editable Mode with All Extras
+      run: |
+        pip install -e ".[all]"
+
+    - name: Verify Package Imports & CLI Entry Point
+      run: |
+        python -c "import docuready; print('docuready version:', docuready.__version__)"
+        python -c "from docuready.domain.models import DocumentType; print('Domain model import verified')"
+        python -c "from docuready.interfaces.ui.app import _find_synthetic_data_dir; print('UI module import verified')"
+        docuready --help
+
+    - name: Run Test Suite (Unit, Adversarial, and Golden Baseline)
       run: |
         pytest tests/ -v --tb=short
+
+    - name: Verify CLI Benchmark & Audit Functionality
+      run: |
+        docuready benchmark
+        docuready audit synthetic_data/pkt_01_clean --json
+
+    - name: Verify Wheel in Isolated Virtual Environment
+      run: |
+        python -m venv test_wheel_venv
+        test_wheel_venv/bin/pip install --upgrade pip
+        test_wheel_venv/bin/pip install dist/*.whl
+        test_wheel_venv/bin/docuready --help
+        test_wheel_venv/bin/python -c "import docuready; print('Isolated wheel version:', docuready.__version__)"
+        cd /tmp
+        $GITHUB_WORKSPACE/test_wheel_venv/bin/docuready audit $GITHUB_WORKSPACE/synthetic_data/pkt_01_clean

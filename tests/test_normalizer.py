@@ -3,7 +3,7 @@ Unit tests for deterministic normalizers (names, dates, amounts, Verhoeff checks
 """
 
 from datetime import date
-from src.normalizer import (
+from docuready.normalize.normalizer import (
     normalize_name, compare_names, parse_and_normalize_date,
     normalize_income, validate_ifsc_code, validate_verhoeff,
     generate_verhoeff_12

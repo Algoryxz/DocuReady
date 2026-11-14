@@ -13,16 +13,16 @@ import PIL.Image
 import pymupdf
 import pytesseract
 
-from src.models import DocumentType, ExtractionMethod
-from src.extractor import DocumentExtractor, PageOCRData, _find_field_in_ocr_page
-from src.calibrator import ConfidenceCalibrator
-from src.validator import DocuReadyValidator
-from src.safety_layer import DecisionSafetyLayer
+from docuready.domain.models import DocumentType, ExtractionMethod
+from docuready.ingest.extractor import DocumentExtractor, PageOCRData, _find_field_in_ocr_page
+from docuready.evidence.calibrator import ConfidenceCalibrator
+from docuready.rules.validator import DocuReadyValidator
+from docuready.outcome.safety_layer import DecisionSafetyLayer
 
 
 def profile_pipeline():
-    sample_vector = "docuready-mvp/synthetic_data/pkt_loop3_demo/application_form.pdf"
-    sample_scan = "docuready-mvp/synthetic_data/pkt_loop3_demo/caste_cert.pdf"
+    sample_vector = "synthetic_data/pkt_loop3_demo/application_form.pdf"
+    sample_scan = "synthetic_data/pkt_loop3_demo/caste_cert.pdf"
 
     print("==================================================")
     print("DOCUREADY PIPELINE PERFORMANCE PROFILING")
@@ -121,10 +121,10 @@ def profile_pipeline():
     print(f"   - Total OCR Optimized:      {total_ocr_optimized:.2f} ms (~{total_ocr_optimized/1000.0:.2f} s)")
 
     # 3. Validation & Safety Firewall Profile
-    from src.pipeline import AuditPipeline
+    from docuready.pipeline import AuditPipeline
     pipeline = AuditPipeline()
     t0 = time.perf_counter()
-    res, _ = pipeline.load_and_audit_packet("docuready-mvp/synthetic_data/pkt_loop3_demo")
+    res, _ = pipeline.load_and_audit_packet("synthetic_data/pkt_loop3_demo")
     t_full_audit = (time.perf_counter() - t0) * 1000.0
 
     print(f"\n3. Full Packet Audit (6 Documents, Hybrid Vector + OCR):")

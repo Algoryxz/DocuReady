@@ -6,8 +6,8 @@ and discrete epistemic evidence states.
 
 import re
 from typing import Dict, Any, Tuple, Optional
-from src.models import EvidenceState, ExtractionMethod
-from src.normalizer import parse_and_normalize_date, validate_ifsc_code, normalize_income
+from docuready.domain.models import EvidenceState, ExtractionMethod
+from docuready.normalize.normalizer import parse_and_normalize_date, validate_ifsc_code, normalize_income
 
 
 def validate_field_syntax(field_name: str, raw_value: str) -> Tuple[bool, Optional[str]]:

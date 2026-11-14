@@ -22,15 +22,15 @@ from collections import defaultdict
 from typing import Dict, Any, List, Tuple
 import math
 
-from src.models import DocumentType, ExtractionMethod, EvidenceState
-from src.extractor import DocumentExtractor
-from src.normalizer import (
+from docuready.domain.models import DocumentType, ExtractionMethod, EvidenceState
+from docuready.ingest.extractor import DocumentExtractor
+from docuready.normalize.normalizer import (
     normalize_name, normalize_income, normalize_cert_number,
     parse_and_normalize_date, validate_ifsc_code
 )
 
-GROUND_TRUTH_PATH = "docuready-mvp/HELD_OUT_GROUND_TRUTH.json"
-RESULTS_OUTPUT_PATH = "docuready-mvp/EVALUATION_RESULTS_MODES.json"
+GROUND_TRUTH_PATH = "synthetic_data/HELD_OUT_GROUND_TRUTH.json"
+RESULTS_OUTPUT_PATH = "EVALUATION_RESULTS_MODES.json"
 
 
 def evaluate_field_match(

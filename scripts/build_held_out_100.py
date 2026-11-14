@@ -22,13 +22,13 @@ import numpy as np
 from PIL import Image, ImageDraw, ImageFont, ImageFilter, ImageEnhance
 import pymupdf
 
-from src.models import DocumentType
-from src.generator import (
+from docuready.domain.models import DocumentType
+from docuready.generator import (
     generate_income_certificate, generate_caste_certificate,
     generate_residence_certificate, generate_marksheet,
     generate_bank_passbook, generate_application_form
 )
-from src.corpus_builder_60 import (
+from corpus_builder_60 import (
     _render_pdf_to_image, _save_image_as_scanned_pdf,
     apply_rotation, apply_low_resolution, apply_perspective_distortion,
     apply_shadow_and_uneven_lighting, apply_overlapping_seal, apply_heavy_jpeg_compression
@@ -40,8 +40,8 @@ def apply_faint_contrast(img: Image.Image) -> Image.Image:
     bright = ImageEnhance.Brightness(faint).enhance(1.20)
     return bright
 
-OUTPUT_DIR = "docuready-mvp/synthetic_data/held_out_100"
-GROUND_TRUTH_PATH = "docuready-mvp/HELD_OUT_GROUND_TRUTH.json"
+OUTPUT_DIR = "synthetic_data/held_out_100"
+GROUND_TRUTH_PATH = "synthetic_data/HELD_OUT_GROUND_TRUTH.json"
 
 FIRST_NAMES = [
     "Smruti", "Priyanka", "Subhashree", "Abhilash", "Biswajit",

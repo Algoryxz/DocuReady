@@ -9,12 +9,12 @@ import time
 from collections import defaultdict
 from typing import Dict, Any
 
-from src.models import DocumentType, ExtractionMethod
-from src.extractor import DocumentExtractor
-from src.normalizer import normalize_name, normalize_income, normalize_cert_number
+from docuready.domain.models import DocumentType, ExtractionMethod
+from docuready.ingest.extractor import DocumentExtractor
+from docuready.normalize.normalizer import normalize_name, normalize_income, normalize_cert_number
 
 
-def run_evaluation(manifest_path: str = "docuready-mvp/REALISTIC_CORPUS_MANIFEST.json"):
+def run_evaluation(manifest_path: str = "synthetic_data/REALISTIC_CORPUS_MANIFEST.json"):
     with open(manifest_path, "r", encoding="utf-8") as f:
         manifest_data = json.load(f)
 
@@ -25,7 +25,7 @@ def run_evaluation(manifest_path: str = "docuready-mvp/REALISTIC_CORPUS_MANIFEST
         samples_dict = samples
 
     extractor = DocumentExtractor(dpi=200, low_conf_threshold=0.60)
-    corpus_dir = "docuready-mvp/synthetic_data/realistic_corpus_60"
+    corpus_dir = "synthetic_data/realistic_corpus_60"
 
     # Metrics storage
     category_metrics = defaultdict(lambda: {
@@ -251,9 +251,9 @@ def run_evaluation(manifest_path: str = "docuready-mvp/REALISTIC_CORPUS_MANIFEST
         "by_field_type": dict(field_type_metrics),
         "detailed_results": detailed_results
     }
-    with open("docuready-mvp/EXTRACTION_EVALUATION_DATA.json", "w", encoding="utf-8") as f_out:
+    with open("EXTRACTION_EVALUATION_DATA.json", "w", encoding="utf-8") as f_out:
         json.dump(eval_summary, f_out, indent=2)
-    print("\nWrote evaluation summary to docuready-mvp/EXTRACTION_EVALUATION_DATA.json")
+    print("\nWrote evaluation summary to EXTRACTION_EVALUATION_DATA.json")
 
 
 if __name__ == "__main__":

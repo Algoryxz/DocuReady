@@ -7,11 +7,11 @@ from __future__ import annotations
 import os
 import time
 from typing import Dict, List, Optional, Tuple
-from src.models import (
+from docuready.domain.models import (
     DocumentType, ExtractedDocument, AuditResult, FindingStatus
 )
-from src.extractor import DocumentExtractor, detect_document_type
-from src.validator import DocuReadyValidator, SchemeConfig
+from docuready.ingest.extractor import DocumentExtractor, detect_document_type
+from docuready.rules.validator import DocuReadyValidator, SchemeConfig
 
 Tuple_Audit = Tuple[AuditResult, Dict[DocumentType, ExtractedDocument]]
 

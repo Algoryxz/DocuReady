@@ -6,17 +6,21 @@ Verifies all 8 synthetic demonstration packets against ground_truth_manifest.jso
 import os
 import json
 import pytest
-from src.pipeline import AuditPipeline
+from pathlib import Path
+from docuready.pipeline import AuditPipeline
+
+_REPO_ROOT = Path(__file__).resolve().parents[1]
+_SYNTHETIC_DIR = _REPO_ROOT / "synthetic_data" if (_REPO_ROOT / "synthetic_data").is_dir() else Path.cwd() / "synthetic_data"
 
 
 @pytest.fixture(scope="module")
 def manifest():
     manifest_paths = [
-        "synthetic_data/ground_truth_manifest.json",
-        "docuready-mvp/ground_truth_manifest.json",
-        "ground_truth_manifest.json"
+        _SYNTHETIC_DIR / "ground_truth_manifest.json",
+        Path.cwd() / "synthetic_data" / "ground_truth_manifest.json",
+        Path.cwd() / "ground_truth_manifest.json",
     ]
-    manifest_path = next((p for p in manifest_paths if os.path.exists(p)), None)
+    manifest_path = next((p for p in manifest_paths if p.is_file()), None)
     assert manifest_path is not None, "ground_truth_manifest.json must exist"
     with open(manifest_path, "r", encoding="utf-8") as f:
         return json.load(f)
@@ -40,10 +44,7 @@ def pipeline():
 def test_packet_against_ground_truth(pipeline, manifest, packet_id):
     packet_meta = manifest["packets"][packet_id]
     folder = packet_meta["folder"]
-    if os.path.exists("synthetic_data"):
-        packet_dir = os.path.join("synthetic_data", folder)
-    else:
-        packet_dir = os.path.join("docuready-mvp/synthetic_data", folder)
+    packet_dir = str(_SYNTHETIC_DIR / folder)
 
     result, _ = pipeline.load_and_audit_packet(packet_dir, packet_id=packet_id)
 

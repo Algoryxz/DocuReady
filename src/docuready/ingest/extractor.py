@@ -11,15 +11,15 @@ import pymupdf
 import PIL.Image
 import pytesseract
 
-from src.models import (
+from docuready.domain.models import (
     DocumentType, ExtractedDocument, ExtractedField, EvidenceProvenance,
     ExtractionMethod, EvidenceState
 )
-from src.normalizer import (
+from docuready.normalize.normalizer import (
     normalize_name, parse_and_normalize_date, normalize_income,
     validate_ifsc_code, normalize_cert_number
 )
-from src.calibrator import ConfidenceCalibrator, validate_field_syntax
+from docuready.evidence.calibrator import ConfidenceCalibrator, validate_field_syntax
 
 # Configure local Tesseract binary path
 TESSERACT_EXE = r"C:\Program Files\Tesseract-OCR\tesseract.exe"

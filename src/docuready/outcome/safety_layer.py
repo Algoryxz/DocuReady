@@ -7,7 +7,7 @@ an illegal or unsupported statutory rejection (FAIL).
 
 import re
 from typing import Dict, List, Optional
-from src.models import (
+from docuready.domain.models import (
     DocumentType, ExtractedDocument, ExtractedField, EvidenceState,
     Finding, FindingStatus, Severity
 )

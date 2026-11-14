@@ -1,0 +1,1 @@
+"""DocuReady Streamlit applicant interface."""

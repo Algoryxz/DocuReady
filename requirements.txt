@@ -1,7 +1,10 @@
-streamlit>=1.30.0
-pymupdf>=1.23.0
-pytesseract>=0.3.10
-pillow>=10.0.0
-numpy>=1.24.0
-pytest>=7.4.0
-pytest-cov>=4.1.0
+# DocuReady Compatibility Installer
+# pyproject.toml is the authoritative dependency source of truth.
+#
+# Canonical installation commands:
+#   Core engine only:          pip install .
+#   With Streamlit UI:         pip install ".[ui]"
+#   With Synthetic Generator:  pip install ".[generator]"
+#   Full Developer & Test:     pip install -e ".[all]"
+#
+-e .[all]

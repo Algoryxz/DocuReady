@@ -11,19 +11,19 @@ And generates the compliant replacement document:
 """
 
 import os
-from src.generator import (
+from docuready.generator import (
     generate_application_form, generate_income_certificate,
     generate_caste_certificate, generate_residence_certificate,
     generate_marksheet, generate_bank_passbook
 )
-from src.corpus_builder_60 import (
+from corpus_builder_60 import (
     _render_pdf_to_image, _save_image_as_scanned_pdf,
     apply_shadow_and_uneven_lighting, apply_perspective_distortion,
     apply_low_resolution
 )
 
-DEMO_DIR = "docuready-mvp/synthetic_data/pkt_loop3_demo"
-REPLACE_DIR = "docuready-mvp/synthetic_data/replacement_docs"
+DEMO_DIR = "synthetic_data/pkt_loop3_demo"
+REPLACE_DIR = "synthetic_data/replacement_docs"
 
 
 def build_loop3_demo_packet():
