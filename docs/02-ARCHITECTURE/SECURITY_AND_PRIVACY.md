@@ -27,6 +27,9 @@
 
 ## Core Philosophy: Local-First, Zero-Exfiltration
 
+> [!NOTE]
+> This heading describes the target architectural requirement. It must not be interpreted as proof that the current implementation has already passed zero-network or zero-exfiltration verification. Such claims remain unverified until T1.2 contract tests pass and receive the required owner acceptance.
+
 DocuReady is designed for public sector and citizen document pre-validation. Applicant documents routinely contain sensitive demographic data, Aadhaar references, income details, bank account numbers, and caste information.
 
 To guarantee compliance with statutory privacy mandates and the **Digital Personal Data Protection Act (DPDP), 2023**:

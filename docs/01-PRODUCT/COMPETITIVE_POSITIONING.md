@@ -6,7 +6,7 @@
 |---|---|---|
 | **Primary Owner** | **Deeptiman** (Product Owner & Integration Lead) | Market positioning, competitor landscape analysis, value differentiation, HackNation defense |
 | **Supporting Contributor** | **Susmita** (Domain Rules & Evaluation Lead) | Bipartite matching differentiation, statutory rule traceability, evidence-backed evaluation |
-| **Supporting Contributor** | **Akriti** (Platform, Privacy & Delivery Lead) | Local-first privacy architecture, offline zero-exfiltration differentiators, cost per audit |
+| **Supporting Contributor** | **Akriti** (Platform, Privacy & Delivery Lead) | Verification of local-first architecture, offline operation, privacy guarantees, and operational cost |
 
 ### Detailed Responsibilities & Deliverables
 - **Primary Owner (Deeptiman)**:
