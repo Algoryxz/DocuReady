@@ -33,7 +33,7 @@ jobs:
 
     - name: Install Package in Editable Mode
       run: |
-        pip install --no-deps -e .
+        pip install --no-deps --no-build-isolation -e .
 
     - name: Verify Package Imports & CLI Entry Point
       run: |
@@ -71,7 +71,11 @@ jobs:
     - name: Verify Wheel in Isolated Virtual Environment
       run: |
         python -m venv test_wheel_venv
-        test_wheel_venv/bin/pip install dist/*.whl
+        test_wheel_venv/bin/python -m pip install \
+          --require-hashes \
+          -r requirements/ci-lock-py${{ matrix.python-version }}.txt
+        test_wheel_venv/bin/python -m pip install --no-deps dist/*.whl
+        test_wheel_venv/bin/python -m pip check
         test_wheel_venv/bin/docuready --help
         test_wheel_venv/bin/python -c "import docuready; print('Isolated wheel version:', docuready.__version__)"
         cd /tmp
