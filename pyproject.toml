@@ -78,3 +78,6 @@ include = ["docuready*"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["src"]
+filterwarnings = [
+    "error:::docuready.*",
+]

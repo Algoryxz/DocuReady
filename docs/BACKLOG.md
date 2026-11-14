@@ -107,14 +107,14 @@ T1.x tasks are independent of each other and can run in parallel once G0 passes.
      - gaps between current code and `ARCHITECTURE_V2.md` / `BACKLOG.md`;
      - actual Track A/Track B branch and PR status, CI outcomes, and what is inherited from the baseline.
   7. Record the baseline checksum and prove that golden artifacts remain unchanged (`git diff -- tests/golden/`).
-- **Acceptance:**
-  - [ ] Golden regression tests pass in the CI Linux environment: 7 exact native vector packets (Packets 1–6 and 8) assert 100% bit-for-bit parity after path-only canonicalization, and Packet 7 asserts semantic unreadable-document contracts without brittle OCR text/confidence matching.
-  - [ ] The same test is run locally on the available platform and results are recorded.
-  - [ ] The expected golden artifact/checksum is unchanged; include `git diff -- tests/golden/` and checksum evidence.
-  - [ ] Recursive diff diagnostics prove all remaining fields are unchanged, or clearly list every unresolved difference as `UNVERIFIED`/`BLOCKED`.
-  - [ ] `docs/history/CODE_AUDIT_T0.md` contains actual module names, all current rule IDs/citation strings, calibrator thresholds, network/write/clock call sites, README/test-tree differences, and code-versus-architecture gaps.
-  - [ ] Track A and Track B status is refreshed from GitHub evidence, not copied from old PR descriptions.
-  - [ ] CI result link(s) or raw job-log evidence are included.
+- **Acceptance:** *(Formally accepted by Deeptiman on 14 November 2026; PR #13 merged at `9ae7cb18366424932aa363983a15e44424c293e1`)*
+  - [x] Golden regression tests pass in the CI Linux environment: 7 exact native vector packets (Packets 1–6 and 8) assert 100% bit-for-bit parity after path-only canonicalization, and Packet 7 asserts semantic unreadable-document contracts without brittle OCR text/confidence matching.
+  - [x] The same test is run locally on the available platform and results are recorded.
+  - [x] The expected golden artifact/checksum is unchanged; include `git diff -- tests/golden/` and checksum evidence.
+  - [x] Recursive diff diagnostics prove all remaining fields are unchanged, or clearly list every unresolved difference as `UNVERIFIED`/`BLOCKED`.
+  - [x] `docs/history/CODE_AUDIT_T0.md` contains actual module names, all current rule IDs/citation strings, calibrator thresholds, network/write/clock call sites, README/test-tree differences, and code-versus-architecture gaps.
+  - [x] Track A and Track B status is refreshed from GitHub evidence, not copied from old PR descriptions.
+  - [x] CI result link(s) or raw job-log evidence are included.
 - **Non-goals:**
   - Do not implement the V2 resolver.
   - Do not rename statuses or rules.

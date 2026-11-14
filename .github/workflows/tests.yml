@@ -96,7 +96,11 @@ jobs:
       run: |
         pytest -vv tests/test_golden_baseline.py::test_golden_baseline_packet_07_semantic_ocr -W "error:::docuready.*"
 
-    - name: Run Test Suite (Unit, Adversarial, and Golden Baseline)
+    - name: Verify Genuine OCR Recognition & Language Packs (T0.2 Integration Test)
+      run: |
+        pytest -vv tests/test_ocr_integration.py -W "error:::docuready.*"
+
+    - name: Run Test Suite (Unit, Adversarial, Golden Baseline & OCR Integration)
       run: |
         pytest tests/ -v --tb=short -W "error:::docuready.*"
 
