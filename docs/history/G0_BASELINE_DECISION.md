@@ -1,6 +1,6 @@
-# DocuReady — Gate G0 Baseline Environment Decision Proposal
+# DocuReady — Gate G0 Baseline Environment Decision Record
 
-**Decision Status:** `PENDING_DEEPTIMAN_DECISION`  
+**Decision Status:** `APPROVED (14 November 2026 by Deeptiman)`
 **Author:** Akriti (Platform & Baseline Delivery) with Susmita (Rules & Evaluation) & Deeptiman (Architecture Coordination)  
 **Date:** 14 November 2026  
 **Target Gate:** Gate G0 — Baseline Frozen  
@@ -147,11 +147,42 @@ To maintain strict deterministic regression guarantees while handling non-determ
 
 ---
 
-## 7. Recommendation & Handoff
+## 7. Decision & Acceptance Record
 
-Akriti and Susmita recommend **Option A** as a technical recommendation to freeze the baseline environment and unblock Gate G0.
+### 7.1 Historical Approval of Option A (14 November 2026)
 
-This recommendation is explicitly submitted to Deeptiman for formal product and architecture decision:
+Deeptiman, as Product Owner, Architecture Lead, and final acceptance authority, formally approved **Option A** on 14 November 2026:
+- Retired Python 3.10 support (upstream EOL 1 October 2026).
+- Standardized on `pymupdf==2.1` as provisional technical baseline candidate to freeze vector geometry reproducibility (licensing evaluation and ADR-001 scheduled under Task T1.3 / Gate G1).
+- Initiated hash-checked dependency locking via `uv` maintainer tooling.
+- Partitioned golden testing to separate deterministic vector parity from non-deterministic OCR engine output.
 
-> **Decision Status:** `PENDING_DEEPTIMAN_DECISION`
-> *Option A is a recommendation only, not an accepted decision. No support-policy changes, packaging modifications, or final backend/licensing decisions have been implemented or settled. Execution awaits Deeptiman's explicit architectural decision.*
+### 7.2 Operative Amendment: Python 3.15 Deferral & Contract Refinements (14 November 2026)
+
+Following empirical GitHub Actions CI execution in PR #8 (CI run `43612292856`), Deeptiman explicitly approved the following operative amendments to the G0 baseline decision on **14 November 2026**:
+
+1. **Declared Python Support Range:**
+   - Updated from `>=3.11,<3.16` to **`>=3.11,<3.15`** in `pyproject.toml`.
+   - Supported runtime classifiers are strictly: Python 3.11, Python 3.12, Python 3.13, and Python 3.14. Python 3.15 classifier is removed.
+2. **Blocking CI Matrix:**
+   - The required CI matrix is strictly **`python-version: ["3.11", "3.12", "3.13", "3.14"]`** on `ubuntu-24.04` with `fail-fast: false`.
+   - All four matrix jobs are blocking; zero `continue-on-error`.
+   - Python 3.15 is removed from the active matrix and deferred.
+3. **Upstream Blocker Characterisation (Python 3.15 Deferral):**
+   - In the resolved PyMuPDF 2.1 dependency graph, `onnxruntime` is a **direct dependency** required by `pymupdf==2.1`.
+   - On PyPI, `onnxruntime` (v1.32.0) publishes binary wheels up to `cp314` (`cp311`–`cp314t`); no `cp315` distribution exists.
+   - Per project operating rules, no source builds, unofficial wheels, or nightly builds may be introduced to bypass this upstream gap. Python 3.15 is therefore formally deferred pending upstream availability.
+4. **Criteria for Reconsidering Python 3.15:**
+   Reintroduction of Python 3.15 requires satisfying all of the following conditions:
+   - An official `onnxruntime` wheel compatible with CPython 3.15 becomes available through public PyPI distribution.
+   - The wheel is compatible with the project's `ubuntu-24.04`, Linux x86_64 CI environment.
+   - The complete dependency lock resolves cleanly from the official package index with full hash verification.
+   - PyMuPDF 2.1 installs successfully.
+   - The full DocuReady test suite (79 tests), build, CLI, and isolated wheel checks pass on Python 3.15.
+   - Deeptiman reviews and formally approves restoring Python 3.15 to the declared support range and blocking CI matrix.
+5. **Packet 7 Exact-Comparison Contract Refinement:**
+   - The golden regression exception for Packet 7 (`PKT_07_UNREADABLE_DOC`) is strictly confined to OCR-derived fields: `raw_text` and `mean_ocr_confidence`.
+   - All deterministic fields of `INCOME_CERT` (`doc_type`, `file_path`, `status`, `fields`, `extraction_method`, `page_count`) must match the golden baseline snapshot exactly.
+   - All vector documents in Packet 7 and all vector packets (1–6 and 8) remain under 100% bit-for-bit parity assertions.
+6. **Artifact Integrity:**
+   - `tests/golden/legacy_v0/GOLDEN_BASELINE.json` SHA-256 remains verified and unchanged: `E8FB1A6B842A47089937777133DE79E1E7F704BEE591D5B4471A1A90BC8C5FA9`.
