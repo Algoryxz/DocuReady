@@ -10,17 +10,17 @@
 
 ### Detailed Responsibilities & Deliverables
 - **Primary Owner (Akriti)**:
-  - Enforce the absolute zero-network exfiltration guarantee via automated contract tests (`test_no_network.py`).
-  - Disable all third-party analytics, Streamlit telemetry (`gatherUsageStats = false`), and background HTTP requests.
-  - Implement default PII redaction (masking Aadhaar, bank accounts, phone numbers) across UI, CLI, and exported reports.
-  - Manage secure file permissions (`0700`), safe logging practices, and vulnerability reporting protocols.
+  - Responsible for implementing and demonstrating the no-network runtime contract via automated contract tests (`test_no_network.py`) before any privacy guarantee is presented as verified.
+  - Disable all third-party analytics, commit Streamlit telemetry suppression (`gatherUsageStats = false`), and eliminate background HTTP requests.
+  - Implement and verify default PII redaction (masking Aadhaar, bank accounts, phone numbers) across UI, CLI, and exported reports.
+  - Manage secure file permissions (`0700`), ephemeral directory cleanup in `finally` blocks, safe logging practices, and vulnerability reporting protocols.
 - **Product Contributor (Deeptiman)**:
-  - Verify that all public privacy statements in `README.md` and marketing materials match verified technical reality.
+  - Ensure that public privacy and DPDP claims in `README.md` and documentation remain strictly unverified until contract test evidence is produced and recorded in the Claims Register.
 - **Domain Contributor (Susmita)**:
   - Maintain the registry of sensitive fields requiring redaction and safe handling.
 
 ### Coordination & Review Gates
-- Any change to network access, telemetry, or file handling requires Akriti's sign-off and passing automated contract tests.
+- No privacy or zero-exfiltration claim may be presented as verified or published until the appropriate contract tests pass under Task T1.2, supported by empirical test evidence, and receive Akriti's technical sign-off and Deeptiman's final acceptance.
 - Governed by [TEAM_RESPONSIBILITIES.md](../TEAM_RESPONSIBILITIES.md) and Gate G1 (T1.2 / T1.4).
 
 ---

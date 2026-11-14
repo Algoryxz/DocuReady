@@ -31,7 +31,7 @@ See [TEAM_RESPONSIBILITIES.md](TEAM_RESPONSIBILITIES.md) for full role definitio
 - **S1** Never use real personal data. All fixtures are synthetic and labelled so.
 - **S2** The runtime pipeline makes no network calls. Research tasks may use the network; product code may not.
 - **S3** Golden snapshots change only when the task spec says so, and the diff is shown in the handoff.
-- **S4** No new dependency without recording its licence in `NOTICE`. No AGPL/GPL additions without a Claude-approved ADR.
+- **S4** Dependency licence discipline. No new dependency without recording its direct and transitive/bundled licences in `NOTICE`. No AGPL/GPL additions, default licence changes, or copyleft dependencies without a reviewed ADR, rigorous direct and transitive/bundled licence investigation, Akriti's technical/platform review, explicit human owner approval, and Deeptiman's final acceptance of the project-level decision. Claude may provide independent technical/licensing review, but has no decision or approval authority.
 - **S5** One task per branch and PR. Every behaviour change ships with tests.
 - **S6** No claim in README or docs that is not in `docs/CLAIMS_REGISTER.md`.
 - **S7** If something cannot be verified (a source, a licence, an experiment), write `UNVERIFIED` and say why. Never invent results, URLs, clause numbers or metrics.
@@ -89,15 +89,39 @@ T1.x tasks are independent of each other and can run in parallel once G0 passes.
 
 ### Sprint 0 — Baseline (blocks everything)
 
-#### T0.1 — Characterise the current behaviour
-- **Why:** We reviewed docs, not code. Freeze reality before changing it.
-- **Scope:** `tests/golden/`, `scripts/freeze_golden.py`, `docs/history/CODE_AUDIT_T0.md`.
-- **Behaviour:** For each of the 8 packets in `synthetic_data/`, run the current pipeline and save the full finding list (rule id, severity, fields, evidence states) as JSON. Add a test that re-runs and diffs against the golden file. Also write a short audit listing: real module names, the actual rule ids/citations in `validator.py`, the thresholds in `calibrator.py`, and any network or file-write calls found by grep.
+#### T0.1 — Characterise current behaviour
+- **Why:** The V2 architecture was written without a direct source review. Record what the current code actually does before changing behaviour.
+- **Scope:** `tests/golden/` and the current golden regression harness; a minimal, maintainable script/helper for recursive comparison if necessary; `docs/history/CODE_AUDIT_T0.md`; only the smallest CI/test changes needed to make the existing golden contract cross-platform and diagnosable.
+- **Behaviour:**
+  1. Inventory real modules and classes under `src/docuready/`; map actual pipeline entry points and package interfaces.
+  2. Use the existing eight canonical synthetic packets and existing aggregate golden baseline (`GOLDEN_BASELINE.json`). Do not regenerate, replace or modify golden snapshots.
+  3. Fix the cross-platform canonicalization defect in the test comparison. The observed CI mismatch is Windows `\\` path separators in the committed snapshot versus Linux `/` separators in the generated `file_name`/path fields. Confirm the full recursive diff first. Normalize only explicitly identified path-valued fields in the test comparison, using one stable POSIX-style representation. Do not globally replace backslashes in arbitrary strings.
+  4. Preserve exact comparison for all non-path fields. Add exact JSON-path mismatch diagnostics showing expected and actual values for every difference.
+  5. Run all eight packets and prove that, after path normalization, no other unapproved differences remain. Report exact pass/fail counts and Python/platform versions.
+  6. Write `docs/history/CODE_AUDIT_T0.md` detailing:
+     - actual modules/classes and real pipeline flow;
+     - every actual rule ID in `validator.py` with current citation text copied verbatim (noting that citation strings are not verified law until T1.5);
+     - current thresholds/parameters in `calibrator.py` and other relevant modules;
+     - each call site that performs network access, filesystem writes/deletes, or uses `datetime.now()` / `date.today()`;
+     - real test tree versus the README's documented test tree, with differences listed;
+     - gaps between current code and `ARCHITECTURE_V2.md` / `BACKLOG.md`;
+     - actual Track A/Track B branch and PR status, CI outcomes, and what is inherited from the baseline.
+  7. Record the baseline checksum and prove that golden artifacts remain unchanged (`git diff -- tests/golden/`).
 - **Acceptance:**
-  - [ ] 8 golden files committed; test fails if any finding changes
-  - [ ] Audit file lists every rule id with its current citation text, verbatim
-  - [ ] Audit file lists every place that touches network, disk writes or `datetime.now()`
-  - [ ] README's test-file tree compared to the real `tests/` and differences listed
+  - [ ] The existing eight-packet golden test passes in the CI Linux environment after path-only canonicalization.
+  - [ ] The same test is run locally on the available platform and results are recorded.
+  - [ ] The expected golden artifact/checksum is unchanged; include `git diff -- tests/golden/` and checksum evidence.
+  - [ ] Recursive diff diagnostics prove all remaining fields are unchanged, or clearly list every unresolved difference as `UNVERIFIED`/`BLOCKED`.
+  - [ ] `docs/history/CODE_AUDIT_T0.md` contains actual module names, all current rule IDs/citation strings, calibrator thresholds, network/write/clock call sites, README/test-tree differences, and code-versus-architecture gaps.
+  - [ ] Track A and Track B status is refreshed from GitHub evidence, not copied from old PR descriptions.
+  - [ ] CI result link(s) or raw job-log evidence are included.
+- **Non-goals:**
+  - Do not implement the V2 resolver.
+  - Do not rename statuses or rules.
+  - Do not change extraction or calibration logic.
+  - Do not modify any golden snapshot data or regenerate golden files.
+  - Do not merge, close, retarget or force-push PR #2 or PR #3.
+  - Do not start T0.2 or T0.3 before T0.1 is accepted.
 - **Gate:** G0
 
 #### T0.2 — CI that exercises OCR
@@ -109,16 +133,24 @@ T1.x tasks are independent of each other and can run in parallel once G0 passes.
   - [ ] Badge in README reflects the real workflow status
 - **Gate:** G0
 
-#### T0.3 — Package layout (no behaviour change)
-- **Depends on:** T0.1, T0.2.
-- **Scope:** `pyproject.toml`, move `src/*.py` into `src/docuready/...` per ARCHITECTURE_V2 §10.
-- **Behaviour:** Pure move + import fixes. Provide console script `docuready` (replaces `python src/cli.py`). Keep thin compatibility shims for old paths for one release. Move `requirements.txt` content into `pyproject.toml`; `pytest`/`pytest-cov` go to `[dev]`; Streamlit to `[ui]`; Tesseract wrapper to `[ocr]`.
-- **Non-goals:** any logic change, any rename of rules or statuses.
+#### T0.3 — Package contract verification
+- **Depends on:** T0.1, T0.2 (Start only after T0.2 ACCEPT).
+- **Context:** PR #1 has already moved the project into `src/docuready/`, added `pyproject.toml`, and registered the `docuready` console script. **Do not repeat or reorganize the package move.**
+- **Scope:** `pyproject.toml`, package import/build checks, tests, and documentation of remaining gaps from target layout.
+- **Behaviour:**
+  1. Verify clean editable installation using extras that actually exist in `pyproject.toml` today (currently `ui`, `generator`, `dev`; inspect before running).
+  2. Build sdist and wheel in a clean environment.
+  3. Verify the installed wheel imports and `docuready --help` executes cleanly from outside the repository working directory.
+  4. Verify an example audit command against a synthetic packet using the installed console script.
+  5. Compare current extras and dependency placement with the V2 target. Record gaps; do not add `[ocr]` or `[pymupdf]` extras in T0.3 unless authorized by a separate reviewed scope (PDF backend splitting belongs to T1.3).
+  6. Preserve existing runtime behaviour and golden baseline expectations.
 - **Acceptance:**
-  - [ ] Golden tests unchanged and green
-  - [ ] `pip install -e .[ui,ocr,dev]` works in a clean venv
-  - [ ] `docuready audit --packet synthetic_data/pkt_02_name_mismatch --output r.json` works
-  - [ ] Zero edits to `tests/golden/*`
+  - [ ] Clean editable install succeeds with current declared extras (`ui`, `generator`, `dev`).
+  - [ ] sdist and wheel build succeed without errors.
+  - [ ] Installed wheel imports and `docuready --help` runs from outside the repository root.
+  - [ ] A synthetic packet audit works using the installed console script from outside repo root.
+  - [ ] Golden regression tests remain unchanged and green.
+  - [ ] A clear inventory of remaining package-layout and dependency-extra gaps is committed.
 - **Gate:** G0
 
 ### WS1 — Trust and compliance

@@ -2,15 +2,15 @@
 
 **Last reviewed:** 14 November 2026
 **Canonical repository:** `Algoryxz/DocuReady`
-**Status note:** This is the initial coordination snapshot from a read-only review. Refresh every branch, PR, CI result and commit before acting; these values can go stale.
+**Status note:** This is the coordination snapshot based on verified GitHub repository, PR, and CI evidence. Refresh every branch, PR, CI result, and commit before acting; these values can go stale.
 
 ## Current gates
 
 | Gate | State | Evidence / blocker |
 |---|---|---|
-| G0 — Baseline frozen | **BLOCKED** | Package migration is merged, but the current golden regression test fails in CI because path separators are not normalized consistently. T0.1 is next. |
+| G0 — Baseline frozen | **BLOCKED** | Package migration is merged, but the current golden regression test fails in CI because path separators are not normalized consistently across OS platforms. T0.1 is the next blocking task. |
 | G1 — Honest and clean | Not started | Begins after G0 acceptance. Claims register, no-network contract, licence decision and redaction work remain. |
-| G2 — Safe outcomes | Not started | Track B is a prototype only; V2 resolver/status contract is not yet accepted. |
+| G2 — Safe outcomes | Not started | Track B prototype was merged at commit `1994f66af9217d720549124bf6d0e7b23998ac88`, but formal V2 Gate G2 acceptance requires T2.1–T2.4 completion, V2 status vocabulary, and property tests. |
 | G3 — Engine equivalence | Not started | YAML schema/primitives and generic.demo port are future work. |
 | G4 — Real pack | Not started | Subhadra pack must remain a sourced, dated demo snapshot. |
 | G5 — Credible evaluation | Not started | Synthetic split/evaluation protocol not yet accepted. |
@@ -21,8 +21,9 @@
 | Task / work | Owner | State (`todo / doing / review / done / blocked`) | Branch / PR | Gate | Notes |
 |---|---|---|---|---|---|
 | PR #1 — package migration | Akriti (platform area) | **done** | `feature/g1-package-migration` / [PR #1](https://github.com/Algoryxz/DocuReady/pull/1) | G0 | Merged to `main`; source package and `pyproject.toml` now exist. Do not repeat migration. |
-| Track B — decision safety prototype | Susmita | **blocked** | `feature/prototype-decision-safety` / [PR #2](https://github.com/Algoryxz/DocuReady/pull/2) | G2 | Open at review time. CI had golden failures inherited from the baseline path issue. Also needs V2 status, explicit evidence mapping and structured source verification review. |
-| Track A — UI/privacy prototype | Akriti | **blocked** | `feature/prototype-ui-privacy` / [PR #3](https://github.com/Algoryxz/DocuReady/pull/3) | G1 | Open at review time. CI had golden failures. PR diff does not include the promised Streamlit config/.gitignore update; lifecycle tests are not testing production flow; old “READY TO SUBMIT” wording remains. |
+| PR #2 — Track B decision safety prototype | Susmita | **done (prototype only)** | `feature/prototype-decision-safety` / [PR #2](https://github.com/Algoryxz/DocuReady/pull/2) | G2 | Merged into `main` at commit `1994f66af9217d720549124bf6d0e7b23998ac88`. Implements prototype evidence-backed PASS. **Does NOT constitute V2 Gate G2 acceptance.** Formal V2 decision safety requires T2.1–T2.4. |
+| PR #3 — Track A UI/privacy prototype | Akriti | **review (open)** | `feature/prototype-ui-privacy` / [PR #3](https://github.com/Algoryxz/DocuReady/pull/3) | G1 | Open at head `c7bcbdc35fb6f2779c194b4be53a66ebc5636549`. CI checks unstable (inherited baseline golden test failures). Requires review of telemetry config, production upload lifecycle, and V2 status terms. |
+| PR #4 — V2 docs & team ownership integration | Deeptiman / Team | **review (open)** | `docs/v2-architecture-team-ownership` / [PR #4](https://github.com/Algoryxz/DocuReady/pull/4) | Docs | Open, awaiting review. Latest CI run (Run ID: 43593166336): Python 3.10 failed (8 failed, 50 passed on inherited baseline path separator mismatch); Python 3.11 and 3.12 cancelled. Not green; path normalization fix belongs to T0.1. |
 | T0.1 — Characterise current behaviour | Deeptiman (lead/acceptance); Akriti (CI/baseline); Susmita (rules/citations) | **todo** | Create a unique `task/T0.1-*` branch after preflight | G0 | Fix path-only golden canonicalization in the test harness; preserve golden file; write actual code audit; refresh PR state. |
 | T0.2 — CI that exercises OCR | Akriti | **todo** | After T0.1 ACCEPT | G0 | Existing workflow has Python 3.10–3.12 and English Tesseract. Verify/add Odia and Hindi language data; prove OCR tests run. |
 | T0.3 — Package contract verification | Akriti | **todo** | After T0.2 ACCEPT | G0 | Updated scope: validate current package/wheel/CLI. Package move already merged in PR #1; no relocation. |

@@ -16,10 +16,12 @@
 - **Domain Contributor (Susmita)**:
   - Provide domain substance on why generic LLMs fail (hallucination of statutory clauses) and why cross-document graph matching is necessary.
 - **Platform Contributor (Akriti)**:
-  - Validate technical claims regarding offline zero-PII transmission, zero marginal operational cost, and sub-second local latency.
+  - Investigate and verify technical claims regarding offline execution, zero-PII transmission, zero marginal operational cost, and local processing latency against empirical test evidence.
+  - Require that any claim lacking rigorous contract-test proof or repeatable benchmarks be softened or removed.
+  - Ensure all platform and performance metrics are formally evidenced in the Claims Register (Task T1.1) prior to public use.
 
 ### Coordination & Review Gates
-- All comparative metrics and public claims must be verified against the Claims Register (Task T1.1) and accepted by Deeptiman.
+- All comparative metrics and public claims must be verified against empirical test evidence in the Claims Register (Task T1.1) and accepted by Deeptiman. Unsupported claims must be softened or removed.
 - Governed by [TEAM_RESPONSIBILITIES.md](../TEAM_RESPONSIBILITIES.md).
 
 ---
