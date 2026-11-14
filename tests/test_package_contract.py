@@ -47,7 +47,7 @@ def test_core_subpackages_importable():
     import docuready.pipeline
 
     assert docuready.domain.models.DocumentType is not None
-    assert docuready.pipeline.VerificationPipeline is not None
+    assert docuready.pipeline.AuditPipeline is not None
 
 
 def test_pyproject_contract():
