@@ -147,17 +147,17 @@ T1.x tasks are independent of each other and can run in parallel once G0 passes.
 
 #### T0.2 — CI that exercises OCR
 - **Scope:** `.github/workflows/tests.yml`, `tests/test_ocr_integration.py`, `tests/test_warning_policy.py`, `pyproject.toml`.
-- **Status note:** Implementation merged across PR #14 (`28d8a858d72e72aefbae2144a089704b61922dcf`) and PR #18 (`1fbc3b69fac63249da66be24b69653bc09822766`). Main post-merge CI run 43627891431 passed all 88 tests across Python 3.11–3.14 with 0 skips. Formal task acceptance remains pending explicit decision by Deeptiman.
+- **Status note:** **Formally accepted by Product Owner Deeptiman on 15 November 2026.** Implementation merged across PR #14 (`28d8a858d72e72aefbae2144a089704b61922dcf`) and PR #18 (`1fbc3b69fac63249da66be24b69653bc09822766`). Remote CI on `main` passed all 88 tests across Python 3.11–3.14 with 0 skips (run 43630377408). Language support boundary: current application uses default English OCR configuration; installed Odia and Hindi resources provide CI presence, not application-level multilingual OCR.
 - **Behaviour:** Install `tesseract-ocr`, `tesseract-ocr-eng`, `tesseract-ocr-ori`, `tesseract-ocr-hin` in CI. Matrix 3.11/3.12/3.13/3.14. Cache pip. Fail on warnings from our own code. Execute genuine OCR recognition proof against image-only raster PDF.
-- **Acceptance:**
-  - [ ] Latest run on `main` is green and visible in the handoff (link or log tail)
-  - [ ] A test that needs OCR is shown to have run (not skipped)
-  - [ ] Badge in README reflects the real workflow status
+- **Acceptance:** *(Formally accepted by Deeptiman on 15 November 2026)*
+  - [x] Latest run on `main` is green and visible in the handoff (run 43630377408 passed all 4 matrix jobs with 88 tests passed, 0 skips)
+  - [x] A test that needs OCR is shown to have run (not skipped) (`tests/test_ocr_integration.py` ran and passed in CI; confirmed distinctive synthetic token recognized via real `LOCAL_OCR` route)
+  - [x] Badge in README reflects the real workflow status (reconciled to 88 passing tests in PR #20)
 - **Gate:** G0
 
 #### T0.3 — Package contract verification
 - **Depends on:** T0.1, T0.2 (Start only after T0.2 ACCEPT).
-- **Status note:** Implementation was merged out of order in PR #17 (`40d2338acbca9ccf0a27f75ebe3413ae25d22cd5`) prior to the required T0.2 ACCEPT checkpoint. It delivered package contract tests (`tests/test_package_contract.py`) and gap inventory (`docs/history/PACKAGE_GAP_INVENTORY_T0.md`). While technical implementation is merged and verified in main CI run 43627891431, formal task acceptance and dependency-sequence resolution remain pending explicit decision by Deeptiman.
+- **Status note:** **Formally accepted by Product Owner Deeptiman on 15 November 2026.** Implementation was merged in PR #17 (`40d2338acbca9ccf0a27f75ebe3413ae25d22cd5`). The historical merge sequencing deviation (PR #17 merged out of order prior to PR #18) was explicitly reviewed, ratified, and accepted by Deeptiman.
 - **Context:** PR #1 has already moved the project into `src/docuready/`, added `pyproject.toml`, and registered the `docuready` console script. **Do not repeat or reorganize the package move.**
 - **Scope:** `pyproject.toml`, package import/build checks, tests, and documentation of remaining gaps from target layout.
 - **Behaviour:**
@@ -167,13 +167,13 @@ T1.x tasks are independent of each other and can run in parallel once G0 passes.
   4. Verify an example audit command against a synthetic packet using the installed console script.
   5. Compare current extras and dependency placement with the V2 target. Record gaps; do not add `[ocr]` or `[pymupdf]` extras in T0.3 unless authorized by a separate reviewed scope (PDF backend splitting belongs to T1.3).
   6. Preserve existing runtime behaviour and golden baseline expectations.
-- **Acceptance:**
-  - [ ] Clean editable install succeeds with current declared extras (`ui`, `generator`, `dev`).
-  - [ ] sdist and wheel build succeed without errors.
-  - [ ] Installed wheel imports and `docuready --help` runs from outside the repository root.
-  - [ ] A synthetic packet audit works using the installed console script from outside repo root.
-  - [ ] Golden regression tests remain unchanged and green.
-  - [ ] A clear inventory of remaining package-layout and dependency-extra gaps is committed.
+- **Acceptance:** *(Formally accepted by Deeptiman on 15 November 2026)*
+  - [x] Clean editable install succeeds with current declared extras (`ui`, `generator`, `dev`).
+  - [x] sdist and wheel build succeed without errors.
+  - [x] Installed wheel imports and `docuready --help` runs from outside the repository root.
+  - [x] A synthetic packet audit works using the installed console script from outside repo root.
+  - [x] Golden regression tests remain unchanged and green.
+  - [x] A clear inventory of remaining package-layout and dependency-extra gaps is committed (`docs/history/PACKAGE_GAP_INVENTORY_T0.md`).
 - **Gate:** G0
 
 ### WS1 — Trust and compliance
