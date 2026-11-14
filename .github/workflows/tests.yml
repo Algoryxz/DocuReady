@@ -57,9 +57,9 @@ jobs:
       run: |
         pip install --require-hashes -r requirements/ci-lock-py${{ matrix.python-version }}.txt
 
-    - name: Install Package in Editable Mode
+    - name: Install Package in Editable Mode with Declared Extras
       run: |
-        pip install --no-deps --no-build-isolation -e .
+        pip install --no-deps --no-build-isolation -e ".[ui,generator,dev]"
 
     - name: Verify Package Imports & CLI Entry Point
       run: |
@@ -85,6 +85,12 @@ jobs:
     - name: Build Distribution Packages (sdist and wheel)
       run: |
         python -m build --no-isolation
+        echo "=== Verifying Built Distribution Artifacts ==="
+        ls -la dist/
+        test -f dist/docuready-0.1.0.tar.gz
+        test -f dist/docuready-0.1.0-py3-none-any.whl
+        echo "PASS: sdist (.tar.gz) and wheel (.whl) verified."
+        echo "=============================================="
 
     - name: Explicitly Exercise OCR Extraction Path (Packet 07 Semantic OCR)
       run: |
@@ -110,4 +116,9 @@ jobs:
         test_wheel_venv/bin/docuready --help
         test_wheel_venv/bin/python -c "import docuready; print('Isolated wheel version:', docuready.__version__)"
         cd /tmp
-        $GITHUB_WORKSPACE/test_wheel_venv/bin/docuready audit $GITHUB_WORKSPACE/synthetic_data/pkt_01_clean
+        echo "=== Out-of-Repository Wheel & Console Script Verification ==="
+        $GITHUB_WORKSPACE/test_wheel_venv/bin/python -c "import docuready; print('Imported docuready from:', docuready.__file__); assert 'site-packages' in docuready.__file__, 'Error: docuready not imported from site-packages!'"
+        $GITHUB_WORKSPACE/test_wheel_venv/bin/docuready --help
+        $GITHUB_WORKSPACE/test_wheel_venv/bin/docuready audit $GITHUB_WORKSPACE/synthetic_data/pkt_01_clean --json
+        echo "PASS: Out-of-repository package import, help, and audit verified."
+        echo "============================================================"
