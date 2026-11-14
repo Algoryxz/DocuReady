@@ -148,3 +148,112 @@ def test_golden_baseline_packet_parity(pipeline, golden_data, packet_id, folder,
     actual_json = json.dumps(actual_norm, indent=2, sort_keys=True)
     expected_json = json.dumps(expected_norm, indent=2, sort_keys=True)
     assert actual_json == expected_json
+
+
+# ---------------------------------------------------------------------------
+# Unit tests for comparison helpers (Contract Invariance Verification)
+# ---------------------------------------------------------------------------
+
+def test_path_normalization_designated_keys_only():
+    """Verify that path normalization applies strictly to file_path and file_name keys."""
+    sample = {
+        "file_path": "dir\\subdir\\file.pdf",
+        "file_name": "sub\\doc.pdf",
+        "raw_snippet": "Name: JOHN \\ DOE",
+        "message": "Error at path: C:\\Temp",
+        "nested": {
+            "file_path": "nested\\path\\doc.pdf",
+            "other_field": "val\\with\\backslashes"
+        },
+        "list_items": [
+            {"file_name": "item\\file.pdf", "text": "line\\break"}
+        ]
+    }
+    normalized = normalize_path_fields(sample)
+
+    # Designated keys are normalized to POSIX
+    assert normalized["file_path"] == "dir/subdir/file.pdf"
+    assert normalized["file_name"] == "sub/doc.pdf"
+    assert normalized["nested"]["file_path"] == "nested/path/doc.pdf"
+    assert normalized["list_items"][0]["file_name"] == "item/file.pdf"
+
+    # Non-path fields are preserved exactly with backslashes intact
+    assert normalized["raw_snippet"] == "Name: JOHN \\ DOE"
+    assert normalized["message"] == "Error at path: C:\\Temp"
+    assert normalized["nested"]["other_field"] == "val\\with\\backslashes"
+    assert normalized["list_items"][0]["text"] == "line\\break"
+
+
+def test_non_path_values_untouched():
+    """Verify that numeric, boolean, list, and other non-path values are strictly preserved."""
+    sample = {
+        "score": 100,
+        "ratio": 0.854,
+        "is_valid": True,
+        "none_val": None,
+        "bounding_box": [100.5, 200.0, 300.5, 400.0],
+        "tags": ["A", "B", "C"]
+    }
+    normalized = normalize_path_fields(sample)
+    assert normalized == sample
+
+
+def test_recursive_diff_diagnostics():
+    """Verify recursive_diff detects missing keys, extra keys, types, lists, and values."""
+    expected = {
+        "score": 100,
+        "status": "PASS",
+        "items": [1, 2, 3],
+        "nested": {"key_a": "val_a", "mismatch": "expected_val"}
+    }
+    actual = {
+        "score": "100",  # Type mismatch (int vs str)
+        "items": [1, 2],  # List length mismatch
+        "nested": {"key_a": "val_a", "key_extra": "extra", "mismatch": "actual_val"}
+        # "status" is missing
+    }
+
+    diffs = recursive_diff(expected, actual)
+    diff_text = "\n".join(diffs)
+
+    assert "<root>: Missing keys in actual: ['status']" in diff_text
+    assert "nested: Unexpected extra keys in actual: ['key_extra']" in diff_text
+    assert "score: Type mismatch" in diff_text
+    assert "items: List length mismatch - expected 3 items, got 2 items" in diff_text
+    assert "nested.mismatch: Value mismatch - expected 'expected_val', got 'actual_val'" in diff_text
+
+
+def test_deliberate_non_path_mismatch_detected():
+    """Verify that a deliberate change in score, status, or bounding box is caught by recursive_diff."""
+    base = {
+        "packet_id": "PKT_01",
+        "audit_result": {
+            "readiness_score": 100,
+            "overall_status": "READY_TO_SUBMIT"
+        },
+        "extracted_documents": {
+            "INCOME_CERT": {
+                "bounding_box": [10.0, 20.0, 30.0, 40.0],
+                "mean_ocr_confidence": 0.0
+            }
+        }
+    }
+    # Altered version with score and OCR confidence changed
+    altered = {
+        "packet_id": "PKT_01",
+        "audit_result": {
+            "readiness_score": 95,
+            "overall_status": "READY_TO_SUBMIT"
+        },
+        "extracted_documents": {
+            "INCOME_CERT": {
+                "bounding_box": [10.0, 20.0, 30.0, 40.0],
+                "mean_ocr_confidence": 0.25
+            }
+        }
+    }
+
+    diffs = recursive_diff(base, altered)
+    assert len(diffs) == 2
+    assert any("readiness_score: Value mismatch" in d for d in diffs)
+    assert any("mean_ocr_confidence: Value mismatch" in d for d in diffs)
