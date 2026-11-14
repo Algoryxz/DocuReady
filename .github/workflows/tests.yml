@@ -21,11 +21,37 @@ jobs:
       uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
+        cache: 'pip'
+        cache-dependency-path: requirements/ci-lock-py${{ matrix.python-version }}.txt
 
-    - name: Install System Dependencies (Tesseract OCR)
+    - name: Install System Dependencies (Tesseract OCR & Language Packs)
       run: |
         sudo apt-get update
-        sudo apt-get install -y tesseract-ocr tesseract-ocr-eng libtesseract-dev
+        sudo apt-get install -y \
+          tesseract-ocr \
+          tesseract-ocr-eng \
+          tesseract-ocr-ori \
+          tesseract-ocr-hin \
+          libtesseract-dev
+
+    - name: Verify Tesseract OCR & Language Pack Installation
+      run: |
+        echo "=== Tesseract OCR & Language Verification ==="
+        tesseract --version
+        echo "Installed Tesseract Languages:"
+        tesseract --list-langs
+
+        LANGS=$(tesseract --list-langs)
+        for lang in eng ori hin; do
+          if echo "$LANGS" | grep -Fxq "$lang"; then
+            echo "PASS: Required Tesseract language '$lang' is available."
+          else
+            echo "FAIL: Required Tesseract language '$lang' is missing!" >&2
+            exit 1
+          fi
+        done
+        echo "All required language packs (eng, ori, hin) successfully verified."
+        echo "=============================================="
 
     - name: Install Locked Dependencies
       run: |
@@ -50,6 +76,7 @@ jobs:
         python -c "import pymupdf; print('PyMuPDF:', getattr(pymupdf, '__version__', 'unknown'))"
         python -c "import PIL; print('Pillow:', PIL.__version__)"
         python -c "import pytesseract; print('pytesseract:', pytesseract.__version__)"
+        python -c "import pytesseract; print('pytesseract available languages:', pytesseract.get_languages())"
         tesseract --version
         echo "Installed Tesseract Languages:"
         tesseract --list-langs
@@ -59,9 +86,13 @@ jobs:
       run: |
         python -m build --no-isolation
 
+    - name: Explicitly Exercise OCR Extraction Path (Packet 07 Semantic OCR)
+      run: |
+        pytest -vv tests/test_golden_baseline.py::test_golden_baseline_packet_07_semantic_ocr -W "error:::docuready.*"
+
     - name: Run Test Suite (Unit, Adversarial, and Golden Baseline)
       run: |
-        pytest tests/ -v --tb=short
+        pytest tests/ -v --tb=short -W "error:::docuready.*"
 
     - name: Verify CLI Benchmark & Audit Functionality
       run: |
