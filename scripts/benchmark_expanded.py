@@ -16,16 +16,16 @@ import json
 import statistics
 from typing import Dict, List, Any
 
-from src.models import DocumentType, FindingStatus
-from src.generator import (
+from docuready.domain.models import DocumentType, FindingStatus
+from docuready.generator import (
     generate_income_certificate, generate_caste_certificate,
     generate_residence_certificate, generate_marksheet,
     generate_bank_passbook, generate_application_form
 )
-from src.pipeline import AuditPipeline
+from docuready.pipeline import AuditPipeline
 
-BASE_CORPUS_DIR = "docuready-mvp/synthetic_data/corpus_40"
-MANIFEST_PATH = "docuready-mvp/synthetic_data/corpus_40_manifest.json"
+BASE_CORPUS_DIR = "synthetic_data/corpus_40"
+MANIFEST_PATH = "synthetic_data/corpus_40_manifest.json"
 
 
 def generate_40_packet_corpus():

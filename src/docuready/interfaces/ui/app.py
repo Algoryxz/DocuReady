@@ -13,12 +13,29 @@ import os
 import json
 import streamlit as st
 
-from src.models import (
+from pathlib import Path
+
+from docuready.domain.models import (
     DocumentType, DOC_TYPE_LABELS, FindingStatus, Severity
 )
-from src.pipeline import AuditPipeline
-from src.generator import generate_marksheet, generate_income_certificate
-from src.report_exporter import export_audit_report_json, generate_readiness_summary_markdown
+from docuready.pipeline import AuditPipeline
+from docuready.generator import generate_marksheet, generate_income_certificate
+from docuready.report.exporter import export_audit_report_json, generate_readiness_summary_markdown
+
+
+def _find_synthetic_data_dir() -> Path:
+    """Locates synthetic_data directory independently of working directory."""
+    candidates = [
+        Path.cwd() / "synthetic_data",
+        Path(__file__).resolve().parents[4] / "synthetic_data",
+    ]
+    for cand in candidates:
+        if cand.is_dir():
+            return cand
+    return Path.cwd() / "synthetic_data"
+
+
+_SYNTHETIC_DIR = _find_synthetic_data_dir()
 
 
 st.set_page_config(
@@ -102,7 +119,7 @@ st.markdown("""
 if "pipeline" not in st.session_state:
     st.session_state.pipeline = AuditPipeline()
 if "current_packet_dir" not in st.session_state:
-    st.session_state.current_packet_dir = "docuready-mvp/synthetic_data/pkt_01_clean"
+    st.session_state.current_packet_dir = str(_SYNTHETIC_DIR / "pkt_01_clean")
 if "current_packet_id" not in st.session_state:
     st.session_state.current_packet_id = "PKT_01_CLEAN"
 if "audit_result" not in st.session_state or "extracted_docs" not in st.session_state:
@@ -210,9 +227,9 @@ elif screen == "2. Upload Documents":
     st.markdown("<div class='main-header'>Upload & Document Ingestion</div>", unsafe_allow_html=True)
     st.markdown("<div class='sub-header'>Select one of the 8 synthetic demonstration test cases or upload citizen document PDFs.</div>", unsafe_allow_html=True)
 
-    manifest_path = "docuready-mvp/ground_truth_manifest.json"
+    manifest_path = _SYNTHETIC_DIR / "ground_truth_manifest.json"
     manifest = {}
-    if os.path.exists(manifest_path):
+    if manifest_path.exists():
         with open(manifest_path, "r", encoding="utf-8") as f:
             manifest = json.load(f)
 
@@ -228,7 +245,7 @@ elif screen == "2. Upload Documents":
 
     if st.button("📥 Load & Audit Selected Packet", type="primary"):
         target_folder = packets_dict[selected_pid]["folder"]
-        full_path = os.path.join("docuready-mvp/synthetic_data", target_folder)
+        full_path = str(_SYNTHETIC_DIR / target_folder)
         st.session_state.current_packet_dir = full_path
         st.session_state.current_packet_id = selected_pid
         res, docs = st.session_state.pipeline.load_and_audit_packet(full_path, packet_id=selected_pid)
@@ -252,7 +269,7 @@ elif screen == "2. Upload Documents":
 
     if uploaded_files:
         if st.button("Process & Audit Uploaded Files"):
-            custom_dir = "docuready-mvp/synthetic_data/custom_upload"
+            custom_dir = str(_SYNTHETIC_DIR / "custom_upload")
             os.makedirs(custom_dir, exist_ok=True)
             max_size_bytes = 10 * 1024 * 1024  # 10 MB limit
             oversized_files = []
@@ -506,7 +523,7 @@ elif screen == "6. Document Replacement & Rerun":
     if method == "Auto-Generate Standard Corrected Version":
         st.write("Generates a corrected, consistent synthetic PDF matching the applicant's master record.")
         if st.button("Generate & Re-Run Audit", type="primary"):
-            remed_dir = "docuready-mvp/synthetic_data/remediated"
+            remed_dir = str(_SYNTHETIC_DIR / "remediated")
             os.makedirs(remed_dir, exist_ok=True)
             if selected_doc_type == DocumentType.MARKSHEET:
                 replacement_path = os.path.join(remed_dir, "corrected_marksheet.pdf")
@@ -529,7 +546,7 @@ elif screen == "6. Document Replacement & Rerun":
                     certificate_no="E-INC/2025/104928"
                 )
             else:
-                replacement_path = os.path.join("docuready-mvp/synthetic_data/pkt_01_clean", f"{selected_doc_type.value.lower()}.pdf")
+                replacement_path = str(_SYNTHETIC_DIR / "pkt_01_clean" / f"{selected_doc_type.value.lower()}.pdf")
 
             # Execute re-audit
             new_res, new_docs = st.session_state.pipeline.replace_document_and_reaudit(
@@ -547,7 +564,7 @@ elif screen == "6. Document Replacement & Rerun":
     else:
         new_file = st.file_uploader("Upload replacement PDF:", type=["pdf"])
         if new_file and st.button("Apply Replacement & Re-audit", type="primary"):
-            remed_dir = "docuready-mvp/synthetic_data/remediated"
+            remed_dir = str(_SYNTHETIC_DIR / "remediated")
             os.makedirs(remed_dir, exist_ok=True)
             replacement_path = os.path.join(remed_dir, new_file.name)
             with open(replacement_path, "wb") as f:

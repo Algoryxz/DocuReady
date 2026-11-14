@@ -6,11 +6,11 @@ relaxation rules (e.g. SC/ST cutoff exemptions) are honored.
 """
 
 import pytest
-from src.models import (
+from docuready.domain.models import (
     DocumentType, ExtractedDocument, ExtractedField, EvidenceProvenance,
     FindingStatus, Severity, ExtractionMethod
 )
-from src.validator import DocuReadyValidator, SchemeConfig
+from docuready.rules.validator import DocuReadyValidator, SchemeConfig
 
 
 def test_low_ocr_confidence_downgrades_to_review():

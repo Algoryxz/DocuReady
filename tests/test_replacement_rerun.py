@@ -3,19 +3,23 @@ Automated tests for document replacement and instant re-audit workflow.
 """
 
 import os
-from src.models import DocumentType
-from src.pipeline import AuditPipeline
+from pathlib import Path
+from docuready.domain.models import DocumentType
+from docuready.pipeline import AuditPipeline
+
+_REPO_ROOT = Path(__file__).resolve().parents[1]
+_SYNTHETIC_DIR = _REPO_ROOT / "synthetic_data" if (_REPO_ROOT / "synthetic_data").is_dir() else Path.cwd() / "synthetic_data"
 
 
 def get_doc_path(relative_subpath):
     candidates = [
-        os.path.join("synthetic_data", relative_subpath),
-        os.path.join("docuready-mvp/synthetic_data", relative_subpath),
+        _SYNTHETIC_DIR / relative_subpath,
+        Path.cwd() / "synthetic_data" / relative_subpath,
     ]
     for c in candidates:
-        if os.path.exists(c):
-            return c
-    return candidates[0]
+        if c.exists():
+            return str(c)
+    return str(candidates[0])
 
 
 def test_document_replacement_workflow():

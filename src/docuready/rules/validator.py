@@ -6,15 +6,15 @@ Implements statutory rules, cross-document entity comparisons, and provenance-li
 import re
 from datetime import date, datetime
 from typing import Dict, List, Optional, Tuple, Any
-from src.models import (
+from docuready.domain.models import (
     DocumentType, ExtractedDocument, ExtractedField, EvidenceProvenance,
     Finding, FindingStatus, Severity, AuditResult, EvidenceState
 )
-from src.normalizer import (
+from docuready.normalize.normalizer import (
     compare_names, parse_and_normalize_date, normalize_cert_number,
     validate_ifsc_code
 )
-from src.safety_layer import DecisionSafetyLayer
+from docuready.outcome.safety_layer import DecisionSafetyLayer
 
 
 class SchemeConfig:

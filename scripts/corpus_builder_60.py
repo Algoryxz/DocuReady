@@ -26,15 +26,15 @@ import pymupdf
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter, A4
 
-from src.models import DocumentType
-from src.generator import (
+from docuready.domain.models import DocumentType
+from docuready.generator import (
     generate_income_certificate, generate_caste_certificate,
     generate_residence_certificate, generate_marksheet,
     generate_bank_passbook, generate_application_form
 )
 
-CORPUS_DIR = "docuready-mvp/synthetic_data/realistic_corpus_60"
-MANIFEST_FILE = "docuready-mvp/REALISTIC_CORPUS_MANIFEST.json"
+CORPUS_DIR = "synthetic_data/realistic_corpus_60"
+MANIFEST_FILE = "synthetic_data/REALISTIC_CORPUS_MANIFEST.json"
 
 
 def _render_pdf_to_image(pdf_path: str, dpi: int = 200) -> Image.Image:

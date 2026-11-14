@@ -2,10 +2,10 @@
 Unit tests for deterministic validation rules and finding status categorization.
 """
 
-from src.models import (
+from docuready.domain.models import (
     DocumentType, ExtractedDocument, ExtractedField, FindingStatus, Severity
 )
-from src.validator import DocuReadyValidator, SchemeConfig
+from docuready.rules.validator import DocuReadyValidator, SchemeConfig
 
 
 def test_validator_mandatory_document_missing():

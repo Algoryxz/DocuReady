@@ -4,8 +4,8 @@ Verifies syntax validation, multi-feature calibration scoring, and discrete evid
 """
 
 import pytest
-from src.models import EvidenceState, ExtractionMethod
-from src.calibrator import validate_field_syntax, ConfidenceCalibrator
+from docuready.domain.models import EvidenceState, ExtractionMethod
+from docuready.evidence.calibrator import validate_field_syntax, ConfidenceCalibrator
 
 
 def test_syntax_validation_applicant_name():
