@@ -13,28 +13,35 @@ Licensing & Third-Party Dependency Notices
    You may obtain a copy of the License at:
        http://www.apache.org/licenses/LICENSE-2.0
 
-2. PDF Processing & Ingestion Engine (PyMuPDF):
-   DocuReady uses PyMuPDF (fitz) for PDF parsing, text extraction, coordinate
-   bounding box calculation, and page rendering.
-   - PyMuPDF is Copyright (c) Artifex Software, Inc.
-   - Upstream MuPDF C library is Copyright (c) 2006-2024 Artifex Software, Inc.
-   - PyMuPDF and MuPDF are licensed under the GNU Affero General Public License v3
-     (AGPLv3) or commercial terms from Artifex Software, Inc.
+2. PDF Processing & Ingestion Engine (PyMuPDF / MuPDF):
+   DocuReady provides default PDF parsing, vector text extraction, bounding box
+   coordinate provenance, and page rendering via PyMuPDF.
+   - PyMuPDF Python package: Copyright (c) 2015-2024 Artifex Software, Inc.
+     Licensed under GNU Affero General Public License v3 (AGPLv3).
+   - MuPDF C Rendering Engine: Copyright (c) 2006-2024 Artifex Software, Inc.
+     Dual-licensed under GNU Affero General Public License v3 (AGPLv3) and
+     commercial terms from Artifex Software, Inc.
    - Complete AGPLv3 text: https://www.gnu.org/licenses/agpl-3.0.html
-   - Users and redistributors incorporating DocuReady into commercial hosted
-     offerings should consult Artifex Software regarding appropriate commercial
-     licensing or utilize the pluggable permissive backend interface (pypdfium2).
+   - Commercial / Hosted Deployers: Downstream integrators or cloud providers
+     distributing DocuReady or running networked services may purchase a
+     commercial MuPDF license from Artifex to eliminate copyleft obligations,
+     or switch to the pluggable permissive backend (pypdfium2 / PDFium).
 
-3. Alternative Permissive Backend (PDFium):
-   DocuReady includes an optional backend abstraction supporting pypdfium2.
-   - PDFium is Copyright (c) 2014-2024 The PDFium Authors (Google LLC / Foxit).
-   - Licensed under BSD-3-Clause and Apache License 2.0.
-   - pypdfium2 is licensed under Apache-2.0 / BSD-3-Clause.
+3. Alternative Permissive Backend (PDFium / pypdfium2):
+   DocuReady includes a pluggable backend abstraction (docuready.ingest.pdf_backend)
+   allowing execution with permissive PDF engines:
+   - PDFium native rendering engine: Copyright (c) 2014-2024 The PDFium Authors
+     (Google LLC and Foxit Software Inc.).
+     Licensed under the 3-Clause BSD License and Apache License 2.0.
+   - pypdfium2 Python bindings: Copyright (c) 2021-2024 pypdfium2 developers.
+     Dual-licensed under Apache License 2.0 and 3-Clause BSD License.
 
-4. Other Dependencies:
+4. Other Core & Testing Dependencies:
    - Pydantic: MIT License (Copyright Samuel Colvin and contributors)
    - Pillow (PIL Fork): HPND License (Copyright Alex Clark and contributors)
    - NumPy: BSD-3-Clause (Copyright NumPy Developers)
    - PyTesseract: Apache License 2.0 (Copyright Samuel Hoffstaetter)
    - ReportLab: BSD-like Open Source License (Copyright ReportLab Europe Ltd)
    - Streamlit: Apache License 2.0 (Copyright Snowflake Inc.)
+   - PyYAML: MIT License (Copyright Kirill Simonov)
+   - Pytest: MIT License (Copyright Holger Krekel and contributors)
