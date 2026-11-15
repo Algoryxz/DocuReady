@@ -191,11 +191,12 @@ T1.x tasks are independent of each other and can run in parallel once G0 passes.
 
 #### T1.2 — Telemetry off and the no-network contract
 - **Scope:** `.streamlit/config.toml`, `.gitignore`, `tests/contract/test_no_network.py`.
+- **Status note (15 November 2026):** Implementation merged into `main` at commit `90b88718b24adfc97fa5b828e6c332a98a6ddc48` via PR #24. Remote CI on `main` passed across all four Python matrix jobs (3.11–3.14, run [43687049948](https://github.com/Algoryxz/DocuReady/actions/runs/43687049948) and PR run [43686824562](https://github.com/Algoryxz/DocuReady/actions/runs/43686824562)) with 100 passing tests and zero skips (12 contract tests in `tests/contract/test_no_network.py`). Exact negative proof verified locally: injecting deliberate `requests.get` into `AuditPipeline.load_and_audit_packet` immediately fails with `NetworkAccessBlockedError` intercepted at `socket.getaddrinfo`. Formal task acceptance pending Deeptiman's review.
 - **Behaviour:** Commit `.streamlit/config.toml` with `[browser] gatherUsageStats = false`. Change `.gitignore` to ignore only `.streamlit/secrets.toml`. Add a test that monkeypatches `socket.socket.connect` (and `getaddrinfo`) to raise, then runs the full pipeline on every demo packet and the replacement flow.
 - **Acceptance:**
-  - [ ] Config committed; test asserts `gatherUsageStats` is false
-  - [ ] No-network test passes, and a deliberate `requests.get` added in a scratch branch makes it fail (show evidence)
-  - [ ] `.gitignore` no longer ignores `.streamlit/` as a whole
+  - [x] Config committed; test asserts `gatherUsageStats` is false
+  - [x] No-network test passes, and a deliberate `requests.get` added in a scratch branch makes it fail (show evidence)
+  - [x] `.gitignore` no longer ignores `.streamlit/` as a whole
 - **Gate:** G1
 
 #### T1.3 — PDF backend interface and licence decision (ADR-001)
