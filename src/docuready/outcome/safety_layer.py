@@ -106,7 +106,12 @@ class DecisionSafetyLayer:
             # The legacy finding records only the marksheet, although category
             # is also an input. Include whichever category documents exist.
             for doc_type in (DocumentType.APPLICATION_FORM, DocumentType.CASTE_CERT):
-                if doc_type in documents and doc_type.value not in document_names:
+                category_doc = documents.get(doc_type)
+                has_category = bool(
+                    category_doc
+                    and any("caste_category" in field_name for field_name in category_doc.fields)
+                )
+                if has_category and doc_type.value not in document_names:
                     document_names.append(doc_type.value)
 
         states: List[EvidenceState] = []
