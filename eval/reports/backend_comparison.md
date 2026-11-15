@@ -96,9 +96,11 @@ Evaluated via `scripts/evaluate_pdf_backends.py`, `scripts/evaluate_extraction_6
 
 ---
 
-## 6. Acceptance Recommendation for Task T1.3
+## 6. Acceptance Recommendation & Scope Reconciliation for Task T1.3
 
-- **PyMuPDF Baseline Evidence:** Complete, reproducible, and verified (100% canonical, 0 false passes, golden baseline intact).
-- **PDFium Alternative Evidence:** Explicitly reported as **`UNVERIFIED`** for numerical field accuracy, with architecture gaps honestly identified.
-- **Provenance Integrity:** Guarded by `NotImplementedError` contract in `tests/test_pdf_backend.py`.
-- **Verdict for T1.3:** **READY FOR ACCEPTANCE** with the documented decision to retain PyMuPDF as default.
+- **PyMuPDF Production Baseline:** Complete, reproducible, and verified (100% canonical accuracy, 0 false passes, frozen golden baseline intact). All existing baseline and corpus measurements are attributable exclusively to this backend. PyMuPDF remains the configured default backend.
+- **PDFium Alternative Prototype:** Partial prototype only. Word-level bounding-box extraction (`get_words()`) remains unimplemented and explicitly raises `NotImplementedError` to prevent provenance corruption. Field extraction accuracy, false-pass counts, and false-fail counts remain **`UNVERIFIED`**. No comparative numerical results have been fabricated.
+- **Acceptance Status & Scope Decision:** Completing Task T1.3 under the original dual-backend scope requires either:
+  1. Implementing the remaining PDFium character-aggregation layout engine so `get_words()` fulfills the full interface contract and can be evaluated on the corpora, OR
+  2. Explicit Product Owner (Deeptiman) approval to accept the reduced scope (retaining PyMuPDF as production default with pluggable abstraction, while explicitly deferring PDFium word-level bounding-box completion to a future milestone).
+- **Recommendation:** Submit to Product Owner Deeptiman for explicit scope determination. Formal task acceptance remains pending Deeptiman's review and decision.

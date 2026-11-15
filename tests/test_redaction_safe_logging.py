@@ -294,6 +294,7 @@ def test_default_export_redaction_integration(tmp_path, capsys):
     assert uid not in json_content, "Full Aadhaar must NOT appear in default JSON export"
     assert "9876543210" not in json_content, "Full phone number must NOT appear in default JSON export"
     assert "123456789012" not in json_content, "Full bank account must NOT appear in default JSON export"
+    assert applicant not in json_content, "Full applicant name 'Priya Test Sharma' must NOT appear in default JSON export"
     assert raw_snip not in json_content, "Raw evidence snippet must NOT appear in default JSON export"
     assert "[REDACTED EVIDENCE SNIPPET]" in json_content, "Raw snippet must be replaced with placeholder"
     assert rule_id in json_content, "Rule ID must be preserved in default JSON export"
@@ -304,6 +305,7 @@ def test_default_export_redaction_integration(tmp_path, capsys):
     assert uid not in md_content, "Full Aadhaar must NOT appear in default Markdown export"
     assert "9876543210" not in md_content, "Full phone number must NOT appear in default Markdown export"
     assert "123456789012" not in md_content, "Full bank account must NOT appear in default Markdown export"
+    assert applicant not in md_content, "Full applicant name 'Priya Test Sharma' must NOT appear in default Markdown export"
     assert raw_snip not in md_content, "Raw evidence snippet must NOT appear in default Markdown export"
     assert rule_id in md_content, "Rule ID must be preserved in default Markdown export"
     assert remediation_text in md_content, "Actionable remediation must be preserved in default Markdown export"
@@ -335,10 +337,17 @@ def test_default_export_redaction_integration(tmp_path, capsys):
 def test_full_pipeline_logging_safe():
     """Verify that end-to-end pipeline execution and logging never leak raw citizen PII or OCR text.
 
+    Scope & Limitations:
+    Proves that an actual synthetic pipeline audit execution on reference synthetic packet
+    data, combined with candidate PII-bearing diagnostic messages dispatched through the
+    production pipeline logger, results in zero unmasked citizen identifiers or raw OCR text
+    in captured log streams. Does NOT process or evaluate real citizen identity documents.
+
     Verifies:
     1. SafeLogFilter eager formatting and record.args clearing prevent downstream exposure.
     2. Full pipeline run on synthetic packets produces zero unredacted PII in log records.
-    3. Pipeline logger masks Aadhaar, phone, bank account, and raw OCR snippets.
+    3. Pipeline logger masks Aadhaar, phone, bank account, applicant names, and raw OCR snippets.
+    4. Complete injected raw OCR text string is absent from captured logs.
     """
     log_stream = io.StringIO()
     handler = logging.StreamHandler(log_stream)
@@ -350,12 +359,12 @@ def test_full_pipeline_logging_safe():
     pipeline_logger.addHandler(handler)
 
     try:
-        # Run full pipeline audit
+        # Run full pipeline audit on synthetic packet
         pipeline = AuditPipeline()
         res_clean, docs_clean = pipeline.load_and_audit_packet(str(_PACKET_DIR), packet_id="PKT_01_CLEAN")
         assert res_clean.overall_status == "READY_TO_SUBMIT"
 
-        # Explicitly log potential diagnostic messages that an engineer or extractor might emit
+        # Explicitly log candidate diagnostic messages that an engineer or extractor might emit
         uid = "9999 1111 2222"
         phone = "9876543210"
         bank_acc = "123456789012"
@@ -364,7 +373,7 @@ def test_full_pipeline_logging_safe():
 
         # Test %s formatted logging with quoted name
         pipeline_logger.info("Processing applicant '%s' with UID %s and acc %s", applicant, uid, bank_acc)
-        # Test freeform message logging
+        # Test freeform message logging with raw OCR string
         pipeline_logger.debug("Extracted raw OCR text: %s", raw_ocr)
 
         handler.flush()
@@ -377,6 +386,7 @@ def test_full_pipeline_logging_safe():
         assert "9999 1111" not in logs
         assert "9876543210" not in logs
         assert "'Priya Test Sharma'" not in logs, "Quoted citizen name must be masked in logs"
+        assert raw_ocr not in logs, "Complete injected raw OCR string must not appear in logs"
 
         # Assert sanitized representations are present
         assert "XXXX-XXXX-2222" in logs, "Masked Aadhaar must be present"

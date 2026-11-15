@@ -23,6 +23,10 @@ VIEWPORTS = [
 
 
 def main():
+    if not Path(EDGE_EXE).exists():
+        print(f"ERROR: Edge executable not found at '{EDGE_EXE}'. Screenshot capture requires Microsoft Edge.")
+        return 1
+
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     # Remove stale screenshots prior to generation
     for _, _, fname in VIEWPORTS:
@@ -52,6 +56,9 @@ def main():
         stderr=subprocess.PIPE,
     )
 
+    failures = []
+    profile_dir = None
+
     try:
         # Wait for server to be responsive
         ready = False
@@ -72,6 +79,10 @@ def main():
         time.sleep(3)
 
         from PIL import Image
+        import shutil
+        import tempfile
+
+        profile_dir = tempfile.mkdtemp(prefix="docuready_edge_profile_")
 
         for w, h, fname in VIEWPORTS:
             out_file = OUTPUT_DIR / fname
@@ -81,6 +92,7 @@ def main():
                 "--headless=old",
                 "--disable-gpu",
                 "--no-sandbox",
+                f"--user-data-dir={profile_dir}",
                 "--run-all-compositor-stages-before-draw",
                 "--virtual-time-budget=8000",
                 f"--window-size={w},{h}",
@@ -88,14 +100,41 @@ def main():
                 URL,
             ]
             res = subprocess.run(cmd, capture_output=True, timeout=30)
-            if out_file.exists() and out_file.stat().st_size > 0:
+            if res.returncode != 0:
+                err_msg = f"Browser subprocess exited with non-zero code {res.returncode} for {fname}: {res.stderr.decode('utf-8', errors='ignore')}"
+                print(f"  -> ERROR: {err_msg}")
+                failures.append(err_msg)
+                continue
+
+            if not out_file.exists() or out_file.stat().st_size == 0:
+                err_msg = f"Screenshot file missing or empty: {out_file}"
+                print(f"  -> ERROR: {err_msg}")
+                failures.append(err_msg)
+                continue
+
+            try:
                 img = Image.open(out_file)
-                unique_colors = len(set(img.get_flattened_data() if hasattr(img, "get_flattened_data") else img.getdata()))
-                print(f"  -> Generated {fname}: {out_file.stat().st_size} bytes, dimensions={img.size}, unique_colors={unique_colors}")
-                if unique_colors <= 1:
-                    print(f"  -> WARNING: {fname} appears blank (single color detected)")
-            else:
-                print(f"  -> FAILED to generate {fname}: {res.stderr.decode('utf-8', errors='ignore')}")
+                img.load()
+            except Exception as e:
+                err_msg = f"Failed to decode image {out_file}: {e}"
+                print(f"  -> ERROR: {err_msg}")
+                failures.append(err_msg)
+                continue
+
+            if img.size != (w, h):
+                err_msg = f"Dimension mismatch for {fname}: expected ({w}, {h}), got {img.size}"
+                print(f"  -> ERROR: {err_msg}")
+                failures.append(err_msg)
+                continue
+
+            unique_colors = len(set(img.get_flattened_data() if hasattr(img, "get_flattened_data") else img.getdata()))
+            if unique_colors <= 1:
+                err_msg = f"Blank screenshot detected for {fname} (unique colors: {unique_colors})"
+                print(f"  -> ERROR: {err_msg}")
+                failures.append(err_msg)
+                continue
+
+            print(f"  -> Validated {fname}: {out_file.stat().st_size} bytes, dimensions={img.size}, unique_colors={unique_colors}")
 
     finally:
         print("Terminating Streamlit server...")
@@ -105,7 +144,23 @@ def main():
         except subprocess.TimeoutExpired:
             server.kill()
 
-    print("Screenshot capture routine complete.")
+        if profile_dir:
+            import shutil
+            shutil.rmtree(profile_dir, ignore_errors=True)
+
+    # Verify all 5 expected files exist and no failures occurred
+    missing = [fname for _, _, fname in VIEWPORTS if not (OUTPUT_DIR / fname).exists()]
+    if missing:
+        print(f"ERROR: Expected screenshots missing on disk: {missing}")
+        return 1
+
+    if failures:
+        print(f"ERROR: {len(failures)} screenshot validation check(s) failed:")
+        for f in failures:
+            print(f"  - {f}")
+        return 1
+
+    print("All responsive viewport screenshots captured and validated successfully.")
     return 0
 
 

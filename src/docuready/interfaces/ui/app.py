@@ -409,7 +409,7 @@ elif screen == "2. Upload Documents":
             accept_multiple_files=True
         )
 
-    if uploaded_files:
+    if uploaded_files and not SYNTHETIC_ONLY_MODE:
         if st.button("🔒 Process & Audit Uploaded Files", type="primary"):
             max_size_bytes = 10 * 1024 * 1024  # 10 MB per file limit
             oversized_files = []
@@ -444,6 +444,8 @@ elif screen == "2. Upload Documents":
                     st.session_state.current_packet_id = "CUSTOM_UPLOAD"
                     st.success("Uploaded packet audited successfully! Temporary files removed from disk.")
                     st.rerun()
+    elif uploaded_files and SYNTHETIC_ONLY_MODE:
+        st.error("🔒 Arbitrary file upload is disabled in synthetic-only demonstration mode.")
 
     st.markdown("---")
     st.subheader("Current Packet Documents Ingested")
@@ -686,7 +688,13 @@ elif screen == "6. Document Replacement & Rerun":
         )
 
         st.subheader("2. Provide Remediated Document")
-        method = st.radio("Remediation Source:", ["Auto-Generate Standard Corrected Version", "Upload Corrected PDF File"])
+        if SYNTHETIC_ONLY_MODE:
+            st.info("🔒 **Public Demonstration Mode:** Arbitrary document uploads are disabled for privacy protection. Remediate test cases using the automated synthetic correction generator.")
+            remediation_options = ["Auto-Generate Standard Corrected Version"]
+        else:
+            remediation_options = ["Auto-Generate Standard Corrected Version", "Upload Corrected PDF File"]
+
+        method = st.radio("Remediation Source:", remediation_options)
 
         if method == "Auto-Generate Standard Corrected Version":
             st.write("Generates a corrected, consistent synthetic PDF matching the applicant's master record.")
@@ -734,7 +742,7 @@ elif screen == "6. Document Replacement & Rerun":
                     st.success(f"Re-audit completed in {new_res.execution_time_ms:.1f} ms! Temporary files purged.")
                     st.rerun()
 
-        else:
+        elif not SYNTHETIC_ONLY_MODE and method == "Upload Corrected PDF File":
             new_file = st.file_uploader("Upload replacement PDF:", type=["pdf"])
             if new_file and st.button("Apply Replacement & Re-audit", type="primary"):
                 with secure_temporary_directory(prefix="docuready_remed_") as temp_dir:
@@ -761,3 +769,5 @@ elif screen == "6. Document Replacement & Rerun":
                     st.session_state.current_packet_id = f"{current_res.packet_id}_REMEDIATED"
                     st.success(f"Re-audit completed in {new_res.execution_time_ms:.1f} ms! Temporary files purged.")
                     st.rerun()
+        else:
+            st.error("🔒 Arbitrary replacement document upload is disabled in synthetic-only demonstration mode.")

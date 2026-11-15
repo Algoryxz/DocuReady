@@ -127,6 +127,7 @@ For enterprise deployers or commercial distributors who cannot accept AGPLv3 cop
 - [x] Implement production PyMuPDF backend in `src/docuready/ingest/pdf_backend/pymupdf_backend.py`.
 - [x] Implement prototype PDFium backend in `src/docuready/ingest/pdf_backend/pdfium_backend.py`.
 - [x] Eliminate dummy zero coordinates in `PdfiumPageBackend.get_words()`.
+- [ ] Complete PDFium word-level bounding-box segmentation in `get_words()` (deferred: currently raises `NotImplementedError`; field accuracy remains `UNVERIFIED`; requires character-aggregation layout engine or explicit PO approval of reduced scope).
 - [x] Add factory entrypoint in `src/docuready/ingest/pdf_backend/__init__.py`.
 - [x] Refactor `extractor.py` to utilize `get_pdf_backend()` with full backward compatibility.
 - [x] Provide reproducible benchmark script `scripts/evaluate_pdf_backends.py`.
