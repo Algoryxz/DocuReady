@@ -274,7 +274,7 @@ T1.x tasks are independent of each other and can run in parallel once G0 passes.
 - **Acceptance:**
   - [x] ≥ 60 cases, each rule covered for every applicable row (105 resolver-level tests in PR #49; 53 validator-level fixture tests in PR #57 and PR #61)
   - [x] Coverage report shows every branch of `outcome/resolver.py` hit
-  - [ ] Each canonical rule group is exercised through actual validator execution using representative document fixtures, not solely through direct calls to resolve_outcome(). (Implemented in PR #57 and hardened in PR #61 with 53 test items in tests/integration/test_validator_rule_matrix.py; branch ancestry reconciled in PR #63; formal technical acceptance pending PO review)
+  - [x] Each canonical rule group is exercised through actual validator execution using representative document fixtures, not solely through direct calls to resolve_outcome(). (Delivered across PR #57 and PR #61 with 53 test items in tests/integration/test_validator_rule_matrix.py; branch ancestry reconciled in PR #63; overall formal technical acceptance of T2.2 pending PO review)
 - **Gate:** G2
 
 #### T2.3 — Match grades and the injected clock
