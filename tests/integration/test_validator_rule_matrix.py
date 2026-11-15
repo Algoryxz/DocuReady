@@ -11,6 +11,7 @@ with genuine in-memory document fixtures, verifying that:
 5. Reservation exemptions surface as NOT_APPLICABLE under verified evidence and abstain to REVIEW
    under uncertain evidence.
 6. Pack severity caps monotonically reduce severity without mutating core finding classifications.
+7. Evidence provenance, comparison details, reason codes, severity, and penalties are rigorously asserted.
 """
 
 from datetime import date
@@ -180,6 +181,11 @@ def test_clean_packet_produces_all_canonical_passes_and_readiness_no_issues():
     assert result.readiness is Readiness.NO_ISSUES_FOUND
     assert result.overall_status is Readiness.NO_ISSUES_FOUND
     assert result.readiness_score == 100
+    assert result.v2_summary_counts[Status.PASS.value] == 10
+    assert result.v2_summary_counts[Status.FAIL.value] == 0
+    assert result.v2_summary_counts[Status.REVIEW.value] == 0
+    assert result.v2_summary_counts[Status.MISSING.value] == 0
+    assert result.to_public_dict()["readiness"] == Readiness.NO_ISSUES_FOUND.value
 
     expected_passes = [
         "RULE-NAME-PASS",
@@ -200,6 +206,11 @@ def test_clean_packet_produces_all_canonical_passes_and_readiness_no_issues():
         assert f.status is Status.PASS
         assert f.raw_result is Raw.SATISFIED
         assert f.reason_code == ReasonCode.CONFIRMED_OK.value
+        assert f.severity is Severity.INFO
+        assert f.penalty == 0
+        assert len(f.evidence) >= 1
+        assert f.evidence[0].file_name != ""
+        assert f.evidence[0].extraction_method == "NATIVE_VECTOR"
 
 
 # ---------------------------------------------------------------------------
@@ -207,7 +218,7 @@ def test_clean_packet_produces_all_canonical_passes_and_readiness_no_issues():
 # ---------------------------------------------------------------------------
 
 def test_grp01_mandatory_document_missing_yields_rule_doc_01_missing_and_not_ready():
-    """Omitting CASTE_CERT from packet produces RULE-DOC-01 with Status.MISSING and Readiness.NOT_READY."""
+    """Omitting CASTE_CERT produces RULE-DOC-01 with Status.MISSING, Severity.FATAL, and Readiness.NOT_READY."""
     packet = _make_clean_packet()
     del packet[DocumentType.CASTE_CERT]
 
@@ -219,12 +230,18 @@ def test_grp01_mandatory_document_missing_yields_rule_doc_01_missing_and_not_rea
     assert f.status is Status.MISSING
     assert f.raw_result is Raw.DOC_ABSENT
     assert f.reason_code == ReasonCode.DOC_ABSENT.value
-    assert DocumentType.CASTE_CERT.value in f.documents_involved
+    assert f.severity is Severity.FATAL
+    assert f.penalty == 35
+    assert f.field == "MANDATORY_DOCUMENT"
+    assert f.documents_involved == [DocumentType.CASTE_CERT.value]
+    assert f.evidence == []  # Evidence provenance cannot be extracted from absent document
     assert result.readiness is Readiness.NOT_READY
+    assert result.readiness_score == 65
+    assert result.v2_summary_counts[Status.MISSING.value] == 1
 
 
 def test_grp01_unreadable_or_corrupted_document_yields_rule_doc_02_review():
-    """Marking MARKSHEET as UNREADABLE produces RULE-DOC-02 with Status.REVIEW and Readiness.NEEDS_CHECKS."""
+    """Marking MARKSHEET as UNREADABLE produces RULE-DOC-02 with Status.REVIEW and preserved file provenance."""
     packet = _make_clean_packet()
     packet[DocumentType.MARKSHEET].status = "UNREADABLE"
 
@@ -236,7 +253,14 @@ def test_grp01_unreadable_or_corrupted_document_yields_rule_doc_02_review():
     assert f.status is Status.REVIEW
     assert f.raw_result is Raw.INDETERMINATE
     assert f.reason_code == ReasonCode.INSUFFICIENT_DATA.value
-    assert DocumentType.MARKSHEET.value in f.documents_involved
+    assert f.severity is Severity.CRITICAL
+    assert f.penalty == 25
+    assert f.field == "SCAN_QUALITY"
+    assert f.documents_involved == [DocumentType.MARKSHEET.value]
+    assert len(f.evidence) == 1
+    assert f.evidence[0].document_type == DocumentType.MARKSHEET.value
+    assert f.evidence[0].file_name == "marksheet.pdf"
+    assert f.evidence[0].raw_snippet == "[UNREADABLE SCAN / INSUFFICIENT EVIDENCE]"
     assert result.readiness in (Readiness.NEEDS_CHECKS, Readiness.NOT_READY)
 
 
@@ -245,7 +269,7 @@ def test_grp01_unreadable_or_corrupted_document_yields_rule_doc_02_review():
 # ---------------------------------------------------------------------------
 
 def test_grp02_mandatory_field_missing_yields_rule_fld_01_review():
-    """Deleting annual_income from INCOME_CERT triggers RULE-FLD-01 and resolves to REVIEW via safety layer."""
+    """Deleting annual_income triggers RULE-FLD-01, resolving to REVIEW via safety layer with empty evidence."""
     packet = _make_clean_packet()
     del packet[DocumentType.INCOME_CERT].fields["annual_income"]
 
@@ -258,6 +282,18 @@ def test_grp02_mandatory_field_missing_yields_rule_fld_01_review():
     assert f.status is Status.REVIEW
     assert f.raw_result is Raw.VIOLATED
     assert f.reason_code == ReasonCode.EVIDENCE_UNCERTAIN.value
+    assert f.severity is Severity.CRITICAL
+    assert f.penalty == 20
+    assert f.documents_involved == [DocumentType.INCOME_CERT.value]
+    assert f.evidence == []
+    assert result.readiness is Readiness.NEEDS_CHECKS
+
+
+def test_grp02_all_mandatory_fields_present_produces_no_fld_01():
+    """When all mandatory fields are present, no RULE-FLD-01 finding is generated."""
+    validator = DocuReadyValidator(SchemeConfig(), audit_date=date(2026, 11, 15))
+    result = validator.validate_packet("GRP02_ALL_PRESENT", _make_clean_packet())
+    assert _find_finding(result.findings, "RULE-FLD-01") is None
 
 
 # ---------------------------------------------------------------------------
@@ -265,7 +301,7 @@ def test_grp02_mandatory_field_missing_yields_rule_fld_01_review():
 # ---------------------------------------------------------------------------
 
 def test_grp03_exact_name_match_across_all_documents_yields_pass():
-    """Uniform verified name across all documents triggers RULE-NAME-PASS with Status.PASS."""
+    """Uniform verified name across all documents triggers RULE-NAME-PASS with full cross-document provenance."""
     packet = _make_clean_packet()
     validator = DocuReadyValidator(SchemeConfig(), audit_date=date(2026, 11, 15))
     result = validator.validate_packet("GRP03_NAME_MATCH", packet)
@@ -275,10 +311,22 @@ def test_grp03_exact_name_match_across_all_documents_yields_pass():
     assert f.status is Status.PASS
     assert f.raw_result is Raw.SATISFIED
     assert f.reason_code == ReasonCode.CONFIRMED_OK.value
+    assert f.severity is Severity.INFO
+    assert f.penalty == 0
+    assert len(f.evidence) == 2
+    assert f.evidence[0].document_type == DocumentType.APPLICATION_FORM.value
+    assert f.evidence[0].extracted_field == "applicant_name"
+    assert f.evidence[0].raw_snippet == "Aarav Sharma"
+    assert f.evidence[0].extraction_method == "NATIVE_VECTOR"
+    assert f.evidence[1].document_type == DocumentType.INCOME_CERT.value
+    assert f.evidence[1].extracted_field == "applicant_name"
+    assert f.evidence[1].raw_snippet == "Aarav Sharma"
+    assert f.evidence[1].extraction_method == "NATIVE_VECTOR"
+    assert len(f.documents_involved) == 6
 
 
 def test_grp03_contradictory_name_mismatch_yields_rule_name_01_fail_and_not_ready():
-    """Conflicting legal name on CASTE_CERT triggers RULE-NAME-01 with Status.FAIL and Readiness.NOT_READY."""
+    """Conflicting legal name triggers RULE-NAME-01 with Status.FAIL, DEFECT_CONFIRMED, and dual provenance."""
     packet = _make_clean_packet()
     packet[DocumentType.CASTE_CERT].fields["applicant_name"] = _make_field(
         DocumentType.CASTE_CERT, "applicant_name", "Rohan Gupta"
@@ -292,11 +340,22 @@ def test_grp03_contradictory_name_mismatch_yields_rule_name_01_fail_and_not_read
     assert f.status is Status.FAIL
     assert f.raw_result is Raw.VIOLATED
     assert f.reason_code == ReasonCode.DEFECT_CONFIRMED.value
+    assert f.severity is Severity.CRITICAL
+    assert f.penalty == 25
+    assert f.field == "APPLICANT_NAME"
+    assert f.documents_involved == ["APPLICATION_FORM", "CASTE_CERT"]
+    assert len(f.evidence) == 2
+    assert f.evidence[0].document_type == "APPLICATION_FORM"
+    assert f.evidence[0].raw_snippet == "Aarav Sharma"
+    assert f.evidence[1].document_type == "CASTE_CERT"
+    assert f.evidence[1].raw_snippet == "Rohan Gupta"
+    assert "Conflicting applicant names" in f.message
     assert result.readiness is Readiness.NOT_READY
+    assert result.readiness_score <= 75
 
 
 def test_grp03_compatible_name_variation_yields_rule_name_02_review():
-    """Initial / abbreviation name variance produces RULE-NAME-02 with Status.REVIEW (cannot hard FAIL)."""
+    """Initial / abbreviation name variance produces RULE-NAME-02 with Status.REVIEW and initials notes."""
     packet = _make_clean_packet()
     packet[DocumentType.INCOME_CERT].fields["applicant_name"] = _make_field(
         DocumentType.INCOME_CERT, "applicant_name", "A. Sharma"
@@ -309,6 +368,14 @@ def test_grp03_compatible_name_variation_yields_rule_name_02_review():
     assert f is not None
     assert f.status is Status.REVIEW
     assert f.raw_result is Raw.INDETERMINATE
+    assert f.reason_code == ReasonCode.INSUFFICIENT_DATA.value
+    assert f.severity is Severity.REVIEW
+    assert f.penalty == 10
+    assert f.field == "APPLICANT_NAME_VARIATION"
+    assert len(f.evidence) == 2
+    assert f.evidence[0].raw_snippet == "Aarav Sharma"
+    assert f.evidence[1].raw_snippet == "A. Sharma"
+    assert "initials" in f.message.lower()
     assert result.readiness is Readiness.NEEDS_CHECKS
 
 
@@ -331,6 +398,12 @@ def test_grp03_uncertain_ocr_name_variance_yields_rule_name_uncertain_review():
     assert f is not None
     assert f.status is Status.REVIEW
     assert f.raw_result is Raw.INDETERMINATE
+    assert f.reason_code == ReasonCode.INSUFFICIENT_DATA.value
+    assert f.severity is Severity.REVIEW
+    assert f.penalty == 10
+    assert len(f.evidence) == 2
+    assert f.evidence[1].extraction_method == "LOCAL_OCR"
+    assert f.evidence[1].raw_snippet == "Rohan Gupta"
     assert result.readiness is Readiness.NEEDS_CHECKS
 
 
@@ -339,7 +412,7 @@ def test_grp03_uncertain_ocr_name_variance_yields_rule_name_uncertain_review():
 # ---------------------------------------------------------------------------
 
 def test_grp04_exact_dob_match_yields_rule_dob_pass():
-    """Matching DOB on application and marksheet yields RULE-DOB-PASS with Status.PASS."""
+    """Matching DOB on application and marksheet yields RULE-DOB-PASS with Status.PASS and dual provenance."""
     packet = _make_clean_packet()
     validator = DocuReadyValidator(SchemeConfig(), audit_date=date(2026, 11, 15))
     result = validator.validate_packet("GRP04_DOB_MATCH", packet)
@@ -348,10 +421,17 @@ def test_grp04_exact_dob_match_yields_rule_dob_pass():
     assert f is not None
     assert f.status is Status.PASS
     assert f.raw_result is Raw.SATISFIED
+    assert f.reason_code == ReasonCode.CONFIRMED_OK.value
+    assert f.severity is Severity.INFO
+    assert f.penalty == 0
+    assert len(f.evidence) == 2
+    assert f.evidence[0].raw_snippet == "15/08/2005"
+    assert f.evidence[1].raw_snippet == "15/08/2005"
+    assert "2005-08-15" in f.message
 
 
 def test_grp04_contradictory_dob_mismatch_yields_rule_dob_01_fail():
-    """Contradictory unambiguous DOB on marksheet yields RULE-DOB-01 with Status.FAIL and Readiness.NOT_READY."""
+    """Contradictory unambiguous DOB yields RULE-DOB-01 with Status.FAIL, DEFECT_CONFIRMED, and NOT_READY."""
     packet = _make_clean_packet()
     packet[DocumentType.MARKSHEET].fields["dob"] = _make_field(
         DocumentType.MARKSHEET, "dob", "25/08/2004"
@@ -365,6 +445,12 @@ def test_grp04_contradictory_dob_mismatch_yields_rule_dob_01_fail():
     assert f.status is Status.FAIL
     assert f.raw_result is Raw.VIOLATED
     assert f.reason_code == ReasonCode.DEFECT_CONFIRMED.value
+    assert f.severity is Severity.CRITICAL
+    assert f.penalty == 25
+    assert len(f.evidence) == 2
+    assert f.evidence[0].raw_snippet == "15/08/2005"
+    assert f.evidence[1].raw_snippet == "25/08/2004"
+    assert "Date of Birth contradiction" in f.message
     assert result.readiness is Readiness.NOT_READY
 
 
@@ -385,10 +471,17 @@ def test_grp04_ambiguous_dob_format_yields_rule_dob_02_review():
     assert f is not None
     assert f.status is Status.REVIEW
     assert f.raw_result is Raw.INDETERMINATE
+    assert f.reason_code == ReasonCode.INSUFFICIENT_DATA.value
+    assert f.severity is Severity.REVIEW
+    assert f.penalty == 5
+    assert len(f.evidence) == 2
+    assert f.evidence[0].raw_snippet == "05/06/2005"
+    assert f.evidence[1].raw_snippet == "06/05/2005"
+    assert "Ambiguous date representation" in f.message
 
 
 def test_grp04_malformed_dob_format_yields_rule_dob_03_fail():
-    """Malformed DOB on marksheet yields RULE-DOB-03 with Status.FAIL."""
+    """Malformed DOB on marksheet yields RULE-DOB-03 with Status.FAIL and CRITICAL severity."""
     packet = _make_clean_packet()
     packet[DocumentType.MARKSHEET].fields["dob"] = _make_field(
         DocumentType.MARKSHEET, "dob", "INVALID_DOB_STRING"
@@ -401,6 +494,10 @@ def test_grp04_malformed_dob_format_yields_rule_dob_03_fail():
     assert f is not None
     assert f.status is Status.FAIL
     assert f.raw_result is Raw.VIOLATED
+    assert f.reason_code == ReasonCode.DEFECT_CONFIRMED.value
+    assert f.severity is Severity.CRITICAL
+    assert f.penalty == 25
+    assert f.evidence[1].raw_snippet == "INVALID_DOB_STRING"
 
 
 def test_grp04_uncertain_ocr_dob_mismatch_yields_rule_dob_uncertain_review():
@@ -422,6 +519,10 @@ def test_grp04_uncertain_ocr_dob_mismatch_yields_rule_dob_uncertain_review():
     assert f is not None
     assert f.status is Status.REVIEW
     assert f.raw_result is Raw.INDETERMINATE
+    assert f.reason_code == ReasonCode.INSUFFICIENT_DATA.value
+    assert f.severity is Severity.REVIEW
+    assert f.penalty == 10
+    assert f.evidence[1].extraction_method == "LOCAL_OCR"
 
 
 # ---------------------------------------------------------------------------
@@ -438,10 +539,16 @@ def test_grp05_income_within_statutory_ceiling_yields_rule_inc_ceil_pass():
     assert f is not None
     assert f.status is Status.PASS
     assert f.raw_result is Raw.SATISFIED
+    assert f.reason_code == ReasonCode.CONFIRMED_OK.value
+    assert f.severity is Severity.INFO
+    assert f.penalty == 0
+    assert f.evidence[0].document_type == "INCOME_CERT"
+    assert f.evidence[0].raw_snippet == "180000"
+    assert f.evidence[0].extracted_field == "annual_income"
 
 
 def test_grp05_income_exceeds_statutory_ceiling_yields_rule_inc_01_fail():
-    """Certified income 350,000 > 250,000 ceiling yields RULE-INC-01 with Status.FAIL and NOT_READY."""
+    """Certified income 350,000 > 250,000 ceiling yields RULE-INC-01 with Status.FAIL, FATAL severity, and NOT_READY."""
     packet = _make_clean_packet(annual_income=350000.0)
     validator = DocuReadyValidator(SchemeConfig(), audit_date=date(2026, 11, 15))
     result = validator.validate_packet("GRP05_INC_FAIL", packet)
@@ -451,7 +558,11 @@ def test_grp05_income_exceeds_statutory_ceiling_yields_rule_inc_01_fail():
     assert f.status is Status.FAIL
     assert f.raw_result is Raw.VIOLATED
     assert f.reason_code == ReasonCode.DEFECT_CONFIRMED.value
+    assert f.severity is Severity.FATAL
+    assert f.penalty == 35
+    assert f.evidence[0].raw_snippet == "350000"
     assert result.readiness is Readiness.NOT_READY
+    assert result.readiness_score <= 65
 
 
 def test_grp05_income_exceeds_ceiling_with_uncertain_ocr_yields_rule_inc_ceil_uncertain_review():
@@ -474,6 +585,10 @@ def test_grp05_income_exceeds_ceiling_with_uncertain_ocr_yields_rule_inc_ceil_un
     assert f is not None
     assert f.status is Status.REVIEW
     assert f.raw_result is Raw.INDETERMINATE
+    assert f.reason_code == ReasonCode.INSUFFICIENT_DATA.value
+    assert f.severity is Severity.REVIEW
+    assert f.penalty == 10
+    assert f.evidence[0].extraction_method == "LOCAL_OCR"
 
 
 def test_grp05_unparseable_income_value_yields_rule_inc_03_review():
@@ -493,6 +608,10 @@ def test_grp05_unparseable_income_value_yields_rule_inc_03_review():
     assert f is not None
     assert f.status is Status.REVIEW
     assert f.raw_result is Raw.INDETERMINATE
+    assert f.reason_code == ReasonCode.INSUFFICIENT_DATA.value
+    assert f.severity is Severity.CRITICAL
+    assert f.penalty == 20
+    assert f.evidence[0].raw_snippet == "NOT_A_NUMBER"
 
 
 # ---------------------------------------------------------------------------
@@ -509,6 +628,13 @@ def test_grp06_declared_income_matches_certified_yields_rule_inc_match_pass():
     assert f is not None
     assert f.status is Status.PASS
     assert f.raw_result is Raw.SATISFIED
+    assert f.reason_code == ReasonCode.CONFIRMED_OK.value
+    assert f.severity is Severity.INFO
+    assert f.penalty == 0
+    assert len(f.evidence) == 2
+    assert f.evidence[0].raw_snippet == "180000"
+    assert f.evidence[1].raw_snippet == "180000"
+    assert "matches certified income exactly" in f.message
 
 
 def test_grp06_declared_income_mismatches_certified_yields_rule_inc_02_fail():
@@ -526,6 +652,12 @@ def test_grp06_declared_income_mismatches_certified_yields_rule_inc_02_fail():
     assert f.status is Status.FAIL
     assert f.raw_result is Raw.VIOLATED
     assert f.reason_code == ReasonCode.DEFECT_CONFIRMED.value
+    assert f.severity is Severity.CRITICAL
+    assert f.penalty == 25
+    assert len(f.evidence) == 2
+    assert f.evidence[0].raw_snippet == "220000"
+    assert f.evidence[1].raw_snippet == "180000"
+    assert "Income mismatch" in f.message
     assert result.readiness is Readiness.NOT_READY
 
 
@@ -549,6 +681,10 @@ def test_grp06_income_mismatch_with_uncertain_ocr_yields_rule_inc_mismatch_uncer
     assert f is not None
     assert f.status is Status.REVIEW
     assert f.raw_result is Raw.INDETERMINATE
+    assert f.reason_code == ReasonCode.INSUFFICIENT_DATA.value
+    assert f.severity is Severity.REVIEW
+    assert f.penalty == 10
+    assert f.evidence[0].extraction_method == "LOCAL_OCR"
 
 
 # ---------------------------------------------------------------------------
@@ -565,6 +701,11 @@ def test_grp07_unambiguous_valid_certificate_yields_rule_exp_pass():
     assert f is not None
     assert f.status is Status.PASS
     assert f.raw_result is Raw.SATISFIED
+    assert f.reason_code == ReasonCode.CONFIRMED_OK.value
+    assert f.severity is Severity.INFO
+    assert f.penalty == 0
+    assert f.evidence[0].extracted_field == "issue_date"
+    assert f.evidence[0].raw_snippet == "15/01/2025"
 
 
 def test_grp07_unambiguous_expired_certificate_yields_rule_exp_01_fail():
@@ -578,6 +719,9 @@ def test_grp07_unambiguous_expired_certificate_yields_rule_exp_01_fail():
     assert f.status is Status.FAIL
     assert f.raw_result is Raw.VIOLATED
     assert f.reason_code == ReasonCode.DEFECT_CONFIRMED.value
+    assert f.severity is Severity.CRITICAL
+    assert f.penalty == 25
+    assert f.evidence[0].raw_snippet == "15/01/2020"
     assert result.readiness is Readiness.NOT_READY
 
 
@@ -603,6 +747,10 @@ def test_grp07_date_invariance_pass_both_interpretations_valid_yields_pass():
     assert f.status is Status.PASS
     assert f.raw_result is Raw.SATISFIED
     assert f.reason_code == ReasonCode.CONFIRMED_OK.value
+    assert f.severity is Severity.INFO
+    assert f.penalty == 0
+    assert f.evidence[0].raw_snippet == "10/01/2025"
+    assert f.evidence[0].extraction_method == "NATIVE_VECTOR"
 
 
 def test_grp07_date_invariance_fail_both_interpretations_expired_yields_fail():
@@ -627,6 +775,10 @@ def test_grp07_date_invariance_fail_both_interpretations_expired_yields_fail():
     assert f.status is Status.FAIL
     assert f.raw_result is Raw.VIOLATED
     assert f.reason_code == ReasonCode.DEFECT_CONFIRMED.value
+    assert f.severity is Severity.CRITICAL
+    assert f.penalty == 25
+    assert f.evidence[0].raw_snippet == "10/01/2020"
+    assert f.evidence[0].extraction_method == "NATIVE_VECTOR"
     assert result.readiness is Readiness.NOT_READY
 
 
@@ -651,6 +803,11 @@ def test_grp07_mixed_candidates_boundary_yields_review():
     assert f is not None
     assert f.status is Status.REVIEW
     assert f.raw_result is Raw.INDETERMINATE
+    assert f.reason_code == ReasonCode.INSUFFICIENT_DATA.value
+    assert f.severity is Severity.REVIEW
+    assert f.penalty == 10
+    assert f.evidence[0].raw_snippet == "04/06/2023"
+    assert result.readiness is Readiness.NEEDS_CHECKS
 
 
 def test_grp07_ambiguous_date_with_ocr_extraction_yields_review():
@@ -674,6 +831,11 @@ def test_grp07_ambiguous_date_with_ocr_extraction_yields_review():
     assert f is not None
     assert f.status is Status.REVIEW
     assert f.raw_result is Raw.INDETERMINATE
+    assert f.reason_code == ReasonCode.INSUFFICIENT_DATA.value
+    assert f.severity is Severity.REVIEW
+    assert f.penalty == 10
+    assert f.evidence[0].extraction_method == "LOCAL_OCR"
+    assert result.readiness is Readiness.NEEDS_CHECKS
 
 
 def test_grp07_unparseable_date_yields_rule_exp_02_review():
@@ -690,6 +852,10 @@ def test_grp07_unparseable_date_yields_rule_exp_02_review():
     assert f is not None
     assert f.status is Status.REVIEW
     assert f.raw_result is Raw.INDETERMINATE
+    assert f.reason_code == ReasonCode.INSUFFICIENT_DATA.value
+    assert f.severity is Severity.CRITICAL
+    assert f.penalty == 20
+    assert f.evidence[0].raw_snippet == "INVALID_DATE_STAMP"
 
 
 # ---------------------------------------------------------------------------
@@ -697,7 +863,7 @@ def test_grp07_unparseable_date_yields_rule_exp_02_review():
 # ---------------------------------------------------------------------------
 
 def test_grp08_income_cert_number_match_yields_rule_ref_inc_pass():
-    """Income certificate reference match yields RULE-REF-INC-PASS with Status.PASS."""
+    """Income certificate reference match yields RULE-REF-INC-PASS with Status.PASS and dual provenance."""
     packet = _make_clean_packet(income_cert_no="INC-2025-00123")
     validator = DocuReadyValidator(SchemeConfig(), audit_date=date(2026, 11, 15))
     result = validator.validate_packet("GRP08_INC_REF_MATCH", packet)
@@ -706,10 +872,17 @@ def test_grp08_income_cert_number_match_yields_rule_ref_inc_pass():
     assert f is not None
     assert f.status is Status.PASS
     assert f.raw_result is Raw.SATISFIED
+    assert f.reason_code == ReasonCode.CONFIRMED_OK.value
+    assert f.severity is Severity.INFO
+    assert f.penalty == 0
+    assert len(f.evidence) == 2
+    assert f.evidence[0].raw_snippet == "INC-2025-00123"
+    assert f.evidence[1].raw_snippet == "INC-2025-00123"
+    assert "matches reference on application form" in f.message
 
 
 def test_grp08_income_cert_number_mismatch_yields_rule_ref_01_fail():
-    """Income certificate reference number mismatch yields RULE-REF-01 with Status.FAIL and NOT_READY."""
+    """Income certificate reference mismatch yields RULE-REF-01 with Status.FAIL and dual provenance."""
     packet = _make_clean_packet()
     packet[DocumentType.INCOME_CERT].fields["certificate_no"] = _make_field(
         DocumentType.INCOME_CERT, "certificate_no", "INC-9999-DIFFERENT"
@@ -723,11 +896,17 @@ def test_grp08_income_cert_number_mismatch_yields_rule_ref_01_fail():
     assert f.status is Status.FAIL
     assert f.raw_result is Raw.VIOLATED
     assert f.reason_code == ReasonCode.DEFECT_CONFIRMED.value
+    assert f.severity is Severity.CRITICAL
+    assert f.penalty == 25
+    assert len(f.evidence) == 2
+    assert f.evidence[0].raw_snippet == "INC-2025-00123"
+    assert f.evidence[1].raw_snippet == "INC-9999-DIFFERENT"
+    assert "INC-9999-DIFFERENT" in f.message
     assert result.readiness is Readiness.NOT_READY
 
 
 def test_grp08_caste_cert_number_match_yields_rule_ref_cst_pass():
-    """Caste certificate reference match yields RULE-REF-CST-PASS with Status.PASS."""
+    """Caste certificate reference match yields RULE-REF-CST-PASS with Status.PASS and dual provenance."""
     packet = _make_clean_packet(caste_cert_no="CST-2025-00456")
     validator = DocuReadyValidator(SchemeConfig(), audit_date=date(2026, 11, 15))
     result = validator.validate_packet("GRP08_CST_REF_MATCH", packet)
@@ -736,10 +915,16 @@ def test_grp08_caste_cert_number_match_yields_rule_ref_cst_pass():
     assert f is not None
     assert f.status is Status.PASS
     assert f.raw_result is Raw.SATISFIED
+    assert f.reason_code == ReasonCode.CONFIRMED_OK.value
+    assert f.severity is Severity.INFO
+    assert f.penalty == 0
+    assert len(f.evidence) == 2
+    assert f.evidence[0].raw_snippet == "CST-2025-00456"
+    assert f.evidence[1].raw_snippet == "CST-2025-00456"
 
 
 def test_grp08_caste_cert_number_mismatch_yields_rule_ref_02_fail():
-    """Caste certificate reference number mismatch yields RULE-REF-02 with Status.FAIL and NOT_READY."""
+    """Caste certificate reference mismatch yields RULE-REF-02 with Status.FAIL and dual provenance."""
     packet = _make_clean_packet()
     packet[DocumentType.CASTE_CERT].fields["certificate_no"] = _make_field(
         DocumentType.CASTE_CERT, "certificate_no", "CST-9999-DIFFERENT"
@@ -753,6 +938,11 @@ def test_grp08_caste_cert_number_mismatch_yields_rule_ref_02_fail():
     assert f.status is Status.FAIL
     assert f.raw_result is Raw.VIOLATED
     assert f.reason_code == ReasonCode.DEFECT_CONFIRMED.value
+    assert f.severity is Severity.CRITICAL
+    assert f.penalty == 25
+    assert len(f.evidence) == 2
+    assert f.evidence[0].raw_snippet == "CST-2025-00456"
+    assert f.evidence[1].raw_snippet == "CST-9999-DIFFERENT"
     assert result.readiness is Readiness.NOT_READY
 
 
@@ -770,6 +960,11 @@ def test_grp09_valid_rbi_ifsc_yields_rule_bnk_ifsc_pass():
     assert f is not None
     assert f.status is Status.PASS
     assert f.raw_result is Raw.SATISFIED
+    assert f.reason_code == ReasonCode.CONFIRMED_OK.value
+    assert f.severity is Severity.INFO
+    assert f.penalty == 0
+    assert f.evidence[0].raw_snippet == "SBIN0001234"
+    assert f.evidence[0].extracted_field == "ifsc"
 
 
 def test_grp09_malformed_ifsc_yields_rule_bnk_01_fail():
@@ -786,10 +981,14 @@ def test_grp09_malformed_ifsc_yields_rule_bnk_01_fail():
     assert f is not None
     assert f.status is Status.FAIL
     assert f.raw_result is Raw.VIOLATED
+    assert f.reason_code == ReasonCode.DEFECT_CONFIRMED.value
+    assert f.severity is Severity.CRITICAL
+    assert f.penalty == 20
+    assert f.evidence[0].raw_snippet == "INVALID_IFSC"
 
 
 def test_grp09_bank_account_mismatch_yields_rule_bnk_02_fail():
-    """Bank account mismatch between passbook and form yields RULE-BNK-02 with Status.FAIL and NOT_READY."""
+    """Bank account mismatch between passbook and form yields RULE-BNK-02 with Status.FAIL and dual provenance."""
     packet = _make_clean_packet()
     packet[DocumentType.APPLICATION_FORM].fields["account_no"] = _make_field(
         DocumentType.APPLICATION_FORM, "account_no", "987654321098"
@@ -803,6 +1002,12 @@ def test_grp09_bank_account_mismatch_yields_rule_bnk_02_fail():
     assert f.status is Status.FAIL
     assert f.raw_result is Raw.VIOLATED
     assert f.reason_code == ReasonCode.DEFECT_CONFIRMED.value
+    assert f.severity is Severity.CRITICAL
+    assert f.penalty == 25
+    assert len(f.evidence) == 2
+    assert f.evidence[0].raw_snippet == "123456789012"
+    assert f.evidence[1].raw_snippet == "987654321098"
+    assert "Passbook '123456789012' vs Form '987654321098'" in f.message
     assert result.readiness is Readiness.NOT_READY
 
 
@@ -820,6 +1025,11 @@ def test_grp10_matching_domicile_state_yields_rule_dom_pass():
     assert f is not None
     assert f.status is Status.PASS
     assert f.raw_result is Raw.SATISFIED
+    assert f.reason_code == ReasonCode.CONFIRMED_OK.value
+    assert f.severity is Severity.INFO
+    assert f.penalty == 0
+    assert f.evidence[0].raw_snippet == "ODISHA"
+    assert f.evidence[0].extracted_field == "state"
 
 
 def test_grp10_mismatched_domicile_state_yields_rule_dom_01_fail():
@@ -833,6 +1043,10 @@ def test_grp10_mismatched_domicile_state_yields_rule_dom_01_fail():
     assert f.status is Status.FAIL
     assert f.raw_result is Raw.VIOLATED
     assert f.reason_code == ReasonCode.DEFECT_CONFIRMED.value
+    assert f.severity is Severity.CRITICAL
+    assert f.penalty == 25
+    assert f.evidence[0].raw_snippet == "DELHI"
+    assert "DELHI" in f.message and "ODISHA" in f.message
     assert result.readiness is Readiness.NOT_READY
 
 
@@ -846,6 +1060,11 @@ def test_grp10_academic_percentage_above_cutoff_yields_rule_mrk_pass():
     assert f is not None
     assert f.status is Status.PASS
     assert f.raw_result is Raw.SATISFIED
+    assert f.reason_code == ReasonCode.CONFIRMED_OK.value
+    assert f.severity is Severity.INFO
+    assert f.penalty == 0
+    assert f.evidence[0].raw_snippet == "78.5"
+    assert f.evidence[0].extracted_field == "percentage"
 
 
 def test_grp10_academic_percentage_below_cutoff_general_yields_rule_mrk_01_fail():
@@ -859,6 +1078,9 @@ def test_grp10_academic_percentage_below_cutoff_general_yields_rule_mrk_01_fail(
     assert f.status is Status.FAIL
     assert f.raw_result is Raw.VIOLATED
     assert f.reason_code == ReasonCode.DEFECT_CONFIRMED.value
+    assert f.severity is Severity.CRITICAL
+    assert f.penalty == 25
+    assert f.evidence[0].raw_snippet == "42.0"
     assert result.readiness is Readiness.NOT_READY
 
 
@@ -876,7 +1098,11 @@ def test_grp10_academic_percentage_below_cutoff_sc_st_verified_yields_not_applic
     assert f.status is Status.NOT_APPLICABLE
     assert f.raw_result is Raw.EXEMPT
     assert f.reason_code == "EXEMPT:CATEGORY_EXEMPTION"
+    assert f.severity is Severity.INFO
     assert f.penalty == 0
+    assert f.evidence[0].raw_snippet == "42.0"
+    assert "Clause 5.2" in f.statutory_reference
+    assert result.readiness is Readiness.NO_ISSUES_FOUND
 
 
 def test_grp10_academic_percentage_sc_st_uncertain_category_yields_review():
@@ -909,6 +1135,10 @@ def test_grp10_academic_percentage_sc_st_uncertain_category_yields_review():
     assert f is not None
     assert f.status is Status.REVIEW
     assert f.raw_result is Raw.INDETERMINATE
+    assert f.reason_code == ReasonCode.INSUFFICIENT_DATA.value
+    assert f.severity is Severity.INFO
+    assert f.penalty == 0
+    assert result.readiness is Readiness.NEEDS_CHECKS
 
 
 # ---------------------------------------------------------------------------
@@ -930,7 +1160,11 @@ def test_pack_severity_cap_reduces_income_breach_fail_to_warn():
     assert f.status is Status.WARN
     assert f.raw_result is Raw.VIOLATED
     assert f.reason_code == ReasonCode.ADVISORY_RULE_CAP.value
+    assert f.severity is Severity.FATAL  # Underlying finding severity preserved as FATAL
+    assert f.penalty == 35
     assert result.readiness is Readiness.NEEDS_CHECKS
+    assert result.v2_summary_counts[Status.WARN.value] == 1
+    assert result.v2_summary_counts[Status.FAIL.value] == 0
 
 
 def test_pack_severity_cap_reduces_domicile_breach_fail_to_review():
@@ -948,6 +1182,11 @@ def test_pack_severity_cap_reduces_domicile_breach_fail_to_review():
     assert f.status is Status.REVIEW
     assert f.raw_result is Raw.VIOLATED
     assert f.reason_code == ReasonCode.ADVISORY_RULE_CAP.value
+    assert f.severity is Severity.CRITICAL  # Underlying finding severity preserved as CRITICAL
+    assert f.penalty == 25
+    assert result.readiness is Readiness.NEEDS_CHECKS
+    assert result.v2_summary_counts[Status.REVIEW.value] >= 1
+    assert result.v2_summary_counts[Status.FAIL.value] == 0
 
 
 # ---------------------------------------------------------------------------
@@ -955,77 +1194,117 @@ def test_pack_severity_cap_reduces_domicile_breach_fail_to_review():
 # ---------------------------------------------------------------------------
 
 @pytest.mark.parametrize(
-    "group_id, mutated_rule_id, expected_status, expected_raw, expected_readiness",
+    "group_id, mutated_rule_id, expected_status, expected_raw, expected_reason, expected_severity, expected_penalty, expected_readiness, expected_doc",
     [
         (
             "RULE_GRP_01_DOC_COMPLETENESS",
             "RULE-DOC-01",
             Status.MISSING,
             Raw.DOC_ABSENT,
+            ReasonCode.DOC_ABSENT.value,
+            Severity.FATAL,
+            35,
             Readiness.NOT_READY,
+            DocumentType.CASTE_CERT.value,
         ),
         (
             "RULE_GRP_02_FLD_COMPLETENESS",
             "RULE-FLD-01",
             Status.REVIEW,
             Raw.VIOLATED,
+            ReasonCode.EVIDENCE_UNCERTAIN.value,
+            Severity.CRITICAL,
+            20,
             Readiness.NEEDS_CHECKS,
+            DocumentType.INCOME_CERT.value,
         ),
         (
             "RULE_GRP_03_NAME_CONSISTENCY",
             "RULE-NAME-01",
             Status.FAIL,
             Raw.VIOLATED,
+            ReasonCode.DEFECT_CONFIRMED.value,
+            Severity.CRITICAL,
+            25,
             Readiness.NOT_READY,
+            DocumentType.CASTE_CERT.value,
         ),
         (
             "RULE_GRP_04_DOB_CONSISTENCY",
             "RULE-DOB-01",
             Status.FAIL,
             Raw.VIOLATED,
+            ReasonCode.DEFECT_CONFIRMED.value,
+            Severity.CRITICAL,
+            25,
             Readiness.NOT_READY,
+            DocumentType.MARKSHEET.value,
         ),
         (
             "RULE_GRP_05_INC_CEILING",
             "RULE-INC-01",
             Status.FAIL,
             Raw.VIOLATED,
+            ReasonCode.DEFECT_CONFIRMED.value,
+            Severity.FATAL,
+            35,
             Readiness.NOT_READY,
+            DocumentType.INCOME_CERT.value,
         ),
         (
             "RULE_GRP_06_INC_MATCH",
             "RULE-INC-02",
             Status.FAIL,
             Raw.VIOLATED,
+            ReasonCode.DEFECT_CONFIRMED.value,
+            Severity.CRITICAL,
+            25,
             Readiness.NOT_READY,
+            DocumentType.INCOME_CERT.value,
         ),
         (
             "RULE_GRP_07_EXP_VALIDITY",
             "RULE-EXP-01",
             Status.FAIL,
             Raw.VIOLATED,
+            ReasonCode.DEFECT_CONFIRMED.value,
+            Severity.CRITICAL,
+            25,
             Readiness.NOT_READY,
+            DocumentType.INCOME_CERT.value,
         ),
         (
             "RULE_GRP_08_REF_MATCH",
             "RULE-REF-01",
             Status.FAIL,
             Raw.VIOLATED,
+            ReasonCode.DEFECT_CONFIRMED.value,
+            Severity.CRITICAL,
+            25,
             Readiness.NOT_READY,
+            DocumentType.INCOME_CERT.value,
         ),
         (
             "RULE_GRP_09_BNK_VALIDATION",
             "RULE-BNK-01",
             Status.FAIL,
             Raw.VIOLATED,
+            ReasonCode.DEFECT_CONFIRMED.value,
+            Severity.CRITICAL,
+            20,
             Readiness.NOT_READY,
+            DocumentType.BANK_PASSBOOK.value,
         ),
         (
             "RULE_GRP_10_DOM_MRK_COMPLIANCE",
             "RULE-DOM-01",
             Status.FAIL,
             Raw.VIOLATED,
+            ReasonCode.DEFECT_CONFIRMED.value,
+            Severity.CRITICAL,
+            25,
             Readiness.NOT_READY,
+            DocumentType.RESIDENCE_CERT.value,
         ),
     ],
 )
@@ -1034,9 +1313,13 @@ def test_all_ten_canonical_groups_matrix(
     mutated_rule_id: str,
     expected_status: Status,
     expected_raw: Raw,
+    expected_reason: str,
+    expected_severity: Severity,
+    expected_penalty: int,
     expected_readiness: Readiness,
+    expected_doc: str,
 ):
-    """Parametrized execution ensuring every canonical rule group executes through validate_packet."""
+    """Parametrized execution ensuring every canonical rule group executes through validate_packet with hardened assertions."""
     packet = _make_clean_packet()
 
     if mutated_rule_id == "RULE-DOC-01":
@@ -1086,6 +1369,18 @@ def test_all_ten_canonical_groups_matrix(
     )
     assert finding.raw_result is expected_raw, (
         f"Rule {mutated_rule_id} expected raw {expected_raw}, got {finding.raw_result}"
+    )
+    assert finding.reason_code == expected_reason, (
+        f"Rule {mutated_rule_id} expected reason {expected_reason}, got {finding.reason_code}"
+    )
+    assert finding.severity is expected_severity, (
+        f"Rule {mutated_rule_id} expected severity {expected_severity}, got {finding.severity}"
+    )
+    assert finding.penalty == expected_penalty, (
+        f"Rule {mutated_rule_id} expected penalty {expected_penalty}, got {finding.penalty}"
+    )
+    assert expected_doc in finding.documents_involved, (
+        f"Rule {mutated_rule_id} expected {expected_doc} in documents_involved, got {finding.documents_involved}"
     )
     assert result.readiness is expected_readiness, (
         f"Matrix run for {group_id} expected readiness {expected_readiness}, got {result.readiness}"
