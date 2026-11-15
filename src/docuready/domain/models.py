@@ -98,6 +98,9 @@ class ExtractedDocument(BaseModel):
     page_count: int = 1
     extraction_method: str = "NATIVE_VECTOR"
     mean_ocr_confidence: Optional[float] = None
+    expected_slot: Optional[DocumentType] = Field(default=None, exclude=True)
+    detected_type: Optional[DocumentType] = Field(default=None, exclude=True)
+    classification_details: Optional[Dict[str, Any]] = Field(default=None, exclude=True)
 
 
 class Finding(BaseModel):

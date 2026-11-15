@@ -85,7 +85,8 @@ class AuditPipeline:
                     file_path = os.path.join(packet_dir, file_name)
                     expected_type = type_mapping.get(file_name.lower())
                     extracted = self.extractor.extract_document(file_path, expected_type=expected_type)
-                    extracted_docs[extracted.doc_type] = extracted
+                    target_slot = expected_type or extracted.doc_type
+                    extracted_docs[target_slot] = extracted
 
         # Run validation
         logger.info("Extracted %d documents for packet %s", len(extracted_docs), pid)

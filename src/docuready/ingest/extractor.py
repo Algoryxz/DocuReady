@@ -12,6 +12,7 @@ import PIL.Image
 import pytesseract
 
 from docuready.ingest.pdf_backend import get_pdf_backend, PDFDocumentBackend, PDFPageBackend
+from docuready.ingest.slot_classifier import classify_document_content, SlotClassification
 
 from docuready.domain.models import (
     DocumentType, ExtractedDocument, ExtractedField, EvidenceProvenance,
@@ -30,23 +31,9 @@ if os.path.exists(TESSERACT_EXE):
 
 
 def detect_document_type(text: str) -> Optional[DocumentType]:
-    """Infers document type from raw extracted text headers."""
-    t = text.upper()
-    if "INCOME CERTIFICATE" in t:
-        return DocumentType.INCOME_CERT
-    elif "CASTE CERTIFICATE" in t or "COMMUNITY / CASTE" in t or "COMMUNITY CERTIFICATE" in t:
-        return DocumentType.CASTE_CERT
-    elif "RESIDENT / DOMICILE" in t or "RESIDENCE CERTIFICATE" in t or "DOMICILE CERTIFICATE" in t:
-        return DocumentType.RESIDENCE_CERT
-    elif "MARKS STATEMENT" in t or "MARKSHEET" in t or "HIGH SCHOOL CERTIFICATE" in t or "BOARD OF SECONDARY" in t:
-        return DocumentType.MARKSHEET
-    elif "PASSBOOK" in t or "SAVINGS BANK" in t or "ACCOUNT NUMBER" in t and "IFSC" in t:
-        return DocumentType.BANK_PASSBOOK
-    elif "COMMON SCHOLARSHIP PORTAL" in t or "APPLICATION ACKNOWLEDGEMENT" in t or "SCHOLARSHIP APPLICATION" in t:
-        return DocumentType.APPLICATION_FORM
-    elif "AADHAAR" in t or "UNIQUE IDENTIFICATION" in t:
-        return DocumentType.AADHAAR
-    return None
+    """Infers document type from raw extracted text headers using anchor verification."""
+    classification = classify_document_content(text)
+    return classification.candidate_type
 
 
 def _find_field_in_page_vector(page: pymupdf.Page, patterns: List[str]) -> Tuple[Optional[str], Optional[List[float]], str]:
@@ -260,7 +247,8 @@ class DocumentExtractor:
                 doc_type=expected_type or DocumentType.APPLICATION_FORM,
                 file_path=file_path,
                 status="MISSING",
-                extraction_method=ExtractionMethod.UNEXTRACTED.value
+                extraction_method=ExtractionMethod.UNEXTRACTED.value,
+                expected_slot=expected_type,
             )
 
         # Security check: verify PDF header
@@ -272,14 +260,16 @@ class DocumentExtractor:
                         doc_type=expected_type or DocumentType.APPLICATION_FORM,
                         file_path=file_path,
                         status="CORRUPTED",
-                        extraction_method=ExtractionMethod.UNEXTRACTED.value
+                        extraction_method=ExtractionMethod.UNEXTRACTED.value,
+                        expected_slot=expected_type,
                     )
         except Exception:
             return ExtractedDocument(
                 doc_type=expected_type or DocumentType.APPLICATION_FORM,
                 file_path=file_path,
                 status="CORRUPTED",
-                extraction_method=ExtractionMethod.UNEXTRACTED.value
+                extraction_method=ExtractionMethod.UNEXTRACTED.value,
+                expected_slot=expected_type,
             )
 
         try:
@@ -290,7 +280,8 @@ class DocumentExtractor:
                 doc_type=expected_type or DocumentType.APPLICATION_FORM,
                 file_path=file_path,
                 status="CORRUPTED",
-                extraction_method=ExtractionMethod.UNEXTRACTED.value
+                extraction_method=ExtractionMethod.UNEXTRACTED.value,
+                expected_slot=expected_type,
             )
 
         page_count = len(doc)
@@ -299,7 +290,8 @@ class DocumentExtractor:
                 doc_type=expected_type or DocumentType.APPLICATION_FORM,
                 file_path=file_path,
                 status="UNREADABLE",
-                extraction_method=ExtractionMethod.UNEXTRACTED.value
+                extraction_method=ExtractionMethod.UNEXTRACTED.value,
+                expected_slot=expected_type,
             )
 
         # 1. Inspect native text across all pages
@@ -312,10 +304,12 @@ class DocumentExtractor:
 
         if has_native_text:
             extraction_method = ExtractionMethod.NATIVE_VECTOR
-            doc_type = expected_type or detect_document_type(native_text) or self._fallback_type(file_name)
-            fields = self._parse_fields_vector(doc, doc_type, file_name)
             raw_text = native_text
             mean_ocr_conf = None
+            classification = classify_document_content(raw_text)
+            detected_type = classification.candidate_type
+            doc_type = detected_type or expected_type or self._fallback_type(file_name)
+            fields = self._parse_fields_vector(doc, doc_type, file_name)
         else:
             # 2. Trigger Local OCR fallback
             extraction_method = ExtractionMethod.LOCAL_OCR
@@ -333,19 +327,32 @@ class DocumentExtractor:
             raw_text = "\n".join(ocr_text_accum)
             mean_ocr_conf = round(sum(all_confs) / len(all_confs), 3) if all_confs else 0.0
 
+            classification = classify_document_content(raw_text)
+            detected_type = classification.candidate_type
+
             if "ILLEGIBLE" in raw_text.upper() or "ILLEGIBLE" in native_text.upper() or len(raw_text.strip()) < 20 or not all_confs:
                 # Blank scan, unextractable raster, or explicit illegible marker
                 return ExtractedDocument(
-                    doc_type=expected_type or detect_document_type(raw_text) or self._fallback_type(file_name),
+                    doc_type=detected_type or expected_type or self._fallback_type(file_name),
                     file_path=file_path,
                     status="UNREADABLE",
                     raw_text=raw_text,
                     page_count=page_count,
                     extraction_method=extraction_method.value,
-                    mean_ocr_confidence=mean_ocr_conf
+                    mean_ocr_confidence=mean_ocr_conf,
+                    expected_slot=expected_type,
+                    detected_type=detected_type,
+                    classification_details={
+                        "is_confident": classification.is_confident,
+                        "is_uncertain": classification.is_uncertain,
+                        "uncertainty_reason": classification.uncertainty_reason,
+                        "primary_anchors": classification.primary_anchors,
+                        "corroborating_terms": classification.corroborating_terms,
+                        "conflicting_types": [dt.value for dt in classification.conflicting_types],
+                    },
                 )
 
-            doc_type = expected_type or detect_document_type(raw_text) or self._fallback_type(file_name)
+            doc_type = detected_type or expected_type or self._fallback_type(file_name)
             fields = self._parse_fields_ocr(ocr_pages, doc_type, file_name)
 
         return ExtractedDocument(
@@ -356,7 +363,17 @@ class DocumentExtractor:
             raw_text=raw_text,
             page_count=page_count,
             extraction_method=extraction_method.value,
-            mean_ocr_confidence=mean_ocr_conf
+            mean_ocr_confidence=mean_ocr_conf,
+            expected_slot=expected_type,
+            detected_type=detected_type,
+            classification_details={
+                "is_confident": classification.is_confident,
+                "is_uncertain": classification.is_uncertain,
+                "uncertainty_reason": classification.uncertainty_reason,
+                "primary_anchors": classification.primary_anchors,
+                "corroborating_terms": classification.corroborating_terms,
+                "conflicting_types": [dt.value for dt in classification.conflicting_types],
+            },
         )
 
     def _fallback_type(self, file_name: str) -> DocumentType:
