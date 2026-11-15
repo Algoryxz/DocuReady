@@ -11,7 +11,7 @@ Intercepts validation findings before applicant presentation to guarantee that:
 import re
 from datetime import date
 from typing import Dict, List, Optional, Set, Any
-from docuready.domain.enums import ExtractionMethod, Raw, coerce_extraction_method
+from docuready.domain.enums import ExtractionMethod, MatchGrade, Raw, coerce_extraction_method
 from docuready.outcome.resolver import resolve_outcome, weakest_evidence
 from docuready.normalize.normalizer import get_date_ambiguity_candidates
 from docuready.domain.models import (
@@ -173,6 +173,12 @@ class DecisionSafetyLayer:
             # category evidence itself is present and verified.
             raw = Raw.EXEMPT
         elif legacy_status == FindingStatus.FAIL.value:
+            raw = Raw.VIOLATED
+        elif (
+            finding.rule_id == "RULE-NAME-02"
+            and finding.match_grade is MatchGrade.COMPATIBLE
+        ):
+            # A verified compatible variation is treated as a candidate discrepancy capped at WARN
             raw = Raw.VIOLATED
         elif legacy_status == FindingStatus.PASS.value:
             raw = Raw.SATISFIED

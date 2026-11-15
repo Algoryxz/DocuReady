@@ -21,6 +21,7 @@ import pytest
 from docuready.domain.enums import (
     EvidenceState,
     ExtractionMethod,
+    MatchGrade,
     MaxSeverity,
     Raw,
     Readiness,
@@ -355,7 +356,7 @@ def test_grp03_contradictory_name_mismatch_yields_rule_name_01_fail_and_not_read
 
 
 def test_grp03_compatible_name_variation_yields_rule_name_02_review():
-    """Initial / abbreviation name variance produces RULE-NAME-02 with Status.REVIEW and initials notes."""
+    """Initial / abbreviation name variance produces RULE-NAME-02 with MatchGrade.COMPATIBLE, Status.WARN and penalty <= 5."""
     packet = _make_clean_packet()
     packet[DocumentType.INCOME_CERT].fields["applicant_name"] = _make_field(
         DocumentType.INCOME_CERT, "applicant_name", "A. Sharma"
@@ -366,11 +367,12 @@ def test_grp03_compatible_name_variation_yields_rule_name_02_review():
 
     f = _find_finding(result.findings, "RULE-NAME-02")
     assert f is not None
-    assert f.status is Status.REVIEW
-    assert f.raw_result is Raw.INDETERMINATE
-    assert f.reason_code == ReasonCode.INSUFFICIENT_DATA.value
-    assert f.severity is Severity.REVIEW
-    assert f.penalty == 10
+    assert f.match_grade is MatchGrade.COMPATIBLE
+    assert f.status is Status.WARN
+    assert f.raw_result is Raw.VIOLATED
+    assert f.reason_code == ReasonCode.DEFECT_PROBABLE.value
+    assert f.penalty <= 5
+    assert f.penalty == 5
     assert f.field == "APPLICANT_NAME_VARIATION"
     assert len(f.evidence) == 2
     assert f.evidence[0].raw_snippet == "Aarav Sharma"
