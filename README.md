@@ -1,7 +1,7 @@
 <div align="center">
   <img src="assets/branding/docuready-logo.png" alt="DocuReady Logo" width="128" height="128" />
   <h1>DocuReady</h1>
-  <p><strong>Deterministic, privacy-preserving, statutory pre-flight audit for government scholarship and citizen welfare applications.</strong></p>
+  <p><strong>Deterministic, privacy-preserving pre-flight readiness audit for government scholarship and citizen welfare applications.</strong></p>
 </div>
 
 [![CI Tests](https://github.com/Algoryxz/DocuReady/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/Algoryxz/DocuReady/actions/workflows/tests.yml)
