@@ -155,12 +155,6 @@ def resolve_outcome(
 
     return ResolvedOutcome(status, reason_code, message)
 
-    # Defensive branch for future enum additions.
-    return ResolvedOutcome(
-        Status.REVIEW,
-        ReasonCode.INSUFFICIENT_DATA.value,
-        "The rule result could not be resolved safely.",
-    )
 
 
 def resolve_readiness(statuses: Iterable[Union[Status, str]]) -> Readiness:
