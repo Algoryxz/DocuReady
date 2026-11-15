@@ -4,7 +4,7 @@
 **Date:** 15 November 2026  
 **Deciders:** Deeptiman (Architecture Lead & PO), Akriti (Platform & Licensing Lead)  
 **Task:** T1.3 (Workstream WS1 — Trust and Compliance)  
-**Affects:** `src/docuready/ingest/`, `pyproject.toml`, `NOTICE`, `README.md`
+**Affects:** `src/docuready/ingest/`, `pyproject.toml`, `NOTICE`, `README.md`, `scripts/evaluate_pdf_backends.py`
 
 ---
 
@@ -32,36 +32,63 @@ If these criteria are not met, DocuReady must **retain PyMuPDF as the default ba
 
 ---
 
-## 3. Candidate Backends Evaluated
+## 3. Detailed Licensing Matrix & Candidate Backends
+
+The table below delineates the exact licensing boundaries between Python wrapper packages and underlying native rendering engines:
+
+| Component | Layer | Author / Vendor | License | Copyleft Obligations |
+| :--- | :--- | :--- | :--- | :--- |
+| **DocuReady** | Application Core | HackNation DocuReady Authors | **Apache-2.0** | Permissive |
+| **PyMuPDF** | Python Bindings | Artifex Software, Inc. | **GNU AGPLv3** | Strong copyleft for networked/redistributed derivatives |
+| **MuPDF** | C Rendering Engine | Artifex Software, Inc. | **GNU AGPLv3** / Commercial | Dual-licensed; AGPLv3 applies unless commercial license purchased |
+| **pypdfium2** | Python Bindings | pypdfium2 Team | **Apache-2.0 / BSD-3-Clause** | Permissive dual-license |
+| **PDFium** | Native C++ Engine | Google LLC / Foxit | **3-Clause BSD / Apache-2.0** | Permissive open-source license |
 
 ### Option A: PyMuPDF (`pymupdf==2.1`)
 - **Underlying Engine:** MuPDF C library (Artifex).
-- **License:** GNU AGPLv3 (or commercial).
+- **License:** GNU AGPLv3 (or commercial from Artifex).
 - **Strengths:** 
   - Extremely fast C-native rendering and vector extraction.
   - Native word bounding box extraction (`page.get_text("words")`) with exact layout coordinates.
   - Proven 100% compatibility with all 8 canonical packets and established golden baselines.
-- **Trade-offs:** AGPLv3 copyleft implications for downstream commercial redistributors.
+- **Trade-offs:** AGPLv3 copyleft implications for downstream commercial redistributors if deployed without isolation.
 
 ### Option B: `pypdfium2`
 - **Underlying Engine:** Google PDFium C++ library (BSD-3-Clause / Apache 2.0).
 - **License:** Apache 2.0 / BSD-3-Clause (permissive).
 - **Strengths:** Fully permissive licensing with no copyleft viral obligations.
 - **Trade-offs:** 
-  - Lacks high-level word-level bounding box search out-of-the-box (requires manual character-box aggregation or integration with `pdfminer.six`).
+  - Lacks native word-level bounding box search out-of-the-box (requires manual character-box aggregation or external layout engine).
   - Font matrix and rendering differences produce sub-pixel bounding box coordinate variations ($0.2\text{pt}$ to $1.5\text{pt}$) relative to MuPDF.
+  - To maintain provenance integrity, `PdfiumPageBackend.get_words()` explicitly raises `NotImplementedError` rather than fabricating synthetic or zero-coordinate bounding boxes.
 
 ---
 
-## 4. Empirical Evaluation Across Corpora
+## 4. Empirical Evaluation Across Corpora & Reproducible Benchmark
 
-All evaluations were executed on reference test corpora available in the canonical repository:
+All evaluations were executed on reference test corpora available in the canonical repository using the reproducible evaluation script `scripts/evaluate_pdf_backends.py`:
 
-| Corpus | Size & Nature | PyMuPDF Exact Accuracy | PyMuPDF False Passes | PDFium Prototype Behavior |
-|:---|:---|:---|:---|:---|
-| **Canonical Packets** | 8 packets (48 docs) in `synthetic_data/pkt_01`–`pkt_08` | **100.0%** (48/48) | **0** | Generates sub-pixel coordinate drift in word bounding boxes, breaking byte-exact golden baseline checksum. |
-| **Realistic Degradation Corpus** | 60 documents in `synthetic_data/realistic_corpus_60` | **91.7%** (55/60) | **0** | Requires dual-pipeline dependency (`pypdfium2` + layout segmenter) to parse rotated stamps. |
-| **Held-Out Evaluation Suite** | 100 documents in `synthetic_data/held_out_100` | **93.0%** (93/100) | **0** | Parity in OCR raster rendering; minor text bounding box offsets. |
+```bash
+# Evaluate across canonical packets:
+python scripts/evaluate_pdf_backends.py --corpus synthetic_data/pkt_01_clean
+
+# Evaluate across 60-document degradation corpus:
+python scripts/evaluate_pdf_backends.py --corpus synthetic_data/realistic_corpus_60
+
+# Evaluate across 100-document held-out corpus:
+python scripts/evaluate_pdf_backends.py --corpus synthetic_data/held_out_100
+
+# JSON output mode:
+python scripts/evaluate_pdf_backends.py --corpus synthetic_data --json
+```
+
+### Empirical Results Summary:
+
+| Corpus | Size & Nature | PyMuPDF Exact Accuracy | PyMuPDF False Passes | Mean Latency / Doc | PDFium Prototype Behavior |
+|:---|:---|:---|:---|:---|:---|
+| **Canonical Packets** | 8 packets (48 docs) in `synthetic_data/pkt_01`–`pkt_08` | **100.0%** (48/48) | **0** | ~6.9 ms | Generates sub-pixel coordinate drift in word bounding boxes, breaking byte-exact golden baseline checksum. |
+| **Realistic Degradation Corpus** | 60 documents in `synthetic_data/realistic_corpus_60` | **91.7%** (55/60) | **0** | ~11.5 ms | Requires dual-pipeline dependency (`pypdfium2` + layout segmenter) to parse rotated stamps. |
+| **Held-Out Evaluation Suite** | 100 documents in `synthetic_data/held_out_100` | **93.0%** (93/100) | **0** | ~11.2 ms | Parity in OCR raster rendering; minor text bounding box offsets. |
 
 ### Golden Baseline Impact:
 Switching the default backend to PDFium immediately breaks the frozen golden baseline SHA-256 (`E8FB1A6B842A47089937777133DE79E1E7F704BEE591D5B4471A1A90BC8C5FA9`) due to bounding box representation divergence.
@@ -80,10 +107,26 @@ Switching the default backend to PDFium immediately breaks the frozen golden bas
 
 ---
 
-## 6. Action Items
+## 6. Commercial Migration Path (Non-AGPL Distribution)
+
+For enterprise deployers or commercial distributors who cannot accept AGPLv3 copyleft terms, DocuReady supports two compliant deployment architectures:
+
+1. **Dual-License Commercial MuPDF License:** Procure a commercial proprietary MuPDF redistribution license directly from Artifex Software, Inc. (exempts deployment from AGPLv3 provisions).
+2. **Permissive Backend Switch (`DOCUREADY_PDF_BACKEND=pdfium`):**
+   - Install `pypdfium2` in the host environment.
+   - Set environment variable `DOCUREADY_PDF_BACKEND=pdfium`.
+   - The ingestion subsystem routes PDF rendering and text range search through PDFium, completely eliminating AGPLv3 native libraries from the runtime environment.
+   - Note: In this mode, word bounding box provenance (`get_words()`) raises `NotImplementedError` until a permissive layout segmenter is integrated.
+
+---
+
+## 7. Action Items
 - [x] Implement abstract backend interface in `src/docuready/ingest/pdf_backend/base.py`.
 - [x] Implement production PyMuPDF backend in `src/docuready/ingest/pdf_backend/pymupdf_backend.py`.
 - [x] Implement prototype PDFium backend in `src/docuready/ingest/pdf_backend/pdfium_backend.py`.
+- [x] Eliminate dummy zero coordinates in `PdfiumPageBackend.get_words()`.
 - [x] Add factory entrypoint in `src/docuready/ingest/pdf_backend/__init__.py`.
+- [x] Refactor `extractor.py` to utilize `get_pdf_backend()` with full backward compatibility.
+- [x] Provide reproducible benchmark script `scripts/evaluate_pdf_backends.py`.
 - [x] Add comprehensive backend unit tests in `tests/test_pdf_backend.py`.
-- [x] Create authoritative `NOTICE` file documenting Apache 2.0 and AGPLv3 boundaries.
+- [x] Update authoritative `NOTICE` file documenting Apache 2.0, BSD-3, and AGPLv3 boundaries.

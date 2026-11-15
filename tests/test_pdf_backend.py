@@ -86,3 +86,21 @@ def test_pdfium_backend_import_handling():
         doc.close()
     except ImportError as e:
         assert "pypdfium2 is not installed" in str(e)
+
+
+def test_pdfium_page_backend_get_words_raises_not_implemented():
+    """Verify that PdfiumPageBackend.get_words explicitly raises NotImplementedError instead of returning fake coordinates."""
+    from unittest.mock import MagicMock
+    from docuready.ingest.pdf_backend import pdfium_backend
+
+    # Temporarily bypass import check to test class contract
+    orig_available = pdfium_backend._PYPDFIUM2_AVAILABLE
+    pdfium_backend._PYPDFIUM2_AVAILABLE = True
+    try:
+        mock_page = MagicMock()
+        mock_page.get_size.return_value = (595.0, 842.0)
+        page = pdfium_backend.PdfiumPageBackend(mock_page, 0)
+        with pytest.raises(NotImplementedError, match="Word-level bounding box provenance"):
+            page.get_words()
+    finally:
+        pdfium_backend._PYPDFIUM2_AVAILABLE = orig_available

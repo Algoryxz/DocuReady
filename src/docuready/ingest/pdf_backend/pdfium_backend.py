@@ -58,13 +58,19 @@ class PdfiumPageBackend(PDFPageBackend):
         return results
 
     def get_words(self) -> List[Tuple[float, float, float, float, str, int, int, int]]:
-        # Approximate word segmentation from textpage character boxes
-        text = self.get_text()
-        words: List[Tuple[float, float, float, float, str, int, int, int]] = []
-        # Return fallback word positions if available
-        for idx, word in enumerate(text.split()):
-            words.append((0.0, 0.0, 0.0, 0.0, word, 0, 0, idx))
-        return words
+        """Extract individual words and their bounding boxes.
+
+        Raises NotImplementedError: word-level bounding box provenance with block/line
+        structure is currently only supported by the PyMuPDF backend (PyMuPDFBackend).
+        Returning fake or zero-coordinate bounding boxes is strictly prohibited to
+        preserve provenance integrity.
+        """
+        raise NotImplementedError(
+            "Word-level bounding box provenance (get_words) is not implemented for "
+            "PdfiumPageBackend. Word-level coordinate extraction requires the PyMuPDF "
+            "backend (pymupdf). Returning zero or synthetic bounding boxes is disallowed "
+            "to prevent provenance corruption."
+        )
 
     def render_to_image(self, dpi: int = 200) -> PIL.Image.Image:
         scale = dpi / 72.0
