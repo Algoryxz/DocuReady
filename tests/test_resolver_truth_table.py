@@ -31,6 +31,10 @@ from docuready.domain.enums import Readiness
         (Raw.VIOLATED, EvidenceState.VERIFIED, MaxSeverity.WARN, None, Status.WARN, ReasonCode.ADVISORY_RULE_CAP.value),
         (Raw.VIOLATED, EvidenceState.PROVISIONAL, MaxSeverity.REVIEW, None, Status.REVIEW, ReasonCode.ADVISORY_RULE_CAP.value),
         (Raw.VIOLATED, EvidenceState.VERIFIED, None, MatchGrade.AMBIGUOUS, Status.REVIEW, ReasonCode.EVIDENCE_UNCERTAIN.value),
+        (Raw.SATISFIED, EvidenceState.VERIFIED, None, MatchGrade.COMPATIBLE, Status.WARN, ReasonCode.DEFECT_PROBABLE.value),
+        (Raw.SATISFIED, EvidenceState.PROVISIONAL, None, MatchGrade.COMPATIBLE, Status.REVIEW, ReasonCode.CANNOT_CONFIRM.value),
+        (Raw.SATISFIED, EvidenceState.VERIFIED, None, MatchGrade.CONFLICT, Status.REVIEW, ReasonCode.EVIDENCE_UNCERTAIN.value),
+        (Raw.SATISFIED, EvidenceState.VERIFIED, MaxSeverity.REVIEW, MatchGrade.COMPATIBLE, Status.REVIEW, ReasonCode.ADVISORY_RULE_CAP.value),
     ],
 )
 def test_resolver_truth_table(
