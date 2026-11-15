@@ -180,7 +180,7 @@ T1.x tasks are independent of each other and can run in parallel once G0 passes.
 
 #### T1.1 — Claims register and honest-claims pass
 - **Scope:** `docs/CLAIMS_REGISTER.md`, `README.md`, docs under `docs/01-PRODUCT`, `docs/03-RESEARCH`, `PUBLICATION_REPORT.md`, `tests/contract/test_claims.py`.
-- **Status note (15 November 2026):** Implementation merged into `main` across PR #34 (`1341540`) and PR #26 (`1a9d6a1`). Delivered `docs/CLAIMS_REGISTER.md` (cataloguing claims CLM-001 through CLM-011 with verified/softened/removed classifications), sanitized `README.md` (re-labeled local verified privacy badge, scheme requirement rules engine, qualified 1-year validity heuristics, added prominent advisory disclaimer, removed static 88-test badge), sanitized public research documents (`PUBLICATION_REPORT.md`, `COMPETITOR_ANALYSIS.md`, `HACKNATION_IDEA_SELECTION.md`), and implemented `tests/contract/test_claims.py` (prohibiting banned phrases, enforcing disclaimer, and asserting synthetic benchmark qualification with non-silent assertions). Formal task acceptance pending Deeptiman's review.
+- **Status note (15 November 2026):** Implementation merged into `main` via PR #34 (commit `1341540911eccebfe702d051f1b320a9dfc37f07`) and PR #26 (commit `1a9d6a195f4625b1ff5345d4c8fc43cf6cb2ca01`). Delivered `docs/CLAIMS_REGISTER.md` (cataloguing claims CLM-001 through CLM-011 with verified/qualified/removed classifications), sanitized `README.md` (re-labeled local verified privacy badge, scheme requirement rules engine, qualified 1-year validity heuristics, added prominent advisory disclaimer, removed static test badge), sanitized public research documents (`PUBLICATION_REPORT.md`, `COMPETITOR_ANALYSIS.md`, `HACKNATION_IDEA_SELECTION.md`), and implemented `tests/contract/test_claims.py` with reusable helper and non-silent existence assertions. Remote CI on `main` passed across all four Python matrix jobs (3.11–3.14). Formal task acceptance pending Deeptiman's review.
 - **Behaviour:** Inventory every quantitative or absolute claim (80 million, 18–32%, "every finding cites an enacted statutory clause", "DPDP compliant", "zero exfiltration", "deterministic", accuracy and ECE tables, "under 1 second"). For each: find a real source, soften, or remove. Apply the positioning sentence from ARCHITECTURE_V2 §2. Label all benchmarks **synthetic**. Replace the static "50 passing" badge with the CI badge. Fix the README test tree. Unify "MANUAL REVIEW"/"NEEDS REVIEW".
 - **Acceptance:**
   - [x] Register has one row per claim with status verified / softened / removed (`docs/CLAIMS_REGISTER.md` cataloguing CLM-001 through CLM-011)
@@ -216,7 +216,7 @@ T1.x tasks are independent of each other and can run in parallel once G0 passes.
 
 #### T1.4 — Redaction and safe logging
 - **Scope:** `report/redact.py`, exporters, CLI flags, logging setup.
-- **Status note (15 November 2026):** Initial implementation merged in PR #29 (`a7fd1db4f61f51cb3e6e8bb5440fc7aa4aa7a876`). Corrective implementation merged into `main` at commit `72b20a7` via PR #33 (`task/T1.4-redaction-safe-logging-corrective`). Hardened `SafeLogFilter` with eager message formatting and `record.args = ()` clearing to prevent downstream formatters from re-inserting unmasked arguments, enhanced field-aware redaction (masked bank accounts, phone variants, Aadhaar), audited temp directory cleanup, and integrated safe logging in pipeline. Integration evidence added for default export redaction and full-pipeline logging assertions. Formal task acceptance pending Deeptiman's review.
+- **Status note (15 November 2026):** Initial implementation merged in PR #29 (`a7fd1db4f61f51cb3e6e8bb5440fc7aa4aa7a876`); corrective implementation merged into `main` at commit `72b20a7efb0bb99fe2fbffbc2e82f5b9d31dca21` via PR #33 (`task/T1.4-redaction-safe-logging-corrective`). Hardened `SafeLogFilter` with eager message formatting and `record.args = ()` clearing to prevent downstream formatters from re-inserting unmasked arguments, enhanced field-aware redaction (masked bank accounts, phone variants, Aadhaar), audited temp directory cleanup, and integrated safe logging in pipeline. Integration evidence added for default export redaction and full-pipeline logging assertions in `tests/test_redaction_safe_logging.py`. Remote CI on `main` passed across all four Python matrix jobs (3.11–3.14). Formal task acceptance pending Deeptiman's review.
 - **Behaviour:** Default-redact Aadhaar (last 4 visible), bank account (last 4), phone (last 2) in JSON, Markdown and UI. `--no-redact` requires explicit flag and prints a warning. Logs contain field keys, evidence states and rule ids, never raw values. Uploads use a `0700` temp dir deleted in a `finally`.
 - **Acceptance:**
   - [x] Test: exported JSON/MD for packets containing synthetic Aadhaar/account/phone never contains the full values by default
@@ -226,7 +226,10 @@ T1.x tasks are independent of each other and can run in parallel once G0 passes.
 
 #### T1.5 — Citation audit and `sources.yaml`
 - **Scope:** `packs/generic.demo/sources.yaml`, `docs/CITATION_AUDIT.md`, `tests/test_citation_sources.py`.
-- **Status note (15 November 2026):** Initial implementation merged in PR #30 (`bf77012ff2f261f18c6faca362cb84782aacfd6d`). Corrective implementation merged into `main` at commit `ace9e5d` via PR #32 (`task/T1.5-citation-audit-corrective`). Corrected statutory citations in `packs/generic.demo/sources.yaml` (replaced Odisha 2019 Rule 8, CBSE DOB Rule 69.2, e-District MMP §5.2), mapped 10 validator rule groups to sources, classified 5 verified vs 8 unverified heuristics, and enforced PyYAML schema validation in `tests/test_citation_sources.py`. Formal task acceptance pending Deeptiman's review.
+- **Status note (15 November 2026):** Initial implementation merged in PR #30 (`bf77012ff2f261f18c6faca362cb84782aacfd6d`); corrective implementation merged into `main` at commit `ace9e5d4cb058e0a29486c31bfad770020bc8209` via PR #32 (`task/T1.5-citation-audit-corrective`). Corrected statutory citations in `packs/generic.demo/sources.yaml` (replaced Odisha 2019 Rule 8, CBSE DOB Rule 69.2, e-District MMP §5.2), mapped 10 validator rule groups to sources, classified 5 verified statutory rules vs 8 unverified heuristics, and enforced PyYAML schema validation in `tests/test_citation_sources.py`. Remote CI on `main` passed across all four Python matrix jobs (3.11–3.14). Packaging follow-up for direct PyYAML dev dependency declaration is tracked independently under Issue #38 / PR #41. Formal task acceptance pending Deeptiman's review.
+- **Behaviour:** For each of the 10 rules, locate the real governing document (scheme guideline, notification, manual). Record title, issuing body, URL, `retrieved_on`, the exact clause number, and whether the cited clause actually supports the rule. Where it does not, mark `placeholder` and propose either a correct citation or a rewording of the rule as a **document-consistency check** without a statutory claim.
+- **Non-goals:** Do not paraphrase law from memory. If a source cannot be found, write `UNVERIFIED`.
+- **Acceptance:**
   - [x] 10 rows, each `verified` / `placeholder` / `unverified` with evidence (13 rows across all 10 core rule groups in `docs/CITATION_AUDIT.md` and `packs/generic.demo/sources.yaml`: exactly 5 verified statutory rules and 8 unverified operational heuristics)
   - [x] Every `verified` row has URL, retrieval date and a one-line quote-free summary of the clause (documented with official portal/gazette URLs, retrieval dates, and clause summaries)
   - [x] List of rules whose parameters (income cap, validity period, cutoffs) depend on the specific scheme or state (detailed in §3 of `docs/CITATION_AUDIT.md` and in YAML `scheme_dependent_params`)
@@ -236,7 +239,7 @@ T1.x tasks are independent of each other and can run in parallel once G0 passes.
 
 #### Mobile Web MVP — Responsive Browser Interface
 - **Scope:** `src/docuready/interfaces/ui/app.py`, `docs/MOBILE_RUN_GUIDE.md`, `tests/test_mobile_ui.py`.
-- **Status note (15 November 2026):** Implementation submitted on branch `feature/mobile-web-mvp` via PR #36. Delivered responsive CSS (`@media (max-width: 768px)`), single-column stacked layout on narrow screens, WCAG-compliant >=44px minimum touch targets, horizontal scroll protection for tables/graphics, sticky top readiness status bar, comprehensive LAN connection run guide in `docs/MOBILE_RUN_GUIDE.md`, and automated test coverage in `tests/test_mobile_ui.py`. Review pending.
+- **Status note (15 November 2026):** Implementation merged into `main` at commit `3d5300e811e79a11dd741dd3a8a5f9d380ef4df4` via PR #36 (`feature/mobile-web-mvp`). Delivered responsive CSS (`@media (max-width: 768px)`), single-column stacked layout on narrow screens, WCAG-compliant >=44px minimum touch targets, horizontal scroll protection for tables/graphics, sticky top readiness status bar, comprehensive LAN connection run guide in `docs/MOBILE_RUN_GUIDE.md`, and automated test coverage in `tests/test_mobile_ui.py`. Main CI run 43692321717 passed across Python 3.11–3.14. Track B is distinct from Gate G1.
 - **Acceptance:**
   - [x] Responsive layout rules with `@media (max-width: 768px)` media query
   - [x] Minimum 44px touch targets on buttons, selectors, and form controls
@@ -244,11 +247,8 @@ T1.x tasks are independent of each other and can run in parallel once G0 passes.
   - [x] Sticky readiness status bar on mobile viewports
   - [x] Comprehensive LAN guide with IP lookup, connection instructions, host processing disclosure, and cleanup instructions
   - [x] Automated test suite in `tests/test_mobile_ui.py`
-  - [x] PR #36 submitted targeting `main` without merging
-  - [x] 10 rows, each `verified` / `placeholder` / `unverified` with evidence (13 rows across all 10 core rule groups verified in `docs/CITATION_AUDIT.md` and `packs/generic.demo/sources.yaml`)
-  - [x] Every `verified` row has URL, retrieval date and a one-line quote-free summary of the clause (documented with official portal/gazette URLs, retrieval dates, and clause summaries)
-  - [x] List of rules whose parameters (income cap, validity period, cutoffs) depend on the specific scheme or state (detailed in §3 of `docs/CITATION_AUDIT.md` and in YAML `scheme_dependent_params`)
-- **Gate:** G1
+  - [x] PR #36 merged into `main`
+- **Gate:** Track B
 
 ### WS2 — Correctness
 
