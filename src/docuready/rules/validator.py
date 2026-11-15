@@ -50,7 +50,15 @@ class SchemeConfig:
 
 
 class DocuReadyValidator:
-    """Validates multi-document applicant packets against statutory rules and cross-document facts."""
+    """Validates multi-document applicant packets against statutory rules and cross-document facts.
+
+    Clock boundary guarantee:
+    When instantiated directly without an explicit `as_of` (or legacy `audit_date`),
+    defaults to `date(2026, 11, 13)` for deterministic backwards compatibility with
+    frozen unit fixtures and offline verification. In production runs, `AuditPipeline`
+    serves as the single default clock boundary, injecting the authoritative system date
+    or `DOCUREADY_AS_OF` into `DocuReadyValidator`.
+    """
 
     def __init__(
         self,
@@ -63,7 +71,7 @@ class DocuReadyValidator:
                 f"Conflicting as_of ({as_of}) and audit_date ({audit_date}) provided"
             )
         self.scheme = scheme_config or SchemeConfig()
-        # Reference date set to Nov 13, 2026 if not supplied
+        # Fallback date set to Nov 13, 2026 if not supplied
         effective_as_of = as_of or audit_date or date(2026, 11, 13)
         self.as_of = effective_as_of
         self.audit_date = effective_as_of
@@ -179,9 +187,14 @@ class DocuReadyValidator:
         # Compare each supporting document against the primary Application Form (or first doc)
         primary_dt, primary_f = name_fields[0] if name_fields else (None, None)
         divergent_docs_seen = set()
+        overall_name_grade = MatchGrade.EXACT
 
         for dt2, f2 in name_fields[1:]:
             cmp = compare_names(primary_f.raw_value, f2.raw_value)
+            cmp_grade = cmp.get("grade")
+            if cmp_grade == MatchGrade.COMPATIBLE and overall_name_grade == MatchGrade.EXACT:
+                overall_name_grade = MatchGrade.COMPATIBLE
+
             ev = [
                 primary_f.provenance or EvidenceProvenance(document_type=primary_dt.value, file_name="", raw_snippet=primary_f.raw_value),
                 f2.provenance or EvidenceProvenance(document_type=dt2.value, file_name="", raw_snippet=f2.raw_value)
@@ -241,7 +254,7 @@ class DocuReadyValidator:
                 ))
                 score -= 10
 
-        # If name fields exist and no FAIL/REVIEW was generated among primary docs, add PASS
+        # If name fields exist and no FAIL/REVIEW was generated among primary docs, add PASS/WARN finding
         if len(name_fields) >= 2 and not any(f.field.startswith("APPLICANT_NAME") for f in findings):
             primary_ev = [
                 f.provenance or EvidenceProvenance(
@@ -252,6 +265,11 @@ class DocuReadyValidator:
                 )
                 for dt, f in name_fields[:2]
             ]
+            msg = (
+                "Applicant name matches consistently across all verified documents."
+                if overall_name_grade == MatchGrade.EXACT
+                else "Applicant name has compatible variation (e.g. token reordering) across verified documents."
+            )
             findings.append(Finding(
                 rule_id="RULE-NAME-PASS",
                 rule_name="Cross-Document Applicant Name Consistency",
@@ -260,11 +278,11 @@ class DocuReadyValidator:
                 penalty=0,
                 field="APPLICANT_NAME",
                 documents_involved=[dt.value for dt, _ in name_fields],
-                message="Applicant name matches consistently across all verified documents.",
+                message=msg,
                 evidence=primary_ev,
                 remediation="No action required.",
                 statutory_reference="MeitY Demographic Verification Standards 2023",
-                match_grade=MatchGrade.EXACT,
+                match_grade=overall_name_grade,
             ))
 
         # ----------------- 5. CROSS-DOCUMENT DATE OF BIRTH CONSISTENCY & VALIDITY -----------------
@@ -276,6 +294,7 @@ class DocuReadyValidator:
                 dob_f_app.provenance or EvidenceProvenance(document_type="APPLICATION_FORM", file_name="", extracted_field="dob", raw_snippet=dob_f_app.raw_value),
                 dob_f_mark.provenance or EvidenceProvenance(document_type="MARKSHEET", file_name="", extracted_field="dob", raw_snippet=dob_f_mark.raw_value)
             ]
+            cmp_dob = compare_dates(dob_f_app.raw_value, dob_f_mark.raw_value)
             d1, st1, amb1 = parse_and_normalize_date(dob_f_app.raw_value)
             d2, st2, amb2 = parse_and_normalize_date(dob_f_mark.raw_value)
 
@@ -294,7 +313,7 @@ class DocuReadyValidator:
                     statutory_reference="HSC Examination Board Verification Manual",
                 ))
                 score -= 25
-            elif amb1 or amb2:
+            elif cmp_dob["grade"] == MatchGrade.AMBIGUOUS:
                 findings.append(Finding(
                     rule_id="RULE-DOB-02",
                     rule_name="Date of Birth Ambiguity",
@@ -310,56 +329,55 @@ class DocuReadyValidator:
                     match_grade=MatchGrade.AMBIGUOUS,
                 ))
                 score -= 5
-            elif d1 and d2:
-                if d1 != d2:
-                    if dob_f_app.is_uncertain or dob_f_mark.is_uncertain:
-                        unc_doc = "APPLICATION_FORM" if dob_f_app.is_uncertain else "MARKSHEET"
-                        findings.append(Finding(
-                            rule_id="RULE-DOB-UNCERTAIN",
-                            rule_name="Cross-Document Date of Birth (Uncertain OCR)",
-                            status=FindingStatus.REVIEW,
-                            severity=Severity.REVIEW,
-                            penalty=10,
-                            field="DATE_OF_BIRTH_UNCERTAIN",
-                            documents_involved=[DocumentType.APPLICATION_FORM.value, DocumentType.MARKSHEET.value],
-                            message=f"Potential Date of Birth discrepancy between Application Form ({d1}) and Marksheet ({d2}), but extraction from {unc_doc} has low OCR confidence. Human verification required.",
-                            evidence=ev_dob,
-                            remediation="Inspect original certificates to verify exact date of birth digits.",
-                            statutory_reference="UIDAI Demographic Guidelines 2023",
-                            match_grade=MatchGrade.AMBIGUOUS,
-                        ))
-                        score -= 10
-                    else:
-                        findings.append(Finding(
-                            rule_id="RULE-DOB-01",
-                            rule_name="Cross-Document Date of Birth Consistency",
-                            status=FindingStatus.FAIL,
-                            severity=Severity.CRITICAL,
-                            penalty=25,
-                            field="DATE_OF_BIRTH",
-                            documents_involved=[DocumentType.APPLICATION_FORM.value, DocumentType.MARKSHEET.value],
-                            message=f"Date of Birth contradiction: Application Form ({d1}) vs Marksheet ({d2}).",
-                            evidence=ev_dob,
-                            remediation="Update Date of Birth on portal application to strictly match the Class 10 High School Certificate.",
-                            statutory_reference="UIDAI & Board of Secondary Education Regulation Clause 7",
-                            match_grade=MatchGrade.CONFLICT,
-                        ))
-                        score -= 25
+            elif cmp_dob["grade"] == MatchGrade.CONFLICT:
+                if dob_f_app.is_uncertain or dob_f_mark.is_uncertain:
+                    unc_doc = "APPLICATION_FORM" if dob_f_app.is_uncertain else "MARKSHEET"
+                    findings.append(Finding(
+                        rule_id="RULE-DOB-UNCERTAIN",
+                        rule_name="Cross-Document Date of Birth (Uncertain OCR)",
+                        status=FindingStatus.REVIEW,
+                        severity=Severity.REVIEW,
+                        penalty=10,
+                        field="DATE_OF_BIRTH_UNCERTAIN",
+                        documents_involved=[DocumentType.APPLICATION_FORM.value, DocumentType.MARKSHEET.value],
+                        message=f"Potential Date of Birth discrepancy between Application Form ({d1}) and Marksheet ({d2}), but extraction from {unc_doc} has low OCR confidence. Human verification required.",
+                        evidence=ev_dob,
+                        remediation="Inspect original certificates to verify exact date of birth digits.",
+                        statutory_reference="UIDAI Demographic Guidelines 2023",
+                        match_grade=MatchGrade.AMBIGUOUS,
+                    ))
+                    score -= 10
                 else:
                     findings.append(Finding(
-                        rule_id="RULE-DOB-PASS",
-                        rule_name="Date of Birth Consistency",
-                        status=FindingStatus.PASS,
-                        severity=Severity.INFO,
-                        penalty=0,
+                        rule_id="RULE-DOB-01",
+                        rule_name="Cross-Document Date of Birth Consistency",
+                        status=FindingStatus.FAIL,
+                        severity=Severity.CRITICAL,
+                        penalty=25,
                         field="DATE_OF_BIRTH",
                         documents_involved=[DocumentType.APPLICATION_FORM.value, DocumentType.MARKSHEET.value],
-                        message=f"Date of Birth matches consistently ({d1}).",
+                        message=f"Date of Birth contradiction: Application Form ({d1}) vs Marksheet ({d2}).",
                         evidence=ev_dob,
-                        remediation="No action required.",
-                        statutory_reference="HSC Board Verification Guidelines",
-                        match_grade=MatchGrade.EXACT,
+                        remediation="Update Date of Birth on portal application to strictly match the Class 10 High School Certificate.",
+                        statutory_reference="UIDAI & Board of Secondary Education Regulation Clause 7",
+                        match_grade=MatchGrade.CONFLICT,
                     ))
+                    score -= 25
+            else:
+                findings.append(Finding(
+                    rule_id="RULE-DOB-PASS",
+                    rule_name="Date of Birth Consistency",
+                    status=FindingStatus.PASS,
+                    severity=Severity.INFO,
+                    penalty=0,
+                    field="DATE_OF_BIRTH",
+                    documents_involved=[DocumentType.APPLICATION_FORM.value, DocumentType.MARKSHEET.value],
+                    message=f"Date of Birth matches consistently ({d1}).",
+                    evidence=ev_dob,
+                    remediation="No action required.",
+                    statutory_reference="HSC Board Verification Guidelines",
+                    match_grade=MatchGrade.EXACT,
+                ))
 
         # ----------------- 6. INCOME VALUE CONSISTENCY & CEILING VALIDATION -----------------
         inc_f_cert = get_f(DocumentType.INCOME_CERT, "annual_income")
@@ -557,7 +575,12 @@ class DocuReadyValidator:
                 app_inc_no.provenance or EvidenceProvenance(document_type="APPLICATION_FORM", file_name="", raw_snippet=app_inc_no.raw_value),
                 act_inc_no.provenance or EvidenceProvenance(document_type="INCOME_CERT", file_name="", raw_snippet=act_inc_no.raw_value)
             ]
-            if normalize_cert_number(app_inc_no.raw_value) != normalize_cert_number(act_inc_no.raw_value):
+            cmp_inc_ref = compare_identifiers(
+                app_inc_no.raw_value,
+                act_inc_no.raw_value,
+                is_uncertain=(app_inc_no.is_uncertain or act_inc_no.is_uncertain),
+            )
+            if cmp_inc_ref["grade"] == MatchGrade.CONFLICT:
                 findings.append(Finding(
                     rule_id="RULE-REF-01",
                     rule_name="Income Certificate Number Reference Match",
@@ -573,6 +596,22 @@ class DocuReadyValidator:
                     match_grade=MatchGrade.CONFLICT,
                 ))
                 score -= 25
+            elif cmp_inc_ref["grade"] == MatchGrade.AMBIGUOUS:
+                findings.append(Finding(
+                    rule_id="RULE-REF-01",
+                    rule_name="Income Certificate Number Reference Match",
+                    status=FindingStatus.REVIEW,
+                    severity=Severity.REVIEW,
+                    penalty=10,
+                    field="INCOME_CERT_NO_MISMATCH",
+                    documents_involved=[DocumentType.APPLICATION_FORM.value, DocumentType.INCOME_CERT.value],
+                    message=f"Income Certificate reference comparison ambiguous between form ('{app_inc_no.raw_value}') and certificate ('{act_inc_no.raw_value}'): {cmp_inc_ref.get('notes', 'Extraction uncertain')}.",
+                    evidence=ev_c,
+                    remediation="Verify income certificate reference number on the portal.",
+                    statutory_reference="OSSP e-District Integration Guideline",
+                    match_grade=MatchGrade.AMBIGUOUS,
+                ))
+                score -= 10
             else:
                 findings.append(Finding(
                     rule_id="RULE-REF-INC-PASS",
@@ -597,7 +636,12 @@ class DocuReadyValidator:
                 app_cst_no.provenance or EvidenceProvenance(document_type="APPLICATION_FORM", file_name="", raw_snippet=app_cst_no.raw_value),
                 act_cst_no.provenance or EvidenceProvenance(document_type="CASTE_CERT", file_name="", raw_snippet=act_cst_no.raw_value)
             ]
-            if normalize_cert_number(app_cst_no.raw_value) != normalize_cert_number(act_cst_no.raw_value):
+            cmp_cst_ref = compare_identifiers(
+                app_cst_no.raw_value,
+                act_cst_no.raw_value,
+                is_uncertain=(app_cst_no.is_uncertain or act_cst_no.is_uncertain),
+            )
+            if cmp_cst_ref["grade"] == MatchGrade.CONFLICT:
                 findings.append(Finding(
                     rule_id="RULE-REF-02",
                     rule_name="Caste Certificate Number Reference Match",
@@ -613,6 +657,22 @@ class DocuReadyValidator:
                     match_grade=MatchGrade.CONFLICT,
                 ))
                 score -= 25
+            elif cmp_cst_ref["grade"] == MatchGrade.AMBIGUOUS:
+                findings.append(Finding(
+                    rule_id="RULE-REF-02",
+                    rule_name="Caste Certificate Number Reference Match",
+                    status=FindingStatus.REVIEW,
+                    severity=Severity.REVIEW,
+                    penalty=10,
+                    field="CASTE_CERT_NO_MISMATCH",
+                    documents_involved=[DocumentType.APPLICATION_FORM.value, DocumentType.CASTE_CERT.value],
+                    message=f"Caste Certificate reference comparison ambiguous between form ('{app_cst_no.raw_value}') and certificate ('{act_cst_no.raw_value}'): {cmp_cst_ref.get('notes', 'Extraction uncertain')}.",
+                    evidence=ev_cst,
+                    remediation="Verify caste certificate reference number on the portal.",
+                    statutory_reference="OSSP Guidelines Section 4.3",
+                    match_grade=MatchGrade.AMBIGUOUS,
+                ))
+                score -= 10
             else:
                 findings.append(Finding(
                     rule_id="RULE-REF-CST-PASS",
@@ -669,12 +729,20 @@ class DocuReadyValidator:
                 ))
 
         # Cross check account number if application form present
+        # Note on Aadhaar: Under UIDAI Circulars / Aadhaar Act §29 and Section 4.2, raw Aadhaar numbers
+        # are never compared or stored across documents in MVP; compare_identifiers(..., is_aadhaar=True)
+        # provides Verhoeff validation and extraction doubt handling for authorized demographic pipelines.
         if pass_acc and app_acc and pass_acc.raw_value and app_acc.raw_value:
             ev_acc = [
                 pass_acc.provenance or EvidenceProvenance(document_type="BANK_PASSBOOK", file_name="", raw_snippet=pass_acc.raw_value),
                 app_acc.provenance or EvidenceProvenance(document_type="APPLICATION_FORM", file_name="", raw_snippet=app_acc.raw_value)
             ]
-            if pass_acc.raw_value.strip() != app_acc.raw_value.strip():
+            cmp_acc = compare_identifiers(
+                pass_acc.raw_value,
+                app_acc.raw_value,
+                is_uncertain=(pass_acc.is_uncertain or app_acc.is_uncertain),
+            )
+            if cmp_acc["grade"] == MatchGrade.CONFLICT:
                 findings.append(Finding(
                     rule_id="RULE-BNK-02",
                     rule_name="Bank Account Number Consistency",
@@ -690,6 +758,22 @@ class DocuReadyValidator:
                     match_grade=MatchGrade.CONFLICT,
                 ))
                 score -= 25
+            elif cmp_acc["grade"] == MatchGrade.AMBIGUOUS:
+                findings.append(Finding(
+                    rule_id="RULE-BNK-02",
+                    rule_name="Bank Account Number Consistency (Extraction Uncertain)",
+                    status=FindingStatus.REVIEW,
+                    severity=Severity.REVIEW,
+                    penalty=10,
+                    field="BANK_ACCOUNT_MISMATCH",
+                    documents_involved=[DocumentType.BANK_PASSBOOK.value, DocumentType.APPLICATION_FORM.value],
+                    message=f"Bank account number comparison ambiguous between Passbook '{pass_acc.raw_value}' and Form '{app_acc.raw_value}': {cmp_acc.get('notes', 'Extraction uncertain')}.",
+                    evidence=ev_acc,
+                    remediation="Inspect physical bank passbook and form entries to confirm the account number.",
+                    statutory_reference="DBT Mission Guidelines for Direct Benefit Transfer",
+                    match_grade=MatchGrade.AMBIGUOUS,
+                ))
+                score -= 10
 
         # ----------------- 10. DOMICILE STATE VALIDATION -----------------
         res_state_f = get_f(DocumentType.RESIDENCE_CERT, "state")

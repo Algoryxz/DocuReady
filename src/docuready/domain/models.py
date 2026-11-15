@@ -234,8 +234,12 @@ class AuditResult(BaseModel):
             for status in Status
         }
 
-    def to_public_dict(self) -> Dict[str, Any]:
-        """Return a public V2 projection with only canonical statuses."""
+    def to_public_dict(self, canonical: bool = False) -> Dict[str, Any]:
+        """Return a public V2 projection with only canonical statuses.
+
+        When canonical=True, volatile runtime telemetry (e.g. execution_time_ms)
+        is excluded to ensure byte-for-byte deterministic reproducibility across replays.
+        """
         data = self.model_dump(mode="json")
         readiness = self.readiness
         data["overall_status"] = readiness.value
@@ -248,4 +252,10 @@ class AuditResult(BaseModel):
             item["reason_code"] = finding.reason_code
             if finding.match_grade is not None:
                 item["match_grade"] = finding.match_grade.value
+        if canonical:
+            data.pop("execution_time_ms", None)
         return data
+
+    def to_canonical_dict(self) -> Dict[str, Any]:
+        """Return a canonical dictionary projection for deterministic replay comparison."""
+        return self.to_public_dict(canonical=True)

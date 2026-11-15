@@ -47,7 +47,7 @@ _REPO_ROOT = Path(__file__).resolve().parents[1]
 
 
 def test_injected_clock_reproducibility():
-    """Replaying a packet with the same as_of gives byte-for-byte identical reports."""
+    """Replaying a packet with the same as_of gives byte-for-byte identical reports via canonical projection."""
     packet_dir = str(_REPO_ROOT / "synthetic_data" / "pkt_01_clean")
     as_of_date = date(2026, 11, 13)
 
@@ -60,16 +60,15 @@ def test_injected_clock_reproducibility():
     assert res1.timestamp == "2026-11-13T00:00:00"
     assert res2.timestamp == "2026-11-13T00:00:00"
 
-    # Normalize elapsed wall-clock execution time for report comparison
-    res1.execution_time_ms = 0.0
-    res2.execution_time_ms = 0.0
+    # Canonical projection excludes volatile runtime metrics without mutating the result instances
+    assert res1.to_canonical_dict() == res2.to_canonical_dict()
 
     with tempfile.TemporaryDirectory() as tmpdir:
         path1 = os.path.join(tmpdir, "report1.json")
         path2 = os.path.join(tmpdir, "report2.json")
 
-        export_audit_report_json(res1, path1, redact=False)
-        export_audit_report_json(res2, path2, redact=False)
+        export_audit_report_json(res1, path1, redact=False, canonical=True)
+        export_audit_report_json(res2, path2, redact=False, canonical=True)
 
         with open(path1, "r", encoding="utf-8") as f:
             content1 = f.read()
@@ -78,13 +77,10 @@ def test_injected_clock_reproducibility():
 
         assert content1 == content2
 
-    md1 = generate_readiness_summary_markdown(res1, redact=False)
-    md2 = generate_readiness_summary_markdown(res2, redact=False)
+    md1 = generate_readiness_summary_markdown(res1, redact=False, canonical=True)
+    md2 = generate_readiness_summary_markdown(res2, redact=False, canonical=True)
 
-    # Exclude execution latency line from markdown equality
-    md1_lines = [l for l in md1.splitlines() if "Execution Latency" not in l]
-    md2_lines = [l for l in md2.splitlines() if "Execution Latency" not in l]
-    assert md1_lines == md2_lines
+    assert md1 == md2
     assert "**Effective As Of:** `2026-11-13`" in md1
 
 
@@ -192,7 +188,7 @@ def test_match_grade_resolver_enforcement():
         weakest_evidence=EvidenceState.VERIFIED,
         match_grade=MatchGrade.AMBIGUOUS,
     )
-    assert outcome_amb_sat.status == Status.REVIEW
+    assert outcome_amb_viol.status == Status.REVIEW
     assert outcome_amb_viol.reason_code == "EVIDENCE_UNCERTAIN"
 
     # CONFLICT with VIOLATED produces FAIL on VERIFIED evidence
@@ -264,3 +260,180 @@ def test_income_tolerance_in_scheme_config():
 
     validator = DocuReadyValidator(scheme_config=cfg)
     assert validator.scheme.income_tolerance == 5000.0
+
+
+# ---------------------------------------------------------------------------
+# VALIDATOR-LEVEL MATCH GRADE & ROUTING INTEGRATION TESTS
+# ---------------------------------------------------------------------------
+
+from tests.integration.test_validator_rule_matrix import (
+    _make_clean_packet,
+    _make_field,
+    _find_finding,
+)
+from docuready.domain.enums import ExtractionMethod, ReasonCode
+
+
+def test_validator_name_exact_match_resolves_pass():
+    """Exact character match across all documents yields RULE-NAME-PASS with EXACT and Status.PASS."""
+    packet = _make_clean_packet(applicant_name="Aarav Sharma")
+    validator = DocuReadyValidator(SchemeConfig(), as_of=date(2026, 11, 15))
+    res = validator.validate_packet("NAME_EXACT", packet)
+
+    f = _find_finding(res.findings, "RULE-NAME-PASS")
+    assert f is not None
+    assert f.match_grade is MatchGrade.EXACT
+    assert f.status is Status.PASS
+    assert f.reason_code == ReasonCode.CONFIRMED_OK.value
+
+
+def test_validator_name_token_reorder_resolves_warn():
+    """Token permutation (reordered tokens) must preserve MatchGrade.COMPATIBLE and resolve to Status.WARN, never PASS."""
+    packet = _make_clean_packet(applicant_name="Aarav Sharma")
+    # Marksheet has reordered name "Sharma Aarav"
+    packet[DocumentType.MARKSHEET].fields["applicant_name"] = _make_field(
+        DocumentType.MARKSHEET, "applicant_name", "Sharma Aarav"
+    )
+
+    validator = DocuReadyValidator(SchemeConfig(), as_of=date(2026, 11, 15))
+    res = validator.validate_packet("NAME_REORDERED", packet)
+
+    f = _find_finding(res.findings, "RULE-NAME-PASS")
+    assert f is not None
+    assert f.match_grade is MatchGrade.COMPATIBLE
+    # Must NOT resolve to PASS; resolver maps SATISFIED + COMPATIBLE -> WARN / DEFECT_PROBABLE
+    assert f.status is Status.WARN
+    assert f.reason_code == ReasonCode.DEFECT_PROBABLE.value
+    assert res.readiness is Readiness.NEEDS_CHECKS
+
+
+def test_validator_bank_account_exact_with_formatting():
+    """Bank accounts with formatting differences (spaces/dashes) match identically via compare_identifiers."""
+    packet = _make_clean_packet()
+    packet[DocumentType.APPLICATION_FORM].fields["account_no"] = _make_field(
+        DocumentType.APPLICATION_FORM, "account_no", "123456789012"
+    )
+    packet[DocumentType.BANK_PASSBOOK].fields["account_no"] = _make_field(
+        DocumentType.BANK_PASSBOOK, "account_no", "1234 5678 9012"
+    )
+
+    validator = DocuReadyValidator(SchemeConfig(), as_of=date(2026, 11, 15))
+    res = validator.validate_packet("BNK_ACC_FORMAT", packet)
+
+    f = _find_finding(res.findings, "RULE-BNK-02")
+    assert f is None  # Matches after normalization, no discrepancy finding
+
+
+def test_validator_bank_account_conflict_and_uncertain():
+    """Bank account discrepancy routes through compare_identifiers producing CONFLICT (FAIL) or AMBIGUOUS (REVIEW)."""
+    # Conflicting accounts
+    packet = _make_clean_packet()
+    packet[DocumentType.APPLICATION_FORM].fields["account_no"] = _make_field(
+        DocumentType.APPLICATION_FORM, "account_no", "123456789012"
+    )
+    packet[DocumentType.BANK_PASSBOOK].fields["account_no"] = _make_field(
+        DocumentType.BANK_PASSBOOK, "account_no", "987654321098"
+    )
+
+    validator = DocuReadyValidator(SchemeConfig(), as_of=date(2026, 11, 15))
+    res_conf = validator.validate_packet("BNK_ACC_CONFLICT", packet)
+    f_conf = _find_finding(res_conf.findings, "RULE-BNK-02")
+    assert f_conf is not None
+    assert f_conf.match_grade is MatchGrade.CONFLICT
+    assert f_conf.status is Status.FAIL
+    assert f_conf.reason_code == ReasonCode.DEFECT_CONFIRMED.value
+
+    # Uncertain extraction
+    packet[DocumentType.BANK_PASSBOOK].fields["account_no"] = _make_field(
+        DocumentType.BANK_PASSBOOK,
+        "account_no",
+        "987654321098",
+        evidence_state=EvidenceState.UNCERTAIN,
+        extraction_method=ExtractionMethod.LOCAL_OCR,
+        is_uncertain=True,
+    )
+    res_unc = validator.validate_packet("BNK_ACC_UNCERTAIN", packet)
+    f_unc = _find_finding(res_unc.findings, "RULE-BNK-02")
+    assert f_unc is not None
+    assert f_unc.match_grade is MatchGrade.AMBIGUOUS
+    assert f_unc.status is Status.REVIEW
+    assert f_unc.reason_code == ReasonCode.INSUFFICIENT_DATA.value
+
+
+def test_validator_cert_ref_formatting_and_uncertain():
+    """Certificate references normalize formatting differences and handle extraction uncertainty via compare_identifiers."""
+    packet = _make_clean_packet()
+    packet[DocumentType.APPLICATION_FORM].fields["income_cert_no"] = _make_field(
+        DocumentType.APPLICATION_FORM, "income_cert_no", "E-INC/2025/104928"
+    )
+    packet[DocumentType.INCOME_CERT].fields["certificate_no"] = _make_field(
+        DocumentType.INCOME_CERT, "certificate_no", "E INC 2025 104928"
+    )
+
+    validator = DocuReadyValidator(SchemeConfig(), as_of=date(2026, 11, 15))
+    res_fmt = validator.validate_packet("CERT_REF_FMT", packet)
+    f_pass = _find_finding(res_fmt.findings, "RULE-REF-INC-PASS")
+    assert f_pass is not None
+    assert f_pass.match_grade is MatchGrade.EXACT
+    assert f_pass.status is Status.PASS
+
+    # Uncertain extraction on certificate number
+    packet[DocumentType.INCOME_CERT].fields["certificate_no"] = _make_field(
+        DocumentType.INCOME_CERT,
+        "certificate_no",
+        "E-INC/2025/999999",
+        evidence_state=EvidenceState.UNCERTAIN,
+        is_uncertain=True,
+    )
+    res_unc = validator.validate_packet("CERT_REF_UNC", packet)
+    f_unc = _find_finding(res_unc.findings, "RULE-REF-01")
+    assert f_unc is not None
+    assert f_unc.match_grade is MatchGrade.AMBIGUOUS
+    assert f_unc.status is Status.REVIEW
+
+
+def test_validator_dob_match_grades():
+    """Cross-document Date of Birth routes through compare_dates() verifying EXACT, AMBIGUOUS, and CONFLICT outcomes."""
+    validator = DocuReadyValidator(SchemeConfig(), as_of=date(2026, 11, 15))
+
+    # 1. Exact match
+    packet_exact = _make_clean_packet(dob="14/05/2003")
+    res_exact = validator.validate_packet("DOB_EXACT", packet_exact)
+    f_exact = _find_finding(res_exact.findings, "RULE-DOB-PASS")
+    assert f_exact is not None
+    assert f_exact.match_grade is MatchGrade.EXACT
+    assert f_exact.status is Status.PASS
+
+    # 2. Ambiguous format (03/04/2005) -> MatchGrade.AMBIGUOUS & Status.REVIEW
+    packet_amb = _make_clean_packet(dob="03/04/2005")
+    res_amb = validator.validate_packet("DOB_AMB", packet_amb)
+    f_amb = _find_finding(res_amb.findings, "RULE-DOB-02")
+    assert f_amb is not None
+    assert f_amb.match_grade is MatchGrade.AMBIGUOUS
+    assert f_amb.status is Status.REVIEW
+    assert f_amb.reason_code == ReasonCode.INSUFFICIENT_DATA.value
+
+    # 3. Conflicting dates
+    packet_conf = _make_clean_packet(dob="14/05/2003")
+    packet_conf[DocumentType.MARKSHEET].fields["dob"] = _make_field(
+        DocumentType.MARKSHEET, "dob", "20/09/2004"
+    )
+    res_conf = validator.validate_packet("DOB_CONF", packet_conf)
+    f_conf = _find_finding(res_conf.findings, "RULE-DOB-01")
+    assert f_conf is not None
+    assert f_conf.match_grade is MatchGrade.CONFLICT
+    assert f_conf.status is Status.FAIL
+
+    # 4. OCR uncertain on conflict
+    packet_conf[DocumentType.MARKSHEET].fields["dob"] = _make_field(
+        DocumentType.MARKSHEET,
+        "dob",
+        "20/09/2004",
+        evidence_state=EvidenceState.UNCERTAIN,
+        is_uncertain=True,
+    )
+    res_ocr_unc = validator.validate_packet("DOB_OCR_UNC", packet_conf)
+    f_ocr_unc = _find_finding(res_ocr_unc.findings, "RULE-DOB-UNCERTAIN")
+    assert f_ocr_unc is not None
+    assert f_ocr_unc.match_grade is MatchGrade.AMBIGUOUS
+    assert f_ocr_unc.status is Status.REVIEW
