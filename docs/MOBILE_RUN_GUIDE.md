@@ -59,6 +59,11 @@ From the repository root (`DocuReady-canonical`), execute:
 .venv\Scripts\activate   # Windows
 # source .venv/bin/activate  # Linux/macOS
 
+# Optional: Enable synthetic-only demonstration mode for public or multi-user LAN testing
+# (Disables custom file uploads to strictly protect citizen privacy)
+export DOCUREADY_SYNTHETIC_ONLY=1  # Linux/macOS
+# $env:DOCUREADY_SYNTHETIC_ONLY="1" # Windows PowerShell
+
 # Launch Streamlit bound to all local network interfaces
 streamlit run src/docuready/interfaces/ui/app.py --server.address=0.0.0.0 --server.port=8501
 ```
@@ -69,13 +74,18 @@ Streamlit will display the Network URL:
   Network URL: http://192.168.1.15:8501
 ```
 
-### Step 3: Connect from Mobile Device
+### Step 3: Firewall & Trusted Wi-Fi Notice
+
+> [!CAUTION]
+> **Network Security:** Only bind to `0.0.0.0` on private, password-protected Wi-Fi networks (e.g. home or private office router). Never expose the server on open public Wi-Fi or public internet without authentication and reverse-proxy TLS termination. If Windows Firewall prompts you on first launch, allow access only on **Private Networks**.
+
+### Step 4: Connect from Mobile Device
 
 1. Connect your smartphone or tablet to the **same Wi-Fi network** as the host PC.
 2. Open Chrome, Safari, or Firefox on the phone.
 3. Navigate to: `http://<HOST-IP>:8501` (e.g. `http://192.168.1.15:8501`).
 
-### Step 4: Teardown & Stopping Server
+### Step 5: Teardown & Stopping Server
 
 When testing is complete:
 1. In the host terminal running Streamlit, press `Ctrl+C` to terminate the server.
@@ -97,14 +107,15 @@ When testing is complete:
 
 ---
 
-## 5. Supported Mobile Viewport Profiles
+## 5. Supported Mobile Viewport Profiles & Visual Proofs
 
-The Mobile Web MVP is verified across the following standard viewport dimensions:
+The Mobile Web MVP is verified across the following standard viewport dimensions, with visual snapshot proofs captured and committed in `screenshots/mobile/`:
 
-1. **360 × 800 px:** Budget Android devices (e.g., Samsung Galaxy A-series, Redmi).
-2. **390 × 844 px:** Standard iOS devices (iPhone 12 / 13 / 14 / 15).
-3. **430 × 932 px:** Flagship large-screen devices (iPhone 14/15 Pro Max, Galaxy S23/S24 Ultra).
-4. **Desktop / Tablet ($\ge 1024\text{px}$):** Preserves full multi-column dashboard layout without regressions.
+1. **360 × 800 px (`screenshots/mobile/small_android_360x800.png`):** Budget Android devices (e.g., Samsung Galaxy A-series, Redmi).
+2. **390 × 844 px (`screenshots/mobile/standard_phone_390x844.png`):** Standard iOS devices (iPhone 12 / 13 / 14 / 15).
+3. **430 × 932 px (`screenshots/mobile/large_phone_430x932.png`):** Flagship large-screen devices (iPhone 14/15 Pro Max, Galaxy S23/S24 Ultra).
+4. **768 × 1024 px (`screenshots/mobile/tablet_768x1024.png`):** Compact tablets / iPads in portrait mode.
+5. **1440 × 900 px (`screenshots/mobile/desktop_1440x900.png`):** Desktop reference layout preserving multi-column dashboard without regressions.
 
 ---
 
@@ -123,4 +134,4 @@ The Mobile Web MVP is verified across the following standard viewport dimensions
    - Select `MARKSHEET` to remediate.
    - Choose **Auto-Generate Standard Corrected Version**.
    - Tap **Generate & Re-Run Audit**.
-   - Verify score instantaneously restores to **100/100 (READY TO SUBMIT)**.
+   - Verify score instantaneously restores to **100/100 (PASSED (NO DISCREPANCIES))**.
