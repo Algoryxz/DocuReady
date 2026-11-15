@@ -778,7 +778,9 @@ class DocuReadyValidator:
                     ))
 
         # ----------------- INDEPENDENT DECISION SAFETY LAYER -----------------
-        findings = self.safety_layer.audit_findings(findings, documents, self.scheme.name, scheme_config=self.scheme)
+        findings = self.safety_layer.audit_findings(
+            findings, documents, self.scheme.name, scheme_config=self.scheme, audit_date=self.audit_date
+        )
 
         # ----------------- OVERALL STATUS & SCORE DETERMINATION -----------------
         score = 100 - sum(f.penalty for f in findings)

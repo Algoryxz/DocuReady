@@ -6,6 +6,7 @@ Connects file ingestion, field extraction, validation, and document replacement.
 from __future__ import annotations
 import os
 import time
+from datetime import date
 from typing import Dict, List, Optional, Tuple
 from docuready.domain.models import (
     DocumentType, ExtractedDocument, AuditResult, FindingStatus
@@ -19,9 +20,13 @@ logger = get_safe_logger("docuready.pipeline")
 
 
 class AuditPipeline:
-    def __init__(self, scheme_config: Optional[SchemeConfig] = None):
+    def __init__(
+        self,
+        scheme_config: Optional[SchemeConfig] = None,
+        audit_date: Optional[date] = None,
+    ):
         self.extractor = DocumentExtractor()
-        self.validator = DocuReadyValidator(scheme_config=scheme_config)
+        self.validator = DocuReadyValidator(scheme_config=scheme_config, audit_date=audit_date)
 
     def load_and_audit_packet(self, packet_dir: str, packet_id: Optional[str] = None) -> Tuple_Audit:
         """
