@@ -11,11 +11,14 @@
 
 ---
 
-## Overview
+## About DocuReady
 
-**DocuReady** is an offline-first, deterministic document readiness linter for Indian citizens, students, and Common Service Centre (CSC) operators. It validates multi-document application packets *before* submission to official portals (such as the National Scholarship Portal, state revenue portals, and Direct Benefit Transfer systems).
+**DocuReady** is a local-first, deterministic applicant-side document-preparation aid for scholarship and public-benefit applications. It checks consistency across a supplied document packet, surfaces missing or hard-to-read evidence, preserves traceability to the source document, and gives applicants practical next steps before they use an official portal.
 
-By cross-verifying identity, demographic, academic, and statutory certificates locally against official gazettes, DocuReady catches clerical discrepancies and unreadable scans early—preventing summary rejection and missed deadlines.
+DocuReady is **not** an eligibility decision-maker, government service, legal authority, identity-authentication service, or guarantee of application approval. A “no issues found” result means only that the configured checks passed on the evidence supplied; applicants must still follow the relevant official scheme and portal instructions.
+
+**Public project website:** [docu-ready-lurkae.vercel.app](https://docu-ready-lurkae.vercel.app)  
+The Vercel website is an informational product page only. It does not accept document uploads or run the audit engine. The Python/Streamlit audit application is run locally, keeping document processing on the machine where the application is running.
 
 ```mermaid
 flowchart LR
