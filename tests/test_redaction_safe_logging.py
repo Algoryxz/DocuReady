@@ -16,6 +16,8 @@ from docuready.report.redact import (
     redact_bank_account,
     redact_phone,
     redact_text_pii,
+    redact_field_value,
+    redact_audit_result_dict,
     secure_temporary_directory,
 )
 from docuready.report.exporter import (
@@ -40,20 +42,23 @@ def test_redact_aadhaar():
 
 
 def test_redact_bank_account():
-    """Verify bank account masking keeps only last 4 digits visible."""
+    """Verify bank account masking preserves last 4 digits across varying lengths."""
     assert redact_bank_account("9876543210123") == "••••••••0123"
-    assert redact_bank_account("1234") == "••••••••1234"
+    assert redact_bank_account("1234567890123456") == "••••••••3456"
+    assert redact_bank_account("5678") == "••••••••5678"
 
 
-def test_redact_phone():
-    """Verify mobile number masking keeps only last 2 digits visible."""
+def test_redact_phone_variants():
+    """Verify phone masking handles national, leading-zero, and +91 international formats."""
     assert redact_phone("9876543210") == "••••••••10"
-    assert redact_phone("8123456789") == "••••••••89"
+    assert redact_phone("09876543210") == "••••••••10"
+    assert redact_phone("+91 98765 43210") == "••••••••10"
+    assert redact_phone("+91-9876543210") == "••••••••10"
 
 
 def test_redact_text_pii_masks_in_freeform_text():
     """Verify regex sanitizer catches identifiers inside audit messages."""
-    raw_text = "Applicant Aadhaar 2345 6789 0123 with phone 9876543210 declared income ₹ 2,50,000 in 'Smruti Nayak'"
+    raw_text = "Applicant Aadhaar 2345 6789 0123 with phone +91 98765 43210 declared income ₹ 2,50,000 in 'Smruti Nayak'"
     sanitized = redact_text_pii(raw_text)
     assert "XXXX-XXXX-0123" in sanitized
     assert "••••••••10" in sanitized
@@ -61,6 +66,16 @@ def test_redact_text_pii_masks_in_freeform_text():
     assert "'[REDACTED]'" in sanitized
     assert "2345 6789" not in sanitized
     assert "9876543210" not in sanitized
+
+
+def test_field_aware_value_redactor():
+    """Verify field-aware redactor redacts based on semantic key names."""
+    assert redact_field_value("aadhaar_number", "2345 6789 0123") == "XXXX-XXXX-0123"
+    assert redact_field_value("account_number", "9876543210123") == "••••••••0123"
+    assert redact_field_value("contact_phone", "+91 98765 43210") == "••••••••10"
+    assert redact_field_value("annual_income", "250000") == "₹[REDACTED]"
+    assert redact_field_value("applicant_name", "Smruti Nayak") == "[REDACTED NAME]"
+    assert redact_field_value("status", "PASS") == "PASS"
 
 
 # ---------------------------------------------------------------------------
@@ -96,6 +111,27 @@ def test_exporters_no_redact_mode(tmp_path):
 
     md_unredacted = generate_readiness_summary_markdown(result, redact=False)
     assert "Privacy Notice: This report has been redacted" not in md_unredacted
+
+
+def test_redact_audit_result_dict_preserves_remediation():
+    """Verify that remediation instructions remain actionable after redaction."""
+    payload = {
+        "findings": [
+            {
+                "rule_id": "RULE-DOB-01",
+                "message": "DOB in 'application_form.pdf' does not match marksheet date 14/05/2003",
+                "remediation": "Submit corrected Class 10 marksheet from Secondary Board to resolve discrepancy",
+                "evidence": [
+                    {"raw_snippet": "Candidate DOB: 14/05/2003", "file_name": "/path/to/marksheet.pdf"}
+                ]
+            }
+        ]
+    }
+    redacted = redact_audit_result_dict(payload)
+    finding = redacted["findings"][0]
+    assert "marksheet.pdf" in finding["evidence"][0]["file_name"]
+    assert finding["evidence"][0]["raw_snippet"] == "[REDACTED EVIDENCE SNIPPET]"
+    assert "Submit corrected Class 10 marksheet" in finding["remediation"]
 
 
 # ---------------------------------------------------------------------------
@@ -139,6 +175,45 @@ def test_safe_logger_intercepts_sensitive_identifiers():
     assert "9876543210" not in log_output
 
 
+def test_safe_logger_handles_formatted_args_and_clears_record_args():
+    """Verify safe logger resolves %s formatting and clears record.args to prevent leakage."""
+    log_stream = io.StringIO()
+    handler = logging.StreamHandler(log_stream)
+    formatter = logging.Formatter("%(levelname)s: %(message)s")
+    handler.setFormatter(formatter)
+
+    logger = get_safe_logger("docuready.test_formatted_log")
+    logger.setLevel(logging.INFO)
+    logger.addHandler(handler)
+
+    # Formatted call with sensitive args
+    logger.info("Account=%s, Phone=%s, Income=%s", "9876543210123", "+91 98765 43210", "₹ 2,50,000")
+    handler.flush()
+    log_output = log_stream.getvalue()
+
+    assert "••••••••10" in log_output
+    assert "₹[REDACTED]" in log_output
+    assert "9876543210123" not in log_output
+    assert "+91 98765 43210" not in log_output
+
+
+def test_pipeline_execution_uses_safe_logger():
+    """Verify production pipeline execution produces sanitized logs."""
+    log_stream = io.StringIO()
+    handler = logging.StreamHandler(log_stream)
+    logger = get_safe_logger("docuready.pipeline")
+    logger.setLevel(logging.INFO)
+    logger.addHandler(handler)
+
+    pipeline = AuditPipeline()
+    res, _ = pipeline.load_and_audit_packet(str(_PACKET_DIR), packet_id="PKT_01_CLEAN")
+    handler.flush()
+    log_output = log_stream.getvalue()
+
+    assert "Starting audit for packet_id=PKT_01_CLEAN" in log_output
+    assert "Audit completed for packet PKT_01_CLEAN" in log_output
+
+
 # ---------------------------------------------------------------------------
 # 5. Temporary Directory Cleanup Tests
 # ---------------------------------------------------------------------------
@@ -149,7 +224,6 @@ def test_secure_temporary_directory_cleanup_on_success():
     with secure_temporary_directory(prefix="docuready_test_") as temp_dir:
         captured_path = temp_dir
         assert captured_path.is_dir()
-        # Create a synthetic file inside
         test_file = captured_path / "test.txt"
         test_file.write_text("synthetic upload byte buffer", encoding="utf-8")
         assert test_file.is_file()
