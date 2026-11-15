@@ -87,25 +87,6 @@ class Readiness(str, Enum):
     NEEDS_CHECKS = "NEEDS_CHECKS"
     NO_ISSUES_FOUND = "NO_ISSUES_FOUND"
 
-    def __eq__(self, other):
-        if isinstance(other, Readiness):
-            return self.value == other.value
-        if isinstance(other, str):
-            if self.value == other:
-                return True
-            legacy_mapping = {
-                "READY_TO_SUBMIT": "NO_ISSUES_FOUND",
-                "REVIEW_RECOMMENDED": "NEEDS_CHECKS",
-                "UNREADABLE_PACKET": "NEEDS_CHECKS",
-                "ACTION_REQUIRED": "NOT_READY",
-                "REJECT_PRECHECK": "NOT_READY",
-            }
-            return legacy_mapping.get(other) == self.value
-        return False
-
-    def __hash__(self):
-        return hash(self.value)
-
 
 class ExitCode(IntEnum):
     NO_ISSUES = 0

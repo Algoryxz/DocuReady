@@ -256,9 +256,9 @@ T1.x tasks are independent of each other and can run in parallel once G0 passes.
 ### WS2 — Correctness
 
 #### T2.1 — Status vocabulary and symmetric resolver
-- **Depends on:** G0, T1.1.
+- **Depends on:** Completion of G0 and T1.1, formal Gate G1 acceptance by Product Owner Deeptiman, and explicit Product Owner authorization of Gate G2.
 - **Scope:** `domain/enums.py`, `outcome/resolver.py`, report/UI/CLI usage.
-- **Status note (15 November 2026):** Initial implementation was merged into `main` at commit `8f1801348399617437e3432b6b16a70540a6f47a` via PR #43 (`task/T2.1-status-vocabulary-resolver`). Mainline CI run [43710042545](https://github.com/Algoryxz/DocuReady/actions/runs/43710042545) failed with 29 test failures across legacy assertions, readiness comparisons, clean packet confidence downgrades, and CLI exit semantics. Corrective repair in PR #44 (`f67df61`), PR #47 (`7a24198`), and PR #46 (`b5d53ab`) resolved the mainline failures. Consolidated candidate branch `fix/T2.1-consolidated-decision-invariance` completes date-invariance safety, two-digit-year parsing agreement with `parse_and_normalize_date`, dedicated invariant FAIL integration coverage, and exhaustive §6 truth-table evidence (210 passed, 2 skipped across 212 total tests locally, zero failures) with golden baseline snapshot intact (`E8FB1A6B842A47089937777133DE79E1E7F704BEE591D5B4471A1A90BC8C5FA9`). Gate G1 is formally ACCEPTED and Gate G2 is formally AUTHORIZED by Product Owner Deeptiman. Formal T2.1 technical acceptance remains pending Deeptiman's review; T2.2 is not started.
+- **Status note (15 November 2026):** Implementation merged into `main` across PRs #43, #44, #46, #47, and #48 (`55b9c4d`). Mainline post-merge CI runs [43717592374](https://github.com/Algoryxz/DocuReady/actions/runs/43717592374) and [43720320424](https://github.com/Algoryxz/DocuReady/actions/runs/43720320424) passed across all four Python matrix jobs. Primary corrective PR #50 (branch `fix/T2.1-contract-hardening`) cleanly hardens `Readiness(str, Enum)` by eliminating legacy alias equality, asserting canonical enum members across runtime tests, adding dedicated equality/hashing contract tests, and reconciling governance documentation (317 passed, 2 skipped across 319 collected test items; golden snapshot intact at `E8FB1A6B842A47089937777133DE79E1E7F704BEE591D5B4471A1A90BC8C5FA9`). Implementation is merged and technically verified; formal task acceptance and Gate G2 authorization remain pending Product Owner review by Deeptiman.
 - **Behaviour:** Implement ARCHITECTURE_V2 §6 exactly: `Status`, `Raw`, reason codes, readiness, `max_severity` cap, `NOT_APPLICABLE` for exemptions (shown, not dropped), CLI exit codes 0/1/2/64.
 - **Acceptance:**
   - [ ] Truth-table test covers every row of the §6 matrix
@@ -269,10 +269,11 @@ T1.x tasks are independent of each other and can run in parallel once G0 passes.
 
 #### T2.2 — Per-rule test matrix
 - **Scope:** `tests/unit/test_rules_matrix.py`.
+- **Status note (15 November 2026):** Delivered in PR #49 (commit `1a5fc704cb419ca663851b4c9b917242ba439169`) with 103 test cases in `tests/unit/test_rules_matrix.py` covering all 10 rule groups and resolver branches. Main post-merge CI run [43720340943](https://github.com/Algoryxz/DocuReady/actions/runs/43720340943) passed across Python 3.11–3.14. Formal acceptance pending Product Owner review.
 - **Behaviour:** For each of the 10 rules, parametrised cases: satisfied/verified, violated/verified, violated/provisional, violated/uncertain, indeterminate, document missing, exempt (where applicable).
 - **Acceptance:**
-  - [ ] ≥ 60 cases, each rule covered for every applicable row
-  - [ ] Coverage report shows every branch of `outcome/resolver.py` hit
+  - [x] ≥ 60 cases, each rule covered for every applicable row
+  - [x] Coverage report shows every branch of `outcome/resolver.py` hit
 - **Gate:** G2
 
 #### T2.3 — Match grades and the injected clock

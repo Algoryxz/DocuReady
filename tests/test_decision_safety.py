@@ -14,7 +14,7 @@ from docuready.domain.models import (
     DocumentType, ExtractedDocument, ExtractedField, EvidenceProvenance,
     Finding, FindingStatus, Severity, EvidenceState, ExtractionMethod
 )
-from docuready.domain.enums import Status
+from docuready.domain.enums import Status, Readiness
 from docuready.outcome.safety_layer import DecisionSafetyLayer
 from docuready.rules.validator import DocuReadyValidator, SchemeConfig
 
@@ -441,7 +441,7 @@ def test_genuinely_absent_mandatory_document_fails_cleanly():
     assert missing_doc_findings[0].severity == Severity.FATAL
     assert "CASTE_CERT" in missing_doc_findings[0].documents_involved
     assert audit_res.summary_counts["FAIL"] >= 1
-    assert audit_res.readiness.value == "NOT_READY"
+    assert audit_res.readiness is Readiness.NOT_READY
 
 
 # ----------------- 10. Correct summary counts and readiness score after a safety downgrade -----------------
