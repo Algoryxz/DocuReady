@@ -11,8 +11,18 @@ import json
 import argparse
 from pathlib import Path
 
+from docuready.domain.enums import ExitCode
+from docuready.outcome.resolver import exit_code_for_readiness
 from docuready.pipeline import AuditPipeline
 from docuready.report.exporter import generate_readiness_summary_markdown, export_audit_report_json
+
+
+class DocuReadyArgumentParser(argparse.ArgumentParser):
+    """Argument parser using the documented CLI usage-error exit code."""
+
+    def error(self, message):
+        self.print_usage(sys.stderr)
+        self.exit(int(ExitCode.USAGE_ERROR), f"{self.prog}: error: {message}\\n")
 
 
 def _resolve_synthetic_manifest() -> tuple[Path, Path]:
@@ -43,8 +53,8 @@ def _resolve_synthetic_manifest() -> tuple[Path, Path]:
 
 
 def main():
-    parser = argparse.ArgumentParser(description="DocuReady CLI — Pre-Submission Document Readiness Linter")
-    subparsers = parser.add_subparsers(dest="command", help="Commands")
+    parser = DocuReadyArgumentParser(description="DocuReady CLI — Document Consistency Linter")
+    subparsers = parser.add_subparsers(dest="command", help="Commands", parser_class=DocuReadyArgumentParser)
 
     # Audit command
     audit_parser = subparsers.add_parser("audit", help="Audit a packet directory containing document PDFs")
@@ -67,7 +77,7 @@ def main():
         packet_path = Path(args.packet_dir).resolve()
         if not packet_path.exists() or not packet_path.is_dir():
             print(f"Error: Directory '{args.packet_dir}' not found.", file=sys.stderr)
-            sys.exit(1)
+            sys.exit(int(ExitCode.USAGE_ERROR))
 
         redact = not args.no_redact
         if args.no_redact:
@@ -79,7 +89,7 @@ def main():
         result, docs = pipeline.load_and_audit_packet(str(packet_path))
 
         if args.json:
-            out_data = result.model_dump()
+            out_data = result.to_public_dict()
             if redact:
                 from docuready.report.redact import redact_audit_result_dict
 
@@ -98,12 +108,13 @@ def main():
                     f.write(generate_readiness_summary_markdown(result, redact=redact))
                 print(f"\n[Report saved to {export_path}]")
 
+        raise SystemExit(int(exit_code_for_readiness(result.readiness)))
     elif args.command == "benchmark":
         try:
             manifest_path, synthetic_dir = _resolve_synthetic_manifest()
         except FileNotFoundError as err:
             print(f"Error: {err}", file=sys.stderr)
-            sys.exit(1)
+            sys.exit(int(ExitCode.USAGE_ERROR))
 
         with open(manifest_path, "r", encoding="utf-8") as f:
             manifest = json.load(f)
@@ -138,6 +149,7 @@ def main():
 
     else:
         parser.print_help()
+        raise SystemExit(int(ExitCode.USAGE_ERROR))
 
 
 if __name__ == "__main__":
