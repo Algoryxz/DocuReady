@@ -147,7 +147,15 @@ class DecisionSafetyLayer:
             if selected_fields:
                 for field in selected_fields:
                     if field.is_uncertain:
-                        states.append(EvidenceState.UNCERTAIN)
+                        if (
+                            field.extraction_method == "NATIVE_VECTOR"
+                            and field.format_valid
+                            and field.evidence_state == EvidenceState.AMBIGUOUS
+                            and "date" in field.field_name
+                        ):
+                            states.append(EvidenceState.VERIFIED_TEXT)
+                        else:
+                            states.append(EvidenceState.UNCERTAIN)
                     else:
                         states.append(field.evidence_state)
                 continue

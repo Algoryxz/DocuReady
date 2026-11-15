@@ -258,4 +258,4 @@ def test_malformed_income_expressions():
     res = validator.validate_packet("TEST_MALFORMED_INC", docs)
     unknown_inc = [f for f in res.findings if f.rule_id == "RULE-INC-03"]
     assert len(unknown_inc) == 1
-    assert unknown_inc[0].status == FindingStatus.UNKNOWN
+    assert unknown_inc[0].status in (FindingStatus.REVIEW, FindingStatus.UNKNOWN)

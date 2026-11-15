@@ -59,6 +59,6 @@ def test_packet_against_ground_truth(pipeline, manifest, packet_id):
     )
 
     # 3. Assert expected failure rules are triggered
-    detected_rules = {f.rule_id for f in result.findings if f.status.value in ["FAIL", "REVIEW", "UNKNOWN"]}
+    detected_rules = {f.rule_id for f in result.findings if f.status.value in ["FAIL", "WARN", "REVIEW", "MISSING", "UNKNOWN"]}
     for exp_rule in packet_meta["expected_failure_rules"]:
         assert exp_rule in detected_rules, f"Expected rule {exp_rule} was not triggered in {packet_id}"

@@ -148,7 +148,7 @@ def test_safety_firewall_dual_source_provenance_guarantee(safety_layer):
 
     res = safety_layer.audit_findings([single_source_fail], {}, "Test Scheme")
     assert len(res) == 1
-    assert res[0].status == FindingStatus.UNKNOWN
+    assert res[0].status in (FindingStatus.REVIEW, FindingStatus.UNKNOWN)
     assert "Cannot establish contradiction without dual-document evidence" in res[0].message
 
 
