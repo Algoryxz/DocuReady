@@ -6,6 +6,8 @@ from enum import Enum
 from typing import Dict, List, Optional, Any
 from pydantic import BaseModel, Field
 
+from docuready.domain.enums import EvidenceState
+
 
 class DocumentType(str, Enum):
     INCOME_CERT = "INCOME_CERT"
@@ -49,19 +51,6 @@ class ExtractionMethod(str, Enum):
     UNEXTRACTED = "UNEXTRACTED"
 
 
-class EvidenceState(str, Enum):
-    """
-    Explicit lifecycle state of extracted document evidence.
-    Note: VERIFIED_TEXT denotes native vector font extraction with direct provenance;
-    it does NOT denote legal statutory authentication.
-    """
-    VERIFIED_TEXT = "VERIFIED_TEXT"      # Native PDF vector text with direct source provenance
-    OCR_EXTRACTED = "OCR_EXTRACTED"      # Local OCR result with high calibrated confidence
-    AMBIGUOUS = "AMBIGUOUS"              # Multiple candidate interpretations or date format ambiguity
-    LOW_CONFIDENCE = "LOW_CONFIDENCE"    # Calibrated confidence below safety threshold (<0.65)
-    NOT_FOUND = "NOT_FOUND"              # Expected field not detected in document
-    UNREADABLE = "UNREADABLE"            # Document scan corrupted, blank, or illegible
-    CONFLICTING = "CONFLICTING"          # Contradictory evidence detected within same document
 
 
 class EvidenceProvenance(BaseModel):
