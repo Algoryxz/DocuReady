@@ -9,38 +9,9 @@ import re
 import os
 from typing import Dict, Any, List
 from docuready.domain.models import AuditResult, FindingStatus
+from docuready.report.redact import redact_text_pii, redact_audit_result_dict
 
-
-def _sanitize_message(message: str) -> str:
-    """Masks extracted literal values (names, numbers, quotes) in finding descriptions."""
-    def replace_quote(match):
-        val = match.group(1)
-        # Keep document types intact
-        if val in ["APPLICATION_FORM", "INCOME_CERT", "CASTE_CERT", "RESIDENCE_CERT", "MARKSHEET", "BANK_PASSBOOK", "AADHAAR"]:
-            return f"'{val}'"
-        return "'[REDACTED]'"
-
-    sanitized = re.sub(r"'([^']+)'", replace_quote, message)
-    # Mask currency amounts: e.g. ₹2,80,000 or ₹ 250,000
-    sanitized = re.sub(r"₹\s*[\d,]+(?:\.\d+)?", "₹[REDACTED]", sanitized)
-    return sanitized
-
-
-def redact_audit_result_dict(result_dict: Dict[str, Any]) -> Dict[str, Any]:
-    """Produces a privacy-redacted copy of an AuditResult dictionary."""
-    redacted = json.loads(json.dumps(result_dict))
-
-    for f in redacted.get("findings", []):
-        if "message" in f and f["message"]:
-            f["message"] = _sanitize_message(f["message"])
-
-        for ev in f.get("evidence", []):
-            if "raw_snippet" in ev and ev["raw_snippet"]:
-                ev["raw_snippet"] = "[REDACTED EVIDENCE SNIPPET]"
-            if "file_name" in ev and ev["file_name"]:
-                ev["file_name"] = os.path.basename(ev["file_name"])
-
-    return redacted
+_sanitize_message = redact_text_pii
 
 
 def export_audit_report_json(result: AuditResult, output_path: str, redact: bool = True) -> str:

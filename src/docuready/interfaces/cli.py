@@ -51,6 +51,11 @@ def main():
     audit_parser.add_argument("packet_dir", help="Path to folder containing packet PDFs")
     audit_parser.add_argument("--json", action="store_true", help="Output JSON format")
     audit_parser.add_argument("--export", help="Export report to file path")
+    audit_parser.add_argument(
+        "--no-redact",
+        action="store_true",
+        help="Disable default redaction (requires explicit flag; emits privacy warning)",
+    )
 
     # Benchmark command
     subparsers.add_parser("benchmark", help="Run benchmark across all synthetic test packets")
@@ -64,21 +69,33 @@ def main():
             print(f"Error: Directory '{args.packet_dir}' not found.", file=sys.stderr)
             sys.exit(1)
 
+        redact = not args.no_redact
+        if args.no_redact:
+            print(
+                "WARNING: --no-redact specified. Output reports will contain unmasked sensitive identifier data.",
+                file=sys.stderr,
+            )
+
         result, docs = pipeline.load_and_audit_packet(str(packet_path))
 
         if args.json:
-            print(json.dumps(result.model_dump(), indent=2))
+            out_data = result.model_dump()
+            if redact:
+                from docuready.report.redact import redact_audit_result_dict
+
+                out_data = redact_audit_result_dict(out_data)
+            print(json.dumps(out_data, indent=2))
         else:
-            print(generate_readiness_summary_markdown(result))
+            print(generate_readiness_summary_markdown(result, redact=redact))
 
         if args.export:
             export_path = Path(args.export).resolve()
             if str(export_path).endswith(".json"):
-                export_audit_report_json(result, str(export_path))
+                export_audit_report_json(result, str(export_path), redact=redact)
                 print(f"\n[Report saved to {export_path}]")
             else:
                 with open(export_path, "w", encoding="utf-8") as f:
-                    f.write(generate_readiness_summary_markdown(result))
+                    f.write(generate_readiness_summary_markdown(result, redact=redact))
                 print(f"\n[Report saved to {export_path}]")
 
     elif args.command == "benchmark":
