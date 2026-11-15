@@ -11,7 +11,7 @@
 
 ## 1. Executive Summary & Objective
 
-DocuReady is entering a structured product-quality improvement programme. Our objective is to raise the engineering and product quality of the application to a demonstrable **9/10 or higher** across all non-frontend quality dimensions prior to production general availability.
+DocuReady is entering a structured product-quality improvement programme. Our objective is to raise the engineering and product quality of the application to a demonstrable **9/10 or higher** across all non-visual product and engineering quality dimensions, including website functional reliability and responsive behavior, prior to production general availability.
 
 This framework defines objective, measurable criteria and calibrated score anchors for evaluating the system. It replaces ungrounded claims with traceable evidence, links acceptance criteria to verifiable automated tests and benchmark artifacts, and establishes an evidence-backed roadmap for the quality programme.
 
@@ -104,7 +104,7 @@ flowchart TD
 ### Phase Schedule & Focus Areas:
 1. **Gate G1 Closeout (Current Milestone):**
    - Reconcile status documentation with canonical main (`b75ef85`).
-   - Await Product Owner explicit acceptance decision on T1.1–T1.5 and Track B.
+   - Await Product Owner explicit acceptance decision on T1.1–T1.5.
 2. **Gate G2 (WS2 — Correctness):**
    - Advance **Dimension 2** (Deterministic Validation) from 7 to 9 via symmetric resolver (`T2.1`), 60-case rule test matrix (`T2.2`), injected clock (`T2.3`), and slot classification (`T2.4`).
    - Advance **Dimension 8** (Error Handling) to 9 via slot error boundaries.

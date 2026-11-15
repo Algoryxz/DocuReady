@@ -258,6 +258,7 @@ T1.x tasks are independent of each other and can run in parallel once G0 passes.
 #### T2.1 — Status vocabulary and symmetric resolver
 - **Depends on:** G0, T1.1.
 - **Scope:** `domain/enums.py`, `outcome/resolver.py`, report/UI/CLI usage.
+- **Status note (15 November 2026):** Premature draft PR #43 (branch `task/T2.1-status-vocabulary-resolver`, head `a23c439794427fefab98173c294ad08646fd88b9`) was opened against `b75ef85` before Gate G1 was accepted and before Gate G2 was authorized. PR #43 failed CI run 43705315353 across all four matrix jobs due to status enum breaks. Implementation activity is frozen and on hold pending formal Product Owner acceptance of Gate G1 and explicit authorization of Gate G2.
 - **Behaviour:** Implement ARCHITECTURE_V2 §6 exactly: `Status`, `Raw`, reason codes, readiness, `max_severity` cap, `NOT_APPLICABLE` for exemptions (shown, not dropped), CLI exit codes 0/1/2/64.
 - **Acceptance:**
   - [ ] Truth-table test covers every row of the §6 matrix

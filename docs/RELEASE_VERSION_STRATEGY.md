@@ -48,8 +48,9 @@ The progression reconciles current Alpha development, a proposed community beta 
   - Web UI operable via local desktop and LAN on mobile browsers.
   - **Boundary:** Not authorized for public cloud hosting with arbitrary uploads, not authorized for real citizen documents, and not a provider of legal or official eligibility determinations.
 
-### Phase 2: `0.2.0` — Proposed Technical / Community Beta Milestone (Target: Gate G6 Completion)
-- **Scope:** Completion of technical gates G2 through G6:
+### Phase 2: `0.2.0` — Optional Intermediate Community Beta Milestone (Unscheduled; Subject to Explicit PO Release Task Approval)
+- **Scope & Role:** `0.2.0` is an optional, intermediate community beta milestone. It is **not** currently scheduled in `docs/BACKLOG.md` (where T5.3 directly specifies tagging `v1.0.0` at G6). It would only occur if separately authorized and assigned an explicit release task (e.g., proposed `T5.1b` or splitting T5.3 into T5.3a Beta and T5.3b GA) prior to the final T5.3 GA release (`v1.0.0`). Otherwise, active development progresses directly toward `v1.0.0` upon G6 completion.
+- **Technical Content (if authorized):** Completion of technical gates G2 through G6:
   - **G2 (WS2):** Symmetric V2 resolver (`outcome/resolver.py`), truth-table property tests, slot validation, and injected clock.
   - **G3 (WS3):** Generic scheme-pack loader, schema validation, and linting.
   - **G4 (WS4):** Demo scheme snapshot (`odisha.subhadra`), canonical V2 report schema.
@@ -77,11 +78,15 @@ The progression reconciles current Alpha development, a proposed community beta 
 - **Proposed Statistical Release Criteria (Pending PO Ratification):**
   - A proposed target such as `<0.1% false-pass rate` is an unverified design objective, not an established result.
   - Before treating any statistical threshold as a release gate, the project must define and ratify:
-    - **Numerator:** Exact count of undetected disqualifying defects across the test corpus.
-    - **Denominator:** Total evaluated applicant documents/packets in the held-out sample.
+    - **Unit of Analysis:** One independently adjudicated applicant packet.
+    - **Reference-Negative Case:** A packet containing at least one pre-defined disqualifying defect, as determined by independent human expert adjudication.
+    - **Numerator:** Reference-negative packets that DocuReady incorrectly returns as passing (false passes).
+    - **Denominator:** All reference-negative packets in the held-out evaluation corpus.
+    - **False-Pass Rate:** $\frac{\text{Numerator}}{\text{Denominator}}$ (the proportion of defective packets that erroneously receive a passing outcome).
+    - **Distinct Metric (False-Pass Prevalence):** The proportion of false passes across *all* evaluated packets (including clean/passing reference-positive packets) is a separate metric ("false-pass prevalence" or overall error rate) and must not be conflated with the false-pass rate on reference negatives.
     - **Held-Out Test Corpus:** Source, stratification, and exclusion criteria of the evaluation corpus.
-    - **Sample Size Rationale:** Minimum sample size required to provide statistical power (e.g., $N \ge 3{,}000$ packets to bound a 0.1% rate with 95% confidence).
-    - **Confidence Bound Method:** Standard statistical method (e.g., Clopper-Pearson exact interval or Wilson score interval with upper bound $\le 0.1\%$).
+    - **Sample Size & Zero Observed False Passes:** Sample size $N \ge 3{,}000$ reference-negative packets is approximately sufficient for a one-sided 95% exact binomial upper confidence bound below 0.1% *only when zero false passes are observed* in the sample ($-\ln(0.05) / 0.001 \approx 2{,}996$). If any false pass is observed, $N = 3{,}000$ is no longer sufficient for an upper bound below 0.1%, and the exact upper bound must be computed directly from the observed data.
+    - **Confidence Bound Method:** Standard exact statistical method (e.g., Clopper-Pearson exact binomial confidence interval with one-sided 95% upper bound $\le 0.1\%$).
   - These criteria remain **proposed** until formal empirical evaluation is authorized and conducted.
 
 ---
