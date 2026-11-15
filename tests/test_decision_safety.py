@@ -14,6 +14,7 @@ from docuready.domain.models import (
     DocumentType, ExtractedDocument, ExtractedField, EvidenceProvenance,
     Finding, FindingStatus, Severity, EvidenceState, ExtractionMethod
 )
+from docuready.domain.enums import Status
 from docuready.outcome.safety_layer import DecisionSafetyLayer
 from docuready.rules.validator import DocuReadyValidator, SchemeConfig
 
@@ -436,7 +437,7 @@ def test_genuinely_absent_mandatory_document_fails_cleanly():
     # CASTE_CERT is explicitly mandatory, so RULE-DOC-01 MUST remain FAIL
     missing_doc_findings = [f for f in audit_res.findings if f.rule_id == "RULE-DOC-01"]
     assert len(missing_doc_findings) == 1
-    assert missing_doc_findings[0].status == FindingStatus.FAIL
+    assert missing_doc_findings[0].status is Status.MISSING
     assert missing_doc_findings[0].severity == Severity.FATAL
     assert "CASTE_CERT" in missing_doc_findings[0].documents_involved
     assert audit_res.summary_counts["FAIL"] >= 1
