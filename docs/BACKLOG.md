@@ -258,7 +258,7 @@ T1.x tasks are independent of each other and can run in parallel once G0 passes.
 #### T2.1 — Status vocabulary and symmetric resolver
 - **Depends on:** Completion of G0 and T1.1, formal Gate G1 acceptance by Product Owner Deeptiman, and explicit Product Owner authorization of Gate G2.
 - **Scope:** `domain/enums.py`, `outcome/resolver.py`, report/UI/CLI usage.
-- **Status note (15 November 2026):** Implementation merged into `main` across PRs #43, #44, #46, #47, and #48 (`55b9c4d`). Mainline post-merge CI runs [43717592374](https://github.com/Algoryxz/DocuReady/actions/runs/43717592374) and [43720320424](https://github.com/Algoryxz/DocuReady/actions/runs/43720320424) passed across all four Python matrix jobs. Primary corrective PR #53 (branch `fix/T2.1-contract-hardening`) cleanly hardens `Readiness(str, Enum)` by eliminating legacy alias equality, asserting canonical enum members across runtime tests, adding dedicated equality/hashing contract tests, and reconciling governance documentation (317 passed, 2 skipped across 319 collected test items; golden snapshot intact at `E8FB1A6B842A47089937777133DE79E1E7F704BEE591D5B4471A1A90BC8C5FA9`). Implementation is merged and technically verified; formal task acceptance and Gate G2 authorization remain pending Product Owner review by Deeptiman.
+- **Status note (15 November 2026):** Implementation and contract hardening merged into `main` across PRs #43, #44, #46, #47, #48 (`55b9c4d`), and #53 (`4e56a99`). Mainline post-merge CI runs [43720320424](https://github.com/Algoryxz/DocuReady/actions/runs/43720320424) and [43723517251](https://github.com/Algoryxz/DocuReady/actions/runs/43723517251) passed across all four Python matrix jobs. Contract hardening cleanly eliminated legacy alias equality from `Readiness(str, Enum)`, asserted canonical enum members across runtime tests, added dedicated equality/hashing contract tests, and reconciled governance documentation (317 passed, 2 skipped across 319 collected test items; golden snapshot intact at `E8FB1A6B842A47089937777133DE79E1E7F704BEE591D5B4471A1A90BC8C5FA9`). Gate G1 is formally ACCEPTED. Gate G2 is formally AUTHORIZED. G2 authorization remains valid and is not pending again. Formal T2.1 technical acceptance remains pending Product Owner review by Deeptiman; T2.2 is merged with validator-level fixture execution outstanding and formal acceptance pending; T2.3 onward remains held.
 - **Behaviour:** Implement ARCHITECTURE_V2 §6 exactly: `Status`, `Raw`, reason codes, readiness, `max_severity` cap, `NOT_APPLICABLE` for exemptions (shown, not dropped), CLI exit codes 0/1/2/64.
 - **Acceptance:**
   - [ ] Truth-table test covers every row of the §6 matrix
@@ -269,11 +269,16 @@ T1.x tasks are independent of each other and can run in parallel once G0 passes.
 
 #### T2.2 — Per-rule test matrix
 - **Scope:** `tests/unit/test_rules_matrix.py`.
-- **Status note (15 November 2026):** Delivered in PR #49 (commit `1a5fc704cb419ca663851b4c9b917242ba439169`) with 103 test cases in `tests/unit/test_rules_matrix.py` covering all 10 rule groups and resolver branches. Main post-merge CI run [43720340943](https://github.com/Algoryxz/DocuReady/actions/runs/43720340943) passed across Python 3.11–3.14. Formal acceptance pending Product Owner review.
+- **Status note (15 November 2026):** Merged into `main` via PR #49 (commit `1a5fc70b933a296388aca737eb71716363cd426c`). The test suite delivers `105 tests collected` in `tests/unit/test_rules_matrix.py`:
+  - 80 parametrized resolver transition cases across ten named rule groups and eight Section 6 conditions (`satisfied_verified`, `satisfied_provisional`, `satisfied_uncertain`, `violated_verified`, `violated_provisional`, `violated_uncertain`, `indeterminate`, `doc_absent`).
+  - 25 additional specialized tests covering statutory exemptions, match-grade caps, severity monotonicity, readiness calculations, enum coercion, and `weakest_evidence` priority ordering.
+  - Source review confirms the 80 transition cases call `resolve_outcome()` directly with rule-group assertion labels. They do not independently execute every rule through `DocuReadyValidator.validate_packet()` against representative document fixtures; validator-level per-rule execution coverage is explicitly recorded as outstanding.
+  - Useful delivered tests and branch coverage of `outcome/resolver.py` (>99%) are retained on `main`. Main post-merge CI run [43720340943](https://github.com/Algoryxz/DocuReady/actions/runs/43720340943) passed across Python 3.11–3.14. Formal T2.2 technical acceptance remains pending Product Owner review by Deeptiman. Work on T2.3 and subsequent tasks remains strictly held pending required prior acceptance and satisfied prerequisites.
 - **Behaviour:** For each of the 10 rules, parametrised cases: satisfied/verified, violated/verified, violated/provisional, violated/uncertain, indeterminate, document missing, exempt (where applicable).
 - **Acceptance:**
-  - [x] ≥ 60 cases, each rule covered for every applicable row
+  - [ ] ≥ 60 cases, each rule covered for every applicable row (80 resolver transition cases delivered; validator-level document fixture execution outstanding)
   - [x] Coverage report shows every branch of `outcome/resolver.py` hit
+  - [ ] Each canonical rule group is exercised through actual validator execution using representative document fixtures, not solely through direct calls to resolve_outcome().
 - **Gate:** G2
 
 #### T2.3 — Match grades and the injected clock
