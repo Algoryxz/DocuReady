@@ -193,8 +193,14 @@ class DecisionSafetyLayer:
             raw,
             weakest_evidence=weakest,
             max_severity=max_severity,
+            match_grade=finding.match_grade,
         )
-        finding.set_resolution(raw, outcome.status, outcome.reason_code)
+        finding.set_resolution(
+            raw,
+            outcome.status,
+            outcome.reason_code,
+            match_grade=finding.match_grade,
+        )
 
     def _collect_v2_evidence_states(
         self,
@@ -352,7 +358,8 @@ class DecisionSafetyLayer:
                 message=f"[SAFETY INTERCEPT: Downgraded to REVIEW because governing rule lacks verified primary legal citation.] {finding.message}",
                 evidence=finding.evidence,
                 remediation="Consult legal/portal administrator for confirmed scheme notification.",
-                statutory_reference="Constitution of India Art 14 (Due Process & Legal Certainty)"
+                statutory_reference="Constitution of India Art 14 (Due Process & Legal Certainty)",
+                match_grade=finding.match_grade,
             )
 
         # Principle FAIL-3: Multi-Document Contradiction Provenance Guarantee
@@ -375,7 +382,8 @@ class DecisionSafetyLayer:
                     message=f"[SAFETY INTERCEPT: Cross-document contradiction claimed but supporting evidence only found in {doc_provenances}. Cannot establish contradiction without dual-document evidence.]",
                     evidence=finding.evidence,
                     remediation="Upload the missing comparator document to substantiate cross-document comparison.",
-                    statutory_reference=finding.statutory_reference
+                    statutory_reference=finding.statutory_reference,
+                    match_grade=finding.match_grade,
                 )
 
         # Principle FAIL-4: OCR Uncertainty & Epistemic State Safety
@@ -439,7 +447,8 @@ class DecisionSafetyLayer:
                 message=f"[SAFETY INTERCEPT: Statutory FAIL downgraded to REVIEW because supporting evidence is uncertain: {reasons_str}. Direct applicant rejection is legally impermissible on unconfirmed evidence.] {finding.message}",
                 evidence=finding.evidence,
                 remediation=f"Inspect original document scan manually. {finding.remediation}",
-                statutory_reference=finding.statutory_reference
+                statutory_reference=finding.statutory_reference,
+                match_grade=finding.match_grade,
             )
 
         return finding
@@ -466,7 +475,8 @@ class DecisionSafetyLayer:
                 message=f"[SAFETY INTERCEPT: PASS finding lacks supporting evidence provenance. An unverified claim cannot produce statutory PASS.] {finding.message}",
                 evidence=[],
                 remediation="Ensure document fields are properly extracted with traceable provenance.",
-                statutory_reference=finding.statutory_reference
+                statutory_reference=finding.statutory_reference,
+                match_grade=finding.match_grade,
             )
 
         # Principle PASS-2: Multi-Document Comparison Provenance Guarantee
@@ -489,7 +499,8 @@ class DecisionSafetyLayer:
                     message=f"[SAFETY INTERCEPT: Cross-document PASS claimed but supporting evidence only found in {doc_provenances}. Cannot establish cross-document consistency without dual-document evidence.] {finding.message}",
                     evidence=finding.evidence,
                     remediation="Upload the missing comparator document to substantiate cross-document comparison.",
-                    statutory_reference=finding.statutory_reference
+                    statutory_reference=finding.statutory_reference,
+                    match_grade=finding.match_grade,
                 )
 
         # Principle PASS-3: Supporting Document Legibility & Presence
@@ -514,7 +525,8 @@ class DecisionSafetyLayer:
                     message=f"[SAFETY INTERCEPT: PASS downgraded to UNKNOWN because supporting document '{dt.value}' is {doc_status}. A valid PASS cannot rely on an unreadable or missing document.] {finding.message}",
                     evidence=finding.evidence,
                     remediation=f"Ensure '{dt.value}' is clearly legible and properly uploaded.",
-                    statutory_reference=finding.statutory_reference
+                    statutory_reference=finding.statutory_reference,
+                    match_grade=finding.match_grade,
                 )
 
         # Principle PASS-4: Field-Level Evidence State and Value Sufficiency
@@ -550,7 +562,8 @@ class DecisionSafetyLayer:
                         message=f"[SAFETY INTERCEPT: PASS downgraded to UNKNOWN because supporting field '{dt.value}.{fname}' is missing or empty.] {finding.message}",
                         evidence=finding.evidence,
                         remediation=f"Ensure '{fname}' is clearly visible and extracted on '{dt.value}'.",
-                        statutory_reference=finding.statutory_reference
+                        statutory_reference=finding.statutory_reference,
+                        match_grade=finding.match_grade,
                     )
 
                 if fld.evidence_state in [EvidenceState.UNREADABLE, EvidenceState.NOT_FOUND]:
@@ -565,7 +578,8 @@ class DecisionSafetyLayer:
                         message=f"[SAFETY INTERCEPT: PASS downgraded to UNKNOWN because supporting field '{dt.value}.{fname}' has evidence state '{fld.evidence_state.value}'.] {finding.message}",
                         evidence=finding.evidence,
                         remediation=f"Re-scan '{dt.value}' to ensure '{fname}' is legible.",
-                        statutory_reference=finding.statutory_reference
+                        statutory_reference=finding.statutory_reference,
+                        match_grade=finding.match_grade,
                     )
 
                 if fld.evidence_state == EvidenceState.LOW_CONFIDENCE or (fld.is_uncertain and "low" in (fld.uncertainty_reason or "").lower()):
@@ -580,7 +594,8 @@ class DecisionSafetyLayer:
                         message=f"[SAFETY INTERCEPT: PASS downgraded to REVIEW because supporting field '{dt.value}.{fname}' has low confidence ({fld.calibrated_confidence:.1%}). Direct PASS requires confirmed evidence.] {finding.message}",
                         evidence=finding.evidence,
                         remediation=f"Inspect '{dt.value}' manually to confirm '{fname}'.",
-                        statutory_reference=finding.statutory_reference
+                        statutory_reference=finding.statutory_reference,
+                        match_grade=finding.match_grade,
                     )
 
                 if fld.evidence_state == EvidenceState.AMBIGUOUS:
@@ -606,7 +621,8 @@ class DecisionSafetyLayer:
                         message=f"[SAFETY INTERCEPT: PASS downgraded to REVIEW because supporting field '{dt.value}.{fname}' has ambiguous evidence ({fld.uncertainty_reason or 'ambiguous format'}).] {finding.message}",
                         evidence=finding.evidence,
                         remediation=f"Confirm unambiguous format of '{fname}' on '{dt.value}'.",
-                        statutory_reference=finding.statutory_reference
+                        statutory_reference=finding.statutory_reference,
+                        match_grade=finding.match_grade,
                     )
 
                 if fld.is_uncertain:
@@ -621,7 +637,8 @@ class DecisionSafetyLayer:
                         message=f"[SAFETY INTERCEPT: PASS downgraded to REVIEW because supporting field '{dt.value}.{fname}' is uncertain ({fld.uncertainty_reason or 'unconfirmed evidence'}).] {finding.message}",
                         evidence=finding.evidence,
                         remediation=f"Inspect scan manually to confirm '{fname}'.",
-                        statutory_reference=finding.statutory_reference
+                        statutory_reference=finding.statutory_reference,
+                        match_grade=finding.match_grade,
                     )
 
         return finding

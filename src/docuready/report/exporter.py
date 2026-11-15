@@ -46,6 +46,8 @@ def generate_readiness_summary_markdown(result: AuditResult, redact: bool = True
         md.append("> *Privacy Notice: This report has been redacted to mask extracted personal snippets and citizen identifiers.*  \n")
     md.append(f"**Packet ID:** `{result.packet_id}`  ")
     md.append(f"**Target Scheme:** {result.scheme_name}  ")
+    if result.as_of:
+        md.append(f"**Effective As Of:** `{result.as_of}`  ")
     md.append(f"**Audit Timestamp:** {result.timestamp}  ")
     md.append(f"**Execution Latency:** {result.execution_time_ms:.1f} ms  ")
     md.append(f"**Overall Readiness Score:** **{result.readiness_score} / 100**  ")

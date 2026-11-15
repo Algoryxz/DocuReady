@@ -3,8 +3,11 @@ Deterministic Field Normalizers and Canonicalization Routines for DocuReady MVP
 """
 
 import re
+import unicodedata
 from datetime import datetime, date
 from typing import Tuple, Optional, Any, Dict, List
+
+from docuready.domain.enums import MatchGrade
 
 # ----------------- VERHOEFF CHECKSUM (ISO/IEC 7064) -----------------
 D_TABLE = [
@@ -55,10 +58,12 @@ def generate_verhoeff_12(prefix_11: str) -> str:
 HONORIFICS_PATTERN = r'\b(MR|MS|MRS|SHRI|SMT|DR|KUMAR|KUMARI|MISS|MD|MOHD|SRI|SMTI)\b'
 
 def normalize_name(s: Optional[str]) -> str:
-    """Normalizes a personal name: strips salutations, symbols, extra spaces, returns uppercase."""
+    """Normalizes a personal name: strips salutations, symbols, extra spaces, diacritics, returns uppercase."""
     if not s or not isinstance(s, str):
         return ""
-    cleaned = s.upper()
+    decomposed = unicodedata.normalize("NFKD", s)
+    stripped = "".join(c for c in decomposed if not unicodedata.combining(c))
+    cleaned = stripped.upper()
     cleaned = re.sub(HONORIFICS_PATTERN, ' ', cleaned)
     cleaned = re.sub(r'[^A-Z\s]', ' ', cleaned)
     tokens = cleaned.split()
@@ -83,13 +88,18 @@ def levenshtein_distance(s1: str, s2: str) -> int:
 
 def compare_names(n1: str, n2: str) -> Dict[str, Any]:
     """
-    Compares two names deterministically:
-    Returns dict with match_status ('PASS', 'REVIEW', 'FAIL'), type, similarity, and notes.
+    Compares two names deterministically according to ARCHITECTURE_V2 §4.2:
+    - EXACT: identical after case/space/diacritics
+    - COMPATIBLE: initial expansion, token reorder, minor spelling/phonetic variant
+    - CONFLICT: different surname/given-name tokens
+    - AMBIGUOUS: one side unreadable or single token
     """
     s1 = normalize_name(n1)
     s2 = normalize_name(n2)
     if not s1 or not s2:
         return {
+            "grade": MatchGrade.AMBIGUOUS,
+            "match_grade": MatchGrade.AMBIGUOUS,
             "status": "FAIL",
             "type": "EMPTY_FIELD",
             "similarity": 0.0,
@@ -97,26 +107,45 @@ def compare_names(n1: str, n2: str) -> Dict[str, Any]:
         }
     if s1 == s2:
         return {
+            "grade": MatchGrade.EXACT,
+            "match_grade": MatchGrade.EXACT,
             "status": "PASS",
             "type": "EXACT_MATCH",
             "similarity": 1.0,
             "notes": "Exact character-for-character match"
         }
 
-    t1 = set(s1.split())
-    t2 = set(s2.split())
+    toks1 = s1.split()
+    toks2 = s2.split()
+
+    # One side single token check (e.g. 'Aarav' vs 'Aarav Sharma')
+    if (len(toks1) == 1 or len(toks2) == 1) and not (len(toks1) == 1 and len(toks2) == 1):
+        dist = levenshtein_distance(s1, s2)
+        max_len = max(len(s1), len(s2))
+        sim = 1.0 - (dist / max_len)
+        return {
+            "grade": MatchGrade.AMBIGUOUS,
+            "match_grade": MatchGrade.AMBIGUOUS,
+            "status": "REVIEW",
+            "type": "SINGLE_TOKEN_NAME",
+            "similarity": round(sim, 3),
+            "notes": f"One name is a single token ('{s1}' vs '{s2}'); cannot verify full identity"
+        }
+
+    t1 = set(toks1)
+    t2 = set(toks2)
     jaccard = len(t1 & t2) / len(t1 | t2)
     if jaccard == 1.0:
         return {
+            "grade": MatchGrade.COMPATIBLE,
+            "match_grade": MatchGrade.COMPATIBLE,
             "status": "PASS",
             "type": "TOKEN_PERMUTATION",
             "similarity": 0.98,
             "notes": "Names contain the exact same tokens in differing order"
         }
 
-    # Initials expansion check (e.g., 'S R NAYAK' vs 'SMRUTI RANJAN NAYAK')
-    toks1 = s1.split()
-    toks2 = s2.split()
+    # Initials expansion check (e.g., 'S R NAYAK' vs 'SMRUTI RANJAN NAYAK', 'A. SHARMA' vs 'AARAV SHARMA')
     if len(toks1) == len(toks2) and len(toks1) > 1:
         initials_match = True
         has_initial = False
@@ -131,6 +160,8 @@ def compare_names(n1: str, n2: str) -> Dict[str, Any]:
                 break
         if initials_match and has_initial:
             return {
+                "grade": MatchGrade.COMPATIBLE,
+                "match_grade": MatchGrade.COMPATIBLE,
                 "status": "REVIEW",
                 "type": "INITIALS_EXPANSION",
                 "similarity": 0.88,
@@ -143,6 +174,8 @@ def compare_names(n1: str, n2: str) -> Dict[str, Any]:
 
     if dist <= 2 and sim >= 0.82:
         return {
+            "grade": MatchGrade.COMPATIBLE,
+            "match_grade": MatchGrade.COMPATIBLE,
             "status": "REVIEW",
             "type": "MINOR_TYPO_TRANSLITERATION",
             "similarity": round(sim, 3),
@@ -150,6 +183,8 @@ def compare_names(n1: str, n2: str) -> Dict[str, Any]:
         }
     elif sim >= 0.70:
         return {
+            "grade": MatchGrade.COMPATIBLE,
+            "match_grade": MatchGrade.COMPATIBLE,
             "status": "REVIEW",
             "type": "PARTIAL_SIMILARITY",
             "similarity": round(sim, 3),
@@ -157,6 +192,8 @@ def compare_names(n1: str, n2: str) -> Dict[str, Any]:
         }
     else:
         return {
+            "grade": MatchGrade.CONFLICT,
+            "match_grade": MatchGrade.CONFLICT,
             "status": "FAIL",
             "type": "CONTRADICTORY_NAME",
             "similarity": round(sim, 3),
@@ -332,3 +369,200 @@ def normalize_cert_number(cert_no: Optional[str]) -> str:
     if not cert_no or not isinstance(cert_no, str):
         return ""
     return re.sub(r'[\s\-_]', '', cert_no.strip().upper())
+
+
+# ----------------- V2 MATCH GRADE COMPARISON FUNCTIONS -----------------
+def compare_dates(d1: Any, d2: Any) -> Dict[str, Any]:
+    """
+    Compares two date values according to ARCHITECTURE_V2 §4.2:
+    - EXACT: same date unambiguously
+    - AMBIGUOUS: ambiguous format (e.g. DD/MM vs MM/DD), partial or unreadable
+    - CONFLICT: different dates
+    """
+    if d1 is None or d2 is None:
+        return {
+            "grade": MatchGrade.AMBIGUOUS,
+            "match_grade": MatchGrade.AMBIGUOUS,
+            "status": "REVIEW",
+            "type": "MISSING_DATE",
+            "notes": "One or both date fields are missing",
+        }
+    dt1, status1, amb1 = parse_and_normalize_date(d1)
+    dt2, status2, amb2 = parse_and_normalize_date(d2)
+    if status1 != "VALID" or status2 != "VALID" or dt1 is None or dt2 is None:
+        return {
+            "grade": MatchGrade.AMBIGUOUS,
+            "match_grade": MatchGrade.AMBIGUOUS,
+            "status": "REVIEW",
+            "type": "UNPARSEABLE_DATE",
+            "notes": f"One or both dates could not be parsed: '{d1}' ({status1}), '{d2}' ({status2})",
+        }
+
+    cand1 = get_date_ambiguity_candidates(d1) or [dt1]
+    cand2 = get_date_ambiguity_candidates(d2) or [dt2]
+
+    if amb1 or amb2 or len(cand1) > 1 or len(cand2) > 1:
+        return {
+            "grade": MatchGrade.AMBIGUOUS,
+            "match_grade": MatchGrade.AMBIGUOUS,
+            "status": "REVIEW",
+            "type": "AMBIGUOUS_DATE",
+            "candidates_1": [c.isoformat() for c in cand1],
+            "candidates_2": [c.isoformat() for c in cand2],
+            "notes": f"Ambiguous date format (e.g., DD/MM vs MM/DD): '{d1}' vs '{d2}'",
+        }
+
+    if dt1 == dt2:
+        return {
+            "grade": MatchGrade.EXACT,
+            "match_grade": MatchGrade.EXACT,
+            "status": "PASS",
+            "type": "EXACT_MATCH",
+            "notes": f"Dates match identically: {dt1.isoformat()}",
+        }
+    else:
+        return {
+            "grade": MatchGrade.CONFLICT,
+            "match_grade": MatchGrade.CONFLICT,
+            "status": "FAIL",
+            "type": "DIFFERING_DATE",
+            "notes": f"Dates conflict: {dt1.isoformat()} vs {dt2.isoformat()}",
+        }
+
+
+def compare_identifiers(
+    id1: Any,
+    id2: Any,
+    is_aadhaar: bool = False,
+    is_uncertain: bool = False,
+) -> Dict[str, Any]:
+    """
+    Compares identifiers (Aadhaar, certificate numbers, account numbers) per §4.2:
+    - EXACT: same digits / normalized alphanumeric characters
+    - CONFLICT: different digits
+    - AMBIGUOUS: Verhoeff checksum failure (extraction doubt, not identity conflict) or is_uncertain
+    """
+    if id1 is None or id2 is None:
+        return {
+            "grade": MatchGrade.AMBIGUOUS,
+            "match_grade": MatchGrade.AMBIGUOUS,
+            "status": "REVIEW",
+            "type": "MISSING_IDENTIFIER",
+            "notes": "One or both identifier fields are missing",
+        }
+    s1 = re.sub(r'[\s\-_]', '', str(id1).upper())
+    s2 = re.sub(r'[\s\-_]', '', str(id2).upper())
+    if not s1 or not s2:
+        return {
+            "grade": MatchGrade.AMBIGUOUS,
+            "match_grade": MatchGrade.AMBIGUOUS,
+            "status": "REVIEW",
+            "type": "EMPTY_IDENTIFIER",
+            "notes": "One or both identifier fields are blank",
+        }
+    if is_uncertain:
+        return {
+            "grade": MatchGrade.AMBIGUOUS,
+            "match_grade": MatchGrade.AMBIGUOUS,
+            "status": "REVIEW",
+            "type": "EXTRACTION_UNCERTAIN",
+            "notes": "Identifier extraction marked uncertain",
+        }
+    if is_aadhaar:
+        v1 = validate_verhoeff(s1)
+        v2 = validate_verhoeff(s2)
+        if not v1 or not v2:
+            return {
+                "grade": MatchGrade.AMBIGUOUS,
+                "match_grade": MatchGrade.AMBIGUOUS,
+                "status": "REVIEW",
+                "type": "CHECKSUM_FAILURE",
+                "notes": f"Aadhaar Verhoeff checksum failure (id1_valid={v1}, id2_valid={v2}); treated as extraction doubt, not identity conflict",
+            }
+    if s1 == s2:
+        return {
+            "grade": MatchGrade.EXACT,
+            "match_grade": MatchGrade.EXACT,
+            "status": "PASS",
+            "type": "EXACT_MATCH",
+            "notes": f"Identifiers match identically: '{s1}'",
+        }
+    else:
+        return {
+            "grade": MatchGrade.CONFLICT,
+            "match_grade": MatchGrade.CONFLICT,
+            "status": "FAIL",
+            "type": "DIFFERING_IDENTIFIER",
+            "notes": f"Identifiers conflict: '{s1}' vs '{s2}'",
+        }
+
+
+def compare_amounts(
+    val1: Any,
+    val2: Any,
+    tolerance: float = 0.0,
+    is_uncertain: bool = False,
+) -> Dict[str, Any]:
+    """
+    Compares currency or numeric amounts per §4.2:
+    - EXACT: same value (within 1.0 INR / float precision)
+    - COMPATIBLE: within declared tolerance (> 0)
+    - CONFLICT: outside tolerance
+    - AMBIGUOUS: unit/lakh-crore parse unclear or is_uncertain
+    """
+    if val1 is None or val2 is None:
+        return {
+            "grade": MatchGrade.AMBIGUOUS,
+            "match_grade": MatchGrade.AMBIGUOUS,
+            "status": "REVIEW",
+            "type": "MISSING_AMOUNT",
+            "notes": "One or both amount fields are missing",
+        }
+    if is_uncertain:
+        return {
+            "grade": MatchGrade.AMBIGUOUS,
+            "match_grade": MatchGrade.AMBIGUOUS,
+            "status": "REVIEW",
+            "type": "EXTRACTION_UNCERTAIN",
+            "notes": "Amount extraction marked uncertain",
+        }
+    a1 = normalize_income(val1)
+    a2 = normalize_income(val2)
+    if a1 is None or a2 is None:
+        return {
+            "grade": MatchGrade.AMBIGUOUS,
+            "match_grade": MatchGrade.AMBIGUOUS,
+            "status": "REVIEW",
+            "type": "UNPARSEABLE_AMOUNT",
+            "notes": f"Amount parsing unclear ('{val1}' vs '{val2}')",
+        }
+    diff = abs(a1 - a2)
+    if diff <= 1.0:
+        return {
+            "grade": MatchGrade.EXACT,
+            "match_grade": MatchGrade.EXACT,
+            "status": "PASS",
+            "type": "EXACT_MATCH",
+            "difference": diff,
+            "notes": f"Amounts match identically: {a1:.2f}",
+        }
+    elif tolerance > 0 and diff <= tolerance:
+        return {
+            "grade": MatchGrade.COMPATIBLE,
+            "match_grade": MatchGrade.COMPATIBLE,
+            "status": "REVIEW",
+            "type": "WITHIN_TOLERANCE",
+            "difference": diff,
+            "tolerance": tolerance,
+            "notes": f"Amount variation ({diff:.2f}) within declared tolerance ({tolerance:.2f})",
+        }
+    else:
+        return {
+            "grade": MatchGrade.CONFLICT,
+            "match_grade": MatchGrade.CONFLICT,
+            "status": "FAIL",
+            "type": "OUTSIDE_TOLERANCE",
+            "difference": diff,
+            "tolerance": tolerance,
+            "notes": f"Amounts conflict: {a1:.2f} vs {a2:.2f} (diff {diff:.2f} > tolerance {tolerance:.2f})",
+        }
