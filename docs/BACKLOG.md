@@ -74,7 +74,7 @@ Gate it contributes to
 |---|---|---|
 | **G0** Baseline frozen | Safe to refactor | **PASSED (Accepted 15 Nov 2026)**: T0.1–T0.3 accepted; golden snapshots green; remote CI green on main (runs 43630377408, 43636186644) |
 | **G1** Honest and clean | Public claims match reality | **PASSED (Accepted 15 Nov 2026 by Deeptiman)**: T1.1–T1.5 accepted; claims register complete; no-network test green; licence decision recorded in ADR-001; Track A/B deliverables qualified |
-| **G2** Safe outcomes | No false assurance | **AUTHORIZED (15 Nov 2026 by Deeptiman; implementation active)**: T2.1–T2.4 authorized; T2.1 technical implementation undergoing corrective repair |
+| **G2** Safe outcomes | No false assurance | **AUTHORIZED (15 Nov 2026 by Deeptiman)**: G2 authorized; T2.1 implementation and contract hardening merged through PR #53 (formal technical acceptance pending); T2.2 resolver matrix merged with 105 collected tests (validator-level document fixture execution outstanding; formal acceptance pending); T2.3 onward held pending required acceptance |
 | **G3** Engine equivalence | Rules as data, same behaviour | T3.1–T3.2 accepted; `generic.demo` reproduces golden snapshots except the changes approved in T2.x |
 | **G4** Real pack | First scheme pack with sources | T3.3 accepted; pack lint passes; status is `demo_snapshot` or `verified` truthfully |
 | **G5** Credible evaluation | Numbers mean something | T4.1–T4.3 accepted; `eval/EVAL_CARD.md` published; regression gate in CI |
