@@ -1,5 +1,6 @@
 """Integration checks for the transitional legacy-to-V2 outcome adapter."""
 
+from datetime import date
 from docuready.domain.enums import (
     EvidenceState,
     ExtractionMethod,
@@ -219,7 +220,7 @@ def _expiration_finding():
 
 
 def test_native_vector_ambiguous_date_with_safe_year_resolves_to_pass():
-    """1. Native vector text may remain VERIFIED when date interpretation is genuinely safe (year >= 2024)."""
+    """1. Native vector text may remain VERIFIED when date interpretation is genuinely invariant PASS."""
     finding = _expiration_finding()
     field = ExtractedField(
         field_name="issue_date",
@@ -228,7 +229,7 @@ def test_native_vector_ambiguous_date_with_safe_year_resolves_to_pass():
         extraction_method=ExtractionMethod.NATIVE_VECTOR,
         evidence_state=EvidenceState.AMBIGUOUS,
         is_uncertain=True,
-        uncertainty_reason="Ambiguous date representation",
+        uncertainty_reason="Date format ambiguity (DD/MM vs MM/DD)",
     )
     doc = ExtractedDocument(
         doc_type=DocumentType.INCOME_CERT,
@@ -237,13 +238,16 @@ def test_native_vector_ambiguous_date_with_safe_year_resolves_to_pass():
         fields={"issue_date": field},
     )
 
-    audited = DecisionSafetyLayer().audit_findings([finding], {DocumentType.INCOME_CERT: doc})
+    scheme = SchemeConfig(income_cert_validity_years=3)
+    audited = DecisionSafetyLayer().audit_findings(
+        [finding], {DocumentType.INCOME_CERT: doc}, scheme_config=scheme, audit_date=date(2026, 11, 13)
+    )
     assert audited[0].resolved_status is Status.PASS
     assert audited[0].reason_code == ReasonCode.CONFIRMED_OK.value
 
 
 def test_ocr_extracted_ambiguous_date_remains_provisional_and_resolves_to_review():
-    """2. OCR-extracted ambiguous date remains PROVISIONAL and must never be promoted to VERIFIED."""
+    """2. OCR-extracted ambiguous date remains UNCERTAIN/PROVISIONAL and must never be promoted to VERIFIED."""
     finding = _expiration_finding()
     field = ExtractedField(
         field_name="issue_date",
@@ -252,7 +256,7 @@ def test_ocr_extracted_ambiguous_date_remains_provisional_and_resolves_to_review
         extraction_method=ExtractionMethod.LOCAL_OCR,
         evidence_state=EvidenceState.AMBIGUOUS,
         is_uncertain=True,
-        uncertainty_reason="Ambiguous date representation",
+        uncertainty_reason="Date format ambiguity (DD/MM vs MM/DD)",
     )
     doc = ExtractedDocument(
         doc_type=DocumentType.INCOME_CERT,
@@ -262,13 +266,22 @@ def test_ocr_extracted_ambiguous_date_remains_provisional_and_resolves_to_review
     )
 
     safety = DecisionSafetyLayer()
-    states = safety._collect_v2_evidence_states(finding, {DocumentType.INCOME_CERT: doc})
-    assert states == [EvidenceState.OCR_EXTRACTED]
-    assert normalize_evidence_state(states[0]) is EvidenceState.PROVISIONAL
+    scheme = SchemeConfig(income_cert_validity_years=3)
+    states = safety._collect_v2_evidence_states(
+        finding, {DocumentType.INCOME_CERT: doc}, scheme_config=scheme, audit_date=date(2026, 11, 13)
+    )
+    assert states == [EvidenceState.UNCERTAIN]
+    assert normalize_evidence_state(states[0]) is EvidenceState.UNCERTAIN
 
-    audited = safety.audit_findings([finding], {DocumentType.INCOME_CERT: doc})
+    audited = safety.audit_findings(
+        [finding], {DocumentType.INCOME_CERT: doc}, scheme_config=scheme, audit_date=date(2026, 11, 13)
+    )
     assert audited[0].resolved_status is Status.REVIEW
-    assert audited[0].reason_code in (ReasonCode.CANNOT_CONFIRM.value, ReasonCode.INSUFFICIENT_DATA.value)
+    assert audited[0].reason_code in (
+        ReasonCode.CANNOT_CONFIRM.value,
+        ReasonCode.INSUFFICIENT_DATA.value,
+        ReasonCode.EVIDENCE_UNCERTAIN.value,
+    )
 
 
 def test_satisfied_plus_ocr_evidence_produces_review():

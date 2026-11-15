@@ -8,6 +8,7 @@ from docuready.normalize.normalizer import (
     validate_verhoeff,
     validate_ifsc_code,
     normalize_cert_number,
+    get_date_ambiguity_candidates,
 )
 
 __all__ = [
@@ -18,4 +19,5 @@ __all__ = [
     "validate_verhoeff",
     "validate_ifsc_code",
     "normalize_cert_number",
+    "get_date_ambiguity_candidates",
 ]
