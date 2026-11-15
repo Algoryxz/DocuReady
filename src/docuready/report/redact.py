@@ -26,6 +26,7 @@ import logging
 import os
 import re
 import shutil
+import sys
 import tempfile
 from pathlib import Path
 from typing import Any, Dict, Iterator, Optional, Union
@@ -289,10 +290,16 @@ def secure_temporary_directory(prefix: str = "docuready_tmp_") -> Iterator[Path]
         if temp_dir.exists():
             cleanup_errors = []
 
-            def _onerror(func, path, exc_info):
-                cleanup_errors.append((path, exc_info[1]))
+            if sys.version_info >= (3, 12):
+                def _onexc(func, path, exc):
+                    cleanup_errors.append((path, exc))
 
-            shutil.rmtree(temp_dir, onerror=_onerror)
+                shutil.rmtree(temp_dir, onexc=_onexc)
+            else:
+                def _onerror(func, path, exc_info):
+                    cleanup_errors.append((path, exc_info[1]))
+
+                shutil.rmtree(temp_dir, onerror=_onerror)
             if cleanup_errors:
                 logger = get_safe_logger("docuready.temp")
                 logger.warning(

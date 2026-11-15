@@ -6,7 +6,7 @@ V2 evidence states; this keeps the migration explicit and fail-closed.
 """
 
 from enum import Enum, IntEnum
-from typing import Optional
+from typing import Any, Optional
 
 
 class Status(str, Enum):
@@ -93,6 +93,28 @@ class ExitCode(IntEnum):
     NEEDS_CHECKS = 1
     NOT_READY = 2
     USAGE_ERROR = 64
+
+
+class ExtractionMethod(str, Enum):
+    """Method used to extract text or data from an applicant document."""
+
+    NATIVE_VECTOR = "NATIVE_VECTOR"
+    LOCAL_OCR = "LOCAL_OCR"
+    UNEXTRACTED = "UNEXTRACTED"
+
+
+def coerce_extraction_method(
+    method: Any,
+) -> ExtractionMethod:
+    """Safely coerce a string or enum to ExtractionMethod, failing closed to UNEXTRACTED."""
+    if isinstance(method, ExtractionMethod):
+        return method
+    if method is None:
+        return ExtractionMethod.UNEXTRACTED
+    try:
+        return ExtractionMethod(str(method))
+    except (ValueError, TypeError):
+        return ExtractionMethod.UNEXTRACTED
 
 
 def normalize_evidence_state(

@@ -10,7 +10,7 @@ Intercepts validation findings before applicant presentation to guarantee that:
 
 import re
 from typing import Dict, List, Optional, Set, Any
-from docuready.domain.enums import Raw
+from docuready.domain.enums import ExtractionMethod, Raw, coerce_extraction_method
 from docuready.outcome.resolver import resolve_outcome, weakest_evidence
 from docuready.domain.models import (
     DocumentType, ExtractedDocument, ExtractedField, EvidenceState,
@@ -146,10 +146,14 @@ class DecisionSafetyLayer:
 
             if selected_fields:
                 for field in selected_fields:
+                    method = coerce_extraction_method(getattr(field, "extraction_method", None))
                     if field.is_uncertain:
                         # Expiration rule: if the issue year is unambiguously valid under both
-                        # DD/MM and MM/DD interpretations (e.g. 2024 or later), the observation
-                        # used by the expiration check is not uncertain.
+                        # DD/MM and MM/DD interpretations (e.g. 2024 or later), the date interpretation
+                        # ambiguity is resolved. However, evidence certainty strictly tracks the extraction method:
+                        # - NATIVE_VECTOR text may remain VERIFIED (VERIFIED_TEXT).
+                        # - LOCAL_OCR text must remain PROVISIONAL (OCR_EXTRACTED).
+                        # - Ambiguous or low-confidence evidence without verified vector backing must not become VERIFIED.
                         if (
                             "EXP" in finding.rule_id
                             and getattr(field, "field_name", None) == "issue_date"
@@ -157,8 +161,12 @@ class DecisionSafetyLayer:
                         ):
                             m_year = re.search(r"\b(19\d\d|20\d\d)\b", str(field.raw_value))
                             if m_year and int(m_year.group(1)) >= 2024:
-                                states.append(EvidenceState.VERIFIED_TEXT)
-                                continue
+                                if method is ExtractionMethod.NATIVE_VECTOR:
+                                    states.append(EvidenceState.VERIFIED_TEXT)
+                                    continue
+                                elif method is ExtractionMethod.LOCAL_OCR:
+                                    states.append(EvidenceState.OCR_EXTRACTED)
+                                    continue
                         states.append(EvidenceState.UNCERTAIN)
                     else:
                         states.append(field.evidence_state)
@@ -176,9 +184,10 @@ class DecisionSafetyLayer:
                 continue
 
             for item in provenance:
-                if item.extraction_method == "NATIVE_VECTOR":
+                method = coerce_extraction_method(getattr(item, "extraction_method", None))
+                if method is ExtractionMethod.NATIVE_VECTOR:
                     states.append(EvidenceState.VERIFIED_TEXT)
-                elif item.extraction_method == "LOCAL_OCR":
+                elif method is ExtractionMethod.LOCAL_OCR:
                     states.append(EvidenceState.OCR_EXTRACTED)
                 else:
                     states.append(EvidenceState.UNCERTAIN)
@@ -468,8 +477,11 @@ class DecisionSafetyLayer:
                     )
 
                 if fld.evidence_state == EvidenceState.AMBIGUOUS:
-                    # Date expiration check: if year is unambiguously valid under both DD/MM and MM/DD interpretations, preserve PASS
-                    if "EXP" in finding.rule_id and fname == "issue_date":
+                    # Date expiration check: if year is unambiguously valid under both DD/MM and MM/DD interpretations,
+                    # preserve PASS ONLY when extracted via native vector text.
+                    # OCR extractions remain provisional and must not produce a confirmed PASS.
+                    method = coerce_extraction_method(getattr(fld, "extraction_method", None))
+                    if "EXP" in finding.rule_id and fname == "issue_date" and method is ExtractionMethod.NATIVE_VECTOR:
                         m_year = re.search(r"\b(19\d\d|20\d\d)\b", str(fld.raw_value))
                         if m_year and int(m_year.group(1)) >= 2024:
                             continue

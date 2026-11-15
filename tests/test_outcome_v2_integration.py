@@ -2,11 +2,13 @@
 
 from docuready.domain.enums import (
     EvidenceState,
+    ExtractionMethod,
     MaxSeverity,
     Raw,
     Readiness,
     ReasonCode,
     Status,
+    normalize_evidence_state,
 )
 from docuready.domain.models import (
     AuditResult,
@@ -193,3 +195,211 @@ def test_public_projection_uses_v2_readiness_and_status_without_changing_legacy_
     assert public["readiness"] == "NO_ISSUES_FOUND"
     assert public["findings"][0]["status"] == "PASS"
     assert public["findings"][0]["reason_code"] == ReasonCode.CONFIRMED_OK.value
+
+
+def _expiration_finding():
+    return Finding(
+        rule_id="RULE-EXP-PASS",
+        rule_name="Income certificate validity",
+        status=FindingStatus.PASS,
+        severity=Severity.INFO,
+        field="VALIDITY_PERIOD",
+        documents_involved=[DocumentType.INCOME_CERT.value],
+        message="Income certificate is valid.",
+        evidence=[
+            EvidenceProvenance(
+                document_type=DocumentType.INCOME_CERT.value,
+                file_name="income_cert.pdf",
+                extracted_field="issue_date",
+            )
+        ],
+        remediation="No action required.",
+        statutory_reference="Odisha Misc Cert Rules 2019, Rule 8(2)",
+    )
+
+
+def test_native_vector_ambiguous_date_with_safe_year_resolves_to_pass():
+    """1. Native vector text may remain VERIFIED when date interpretation is genuinely safe (year >= 2024)."""
+    finding = _expiration_finding()
+    field = ExtractedField(
+        field_name="issue_date",
+        raw_value="10/01/2025",
+        normalized_value="2025-01-10",
+        extraction_method=ExtractionMethod.NATIVE_VECTOR,
+        evidence_state=EvidenceState.AMBIGUOUS,
+        is_uncertain=True,
+        uncertainty_reason="Ambiguous date representation",
+    )
+    doc = ExtractedDocument(
+        doc_type=DocumentType.INCOME_CERT,
+        file_path="income_cert.pdf",
+        extraction_method=ExtractionMethod.NATIVE_VECTOR,
+        fields={"issue_date": field},
+    )
+
+    audited = DecisionSafetyLayer().audit_findings([finding], {DocumentType.INCOME_CERT: doc})
+    assert audited[0].resolved_status is Status.PASS
+    assert audited[0].reason_code == ReasonCode.CONFIRMED_OK.value
+
+
+def test_ocr_extracted_ambiguous_date_remains_provisional_and_resolves_to_review():
+    """2. OCR-extracted ambiguous date remains PROVISIONAL and must never be promoted to VERIFIED."""
+    finding = _expiration_finding()
+    field = ExtractedField(
+        field_name="issue_date",
+        raw_value="10/01/2025",
+        normalized_value="2025-01-10",
+        extraction_method=ExtractionMethod.LOCAL_OCR,
+        evidence_state=EvidenceState.AMBIGUOUS,
+        is_uncertain=True,
+        uncertainty_reason="Ambiguous date representation",
+    )
+    doc = ExtractedDocument(
+        doc_type=DocumentType.INCOME_CERT,
+        file_path="income_cert.pdf",
+        extraction_method=ExtractionMethod.LOCAL_OCR,
+        fields={"issue_date": field},
+    )
+
+    safety = DecisionSafetyLayer()
+    states = safety._collect_v2_evidence_states(finding, {DocumentType.INCOME_CERT: doc})
+    assert states == [EvidenceState.OCR_EXTRACTED]
+    assert normalize_evidence_state(states[0]) is EvidenceState.PROVISIONAL
+
+    audited = safety.audit_findings([finding], {DocumentType.INCOME_CERT: doc})
+    assert audited[0].resolved_status is Status.REVIEW
+    assert audited[0].reason_code in (ReasonCode.CANNOT_CONFIRM.value, ReasonCode.INSUFFICIENT_DATA.value)
+
+
+def test_satisfied_plus_ocr_evidence_produces_review():
+    """3. SATISFIED + PROVISIONAL (OCR evidence) must resolve to REVIEW, never PASS."""
+    finding = _expiration_finding()
+    field = ExtractedField(
+        field_name="issue_date",
+        raw_value="2025-01-10",
+        normalized_value="2025-01-10",
+        extraction_method=ExtractionMethod.LOCAL_OCR,
+        evidence_state=EvidenceState.OCR_EXTRACTED,
+        is_uncertain=False,
+    )
+    doc = ExtractedDocument(
+        doc_type=DocumentType.INCOME_CERT,
+        file_path="income_cert.pdf",
+        extraction_method=ExtractionMethod.LOCAL_OCR,
+        fields={"issue_date": field},
+    )
+
+    audited = DecisionSafetyLayer().audit_findings([finding], {DocumentType.INCOME_CERT: doc})
+    assert audited[0].raw_result is Raw.SATISFIED
+    assert audited[0].resolved_status is Status.REVIEW
+    assert audited[0].reason_code == ReasonCode.CANNOT_CONFIRM.value
+
+
+def test_violated_plus_ocr_evidence_produces_warn():
+    """4. VIOLATED + PROVISIONAL (OCR evidence) must resolve to WARN."""
+    finding = Finding(
+        rule_id="RULE-EXP-01",
+        rule_name="Certificate validity",
+        status=FindingStatus.FAIL,
+        severity=Severity.CRITICAL,
+        penalty=25,
+        field="VALIDITY_PERIOD",
+        documents_involved=[DocumentType.INCOME_CERT.value],
+        message="Income certificate is expired.",
+        evidence=[
+            EvidenceProvenance(
+                document_type=DocumentType.INCOME_CERT.value,
+                file_name="income_cert.pdf",
+                extracted_field="issue_date",
+                extraction_method=ExtractionMethod.LOCAL_OCR,
+            )
+        ],
+        remediation="Obtain a valid certificate.",
+        statutory_reference="Odisha Misc Cert Rules 2019",
+    )
+    field = ExtractedField(
+        field_name="issue_date",
+        raw_value="2021-01-10",
+        normalized_value="2021-01-10",
+        extraction_method=ExtractionMethod.LOCAL_OCR,
+        evidence_state=EvidenceState.OCR_EXTRACTED,
+        is_uncertain=False,
+    )
+    doc = ExtractedDocument(
+        doc_type=DocumentType.INCOME_CERT,
+        file_path="income_cert.pdf",
+        extraction_method=ExtractionMethod.LOCAL_OCR,
+        fields={"issue_date": field},
+    )
+
+    audited = DecisionSafetyLayer().audit_findings([finding], {DocumentType.INCOME_CERT: doc})
+    assert audited[0].raw_result is Raw.VIOLATED
+    assert audited[0].resolved_status is Status.WARN
+    assert audited[0].reason_code == ReasonCode.DEFECT_PROBABLE.value
+
+
+def test_uncertain_evidence_never_produces_pass():
+    """5. Uncertain evidence must never produce PASS for satisfied or violated checks."""
+    # Case A: SATISFIED + UNCERTAIN -> REVIEW (CANNOT_CONFIRM)
+    pass_finding = _expiration_finding()
+    field_low = ExtractedField(
+        field_name="issue_date",
+        raw_value="2025-01-10",
+        normalized_value="2025-01-10",
+        extraction_method=ExtractionMethod.LOCAL_OCR,
+        evidence_state=EvidenceState.LOW_CONFIDENCE,
+        is_uncertain=True,
+        uncertainty_reason="Low OCR confidence (40%)",
+    )
+    doc_low = ExtractedDocument(
+        doc_type=DocumentType.INCOME_CERT,
+        file_path="income_cert.pdf",
+        fields={"issue_date": field_low},
+    )
+    audited_pass = DecisionSafetyLayer().audit_findings([pass_finding], {DocumentType.INCOME_CERT: doc_low})
+    assert audited_pass[0].resolved_status is Status.REVIEW
+    assert audited_pass[0].resolved_status is not Status.PASS
+
+    # Case B: VIOLATED + UNCERTAIN -> REVIEW (EVIDENCE_UNCERTAIN)
+    fail_finding = Finding(
+        rule_id="RULE-EXP-01",
+        rule_name="Certificate validity",
+        status=FindingStatus.FAIL,
+        severity=Severity.CRITICAL,
+        penalty=25,
+        field="VALIDITY_PERIOD",
+        documents_involved=[DocumentType.INCOME_CERT.value],
+        message="Income certificate is expired.",
+        evidence=[
+            EvidenceProvenance(
+                document_type=DocumentType.INCOME_CERT.value,
+                file_name="income_cert.pdf",
+                extracted_field="issue_date",
+            )
+        ],
+        remediation="Obtain a valid certificate.",
+        statutory_reference="Odisha Misc Cert Rules 2019",
+    )
+    audited_fail = DecisionSafetyLayer().audit_findings([fail_finding], {DocumentType.INCOME_CERT: doc_low})
+    assert audited_fail[0].resolved_status is Status.REVIEW
+    assert audited_fail[0].resolved_status is not Status.FAIL
+    assert audited_fail[0].reason_code in (
+        ReasonCode.EVIDENCE_UNCERTAIN.value,
+        ReasonCode.CANNOT_CONFIRM.value,
+        ReasonCode.INSUFFICIENT_DATA.value,
+    )
+
+
+def test_existing_clean_packet_behavior_remains_correct():
+    """6. Clean synthetic packet PKT_01_CLEAN continues to produce NO_ISSUES_FOUND."""
+    from pathlib import Path
+    from docuready.pipeline import AuditPipeline
+
+    repo_root = Path(__file__).resolve().parents[1]
+    pkt_clean_dir = repo_root / "synthetic_data" / "pkt_01_clean"
+    pipeline = AuditPipeline()
+    result, docs = pipeline.load_and_audit_packet(str(pkt_clean_dir), packet_id="PKT_01_CLEAN")
+
+    assert result.readiness is Readiness.NO_ISSUES_FOUND
+    assert result.readiness_score == 100
+    assert all(f.status is Status.PASS for f in result.findings)
