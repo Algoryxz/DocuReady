@@ -58,7 +58,7 @@ def generate_readiness_summary_markdown(result: AuditResult, redact: bool = True
     md.append(f"- **Human Review:** {counts[Status.REVIEW.value]}")
     md.append(f"- **Confirmed Defects:** {counts[Status.FAIL.value]}")
     md.append(f"- **Missing Documents:** {counts[Status.MISSING.value]}")
-    md.append(f"- **Not Applicable:** {counts[Status.NOT_APPLICABLE.value]}\\n")
+    md.append(f"- **Not Applicable:** {counts[Status.NOT_APPLICABLE.value]}\n")
 
     md.append("---")
     md.append("## Detailed Evidence-Linked Findings\n")
