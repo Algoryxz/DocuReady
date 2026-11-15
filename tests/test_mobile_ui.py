@@ -13,6 +13,7 @@ from pathlib import Path
 import re
 import pytest
 
+from docuready.domain.enums import Readiness
 from docuready.domain.models import DocumentType, FindingStatus
 from docuready.pipeline import AuditPipeline
 
@@ -56,7 +57,7 @@ def test_synthetic_audit_workflow_on_clean_and_conflict_packets():
     # Test clean packet
     pkt_01_path = synth_dir / "pkt_01_clean"
     res_clean, docs_clean = pipeline.load_and_audit_packet(str(pkt_01_path), packet_id="PKT_01_CLEAN")
-    assert res_clean.readiness.value == "NO_ISSUES_FOUND"
+    assert res_clean.readiness == Readiness.NO_ISSUES_FOUND
     assert res_clean.readiness_score == 100
     assert len(docs_clean) == 6
 
@@ -174,7 +175,7 @@ def test_apptest_mobile_workflow_full_cycle():
         audit_btn.click().run()
         assert not at.exception
         assert at.session_state.audit_result is not None
-        assert at.session_state.audit_result.readiness.value == "NO_ISSUES_FOUND"
+        assert at.session_state.audit_result.readiness == Readiness.NO_ISSUES_FOUND
         assert at.session_state.audit_result.readiness_score == 100
 
         # 3. Audit PKT_02_NAME_CONFLICT
@@ -183,7 +184,7 @@ def test_apptest_mobile_workflow_full_cycle():
         audit_btn.click().run()
         assert not at.exception
         assert at.session_state.audit_result is not None
-        assert at.session_state.audit_result.readiness.value == "NOT_READY"
+        assert at.session_state.audit_result.readiness == Readiness.NOT_READY
         assert at.session_state.audit_result.readiness_score < 100
         assert len(at.session_state.audit_result.findings) > 0
 
@@ -259,7 +260,7 @@ def test_apptest_synthetic_only_mode_screen6_guard_and_reaudit():
             "Session state must reflect remediated packet identifier"
         )
         assert at.session_state.audit_result is not None
-        assert at.session_state.audit_result.readiness.value in ("NO_ISSUES_FOUND", "NOT_READY")
+        assert at.session_state.audit_result.readiness in (Readiness.NO_ISSUES_FOUND, Readiness.NOT_READY)
 
     finally:
         if old_val is None:

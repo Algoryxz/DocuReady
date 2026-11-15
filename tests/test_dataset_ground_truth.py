@@ -7,6 +7,7 @@ import os
 import json
 import pytest
 from pathlib import Path
+from docuready.domain.enums import Readiness
 from docuready.pipeline import AuditPipeline
 
 _REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -57,10 +58,9 @@ def test_packet_against_ground_truth(pipeline, manifest, packet_id):
     result, _ = pipeline.load_and_audit_packet(packet_dir, packet_id=packet_id)
 
     # 1. Assert overall determination matches ground truth via canonical V2 mapping
-    expected_v2 = V2_READINESS_MAP[packet_meta["expected_status"]]
-    actual_status = result.overall_status.value if hasattr(result.overall_status, "value") else str(result.overall_status)
-    assert actual_status == expected_v2, (
-        f"Status mismatch for {packet_id}: predicted {actual_status}, expected {expected_v2}"
+    expected_v2 = Readiness(V2_READINESS_MAP[packet_meta["expected_status"]])
+    assert result.readiness is expected_v2, (
+        f"Status mismatch for {packet_id}: predicted {result.readiness}, expected {expected_v2}"
     )
 
     # 2. Assert score floor

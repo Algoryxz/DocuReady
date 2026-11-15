@@ -167,7 +167,7 @@ DocuReady/
 │           └── ui/                     # Interactive Streamlit interface
 │               └── app.py              # Streamlit dashboard implementation
 │
-├── tests/                              # Comprehensive test suite (190 test items)
+├── tests/                              # Comprehensive test suite (319 test items)
 │   ├── test_adversarial.py             # Adversarial edge cases & malformed files
 │   ├── test_dataset_ground_truth.py    # Ground truth validation across synthetic packets
 │   ├── test_decision_safety.py         # Evidence safety firewall downgrade tests
@@ -313,7 +313,7 @@ for finding in result.findings:
 DocuReady maintains a comprehensive automated test suite enforcing 100% bit-for-bit vector parity and adversarial robustness:
 
 ```bash
-# Run full test suite (190 test items)
+# Run full test suite (319 test items)
 pytest tests/ -v --tb=short
 
 # Run with test coverage report
