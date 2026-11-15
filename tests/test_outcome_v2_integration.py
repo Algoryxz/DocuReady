@@ -76,7 +76,7 @@ def test_verified_cross_document_pass_resolves_to_v2_pass():
     }
 
     audited = DecisionSafetyLayer().audit_findings([finding], documents)
-    assert audited[0].status is FindingStatus.PASS
+    assert audited[0].status is Status.PASS
     assert audited[0].resolved_status is Status.PASS
     assert audited[0].raw_result is Raw.SATISFIED
     assert audited[0].reason_code == ReasonCode.CONFIRMED_OK.value
