@@ -22,7 +22,7 @@ class DocuReadyArgumentParser(argparse.ArgumentParser):
 
     def error(self, message):
         self.print_usage(sys.stderr)
-        self.exit(int(ExitCode.USAGE_ERROR), f"{self.prog}: error: {message}\\n")
+        self.exit(int(ExitCode.USAGE_ERROR), f"{self.prog}: error: {message}\n")
 
 
 def _resolve_synthetic_manifest() -> tuple[Path, Path]:
