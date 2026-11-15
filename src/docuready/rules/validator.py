@@ -784,15 +784,22 @@ class DocuReadyValidator:
         score = 100 - sum(f.penalty for f in findings)
         score = max(0, min(100, score))
 
+        # Preserve the frozen legacy summary schema from the compatibility
+        # label captured at construction. V2 consumers use v2_summary_counts.
+        legacy_statuses = [f.legacy_status_snapshot for f in findings]
         summary_counts = {
-            FindingStatus.PASS.value: sum(1 for f in findings if f.status == FindingStatus.PASS),
-            FindingStatus.REVIEW.value: sum(1 for f in findings if f.status == FindingStatus.REVIEW),
-            FindingStatus.FAIL.value: sum(1 for f in findings if f.status == FindingStatus.FAIL),
-            FindingStatus.UNKNOWN.value: sum(1 for f in findings if f.status == FindingStatus.UNKNOWN),
+            FindingStatus.PASS.value: sum(1 for status in legacy_statuses if status == FindingStatus.PASS.value),
+            FindingStatus.REVIEW.value: sum(1 for status in legacy_statuses if status == FindingStatus.REVIEW.value),
+            FindingStatus.FAIL.value: sum(1 for status in legacy_statuses if status == FindingStatus.FAIL.value),
+            FindingStatus.UNKNOWN.value: sum(1 for status in legacy_statuses if status == FindingStatus.UNKNOWN.value),
         }
 
         has_unreadable = summary_counts[FindingStatus.UNKNOWN.value] > 0
-        has_fatal = any(f.severity == Severity.FATAL for f in findings if f.status == FindingStatus.FAIL)
+        has_fatal = any(
+            f.severity == Severity.FATAL
+            and f.legacy_status_snapshot == FindingStatus.FAIL.value
+            for f in findings
+        )
         has_fail = summary_counts[FindingStatus.FAIL.value] > 0
         has_review = summary_counts[FindingStatus.REVIEW.value] > 0
 
