@@ -323,6 +323,7 @@ if screen == "1. Dashboard":
 
         with c_status:
             st.write("**Pre-Check Advisory Determination:**")
+            st.caption("Advisory preparation aid; does not guarantee official portal acceptance")
             if res.readiness is Readiness.NO_ISSUES_FOUND:
                 st.markdown("<span class='status-badge-ready'>🟢 NO ISSUES FOUND</span>", unsafe_allow_html=True)
                 st.write("The configured checks found no issue on the supplied verified evidence.")
