@@ -216,12 +216,13 @@ T1.x tasks are independent of each other and can run in parallel once G0 passes.
 
 #### T1.4 — Redaction and safe logging
 - **Scope:** `report/redact.py`, exporters, CLI flags, logging setup.
-- **Status note (15 November 2026):** Initial implementation merged in PR #29 (`a7fd1db4f61f51cb3e6e8bb5440fc7aa4aa7a876`); corrective implementation merged into `main` at commit `72b20a7efb0bb99fe2fbffbc2e82f5b9d31dca21` via PR #33 (`task/T1.4-redaction-safe-logging-corrective`). Hardened `SafeLogFilter` with eager message formatting and `record.args = ()` clearing to prevent downstream formatters from re-inserting unmasked arguments, enhanced field-aware redaction (masked bank accounts, phone variants, Aadhaar), audited temp directory cleanup, and integrated safe logging in pipeline. Integration evidence added for default export redaction and full-pipeline logging assertions in `tests/test_redaction_safe_logging.py`. Remote CI on `main` passed across all four Python matrix jobs (3.11–3.14). Formal task acceptance pending Deeptiman's review.
+- **Status note (15 November 2026):** Initial implementation merged in PR #29 (`a7fd1db4f61f51cb3e6e8bb5440fc7aa4aa7a876`); corrective implementation merged into `main` at commit `72b20a7efb0bb99fe2fbffbc2e82f5b9d31dca21` via PR #33 (`task/T1.4-redaction-safe-logging-corrective`); qualification and full integration tests merged in PR #40 (`b75ef85b185d131807bd05b819aa3612ebdafe04`). Hardened `SafeLogFilter` with eager message formatting and `record.args = ()` clearing to prevent downstream formatters from re-inserting unmasked arguments, enhanced field-aware redaction (masked bank accounts, phone variants, Aadhaar), audited temp directory cleanup, Screen 6 replacement uploader synthetic-only guard, and integrated safe logging in pipeline. Integration evidence added for default export redaction, full-pipeline logging assertions, and temp cleanup in `tests/test_redaction_safe_logging.py`. Remote CI on `main` passed across all four Python matrix jobs (3.11–3.14). Formal task acceptance pending Deeptiman's review.
 - **Behaviour:** Default-redact Aadhaar (last 4 visible), bank account (last 4), phone (last 2) in JSON, Markdown and UI. `--no-redact` requires explicit flag and prints a warning. Logs contain field keys, evidence states and rule ids, never raw values. Uploads use a `0700` temp dir deleted in a `finally`.
 - **Acceptance:**
-  - [x] Test: exported JSON/MD for packets containing synthetic Aadhaar/account/phone never contains the full values by default
-  - [x] Log-capture test over a full run finds no document text values and verifies record.args clearing
-  - [x] Temp dir is empty after success and after an exception
+  - [x] Test: exported JSON/MD for packets containing synthetic Aadhaar/account/phone never contains the full values by default (`tests/test_redaction_safe_logging.py`)
+  - [x] Log-capture test over a full run finds no document text values and verifies record.args clearing (`tests/test_redaction_safe_logging.py::test_full_pipeline_audit_logs_zero_pii_or_extracted_text`)
+  - [x] Temp dir is empty after success and after an exception (`tests/test_redaction_safe_logging.py::test_temp_directory_cleaned_up_on_success_and_exception`)
+  - [x] Real file upload disabled in synthetic-only mode across all UI screens including replacement uploader (`tests/test_mobile_ui.py::test_synthetic_only_mode_disables_real_file_upload_widgets`)
 - **Gate:** G1
 
 #### T1.5 — Citation audit and `sources.yaml`
