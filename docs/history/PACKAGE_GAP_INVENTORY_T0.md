@@ -26,7 +26,7 @@ The DocuReady source tree currently resides under `src/docuready/` (established 
 src/docuready/
 ├── __init__.py                  # Exposes __version__ = "0.1.0"
 ├── generator.py                 # Synthetic document PDF generator (ReportLab)
-├── pipeline.py                  # VerificationPipeline orchestration entry point
+├── pipeline.py                  # AuditPipeline orchestration entry point
 ├── domain/
 │   ├── __init__.py
 │   └── models.py                # Pydantic models, Enums, Evidence, Finding, AuditResult
@@ -70,7 +70,7 @@ Currently declared under `[project.dependencies]`:
 | `pymupdf` | `==2.1` | Native PDF vector text extraction & rasterization | **Misplaced** (Belongs in optional extra `[pymupdf]`; see ADR-001) |
 | `pillow` | `>=10.0.0` | Image handling for OCR decompression & rotation | **Core / OCR Dependent** |
 | `numpy` | `>=1.24.0` | Array and image manipulation operations | **Core / OCR Dependent** |
-| `pytesseract` | `>=0.3.10` | Local Tesseract OCR invocation wrapper | **Misplaced** (Belongs in optional extra `[ocr]`) |
+| `pytesseract` | `>=0.3.10` | Python wrapper around external Tesseract OCR executable (engine/languages required only during OCR invocation, not vector extraction) | **Misplaced** (Unconditional core dependency; belongs in optional extra `[ocr]`) |
 
 ### 3.2 Optional Extras (`[project.optional-dependencies]`)
 
@@ -98,7 +98,7 @@ Currently declared under `[project.optional-dependencies]`:
 | **Evidence & Calibration** | Single `evidence/calibrator.py` | Granular `evidence/{features.py, calibrator.py, states.py}` | **GAP**: Feature extractors and tri-state evidence models not separated |
 | **Normalization** | Single `normalize/normalizer.py` | Granular `normalize/{names.py, dates.py, money.py, ids.py, digits.py}` | **GAP**: Specialized normalizers combined in one module |
 | **Rules Engine** | Hardcoded 34 rules in `rules/validator.py` | Closed primitive engine `rules/{engine.py, primitives.py, loader.py, schema.py, lint.py}` | **GAP**: YAML rule packs and closed evaluation primitives not yet implemented |
-| **Outcome Resolution** | Prototype `outcome/safety_layer.py` | Symmetric `outcome/resolver.py` with unified public status vocabulary | **GAP**: V2 symmetric outcome resolver and status vocabulary not finalized |
+| **Outcome Resolution** | Prototype `outcome/safety_layer.py` (current pipeline reports `overall_status: READY_TO_SUBMIT` with score 100 on clean packets) | Symmetric `outcome/resolver.py` with unified public status vocabulary (ADR-003) | **GAP**: V2 symmetric outcome resolver and status vocabulary not finalized; current pipeline emits `overall_status: READY_TO_SUBMIT` (preserved as existing behavior for future T2.1 review without in-flight vocabulary changes) |
 | **Report Generation** | Single `report/exporter.py` | Granular `report/{builder.py, render_json.py, render_md.py, redact.py}` | **GAP**: Redaction and rendering pipelines not split into distinct modules |
 | **Synthetic Generators** | `src/docuready/generator.py` inside core source tree | `eval/generators/` outside production package | **GAP**: Synthetic test data generation resides inside production runtime package |
 | **Rule Packs Directory** | None (`packs/` missing) | `packs/{generic.demo/, odisha.subhadra/}` | **GAP**: External declarative rule packs not yet established |
@@ -117,9 +117,9 @@ Currently declared under `[project.optional-dependencies]`:
 - **T0.3 Boundary:** Must **not** be modified in T0.3.
 
 ### Gap DEP-02: Core Package Couples Tesseract OCR Wrapper
-- **Description:** `pytesseract>=0.3.10` is listed in `[project.dependencies]`, requiring system Tesseract binaries even for purely digital vector PDF inspection.
-- **Target Contract:** OCR capability should be an optional acceleration extra: `docuready[ocr]`.
-- **Governing Task:** Task **T1.3** / Gate G1.
+- **Description:** `pytesseract>=0.3.10` is currently declared as an unconditional dependency under core `[project.dependencies]`. `pytesseract` is a Python wrapper around the external Tesseract OCR executable; installing the Python wrapper does not itself install the external Tesseract engine executable or trained language data. Furthermore, the external engine is only required when OCR functionality is explicitly invoked for scanned or unreadable raster pages, and is not required for native vector-only PDF extraction.
+- **Target Contract:** OCR capability and its wrapper should be decoupled into an optional acceleration extra: `docuready[ocr]`.
+- **Governing Task:** Task **T1.3** (PDF backend / licence decision, Gate G1).
 - **T0.3 Boundary:** Must **not** be modified in T0.3.
 
 ### Gap DEP-03: Production Package Bundles Test Generator

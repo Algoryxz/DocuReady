@@ -72,7 +72,7 @@ Gate it contributes to
 
 | Gate | Meaning | Passed when |
 |---|---|---|
-| **G0** Baseline frozen | Safe to refactor | T0.1–T0.3 accepted; golden snapshots green; CI green on remote |
+| **G0** Baseline frozen | Safe to refactor | **PASSED (Accepted 15 Nov 2026)**: T0.1–T0.3 accepted; golden snapshots green; remote CI green on main (runs 43630377408, 43636186644) |
 | **G1** Honest and clean | Public claims match reality | T1.1–T1.5 accepted; claims register complete; no-network test green; licence decision recorded |
 | **G2** Safe outcomes | No false assurance | T2.1–T2.4 accepted; per-rule test matrix green |
 | **G3** Engine equivalence | Rules as data, same behaviour | T3.1–T3.2 accepted; `generic.demo` reproduces golden snapshots except the changes approved in T2.x |
@@ -87,7 +87,7 @@ Gate it contributes to
 Order: **Sprint 0 (T0.x)** → **WS1 (T1.x, parallel)** → **WS2** → **WS3** → **WS4** → **WS5**.
 T1.x tasks are independent of each other and can run in parallel once G0 passes.
 
-### Sprint 0 — Baseline (blocks everything)
+### Sprint 0 — Baseline (PASSED — Formally accepted by Deeptiman on 15 November 2026)
 
 #### T0.1 — Characterise current behaviour
 - **Why:** The V2 architecture was written without a direct source review. Record what the current code actually does before changing behaviour.
