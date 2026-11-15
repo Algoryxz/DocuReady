@@ -4,7 +4,7 @@ Data Models and Enums for DocuReady MVP — Loop 3 Evidence Calibration & Safety
 
 from enum import Enum
 from typing import Dict, List, Optional, Any
-from pydantic import BaseModel, Field, PrivateAttr
+from pydantic import BaseModel, Field, PrivateAttr, model_serializer, model_validator
 
 from docuready.domain.enums import EvidenceState, Raw, Readiness, Status
 
@@ -97,7 +97,7 @@ class ExtractedDocument(BaseModel):
 class Finding(BaseModel):
     rule_id: str
     rule_name: str
-    status: FindingStatus
+    status: Status
     severity: Severity
     penalty: int = 0
     field: str
@@ -107,22 +107,42 @@ class Finding(BaseModel):
     remediation: str
     statutory_reference: str
 
-    # V2 resolution is kept outside the legacy serialized shape so the frozen
-    # legacy_v0 golden snapshots remain byte-for-byte comparable.
-    _resolved_status: Optional[Status] = PrivateAttr(default=None)
+    # This excluded field preserves the legacy snapshot label strictly for
+    # model_dump()/golden regression serialization. Runtime status is V2.
+    legacy_status_snapshot: str = Field(default="", exclude=True, repr=False)
     _reason_code: Optional[str] = PrivateAttr(default=None)
     _raw_result: Optional[Raw] = PrivateAttr(default=None)
 
+    @model_validator(mode="before")
+    @classmethod
+    def normalize_legacy_status_input(cls, values):
+        if not isinstance(values, dict):
+            return values
+        data = dict(values)
+        raw_status = data.get("status")
+        if raw_status is not None:
+            raw_value = raw_status.value if isinstance(raw_status, Enum) else str(raw_status)
+            data.setdefault("legacy_status_snapshot", raw_value)
+            if raw_value == "UNKNOWN":
+                data["status"] = Status.REVIEW
+        return data
+
+    @model_serializer(mode="wrap")
+    def serialize_legacy_status_for_golden(self, handler, info):
+        data = handler(self)
+        if isinstance(data, dict) and self.legacy_status_snapshot:
+            data["status"] = self.legacy_status_snapshot
+        return data
+
     def set_resolution(self, raw: Raw, status: Status, reason_code: str) -> None:
         self._raw_result = raw
-        self._resolved_status = status
+        self.status = status
         self._reason_code = reason_code
 
     @property
     def resolved_status(self) -> Status:
-        # Fail closed when a finding was constructed outside the audited
-        # pipeline and has not yet been passed through the resolver.
-        return self._resolved_status or Status.REVIEW
+        """Compatibility accessor; canonical status is stored in status."""
+        return self.status
 
     @property
     def reason_code(self) -> str:
@@ -137,40 +157,74 @@ class AuditResult(BaseModel):
     packet_id: str
     scheme_name: str
     readiness_score: int
-    overall_status: str
+    overall_status: Readiness
     findings: List[Finding]
     summary_counts: Dict[str, int]
     execution_time_ms: float
     timestamp: str
 
-    @property
-    def readiness(self) -> Readiness:
-        """Canonical V2 packet readiness; legacy overall_status remains for golden tests."""
+    # Excluded from normal V2 models, emitted only by the serializer so the
+    # immutable legacy_v0 baseline remains comparable.
+    legacy_overall_status_snapshot: str = Field(default="", exclude=True, repr=False)
+
+    @model_validator(mode="before")
+    @classmethod
+    def normalize_legacy_readiness_input(cls, values):
+        if not isinstance(values, dict):
+            return values
+        data = dict(values)
+        raw_status = data.get("overall_status")
+        if raw_status is not None:
+            raw_value = raw_status.value if isinstance(raw_status, Enum) else str(raw_status)
+            data.setdefault("legacy_overall_status_snapshot", raw_value)
+            legacy_mapping = {
+                "READY_TO_SUBMIT": Readiness.NO_ISSUES_FOUND,
+                "REVIEW_RECOMMENDED": Readiness.NEEDS_CHECKS,
+                "UNREADABLE_PACKET": Readiness.NEEDS_CHECKS,
+                "ACTION_REQUIRED": Readiness.NOT_READY,
+                "REJECT_PRECHECK": Readiness.NOT_READY,
+            }
+            data["overall_status"] = legacy_mapping.get(raw_value, raw_status)
+        return data
+
+    @model_validator(mode="after")
+    def derive_readiness_from_findings(self):
         from docuready.outcome.resolver import resolve_readiness
 
-        return resolve_readiness(finding.resolved_status for finding in self.findings)
+        self.overall_status = resolve_readiness(
+            finding.status for finding in self.findings
+        )
+        return self
+
+    @model_serializer(mode="wrap")
+    def serialize_legacy_readiness_for_golden(self, handler, info):
+        data = handler(self)
+        if isinstance(data, dict) and self.legacy_overall_status_snapshot:
+            data["overall_status"] = self.legacy_overall_status_snapshot
+        return data
+
+    @property
+    def readiness(self) -> Readiness:
+        """Canonical V2 readiness stored on the model."""
+        return self.overall_status
 
     @property
     def v2_summary_counts(self) -> Dict[str, int]:
         return {
             status.value: sum(
-                1 for finding in self.findings if finding.resolved_status is status
+                1 for finding in self.findings if finding.status is status
             )
             for status in Status
         }
 
     def to_public_dict(self) -> Dict[str, Any]:
-        """Return the canonical V2 report representation.
-
-        Internal legacy fields remain available to tests and migration adapters,
-        but public JSON uses only the V2 status/readiness vocabulary.
-        """
+        """Return a public V2 projection with only canonical statuses."""
         data = self.model_dump(mode="json")
         readiness = self.readiness
         data["overall_status"] = readiness.value
         data["readiness"] = readiness.value
         data["summary_counts"] = self.v2_summary_counts
         for item, finding in zip(data.get("findings", []), self.findings):
-            item["status"] = finding.resolved_status.value
+            item["status"] = finding.status.value
             item["reason_code"] = finding.reason_code
         return data
