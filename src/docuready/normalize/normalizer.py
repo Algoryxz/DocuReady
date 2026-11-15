@@ -450,8 +450,8 @@ def compare_identifiers(
             "type": "MISSING_IDENTIFIER",
             "notes": "One or both identifier fields are missing",
         }
-    s1 = re.sub(r'[\s\-_]', '', str(id1).upper())
-    s2 = re.sub(r'[\s\-_]', '', str(id2).upper())
+    s1 = re.sub(r'[\s\-_/]', '', str(id1).upper())
+    s2 = re.sub(r'[\s\-_/]', '', str(id2).upper())
     if not s1 or not s2:
         return {
             "grade": MatchGrade.AMBIGUOUS,

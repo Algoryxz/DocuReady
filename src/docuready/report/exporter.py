@@ -15,12 +15,18 @@ from docuready.report.redact import redact_text_pii, redact_audit_result_dict
 _sanitize_message = redact_text_pii
 
 
-def export_audit_report_json(result: AuditResult, output_path: str, redact: bool = True) -> str:
+def export_audit_report_json(
+    result: AuditResult,
+    output_path: str,
+    redact: bool = True,
+    canonical: bool = False,
+) -> str:
     """
     Exports AuditResult object into formatted JSON report.
     By default (redact=True), masks raw document snippets and extracted citizen PII.
+    When canonical=True, excludes volatile execution metrics for deterministic replay.
     """
-    data = result.to_public_dict()
+    data = result.to_public_dict(canonical=canonical)
     if redact:
         data = redact_audit_result_dict(data)
     with open(output_path, "w", encoding="utf-8") as f:
@@ -28,10 +34,15 @@ def export_audit_report_json(result: AuditResult, output_path: str, redact: bool
     return output_path
 
 
-def generate_readiness_summary_markdown(result: AuditResult, redact: bool = True) -> str:
+def generate_readiness_summary_markdown(
+    result: AuditResult,
+    redact: bool = True,
+    canonical: bool = False,
+) -> str:
     """
     Generates a professional markdown Pre-Submission Readiness Certificate / Audit Report.
     By default (redact=True), masks raw document snippets and citizen PII.
+    When canonical=True, excludes volatile execution metrics for deterministic replay.
     """
     status_emojis = {
         "NO_ISSUES_FOUND": "🟢 NO ISSUES FOUND",
@@ -49,7 +60,8 @@ def generate_readiness_summary_markdown(result: AuditResult, redact: bool = True
     if result.as_of:
         md.append(f"**Effective As Of:** `{result.as_of}`  ")
     md.append(f"**Audit Timestamp:** {result.timestamp}  ")
-    md.append(f"**Execution Latency:** {result.execution_time_ms:.1f} ms  ")
+    if not canonical:
+        md.append(f"**Execution Latency:** {result.execution_time_ms:.1f} ms  ")
     md.append(f"**Overall Readiness Score:** **{result.readiness_score} / 100**  ")
     md.append(f"**Determination:** **{status_label}**  \n")
     md.append("---")
