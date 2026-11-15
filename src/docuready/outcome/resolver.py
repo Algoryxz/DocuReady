@@ -109,31 +109,51 @@ def resolve_outcome(
             reason_code = ReasonCode.DEFECT_PROBABLE.value
             message = "A compatible variation requires checking; it is not a confirmed defect."
 
-        # Apply the pack-level cap only to adverse outcomes. A cap may lower
-        # severity, but must never promote REVIEW/WARN to a more severe status.
-        if cap is MaxSeverity.WARN and status is Status.FAIL:
-            status = Status.WARN
-            reason_code = ReasonCode.ADVISORY_RULE_CAP.value
-            message = "The finding is capped at WARN by the rule's maximum severity."
-        elif cap is MaxSeverity.REVIEW and status in (Status.FAIL, Status.WARN):
+    elif raw is Raw.SATISFIED:
+        if grade is MatchGrade.CONFLICT:
+            # Contradictory raw and match-grade inputs are an inconsistent
+            # evaluation record. Fail closed instead of turning it into PASS.
             status = Status.REVIEW
-            reason_code = ReasonCode.ADVISORY_RULE_CAP.value
-            message = "The finding is capped at REVIEW by the rule's maximum severity."
+            reason_code = ReasonCode.EVIDENCE_UNCERTAIN.value
+            message = "The raw result conflicts with the match grade; human review is required."
+        elif grade is MatchGrade.COMPATIBLE:
+            if evidence is EvidenceState.VERIFIED:
+                status = Status.WARN
+                reason_code = ReasonCode.DEFECT_PROBABLE.value
+                message = "A compatible variation was found; check the difference before relying on this match."
+            else:
+                status = Status.REVIEW
+                reason_code = ReasonCode.CANNOT_CONFIRM.value
+                message = "A compatible variation is present, but its evidence is not strong enough to confirm."
+        elif evidence is EvidenceState.VERIFIED:
+            status = Status.PASS
+            reason_code = ReasonCode.CONFIRMED_OK.value
+            message = "No issue was found on verified evidence."
+        else:
+            status = Status.REVIEW
+            reason_code = ReasonCode.CANNOT_CONFIRM.value
+            message = "The check appears satisfied, but the evidence is not strong enough to confirm it."
 
-        return ResolvedOutcome(status, reason_code, message)
-
-    if raw is Raw.SATISFIED:
-        if evidence is EvidenceState.VERIFIED and grade is not MatchGrade.AMBIGUOUS:
-            return ResolvedOutcome(
-                Status.PASS,
-                ReasonCode.CONFIRMED_OK.value,
-                "No issue was found on verified evidence.",
-            )
+    else:
+        # Defensive branch for future enum additions.
         return ResolvedOutcome(
             Status.REVIEW,
-            ReasonCode.CANNOT_CONFIRM.value,
-            "The check appears satisfied, but the evidence is not strong enough to confirm it.",
+            ReasonCode.INSUFFICIENT_DATA.value,
+            "The rule result could not be resolved safely.",
         )
+
+    # Apply a pack-level cap after evidence and match-grade constraints.
+    # The cap may only make the result less severe, never more severe.
+    if cap is MaxSeverity.WARN and status is Status.FAIL:
+        status = Status.WARN
+        reason_code = ReasonCode.ADVISORY_RULE_CAP.value
+        message = "The finding is capped at WARN by the rule's maximum severity."
+    elif cap is MaxSeverity.REVIEW and status in (Status.FAIL, Status.WARN):
+        status = Status.REVIEW
+        reason_code = ReasonCode.ADVISORY_RULE_CAP.value
+        message = "The finding is capped at REVIEW by the rule's maximum severity."
+
+    return ResolvedOutcome(status, reason_code, message)
 
     # Defensive branch for future enum additions.
     return ResolvedOutcome(
