@@ -61,19 +61,20 @@ class DecisionSafetyLayer:
         V2 resolver determine the public status. New rule primitives can call
         resolve_outcome directly when the pack engine is introduced.
         """
-        if finding.rule_id == "RULE-DOC-01" and finding.status == FindingStatus.FAIL:
+        legacy_status = finding.legacy_status_snapshot
+        if finding.rule_id == "RULE-DOC-01" and legacy_status == FindingStatus.FAIL.value:
             raw = Raw.DOC_ABSENT
         elif (
-            finding.status == FindingStatus.PASS
+            legacy_status == FindingStatus.PASS.value
             and finding.rule_id == "RULE-MRK-RELAX-PASS"
             and "exempt from minimum percentage cutoffs" in finding.message.lower()
         ):
             # The exemption is only surfaced as NOT_APPLICABLE when the
             # category evidence itself is present and verified.
             raw = Raw.EXEMPT
-        elif finding.status == FindingStatus.FAIL:
+        elif legacy_status == FindingStatus.FAIL.value:
             raw = Raw.VIOLATED
-        elif finding.status == FindingStatus.PASS:
+        elif legacy_status == FindingStatus.PASS.value:
             raw = Raw.SATISFIED
         else:
             raw = Raw.INDETERMINATE
@@ -179,9 +180,9 @@ class DecisionSafetyLayer:
         scheme_name: str,
         scheme_config: Optional[Any] = None
     ) -> Finding:
-        if finding.status == FindingStatus.FAIL:
+        if finding.legacy_status_snapshot == FindingStatus.FAIL.value:
             return self._audit_fail_finding(finding, documents, scheme_name, scheme_config)
-        elif finding.status == FindingStatus.PASS:
+        elif finding.legacy_status_snapshot == FindingStatus.PASS.value:
             return self._audit_pass_finding(finding, documents, scheme_name, scheme_config)
         else:
             # REVIEW and UNKNOWN findings already represent non-definitive/investigative states
