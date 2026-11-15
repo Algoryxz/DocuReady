@@ -12,7 +12,7 @@ def test_validator_mandatory_document_missing():
     validator = DocuReadyValidator()
     # Packet with no documents
     res = validator.validate_packet("TEST_EMPTY", {})
-    assert res.overall_status == "REJECT_PRECHECK"
+    assert res.readiness.value == "NOT_READY"
     missing_findings = [f for f in res.findings if f.rule_id == "RULE-DOC-01"]
     assert len(missing_findings) == 6
     assert all(f.status == FindingStatus.FAIL for f in missing_findings)
