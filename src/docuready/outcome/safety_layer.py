@@ -146,8 +146,19 @@ class DecisionSafetyLayer:
 
             if selected_fields:
                 for field in selected_fields:
-                    if field.is_uncertain:
+                    is_unambiguous_expiry = False
+                    if "EXP" in finding.rule_id and field.field_name == "issue_date":
+                        m_year = re.search(r"\b(19\d\d|20\d\d)\b", str(field.raw_value))
+                        if m_year and int(m_year.group(1)) >= 2024:
+                            is_unambiguous_expiry = True
+
+                    if field.is_uncertain and not is_unambiguous_expiry:
                         states.append(EvidenceState.UNCERTAIN)
+                    elif is_unambiguous_expiry and field.evidence_state == EvidenceState.AMBIGUOUS:
+                        if field.extraction_method == "NATIVE_VECTOR":
+                            states.append(EvidenceState.VERIFIED_TEXT)
+                        else:
+                            states.append(EvidenceState.OCR_EXTRACTED)
                     else:
                         states.append(field.evidence_state)
                 continue

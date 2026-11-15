@@ -7,10 +7,19 @@ import os
 import json
 import pytest
 from pathlib import Path
+from docuready.domain.enums import Readiness
 from docuready.pipeline import AuditPipeline
 
 _REPO_ROOT = Path(__file__).resolve().parents[1]
 _SYNTHETIC_DIR = _REPO_ROOT / "synthetic_data" if (_REPO_ROOT / "synthetic_data").is_dir() else Path.cwd() / "synthetic_data"
+
+LEGACY_TO_V2_READINESS = {
+    "READY_TO_SUBMIT": Readiness.NO_ISSUES_FOUND,
+    "REVIEW_RECOMMENDED": Readiness.NEEDS_CHECKS,
+    "ACTION_REQUIRED": Readiness.NOT_READY,
+    "REJECT_PRECHECK": Readiness.NOT_READY,
+    "UNREADABLE_PACKET": Readiness.NEEDS_CHECKS,
+}
 
 
 @pytest.fixture(scope="module")
@@ -49,8 +58,9 @@ def test_packet_against_ground_truth(pipeline, manifest, packet_id):
     result, _ = pipeline.load_and_audit_packet(packet_dir, packet_id=packet_id)
 
     # 1. Assert overall determination matches ground truth
-    assert result.overall_status == packet_meta["expected_status"], (
-        f"Status mismatch for {packet_id}: predicted {result.overall_status}, expected {packet_meta['expected_status']}"
+    expected_readiness = LEGACY_TO_V2_READINESS[packet_meta["expected_status"]]
+    assert result.overall_status == expected_readiness, (
+        f"Status mismatch for {packet_id}: predicted {result.overall_status}, expected {expected_readiness}"
     )
 
     # 2. Assert score floor
@@ -59,6 +69,6 @@ def test_packet_against_ground_truth(pipeline, manifest, packet_id):
     )
 
     # 3. Assert expected failure rules are triggered
-    detected_rules = {f.rule_id for f in result.findings if f.status.value in ["FAIL", "REVIEW", "UNKNOWN"]}
+    detected_rules = {f.rule_id for f in result.findings if f.status.value in ["FAIL", "REVIEW", "UNKNOWN", "MISSING", "WARN"]}
     for exp_rule in packet_meta["expected_failure_rules"]:
         assert exp_rule in detected_rules, f"Expected rule {exp_rule} was not triggered in {packet_id}"

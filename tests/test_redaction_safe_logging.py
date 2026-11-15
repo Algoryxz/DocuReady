@@ -9,6 +9,7 @@ import pathlib
 import pytest
 from unittest.mock import patch
 
+from docuready.domain.enums import Readiness
 from docuready.pipeline import AuditPipeline
 from docuready.report.redact import (
     get_safe_logger,
@@ -142,13 +143,17 @@ def test_cli_audit_default_and_no_redact_warning(capsys):
     """Verify CLI requires explicit --no-redact flag and emits a privacy warning."""
     # Run with default redaction
     with patch("sys.argv", ["docuready", "audit", str(_PACKET_DIR)]):
-        cli_main()
+        with pytest.raises(SystemExit) as exc_info:
+            cli_main()
+        assert exc_info.value.code == 0
     captured = capsys.readouterr()
     assert "WARNING: --no-redact specified" not in captured.err
 
     # Run with --no-redact
     with patch("sys.argv", ["docuready", "audit", str(_PACKET_DIR), "--no-redact"]):
-        cli_main()
+        with pytest.raises(SystemExit) as exc_info:
+            cli_main()
+        assert exc_info.value.code == 0
     captured_no_redact = capsys.readouterr()
     assert "WARNING: --no-redact specified" in captured_no_redact.err
 
@@ -324,12 +329,16 @@ def test_default_export_redaction_integration(tmp_path, capsys):
 
     # 4. CLI with and without --no-redact
     with patch("sys.argv", ["docuready", "audit", str(_PACKET_DIR)]):
-        cli_main()
+        with pytest.raises(SystemExit) as exc_info:
+            cli_main()
+        assert exc_info.value.code == 0
     captured_default = capsys.readouterr()
     assert "WARNING: --no-redact specified" not in captured_default.err
 
     with patch("sys.argv", ["docuready", "audit", str(_PACKET_DIR), "--no-redact"]):
-        cli_main()
+        with pytest.raises(SystemExit) as exc_info:
+            cli_main()
+        assert exc_info.value.code == 0
     captured_unredacted = capsys.readouterr()
     assert "WARNING: --no-redact specified" in captured_unredacted.err
 
@@ -362,7 +371,7 @@ def test_full_pipeline_logging_safe():
         # Run full pipeline audit on synthetic packet
         pipeline = AuditPipeline()
         res_clean, docs_clean = pipeline.load_and_audit_packet(str(_PACKET_DIR), packet_id="PKT_01_CLEAN")
-        assert res_clean.overall_status == "READY_TO_SUBMIT"
+        assert res_clean.overall_status is Readiness.NO_ISSUES_FOUND
 
         # Explicitly log candidate diagnostic messages that an engineer or extractor might emit
         uid = "9999 1111 2222"

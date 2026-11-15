@@ -6,6 +6,7 @@ relaxation rules (e.g. SC/ST cutoff exemptions) are honored.
 """
 
 import pytest
+from docuready.domain.enums import Readiness, Status
 from docuready.domain.models import (
     DocumentType, ExtractedDocument, ExtractedField, EvidenceProvenance,
     FindingStatus, Severity, ExtractionMethod
@@ -179,13 +180,13 @@ def test_sc_st_candidate_exempt_from_academic_cutoff():
     assert not any(f.rule_id == "RULE-MRK-01" for f in res.findings), "SC/ST applicant must not fail academic cutoff"
     relax_pass = [f for f in res.findings if f.rule_id == "RULE-MRK-RELAX-PASS"]
     assert len(relax_pass) == 1
-    assert relax_pass[0].status == FindingStatus.PASS
+    assert relax_pass[0].status == Status.NOT_APPLICABLE
     assert "exempt" in relax_pass[0].message.lower()
 
 
 def test_unreadable_scan_produces_unknown_not_rejection():
     """Unreadable scan must produce UNKNOWN status rather than statutory ineligibility."""
-    validator = DocuReadyValidator()
+    validator = DocuReadyValidator(SchemeConfig(mandatory_documents=[DocumentType.INCOME_CERT]))
 
     doc_unreadable = ExtractedDocument(
         doc_type=DocumentType.INCOME_CERT,
@@ -198,5 +199,5 @@ def test_unreadable_scan_produces_unknown_not_rejection():
 
     unreadable_findings = [f for f in res.findings if f.rule_id == "RULE-DOC-02"]
     assert len(unreadable_findings) == 1
-    assert unreadable_findings[0].status == FindingStatus.UNKNOWN
-    assert res.overall_status == "UNREADABLE_PACKET"
+    assert unreadable_findings[0].status == Status.REVIEW
+    assert res.overall_status is Readiness.NEEDS_CHECKS
