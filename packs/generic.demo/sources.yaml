@@ -1,19 +1,35 @@
 # DocuReady Rule Pack Sources — generic.demo
 # Task T1.5: Authoritative Statutory and Scheme Requirement Citation Audit
-# Status: verified | placeholder | unverified
+# Status allowed: verified | placeholder | unverified
 
-version: "2.0.0"
+version: "2.1.0"
 pack_id: "generic.demo"
-description: "Demonstration rule pack grounded in Indian Post-Matric Scholarship guidelines and State Revenue Certificate regulations"
+description: "Demonstration rule pack grounded in Indian Post-Matric Scholarship guidelines, CBSE Examination Bye-Laws, and RBI banking standards"
 last_audited: "2026-11-15"
 audited_by: "Susmita (Domain Rules & Evaluation Lead)"
+reviewed_by: "Deeptiman (Product Owner & Architecture Lead)"
+
+# Mapping note:
+# The validator (src/docuready/rules/validator.py) implements 10 core validation checks:
+# 1. Document Completeness (RULE-DOC-01, RULE-DOC-02)
+# 2. Field Completeness (RULE-FLD-01)
+# 3. Applicant Name Consistency (RULE-NAME-01, RULE-NAME-02, RULE-NAME-UNCERTAIN)
+# 4. Date of Birth Consistency (RULE-DOB-01, RULE-DOB-02, RULE-DOB-03, RULE-DOB-UNCERTAIN)
+# 5. Income Ceiling Compliance (RULE-INC-01)
+# 6. Income Declaration Match (RULE-INC-02, RULE-INC-03)
+# 7. Certificate Validity Period (RULE-EXP-01, RULE-EXP-02)
+# 8. Certificate Reference Match (RULE-REF-01, RULE-REF-02)
+# 9. Bank Account & IFSC Code Format (RULE-BNK-01, RULE-BNK-02)
+# 10. State Domicile & Academic Cutoff (RULE-DOM-01, RULE-MRK-01)
+#
+# Each entry below maps the primary check to its verified or unverified source grounding.
 
 rules:
   - id: "RULE-DOC-01"
     name: "Mandatory Document Completeness"
     status: "verified"
     issuing_body: "Ministry of Social Justice and Empowerment, Government of India"
-    source_title: "Guidelines for Centrally Sponsored Scheme of Post-Matric Scholarships for SC Students"
+    source_title: "Centrally Sponsored Scheme of Post-Matric Scholarships to the Students Belonging to Scheduled Castes for Studies in India (2020-21 to 2025-26)"
     official_url: "https://socialjustice.gov.in/schemes/31"
     retrieval_date: "2026-11-15"
     clause: "Section 7 (Documents to be submitted with application form)"
@@ -24,31 +40,31 @@ rules:
         - "MARKSHEET"
         - "INCOME_CERT"
         - "BANK_PASSBOOK"
-    notes: "Mandates submission of application form, qualifying marksheet, caste certificate (for reserved categories), income certificate, and bank account details."
+    notes: "Requires application form, qualifying marksheet, caste certificate (if applicable), income certificate, and bank passbook/account details."
 
   - id: "RULE-DOC-02"
     name: "Document Legibility & Evidence Integrity"
-    status: "verified"
+    status: "unverified"
     issuing_body: "National Scholarship Portal (NSP), Ministry of Electronics and Information Technology (MeitY)"
-    source_title: "NSP Technical Guidelines for Scanning and Uploading Documents"
-    official_url: "https://scholarships.gov.in/public/FAQ"
+    source_title: "NSP Operational Guidelines & Portal User Instructions"
+    official_url: "https://scholarships.gov.in"
     retrieval_date: "2026-11-15"
-    clause: "Technical Specification 2.4 (Document Legibility & File Constraints)"
-    supports_rule: true
+    clause: "Portal Upload Instructions (General Document Guidelines)"
+    supports_rule: false
     scheme_dependent_params:
       max_file_size_bytes: 10485760
       min_ocr_confidence: 0.60
-    notes: "Requires uploaded scans to be clear and readable; unreadable scans result in rejection by verification officers."
+    notes: "NSP upload guidelines instruct users to upload legible documents, but specific numeric OCR thresholds (0.60) are internal DocuReady engineering heuristics rather than primary statutory clauses."
 
   - id: "RULE-FLD-01"
     name: "Mandatory Field Completeness"
-    status: "verified"
+    status: "unverified"
     issuing_body: "Direct Benefit Transfer (DBT) Mission, Cabinet Secretariat"
-    source_title: "Handbook on DBT Implementation in Central Sector and Centrally Sponsored Schemes"
-    official_url: "https://dbtbharat.gov.in/guidelines"
+    source_title: "DBT Guidelines on Beneficiary Verification"
+    official_url: "https://dbtbharat.gov.in"
     retrieval_date: "2026-11-15"
-    clause: "Chapter 3, Paragraph 3.2 (Core Beneficiary Demographic Attributes)"
-    supports_rule: true
+    clause: "Operational Guidance on Mandatory Attributes"
+    supports_rule: false
     scheme_dependent_params:
       required_fields:
         - "applicant_name"
@@ -56,137 +72,137 @@ rules:
         - "annual_income"
         - "ifsc_code"
         - "account_number"
-    notes: "Specifies core demographic and banking data fields required to route payments via APB/PFMS."
+    notes: "While DBT guidelines require beneficiary name and account routing data, the specific required field set is an application-level schema check."
 
   - id: "RULE-NAME-01"
     name: "Cross-Document Applicant Name Consistency"
-    status: "verified"
+    status: "unverified"
     issuing_body: "National Informatics Centre (NIC) / NSP"
-    source_title: "NSP Standard Operating Procedure for Scrutiny and Verification of Applications"
+    source_title: "NSP Verification Manual & Operational Guidance"
     official_url: "https://scholarships.gov.in"
     retrieval_date: "2026-11-15"
-    clause: "SOP Clause 4.1 (Demographic Matching Criteria)"
-    supports_rule: true
+    clause: "Demographic Verification Procedures"
+    supports_rule: false
     scheme_dependent_params:
       match_threshold: "compatible_or_exact"
-    notes: "Requires applicant name on scholarship application to match certificates and bank account; substantial variations require gazette notification or affidavit."
+    notes: "Portal scrutiny procedures require applicant names to match across certificates, but exact algorithmic similarity thresholds (e.g. token sort ratio >= 80) are internal linter heuristics."
 
   - id: "RULE-DOB-01"
     name: "Cross-Document Date of Birth Consistency"
     status: "verified"
-    issuing_body: "Central Board of Secondary Education (CBSE) / Ministry of Education"
-    source_title: "CBSE Examination Byelaws and Secondary School Certificate Regulations"
+    issuing_body: "Central Board of Secondary Education (CBSE)"
+    source_title: "CBSE Examination Bye-Laws (Notification CBSE/Coord/2021)"
     official_url: "https://www.cbse.gov.in/cbsenew/byelaws.html"
     retrieval_date: "2026-11-15"
-    clause: "Rule 69.1 (Date of Birth Record and Conclusive Evidence)"
+    clause: "Rule 69.2 (Change/Correction in Date of Birth)"
     supports_rule: true
     scheme_dependent_params:
       authoritative_doc: "MARKSHEET"
-    notes: "Matriculation / Class 10 certificate is universally recognized as the legal anchor for date of birth across Indian government schemes."
+    notes: "Rule 69.2 governs date-of-birth records in CBSE secondary school certificates, which serve as standard age evidence across Indian government applications. Note: Governs certificate accuracy, not an overarching statutory scholarship decree."
 
   - id: "RULE-INC-01"
     name: "Statutory Income Ceiling Compliance"
     status: "verified"
-    issuing_body: "Ministry of Social Justice and Empowerment / Ministry of Tribal Affairs"
-    source_title: "Post-Matric Scholarship Scheme for SC/ST Students Revised Guidelines"
+    issuing_body: "Ministry of Social Justice and Empowerment, Government of India"
+    source_title: "Centrally Sponsored Scheme of Post-Matric Scholarships to the Students Belonging to Scheduled Castes for Studies in India (2020-21 to 2025-26)"
     official_url: "https://socialjustice.gov.in/schemes/31"
     retrieval_date: "2026-11-15"
-    clause: "Clause 3.1 (Means Test - Income Ceiling)"
+    clause: "Clause 3.1 (Conditions of Eligibility — Means Test Ceiling)"
     supports_rule: true
     scheme_dependent_params:
       income_ceiling_inr: 250000
-    notes: "Sets the maximum total annual family income ceiling at Rs. 2,50,000 per annum for eligibility under the Centrally Sponsored Scheme."
+    notes: "Explicitly sets the total annual family income ceiling at Rs. 2,50,000 for eligibility under the centrally sponsored scholarship scheme."
 
   - id: "RULE-INC-02"
     name: "Cross-Document Income Declaration Match"
-    status: "verified"
+    status: "unverified"
     issuing_body: "National Scholarship Portal (NSP)"
-    source_title: "NSP Institutional Nodal Officer (INO) Verification Manual"
+    source_title: "NSP Guidelines for Institute Nodal Officers"
     official_url: "https://scholarships.gov.in"
     retrieval_date: "2026-11-15"
-    clause: "Section 3.3 (Income Certificate Reconciliation)"
-    supports_rule: true
+    clause: "Income Scrutiny Protocol"
+    supports_rule: false
     scheme_dependent_params:
       tolerance_pct: 0
-    notes: "Applicant income entered on the portal must match or not exceed the certified amount on the Competent Revenue Authority certificate."
+    notes: "Reconciliation between portal declaration and revenue certificate is an administrative verification check; no enacted clause specifies exact zero-tolerance text matching."
 
   - id: "RULE-EXP-01"
-    name: "Income Certificate Statutory Validity Period"
-    status: "verified"
-    issuing_body: "Revenue and Disaster Management Department, Government of Odisha"
-    source_title: "The Odisha Miscellaneous Certificates Rules, 2019"
-    official_url: "https://edistrict.odisha.gov.in/edistrict/rules.do"
+    name: "Income Certificate Validity Period"
+    status: "unverified"
+    issuing_body: "State Revenue Departments (Jurisdiction-Dependent)"
+    source_title: "State Revenue Miscellaneous Certificates Regulations & Executive Orders"
+    official_url: "https://edistrict.odisha.gov.in"
     retrieval_date: "2026-11-15"
-    clause: "Rule 8(2) (Period of Validity of Miscellaneous Certificates)"
-    supports_rule: true
+    clause: "State Executive Instructions on Income Certificate Duration"
+    supports_rule: false
     scheme_dependent_params:
       validity_financial_years: 1
-    notes: "Income certificates are valid for the financial year in which they are issued. State revenue rules govern validity windows."
+    notes: "Revenue certificate validity varies by state and scheme. (Note: Odisha Miscellaneous Certificates Rules 2019 Rule 8 concerns cancellation, not duration; validity periods derive from separate executive notifications and vary across jurisdictions from 1 to 3 financial years). Marked unverified."
 
   - id: "RULE-REF-01"
-    name: "Income/Caste Certificate Reference Number Match"
-    status: "verified"
-    issuing_body: "National Informatics Centre (NIC) - e-District Project"
-    source_title: "e-District Mission Mode Project (MMP) Implementation Guidelines"
+    name: "Certificate Reference Number Match"
+    status: "unverified"
+    issuing_body: "National Informatics Centre (NIC) - e-District MMP"
+    source_title: "e-District Mission Mode Project Technical Architecture"
     official_url: "https://meity.gov.in/content/e-district"
     retrieval_date: "2026-11-15"
-    clause: "Section 5.2 (Online Certificate Verification & Barcode Reference API)"
-    supports_rule: true
+    clause: "e-District Online Verification Service Specifications"
+    supports_rule: false
     scheme_dependent_params:
       identifier_format: "alphanumeric"
-    notes: "Cross-references certificate numbers declared in the portal with the unique reference string issued by Tahsildar / Revenue Authority."
+    notes: "e-District §5.2 concerns identification of State Designated Agencies, not barcode verification APIs. Reference number string matching is an internal cross-document consistency check, not a statutory mandate."
 
   - id: "RULE-BNK-01"
     name: "Bank IFSC Code Standard Format"
     status: "verified"
     issuing_body: "Reserve Bank of India (RBI)"
-    source_title: "National Electronic Funds Transfer (NEFT) System Procedural Guidelines"
+    source_title: "RBI Master Direction on Electronic Payment Systems — NEFT System Procedural Guidelines"
     official_url: "https://www.rbi.org.in/scripts/BS_ViewMasCirculardetails.aspx?id=12143"
     retrieval_date: "2026-11-15"
-    clause: "Chapter 2, Section 2.1 (IFSC Structure Specification)"
+    clause: "Chapter 2, Section 2.1 (IFSC Code Structure Specification)"
     supports_rule: true
     scheme_dependent_params:
       regex: "^[A-Z]{4}0[A-Z0-9]{6}$"
-    notes: "Defines the 11-character Indian Financial System Code (IFSC) standard required for NEFT/RTGS/DBT routing."
+    notes: "Authoritatively defines the 11-character Indian Financial System Code (IFSC) format: 4 alpha characters, digit '0', and 6 alphanumeric branch characters."
 
   - id: "RULE-BNK-02"
     name: "Bank Account Number Consistency"
-    status: "verified"
-    issuing_body: "Public Financial Management System (PFMS), Ministry of Finance"
-    source_title: "PFMS DBT Implementation Manual for Centrally Sponsored Schemes"
+    status: "unverified"
+    issuing_body: "PFMS / Ministry of Finance"
+    source_title: "PFMS Operational Guidelines for DBT Account Validation"
     official_url: "https://pfms.nic.in"
     retrieval_date: "2026-11-15"
-    clause: "Module 4 (Beneficiary Bank Validation)"
-    supports_rule: true
+    clause: "Beneficiary Account Matching Operational Protocols"
+    supports_rule: false
     scheme_dependent_params:
       account_min_digits: 9
       account_max_digits: 18
-    notes: "Ensures account number matching between application declaration and uploaded passbook."
+    notes: "Matching between declared account numbers and passbook scans is an administrative pre-check heuristic to avoid PFMS validation rejections."
 
   - id: "RULE-DOM-01"
     name: "State Domicile Requirement"
-    status: "verified"
-    issuing_body: "Higher Education Department, Government of Odisha"
-    source_title: "e-Medhabruti / Post-Matric State Scholarship Guidelines"
+    status: "unverified"
+    issuing_body: "State Higher Education / Welfare Departments"
+    source_title: "State Scholarship Scheme Guidelines (e.g., e-Medhabruti / Odisha State Portal)"
     official_url: "https://scholarship.odisha.gov.in"
     retrieval_date: "2026-11-15"
-    clause: "Clause 2.1 (Eligibility - Permanent Resident of Odisha)"
-    supports_rule: true
+    clause: "Scheme Specific Domicile Clauses"
+    supports_rule: false
     scheme_dependent_params:
       target_state: "Odisha"
-    notes: "State-specific scholarships require candidate to be a permanent resident of the awarding state, established via Resident/Domicile certificate."
+    notes: "Domicile requirements are scheme- and state-specific. Validating state residence certificates against portal domicile declarations is an administrative eligibility check."
 
   - id: "RULE-MRK-01"
     name: "Academic Cutoff Compliance & Category Relaxations"
     status: "verified"
-    issuing_body: "Ministry of Social Justice and Empowerment / UGC"
-    source_title: "Guidelines for Central Sector / Post-Matric Merit Schemes"
-    official_url: "https://socialjustice.gov.in"
+    issuing_body: "Ministry of Social Justice and Empowerment, Government of India"
+    source_title: "Centrally Sponsored Scheme of Post-Matric Scholarships to the Students Belonging to Scheduled Castes for Studies in India (2020-21 to 2025-26)"
+    official_url: "https://socialjustice.gov.in/schemes/31"
     retrieval_date: "2026-11-15"
-    clause: "Section 4.2 (Academic Merit & Relaxation for SC/ST Categories)"
+    clause: "Section 4.2 (Eligibility & Academic Relaxation for Reserved Categories)"
     supports_rule: true
     scheme_dependent_params:
       general_cutoff_pct: 60.0
       reserved_cutoff_pct: 50.0
       qualifying_pass_minimum: 33.0
-    notes: "Applies academic merit cutoffs while strictly recognizing statutory relaxations for reserved category applicants."
+    notes: "Recognizes qualifying examination passing requirements while enforcing statutory category relaxations for reserved category students."
