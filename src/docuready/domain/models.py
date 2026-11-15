@@ -123,8 +123,9 @@ class Finding(BaseModel):
         if raw_status is not None:
             raw_value = raw_status.value if isinstance(raw_status, Enum) else str(raw_status)
             data.setdefault("legacy_status_snapshot", raw_value)
-            if raw_value == "UNKNOWN":
-                data["status"] = Status.REVIEW
+            # No finding may expose PASS or FAIL before the safety resolver
+            # has inspected its provenance and supporting evidence.
+            data["status"] = Status.REVIEW
         return data
 
     @model_serializer(mode="wrap")
@@ -212,7 +213,7 @@ class AuditResult(BaseModel):
     def v2_summary_counts(self) -> Dict[str, int]:
         return {
             status.value: sum(
-                1 for finding in self.findings if finding.status is status
+                1 for finding in self.findings if finding.resolved_status is status
             )
             for status in Status
         }
@@ -225,6 +226,6 @@ class AuditResult(BaseModel):
         data["readiness"] = readiness.value
         data["summary_counts"] = self.v2_summary_counts
         for item, finding in zip(data.get("findings", []), self.findings):
-            item["status"] = finding.status.value
+            item["status"] = finding.resolved_status.value
             item["reason_code"] = finding.reason_code
         return data
