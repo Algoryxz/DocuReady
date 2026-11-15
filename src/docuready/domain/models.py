@@ -4,9 +4,9 @@ Data Models and Enums for DocuReady MVP — Loop 3 Evidence Calibration & Safety
 
 from enum import Enum
 from typing import Dict, List, Optional, Any
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, PrivateAttr
 
-from docuready.domain.enums import EvidenceState
+from docuready.domain.enums import EvidenceState, Raw, Readiness, Status
 
 
 class DocumentType(str, Enum):
@@ -107,6 +107,31 @@ class Finding(BaseModel):
     remediation: str
     statutory_reference: str
 
+    # V2 resolution is kept outside the legacy serialized shape so the frozen
+    # legacy_v0 golden snapshots remain byte-for-byte comparable.
+    _resolved_status: Optional[Status] = PrivateAttr(default=None)
+    _reason_code: Optional[str] = PrivateAttr(default=None)
+    _raw_result: Optional[Raw] = PrivateAttr(default=None)
+
+    def set_resolution(self, raw: Raw, status: Status, reason_code: str) -> None:
+        self._raw_result = raw
+        self._resolved_status = status
+        self._reason_code = reason_code
+
+    @property
+    def resolved_status(self) -> Status:
+        # Fail closed when a finding was constructed outside the audited
+        # pipeline and has not yet been passed through the resolver.
+        return self._resolved_status or Status.REVIEW
+
+    @property
+    def reason_code(self) -> str:
+        return self._reason_code or "INSUFFICIENT_DATA"
+
+    @property
+    def raw_result(self) -> Optional[Raw]:
+        return self._raw_result
+
 
 class AuditResult(BaseModel):
     packet_id: str
@@ -117,3 +142,35 @@ class AuditResult(BaseModel):
     summary_counts: Dict[str, int]
     execution_time_ms: float
     timestamp: str
+
+    @property
+    def readiness(self) -> Readiness:
+        """Canonical V2 packet readiness; legacy overall_status remains for golden tests."""
+        from docuready.outcome.resolver import resolve_readiness
+
+        return resolve_readiness(finding.resolved_status for finding in self.findings)
+
+    @property
+    def v2_summary_counts(self) -> Dict[str, int]:
+        return {
+            status.value: sum(
+                1 for finding in self.findings if finding.resolved_status is status
+            )
+            for status in Status
+        }
+
+    def to_public_dict(self) -> Dict[str, Any]:
+        """Return the canonical V2 report representation.
+
+        Internal legacy fields remain available to tests and migration adapters,
+        but public JSON uses only the V2 status/readiness vocabulary.
+        """
+        data = self.model_dump(mode="json")
+        readiness = self.readiness
+        data["overall_status"] = readiness.value
+        data["readiness"] = readiness.value
+        data["summary_counts"] = self.v2_summary_counts
+        for item, finding in zip(data.get("findings", []), self.findings):
+            item["status"] = finding.resolved_status.value
+            item["reason_code"] = finding.reason_code
+        return data
