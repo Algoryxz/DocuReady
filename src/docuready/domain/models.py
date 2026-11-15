@@ -193,7 +193,7 @@ class AuditResult(BaseModel):
         from docuready.outcome.resolver import resolve_readiness
 
         self.overall_status = resolve_readiness(
-            finding.status for finding in self.findings
+            finding.resolved_status for finding in self.findings
         )
         return self
 
