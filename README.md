@@ -171,7 +171,11 @@ DocuReady/
 │               └── app.py              # Streamlit dashboard implementation
 │
 ├── tests/                              # Comprehensive test suite (372 test items)
+│   ├── contract/                       # Claims register & zero-network contract tests
+│   ├── integration/                    # Validator-level per-rule fixture matrix (53 tests)
+│   ├── unit/                           # Outcome resolver per-rule truth table (105 tests)
 │   ├── test_adversarial.py             # Adversarial edge cases & malformed files
+│   ├── test_date_invariance_safety.py  # Two-candidate date invariance safety tests
 │   ├── test_dataset_ground_truth.py    # Ground truth validation across synthetic packets
 │   ├── test_decision_safety.py         # Evidence safety firewall downgrade tests
 │   ├── test_evidence_calibration.py    # 9-feature logistic calibrator tests
@@ -327,6 +331,10 @@ pytest --cov=docuready --cov-report=term-missing
 
 | Test Category | Test File | Scope |
 | :--- | :--- | :--- |
+| **Contract Invariants** | `tests/contract/` | Zero network egress (`test_no_network.py`) & claims anti-overreach (`test_claims.py`). |
+| **Validator Integration Matrix** | `tests/integration/test_validator_rule_matrix.py` | End-to-end validator execution across all 10 canonical rule groups with fixture packets. |
+| **Resolver Outcome Matrix** | `tests/unit/test_rules_matrix.py` | Section 6 truth-table transitions, match-grade caps, exemptions, and packet readiness. |
+| **Date Invariance Safety** | `tests/test_date_invariance_safety.py` | Native vector candidate invariance, OCR ambiguity exclusion, and boundary evaluation. |
 | **Adversarial Robustness** | `tests/test_adversarial.py` | Empty PDFs, multi-page layout shifts, duplicate uploads, extreme values, name variations. |
 | **Ground Truth Evaluation** | `tests/test_dataset_ground_truth.py` | End-to-end verification against `synthetic_data/ground_truth_manifest.json`. |
 | **Decision Safety Firewall** | `tests/test_decision_safety.py` | Provenance enforcement and safety downgrade validation. |
@@ -392,4 +400,4 @@ Evaluation performed on reference hardware (Intel Core i7-12700H, 16 GB RAM, Ubu
 
 This project is licensed under the **Apache License 2.0**. See the [LICENSE](LICENSE) file for complete terms and conditions.
 
-Copyright 2026 HackNation DocuReady Authors (Algoryxz & Contributors).
+Copyright 2026 HackNation DocuReady Authors (Algoryxz).
