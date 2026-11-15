@@ -131,11 +131,19 @@ def main():
             packet_path = synthetic_dir / pdata["folder"]
             res, _ = pipeline.load_and_audit_packet(str(packet_path), packet_id=pid)
             latencies.append(res.execution_time_ms)
-            is_match = (res.overall_status == pdata["expected_status"])
+            legacy_to_v2 = {
+                "READY_TO_SUBMIT": "NO_ISSUES_FOUND",
+                "REVIEW_RECOMMENDED": "NEEDS_CHECKS",
+                "ACTION_REQUIRED": "NOT_READY",
+                "REJECT_PRECHECK": "NOT_READY",
+                "UNREADABLE_PACKET": "NEEDS_CHECKS",
+            }
+            expected_readiness = legacy_to_v2.get(pdata["expected_status"], "NEEDS_CHECKS")
+            is_match = (res.readiness.value == expected_readiness)
             if is_match:
                 correct += 1
             status_symbol = "✓" if is_match else "✗"
-            print(f"{pid:<28} | {res.overall_status:<18} | {pdata['expected_status']:<18} | {res.readiness_score:<6} | {res.execution_time_ms:>6.2f} ms {status_symbol}")
+            print(f"{pid:<28} | {res.readiness.value:<18} | {expected_readiness:<18} | {res.readiness_score:<6} | {res.execution_time_ms:>6.2f} ms {status_symbol}")
 
         print("=" * 80)
         total = len(manifest["packets"])
