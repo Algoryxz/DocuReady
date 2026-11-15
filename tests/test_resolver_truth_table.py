@@ -83,3 +83,36 @@ def test_legacy_evidence_values_normalize_explicitly(legacy, canonical):
 )
 def test_packet_readiness(statuses, expected):
     assert resolve_readiness(statuses) is expected
+
+
+def test_readiness_enum_canonical_equality_and_hashing():
+    """Verify standard enum equality, value comparison, and hashing contract (T2.1 Phase 1)."""
+    assert Readiness.NOT_READY == Readiness.NOT_READY
+    assert Readiness.NOT_READY == "NOT_READY"
+    assert Readiness.NOT_READY != Readiness.NEEDS_CHECKS
+    assert Readiness.NOT_READY != Readiness.NO_ISSUES_FOUND
+    assert Readiness.NEEDS_CHECKS == "NEEDS_CHECKS"
+    assert Readiness.NO_ISSUES_FOUND == "NO_ISSUES_FOUND"
+
+    # Hashing and set membership
+    s = {Readiness.NOT_READY, Readiness.NEEDS_CHECKS, Readiness.NO_ISSUES_FOUND}
+    assert len(s) == 3
+    assert Readiness.NOT_READY in s
+    assert hash(Readiness.NOT_READY) == hash("NOT_READY")
+
+    # Dict key behavior for str Enum
+    d = {Readiness.NOT_READY: 1, Readiness.NEEDS_CHECKS: 2}
+    assert d[Readiness.NOT_READY] == 1
+    assert d["NOT_READY"] == 1
+
+
+def test_readiness_enum_rejects_legacy_string_alias_equality():
+    """Verify that canonical V2 Readiness enum does not consider legacy status strings equal."""
+    # Legacy strings must not be equal to canonical V2 enum members
+    assert Readiness.NO_ISSUES_FOUND != "READY_TO_SUBMIT"
+    assert Readiness.NEEDS_CHECKS != "REVIEW_RECOMMENDED"
+    assert Readiness.NEEDS_CHECKS != "UNREADABLE_PACKET"
+    assert Readiness.NOT_READY != "ACTION_REQUIRED"
+    assert Readiness.NOT_READY != "REJECT_PRECHECK"
+    assert "READY_TO_SUBMIT" != Readiness.NO_ISSUES_FOUND
+    assert "ACTION_REQUIRED" != Readiness.NOT_READY

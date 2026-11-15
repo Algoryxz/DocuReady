@@ -369,7 +369,7 @@ def test_full_pipeline_logging_safe():
         # Run full pipeline audit on synthetic packet
         pipeline = AuditPipeline()
         res_clean, docs_clean = pipeline.load_and_audit_packet(str(_PACKET_DIR), packet_id="PKT_01_CLEAN")
-        assert res_clean.overall_status in (Readiness.NO_ISSUES_FOUND, "NO_ISSUES_FOUND")
+        assert res_clean.overall_status == Readiness.NO_ISSUES_FOUND
 
         # Explicitly log candidate diagnostic messages that an engineer or extractor might emit
         uid = "9999 1111 2222"
