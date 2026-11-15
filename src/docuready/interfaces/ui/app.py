@@ -647,7 +647,7 @@ elif screen == "5. Audit Results":
 
         exp_c1, exp_c2 = st.columns(2)
         with exp_c1:
-            redacted_dict = redact_audit_result_dict(res.model_dump())
+            redacted_dict = redact_audit_result_dict(res.to_public_dict())
             json_data = json.dumps(redacted_dict, indent=2)
             st.download_button(
                 label="💾 Download Redacted Report (JSON)",
