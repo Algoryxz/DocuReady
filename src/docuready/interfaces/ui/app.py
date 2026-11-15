@@ -335,10 +335,12 @@ if screen == "1. Dashboard":
 
         with c_counts:
             st.write("**Rule Results Breakdown:**")
-            st.write(f"- ✅ **Passed Checks:** {res.v2_summary_counts.get(Status.PASS.value, 0)}")
-            st.write(f"- ⚠️ **Human Review Items:** {res.v2_summary_counts.get(Status.REVIEW.value, 0)}")
-            st.write(f"- ❌ **Failed Violations:** {res.v2_summary_counts.get(Status.FAIL.value, 0)}")
-            st.write(f"- ❓ **Unreadable / Missing Evidence:** {res.v2_summary_counts.get(Status.WARN.value, 0) + res.v2_summary_counts.get(Status.MISSING.value, 0)}")
+            st.write(f"- ✅ **Confirmed Matches:** {res.v2_summary_counts.get(Status.PASS.value, 0)}")
+            st.write(f"- ⚠️ **Probable Defects:** {res.v2_summary_counts.get(Status.WARN.value, 0)}")
+            st.write(f"- 🟡 **Human Review Items:** {res.v2_summary_counts.get(Status.REVIEW.value, 0)}")
+            st.write(f"- ❌ **Confirmed Defects:** {res.v2_summary_counts.get(Status.FAIL.value, 0)}")
+            st.write(f"- 📄 **Missing Documents:** {res.v2_summary_counts.get(Status.MISSING.value, 0)}")
+            st.write(f"- ➖ **Not Applicable:** {res.v2_summary_counts.get(Status.NOT_APPLICABLE.value, 0)}")
 
         st.markdown("---")
         st.subheader("Quick Navigation & Workflow")
