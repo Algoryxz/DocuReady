@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101c2b">
+  <meta name="description" content="DocuReady is a local-first, deterministic document-readiness preparation aid for scholarship and public-benefit applications.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="DocuReady — Check your documents before you submit">
+  <meta property="og:description" content="A local-first preparation aid that checks consistency across application documents and explains what needs attention.">
+  <title>DocuReady — Check your documents before you submit</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #142235;
+      --muted: #607084;
+      --paper: #f5f2eb;
+      --white: #fffefa;
+      --navy: #101c2b;
+      --navy-soft: #1b2b40;
+      --teal: #137b73;
+      --teal-soft: #e4f2ee;
+      --gold: #d6a65c;
+      --line: #e5e0d6;
+      --shadow: 0 24px 70px rgba(16, 28, 43, .12);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; color: var(--ink); background: var(--paper); line-height: 1.6; }
+    a { color: inherit; }
+    .wrap { width: min(1120px, calc(100% - 44px)); margin: 0 auto; }
+    .nav { display: flex; align-items: center; justify-content: space-between; gap: 28px; padding: 22px 0; }
+    .brand { display: inline-flex; align-items: center; gap: 11px; color: var(--navy); text-decoration: none; font-weight: 800; letter-spacing: -.035em; font-size: 1.16rem; }
+    .mark { width: 39px; height: 39px; display: grid; place-items: center; border-radius: 13px; background: var(--navy); color: #fff; box-shadow: 0 5px 14px rgba(16,28,43,.14); }
+    .navlinks { display: flex; align-items: center; gap: 27px; color: #536277; font-size: .91rem; font-weight: 650; }
+    .navlinks a { text-decoration: none; }
+    .navlinks a:hover, .text-link:hover { color: var(--teal); }
+    .nav-cta, .button { display: inline-flex; justify-content: center; align-items: center; gap: 9px; text-decoration: none; border-radius: 999px; font-weight: 750; transition: transform .18s ease, box-shadow .18s ease, background .18s ease; }
+    .nav-cta { padding: 10px 17px; color: white; background: var(--navy); font-size: .88rem; }
+    .nav-cta:hover, .button:hover { transform: translateY(-2px); box-shadow: 0 12px 25px rgba(16,28,43,.16); }
+    .hero { position: relative; overflow: hidden; isolation: isolate; margin-top: 26px; padding: clamp(44px, 7vw, 82px); color: #f8f8f3; border-radius: 30px; background: radial-gradient(circle at 83% 15%, rgba(39,143,130,.28), transparent 32%), radial-gradient(circle at 3% 100%, rgba(214,166,92,.18), transparent 30%), linear-gradient(130deg, #101c2b 0%, #162b40 62%, #183a45 100%); box-shadow: var(--shadow); }
+    .hero:after { content: ""; position: absolute; z-index: -1; width: 360px; height: 360px; right: -130px; bottom: -210px; border: 1px solid rgba(255,255,255,.14); border-radius: 50%; box-shadow: 0 0 0 35px rgba(255,255,255,.025), 0 0 0 75px rgba(255,255,255,.02); }
+    .eyebrow { display: inline-flex; align-items: center; gap: 9px; color: #b8e1d7; text-transform: uppercase; font-size: .72rem; font-weight: 800; letter-spacing: .15em; }
+    .eyebrow:before { content: ""; width: 22px; height: 1px; background: var(--gold); }
+    h1 { max-width: 760px; margin: 18px 0 19px; font-size: clamp(2.65rem, 6vw, 5rem); line-height: 1.02; letter-spacing: -.065em; font-weight: 780; }
+    h1 em { color: #a6d9cc; font-style: normal; }
+    .hero-copy { max-width: 630px; color: #d5dce2; font-size: clamp(1rem, 1.65vw, 1.16rem); }
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 31px; }
+    .button { padding: 13px 20px; font-size: .93rem; }
+    .button.primary { color: var(--navy); background: #f6f1e5; }
+    .button.secondary { color: #f8f8f3; border: 1px solid rgba(255,255,255,.3); background: rgba(255,255,255,.04); }
+    .hero-note { margin-top: 26px; color: #aebdca; font-size: .82rem; }
+    .trust-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 18px 0 72px; }
+    .trust { display: flex; align-items: center; gap: 12px; min-height: 78px; padding: 16px 19px; border: 1px solid var(--line); border-radius: 17px; background: rgba(255,254,250,.74); }
+    .trust-icon { flex: 0 0 37px; width: 37px; height: 37px; display: grid; place-items: center; border-radius: 12px; color: var(--teal); background: var(--teal-soft); }
+    .trust strong { display: block; font-size: .9rem; }
+    .trust span:last-child { display: block; color: var(--muted); font-size: .78rem; }
+    section { scroll-margin-top: 30px; }
+    .section-head { max-width: 710px; margin-bottom: 28px; }
+    .kicker { color: var(--teal); font-size: .72rem; text-transform: uppercase; letter-spacing: .15em; font-weight: 850; }
+    h2 { margin: 8px 0 12px; font-size: clamp(1.9rem, 3.8vw, 3rem); line-height: 1.1; letter-spacing: -.05em; }
+    .section-head p { margin: 0; color: var(--muted); font-size: 1.03rem; }
+    .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .feature { min-height: 205px; padding: 25px; border: 1px solid var(--line); border-radius: 20px; background: var(--white); }
+    .feature .num { color: var(--gold); font-size: .77rem; font-weight: 850; letter-spacing: .1em; }
+    .feature h3 { margin: 18px 0 7px; font-size: 1.07rem; letter-spacing: -.02em; }
+    .feature p { margin: 0; color: var(--muted); font-size: .91rem; }
+    .workflow { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin-top: 23px; border: 1px solid var(--line); border-radius: 22px; background: var(--white); overflow: hidden; }
+    .step { padding: 24px 20px; border-right: 1px solid var(--line); }
+    .step:last-child { border-right: 0; }
+    .step-no { display: inline-grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; color: white; background: var(--teal); font-size: .8rem; font-weight: 800; }
+    .step h3 { margin: 14px 0 5px; font-size: .98rem; }
+    .step p { margin: 0; color: var(--muted); font-size: .84rem; }
+    .privacy { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 40px; margin: 72px 0; padding: clamp(28px, 5vw, 52px); border-radius: 25px; color: #f4f5f1; background: var(--navy); }
+    .privacy h2 { max-width: 470px; }
+    .privacy p { color: #c1cbd4; }
+    .privacy-list { display: grid; gap: 12px; }
+    .privacy-item { display: flex; gap: 12px; padding: 15px; border: 1px solid rgba(255,255,255,.12); border-radius: 14px; background: rgba(255,255,255,.035); }
+    .check { color: #9bd8c8; font-weight: 900; }
+    .privacy-item strong { display: block; font-size: .9rem; }
+    .privacy-item span:last-child { color: #bdc9d2; font-size: .8rem; }
+    .notice { display: flex; gap: 13px; align-items: flex-start; margin: 0 0 72px; padding: 19px 22px; border: 1px solid #e5d3ad; border-radius: 16px; background: #fbf3e3; color: #6b5633; }
+    .notice strong { display: block; color: #4e3e24; margin-bottom: 3px; }
+    .notice p { margin: 0; font-size: .87rem; }
+    .start { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 25px; margin-bottom: 70px; padding: 32px; border-radius: 22px; background: #e7eee8; }
+    .start h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); margin: 0 0 8px; }
+    .start p { margin: 0; color: #52675e; }
+    .start .button { background: var(--teal); color: white; white-space: nowrap; }
+    footer { border-top: 1px solid var(--line); padding: 24px 0 32px; color: var(--muted); font-size: .82rem; }
+    .foot { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px; }
+    .footlinks { display: flex; flex-wrap: wrap; gap: 20px; }
+    .footlinks a { text-decoration: none; }
+    .text-link { color: var(--teal); font-weight: 750; text-decoration: none; }
+    @media (max-width: 760px) {
+      .nav { flex-wrap: wrap; }
+      .navlinks { order: 3; width: 100%; justify-content: space-between; gap: 10px; font-size: .82rem; }
+      .hero { margin-top: 12px; border-radius: 22px; }
+      .trust-row, .feature-grid { grid-template-columns: 1fr; }
+      .trust-row { margin-bottom: 56px; }
+      .workflow { grid-template-columns: 1fr 1fr; }
+      .step:nth-child(2) { border-right: 0; }
+      .step:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+      .privacy { grid-template-columns: 1fr; gap: 20px; margin: 56px 0; }
+      .start { grid-template-columns: 1fr; }
+      .start .button { width: fit-content; }
+    }
+    @media (max-width: 440px) {
+      .wrap { width: min(100% - 28px, 1120px); }
+      .nav-cta { padding: 9px 12px; font-size: .8rem; }
+      .workflow { grid-template-columns: 1fr; }
+      .step { border-right: 0; border-bottom: 1px solid var(--line); }
+      .step:last-child { border-bottom: 0; }
+      .step:nth-child(2) { border-bottom: 1px solid var(--line); }
+      .actions .button { width: 100%; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *:before, *:after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="wrap nav">
+    <a class="brand" href="#" aria-label="DocuReady home">
+      <span class="mark" aria-hidden="true">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2.8 20 5.8v5.7c0 5-3.4 8.4-8 10.2-4.6-1.8-8-5.2-8-10.2V5.8l8-3Z" stroke="#B5E1D4" stroke-width="1.6"/>
+          <path d="m8.1 12.1 2.5 2.5 5.5-5.7" stroke="#F8F5EB" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+      <span>DocuReady</span>
+    </a>
+    <nav class="navlinks" aria-label="Main navigation">
+      <a href="#about">About</a>
+      <a href="#workflow">How it works</a>
+      <a href="#privacy">Privacy</a>
+      <a href="#getting-started">Get started</a>
+    </nav>
+    <a class="nav-cta" href="https://github.com/Algoryxz/DocuReady">View on GitHub <span aria-hidden="true">↗</span></a>
+  </header>
+
+  <main class="wrap">
+    <section class="hero" id="about" aria-labelledby="hero-title">
+      <div class="eyebrow">Applicant-side document preparation</div>
+      <h1 id="hero-title">Check your documents <em>before you submit.</em></h1>
+      <p class="hero-copy">DocuReady helps applicants spot inconsistencies, missing evidence and hard-to-read documents across scholarship and public-benefit application packets—before those issues become avoidable delays.</p>
+      <div class="actions">
+        <a class="button primary" href="https://github.com/Algoryxz/DocuReady#installation--setup">Get started locally <span aria-hidden="true">→</span></a>
+        <a class="button secondary" href="https://github.com/Algoryxz/DocuReady">Explore the source <span aria-hidden="true">↗</span></a>
+      </div>
+      <p class="hero-note">Deterministic checks · Evidence you can inspect · Practical next steps</p>
+    </section>
+
+    <div class="trust-row" aria-label="Product principles">
+      <div class="trust">
+        <span class="trust-icon" aria-hidden="true">⌖</span>
+        <span><strong>Local-first by design</strong><span>Run the audit on your own machine</span></span>
+      </div>
+      <div class="trust">
+        <span class="trust-icon" aria-hidden="true">≋</span>
+        <span><strong>Explainable results</strong><span>Findings are tied to document evidence</span></span>
+      </div>
+      <div class="trust">
+        <span class="trust-icon" aria-hidden="true">↻</span>
+        <span><strong>Actionable remediation</strong><span>Replace a document and check again</span></span>
+      </div>
+    </div>
+
+    <section aria-labelledby="about-heading">
+      <div class="section-head">
+        <div class="kicker">About DocuReady</div>
+        <h2 id="about-heading">A document linter, not an eligibility authority.</h2>
+        <p>Official portals make the final decisions. DocuReady is an applicant-side preparation aid that checks consistency across the documents you provide, shows where evidence came from, and explains what may need attention.</p>
+      </div>
+      <div class="feature-grid">
+        <article class="feature">
+          <div class="num">01 / CONSISTENCY</div>
+          <h3>Compare facts across documents</h3>
+          <p>Surface name, date, amount and reference mismatches across a multi-document packet using explicit, testable rules.</p>
+        </article>
+        <article class="feature">
+          <div class="num">02 / EVIDENCE</div>
+          <h3>Make each finding inspectable</h3>
+          <p>Review extracted values with page and bounding-box provenance, alongside confidence and uncertainty signals.</p>
+        </article>
+        <article class="feature">
+          <div class="num">03 / NEXT STEPS</div>
+          <h3>Turn findings into actions</h3>
+          <p>Understand which document needs attention and what practical correction or human review may be appropriate.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="workflow" style="margin-top:72px" aria-labelledby="workflow-heading">
+      <div class="section-head">
+        <div class="kicker">The workflow</div>
+        <h2 id="workflow-heading">Four clear steps. No black-box verdicts.</h2>
+        <p>The local application combines document extraction with deterministic comparison and a safety layer that can abstain when the evidence is not strong enough.</p>
+      </div>
+      <div class="workflow">
+        <article class="step">
+          <span class="step-no">1</span>
+          <h3>Add a document packet</h3>
+          <p>Select a synthetic example or provide PDFs in the local application.</p>
+        </article>
+        <article class="step">
+          <span class="step-no">2</span>
+          <h3>Extract and inspect</h3>
+          <p>Read vector text or use local OCR, with evidence provenance retained.</p>
+        </article>
+        <article class="step">
+          <span class="step-no">3</span>
+          <h3>Check and review</h3>
+          <p>Run defined rules; ambiguous or weak evidence is sent for review.</p>
+        </article>
+        <article class="step">
+          <span class="step-no">4</span>
+          <h3>Correct and re-check</h3>
+          <p>Replace a document and re-run the packet audit locally.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="privacy" id="privacy" aria-labelledby="privacy-heading">
+      <div>
+        <div class="kicker" style="color:#9bd8c8">Privacy is an architecture choice</div>
+        <h2 id="privacy-heading">Your documents should stay under your control.</h2>
+        <p>The authoritative workflow is local execution: the Python/Streamlit application processes documents on the machine where it is running. This public website is only an informational page.</p>
+      </div>
+      <div class="privacy-list">
+        <div class="privacy-item"><span class="check">✓</span><span><strong>No document upload on this website</strong><span>This Vercel site has no upload form, API or document-processing endpoint.</span></span></div>
+        <div class="privacy-item"><span class="check">✓</span><span><strong>Local processing for the core workflow</strong><span>Run the audit locally so files are handled by your own machine.</span></span></div>
+        <div class="privacy-item"><span class="check">✓</span><span><strong>Evidence-led, cautious outcomes</strong><span>Uncertain evidence is surfaced for review instead of being presented as certainty.</span></span></div>
+      </div>
+    </section>
+
+    <aside class="notice" aria-label="Important limitation">
+      <span aria-hidden="true">ⓘ</span>
+      <div><strong>Important: DocuReady does not decide eligibility.</strong><p>It is not a government service, legal authority, identity-authentication service or guarantee of approval. A “no issues found” result means only that the configured checks passed on the supplied evidence. Always follow the relevant official scheme and portal instructions.</p></div>
+    </aside>
+
+    <section class="start" id="getting-started" aria-labelledby="start-heading">
+      <div>
+        <h2 id="start-heading">Explore DocuReady and run it locally.</h2>
+        <p>The repository includes setup instructions, architecture notes, the test suite and the Streamlit application.</p>
+      </div>
+      <a class="button" href="https://github.com/Algoryxz/DocuReady#installation--setup">Open the setup guide <span aria-hidden="true">↗</span></a>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap foot">
+      <span>© 2026 DocuReady · Apache-2.0 · Built for clearer document preparation.</span>
+      <nav class="footlinks" aria-label="Footer navigation">
+        <a href="https://github.com/Algoryxz/DocuReady">GitHub</a>
+        <a href="https://github.com/Algoryxz/DocuReady/blob/main/docs/adr/ADR-002-deployment-architecture.md">Deployment architecture</a>
+        <a href="https://github.com/Algoryxz/DocuReady/blob/main/LICENSE">License</a>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>
