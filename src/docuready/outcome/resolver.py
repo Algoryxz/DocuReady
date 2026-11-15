@@ -5,6 +5,7 @@ from typing import Iterable, Optional, Union
 
 from docuready.domain.enums import (
     EvidenceState,
+    ExitCode,
     MatchGrade,
     MaxSeverity,
     Raw,
@@ -164,3 +165,24 @@ def resolve_readiness(statuses: Iterable[Union[Status, str]]) -> Readiness:
     if all(value is Status.PASS for value in applicable):
         return Readiness.NO_ISSUES_FOUND
     return Readiness.NEEDS_CHECKS
+
+def weakest_evidence(states: Iterable[Optional[EvidenceState]]) -> Optional[EvidenceState]:
+    """Return the least certain normalized evidence state, or None if empty."""
+    normalized = [normalize_evidence_state(state) for state in states]
+    if not normalized:
+        return None
+    if EvidenceState.UNCERTAIN in normalized:
+        return EvidenceState.UNCERTAIN
+    if EvidenceState.PROVISIONAL in normalized:
+        return EvidenceState.PROVISIONAL
+    return EvidenceState.VERIFIED
+
+
+def exit_code_for_readiness(readiness: Readiness) -> ExitCode:
+    """Map packet readiness to the stable public CLI contract."""
+    readiness = _coerce_enum(readiness, Readiness, "readiness")
+    return {
+        Readiness.NO_ISSUES_FOUND: ExitCode.NO_ISSUES,
+        Readiness.NEEDS_CHECKS: ExitCode.NEEDS_CHECKS,
+        Readiness.NOT_READY: ExitCode.NOT_READY,
+    }[readiness]
