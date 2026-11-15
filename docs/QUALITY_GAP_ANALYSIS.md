@@ -2,7 +2,7 @@
 
 **Document Version:** 1.2.0
 **Date:** 15 November 2026
-**Status:** Pre-G2 Quality Baseline Framework
+**Status:** Gate G1 Accepted & Gate G2 Authorized Quality Framework
 **Repository:** `Algoryxz/DocuReady`
 **Product Owner:** Deeptiman
 **Implementation Engineer:** Antigravity
@@ -74,7 +74,7 @@ In accordance with strict governance principles, this framework implements five 
 | # | Dimension | Current Score | Target Score | Confidence / Evidence | Observed Gap & Current State | Target 9+ Criteria & Acceptance Test |
 |---|---|:---:|:---:|:---:|---|---|
 | **1** | **Core Extraction & Layout Robustness** | **7 / 10** | **9 / 10** | Medium (Vector & OCR Baseline) | PyMuPDF extracts vector text and bounding boxes reliably on 8 canonical synthetic packets. Packet 7 OCR fallback passes semantic contracts. Gap: PDFium backend raises `NotImplementedError` on `get_words()`; multi-corpus real scans and automated deskewing are future work. | Zero crashes on malformed/skewed PDFs; layout segmentation verified across multi-corpus benchmark (`eval/reports/`); clear error reporting for scanned documents exceeding noise threshold. |
-| **2** | **Deterministic Validation & Resolver Symmetry** | **7 / 10** | **9 / 10** | Medium (10 Core Rules Matrix) | 10 core rules execute deterministically. Pass/Fail/Review states mapped in validator. Gap: V2 symmetric status resolver (`outcome/resolver.py`) with explicit readiness and reason codes implemented in T2.1 (PR #43, PR #44, PR #46, PR #47, PR #48) and contract-hardened in `fix/T2.1-contract-hardening`; T2.2 per-rule test matrix delivered in PR #49 (103 tests); formal G2 technical signoff pending PO review. | Symmetric resolver truth table fully implemented; property-based test proves `SATISFIED` + non-`VERIFIED` never yields `PASS`; injected clock (`as_of`) tested for 100% reproducible historical replays. |
+| **2** | **Deterministic Validation & Resolver Symmetry** | **7 / 10** | **9 / 10** | Medium (10 Core Rules Matrix) | 10 core rules execute deterministically. Pass/Fail/Review states mapped in validator. Gap: V2 symmetric status resolver (`outcome/resolver.py`) with explicit readiness and reason codes implemented in T2.1 (PR #43, PR #44, PR #46, PR #47, PR #48) and contract-hardened in PR #53 (merged at `4e56a99adbcdb413030e53706d6715e137647527`); T2.2 resolver transition matrix delivered in PR #49 (105 tests), with validator-level document fixture execution outstanding; formal T2.1/T2.2 technical acceptance pending PO review. | Symmetric resolver truth table fully implemented; property-based test proves `SATISFIED` + non-`VERIFIED` never yields `PASS`; injected clock (`as_of`) tested for 100% reproducible historical replays. |
 | **3** | **Sourced Citations & Regulatory Grounding** | **7 / 10** | **9 / 10** | Medium (YAML Schema & 5 Statutory Rules) | 13 rules classified across 10 rule groups in `sources.yaml`: 5 verified statutory rules (e.g., IT Act §4, Aadhaar Reg 28, Odia Act 1954), 8 unverified heuristics. Schema validation enforced. Gap: 8 rules remain operational heuristics without primary legal grounding; scheme-pack parameterization belongs to G3/G4. | All rule findings emit structured citation objects containing `citation_type` (`statutory` vs `heuristic`), issuing body, clause reference, retrieval date, and grounded remediation authority. |
 | **4** | **Privacy, Ephemerality & Memory Boundaries** | **7 / 10** | **9 / 10** | Medium (Export Redaction & Temp Cleanup) | Default redaction for Aadhaar, bank accounts, and phone numbers in JSON, Markdown, and UI; isolated 0700 temp directory cleaned in `finally`; Screen 6 synthetic-only guard. Gap: Existing tests do not inspect CPython heap or verify that `st.session_state` retains 0 raw upload bytes across screens. | Test suite explicitly asserts `st.session_state` retains no raw bytes or unredacted PII across screens; memory isolation verified; zero persistent artifacts on disk after pipeline execution. |
 | **5** | **Network Isolation & Egress Protection** | **8 / 10** | **9 / 10** | High (Python Socket Interception) | 12 automated contract tests intercept `socket.socket` and `socket.getaddrinfo`. Streamlit `gatherUsageStats = false` enforced. Deliberate socket call verified to fail immediately with `NetworkAccessBlockedError`. Gap: Container-level rootless and network-disabled sandbox (`docker run --network none`) belongs to G6 (T5.1). | Maintain 100% negative proof coverage in CI; zero external HTTP/DNS dependencies in audit pipeline; containerized non-root network sandbox in G6 (T5.1). |
@@ -94,7 +94,7 @@ To advance all dimensions toward Score 9 without introducing architectural debt 
 
 ```mermaid
 flowchart TD
-    G1[Gate G1: Trust & Compliance Closeout\nImplementation deliverables submitted; formal PO acceptance pending] --> G2[Gate G2: WS2 Correctness\nT2.1 Resolver, T2.2 Matrix, T2.3 Clock, T2.4 Slots]
+    G1["Gate G1: Trust & Compliance Closeout\nACCEPTED by PO 15 Nov 2026"] --> G2["Gate G2: WS2 Correctness\nAUTHORIZED by PO; T2.1/T2.2 merged, formal acceptance pending"]
     G2 --> G3[Gate G3: WS3 Scheme-Pack Engine\nT3.1 Schema & Loader, T3.2 Primitives]
     G3 --> G4[Gate G4: WS4 Real Pack Snapshot\nT3.3 Odisha Subhadra Demo, T3.4 Report V2]
     G4 --> G5[Gate G5: WS5 Evaluation & Benchmarking\nT4.1 Eval Harness V2, T4.2 Indic OCR, T4.3 Generator]
@@ -102,11 +102,13 @@ flowchart TD
 ```
 
 ### Phase Schedule & Focus Areas:
-1. **Gate G1 Closeout (Current Milestone):**
-   - Reconcile status documentation with canonical main (`b75ef85`).
-   - Await Product Owner explicit acceptance decision on T1.1–T1.5.
-2. **Gate G2 (WS2 — Correctness):**
-   - Advance **Dimension 2** (Deterministic Validation) from 7 to 9 via symmetric resolver (`T2.1`), 60-case rule test matrix (`T2.2`), injected clock (`T2.3`), and slot classification (`T2.4`).
+1. **Gate G1 (Trust & Compliance — ACCEPTED):**
+   - Formally ACCEPTED by Product Owner Deeptiman on 15 November 2026.
+2. **Gate G2 (WS2 — Correctness — AUTHORIZED):**
+   - Formally AUTHORIZED by Product Owner Deeptiman on 15 November 2026.
+   - Symmetrical status resolver (`T2.1`) implemented and contract-hardened (PR #53 merged at `4e56a99`); formal technical acceptance pending.
+   - Per-rule resolver transition matrix (`T2.2`) merged via PR #49; validator-level fixture execution outstanding.
+   - Advance **Dimension 2** (Deterministic Validation) from 7 to 9: complete T2.2 validator execution, then proceed to injected clock (`T2.3`), and slot classification (`T2.4`).
    - Advance **Dimension 8** (Error Handling) to 9 via slot error boundaries.
 3. **Gate G3 (WS3 — Scheme-Pack Engine):**
    - Advance **Dimension 3** (Regulatory Grounding) from 7 to 9 via formal Pydantic pack schema (`T3.1`) enforcing citation metadata, retrieval dates, and remediation authorities.
