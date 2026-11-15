@@ -178,6 +178,23 @@ class DecisionSafetyLayer:
             )
             return
 
+        if finding.rule_id == "RULE-DOC-02":
+            # Reconcile unreadable/corrupted upload outcomes with Susmita's approved domain matrix:
+            # Blank or unreadable upload: REVIEW / EVIDENCE_UNCERTAIN
+            # Corrupted or unextractable upload: REVIEW / EVIDENCE_UNCERTAIN
+            raw = Raw.INDETERMINATE
+            outcome = resolve_outcome(
+                raw,
+                weakest_evidence=EvidenceState.UNCERTAIN,
+                slot_mismatch=True,
+            )
+            finding.set_resolution(
+                raw,
+                outcome.status,
+                outcome.reason_code,
+            )
+            return
+
         if finding.rule_id == "RULE-DOC-01" and legacy_status == FindingStatus.FAIL.value:
             raw = Raw.DOC_ABSENT
         elif (
