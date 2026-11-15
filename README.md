@@ -1,13 +1,12 @@
 <div align="center">
   <img src="assets/branding/docuready-logo.png" alt="DocuReady Logo" width="128" height="128" />
   <h1>DocuReady</h1>
-  <p><strong>Deterministic, privacy-preserving, statutory pre-flight audit for government scholarship and citizen welfare applications.</strong></p>
+  <p><strong>Deterministic, privacy-preserving pre-flight readiness audit for government scholarship and citizen welfare applications.</strong></p>
 </div>
 
 [![CI Tests](https://github.com/Algoryxz/DocuReady/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/Algoryxz/DocuReady/actions/workflows/tests.yml)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 [![Python: 3.11–3.14](https://img.shields.io/badge/Python-3.11%20%7C%203.12%20%7C%203.13%20%7C%203.14-0A2540.svg)](pyproject.toml)
-[![Tests: 88 Passing](https://img.shields.io/badge/Tests-88%20Passing-008080.svg)](tests/)
 [![Privacy: Local Verified](https://img.shields.io/badge/Privacy-Local%20Execution%20%7C%20No%20Telemetry%20(Verified)-0A2540.svg)](docs/02-ARCHITECTURE/SECURITY_AND_PRIVACY.md)
 
 ---
