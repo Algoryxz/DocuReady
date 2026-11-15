@@ -116,3 +116,139 @@ def test_readiness_enum_rejects_legacy_string_alias_equality():
     assert Readiness.NOT_READY != "REJECT_PRECHECK"
     assert "READY_TO_SUBMIT" != Readiness.NO_ISSUES_FOUND
     assert "ACTION_REQUIRED" != Readiness.NOT_READY
+
+
+def test_compatible_cannot_cause_hard_fail():
+    """Verify that match_grade COMPATIBLE cannot cause a hard FAIL under any combination."""
+    from itertools import product
+    for raw, evidence, cap in product(Raw, EvidenceState, [None, *list(MaxSeverity)]):
+        outcome = resolve_outcome(
+            raw,
+            weakest_evidence=evidence,
+            max_severity=cap,
+            match_grade=MatchGrade.COMPATIBLE,
+        )
+        assert outcome.status is not Status.FAIL, (raw, evidence, cap, outcome)
+
+
+def test_ambiguous_grade_or_evidence_forces_review():
+    """Verify that AMBIGUOUS match grade or evidence state forces Status.REVIEW."""
+    from itertools import product
+    # AMBIGUOUS match grade forces REVIEW on non-absent/non-exempt findings
+    for raw in (Raw.SATISFIED, Raw.VIOLATED, Raw.INDETERMINATE):
+        for evidence in EvidenceState:
+            for cap in [None, *list(MaxSeverity)]:
+                outcome = resolve_outcome(
+                    raw,
+                    weakest_evidence=evidence,
+                    max_severity=cap,
+                    match_grade=MatchGrade.AMBIGUOUS,
+                )
+                assert outcome.status is Status.REVIEW, (raw, evidence, cap, outcome)
+
+    # AMBIGUOUS evidence state forces REVIEW on non-absent/non-exempt findings
+    for raw in (Raw.SATISFIED, Raw.VIOLATED, Raw.INDETERMINATE):
+        for grade in [None, *list(MatchGrade)]:
+            for cap in [None, *list(MaxSeverity)]:
+                outcome = resolve_outcome(
+                    raw,
+                    weakest_evidence=EvidenceState.AMBIGUOUS,
+                    max_severity=cap,
+                    match_grade=grade,
+                )
+                assert outcome.status is Status.REVIEW, (raw, grade, cap, outcome)
+
+
+def test_max_severity_only_reduces_severity():
+    """Verify that max_severity cap only reduces or preserves severity, never increases it."""
+    from itertools import product
+    severity_order = {
+        Status.PASS: 0,
+        Status.NOT_APPLICABLE: 0,
+        Status.REVIEW: 1,
+        Status.WARN: 2,
+        Status.MISSING: 3,
+        Status.FAIL: 3,
+    }
+    for raw, evidence, grade in product(Raw, EvidenceState, [None, *list(MatchGrade)]):
+        base_outcome = resolve_outcome(raw, weakest_evidence=evidence, max_severity=None, match_grade=grade)
+        base_rank = severity_order[base_outcome.status]
+        for cap in MaxSeverity:
+            capped_outcome = resolve_outcome(raw, weakest_evidence=evidence, max_severity=cap, match_grade=grade)
+            capped_rank = severity_order[capped_outcome.status]
+            assert capped_rank <= base_rank, (
+                f"max_severity {cap} increased severity from {base_outcome.status} to {capped_outcome.status}"
+            )
+
+
+def test_not_applicable_findings_remain_visible():
+    """Verify that all NOT_APPLICABLE findings remain visible in reports and public projections."""
+    from docuready.domain.models import Finding, FindingStatus, Severity, AuditResult
+    finding = Finding(
+        rule_id="RULE-MRK-RELAX-PASS",
+        rule_name="Marksheet category relaxation",
+        status=FindingStatus.PASS,
+        severity=Severity.INFO,
+        field="CATEGORY_RELAXATION",
+        documents_involved=["marksheet.pdf"],
+        message="Exempt from minimum percentage cutoffs.",
+        remediation="No action required.",
+        statutory_reference="Scheme Guidelines",
+    )
+    finding.set_resolution(Raw.EXEMPT, Status.NOT_APPLICABLE, "EXEMPT:CATEGORY_EXEMPTION")
+    result = AuditResult(
+        packet_id="TEST_EXEMPT",
+        scheme_name="Test Scheme",
+        readiness_score=100,
+        overall_status="NO_ISSUES_FOUND",
+        findings=[finding],
+        summary_counts={"NOT_APPLICABLE": 1},
+        execution_time_ms=0.0,
+        timestamp="2026-11-15T00:00:00",
+    )
+    assert len(result.findings) == 1
+    assert result.findings[0].status is Status.NOT_APPLICABLE
+    public = result.to_public_dict()
+    assert len(public["findings"]) == 1
+    assert public["findings"][0]["status"] == "NOT_APPLICABLE"
+
+
+def test_public_output_never_emits_prohibited_terms():
+    """Verify that public projection never emits 'eligible', 'approved', or 'ready to submit'."""
+    from docuready.domain.models import Finding, FindingStatus, Severity, AuditResult
+    finding = Finding(
+        rule_id="RULE-TEST-01",
+        rule_name="Test Rule",
+        status=FindingStatus.PASS,
+        severity=Severity.INFO,
+        field="TEST",
+        documents_involved=["test.pdf"],
+        message="Test message",
+        remediation="No action required.",
+        statutory_reference="Ref",
+    )
+    finding.set_resolution(Raw.SATISFIED, Status.PASS, ReasonCode.CONFIRMED_OK.value)
+    result = AuditResult(
+        packet_id="TEST_CLEAN",
+        scheme_name="Test Scheme",
+        readiness_score=100,
+        overall_status="READY_TO_SUBMIT",
+        findings=[finding],
+        summary_counts={"PASS": 1},
+        execution_time_ms=0.0,
+        timestamp="2026-11-15T00:00:00",
+    )
+    public = result.to_public_dict()
+    public_str = str(public).lower()
+    for prohibited in ("eligible", "approved", "ready to submit"):
+        assert prohibited not in public_str, f"Found prohibited term '{prohibited}' in public output"
+
+
+def test_cli_exit_codes_comprehensive():
+    """Verify that CLI exit codes are 0, 1, 2, and 64 for usage errors."""
+    from docuready.domain.enums import ExitCode, Readiness
+    from docuready.outcome.resolver import exit_code_for_readiness
+    assert int(exit_code_for_readiness(Readiness.NO_ISSUES_FOUND)) == 0
+    assert int(exit_code_for_readiness(Readiness.NEEDS_CHECKS)) == 1
+    assert int(exit_code_for_readiness(Readiness.NOT_READY)) == 2
+    assert int(ExitCode.USAGE_ERROR) == 64
