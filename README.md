@@ -1,22 +1,21 @@
 <div align="center">
   <img src="assets/branding/docuready-logo.png" alt="DocuReady Logo" width="128" height="128" />
   <h1>DocuReady</h1>
-  <p><strong>Deterministic, privacy-preserving, statutory pre-flight audit for government scholarship and citizen welfare applications.</strong></p>
+  <p><strong>Deterministic, privacy-preserving, pre-flight document readiness aid for citizen scholarship and welfare applications.</strong></p>
 </div>
 
 [![CI Tests](https://github.com/Algoryxz/DocuReady/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/Algoryxz/DocuReady/actions/workflows/tests.yml)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 [![Python: 3.11–3.14](https://img.shields.io/badge/Python-3.11%20%7C%203.12%20%7C%203.13%20%7C%203.14-0A2540.svg)](pyproject.toml)
-[![Tests: 88 Passing](https://img.shields.io/badge/Tests-88%20Passing-008080.svg)](tests/)
 [![Privacy: Local Only](https://img.shields.io/badge/Privacy-100%25%20Local%20%7C%20Zero%20Telemetry-0A2540.svg)](docs/02-ARCHITECTURE/SECURITY_AND_PRIVACY.md)
 
 ---
 
 ## Overview
 
-**DocuReady** is an offline-first, deterministic document readiness linter for Indian citizens, students, and Common Service Centre (CSC) operators. It validates multi-document application packets *before* submission to official portals (such as the National Scholarship Portal, state revenue portals, and Direct Benefit Transfer systems).
+**DocuReady** is an applicant-side preparation aid and offline document readiness linter for Indian citizens, students, and Common Service Centre (CSC) operators. It checks whether the documents in an application packet are consistent with each other and with a scheme's published document requirements *before* submission to official portals (such as the National Scholarship Portal, state revenue portals, and Direct Benefit Transfer systems).
 
-By cross-verifying identity, demographic, academic, and statutory certificates locally against official gazettes, DocuReady catches clerical discrepancies and unreadable scans early—preventing summary rejection and missed deadlines.
+By cross-verifying identity, demographic, academic, and income certificates locally against published scheme guidelines, DocuReady catches clerical discrepancies and unreadable scans early—explaining each defect and how to fix it before submission deadlines close. It does **not** decide official eligibility, replace government verification, or guarantee portal acceptance.
 
 ```mermaid
 flowchart LR
@@ -168,7 +167,10 @@ DocuReady/
 │           └── ui/                     # Interactive Streamlit interface
 │               └── app.py              # Streamlit dashboard implementation
 │
-├── tests/                              # Comprehensive test suite (79 tests)
+├── tests/                              # Comprehensive test suite (blocking multi-version CI matrix)
+│   ├── contract/                       # Invariant contract tests
+│   │   ├── test_claims.py              # Banned claims & honest positioning tests
+│   │   └── test_no_network.py          # Zero-telemetry & active socket tripwire tests
 │   ├── test_adversarial.py             # Adversarial edge cases & malformed files
 │   ├── test_dataset_ground_truth.py    # Ground truth validation across synthetic packets
 │   ├── test_decision_safety.py         # Evidence safety firewall downgrade tests
@@ -176,11 +178,14 @@ DocuReady/
 │   ├── test_extractor.py               # Vector extraction & OCR fallback tests
 │   ├── test_golden_baseline.py         # Bit-for-bit regression suite with diagnostic diffs
 │   ├── test_normalizer.py              # Verhoeff, date, income & IFSC unit tests
+│   ├── test_ocr_integration.py         # Genuine OCR extraction & recognition tests
+│   ├── test_package_contract.py        # Isolated wheel, editable & CLI contract tests
 │   ├── test_replacement_rerun.py       # Single-document remediation workflow tests
 │   ├── test_safety_layer.py            # Safety downgrade matrix tests
 │   ├── test_ui_privacy.py              # Zero-telemetry, asset isolation & PII masking
 │   ├── test_uncertainty_safety.py      # Scan quality & uncertainty handling tests
-│   └── test_validator.py               # Statutory rule violation & exemption tests
+│   ├── test_validator.py               # Statutory rule violation & exemption tests
+│   └── test_warning_policy.py          # Zero internal warning policy tests
 │
 ├── synthetic_data/                     # Synthetic test packets (no real citizen PII)
 │   ├── ground_truth_manifest.json      # Dataset metadata & expected audit findings
@@ -348,11 +353,11 @@ DocuReady is architected around privacy-by-design principles informed by data pr
 
 ---
 
-## Verified Benchmarks
+## Synthetic Benchmark Evaluation
 
-Evaluation performed on reference hardware (Intel Core i7-12700H, 16 GB RAM, Ubuntu 24.04 LTS) against the synthetic validation suite:
+> **Synthetic Dataset Notice:** All metrics below reflect evaluation against generated synthetic test packets under controlled benchmark conditions (Intel Core i7-12700H, 16 GB RAM, Ubuntu 24.04 LTS). They measure algorithmic consistency and document parsing latency; they do **not** represent field government portal acceptance rates or benefit approval guarantees.
 
-| Benchmark Suite | Total Samples | Exact Match Accuracy | Mean Latency per Packet | Execution Pipeline |
+| Synthetic Benchmark Suite | Total Samples | Exact Match Accuracy | Mean Latency per Packet | Execution Pipeline |
 | :--- | :--- | :--- | :--- | :--- |
 | **Standard 8 Synthetic Packets** | 48 Documents | 100.0% | 0.38s | Native Vector Extraction |
 | **Degraded Physical Scans** | 60 Documents | 91.7% | 1.15s | Vector + Local Tesseract OCR |
