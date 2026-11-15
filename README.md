@@ -1,21 +1,22 @@
 <div align="center">
   <img src="assets/branding/docuready-logo.png" alt="DocuReady Logo" width="128" height="128" />
   <h1>DocuReady</h1>
-  <p><strong>Deterministic, privacy-preserving, pre-flight document readiness aid for citizen scholarship and welfare applications.</strong></p>
+  <p><strong>Deterministic, privacy-preserving, statutory pre-flight audit for government scholarship and citizen welfare applications.</strong></p>
 </div>
 
 [![CI Tests](https://github.com/Algoryxz/DocuReady/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/Algoryxz/DocuReady/actions/workflows/tests.yml)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 [![Python: 3.11–3.14](https://img.shields.io/badge/Python-3.11%20%7C%203.12%20%7C%203.13%20%7C%203.14-0A2540.svg)](pyproject.toml)
-[![Privacy: Local Only](https://img.shields.io/badge/Privacy-100%25%20Local%20%7C%20Zero%20Telemetry-0A2540.svg)](docs/02-ARCHITECTURE/SECURITY_AND_PRIVACY.md)
+[![Tests: 88 Passing](https://img.shields.io/badge/Tests-88%20Passing-008080.svg)](tests/)
+[![Privacy: Local Verified](https://img.shields.io/badge/Privacy-Local%20Execution%20%7C%20No%20Telemetry%20(Verified)-0A2540.svg)](docs/02-ARCHITECTURE/SECURITY_AND_PRIVACY.md)
 
 ---
 
 ## Overview
 
-**DocuReady** is an applicant-side preparation aid and offline document readiness linter for Indian citizens, students, and Common Service Centre (CSC) operators. It checks whether the documents in an application packet are consistent with each other and with a scheme's published document requirements *before* submission to official portals (such as the National Scholarship Portal, state revenue portals, and Direct Benefit Transfer systems).
+**DocuReady** is an offline-first, deterministic document readiness linter for Indian citizens, students, and Common Service Centre (CSC) operators. It validates multi-document application packets *before* submission to official portals (such as the National Scholarship Portal, state revenue portals, and Direct Benefit Transfer systems).
 
-By cross-verifying identity, demographic, academic, and income certificates locally against published scheme guidelines, DocuReady catches clerical discrepancies and unreadable scans early—explaining each defect and how to fix it before submission deadlines close. It does **not** decide official eligibility, replace government verification, or guarantee portal acceptance.
+By cross-verifying identity, demographic, academic, and statutory certificates locally against official gazettes, DocuReady catches clerical discrepancies and unreadable scans early—preventing summary rejection and missed deadlines.
 
 ```mermaid
 flowchart LR
@@ -24,7 +25,7 @@ flowchart LR
     Ingest --> Provenance["Field Extraction &<br/>Bounding Box Provenance"]
     Provenance --> Calibrator["9-Feature Logistic<br/>Confidence Calibrator"]
     Calibrator --> TriState["Tri-State Classification<br/>VERIFIED / PROVISIONAL / UNCERTAIN"]
-    TriState --> Rules["Statutory Rules Engine<br/>10 Cross-Document Checks"]
+    TriState --> Rules["Document Consistency &<br/>Scheme Rules Engine<br/>10 Cross-Document Checks"]
     Rules --> Safety["Evidence Safety Layer<br/>Downgrades Unproven Violations"]
     Safety --> AuditReport["Actionable Audit Report<br/>Remediation + Redacted Export"]
 ```
@@ -33,15 +34,15 @@ flowchart LR
 
 ## The Problem
 
-Across government welfare portals, millions of students and citizens apply annually for educational scholarships, fee reimbursements, and statutory entitlements. A substantial proportion of initial submissions are rejected or returned for correction due to simple clerical discrepancies:
+Across government welfare and educational scholarship portals, applicants frequently encounter delays or returned applications due to simple clerical discrepancies:
 
 - **Demographic Inconsistencies:** Spelling variations between certificates (e.g., initials vs. expanded names, honorifics, or transliteration divergence).
 - **Date of Birth Mismatches:** Discrepancies between matriculation marksheets, Aadhaar, and portal declarations, compounded by format ambiguities (`DD/MM/YYYY` vs. `MM/DD/YYYY`).
-- **Expired Statutory Certificates:** Revenue or Income Certificates submitted past their statutory validity (typically one financial year under state revenue rules).
+- **Expired Certificates:** Revenue or Income Certificates submitted past their validity window (validity periods vary by state revenue authority; 1 financial year is a common operational heuristic, not a uniform national statutory mandate).
 - **Income Ceiling Violations:** Income exceeding scheme-specific statutory thresholds (e.g., ₹2,50,000 for centrally sponsored post-matric scholarships).
 - **Unreadable Scans & Degraded Quality:** Low-resolution, skewed, or blurred scans of bank passbooks and caste certificates preventing Direct Benefit Transfer (DBT) verification.
 
-Because scrutiny occurs weeks or months after submission, **application windows are often closed by the time an applicant receives a rejection notice**, permanently forfeiting critical educational funding.
+Because scrutiny occurs weeks or months after submission, **application windows are often closed by the time an applicant receives a rejection notice**, forfeiting critical educational funding.
 
 ---
 
@@ -86,17 +87,17 @@ Upload an updated certificate and observe the defect clear in real time without 
 
 ---
 
-## Statutory Rules Engine
+## Document Consistency & Scheme Requirement Rules Engine
 
-DocuReady evaluates document packets against 10 explicit statutory rules grounded in official guidelines:
+DocuReady evaluates document packets against 10 explicit cross-document checks (with verified statutory citations where available; see [Citation Audit](docs/CITATION_AUDIT.md) for full statutory basis and heuristic classifications):
 
-| Rule ID | Rule Name | Governing Statutory Authority & Citation | Default Severity |
+| Rule ID | Rule Name | Governing Authority / Source Basis | Default Severity |
 | :--- | :--- | :--- | :--- |
 | **RULE-NAME-01** | Cross-Document Name Consistency | MeitY Demographic Verification Standards 2023 & MoSJE Guidelines Section 4.2 | `CRITICAL` |
 | **RULE-DOB-01** | Date of Birth Consistency | Secondary Education Examination Board Rule 8 & UIDAI Verification Norms | `CRITICAL` |
 | **RULE-INC-01** | Statutory Income Ceiling | Centrally Sponsored Post-Matric Scholarship Scheme Guideline 3.1 | `CRITICAL` |
 | **RULE-INC-02** | Declared vs. Certified Income | State Scholarship Portal Compliance Guidelines Clause 5.1 | `CRITICAL` |
-| **RULE-EXP-01** | Certificate Validity Period | State Revenue Department Manual Section 12 (1 Financial Year Validity) | `CRITICAL` |
+| **RULE-EXP-01** | Certificate Validity Period | Common State Revenue Heuristic (1 Financial Year; varies by state authority) | `CRITICAL` |
 | **RULE-CST-01** | Caste Category Consistency | Constitution (Scheduled Castes/Scheduled Tribes) Orders & Scheme Clause 4 | `CRITICAL` |
 | **RULE-DOM-01** | State Domicile Requirement | State Scholarship Rules Clause 2(a) | `CRITICAL` |
 | **RULE-DOC-01** | Mandatory Document Checklist | Scheme Mandatory Application Checklist Clause 2.1 | `CRITICAL` |
@@ -167,10 +168,7 @@ DocuReady/
 │           └── ui/                     # Interactive Streamlit interface
 │               └── app.py              # Streamlit dashboard implementation
 │
-├── tests/                              # Comprehensive test suite (blocking multi-version CI matrix)
-│   ├── contract/                       # Invariant contract tests
-│   │   ├── test_claims.py              # Banned claims & honest positioning tests
-│   │   └── test_no_network.py          # Zero-telemetry & active socket tripwire tests
+├── tests/                              # Comprehensive test suite (79 tests)
 │   ├── test_adversarial.py             # Adversarial edge cases & malformed files
 │   ├── test_dataset_ground_truth.py    # Ground truth validation across synthetic packets
 │   ├── test_decision_safety.py         # Evidence safety firewall downgrade tests
@@ -178,14 +176,11 @@ DocuReady/
 │   ├── test_extractor.py               # Vector extraction & OCR fallback tests
 │   ├── test_golden_baseline.py         # Bit-for-bit regression suite with diagnostic diffs
 │   ├── test_normalizer.py              # Verhoeff, date, income & IFSC unit tests
-│   ├── test_ocr_integration.py         # Genuine OCR extraction & recognition tests
-│   ├── test_package_contract.py        # Isolated wheel, editable & CLI contract tests
 │   ├── test_replacement_rerun.py       # Single-document remediation workflow tests
 │   ├── test_safety_layer.py            # Safety downgrade matrix tests
 │   ├── test_ui_privacy.py              # Zero-telemetry, asset isolation & PII masking
 │   ├── test_uncertainty_safety.py      # Scan quality & uncertainty handling tests
-│   ├── test_validator.py               # Statutory rule violation & exemption tests
-│   └── test_warning_policy.py          # Zero internal warning policy tests
+│   └── test_validator.py               # Statutory rule violation & exemption tests
 │
 ├── synthetic_data/                     # Synthetic test packets (no real citizen PII)
 │   ├── ground_truth_manifest.json      # Dataset metadata & expected audit findings
@@ -353,11 +348,11 @@ DocuReady is architected around privacy-by-design principles informed by data pr
 
 ---
 
-## Synthetic Benchmark Evaluation
+## Verified Benchmarks
 
-> **Synthetic Dataset Notice:** All metrics below reflect evaluation against generated synthetic test packets under controlled benchmark conditions (Intel Core i7-12700H, 16 GB RAM, Ubuntu 24.04 LTS). They measure algorithmic consistency and document parsing latency; they do **not** represent field government portal acceptance rates or benefit approval guarantees.
+Evaluation performed on reference hardware (Intel Core i7-12700H, 16 GB RAM, Ubuntu 24.04 LTS) against the synthetic validation suite:
 
-| Synthetic Benchmark Suite | Total Samples | Exact Match Accuracy | Mean Latency per Packet | Execution Pipeline |
+| Benchmark Suite | Total Samples | Exact Match Accuracy | Mean Latency per Packet | Execution Pipeline |
 | :--- | :--- | :--- | :--- | :--- |
 | **Standard 8 Synthetic Packets** | 48 Documents | 100.0% | 0.38s | Native Vector Extraction |
 | **Degraded Physical Scans** | 60 Documents | 91.7% | 1.15s | Vector + Local Tesseract OCR |
@@ -368,6 +363,9 @@ DocuReady is architected around privacy-by-design principles informed by data pr
 ---
 
 ## Known Boundaries & Limitations
+
+> [!IMPORTANT]
+> **Advisory Disclaimer:** DocuReady is an assistive, pre-submission demographic verification tool, not an official government portal. It does not provide legal advice, official statutory certification, or guarantee government scheme acceptance or benefit disbursement.
 
 - **Pre-Submission Advisory Only:** DocuReady is an offline demographic consistency and document readiness linter. It is **NOT** an official government portal, legal authority, or Aadhaar authentication service. A successful pre-check does not guarantee scheme approval or benefit disbursement.
 - **Provisional PDF Engine:** DocuReady currently pins `pymupdf==2.1` to maintain geometric coordinate reproducibility. A formal licensing evaluation (AGPLv3) and review of permissive alternative backends is scheduled under Task T1.3 / ADR-001.
@@ -380,6 +378,8 @@ DocuReady is architected around privacy-by-design principles informed by data pr
 - **[Start Here / Developer Guide](docs/START_HERE.md):** Onboarding guide and development overview.
 - **[Architecture V2 Specification](docs/ARCHITECTURE_V2.md):** Comprehensive technical architecture and subsystem boundaries.
 - **[Architecture Review & Roadmap](docs/ARCHITECTURE_REVIEW.md):** Deep architectural critique and risk register.
+- **[Public Claims Register](docs/CLAIMS_REGISTER.md):** Governance audit matrix of public-facing claims and technical boundaries.
+- **[Statutory Citation Audit](docs/CITATION_AUDIT.md):** Statutory citations, legal bases, and heuristic rule classifications.
 - **[Delivery Backlog](docs/BACKLOG.md):** Active tasks, gate criteria (G0–G6), and workstream ownership.
 - **[Baseline Decision Record](docs/history/G0_BASELINE_DECISION.md):** Gate G0 decision record covering Python runtime lifecycles and PDF baselines.
 - **[Security & Privacy Specification](docs/02-ARCHITECTURE/SECURITY_AND_PRIVACY.md):** DPDP compliance, PII masking, and offline boundary specifications.

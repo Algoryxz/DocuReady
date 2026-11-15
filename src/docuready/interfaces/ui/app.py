@@ -27,8 +27,9 @@ from docuready.generator import generate_marksheet, generate_income_certificate
 from docuready.report.exporter import (
     export_audit_report_json,
     generate_readiness_summary_markdown,
-    redact_audit_result_dict
+    redact_audit_result_dict,
 )
+from docuready.report.redact import secure_temporary_directory
 
 
 def _find_synthetic_data_dir() -> Path:
@@ -50,10 +51,10 @@ st.set_page_config(
     page_title="DocuReady — Pre-Submission Document Readiness Linter",
     page_icon="🛡️",
     layout="wide",
-    initial_sidebar_state="expanded"
+    initial_sidebar_state="auto"
 )
 
-# Custom CSS for clean governmental/civic-tech styling (fixed, trusted markup only)
+# Custom CSS for clean governmental/civic-tech styling and mobile responsiveness
 st.markdown("""
 <style>
     .main-header {
@@ -127,6 +128,72 @@ st.markdown("""
         margin-bottom: 16px;
         color: #2B6CB0;
         font-size: 0.9rem;
+    }
+    .mobile-sticky-bar {
+        display: none;
+    }
+    /* Mobile Responsive Layout & Touch Targets (WCAG 2.5.5 / 2.5.8 compliant >= 44px) */
+    @media (max-width: 768px) {
+        .main-header {
+            font-size: 1.4rem !important;
+        }
+        .sub-header {
+            font-size: 0.9rem !important;
+        }
+        [data-testid="column"] {
+            min-width: 100% !important;
+            flex: 1 1 100% !important;
+            margin-bottom: 0.75rem !important;
+        }
+        .mobile-sticky-bar {
+            display: flex !important;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+            background-color: #1A365D;
+            color: #FFFFFF;
+            padding: 10px 14px;
+            border-radius: 8px;
+            margin-bottom: 14px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+        }
+        .mobile-bar-score {
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+        .mobile-bar-status {
+            background-color: #FFFFFF;
+            color: #1A365D;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+    }
+    /* Touch Target Dimensions: >= 44px min height for interactive controls */
+    button, [role="button"], input, select, .stButton>button, .stDownloadButton>button {
+        min-height: 44px !important;
+        font-size: 0.95rem !important;
+    }
+    .stRadio label, .stCheckbox label {
+        min-height: 44px !important;
+        display: flex !important;
+        align-items: center !important;
+        padding: 4px 8px !important;
+    }
+    /* Table & Graphic Horizontal Overflow Protection */
+    [data-testid="stTable"], [data-testid="stDataFrame"], table {
+        display: block !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        width: 100% !important;
+    }
+    img, canvas, svg {
+        max-width: 100% !important;
+        height: auto !important;
+        object-fit: contain !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -204,6 +271,15 @@ st.markdown("""
     This prototype processes files locally in temporary directories; real citizen documents should not be used without isolated sandboxing.
 </div>
 """, unsafe_allow_html=True)
+
+if st.session_state.audit_result:
+    res_mob = st.session_state.audit_result
+    st.markdown(f"""
+    <div class='mobile-sticky-bar'>
+        <span class='mobile-bar-score'>🛡️ Score: {res_mob.readiness_score}/100</span>
+        <span class='mobile-bar-status'>{res_mob.overall_status}</span>
+    </div>
+    """, unsafe_allow_html=True)
 
 
 # ==============================================================================
@@ -336,8 +412,7 @@ elif screen == "2. Upload Documents":
                 st.error(f"Files exceeded 10MB limit and were rejected: {', '.join(oversized_files)}")
 
             if valid_uploads:
-                temp_dir = tempfile.mkdtemp(prefix="docuready_upload_")
-                try:
+                with secure_temporary_directory(prefix="docuready_upload_") as temp_dir:
                     for uf in valid_uploads:
                         safe_name = Path(uf.name).name.replace("..", "").replace("/", "").replace("\\", "")
                         if not safe_name.lower().endswith(".pdf"):
@@ -346,7 +421,7 @@ elif screen == "2. Upload Documents":
                         with open(dest, "wb") as f:
                             f.write(uf.read())
 
-                    res, docs = st.session_state.pipeline.load_and_audit_packet(temp_dir, packet_id="CUSTOM_UPLOAD")
+                    res, docs = st.session_state.pipeline.load_and_audit_packet(str(temp_dir), packet_id="CUSTOM_UPLOAD")
                     # Sanitize file paths so temporary filesystem paths are not retained in memory
                     for d in docs.values():
                         d.file_path = os.path.basename(d.file_path)
@@ -356,9 +431,6 @@ elif screen == "2. Upload Documents":
                     st.session_state.current_packet_id = "CUSTOM_UPLOAD"
                     st.success("Uploaded packet audited successfully! Temporary files removed from disk.")
                     st.rerun()
-                finally:
-                    # Guaranteed cleanup of all uploaded bytes from disk
-                    shutil.rmtree(temp_dir, ignore_errors=True)
 
     st.markdown("---")
     st.subheader("Current Packet Documents Ingested")
@@ -606,8 +678,7 @@ elif screen == "6. Document Replacement & Rerun":
         if method == "Auto-Generate Standard Corrected Version":
             st.write("Generates a corrected, consistent synthetic PDF matching the applicant's master record.")
             if st.button("Generate & Re-Run Audit", type="primary"):
-                temp_dir = tempfile.mkdtemp(prefix="docuready_remed_")
-                try:
+                with secure_temporary_directory(prefix="docuready_remed_") as temp_dir:
                     if selected_doc_type == DocumentType.MARKSHEET:
                         replacement_path = os.path.join(temp_dir, "corrected_marksheet.pdf")
                         generate_marksheet(
@@ -616,7 +687,7 @@ elif screen == "6. Document Replacement & Rerun":
                             father_name="Ramesh Chandra Nayak",
                             dob="14/05/2003",
                             roll_no="2309BA1042",
-                            percentage=78.5
+                            percentage=78.5,
                         )
                     elif selected_doc_type == DocumentType.INCOME_CERT:
                         replacement_path = os.path.join(temp_dir, "corrected_income_cert.pdf")
@@ -626,7 +697,7 @@ elif screen == "6. Document Replacement & Rerun":
                             father_name="Ramesh Chandra Nayak",
                             annual_income="Rs. 1,80,000/-",
                             issue_date="10/01/2025",
-                            certificate_no="E-INC/2025/104928"
+                            certificate_no="E-INC/2025/104928",
                         )
                     else:
                         clean_doc_path = _SYNTHETIC_DIR / "pkt_01_clean" / f"{selected_doc_type.value.lower()}.pdf"
@@ -637,7 +708,7 @@ elif screen == "6. Document Replacement & Rerun":
                         st.session_state.extracted_docs,
                         replacement_path,
                         selected_doc_type,
-                        packet_id=f"{current_res.packet_id}_REMEDIATED"
+                        packet_id=f"{current_res.packet_id}_REMEDIATED",
                     )
 
                     # Sanitize paths in memory
@@ -649,14 +720,11 @@ elif screen == "6. Document Replacement & Rerun":
                     st.session_state.current_packet_id = f"{current_res.packet_id}_REMEDIATED"
                     st.success(f"Re-audit completed in {new_res.execution_time_ms:.1f} ms! Temporary files purged.")
                     st.rerun()
-                finally:
-                    shutil.rmtree(temp_dir, ignore_errors=True)
 
         else:
             new_file = st.file_uploader("Upload replacement PDF:", type=["pdf"])
             if new_file and st.button("Apply Replacement & Re-audit", type="primary"):
-                temp_dir = tempfile.mkdtemp(prefix="docuready_remed_")
-                try:
+                with secure_temporary_directory(prefix="docuready_remed_") as temp_dir:
                     safe_name = Path(new_file.name).name.replace("..", "").replace("/", "").replace("\\", "")
                     if not safe_name.lower().endswith(".pdf"):
                         safe_name += ".pdf"
@@ -668,7 +736,7 @@ elif screen == "6. Document Replacement & Rerun":
                         st.session_state.extracted_docs,
                         replacement_path,
                         selected_doc_type,
-                        packet_id=f"{current_res.packet_id}_REMEDIATED"
+                        packet_id=f"{current_res.packet_id}_REMEDIATED",
                     )
 
                     # Sanitize paths in memory
@@ -680,5 +748,3 @@ elif screen == "6. Document Replacement & Rerun":
                     st.session_state.current_packet_id = f"{current_res.packet_id}_REMEDIATED"
                     st.success(f"Re-audit completed in {new_res.execution_time_ms:.1f} ms! Temporary files purged.")
                     st.rerun()
-                finally:
-                    shutil.rmtree(temp_dir, ignore_errors=True)

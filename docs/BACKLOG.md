@@ -180,6 +180,7 @@ T1.x tasks are independent of each other and can run in parallel once G0 passes.
 
 #### T1.1 — Claims register and honest-claims pass
 - **Scope:** `docs/CLAIMS_REGISTER.md`, `README.md`, docs under `docs/01-PRODUCT`, `docs/03-RESEARCH`, `PUBLICATION_REPORT.md`, `tests/contract/test_claims.py`.
+- **Status note (15 November 2026):** Task assigned to Deeptiman (`todo`). PR #26 was submitted from `task/T1.1-claims-register` implementing `docs/CLAIMS_REGISTER.md`, README/research document sanitization, and `tests/contract/test_claims.py`. However, PR #26 was closed unmerged due to an erroneous closing comment that mistakenly cited PR #24. Next disposition (reopening PR #26 vs. opening a fresh branch from current `main`) is pending Deeptiman's decision.
 - **Behaviour:** Inventory every quantitative or absolute claim (80 million, 18–32%, "every finding cites an enacted statutory clause", "DPDP compliant", "zero exfiltration", "deterministic", accuracy and ECE tables, "under 1 second"). For each: find a real source, soften, or remove. Apply the positioning sentence from ARCHITECTURE_V2 §2. Label all benchmarks **synthetic**. Replace the static "50 passing" badge with the CI badge. Fix the README test tree. Unify "MANUAL REVIEW"/"NEEDS REVIEW".
 - **Acceptance:**
   - [ ] Register has one row per claim with status verified / softened / removed
@@ -191,15 +192,17 @@ T1.x tasks are independent of each other and can run in parallel once G0 passes.
 
 #### T1.2 — Telemetry off and the no-network contract
 - **Scope:** `.streamlit/config.toml`, `.gitignore`, `tests/contract/test_no_network.py`.
+- **Status note (15 November 2026):** Implementation merged into `main` at commit `90b88718b24adfc97fa5b828e6c332a98a6ddc48` via PR #24. Remote CI on `main` passed across all four Python matrix jobs (3.11–3.14, run [43687049948](https://github.com/Algoryxz/DocuReady/actions/runs/43687049948) and PR run [43686824562](https://github.com/Algoryxz/DocuReady/actions/runs/43686824562)) with 100 passing tests and zero skips (12 contract tests in `tests/contract/test_no_network.py`). Exact negative proof verified locally: injecting deliberate `requests.get` into `AuditPipeline.load_and_audit_packet` immediately fails with `NetworkAccessBlockedError` intercepted at `socket.getaddrinfo`. Formal task acceptance pending Deeptiman's review.
 - **Behaviour:** Commit `.streamlit/config.toml` with `[browser] gatherUsageStats = false`. Change `.gitignore` to ignore only `.streamlit/secrets.toml`. Add a test that monkeypatches `socket.socket.connect` (and `getaddrinfo`) to raise, then runs the full pipeline on every demo packet and the replacement flow.
 - **Acceptance:**
-  - [ ] Config committed; test asserts `gatherUsageStats` is false
-  - [ ] No-network test passes, and a deliberate `requests.get` added in a scratch branch makes it fail (show evidence)
-  - [ ] `.gitignore` no longer ignores `.streamlit/` as a whole
+  - [x] Config committed; test asserts `gatherUsageStats` is false
+  - [x] No-network test passes, and a deliberate `requests.get` added in a scratch branch makes it fail (show evidence)
+  - [x] `.gitignore` no longer ignores `.streamlit/` as a whole
 - **Gate:** G1
 
 #### T1.3 — PDF backend interface and licence decision (ADR-001)
 - **Scope:** `ingest/pdf_backend/`, `docs/adr/ADR-001-pdf-backend.md`, `NOTICE`.
+- **Status note (15 November 2026):** Implementation merged into `main` at commit `3250aea87c716d10db9f4e24efab2330ce9b7ce7` via PR #27. Introduced `PDFDocumentBackend` interface, PyMuPDF implementation, prototype PDFium wrapper, `NOTICE` dependency license inventory, and `docs/adr/ADR-001-pdf-backend.md`. However, acceptance evidence is incomplete: comparative evaluation report `eval/reports/backend_comparison.md` was not committed, empirical side-by-side benchmarking (field accuracy, false-pass/false-fail counts, and latency across 8 canonical packets, 60-document, and 100-document corpora) remains unexecuted, and `pypdfium2` is not installed. Task status is `review (implementation merged; technical evidence gaps and formal acceptance pending)`. Acceptance criteria remain unchecked pending empirical evaluation.
 - **Behaviour:** Define `PdfBackend` (open, page count, page text with word/char bboxes, render page to image). Implement `PyMuPdfBackend` (current behaviour) and `PdfiumBackend` (`pypdfium2`; `pdfminer.six` for text bboxes if needed). Select via config, default to Pdfium **only if** the corpus comparison passes. Run the 8 packets, the 60 and 100 corpora on both backends and record: field accuracy, false-pass/false-fail counts, latency. Record each new dependency's licence from its own repository or package metadata.
 - **Decision rule:** if Pdfium stays within 1 percentage point on field accuracy and shows no increase in false-pass, make it the default and move PyMuPDF to optional `[pymupdf]`. Otherwise keep PyMuPDF as default and add an AGPL notice to README/NOTICE and flag to Claude for a relicensing discussion.
 - **Acceptance:**
@@ -211,6 +214,7 @@ T1.x tasks are independent of each other and can run in parallel once G0 passes.
 
 #### T1.4 — Redaction and safe logging
 - **Scope:** `report/redact.py`, exporters, CLI flags, logging setup.
+- **Status note (15 November 2026):** Implementation merged into `main` at commit `a7fd1db4f61f51cb3e6e8bb5440fc7aa4aa7a876` via PR #29. Delivered PII masking helpers in `src/docuready/report/redact.py`, `secure_temporary_directory` context manager, `--no-redact` CLI flag with warning, safe logger, and unit tests in `tests/test_redaction_safe_logging.py`. However, verification gaps remain: a full-pipeline log capture integration test verifying that zero raw document text or PII is emitted to logs during packet auditing is missing, and end-to-end report assertion proving that synthetic Aadhaar/account/phone values are absent from default exports requires dedicated integration coverage. Task status is `review (implementation merged; verification gaps and formal acceptance pending)`. Acceptance criteria remain unchecked pending verification follow-up.
 - **Behaviour:** Default-redact Aadhaar (last 4 visible), bank account (last 4), phone (last 2) in JSON, Markdown and UI. `--no-redact` requires explicit flag and prints a warning. Logs contain field keys, evidence states and rule ids, never raw values. Uploads use a `0700` temp dir deleted in a `finally`.
 - **Acceptance:**
   - [ ] Test: exported JSON/MD for packets containing synthetic Aadhaar/account/phone never contains the full values by default
@@ -220,12 +224,13 @@ T1.x tasks are independent of each other and can run in parallel once G0 passes.
 
 #### T1.5 — Citation audit and `sources.yaml`
 - **Scope:** `packs/generic.demo/sources.yaml`, `docs/CITATION_AUDIT.md`.
+- **Status note (15 November 2026):** Implementation merged into `main` at commit `bf77012ff2f261f18c6faca362cb84782aacfd6d` via PR #30. Delivered `packs/generic.demo/sources.yaml` (covering all 10 core rule groups, 13 rules classified with `status: verified`, issuing body, official URL, retrieval date, and scheme parameters), `docs/CITATION_AUDIT.md` (statutory and administrative citation matrix, scheme/state parameter analysis), and `tests/test_citation_sources.py`. Remote CI on `main` passed across all four Python matrix jobs (3.11–3.14, run [43689894883](https://github.com/Algoryxz/DocuReady/actions/runs/43689894883)) with 117 passing tests and zero skips. Deliverables verified against acceptance criteria. Formal task acceptance pending explicit review by Deeptiman.
 - **Behaviour:** For each of the 10 rules, locate the real governing document (scheme guideline, notification, manual). Record title, issuing body, URL, `retrieved_on`, the exact clause number, and whether the cited clause actually supports the rule. Where it does not, mark `placeholder` and propose either a correct citation or a rewording of the rule as a **document-consistency check** without a statutory claim.
 - **Non-goals:** Do not paraphrase law from memory. If a source cannot be found, write `UNVERIFIED`.
 - **Acceptance:**
-  - [ ] 10 rows, each `verified` / `placeholder` / `unverified` with evidence
-  - [ ] Every `verified` row has URL, retrieval date and a one-line quote-free summary of the clause
-  - [ ] List of rules whose parameters (income cap, validity period, cutoffs) depend on the specific scheme or state
+  - [x] 10 rows, each `verified` / `placeholder` / `unverified` with evidence (13 rows across all 10 core rule groups verified in `docs/CITATION_AUDIT.md` and `packs/generic.demo/sources.yaml`)
+  - [x] Every `verified` row has URL, retrieval date and a one-line quote-free summary of the clause (documented with official portal/gazette URLs, retrieval dates, and clause summaries)
+  - [x] List of rules whose parameters (income cap, validity period, cutoffs) depend on the specific scheme or state (detailed in §3 of `docs/CITATION_AUDIT.md` and in YAML `scheme_dependent_params`)
 - **Gate:** G1
 
 ### WS2 — Correctness

@@ -11,6 +11,8 @@ import pymupdf
 import PIL.Image
 import pytesseract
 
+from docuready.ingest.pdf_backend import get_pdf_backend, PDFDocumentBackend, PDFPageBackend
+
 from docuready.domain.models import (
     DocumentType, ExtractedDocument, ExtractedField, EvidenceProvenance,
     ExtractionMethod, EvidenceState
@@ -281,7 +283,8 @@ class DocumentExtractor:
             )
 
         try:
-            doc = pymupdf.open(file_path)
+            backend_doc = get_pdf_backend(file_path)
+            doc = getattr(backend_doc, "raw_doc", backend_doc)
         except Exception:
             return ExtractedDocument(
                 doc_type=expected_type or DocumentType.APPLICATION_FORM,

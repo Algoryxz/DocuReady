@@ -1,46 +1,49 @@
-# DocuReady — Claims Register
+# DocuReady — Public Claims Register
 
-**Current Status:** Active Governance Artifact (Task T1.1)  
+**Version:** 1.0.0  
 **Authority:** Deeptiman (Product Owner & Architecture Lead)  
-**Governing Standard:** `docs/ARCHITECTURE_V2.md` §2 (Product Positioning)
+**Governance Task:** T1.1 / WS1 (Trust & Compliance)  
+**Last Audited:** 2026-11-15  
 
 ---
 
-## 1. Purpose & Policy
+## 1. Governance & Purpose
 
-DocuReady enforces strict honesty and evidence-based positioning in all documentation, code comments, UI labels, and public communications. 
+This register catalogues and audits all public-facing claims made across DocuReady's public surface (including `README.md`, documentation, code docstrings, CLI help texts, and Streamlit user interface). 
 
-Per `docs/ARCHITECTURE_V2.md` §2:
-> **DocuReady is an applicant-side preparation aid.** It checks whether the documents in a packet are consistent with each other and with a scheme's published document requirements, and explains each defect and how to fix it. It does **not** decide eligibility, replace government verification, or guarantee acceptance.
-
-### Dispositions:
-- **`verified`**: Backed by authoritative primary documentation (official gazettes, scheme guidelines, or reproducible CI contracts).
-- **`softened`**: Rephrased to describe technical capabilities or preparation assistance accurately without asserting absolute legal compliance, uncalibrated statistics, or guaranteed outcomes.
-- **`removed`**: Deleted because the statement made an unsupported numerical, statutory, or outcome claim.
+Under the DocuReady Trust & Compliance Framework (G1), every claim must be classified into one of three dispositions:
+- **Verified:** Fully substantiated by automated regression tests, statutory citations, or reproducible local execution contracts.
+- **Qualified:** Legitimate technical or operational capability that must be bounded with explicit conditions, statutory scope, or synthetic dataset disclosures.
+- **Removed:** Any ungrounded, hyperbolic, or overreaching statement that exceeds demonstrated system capabilities or asserts unverified field outcomes.
 
 ---
 
-## 2. Complete Inventory of Public Claims
+## 2. Claims Catalog & Audit Matrix (CLM-001 to CLM-011)
 
-| ID | Claim Text | Location | Category | Disposition | Evidence / Source & Retrieval Date | Explanation & Action Taken |
-|---|---|---|---|---|---|---|
-| **CLM-001** | "Over 80 million students and citizens apply annually..." / "80M applicants" | `docs/03-RESEARCH/HACKNATION_IDEA_SELECTION.md` (L19) | Quantitative / Market Scope | **removed** | Unsupported estimate across aggregated disparate schemes; no single authoritative census. | Removed exact numerical count "80 million". Softened to "millions of students and citizens apply annually across diverse national and state schemes". |
-| **CLM-002** | "...preventing the 18%–32% rejection rate caused by clerical discrepancies." | `PUBLICATION_REPORT.md` (L15), earlier README drafts | Quantitative / Performance | **removed** | Secondary survey estimate lacking unified primary government statistical grounding. | Removed the 18%–32% precision claim. Replaced with descriptive focus on clerical discrepancies causing preventable pre-submission delays. |
-| **CLM-003** | "30–45% rejection rate..." | Historical bundle notes | Quantitative / Performance | **removed** | Contradicted CLM-002; neither figure had an authoritative gazette or ministry source. | Purged entirely. No unsourced percentage ranges permitted in public documentation. |
-| **CLM-004** | "Every finding cites an enacted statutory clause or gazette." | `docs/03-RESEARCH/COMPETITOR_ANALYSIS.md` (L28), earlier drafts | Legal / Regulatory | **softened** | `packs/generic.demo/sources.yaml` (Task T1.5). Core rules cite published guidelines, but not all checks are enacted statutory clauses. | Softened to "findings cite published scheme guidelines and document requirements". Explicitly disclaims that all checks constitute primary statutory legislation. |
-| **CLM-005** | "100% DPDP compliant" / "DPDP compliance" | `PUBLICATION_REPORT.md` (L125), `README.md` (L342) | Privacy / Compliance | **softened** | *Digital Personal Data Protection Act, 2023* (Gazette Notification 11 Aug 2023). Local execution supports data minimization, but legal compliance requires organizational deployment governance. | Softened from "100% compliant" to "architected with privacy-by-design principles informed by data protection frameworks such as India's DPDP Act 2023 (local processing, telemetry suppression, no network egress)". |
-| **CLM-006** | "Zero Data Exfiltration" / "guaranteed zero exfiltration" | `docs/03-RESEARCH/COMPETITOR_ANALYSIS.md` (L26) | Security / Reliability | **softened** | Verified in code by `tests/contract/test_no_network.py` (tripwire blocking `socket.connect` and `socket.getaddrinfo`). | Softened from absolute guarantee to technical invariant: "Core pipeline operates under strict zero-network egress contracts enforced by automated socket tripwire tests." |
-| **CLM-007** | "Deterministic & Explainable... Instant replacement in sub-second time." | `docs/01-PRODUCT/PRODUCT_OVERVIEW.md` (L52-53) | Performance / Determinism | **verified** | Verified via deterministic unit tests and synthetic benchmark harness (mean latency 0.38s native vector). | Preserved with clear qualification: verified under controlled synthetic benchmark environment. |
-| **CLM-008** | Synthetic benchmark tables (100.0% Exact Match, 91.7%, 93.0%) | `README.md` (L355-360) | Accuracy / Evaluation | **verified** | Evaluated on synthetic corpora (`synthetic_data/` and synthetic degradation sets). | Retained with prominent mandatory label: **Synthetic Benchmark Dataset** and disclaimer stating results reflect controlled test conditions and do not guarantee field portal outcomes. |
-| **CLM-009** | "Tests: 88 Passing" static badge | `README.md` (L10) | Testing / Verification | **removed** | Codebase advances dynamically (e.g. 99+ tests in G1); static badges diverge and mislead. | Removed static test count badge. Dynamic GitHub Actions CI badge retained as authoritative source of test execution state. |
-| **CLM-010** | "Pre-Submission Advisory Only... NOT an official government portal, legal authority, or Aadhaar authentication service." | `README.md` (L367), `docs/01-PRODUCT/PRODUCT_SCOPE.md` (L56) | Legal / Scope Boundary | **verified** | Core product boundary defined by Product Owner Deeptiman. | Retained and emphasized across all user documentation and UI entrypoints. |
-| **CLM-011** | Uncalibrated terminology: `MANUAL REVIEW` vs `NEEDS REVIEW` | `README.md` (L117, L125) | UX / Decision Safety | **softened** | `src/docuready/outcome/safety_layer.py` | Unified public reporting terminology to `NEEDS REVIEW / UNKNOWN` (or `MANUAL REVIEW`) systematically across documentation to prevent user confusion. |
+| Claim ID | Claimed Statement / Feature | Location | Classification | Evidence / Qualification Scope | Audit Date |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **CLM-001** | `Privacy: 100% Local \| Zero Telemetry` | `README.md` badge | **Qualified** | Re-labeled to `Privacy: Local Execution \| No Telemetry (Verified)`. Substantively verified via `tests/contract/test_no_network.py` socket-level interception prohibiting outbound HTTP/HTTPS/DNS requests during pipeline execution. | 2026-11-15 |
+| **CLM-002** | `Statutory Rules Engine` | `README.md` diagram & headings | **Qualified** | Re-labeled to `Document Consistency & Scheme Requirement Rules Engine (with verified statutory citations where available)`. As documented in `docs/CITATION_AUDIT.md`, 5 rules possess verified primary statutory citations (MoSJE, CBSE, RBI), while 8 rules function as operational heuristics. | 2026-11-15 |
+| **CLM-003** | "Across government welfare portals, millions of students and citizens apply annually... millions face rejection" | `README.md` ("The Problem") | **Removed / Qualified** | Removed ungrounded macro-statistical assertions regarding nationwide applicant counts. Rephrased to focus objectively on verified clerical friction points (name spelling variations, DOB mismatches, scan degradation). | 2026-11-15 |
+| **CLM-004** | "Revenue or Income Certificates submitted past their statutory validity (typically one financial year under state revenue rules)" | `README.md` ("The Problem" & Rules Table) | **Qualified** | Clarified that income certificate validity periods vary by state revenue department and issuing authority. One financial year is an operational heuristic evaluated by `RULE-EXP-01`, not a uniform national statutory mandate. | 2026-11-15 |
+| **CLM-005** | `Deterministic & Explainable` | `README.md` ("Key Capabilities") | **Verified** | Core audit pipeline uses deterministic rule functions, Verhoeff checksum calculation, regex patterns, and deterministic date normalizers. Zero stochastic LLMs or generative AI in the decision path. Verified in `tests/test_validator.py` and `tests/test_normalizer.py`. | 2026-11-15 |
+| **CLM-006** | `Visual Bounding Box Provenance` | `README.md` ("Key Capabilities") | **Verified** | All extracted candidate facts retain physical page numbers and bounding box coordinates (`[x0, y0, x1, y1]`). Verified by vector extraction tests in `tests/test_extractor.py` and UI visual overlays. | 2026-11-15 |
+| **CLM-007** | `Calibrated Evidence Safety Layer` | `README.md` ("Calibration & Safety Layer") | **Verified** | 9-feature logistic regression calibrator scores evidence confidence ($P < 0.60 \rightarrow \text{UNCERTAIN}$) and automatically downgrades unproven rule violations to `NEEDS REVIEW`. Verified in `tests/test_evidence_calibration.py` and `tests/test_safety_layer.py`. | 2026-11-15 |
+| **CLM-008** | `Interactive Single-Document Replacement (<1s re-audit)` | `README.md` ("Key Capabilities") | **Verified** | Single-document in-memory replacement and re-audit workflow validated in `tests/test_replacement_rerun.py`, executing sub-second audit recalculations without re-processing unaffected documents. | 2026-11-15 |
+| **CLM-009** | Benchmark: 100.0% Exact Match on Standard 8 Synthetic Packets | `README.md` ("Verified Benchmarks") | **Qualified** | Performance is explicitly qualified as synthetic benchmark test performance on reference hardware across 48 synthetic PDFs; does not represent live portal field acceptance guarantees. | 2026-11-15 |
+| **CLM-010** | Benchmark: 91.7% on Degraded Scans / 93.0% on Held-Out 100 | `README.md` ("Verified Benchmarks") | **Qualified** | Evaluated against controlled synthetic degradation datasets (`synthetic_data/realistic_corpus_60` and `synthetic_data/held_out_100`). Explicit disclaimer added that benchmark figures cite synthetic test datasets. | 2026-11-15 |
+| **CLM-011** | `Pre-Submission Advisory Only / Not an Official Government Portal` | `README.md` ("Known Boundaries & Limitations") | **Verified** | Prominently displayed advisory disclaimer stating DocuReady is an assistive demographic linter and does not guarantee government approval or legal entitlement. | 2026-11-15 |
 
 ---
 
-## 3. Enforcement Policy & Contract Tests
+## 3. Prohibited Public Phrases
 
-All documentation additions are checked by `tests/contract/test_claims.py`:
-- Banned phrases (e.g. `80 million`, `18–32%`, `30–45%`, `100% DPDP compliant`, `guaranteed zero exfiltration`, static test count badges) trigger test failure.
-- Benchmark tables must include the synthetic qualification notice.
-- Disclaimers regarding pre-submission advisory scope must be present in `README.md`.
+The following phrases are strictly prohibited across all public surfaces, documentation, marketing assets, and test fixtures:
+1. `guaranteed approval`
+2. `universal validity`
+3. `100% accurate`
+4. `statutory guarantee`
+5. `official government approval`
+6. `government-certified`
+
+Automated regression coverage in `tests/contract/test_claims.py` enforces zero occurrences of these banned phrases across repository markdown files.

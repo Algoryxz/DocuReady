@@ -1,1 +1,1 @@
-"""Contract tests for DocuReady."""
+# Contract test suite for DocuReady

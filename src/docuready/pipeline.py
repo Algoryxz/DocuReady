@@ -12,8 +12,10 @@ from docuready.domain.models import (
 )
 from docuready.ingest.extractor import DocumentExtractor, detect_document_type
 from docuready.rules.validator import DocuReadyValidator, SchemeConfig
+from docuready.report.redact import get_safe_logger
 
 Tuple_Audit = Tuple[AuditResult, Dict[DocumentType, ExtractedDocument]]
+logger = get_safe_logger("docuready.pipeline")
 
 
 class AuditPipeline:
@@ -28,6 +30,7 @@ class AuditPipeline:
         """
         t0 = time.perf_counter()
         pid = packet_id or os.path.basename(packet_dir)
+        logger.info("Starting audit for packet_id=%s in directory=%s", pid, os.path.basename(packet_dir))
 
         # Expected filenames or auto-detect
         type_mapping = {
@@ -51,9 +54,16 @@ class AuditPipeline:
                     extracted_docs[extracted.doc_type] = extracted
 
         # Run validation
+        logger.info("Extracted %d documents for packet %s", len(extracted_docs), pid)
         audit_result = self.validator.validate_packet(pid, extracted_docs)
         t1 = time.perf_counter()
         audit_result.execution_time_ms = round((t1 - t0) * 1000.0, 3)
+        logger.info(
+            "Audit completed for packet %s: status=%s score=%s",
+            pid,
+            audit_result.overall_status,
+            audit_result.readiness_score,
+        )
 
         return audit_result, extracted_docs
 
