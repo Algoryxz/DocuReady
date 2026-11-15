@@ -51,6 +51,7 @@ generator = [
 dev = [
     "pytest>=7.4.0",
     "pytest-cov>=4.1.0",
+    "pyyaml>=6.0.0",
     "build>=1.0.0",
     "setuptools>=61.0.0",
     "wheel",
@@ -60,6 +61,7 @@ all = [
     "reportlab>=4.0.0",
     "pytest>=7.4.0",
     "pytest-cov>=4.1.0",
+    "pyyaml>=6.0.0",
     "build>=1.0.0",
     "setuptools>=61.0.0",
     "wheel",

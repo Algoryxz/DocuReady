@@ -71,6 +71,12 @@ def test_pyproject_contract():
     assert "generator" in optional_deps, "generator extra must be declared"
     assert "dev" in optional_deps, "dev extra must be declared"
     assert "all" in optional_deps, "all extra must be declared"
+    assert any(dep.lower().startswith("pyyaml") for dep in optional_deps.get("dev", [])), (
+        "PyYAML must be declared directly in dev extra (Issue #38)"
+    )
+    assert any(dep.lower().startswith("pyyaml") for dep in optional_deps.get("all", [])), (
+        "PyYAML must be declared directly in all extra (Issue #38)"
+    )
 
 
 def test_cli_invocation_via_module():
