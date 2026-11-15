@@ -31,6 +31,9 @@ from docuready.report.exporter import (
 )
 from docuready.report.redact import secure_temporary_directory
 
+# Enforce synthetic-only demonstration mode if environment variable is set
+SYNTHETIC_ONLY_MODE = os.environ.get("DOCUREADY_SYNTHETIC_ONLY", "0").lower() in ("1", "true", "yes")
+
 
 def _find_synthetic_data_dir() -> Path:
     """Locates synthetic_data directory independently of working directory."""
@@ -274,10 +277,16 @@ st.markdown("""
 
 if st.session_state.audit_result:
     res_mob = st.session_state.audit_result
+    status_label = {
+        "READY_TO_SUBMIT": "PASSED (NO DISCREPANCIES)",
+        "REVIEW_RECOMMENDED": "MANUAL REVIEW",
+        "ACTION_REQUIRED": "ISSUES IDENTIFIED",
+        "REJECT_PRECHECK": "CRITICAL DEFECTS",
+    }.get(res_mob.overall_status, res_mob.overall_status)
     st.markdown(f"""
     <div class='mobile-sticky-bar'>
-        <span class='mobile-bar-score'>🛡️ Score: {res_mob.readiness_score}/100</span>
-        <span class='mobile-bar-status'>{res_mob.overall_status}</span>
+        <span class='mobile-bar-score'>🛡️ Readiness: {res_mob.readiness_score}/100</span>
+        <span class='mobile-bar-status'>{status_label}</span>
     </div>
     """, unsafe_allow_html=True)
 
@@ -313,19 +322,19 @@ if screen == "1. Dashboard":
             st.progress(res.readiness_score / 100.0)
 
         with c_status:
-            st.write("**Pre-Check Determination:**")
+            st.write("**Pre-Check Advisory Determination:**")
             if res.overall_status == "READY_TO_SUBMIT":
-                st.markdown("<span class='status-badge-ready'>🟢 READY TO SUBMIT</span>", unsafe_allow_html=True)
-                st.write("Packet passed all deterministic cross-document consistency checks.")
+                st.markdown("<span class='status-badge-ready'>🟢 AUDIT COMPLETE: NO DISCREPANCIES DETECTED</span>", unsafe_allow_html=True)
+                st.write("No cross-document discrepancies detected in this demonstration packet. (Advisory preparation aid; does not guarantee official portal acceptance or scheme approval.)")
             elif res.overall_status == "REVIEW_RECOMMENDED":
-                st.markdown("<span class='status-badge-review'>🟡 REVIEW RECOMMENDED</span>", unsafe_allow_html=True)
-                st.write("Minor variations detected (e.g. initials or ambiguous date format). Human review suggested.")
+                st.markdown("<span class='status-badge-review'>🟡 MANUAL REVIEW RECOMMENDED</span>", unsafe_allow_html=True)
+                st.write("Variations detected (e.g. initials or ambiguous date format). Manual inspection recommended before submission.")
             elif res.overall_status == "ACTION_REQUIRED":
-                st.markdown("<span class='status-badge-action'>🟠 ACTION REQUIRED</span>", unsafe_allow_html=True)
-                st.write("Defects detected (DOB mismatch or expired certificate). Submission halted.")
+                st.markdown("<span class='status-badge-action'>🟠 ISSUES IDENTIFIED (ACTION REQUIRED)</span>", unsafe_allow_html=True)
+                st.write("Discrepancies identified (e.g. DOB mismatch or expired certificate). Review remediation guidance below.")
             elif res.overall_status == "REJECT_PRECHECK":
-                st.markdown("<span class='status-badge-reject'>🔴 REJECT AT PRE-CHECK</span>", unsafe_allow_html=True)
-                st.write("Fatal barrier detected (income ceiling breach or missing mandatory certificate).")
+                st.markdown("<span class='status-badge-reject'>🔴 CRITICAL DEFECTS IDENTIFIED</span>", unsafe_allow_html=True)
+                st.write("Critical barrier identified (e.g. income ceiling breach or missing mandatory certificate). Submission would likely be rejected.")
             else:
                 st.markdown("<span class='status-badge-reject'>⚪ UNREADABLE DOCUMENT</span>", unsafe_allow_html=True)
                 st.write("Scan quality is insufficient for statutory verification.")
@@ -388,13 +397,16 @@ elif screen == "2. Upload Documents":
 
     st.markdown("---")
     st.subheader("2. Upload Custom Document Files (Temporary Processing)")
-    st.caption("Uploads are processed strictly inside an isolated temporary directory and deleted immediately after audit.")
+    if SYNTHETIC_ONLY_MODE:
+        st.info("🔒 **Public Demonstration Mode:** Arbitrary citizen document uploads are disabled for privacy protection. Please evaluate DocuReady using the pre-loaded synthetic demonstration packets above.")
+    else:
+        st.caption("Uploads are processed strictly inside an isolated temporary directory and deleted immediately after audit.")
 
-    uploaded_files = st.file_uploader(
-        "Upload Application Packet (PDF format for all required documents):",
-        type=["pdf"],
-        accept_multiple_files=True
-    )
+        uploaded_files = st.file_uploader(
+            "Upload Application Packet (PDF format for all required documents):",
+            type=["pdf"],
+            accept_multiple_files=True
+        )
 
     if uploaded_files:
         if st.button("🔒 Process & Audit Uploaded Files", type="primary"):

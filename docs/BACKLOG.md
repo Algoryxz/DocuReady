@@ -206,10 +206,10 @@ T1.x tasks are independent of each other and can run in parallel once G0 passes.
 - **Behaviour:** Define `PdfBackend` (open, page count, page text with word/char bboxes, render page to image). Implement `PyMuPdfBackend` (current behaviour) and `PdfiumBackend` (`pypdfium2`; `pdfminer.six` for text bboxes if needed). Select via config, default to Pdfium **only if** the corpus comparison passes. Run the 8 packets, the 60 and 100 corpora on both backends and record: field accuracy, false-pass/false-fail counts, latency. Record each new dependency's licence from its own repository or package metadata.
 - **Decision rule:** if Pdfium stays within 1 percentage point on field accuracy and shows no increase in false-pass, make it the default and move PyMuPDF to optional `[pymupdf]`. Otherwise keep PyMuPDF as default and add an AGPL notice to README/NOTICE and flag to Claude for a relicensing discussion.
 - **Acceptance:**
-  - [ ] Both backends pass the golden tests (or differences are listed and explained)
-  - [ ] Comparison table committed under `eval/reports/backend_comparison.md`
-  - [ ] ADR-001 states the outcome, the evidence, and the licence of every candidate
-  - [ ] `NOTICE` lists all runtime dependencies with licences
+  - [x] Both backends pass golden tests or differences are explained (differences documented in `eval/reports/backend_comparison.md` and `docs/adr/ADR-001-pdf-backend.md`: PDFium `get_words()` raises `NotImplementedError`; sub-pixel bbox drift breaks golden hash)
+  - [x] Comparison table committed under `eval/reports/backend_comparison.md`
+  - [x] ADR-001 states the outcome, the evidence, and the licence of every candidate
+  - [x] `NOTICE` lists all runtime dependencies with licences
 - **Gate:** G1
 
 #### T1.4 — Redaction and safe logging

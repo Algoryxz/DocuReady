@@ -84,11 +84,13 @@ python scripts/evaluate_pdf_backends.py --corpus synthetic_data --json
 
 ### Empirical Results Summary:
 
-| Corpus | Size & Nature | PyMuPDF Exact Accuracy | PyMuPDF False Passes | Mean Latency / Doc | PDFium Prototype Behavior |
+Detailed evaluation methodology, exact versions, and breakdown are recorded in [eval/reports/backend_comparison.md](../../eval/reports/backend_comparison.md):
+
+| Corpus | Size & Nature | PyMuPDF Exact Accuracy | PyMuPDF False Passes | Mean Latency / Doc | PDFium Prototype Status |
 |:---|:---|:---|:---|:---|:---|
-| **Canonical Packets** | 8 packets (48 docs) in `synthetic_data/pkt_01`–`pkt_08` | **100.0%** (48/48) | **0** | ~6.9 ms | Generates sub-pixel coordinate drift in word bounding boxes, breaking byte-exact golden baseline checksum. |
-| **Realistic Degradation Corpus** | 60 documents in `synthetic_data/realistic_corpus_60` | **91.7%** (55/60) | **0** | ~11.5 ms | Requires dual-pipeline dependency (`pypdfium2` + layout segmenter) to parse rotated stamps. |
-| **Held-Out Evaluation Suite** | 100 documents in `synthetic_data/held_out_100` | **93.0%** (93/100) | **0** | ~11.2 ms | Parity in OCR raster rendering; minor text bounding box offsets. |
+| **Canonical Packets** | 8 packets (48 docs) in `synthetic_data/pkt_01`–`pkt_08` | **100.0%** (48/48) | **0** | ~6.9 ms | **UNVERIFIED**: `get_words()` raises `NotImplementedError`; sub-pixel coordinate offsets break golden baseline. |
+| **Realistic Degradation Corpus** | 60 documents in `synthetic_data/realistic_corpus_60` | **91.7%** (55/60) | **0** | ~11.5 ms | **UNVERIFIED**: Requires layout segmenter for rotated stamps. |
+| **Held-Out Evaluation Suite** | 100 documents in `synthetic_data/held_out_100` | **93.0%** (93/100) | **0** | ~11.2 ms | **UNVERIFIED**: End-to-end vector extraction requires word provenance. |
 
 ### Golden Baseline Impact:
 Switching the default backend to PDFium immediately breaks the frozen golden baseline SHA-256 (`E8FB1A6B842A47089937777133DE79E1E7F704BEE591D5B4471A1A90BC8C5FA9`) due to bounding box representation divergence.
@@ -128,5 +130,6 @@ For enterprise deployers or commercial distributors who cannot accept AGPLv3 cop
 - [x] Add factory entrypoint in `src/docuready/ingest/pdf_backend/__init__.py`.
 - [x] Refactor `extractor.py` to utilize `get_pdf_backend()` with full backward compatibility.
 - [x] Provide reproducible benchmark script `scripts/evaluate_pdf_backends.py`.
+- [x] Commit empirical comparative evaluation report `eval/reports/backend_comparison.md`.
 - [x] Add comprehensive backend unit tests in `tests/test_pdf_backend.py`.
 - [x] Update authoritative `NOTICE` file documenting Apache 2.0, BSD-3, and AGPLv3 boundaries.

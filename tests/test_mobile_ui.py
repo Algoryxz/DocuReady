@@ -78,3 +78,19 @@ def test_no_remote_network_assets_in_app_ui():
         assert not url.endswith((".png", ".jpg", ".css", ".js", ".woff", ".woff2")), (
             f"Remote asset reference detected in app.py: {url}"
         )
+
+
+def test_synthetic_only_mode_guard_present():
+    """Verify DOCUREADY_SYNTHETIC_ONLY mode is implemented in app.py."""
+    code = APP_PY_PATH.read_text(encoding="utf-8")
+    assert "DOCUREADY_SYNTHETIC_ONLY" in code, (
+        "app.py must recognize DOCUREADY_SYNTHETIC_ONLY environment variable"
+    )
+    assert "SYNTHETIC_ONLY_MODE" in code
+
+
+def test_advisory_determination_copy_present():
+    """Verify advisory determination copy disclaiming official approval is present in app.py."""
+    code = APP_PY_PATH.read_text(encoding="utf-8")
+    assert "Pre-Check Advisory Determination" in code
+    assert "Advisory preparation aid; does not guarantee official portal acceptance" in code
