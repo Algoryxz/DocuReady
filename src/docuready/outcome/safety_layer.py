@@ -43,7 +43,7 @@ class DecisionSafetyLayer:
 
         for f in findings:
             safe_f = self._audit_single_finding(f, documents, scheme_name, scheme_config)
-            self._attach_v2_resolution(safe_f, documents)
+            self._attach_v2_resolution(safe_f, documents, scheme_config)
             safe_findings.append(safe_f)
 
         return safe_findings
@@ -52,6 +52,7 @@ class DecisionSafetyLayer:
         self,
         finding: Finding,
         documents: Dict[DocumentType, ExtractedDocument],
+        scheme_config: Optional[Any] = None,
     ) -> None:
         """Attach the canonical V2 outcome without changing legacy snapshot fields.
 
@@ -85,7 +86,13 @@ class DecisionSafetyLayer:
             # category evidence is absent, provisional, or uncertain.
             raw = Raw.INDETERMINATE
 
-        outcome = resolve_outcome(raw, weakest_evidence=weakest)
+        severity_caps = getattr(scheme_config, "rule_max_severity", None) or {}
+        max_severity = severity_caps.get(finding.rule_id)
+        outcome = resolve_outcome(
+            raw,
+            weakest_evidence=weakest,
+            max_severity=max_severity,
+        )
         finding.set_resolution(raw, outcome.status, outcome.reason_code)
 
     def _collect_v2_evidence_states(
