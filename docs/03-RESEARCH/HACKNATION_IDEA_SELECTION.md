@@ -16,9 +16,9 @@ pie title HackNation 2026 Evaluation Weighting
 
 ## The Core Problem Discovered
 
-Every year across India, over **80 million students and citizens** apply for government scholarships, civil service exams, university admissions, and welfare benefits (e.g. NSP National Scholarship Portal, state e-District schemes, PMSSS, Post-Matric SC/ST Scholarships).
+Every year across India, millions of students and citizens apply for government scholarships, civil service exams, university admissions, and welfare benefits (e.g. NSP National Scholarship Portal, state e-District schemes, PMSSS, Post-Matric SC/ST Scholarships).
 
-An alarming **18% to 32% of all initial applications are summarily rejected or returned for corrections**, not because the applicant is ineligible, but because of trivial clerical discrepancies:
+A substantial proportion of initial applications are returned for corrections or face administrative delays, not necessarily because the applicant is ineligible, but because of clerical discrepancies:
 1. **Name mismatches**: e.g., initial expanded as `A. Sharma` on one certificate and `Aarav Sharma` on the 10th marksheet.
 2. **Expired validity**: Submitting an Income Certificate issued 14 months prior (violating the 1-financial-year statutory limit).
 3. **Mismatched declarations**: Entering ₹1,80,000 in the portal form while the Tahsildar certificate states ₹2,20,000.
@@ -35,7 +35,7 @@ By the time the clerical error is flagged by government scrutiny officers weeks 
 | **Civic Chatbot / Scheme Recommender** | Conversational LLM advising on schemes | High hallucination risk; cannot verify applicant documents; overcrowded space. |
 | **Automated Form Filler** | Browser extension autofilling government portals | Fragile; government portals change DOM and captchas frequently; high fraud risk. |
 | **Aadhaar / DigiLocker Scraper** | Direct scraping of government APIs | Legal and privacy violation; unworkable without state government MoUs and eKYC licenses. |
-| **DocuReady (Selected)** | **Local-first, deterministic, pre-submission document audit** | Solves root cause of rejection; 100% private; actionable remediation before portal submission. |
+| **DocuReady (Selected)** | **Local-first, deterministic, pre-submission document audit** | Solves root cause of rejection; privacy-preserving local execution; actionable remediation before portal submission. |
 
 ---
 

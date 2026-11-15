@@ -12,7 +12,7 @@
 
 The complete **DocuReady** production codebase, evaluation harness, statutory documentation, research foundation, and interactive assets have been published to GitHub.
 
-DocuReady is a deterministic, privacy-preserving, statutory pre-flight audit tool for citizen scholarship and welfare applications. It solves the critical pre-submission void in Indian digital governance by validating document packets against 10 statutory criteria before portal submission, preventing the 18%–32% rejection rate caused by clerical discrepancies.
+DocuReady is a deterministic, privacy-preserving pre-flight audit tool for citizen scholarship and welfare applications. It addresses the pre-submission void in Indian digital governance by checking document packets against published scheme requirements before portal submission, helping applicants identify and remediate clerical discrepancies that commonly lead to administrative rejection.
 
 ---
 
@@ -122,7 +122,7 @@ tests/test_validator.py ..                                               [100%]
 ### 3.2 Security & PII Cleanliness Scan
 - **Secret Scan**: Automated regex scan confirmed zero API keys, secrets, tokens, or credentials exist in the codebase.
 - **PII Scan**: Confirmed zero real applicant documents or live personal data exist in the repository; all documents and ground truth files are 100% synthetically generated.
-- **Data Protection Compliance**: Confirmed zero network calls occur in the extraction, calibration, or validation pipeline, ensuring 100% local compliance with the Digital Personal Data Protection Act (DPDP), 2023.
+- **Data Protection Design**: Confirmed zero network calls occur in the extraction, calibration, or validation pipeline, supporting privacy-by-design and data minimization principles informed by the Digital Personal Data Protection Act (DPDP), 2023.
 
 ---
 

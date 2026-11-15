@@ -22,10 +22,10 @@ quadrantChart
 | Capability / Attribute | Generic Cloud OCR (AWS / GCP Doc AI) | Fintech KYC Providers (Signzy, HyperVerge) | Generic LLMs (ChatGPT / Claude Prompts) | **DocuReady** |
 | :--- | :--- | :--- | :--- | :--- |
 | **Primary Target User** | Enterprise Developers | Banks & NBFCs | End Consumers | **Citizen Applicants & CSC Operators** |
-| **Execution Architecture** | Cloud API (per-page SaaS fee) | Cloud API + proprietary SDK | Cloud API | **100% Local / Edge First** |
-| **Data Privacy & DPDP** | PII transmitted to cloud | Third-party PII processing | Third-party prompt retention | **Zero Data Exfiltration** |
-| **Cross-Document Logic** | None (Single document extraction) | Basic KYC matching (Aadhaar/PAN) | Unpredictable, prone to hallucination | **Deterministic Cross-Document Statutory Rules** |
-| **Statutory Clause Citations** | None | None | Hallucinated / Fabricated rules | **Exact Gazette & Ministry Order Citations** |
+| **Execution Architecture** | Cloud API (per-page SaaS fee) | Cloud API + proprietary SDK | Cloud API | **Local-First / Client-Side** |
+| **Data Privacy & DPDP** | PII transmitted to cloud | Third-party PII processing | Third-party prompt retention | **Zero Runtime Network Egress** |
+| **Cross-Document Logic** | None (Single document extraction) | Basic KYC matching (Aadhaar/PAN) | Unpredictable, prone to hallucination | **Deterministic Cross-Document Consistency Rules** |
+| **Statutory Clause Citations** | None | None | Hallucinated / Fabricated rules | **Document Requirement & Guideline Citations** |
 | **Evidence Safety Layer** | None | Raw confidence thresholds | None | **Calibrated Tri-State Downgrading (Prevents False Rejections)** |
 | **Hardware Requirements** | Fast Internet connection | High bandwidth | High bandwidth | **Offline / Low-resource Kiosk Capable** |
 | **Cost to Student / Citizen** | High ($15–$50 per 1k pages) | Expensive enterprise contracts | Subscription fees | **Free / Open Source** |
