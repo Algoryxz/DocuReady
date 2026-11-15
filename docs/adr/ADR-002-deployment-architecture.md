@@ -98,13 +98,26 @@ In future milestones (e.g. Workstream WS4 or WS5):
 2. A modern Next.js mobile-first client application can be built and deployed on Vercel, querying the backend via secure signed requests.
 3. Until such decoupling occurs, Vercel deployments of the Python Streamlit core are suspended.
 
+### 4.1 Current Vercel Surface: Static Product Website Only
+
+The Vercel project may serve the static public product website from `site/`. This is a presentation and documentation surface, not a deployment of the DocuReady audit engine.
+
+- Vercel project root: `site/`; framework preset: Other / no framework; build command: empty (no build step).
+- The site consists of static HTML and a version-controlled Vercel header configuration. It has no API routes, server-side document processing, upload form, or connection to applicant files.
+- The site must clearly direct users to run the Python/Streamlit audit application locally.
+- The Vercel project must never be configured to build the repository's Python root as a Vercel Python Function.
+- A public interactive cloud demo remains a separate Mode C deliverable and must be synthetic-only (`DOCUREADY_SYNTHETIC_ONLY=1`) on a host that supports Streamlit and its native OCR/PDF dependencies.
+
+This keeps Vercel useful for static delivery without disguising a placeholder HTTP handler as the application or weakening DocuReady's local-first privacy boundary.
+
 ---
 
 ## 5. Consequences and Action Items
 
 1. **Vercel Project Configuration:**
-   - Document the architectural mismatch in `docs/adr/ADR-002-deployment-architecture.md` and repository status.
-   - Deactivate or archive the failing Vercel build trigger for the Python repository to avoid misleading failure notifications.
+   - Point the linked Vercel project's Root Directory to `site/`, select Other / no framework, and leave the Build Command empty so Vercel serves only the static product website.
+   - Verify the Vercel deployment is a static HTML response and that no Python runtime is invoked.
+   - Keep the Python/Streamlit core out of Vercel builds; it remains a local application until a separately reviewed API/client architecture exists.
 2. **Cloud Demonstration Setup:**
    - Commit `packages.txt` with `tesseract-ocr` and `tesseract-ocr-hin` `tesseract-ocr-ori` to support seamless one-click Streamlit Community Cloud deployment.
    - Guard cloud environments with `DOCUREADY_SYNTHETIC_ONLY=1`.
