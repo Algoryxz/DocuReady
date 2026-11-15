@@ -51,10 +51,10 @@ st.set_page_config(
     page_title="DocuReady — Pre-Submission Document Readiness Linter",
     page_icon="🛡️",
     layout="wide",
-    initial_sidebar_state="expanded"
+    initial_sidebar_state="auto"
 )
 
-# Custom CSS for clean governmental/civic-tech styling (fixed, trusted markup only)
+# Custom CSS for clean governmental/civic-tech styling and mobile responsiveness
 st.markdown("""
 <style>
     .main-header {
@@ -128,6 +128,72 @@ st.markdown("""
         margin-bottom: 16px;
         color: #2B6CB0;
         font-size: 0.9rem;
+    }
+    .mobile-sticky-bar {
+        display: none;
+    }
+    /* Mobile Responsive Layout & Touch Targets (WCAG 2.5.5 / 2.5.8 compliant >= 44px) */
+    @media (max-width: 768px) {
+        .main-header {
+            font-size: 1.4rem !important;
+        }
+        .sub-header {
+            font-size: 0.9rem !important;
+        }
+        [data-testid="column"] {
+            min-width: 100% !important;
+            flex: 1 1 100% !important;
+            margin-bottom: 0.75rem !important;
+        }
+        .mobile-sticky-bar {
+            display: flex !important;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+            background-color: #1A365D;
+            color: #FFFFFF;
+            padding: 10px 14px;
+            border-radius: 8px;
+            margin-bottom: 14px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+        }
+        .mobile-bar-score {
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+        .mobile-bar-status {
+            background-color: #FFFFFF;
+            color: #1A365D;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+    }
+    /* Touch Target Dimensions: >= 44px min height for interactive controls */
+    button, [role="button"], input, select, .stButton>button, .stDownloadButton>button {
+        min-height: 44px !important;
+        font-size: 0.95rem !important;
+    }
+    .stRadio label, .stCheckbox label {
+        min-height: 44px !important;
+        display: flex !important;
+        align-items: center !important;
+        padding: 4px 8px !important;
+    }
+    /* Table & Graphic Horizontal Overflow Protection */
+    [data-testid="stTable"], [data-testid="stDataFrame"], table {
+        display: block !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        width: 100% !important;
+    }
+    img, canvas, svg {
+        max-width: 100% !important;
+        height: auto !important;
+        object-fit: contain !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -205,6 +271,15 @@ st.markdown("""
     This prototype processes files locally in temporary directories; real citizen documents should not be used without isolated sandboxing.
 </div>
 """, unsafe_allow_html=True)
+
+if st.session_state.audit_result:
+    res_mob = st.session_state.audit_result
+    st.markdown(f"""
+    <div class='mobile-sticky-bar'>
+        <span class='mobile-bar-score'>🛡️ Score: {res_mob.readiness_score}/100</span>
+        <span class='mobile-bar-status'>{res_mob.overall_status}</span>
+    </div>
+    """, unsafe_allow_html=True)
 
 
 # ==============================================================================
