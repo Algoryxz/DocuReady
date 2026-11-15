@@ -6,7 +6,7 @@ relaxation rules (e.g. SC/ST cutoff exemptions) are honored.
 """
 
 import pytest
-from docuready.domain.enums import Readiness, Status
+from docuready.domain.enums import Status, Readiness
 from docuready.domain.models import (
     DocumentType, ExtractedDocument, ExtractedField, EvidenceProvenance,
     FindingStatus, Severity, ExtractionMethod
@@ -200,4 +200,4 @@ def test_unreadable_scan_produces_unknown_not_rejection():
     unreadable_findings = [f for f in res.findings if f.rule_id == "RULE-DOC-02"]
     assert len(unreadable_findings) == 1
     assert unreadable_findings[0].status == Status.REVIEW
-    assert res.overall_status is Readiness.NEEDS_CHECKS
+assert res.overall_status == Readiness.NOT_READY

@@ -40,6 +40,14 @@ def pipeline():
     return AuditPipeline()
 
 
+V2_READINESS_MAP = {
+    "READY_TO_SUBMIT": "NO_ISSUES_FOUND",
+    "REVIEW_RECOMMENDED": "NEEDS_CHECKS",
+    "UNREADABLE_PACKET": "NEEDS_CHECKS",
+    "ACTION_REQUIRED": "NOT_READY",
+    "REJECT_PRECHECK": "NOT_READY",
+}
+
 @pytest.mark.parametrize("packet_id", [
     "PKT_01_CLEAN",
     "PKT_02_NAME_CONFLICT",
@@ -57,18 +65,28 @@ def test_packet_against_ground_truth(pipeline, manifest, packet_id):
 
     result, _ = pipeline.load_and_audit_packet(packet_dir, packet_id=packet_id)
 
-    # 1. Assert overall determination matches ground truth
-    expected_readiness = LEGACY_TO_V2_READINESS[packet_meta["expected_status"]]
-    assert result.overall_status == expected_readiness, (
-        f"Status mismatch for {packet_id}: predicted {result.overall_status}, expected {expected_readiness}"
-    )
+# 1. Assert overall determination matches ground truth via canonical V2 mapping
+expected_v2 = V2_READINESS_MAP[packet_meta["expected_status"]]
+actual_status = (
+    result.overall_status.value
+    if hasattr(result.overall_status, "value")
+    else str(result.overall_status)
+)
 
+assert actual_status == expected_v2, (
+    f"Status mismatch for {packet_id}: "
+    f"predicted {actual_status}, expected {expected_v2}"
+)
     # 2. Assert score floor
     assert result.readiness_score >= packet_meta["expected_score_min"], (
         f"Score {result.readiness_score} is below expected min {packet_meta['expected_score_min']}"
     )
 
     # 3. Assert expected failure rules are triggered
-    detected_rules = {f.rule_id for f in result.findings if f.status.value in ["FAIL", "REVIEW", "UNKNOWN", "MISSING", "WARN"]}
+detected_rules = {
+    f.rule_id
+    for f in result.findings
+    if f.status.value in ["FAIL", "WARN", "REVIEW", "MISSING", "UNKNOWN"]
+}
     for exp_rule in packet_meta["expected_failure_rules"]:
         assert exp_rule in detected_rules, f"Expected rule {exp_rule} was not triggered in {packet_id}"

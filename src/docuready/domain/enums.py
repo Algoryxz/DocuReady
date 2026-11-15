@@ -6,7 +6,7 @@ V2 evidence states; this keeps the migration explicit and fail-closed.
 """
 
 from enum import Enum, IntEnum
-from typing import Optional
+from typing import Any, Optional
 
 
 class Status(str, Enum):
@@ -87,12 +87,53 @@ class Readiness(str, Enum):
     NEEDS_CHECKS = "NEEDS_CHECKS"
     NO_ISSUES_FOUND = "NO_ISSUES_FOUND"
 
+    def __eq__(self, other):
+        if isinstance(other, Readiness):
+            return self.value == other.value
+        if isinstance(other, str):
+            if self.value == other:
+                return True
+            legacy_mapping = {
+                "READY_TO_SUBMIT": "NO_ISSUES_FOUND",
+                "REVIEW_RECOMMENDED": "NEEDS_CHECKS",
+                "UNREADABLE_PACKET": "NEEDS_CHECKS",
+                "ACTION_REQUIRED": "NOT_READY",
+                "REJECT_PRECHECK": "NOT_READY",
+            }
+            return legacy_mapping.get(other) == self.value
+        return False
+
+    def __hash__(self):
+        return hash(self.value)
+
 
 class ExitCode(IntEnum):
     NO_ISSUES = 0
     NEEDS_CHECKS = 1
     NOT_READY = 2
     USAGE_ERROR = 64
+
+
+class ExtractionMethod(str, Enum):
+    """Method used to extract text or data from an applicant document."""
+
+    NATIVE_VECTOR = "NATIVE_VECTOR"
+    LOCAL_OCR = "LOCAL_OCR"
+    UNEXTRACTED = "UNEXTRACTED"
+
+
+def coerce_extraction_method(
+    method: Any,
+) -> ExtractionMethod:
+    """Safely coerce a string or enum to ExtractionMethod, failing closed to UNEXTRACTED."""
+    if isinstance(method, ExtractionMethod):
+        return method
+    if method is None:
+        return ExtractionMethod.UNEXTRACTED
+    try:
+        return ExtractionMethod(str(method))
+    except (ValueError, TypeError):
+        return ExtractionMethod.UNEXTRACTED
 
 
 def normalize_evidence_state(

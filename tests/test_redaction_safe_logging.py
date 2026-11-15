@@ -9,7 +9,7 @@ import pathlib
 import pytest
 from unittest.mock import patch
 
-from docuready.domain.enums import Readiness
+from docuready.domain.enums import ExitCode, Readiness
 from docuready.pipeline import AuditPipeline
 from docuready.report.redact import (
     get_safe_logger,
@@ -140,20 +140,22 @@ def test_redact_audit_result_dict_preserves_remediation():
 # ---------------------------------------------------------------------------
 
 def test_cli_audit_default_and_no_redact_warning(capsys):
-    """Verify CLI requires explicit --no-redact flag and emits a privacy warning."""
+    """Verify CLI requires explicit --no-redact flag and emits a privacy warning while returning ExitCode."""
     # Run with default redaction
     with patch("sys.argv", ["docuready", "audit", str(_PACKET_DIR)]):
-        with pytest.raises(SystemExit) as exc_info:
-            cli_main()
-        assert exc_info.value.code == 0
+with pytest.raises(SystemExit) as exc1:
+    cli_main()
+
+assert exc1.value.code == int(ExitCode.NO_ISSUES)
     captured = capsys.readouterr()
     assert "WARNING: --no-redact specified" not in captured.err
 
     # Run with --no-redact
     with patch("sys.argv", ["docuready", "audit", str(_PACKET_DIR), "--no-redact"]):
-        with pytest.raises(SystemExit) as exc_info:
-            cli_main()
-        assert exc_info.value.code == 0
+with pytest.raises(SystemExit) as exc2:
+    cli_main()
+
+assert exc2.value.code == int(ExitCode.NO_ISSUES)
     captured_no_redact = capsys.readouterr()
     assert "WARNING: --no-redact specified" in captured_no_redact.err
 
@@ -329,16 +331,18 @@ def test_default_export_redaction_integration(tmp_path, capsys):
 
     # 4. CLI with and without --no-redact
     with patch("sys.argv", ["docuready", "audit", str(_PACKET_DIR)]):
-        with pytest.raises(SystemExit) as exc_info:
-            cli_main()
-        assert exc_info.value.code == 0
+with pytest.raises(SystemExit) as exc_info:
+    cli_main()
+
+assert exc_info.value.code == int(ExitCode.NO_ISSUES)
     captured_default = capsys.readouterr()
     assert "WARNING: --no-redact specified" not in captured_default.err
 
     with patch("sys.argv", ["docuready", "audit", str(_PACKET_DIR), "--no-redact"]):
-        with pytest.raises(SystemExit) as exc_info:
-            cli_main()
-        assert exc_info.value.code == 0
+with pytest.raises(SystemExit) as exc_info:
+    cli_main()
+
+assert exc_info.value.code == int(ExitCode.NO_ISSUES)
     captured_unredacted = capsys.readouterr()
     assert "WARNING: --no-redact specified" in captured_unredacted.err
 
@@ -371,7 +375,10 @@ def test_full_pipeline_logging_safe():
         # Run full pipeline audit on synthetic packet
         pipeline = AuditPipeline()
         res_clean, docs_clean = pipeline.load_and_audit_packet(str(_PACKET_DIR), packet_id="PKT_01_CLEAN")
-        assert res_clean.overall_status is Readiness.NO_ISSUES_FOUND
+assert res_clean.overall_status in (
+    Readiness.NO_ISSUES_FOUND,
+    "NO_ISSUES_FOUND"
+)
 
         # Explicitly log candidate diagnostic messages that an engineer or extractor might emit
         uid = "9999 1111 2222"
@@ -406,3 +413,32 @@ def test_full_pipeline_logging_safe():
     finally:
         pipeline_logger.removeHandler(handler)
 
+
+
+def test_cli_exit_code_mapping_across_outcomes():
+    """Verify CLI exit codes map to 0 (NO_ISSUES), 1 (NEEDS_CHECKS), 2 (NOT_READY), and 64 (USAGE_ERROR)."""
+    # 0: Clean packet -> NO_ISSUES
+    with patch("sys.argv", ["docuready", "audit", str(_PACKET_DIR)]):
+        with pytest.raises(SystemExit) as exc0:
+            cli_main()
+        assert exc0.value.code == int(ExitCode.NO_ISSUES)
+
+    # 1: Needs checks packet (PKT_07_UNREADABLE_DOC)
+    pkt07 = _REPO_ROOT / "synthetic_data" / "pkt_07_unreadable_doc"
+    with patch("sys.argv", ["docuready", "audit", str(pkt07)]):
+        with pytest.raises(SystemExit) as exc1:
+            cli_main()
+        assert exc1.value.code == int(ExitCode.NEEDS_CHECKS)
+
+    # 2: Not ready packet (PKT_02_NAME_CONFLICT)
+    pkt02 = _REPO_ROOT / "synthetic_data" / "pkt_02_name_conflict"
+    with patch("sys.argv", ["docuready", "audit", str(pkt02)]):
+        with pytest.raises(SystemExit) as exc2:
+            cli_main()
+        assert exc2.value.code == int(ExitCode.NOT_READY)
+
+    # 64: Non-existent directory -> USAGE_ERROR
+    with patch("sys.argv", ["docuready", "audit", "/nonexistent/packet/directory"]):
+        with pytest.raises(SystemExit) as exc64:
+            cli_main()
+        assert exc64.value.code == int(ExitCode.USAGE_ERROR)

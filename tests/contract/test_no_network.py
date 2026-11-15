@@ -26,6 +26,7 @@ else:
 
 from docuready.domain.enums import Readiness, Status
 from docuready.domain.models import DocumentType, AuditResult
+from docuready.domain.enums import Readiness
 from docuready.pipeline import AuditPipeline
 
 _REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -134,6 +135,7 @@ def test_audit_pipeline_zero_network_canonical_packet(prohibit_network, packet_i
     assert isinstance(result, AuditResult)
     assert result.packet_id == packet_id
     assert len(docs) > 0, f"Expected extracted documents for packet {packet_id}"
+    assert isinstance(result.overall_status, Readiness)
     assert result.overall_status in (
         Readiness.NO_ISSUES_FOUND,
         Readiness.NEEDS_CHECKS,
@@ -155,10 +157,13 @@ def test_document_replacement_and_reaudit_zero_network(prohibit_network):
     initial_res, initial_docs = pipeline.load_and_audit_packet(
         str(packet_dir), packet_id="PKT_03_DOB_CONFLICT"
     )
-    assert initial_res.overall_status is Readiness.NOT_READY
-    assert initial_res.readiness_score == 75
-    assert any(f.rule_id == "RULE-DOB-01" and f.status in ("FAIL", Status.FAIL) for f in initial_res.findings)
-
+assert initial_res.overall_status == Readiness.NOT_READY
+assert initial_res.readiness_score == 75
+assert any(
+    f.rule_id == "RULE-DOB-01"
+    and f.status in ("FAIL", Status.FAIL)
+    for f in initial_res.findings
+)
     # Step 2: Remediate by replacing marksheet with clean marksheet
     corrected_marksheet_path = _SYNTHETIC_DIR / "pkt_01_clean" / "marksheet.pdf"
     assert corrected_marksheet_path.is_file(), f"Clean marksheet missing at {corrected_marksheet_path}"
@@ -171,10 +176,17 @@ def test_document_replacement_and_reaudit_zero_network(prohibit_network):
     )
 
     # Step 3: Assert clean resolution
-    assert new_res.overall_status is Readiness.NO_ISSUES_FOUND
-    assert new_res.readiness_score == 100
-    assert not any(f.status in ("FAIL", Status.FAIL) for f in new_res.findings)
-    assert any(f.rule_id == "RULE-DOB-PASS" and f.status in ("PASS", Status.PASS) for f in new_res.findings)
+assert new_res.overall_status == Readiness.NO_ISSUES_FOUND
+assert new_res.readiness_score == 100
+assert not any(
+    f.status.value == "FAIL"
+    for f in new_res.findings
+)
+assert any(
+    f.rule_id == "RULE-DOB-PASS"
+    and f.status.value == "PASS"
+    for f in new_res.findings
+)
 
 
 def test_audit_all_eight_packets_aggregate_zero_network(prohibit_network):

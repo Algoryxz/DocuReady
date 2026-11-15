@@ -5,6 +5,7 @@ and evidence state safety intercepts.
 """
 
 import pytest
+from docuready.domain.enums import Status
 from docuready.domain.models import (
     DocumentType, ExtractedDocument, ExtractedField, EvidenceProvenance,
     Finding, FindingStatus, Severity, EvidenceState
@@ -145,10 +146,10 @@ def test_safety_firewall_dual_source_provenance_guarantee(safety_layer):
         remediation="Upload matching docs.",
         statutory_reference="MoSJE Guidelines Clause 5"
     )
-
+assert res[0].status == Status.REVIEW
     res = safety_layer.audit_findings([single_source_fail], {}, "Test Scheme")
     assert len(res) == 1
-    assert res[0].status == FindingStatus.REVIEW
+assert res[0].status == Status.REVIEW
     assert "Cannot establish contradiction without dual-document evidence" in res[0].message
 
 

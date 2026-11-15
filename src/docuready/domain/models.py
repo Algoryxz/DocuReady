@@ -6,7 +6,14 @@ from enum import Enum
 from typing import Dict, List, Optional, Any
 from pydantic import BaseModel, Field, PrivateAttr, model_serializer, model_validator
 
-from docuready.domain.enums import EvidenceState, Raw, Readiness, Status
+from docuready.domain.enums import (
+    EvidenceState,
+    ExtractionMethod,
+    Raw,
+    Readiness,
+    Status,
+    coerce_extraction_method,
+)
 
 
 class DocumentType(str, Enum):
@@ -45,10 +52,8 @@ class Severity(str, Enum):
     INFO = "INFO"          # 0 points, informational check
 
 
-class ExtractionMethod(str, Enum):
-    NATIVE_VECTOR = "NATIVE_VECTOR"
-    LOCAL_OCR = "LOCAL_OCR"
-    UNEXTRACTED = "UNEXTRACTED"
+# Re-exported from docuready.domain.enums
+ExtractionMethod = ExtractionMethod
 
 
 

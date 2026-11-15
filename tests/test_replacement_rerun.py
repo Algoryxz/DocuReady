@@ -6,6 +6,7 @@ import os
 from pathlib import Path
 from docuready.domain.enums import Readiness, Status
 from docuready.domain.models import DocumentType
+from docuready.domain.enums import Readiness
 from docuready.pipeline import AuditPipeline
 
 _REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -32,7 +33,7 @@ def test_document_replacement_workflow():
         packet_dir,
         packet_id="PKT_03_DOB_CONFLICT"
     )
-    assert initial_res.overall_status is Readiness.NOT_READY
+assert initial_res.overall_status == Readiness.NOT_READY
     assert initial_res.readiness_score == 75
     assert any(f.rule_id == "RULE-DOB-01" and f.status in ("FAIL", Status.FAIL) for f in initial_res.findings)
 
@@ -46,7 +47,14 @@ def test_document_replacement_workflow():
     )
 
     # Step 3: Assert clean resolution
-    assert new_res.overall_status is Readiness.NO_ISSUES_FOUND
-    assert new_res.readiness_score == 100
-    assert not any(f.status in ("FAIL", Status.FAIL) for f in new_res.findings)
-    assert any(f.rule_id == "RULE-DOB-PASS" and f.status in ("PASS", Status.PASS) for f in new_res.findings)
+assert new_res.overall_status == Readiness.NO_ISSUES_FOUND
+assert new_res.readiness_score == 100
+assert not any(
+    f.status.value == "FAIL"
+    for f in new_res.findings
+)
+assert any(
+    f.rule_id == "RULE-DOB-PASS"
+    and f.status.value == "PASS"
+    for f in new_res.findings
+)
