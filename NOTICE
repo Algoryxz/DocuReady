@@ -1,0 +1,40 @@
+DocuReady
+Copyright 2026 HackNation DocuReady Authors (Algoryxz & Contributors)
+
+This product includes software developed at DocuReady (https://github.com/Algoryxz/DocuReady).
+
+================================================================================
+Licensing & Third-Party Dependency Notices
+================================================================================
+
+1. DocuReady Core License:
+   DocuReady is licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at:
+       http://www.apache.org/licenses/LICENSE-2.0
+
+2. PDF Processing & Ingestion Engine (PyMuPDF):
+   DocuReady uses PyMuPDF (fitz) for PDF parsing, text extraction, coordinate
+   bounding box calculation, and page rendering.
+   - PyMuPDF is Copyright (c) Artifex Software, Inc.
+   - Upstream MuPDF C library is Copyright (c) 2006-2024 Artifex Software, Inc.
+   - PyMuPDF and MuPDF are licensed under the GNU Affero General Public License v3
+     (AGPLv3) or commercial terms from Artifex Software, Inc.
+   - Complete AGPLv3 text: https://www.gnu.org/licenses/agpl-3.0.html
+   - Users and redistributors incorporating DocuReady into commercial hosted
+     offerings should consult Artifex Software regarding appropriate commercial
+     licensing or utilize the pluggable permissive backend interface (pypdfium2).
+
+3. Alternative Permissive Backend (PDFium):
+   DocuReady includes an optional backend abstraction supporting pypdfium2.
+   - PDFium is Copyright (c) 2014-2024 The PDFium Authors (Google LLC / Foxit).
+   - Licensed under BSD-3-Clause and Apache License 2.0.
+   - pypdfium2 is licensed under Apache-2.0 / BSD-3-Clause.
+
+4. Other Dependencies:
+   - Pydantic: MIT License (Copyright Samuel Colvin and contributors)
+   - Pillow (PIL Fork): HPND License (Copyright Alex Clark and contributors)
+   - NumPy: BSD-3-Clause (Copyright NumPy Developers)
+   - PyTesseract: Apache License 2.0 (Copyright Samuel Hoffstaetter)
+   - ReportLab: BSD-like Open Source License (Copyright ReportLab Europe Ltd)
+   - Streamlit: Apache License 2.0 (Copyright Snowflake Inc.)
