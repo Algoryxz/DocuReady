@@ -55,7 +55,7 @@ env.bak/
 venv.bak/
 
 # Streamlit
-.streamlit/
+.streamlit/secrets.toml
 
 # OS metadata
 .DS_Store
