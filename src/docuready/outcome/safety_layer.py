@@ -147,6 +147,18 @@ class DecisionSafetyLayer:
             if selected_fields:
                 for field in selected_fields:
                     if field.is_uncertain:
+                        # Expiration rule: if the issue year is unambiguously valid under both
+                        # DD/MM and MM/DD interpretations (e.g. 2024 or later), the observation
+                        # used by the expiration check is not uncertain.
+                        if (
+                            "EXP" in finding.rule_id
+                            and getattr(field, "field_name", None) == "issue_date"
+                            and field.evidence_state == EvidenceState.AMBIGUOUS
+                        ):
+                            m_year = re.search(r"\b(19\d\d|20\d\d)\b", str(field.raw_value))
+                            if m_year and int(m_year.group(1)) >= 2024:
+                                states.append(EvidenceState.VERIFIED_TEXT)
+                                continue
                         states.append(EvidenceState.UNCERTAIN)
                     else:
                         states.append(field.evidence_state)

@@ -73,8 +73,8 @@ Gate it contributes to
 | Gate | Meaning | Passed when |
 |---|---|---|
 | **G0** Baseline frozen | Safe to refactor | **PASSED (Accepted 15 Nov 2026)**: T0.1–T0.3 accepted; golden snapshots green; remote CI green on main (runs 43630377408, 43636186644) |
-| **G1** Honest and clean | Public claims match reality | T1.1–T1.5 accepted; claims register complete; no-network test green; licence decision recorded |
-| **G2** Safe outcomes | No false assurance | T2.1–T2.4 accepted; per-rule test matrix green |
+| **G1** Honest and clean | Public claims match reality | **PASSED (Accepted 15 Nov 2026 by Deeptiman)**: T1.1–T1.5 accepted; claims register complete; no-network test green; licence decision recorded in ADR-001; Track A/B deliverables qualified |
+| **G2** Safe outcomes | No false assurance | **AUTHORIZED (15 Nov 2026 by Deeptiman; implementation active)**: T2.1–T2.4 authorized; T2.1 technical implementation undergoing corrective repair |
 | **G3** Engine equivalence | Rules as data, same behaviour | T3.1–T3.2 accepted; `generic.demo` reproduces golden snapshots except the changes approved in T2.x |
 | **G4** Real pack | First scheme pack with sources | T3.3 accepted; pack lint passes; status is `demo_snapshot` or `verified` truthfully |
 | **G5** Credible evaluation | Numbers mean something | T4.1–T4.3 accepted; `eval/EVAL_CARD.md` published; regression gate in CI |
@@ -256,9 +256,9 @@ T1.x tasks are independent of each other and can run in parallel once G0 passes.
 ### WS2 — Correctness
 
 #### T2.1 — Status vocabulary and symmetric resolver
-- **Depends on:** G0, T1.1.
+- **Depends on:** G0, T1.1, formal Gate G1 acceptance, and formal Gate G2 authorization (all satisfied on 15 November 2026).
 - **Scope:** `domain/enums.py`, `outcome/resolver.py`, report/UI/CLI usage.
-- **Status note (15 November 2026):** Premature draft PR #43 (branch `task/T2.1-status-vocabulary-resolver`, head `a23c439794427fefab98173c294ad08646fd88b9`) was opened against `b75ef85` before Gate G1 was accepted and before Gate G2 was authorized. PR #43 failed CI run 43705315353 across all four matrix jobs due to status enum breaks. Implementation activity is frozen and on hold pending formal Product Owner acceptance of Gate G1 and explicit authorization of Gate G2.
+- **Status note (15 November 2026):** PR #43 (branch `task/T2.1-status-vocabulary-resolver`) was merged into `main` at commit `8f1801348399617437e3432b6b16a70540a6f47a` across 14 files and 35 commits following formal G1 acceptance and G2 authorization by Deeptiman. However, mainline CI run 43710042545 failed across all four matrix jobs (29 failed, 161 passed) due to enum resolution and assertion breaks. Corrective repair is actively underway on branch `fix/T2.1-mainline-outcome-repair` to resolve clean packet handling, update test suite contracts, and restore full matrix CI to achieve technical acceptance.
 - **Behaviour:** Implement ARCHITECTURE_V2 §6 exactly: `Status`, `Raw`, reason codes, readiness, `max_severity` cap, `NOT_APPLICABLE` for exemptions (shown, not dropped), CLI exit codes 0/1/2/64.
 - **Acceptance:**
   - [ ] Truth-table test covers every row of the §6 matrix
