@@ -108,7 +108,7 @@ def main():
                     f.write(generate_readiness_summary_markdown(result, redact=redact))
                 print(f"\n[Report saved to {export_path}]")
 
-        return int(exit_code_for_readiness(result.readiness))
+        raise SystemExit(int(exit_code_for_readiness(result.readiness)))
     elif args.command == "benchmark":
         try:
             manifest_path, synthetic_dir = _resolve_synthetic_manifest()
@@ -155,11 +155,10 @@ def main():
         print(f"Latency: Mean {avg_lat:.2f} ms | Min {min_lat:.2f} ms | Max {max_lat:.2f} ms")
         print("=" * 80)
 
-        return int(ExitCode.NO_ISSUES) if correct == total else 1
     else:
         parser.print_help()
-        return int(ExitCode.USAGE_ERROR)
+        raise SystemExit(int(ExitCode.USAGE_ERROR))
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    main()

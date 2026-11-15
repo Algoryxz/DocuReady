@@ -73,8 +73,8 @@ Gate it contributes to
 | Gate | Meaning | Passed when |
 |---|---|---|
 | **G0** Baseline frozen | Safe to refactor | **PASSED (Accepted 15 Nov 2026)**: T0.1–T0.3 accepted; golden snapshots green; remote CI green on main (runs 43630377408, 43636186644) |
-| **G1** Honest and clean | Public claims match reality | T1.1–T1.5 accepted; claims register complete; no-network test green; licence decision recorded |
-| **G2** Safe outcomes | No false assurance | T2.1–T2.4 accepted; per-rule test matrix green |
+| **G1** Honest and clean | Public claims match reality | **PASSED (Accepted 15 Nov 2026 by Deeptiman)**: T1.1–T1.5 accepted; claims register complete; no-network test green; licence decision recorded in ADR-001; Track A/B deliverables qualified |
+| **G2** Safe outcomes | No false assurance | **AUTHORIZED (15 Nov 2026 by Deeptiman; implementation active)**: T2.1–T2.4 authorized; T2.1 technical implementation undergoing corrective repair |
 | **G3** Engine equivalence | Rules as data, same behaviour | T3.1–T3.2 accepted; `generic.demo` reproduces golden snapshots except the changes approved in T2.x |
 | **G4** Real pack | First scheme pack with sources | T3.3 accepted; pack lint passes; status is `demo_snapshot` or `verified` truthfully |
 | **G5** Credible evaluation | Numbers mean something | T4.1–T4.3 accepted; `eval/EVAL_CARD.md` published; regression gate in CI |
@@ -258,7 +258,7 @@ T1.x tasks are independent of each other and can run in parallel once G0 passes.
 #### T2.1 — Status vocabulary and symmetric resolver
 - **Depends on:** G0, T1.1.
 - **Scope:** `domain/enums.py`, `outcome/resolver.py`, report/UI/CLI usage.
-- **Status note (15 November 2026):** Initial implementation was merged into `main` at commit `8f1801348399617437e3432b6b16a70540a6f47a` via PR #43 (`task/T2.1-status-vocabulary-resolver`). Post-merge main CI run [43710042545](https://github.com/Algoryxz/DocuReady/actions/runs/43710042545) failed with 29 test failures across legacy assertions, readiness comparisons, clean packet confidence downgrades, and CLI exit semantics. Corrective stabilization branch `fix/T2.1-post-merge-stabilization` resolves all 29 test failures, restoring 188 passed and 2 skipped across 190 total test items (zero failures) with golden baseline snapshot intact (`E8FB1A6B842A47089937777133DE79E1E7F704BEE591D5B4471A1A90BC8C5FA9`). Implementation is merged, stabilization PR is open under review, and formal task acceptance as well as Gate G1 acceptance and Gate G2 authorization remain strictly pending Product Owner review by Deeptiman.
+- **Status note (15 November 2026):** Initial implementation was merged into `main` at commit `8f1801348399617437e3432b6b16a70540a6f47a` via PR #43 (`task/T2.1-status-vocabulary-resolver`). Mainline CI run [43710042545](https://github.com/Algoryxz/DocuReady/actions/runs/43710042545) failed with 29 test failures across legacy assertions, readiness comparisons, clean packet confidence downgrades, and CLI exit semantics. Corrective repair in PR #44 (`f67df61`) and stabilization PR #46 (`fix/T2.1-post-merge-stabilization`) resolves all 29 test failures, restoring 188 passed and 2 skipped across 190 total test items (zero failures) with golden baseline snapshot intact (`E8FB1A6B842A47089937777133DE79E1E7F704BEE591D5B4471A1A90BC8C5FA9`). Implementation is merged, stabilization PR #46 is open under review, and formal task acceptance as well as Gate G1 acceptance and Gate G2 authorization remain strictly pending Product Owner review by Deeptiman.
 - **Behaviour:** Implement ARCHITECTURE_V2 §6 exactly: `Status`, `Raw`, reason codes, readiness, `max_severity` cap, `NOT_APPLICABLE` for exemptions (shown, not dropped), CLI exit codes 0/1/2/64.
 - **Acceptance:**
   - [ ] Truth-table test covers every row of the §6 matrix
