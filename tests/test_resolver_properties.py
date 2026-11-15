@@ -62,3 +62,12 @@ def test_readiness_precedence_for_all_status_combinations():
             assert readiness is Readiness.NEEDS_CHECKS
         else:
             assert readiness is Readiness.NO_ISSUES_FOUND
+
+
+def test_cli_exit_codes_follow_packet_readiness():
+    from docuready.domain.enums import ExitCode
+    from docuready.outcome.resolver import exit_code_for_readiness
+
+    assert exit_code_for_readiness(Readiness.NO_ISSUES_FOUND) is ExitCode.NO_ISSUES
+    assert exit_code_for_readiness(Readiness.NEEDS_CHECKS) is ExitCode.NEEDS_CHECKS
+    assert exit_code_for_readiness(Readiness.NOT_READY) is ExitCode.NOT_READY
