@@ -14,6 +14,7 @@ from docuready.normalize.normalizer import (
     compare_names, parse_and_normalize_date, normalize_cert_number,
     validate_ifsc_code
 )
+from docuready.domain.enums import MaxSeverity
 from docuready.outcome.safety_layer import DecisionSafetyLayer
 
 
@@ -26,7 +27,8 @@ class SchemeConfig:
         min_academic_percentage: float = 50.0,
         sc_st_cutoff_policy: str = "PASS_ONLY",  # "PASS_ONLY" (Post-Matric), "RELAXED_50" (Medhabruti), "STRICT" (PM-YASASVI)
         income_cert_validity_years: int = 3,
-        mandatory_documents: Optional[List[DocumentType]] = None
+        mandatory_documents: Optional[List[DocumentType]] = None,
+        rule_max_severity: Optional[Dict[str, MaxSeverity]] = None
     ):
         self.name = name
         self.target_state = target_state.upper()
@@ -34,6 +36,7 @@ class SchemeConfig:
         self.min_academic_percentage = min_academic_percentage
         self.sc_st_cutoff_policy = sc_st_cutoff_policy
         self.income_cert_validity_years = income_cert_validity_years
+        self.rule_max_severity = dict(rule_max_severity or {})
         self.mandatory_documents = mandatory_documents or [
             DocumentType.INCOME_CERT,
             DocumentType.CASTE_CERT,
