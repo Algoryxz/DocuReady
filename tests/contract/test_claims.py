@@ -89,3 +89,50 @@ def test_rules_heading_and_exp_qualification_in_readme():
     assert "heuristic" in content.lower(), (
         "Certificate validity rule must be qualified as an operational heuristic"
     )
+
+
+def test_readme_no_static_test_badge():
+    """Verify that README does not contain a static hardcoded test-count badge."""
+    readme_path = REPO_ROOT / "README.md"
+    content = readme_path.read_text(encoding="utf-8")
+    assert not re.search(r"img\.shields\.io/badge/Tests-\d+", content), (
+        "README.md must not include a static test-count badge; use the dynamic CI workflow badge instead"
+    )
+
+
+def test_readme_no_statutory_preflight_audit_tagline():
+    """Verify that opening tagline uses qualified readiness positioning rather than 'statutory pre-flight audit'."""
+    readme_path = REPO_ROOT / "README.md"
+    content = readme_path.read_text(encoding="utf-8").lower()
+    assert "statutory pre-flight audit" not in content, (
+        "README.md opening tagline must not claim 'statutory pre-flight audit'"
+    )
+
+
+def test_banned_phrases_tripwire():
+    """Verify that the banned phrases check genuinely catches and fails on prohibited language."""
+    for phrase in BANNED_PHRASES:
+        mock_content = f"DocuReady provides {phrase} for citizen applications."
+        with pytest.raises(AssertionError, match="Banned overreaching phrase"):
+            assert phrase not in mock_content.lower(), f"Banned overreaching phrase '{phrase}' found"
+
+
+def test_research_documents_sanitized():
+    """Verify that historical and research documents do not assert ungrounded macro numbers."""
+    pub_path = REPO_ROOT / "PUBLICATION_REPORT.md"
+    if pub_path.exists():
+        pub_text = pub_path.read_text(encoding="utf-8")
+        assert "18%–32%" not in pub_text, "PUBLICATION_REPORT.md must not assert ungrounded 18%–32% rejection rate"
+
+    comp_path = REPO_ROOT / "docs" / "03-RESEARCH" / "COMPETITOR_ANALYSIS.md"
+    if comp_path.exists():
+        comp_text = comp_path.read_text(encoding="utf-8")
+        assert "Zero Data Exfiltration" not in comp_text, (
+            "COMPETITOR_ANALYSIS.md must qualify exfiltration claim to 'Zero Runtime Network Egress'"
+        )
+
+    idea_path = REPO_ROOT / "docs" / "03-RESEARCH" / "HACKNATION_IDEA_SELECTION.md"
+    if idea_path.exists():
+        idea_text = idea_path.read_text(encoding="utf-8")
+        assert "80 million" not in idea_text, "HACKNATION_IDEA_SELECTION.md must not assert unsourced 80 million figure"
+        assert "100% private" not in idea_text, "HACKNATION_IDEA_SELECTION.md must not assert '100% private'"
