@@ -256,9 +256,9 @@ T1.x tasks are independent of each other and can run in parallel once G0 passes.
 ### WS2 — Correctness
 
 #### T2.1 — Status vocabulary and symmetric resolver
-- **Depends on:** G0, T1.1, formal Gate G1 acceptance, and formal Gate G2 authorization (all satisfied on 15 November 2026).
+- **Depends on:** G0, T1.1, formal Gate G1 acceptance, and formal Gate G2 authorization (formal decisions satisfied on 15 November 2026).
 - **Scope:** `domain/enums.py`, `outcome/resolver.py`, report/UI/CLI usage.
-- **Status note (15 November 2026):** PR #43 (branch `task/T2.1-status-vocabulary-resolver`) was merged into `main` at commit `8f1801348399617437e3432b6b16a70540a6f47a` across 14 files and 35 commits following formal G1 acceptance and G2 authorization by Deeptiman. However, mainline CI run 43710042545 failed across all four matrix jobs (29 failed, 161 passed) due to enum resolution and assertion breaks. Corrective repair is actively underway on branch `fix/T2.1-mainline-outcome-repair` to resolve clean packet handling, update test suite contracts, and restore full matrix CI to achieve technical acceptance.
+- **Status note (15 November 2026):** PR #43 (branch `task/T2.1-status-vocabulary-resolver`, commit `8f1801348399617437e3432b6b16a70540a6f47a`) was merged into `main` prematurely at 2026-11-15T11:40:15Z before the subsequent formal G1 acceptance and G2 authorization by Product Owner Deeptiman. This premature merge did not itself constitute G2 authorization or technical acceptance; mainline CI run 43710042545 failed across all four matrix jobs (29 failed, 161 passed). Corrective PR #44 (branch `fix/T2.1-mainline-outcome-repair`) was opened to repair test contracts, resolve clean-packet handling, establish safe date-invariance expiration checks, and restore full matrix CI. Technical acceptance remains pending Product Owner review. T2.2 is not authorized to begin until T2.1 achieves formal technical acceptance.
 - **Behaviour:** Implement ARCHITECTURE_V2 §6 exactly: `Status`, `Raw`, reason codes, readiness, `max_severity` cap, `NOT_APPLICABLE` for exemptions (shown, not dropped), CLI exit codes 0/1/2/64.
 - **Acceptance:**
   - [ ] Truth-table test covers every row of the §6 matrix

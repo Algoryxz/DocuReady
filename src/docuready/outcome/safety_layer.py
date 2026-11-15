@@ -9,13 +9,101 @@ Intercepts validation findings before applicant presentation to guarantee that:
 """
 
 import re
+from datetime import date
 from typing import Dict, List, Optional, Set, Any
 from docuready.domain.enums import Raw
 from docuready.outcome.resolver import resolve_outcome, weakest_evidence
+from docuready.normalize.normalizer import get_date_ambiguity_candidates
 from docuready.domain.models import (
     DocumentType, ExtractedDocument, ExtractedField, EvidenceState,
     Finding, FindingStatus, Severity
 )
+
+
+def is_expiration_date_invariant_pass(
+    field: ExtractedField,
+    audit_date: Optional[date],
+    validity_years: Optional[float | int],
+) -> bool:
+    """
+    Checks whether an ambiguous issue_date field on an expiration check is decision-invariant PASS.
+
+    Strict conditions:
+    1. Field name must be 'issue_date'.
+    2. Field evidence_state must be EvidenceState.AMBIGUOUS.
+    3. Extraction method must be NATIVE_VECTOR.
+    4. Candidate count must be exactly 1.
+    5. Uncertainty reason must specifically identify DD/MM versus MM/DD date-format ambiguity.
+    6. Both audit_date and validity_years must be explicitly provided.
+    7. Date text must parse into exactly two valid candidate date interpretations.
+    8. EVERY candidate interpretation must satisfy the validity rule (0 <= age_years <= validity_years)
+       using the validator's exact age calculation semantics: (audit_date - cand_date).days / 365.25.
+    """
+    if getattr(field, "field_name", None) != "issue_date":
+        return False
+    if getattr(field, "evidence_state", None) != EvidenceState.AMBIGUOUS:
+        return False
+    if getattr(field, "extraction_method", None) != "NATIVE_VECTOR":
+        return False
+    if getattr(field, "candidate_count", 1) != 1:
+        return False
+
+    unc_reason = getattr(field, "uncertainty_reason", None) or ""
+    if not ("DD/MM" in unc_reason and "MM/DD" in unc_reason):
+        return False
+
+    if audit_date is None or validity_years is None:
+        return False
+
+    candidates = get_date_ambiguity_candidates(field.raw_value)
+    if len(candidates) != 2:
+        return False
+
+    for cand in candidates:
+        age_days = (audit_date - cand).days
+        age_years = age_days / 365.25
+        if not (0 <= age_years <= validity_years):
+            return False
+
+    return True
+
+
+def is_expiration_date_invariant_fail(
+    field: ExtractedField,
+    audit_date: Optional[date],
+    validity_years: Optional[float | int],
+) -> bool:
+    """
+    Checks whether an ambiguous issue_date field on an expiration check is decision-invariant FAIL.
+    Returns True only when every candidate interpretation is strictly expired (age_years > validity_years).
+    """
+    if getattr(field, "field_name", None) != "issue_date":
+        return False
+    if getattr(field, "evidence_state", None) != EvidenceState.AMBIGUOUS:
+        return False
+    if getattr(field, "extraction_method", None) != "NATIVE_VECTOR":
+        return False
+    if getattr(field, "candidate_count", 1) != 1:
+        return False
+
+    unc_reason = getattr(field, "uncertainty_reason", None) or ""
+    if not ("DD/MM" in unc_reason and "MM/DD" in unc_reason):
+        return False
+
+    if audit_date is None or validity_years is None:
+        return False
+
+    candidates = get_date_ambiguity_candidates(field.raw_value)
+    if len(candidates) != 2:
+        return False
+
+    for cand in candidates:
+        age_days = (audit_date - cand).days
+        age_years = age_days / 365.25
+        if age_years <= validity_years:
+            return False
+
+    return True
 
 
 class DecisionSafetyLayer:
@@ -32,7 +120,8 @@ class DecisionSafetyLayer:
         findings: List[Finding],
         documents: Dict[DocumentType, ExtractedDocument],
         scheme_name: str = "Default Scheme",
-        scheme_config: Optional[Any] = None
+        scheme_config: Optional[Any] = None,
+        audit_date: Optional[date] = None,
     ) -> List[Finding]:
         """
         Audits a list of raw findings and applies safety adjustments:
@@ -42,8 +131,8 @@ class DecisionSafetyLayer:
         safe_findings: List[Finding] = []
 
         for f in findings:
-            safe_f = self._audit_single_finding(f, documents, scheme_name, scheme_config)
-            self._attach_v2_resolution(safe_f, documents, scheme_config)
+            safe_f = self._audit_single_finding(f, documents, scheme_name, scheme_config, audit_date=audit_date)
+            self._attach_v2_resolution(safe_f, documents, scheme_config, audit_date=audit_date)
             safe_findings.append(safe_f)
 
         return safe_findings
@@ -53,6 +142,7 @@ class DecisionSafetyLayer:
         finding: Finding,
         documents: Dict[DocumentType, ExtractedDocument],
         scheme_config: Optional[Any] = None,
+        audit_date: Optional[date] = None,
     ) -> None:
         """Attach the canonical V2 outcome without changing legacy snapshot fields.
 
@@ -79,7 +169,9 @@ class DecisionSafetyLayer:
         else:
             raw = Raw.INDETERMINATE
 
-        states = self._collect_v2_evidence_states(finding, documents)
+        states = self._collect_v2_evidence_states(
+            finding, documents, scheme_config=scheme_config, audit_date=audit_date
+        )
         weakest = weakest_evidence(states)
 
         if raw is Raw.EXEMPT and weakest is not EvidenceState.VERIFIED:
@@ -100,6 +192,8 @@ class DecisionSafetyLayer:
         self,
         finding: Finding,
         documents: Dict[DocumentType, ExtractedDocument],
+        scheme_config: Optional[Any] = None,
+        audit_date: Optional[date] = None,
     ) -> List[EvidenceState]:
         """Collect only the evidence relevant to a finding, fail-closed."""
         relevant_fields = self._get_relevant_fields(finding)
@@ -147,18 +241,28 @@ class DecisionSafetyLayer:
             if selected_fields:
                 for field in selected_fields:
                     if field.is_uncertain:
-                        # Expiration rule: if the issue year is unambiguously valid under both
-                        # DD/MM and MM/DD interpretations (e.g. 2024 or later), the observation
-                        # used by the expiration check is not uncertain.
+                        # Narrow decision-invariance check for expiration findings on issue_date:
+                        valid_years = getattr(scheme_config, "income_cert_validity_years", None)
                         if (
-                            "EXP" in finding.rule_id
-                            and getattr(field, "field_name", None) == "issue_date"
-                            and field.evidence_state == EvidenceState.AMBIGUOUS
+                            finding.rule_id == "RULE-EXP-PASS"
+                            and is_expiration_date_invariant_pass(
+                                field,
+                                audit_date=audit_date,
+                                validity_years=valid_years,
+                            )
                         ):
-                            m_year = re.search(r"\b(19\d\d|20\d\d)\b", str(field.raw_value))
-                            if m_year and int(m_year.group(1)) >= 2024:
-                                states.append(EvidenceState.VERIFIED_TEXT)
-                                continue
+                            states.append(EvidenceState.VERIFIED_TEXT)
+                            continue
+                        elif (
+                            finding.rule_id == "RULE-EXP-01"
+                            and is_expiration_date_invariant_fail(
+                                field,
+                                audit_date=audit_date,
+                                validity_years=valid_years,
+                            )
+                        ):
+                            states.append(EvidenceState.VERIFIED_TEXT)
+                            continue
                         states.append(EvidenceState.UNCERTAIN)
                     else:
                         states.append(field.evidence_state)
@@ -190,12 +294,13 @@ class DecisionSafetyLayer:
         finding: Finding,
         documents: Dict[DocumentType, ExtractedDocument],
         scheme_name: str,
-        scheme_config: Optional[Any] = None
+        scheme_config: Optional[Any] = None,
+        audit_date: Optional[date] = None,
     ) -> Finding:
         if finding.legacy_status_snapshot == FindingStatus.FAIL.value:
-            return self._audit_fail_finding(finding, documents, scheme_name, scheme_config)
+            return self._audit_fail_finding(finding, documents, scheme_name, scheme_config, audit_date=audit_date)
         elif finding.legacy_status_snapshot == FindingStatus.PASS.value:
-            return self._audit_pass_finding(finding, documents, scheme_name, scheme_config)
+            return self._audit_pass_finding(finding, documents, scheme_name, scheme_config, audit_date=audit_date)
         else:
             # REVIEW and UNKNOWN findings already represent non-definitive/investigative states
             return finding
@@ -205,7 +310,8 @@ class DecisionSafetyLayer:
         finding: Finding,
         documents: Dict[DocumentType, ExtractedDocument],
         scheme_name: str,
-        scheme_config: Optional[Any] = None
+        scheme_config: Optional[Any] = None,
+        audit_date: Optional[date] = None,
     ) -> Finding:
         # Principle FAIL-1: Mandatory Document Absence Exception
         # If the finding is specifically about a missing mandatory document (RULE-DOC-01),
@@ -297,12 +403,16 @@ class DecisionSafetyLayer:
                         f"{dt.value}.{fname} has evidence state '{fld.evidence_state.value}' (calibrated conf: {fld.calibrated_confidence:.1%})"
                     )
                 elif fld.evidence_state == EvidenceState.AMBIGUOUS:
-                    # If it's an expiration check and the year is clearly expired under both DD/MM interpretations, don't downgrade
-                    if "EXP" in finding.rule_id and fname == "issue_date":
-                        # Year check: if year is <= 2022 (in 2026), it is expired in either interpretation
-                        m_year = re.search(r"\b(19\d\d|20\d\d)\b", str(fld.raw_value))
-                        if m_year and int(m_year.group(1)) <= 2022:
-                            continue
+                    if (
+                        finding.rule_id == "RULE-EXP-01"
+                        and fname == "issue_date"
+                        and is_expiration_date_invariant_fail(
+                            fld,
+                            audit_date=audit_date,
+                            validity_years=getattr(scheme_config, "income_cert_validity_years", None),
+                        )
+                    ):
+                        continue
                     uncertain_evidence_reasons.append(
                         f"{dt.value}.{fname} has ambiguous evidence (calibrated conf: {fld.calibrated_confidence:.1%})"
                     )
@@ -334,7 +444,8 @@ class DecisionSafetyLayer:
         finding: Finding,
         documents: Dict[DocumentType, ExtractedDocument],
         scheme_name: str,
-        scheme_config: Optional[Any] = None
+        scheme_config: Optional[Any] = None,
+        audit_date: Optional[date] = None,
     ) -> Finding:
         # Principle PASS-1: Traceable Provenance Requirement
         # A PASS finding must have non-empty supporting evidence linking values to source documents
@@ -468,11 +579,17 @@ class DecisionSafetyLayer:
                     )
 
                 if fld.evidence_state == EvidenceState.AMBIGUOUS:
-                    # Date expiration check: if year is unambiguously valid under both DD/MM and MM/DD interpretations, preserve PASS
-                    if "EXP" in finding.rule_id and fname == "issue_date":
-                        m_year = re.search(r"\b(19\d\d|20\d\d)\b", str(fld.raw_value))
-                        if m_year and int(m_year.group(1)) >= 2024:
-                            continue
+                    # Date expiration check: if all candidate interpretations produce the same valid PASS conclusion, preserve PASS
+                    if (
+                        finding.rule_id == "RULE-EXP-PASS"
+                        and fname == "issue_date"
+                        and is_expiration_date_invariant_pass(
+                            fld,
+                            audit_date=audit_date,
+                            validity_years=getattr(scheme_config, "income_cert_validity_years", None),
+                        )
+                    ):
+                        continue
                     return Finding(
                         rule_id=finding.rule_id,
                         rule_name=f"{finding.rule_name} (Ambiguous Evidence)",

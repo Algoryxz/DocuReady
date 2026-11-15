@@ -207,6 +207,66 @@ def parse_and_normalize_date(date_str: Any) -> Tuple[Optional[date], str, bool]:
     return None, "INVALID_FORMAT", False
 
 
+def get_date_ambiguity_candidates(date_str: Any) -> List[date]:
+    """
+    Parses an ambiguous date string into its candidate interpretations (DD/MM vs MM/DD).
+    Returns a list of unique valid date objects. If the date is unambiguous, malformed,
+    or unreadable, returns the single parsed date or an empty list.
+    """
+    if date_str is None:
+        return []
+    if isinstance(date_str, (date, datetime)):
+        dt = date_str if isinstance(date_str, date) else date_str.date()
+        return [dt]
+
+    s = str(date_str).strip()
+    if not s or '?' in s or 'X' in s.upper():
+        return []
+
+    parts = re.split(r'[/.-]', s)
+    if len(parts) == 3:
+        # Case A: P1/P2/P3 where P1 and P2 are day/month or month/day and P3 is year
+        if parts[0].isdigit() and parts[1].isdigit() and parts[2].isdigit():
+            p1, p2, p3 = int(parts[0]), int(parts[1]), int(parts[2])
+            year = p3
+            if year < 100:
+                year += 2000 if year < 70 else 1900
+            if 1 <= p1 <= 12 and 1 <= p2 <= 12 and p1 != p2:
+                candidates: List[date] = []
+                try:
+                    candidates.append(date(year, p2, p1))  # DD/MM/YYYY: p1=day, p2=month
+                except ValueError:
+                    pass
+                try:
+                    candidates.append(date(year, p1, p2))  # MM/DD/YYYY: p1=month, p2=day
+                except ValueError:
+                    pass
+                if len(candidates) == 2:
+                    return candidates
+
+        # Case B: YYYY/P2/P3 where P2 and P3 are month/day or day/month
+        if parts[0].isdigit() and parts[1].isdigit() and parts[2].isdigit():
+            p1, p2, p3 = int(parts[0]), int(parts[1]), int(parts[2])
+            if len(parts[0]) == 4 and 1 <= p2 <= 12 and 1 <= p3 <= 12 and p2 != p3:
+                year = p1
+                candidates = []
+                try:
+                    candidates.append(date(year, p2, p3))
+                except ValueError:
+                    pass
+                try:
+                    candidates.append(date(year, p3, p2))
+                except ValueError:
+                    pass
+                if len(candidates) == 2:
+                    return candidates
+
+    parsed, status, _ = parse_and_normalize_date(date_str)
+    if parsed and status == "VALID":
+        return [parsed]
+    return []
+
+
 # ----------------- INCOME NORMALIZATION -----------------
 def normalize_income(val: Any) -> Optional[float]:
     """
