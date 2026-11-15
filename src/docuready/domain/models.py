@@ -120,6 +120,7 @@ class Finding(BaseModel):
     # This excluded field preserves the legacy snapshot label strictly for
     # model_dump()/golden regression serialization. Runtime status is V2.
     legacy_status_snapshot: str = Field(default="", exclude=True, repr=False)
+    legacy_penalty_snapshot: Optional[int] = Field(default=None, exclude=True, repr=False)
     _reason_code: Optional[str] = PrivateAttr(default=None)
     _raw_result: Optional[Raw] = PrivateAttr(default=None)
 
@@ -141,8 +142,11 @@ class Finding(BaseModel):
     @model_serializer(mode="wrap")
     def serialize_legacy_status_for_golden(self, handler, info):
         data = handler(self)
-        if isinstance(data, dict) and self.legacy_status_snapshot:
-            data["status"] = self.legacy_status_snapshot
+        if isinstance(data, dict):
+            if self.legacy_status_snapshot:
+                data["status"] = self.legacy_status_snapshot
+            if self.legacy_penalty_snapshot is not None:
+                data["penalty"] = self.legacy_penalty_snapshot
         return data
 
     def set_resolution(
@@ -186,6 +190,7 @@ class AuditResult(BaseModel):
     # Excluded from normal V2 models, emitted only by the serializer so the
     # immutable legacy_v0 baseline remains comparable.
     legacy_overall_status_snapshot: str = Field(default="", exclude=True, repr=False)
+    legacy_readiness_score_snapshot: Optional[int] = Field(default=None, exclude=True, repr=False)
 
     @model_validator(mode="before")
     @classmethod
@@ -219,8 +224,11 @@ class AuditResult(BaseModel):
     @model_serializer(mode="wrap")
     def serialize_legacy_readiness_for_golden(self, handler, info):
         data = handler(self)
-        if isinstance(data, dict) and self.legacy_overall_status_snapshot:
-            data["overall_status"] = self.legacy_overall_status_snapshot
+        if isinstance(data, dict):
+            if self.legacy_overall_status_snapshot:
+                data["overall_status"] = self.legacy_overall_status_snapshot
+            if self.legacy_readiness_score_snapshot is not None:
+                data["readiness_score"] = self.legacy_readiness_score_snapshot
         return data
 
     @property
@@ -247,16 +255,19 @@ class AuditResult(BaseModel):
         readiness = self.readiness
         data["overall_status"] = readiness.value
         data["readiness"] = readiness.value
+        data["readiness_score"] = self.readiness_score
         data["summary_counts"] = self.v2_summary_counts
         if self.as_of is not None:
             data["as_of"] = self.as_of
         for item, finding in zip(data.get("findings", []), self.findings):
             item["status"] = finding.resolved_status.value
+            item["penalty"] = finding.penalty
             item["reason_code"] = finding.reason_code
             if finding.match_grade is not None:
                 item["match_grade"] = finding.match_grade.value
         if canonical:
             data.pop("execution_time_ms", None)
+            data.pop("timestamp", None)
         return data
 
     def to_canonical_dict(self) -> Dict[str, Any]:

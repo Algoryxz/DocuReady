@@ -59,8 +59,8 @@ def generate_readiness_summary_markdown(
     md.append(f"**Target Scheme:** {result.scheme_name}  ")
     if result.as_of:
         md.append(f"**Effective As Of:** `{result.as_of}`  ")
-    md.append(f"**Audit Timestamp:** {result.timestamp}  ")
     if not canonical:
+        md.append(f"**Audit Generation Timestamp:** {result.timestamp}  ")
         md.append(f"**Execution Latency:** {result.execution_time_ms:.1f} ms  ")
     md.append(f"**Overall Readiness Score:** **{result.readiness_score} / 100**  ")
     md.append(f"**Determination:** **{status_label}**  \n")

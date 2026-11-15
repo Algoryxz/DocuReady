@@ -84,6 +84,7 @@ class DocuReadyValidator:
         documents: Dict[DocumentType, ExtractedDocument],
         audit_date: Optional[date] = None,
         as_of: Optional[date] = None,
+        timestamp: Optional[str] = None,
     ) -> AuditResult:
         if as_of is not None and audit_date is not None and as_of != audit_date:
             raise ValueError(
@@ -251,21 +252,24 @@ class DocuReadyValidator:
                     score -= 25
             elif cmp["status"] == "REVIEW" and dt2 not in divergent_docs_seen:
                 divergent_docs_seen.add(dt2)
+                grade = cmp.get("grade", MatchGrade.COMPATIBLE)
+                penalty = 5 if grade is MatchGrade.COMPATIBLE else 10
                 findings.append(Finding(
                     rule_id="RULE-NAME-02",
                     rule_name="Cross-Document Applicant Name Variation",
                     status=FindingStatus.REVIEW,
                     severity=Severity.REVIEW,
-                    penalty=10,
+                    penalty=penalty,
+                    legacy_penalty_snapshot=10,
                     field="APPLICANT_NAME_VARIATION",
                     documents_involved=[primary_dt.value, dt2.value],
                     message=f"Name variation detected between {primary_dt.value} ('{primary_f.raw_value}') and {dt2.value} ('{f2.raw_value}'): {cmp['notes']}.",
                     evidence=ev,
                     remediation="Verify if this abbreviation/transliteration is acceptable under local portal rules or upload self-declaration.",
                     statutory_reference="UIDAI Name Matching Standard Guidelines",
-                    match_grade=cmp.get("grade", MatchGrade.COMPATIBLE),
+                    match_grade=grade,
                 ))
-                score -= 10
+                score -= penalty
 
         # If name fields exist and no FAIL/REVIEW was generated among primary docs, add PASS/WARN finding
         if len(name_fields) >= 2 and not any(f.field.startswith("APPLICANT_NAME") for f in findings):
@@ -431,7 +435,6 @@ class DocuReadyValidator:
                             evidence=[ev_inc_cert],
                             remediation="Inspect certificate scan manually to confirm the exact income digits.",
                             statutory_reference="Post-Matric Scholarship Scheme Guidelines 2021-2026, Clause 5.2",
-                            match_grade=MatchGrade.AMBIGUOUS,
                         ))
                         score -= 10
                     else:
@@ -447,7 +450,6 @@ class DocuReadyValidator:
                             evidence=[ev_inc_cert],
                             remediation=f"Applicant exceeds statutory economic threshold of ₹{self.scheme.income_ceiling:,.0f} for this scheme.",
                             statutory_reference="Post-Matric Scholarship Scheme Guidelines 2021-2026, Clause 5.2",
-                            match_grade=MatchGrade.CONFLICT,
                         ))
                         score -= 35
                 else:
@@ -463,7 +465,6 @@ class DocuReadyValidator:
                         evidence=[ev_inc_cert],
                         remediation="No action required.",
                         statutory_reference="Post-Matric Scholarship Guidelines Clause 5.2",
-                        match_grade=MatchGrade.EXACT,
                     ))
 
                 # Compare with Application Form declared income
@@ -560,7 +561,6 @@ class DocuReadyValidator:
                         evidence=ev_date,
                         remediation="Apply for a renewed Income Certificate at the nearest Tahsil Office or e-District portal.",
                         statutory_reference="Odisha Misc Cert Rules 2019, Rule 8(2)",
-                        match_grade=MatchGrade.CONFLICT,
                     ))
                     score -= 25
                 else:
@@ -576,7 +576,6 @@ class DocuReadyValidator:
                         evidence=ev_date,
                         remediation="No action required.",
                         statutory_reference="Odisha Misc Cert Rules 2019, Rule 8(2)",
-                        match_grade=MatchGrade.EXACT,
                     ))
 
         # ----------------- 8. CERTIFICATE NUMBER INCONSISTENCIES -----------------
@@ -738,7 +737,6 @@ class DocuReadyValidator:
                     evidence=ev_ifsc,
                     remediation="No action required.",
                     statutory_reference="RBI Master Direction",
-                    match_grade=MatchGrade.EXACT,
                 ))
 
         # Cross check account number if application form present
@@ -930,6 +928,8 @@ class DocuReadyValidator:
         # ----------------- OVERALL STATUS & SCORE DETERMINATION -----------------
         score = 100 - sum(f.penalty for f in findings)
         score = max(0, min(100, score))
+        legacy_score = 100 - sum((f.legacy_penalty_snapshot if f.legacy_penalty_snapshot is not None else f.penalty) for f in findings)
+        legacy_score = max(0, min(100, legacy_score))
 
         # Preserve the frozen legacy summary schema from the compatibility
         # label captured at construction. V2 consumers use v2_summary_counts.
@@ -961,6 +961,7 @@ class DocuReadyValidator:
         else:
             overall_status = "READY_TO_SUBMIT"
 
+        audit_ts = timestamp or f"{effective_as_of.isoformat()}T00:00:00"
         return AuditResult(
             packet_id=packet_id,
             scheme_name=self.scheme.name,
@@ -969,6 +970,7 @@ class DocuReadyValidator:
             findings=findings,
             summary_counts=summary_counts,
             execution_time_ms=0.0,
-            timestamp=f"{effective_as_of.isoformat()}T00:00:00",
+            timestamp=audit_ts,
             as_of=effective_as_of.isoformat(),
+            legacy_readiness_score_snapshot=legacy_score,
         )

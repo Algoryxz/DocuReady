@@ -57,10 +57,14 @@ def test_injected_clock_reproducibility():
 
     assert res1.as_of == "2026-11-13"
     assert res2.as_of == "2026-11-13"
-    assert res1.timestamp == "2026-11-13T00:00:00"
-    assert res2.timestamp == "2026-11-13T00:00:00"
+    # Generation timestamp is actual execution time, distinct from deterministic as_of date
+    assert res1.timestamp != "2026-11-13T00:00:00"
+    assert res2.timestamp != "2026-11-13T00:00:00"
+    assert "T" in res1.timestamp
+    assert "T" in res2.timestamp
 
-    # Canonical projection excludes volatile runtime metrics without mutating the result instances
+    # Canonical projection excludes volatile runtime metrics (latency, execution timestamp)
+    # without mutating the result instances
     assert res1.to_canonical_dict() == res2.to_canonical_dict()
 
     with tempfile.TemporaryDirectory() as tmpdir:
@@ -82,6 +86,13 @@ def test_injected_clock_reproducibility():
 
     assert md1 == md2
     assert "**Effective As Of:** `2026-11-13`" in md1
+    assert "Audit Generation Timestamp" not in md1  # Excluded in canonical replay
+    assert "Execution Latency" not in md1
+
+    md_live = generate_readiness_summary_markdown(res1, redact=False, canonical=False)
+    assert "**Effective As Of:** `2026-11-13`" in md_live
+    assert "**Audit Generation Timestamp:**" in md_live
+    assert "**Execution Latency:**" in md_live
 
 
 def test_injected_clock_boundary_crossing():
@@ -437,3 +448,126 @@ def test_validator_dob_match_grades():
     assert f_ocr_unc is not None
     assert f_ocr_unc.match_grade is MatchGrade.AMBIGUOUS
     assert f_ocr_unc.status is Status.REVIEW
+
+
+def test_validator_name_initials_expansion_resolves_warn():
+    """Initials expansion ('A. Sharma' vs 'Aarav Sharma') retains COMPATIBLE, penalty <= 5, and resolves to Status.WARN."""
+    packet = _make_clean_packet(applicant_name="Aarav Sharma")
+    packet[DocumentType.BANK_PASSBOOK].fields["applicant_name"] = _make_field(
+        DocumentType.BANK_PASSBOOK, "applicant_name", "A. Sharma"
+    )
+
+    validator = DocuReadyValidator(SchemeConfig(), as_of=date(2026, 11, 15))
+    res = validator.validate_packet("NAME_INITIALS", packet)
+
+    f = _find_finding(res.findings, "RULE-NAME-02")
+    assert f is not None
+    assert f.match_grade is MatchGrade.COMPATIBLE
+    assert f.penalty <= 5
+    assert f.penalty == 5
+    assert f.status is Status.WARN
+    assert f.reason_code == ReasonCode.DEFECT_PROBABLE.value
+    assert res.readiness is Readiness.NEEDS_CHECKS
+    assert res.readiness_score == 95
+
+
+def test_validator_name_minor_spelling_variation_resolves_warn():
+    """Minor transliteration/spelling edit distance retains COMPATIBLE, penalty <= 5, and resolves to Status.WARN."""
+    packet = _make_clean_packet(applicant_name="Aarav Sharma")
+    packet[DocumentType.MARKSHEET].fields["applicant_name"] = _make_field(
+        DocumentType.MARKSHEET, "applicant_name", "Arav Sharma"
+    )
+
+    validator = DocuReadyValidator(SchemeConfig(), as_of=date(2026, 11, 15))
+    res = validator.validate_packet("NAME_TYPO", packet)
+
+    f = _find_finding(res.findings, "RULE-NAME-02")
+    assert f is not None
+    assert f.match_grade is MatchGrade.COMPATIBLE
+    assert f.penalty <= 5
+    assert f.penalty == 5
+    assert f.status is Status.WARN
+    assert f.reason_code == ReasonCode.DEFECT_PROBABLE.value
+    assert res.readiness is Readiness.NEEDS_CHECKS
+
+
+def test_validator_name_genuine_conflict_resolves_fail():
+    """Genuine conflict ('Rohan Sharma' vs 'Aarav Sharma') retains CONFLICT, penalty 25, and resolves to Status.FAIL."""
+    packet = _make_clean_packet(applicant_name="Aarav Sharma")
+    packet[DocumentType.MARKSHEET].fields["applicant_name"] = _make_field(
+        DocumentType.MARKSHEET, "applicant_name", "Rohan Sharma"
+    )
+
+    validator = DocuReadyValidator(SchemeConfig(), as_of=date(2026, 11, 15))
+    res = validator.validate_packet("NAME_CONFLICT", packet)
+
+    f = _find_finding(res.findings, "RULE-NAME-01")
+    assert f is not None
+    assert f.match_grade is MatchGrade.CONFLICT
+    assert f.penalty == 25
+    assert f.status is Status.FAIL
+    assert f.reason_code == ReasonCode.DEFECT_CONFIRMED.value
+    assert res.readiness is Readiness.NOT_READY
+
+
+def test_validator_name_single_token_ambiguity_resolves_review():
+    """Single token ('Aarav' vs 'Aarav Sharma') is AMBIGUOUS, penalty 10, and resolves to Status.REVIEW."""
+    packet = _make_clean_packet(applicant_name="Aarav Sharma")
+    packet[DocumentType.MARKSHEET].fields["applicant_name"] = _make_field(
+        DocumentType.MARKSHEET, "applicant_name", "Aarav"
+    )
+
+    validator = DocuReadyValidator(SchemeConfig(), as_of=date(2026, 11, 15))
+    res = validator.validate_packet("NAME_SINGLE_TOKEN", packet)
+
+    f = _find_finding(res.findings, "RULE-NAME-02")
+    assert f is not None
+    assert f.match_grade is MatchGrade.AMBIGUOUS
+    assert f.penalty == 10
+    assert f.status is Status.REVIEW
+    assert f.reason_code == ReasonCode.INSUFFICIENT_DATA.value
+    assert res.readiness is Readiness.NEEDS_CHECKS
+
+
+def test_validator_name_uncertain_ocr_fails_closed_to_review():
+    """Uncertain OCR on a name variation fails closed to Status.REVIEW (never elevated to WARN or PASS)."""
+    packet = _make_clean_packet(applicant_name="Aarav Sharma")
+    packet[DocumentType.MARKSHEET].fields["applicant_name"] = _make_field(
+        DocumentType.MARKSHEET,
+        "applicant_name",
+        "A. Sharma",
+        evidence_state=EvidenceState.UNCERTAIN,
+        is_uncertain=True,
+    )
+
+    validator = DocuReadyValidator(SchemeConfig(), as_of=date(2026, 11, 15))
+    res = validator.validate_packet("NAME_UNCERTAIN_OCR", packet)
+
+    f = _find_finding(res.findings, "RULE-NAME-02")
+    assert f is not None
+    # OCR uncertainty preserves fail-closed Status.REVIEW
+    assert f.status is Status.REVIEW
+    assert f.reason_code == ReasonCode.EVIDENCE_UNCERTAIN.value
+    assert res.readiness is Readiness.NEEDS_CHECKS
+
+
+def test_non_comparison_rules_have_no_match_grade():
+    """Single-field format checks, numeric thresholds, and date validity checks do not assign MatchGrade."""
+    packet = _make_clean_packet()
+    validator = DocuReadyValidator(SchemeConfig(), as_of=date(2026, 11, 15))
+    res = validator.validate_packet("NON_COMPARISON_CHECKS", packet)
+
+    # 1. Single-field IFSC format check
+    f_ifsc = _find_finding(res.findings, "RULE-BNK-IFSC-PASS")
+    assert f_ifsc is not None
+    assert f_ifsc.match_grade is None
+
+    # 2. Income ceiling threshold check
+    f_inc_ceil = _find_finding(res.findings, "RULE-INC-CEIL-PASS")
+    assert f_inc_ceil is not None
+    assert f_inc_ceil.match_grade is None
+
+    # 3. Income certificate expiry check
+    f_exp = _find_finding(res.findings, "RULE-EXP-PASS")
+    assert f_exp is not None
+    assert f_exp.match_grade is None

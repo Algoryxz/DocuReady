@@ -6,7 +6,7 @@ Connects file ingestion, field extraction, validation, and document replacement.
 from __future__ import annotations
 import os
 import time
-from datetime import date
+from datetime import date, datetime
 from typing import Dict, List, Optional, Tuple
 from docuready.domain.models import (
     DocumentType, ExtractedDocument, AuditResult, FindingStatus
@@ -90,7 +90,10 @@ class AuditPipeline:
 
         # Run validation
         logger.info("Extracted %d documents for packet %s", len(extracted_docs), pid)
-        audit_result = self.validator.validate_packet(pid, extracted_docs, as_of=effective_as_of)
+        generation_ts = datetime.now().isoformat()
+        audit_result = self.validator.validate_packet(
+            pid, extracted_docs, as_of=effective_as_of, timestamp=generation_ts
+        )
         t1 = time.perf_counter()
         audit_result.execution_time_ms = round((t1 - t0) * 1000.0, 3)
         logger.info(
@@ -124,7 +127,10 @@ class AuditPipeline:
         new_doc = self.extractor.extract_document(replacement_file_path, expected_type=doc_type)
         new_docs[doc_type] = new_doc
 
-        audit_result = self.validator.validate_packet(packet_id, new_docs, as_of=effective_as_of)
+        generation_ts = datetime.now().isoformat()
+        audit_result = self.validator.validate_packet(
+            packet_id, new_docs, as_of=effective_as_of, timestamp=generation_ts
+        )
         t1 = time.perf_counter()
         audit_result.execution_time_ms = round((t1 - t0) * 1000.0, 3)
 

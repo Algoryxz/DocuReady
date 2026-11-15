@@ -4,6 +4,7 @@ Verifies 100% bit-for-bit parity against committed legacy V0 golden snapshot.
 """
 
 import json
+from datetime import date
 from pathlib import Path
 from typing import Any, List
 import pytest
@@ -87,7 +88,7 @@ def golden_data():
 
 @pytest.fixture(scope="module")
 def pipeline():
-    return AuditPipeline()
+    return AuditPipeline(as_of=date(2026, 11, 13))
 
 
 VECTOR_PACKETS = [
