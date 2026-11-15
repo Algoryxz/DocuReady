@@ -94,3 +94,127 @@ def test_advisory_determination_copy_present():
     code = APP_PY_PATH.read_text(encoding="utf-8")
     assert "Pre-Check Advisory Determination" in code
     assert "Advisory preparation aid; does not guarantee official portal acceptance" in code
+
+
+# ---------------------------------------------------------------------------
+# AppTest Genuine Runtime Execution Tests
+# ---------------------------------------------------------------------------
+
+def test_apptest_synthetic_only_mode_runtime():
+    """Verify that DOCUREADY_SYNTHETIC_ONLY=1 renders cleanly without NameError and disables uploader."""
+    import os
+    from streamlit.testing.v1 import AppTest
+
+    old_val = os.environ.get("DOCUREADY_SYNTHETIC_ONLY")
+    try:
+        os.environ["DOCUREADY_SYNTHETIC_ONLY"] = "1"
+        at = AppTest.from_file(str(APP_PY_PATH), default_timeout=30)
+        at.run()
+        assert not at.exception, f"AppTest raised unexpected exception on start: {at.exception}"
+
+        # Navigate to Upload Documents
+        at.sidebar.radio[0].set_value("2. Upload Documents").run()
+        assert not at.exception, f"AppTest raised exception on Upload Documents: {at.exception}"
+
+        # Verify file uploader is absent in synthetic-only mode
+        assert len(at.file_uploader) == 0, "File uploader must be absent in synthetic-only mode"
+
+        # Verify privacy demonstration notice is shown
+        info_texts = [i.value for i in at.info]
+        assert any("Public Demonstration Mode" in t for t in info_texts), (
+            "Public demonstration notice must be rendered in synthetic-only mode"
+        )
+    finally:
+        if old_val is None:
+            os.environ.pop("DOCUREADY_SYNTHETIC_ONLY", None)
+        else:
+            os.environ["DOCUREADY_SYNTHETIC_ONLY"] = old_val
+
+
+def test_apptest_ordinary_mode_runtime():
+    """Verify that default mode renders file uploader without exceptions."""
+    import os
+    from streamlit.testing.v1 import AppTest
+
+    old_val = os.environ.get("DOCUREADY_SYNTHETIC_ONLY")
+    try:
+        os.environ.pop("DOCUREADY_SYNTHETIC_ONLY", None)
+        at = AppTest.from_file(str(APP_PY_PATH), default_timeout=30)
+        at.run()
+        assert not at.exception, f"AppTest raised unexpected exception on start: {at.exception}"
+
+        # Navigate to Upload Documents
+        at.sidebar.radio[0].set_value("2. Upload Documents").run()
+        assert not at.exception, f"AppTest raised exception on Upload Documents: {at.exception}"
+
+        # Verify file uploader is present in default mode
+        assert len(at.file_uploader) == 1, "File uploader must be present in default mode"
+    finally:
+        if old_val is not None:
+            os.environ["DOCUREADY_SYNTHETIC_ONLY"] = old_val
+
+
+def test_apptest_mobile_workflow_full_cycle():
+    """Verify end-to-end mobile workflow: dashboard -> select -> audit -> navigate -> clear."""
+    import os
+    from streamlit.testing.v1 import AppTest
+
+    old_val = os.environ.get("DOCUREADY_SYNTHETIC_ONLY")
+    try:
+        os.environ["DOCUREADY_SYNTHETIC_ONLY"] = "1"
+        at = AppTest.from_file(str(APP_PY_PATH), default_timeout=30)
+        at.run()
+        assert not at.exception
+
+        # 1. Navigate to Upload Documents
+        at.sidebar.radio[0].set_value("2. Upload Documents").run()
+        assert not at.exception
+
+        # 2. Audit PKT_01_CLEAN
+        audit_btn = [b for b in at.button if "Audit Selected" in b.label][0]
+        audit_btn.click().run()
+        assert not at.exception
+        assert at.session_state.audit_result is not None
+        assert at.session_state.audit_result.overall_status == "READY_TO_SUBMIT"
+        assert at.session_state.audit_result.readiness_score == 100
+
+        # 3. Audit PKT_02_NAME_CONFLICT
+        at.selectbox[0].select("PKT_02_NAME_CONFLICT").run()
+        audit_btn = [b for b in at.button if "Audit Selected" in b.label][0]
+        audit_btn.click().run()
+        assert not at.exception
+        assert at.session_state.audit_result is not None
+        assert at.session_state.audit_result.overall_status == "ACTION_REQUIRED"
+        assert at.session_state.audit_result.readiness_score < 100
+        assert len(at.session_state.audit_result.findings) > 0
+
+        # 4. Navigate through all screens
+        tabs = [
+            "1. Dashboard",
+            "3. Document Extraction & Evidence",
+            "4. Cross-Document Validation",
+            "5. Audit Results",
+            "6. Document Replacement & Rerun",
+        ]
+        for tab_name in tabs:
+            at.sidebar.radio[0].set_value(tab_name).run()
+            assert not at.exception, f"Exception encountered when rendering tab {tab_name}: {at.exception}"
+
+        # 5. On Audit Results tab, verify download buttons exist
+        at.sidebar.radio[0].set_value("5. Audit Results").run()
+        assert not at.exception
+        assert len(at.download_button) >= 2, "Expected Markdown and JSON report download buttons"
+
+        # 6. Clear session data
+        at.sidebar.radio[0].set_value("2. Upload Documents").run()
+        clear_btn = [b for b in at.button if "Clear Session" in b.label][0]
+        clear_btn.click().run()
+        assert not at.exception
+        assert at.session_state.audit_result is None, "Audit result must be cleared after session reset"
+
+    finally:
+        if old_val is None:
+            os.environ.pop("DOCUREADY_SYNTHETIC_ONLY", None)
+        else:
+            os.environ["DOCUREADY_SYNTHETIC_ONLY"] = old_val
+

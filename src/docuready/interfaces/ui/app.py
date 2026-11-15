@@ -397,6 +397,7 @@ elif screen == "2. Upload Documents":
 
     st.markdown("---")
     st.subheader("2. Upload Custom Document Files (Temporary Processing)")
+    uploaded_files = None
     if SYNTHETIC_ONLY_MODE:
         st.info("🔒 **Public Demonstration Mode:** Arbitrary citizen document uploads are disabled for privacy protection. Please evaluate DocuReady using the pre-loaded synthetic demonstration packets above.")
     else:

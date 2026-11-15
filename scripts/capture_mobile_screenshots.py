@@ -24,6 +24,10 @@ VIEWPORTS = [
 
 def main():
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    # Remove stale screenshots prior to generation
+    for _, _, fname in VIEWPORTS:
+        (OUTPUT_DIR / fname).unlink(missing_ok=True)
+
     python_exe = REPO_ROOT / ".venv" / "Scripts" / "python.exe"
     if not python_exe.exists():
         python_exe = Path(sys.executable)
@@ -64,25 +68,32 @@ def main():
             print("ERROR: Streamlit server failed to start within 30 seconds.")
             return 1
 
-        print("Streamlit server is ready. Capturing screenshots...")
-        # Give Streamlit app 2 seconds to initialize WebSocket and render default state
-        time.sleep(2)
+        print("Streamlit server is ready. Waiting for initial application warmup...")
+        time.sleep(3)
+
+        from PIL import Image
 
         for w, h, fname in VIEWPORTS:
             out_file = OUTPUT_DIR / fname
             print(f"Capturing {fname} ({w}x{h})...")
             cmd = [
                 EDGE_EXE,
-                "--headless=new",
+                "--headless=old",
                 "--disable-gpu",
                 "--no-sandbox",
+                "--run-all-compositor-stages-before-draw",
+                "--virtual-time-budget=8000",
                 f"--window-size={w},{h}",
                 f"--screenshot={str(out_file)}",
                 URL,
             ]
-            res = subprocess.run(cmd, capture_output=True, timeout=20)
+            res = subprocess.run(cmd, capture_output=True, timeout=30)
             if out_file.exists() and out_file.stat().st_size > 0:
-                print(f"  -> Successfully generated {fname} ({out_file.stat().st_size} bytes)")
+                img = Image.open(out_file)
+                unique_colors = len(set(img.get_flattened_data() if hasattr(img, "get_flattened_data") else img.getdata()))
+                print(f"  -> Generated {fname}: {out_file.stat().st_size} bytes, dimensions={img.size}, unique_colors={unique_colors}")
+                if unique_colors <= 1:
+                    print(f"  -> WARNING: {fname} appears blank (single color detected)")
             else:
                 print(f"  -> FAILED to generate {fname}: {res.stderr.decode('utf-8', errors='ignore')}")
 

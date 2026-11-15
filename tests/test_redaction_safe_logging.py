@@ -244,3 +244,146 @@ def test_secure_temporary_directory_cleanup_on_exception():
 
     assert captured_path is not None
     assert not captured_path.exists(), "Temporary directory must be deleted even if an exception occurs"
+
+
+# ---------------------------------------------------------------------------
+# 6. T1.4 Full Integration Evidence Tests
+# ---------------------------------------------------------------------------
+
+def test_default_export_redaction_integration(tmp_path, capsys):
+    """Integration test verifying default export redaction, PII masking, and --no-redact controls.
+
+    Uses a synthetic packet audit result injected with unique PII:
+    - Unique Aadhaar: '9999 1111 2222'
+    - Unique Bank Account: '123456789012'
+    - Unique Phone: '+91 98765 43210'
+    - Unique Applicant Name: 'Priya Test Sharma'
+    - Raw Evidence Snippet containing identifiers
+
+    Verifies:
+    1. Default JSON export omits raw evidence snippets and masks PII while preserving rule IDs and remediation.
+    2. Default Markdown export omits raw evidence snippets and masks PII while preserving rule IDs and remediation.
+    3. Explicit unredacted export (redact=False) preserves full PII and raw snippets.
+    4. CLI invocation requires explicit --no-redact flag and emits a warning on stderr.
+    """
+    pipeline = AuditPipeline()
+    result, _ = pipeline.load_and_audit_packet(str(_PACKET_DIR), packet_id="PKT_01_CLEAN")
+
+    # Inject synthetic finding with distinct identifiers and raw snippet
+    uid = "9999 1111 2222"
+    bank_acc = "123456789012"
+    phone_no = "+91 98765 43210"
+    applicant = "Priya Test Sharma"
+    raw_snip = f"Candidate '{applicant}' UID: {uid}, Phone: {phone_no}, A/c: {bank_acc}"
+    remediation_text = "Ensure original photo ID and passbook are available during document verification."
+    rule_id = "RULE-SYNTH-PII-01"
+
+    # Mutate finding 0
+    f0 = result.findings[0]
+    f0.rule_id = rule_id
+    f0.message = f"Demographic check for applicant '{applicant}' with Aadhaar {uid} and mobile {phone_no}"
+    f0.remediation = remediation_text
+    if f0.evidence:
+        f0.evidence[0].raw_snippet = raw_snip
+
+    # 1. Default JSON export
+    json_path = tmp_path / "default_export.json"
+    export_audit_report_json(result, str(json_path), redact=True)
+    json_content = json_path.read_text(encoding="utf-8")
+
+    assert uid not in json_content, "Full Aadhaar must NOT appear in default JSON export"
+    assert "9876543210" not in json_content, "Full phone number must NOT appear in default JSON export"
+    assert "123456789012" not in json_content, "Full bank account must NOT appear in default JSON export"
+    assert raw_snip not in json_content, "Raw evidence snippet must NOT appear in default JSON export"
+    assert "[REDACTED EVIDENCE SNIPPET]" in json_content, "Raw snippet must be replaced with placeholder"
+    assert rule_id in json_content, "Rule ID must be preserved in default JSON export"
+    assert remediation_text in json_content, "Actionable remediation must be preserved in default JSON export"
+
+    # 2. Default Markdown export
+    md_content = generate_readiness_summary_markdown(result, redact=True)
+    assert uid not in md_content, "Full Aadhaar must NOT appear in default Markdown export"
+    assert "9876543210" not in md_content, "Full phone number must NOT appear in default Markdown export"
+    assert "123456789012" not in md_content, "Full bank account must NOT appear in default Markdown export"
+    assert raw_snip not in md_content, "Raw evidence snippet must NOT appear in default Markdown export"
+    assert rule_id in md_content, "Rule ID must be preserved in default Markdown export"
+    assert remediation_text in md_content, "Actionable remediation must be preserved in default Markdown export"
+    assert "Privacy Notice: This report has been redacted" in md_content
+
+    # 3. Unredacted Export (redact=False)
+    unredacted_json_path = tmp_path / "unredacted_export.json"
+    export_audit_report_json(result, str(unredacted_json_path), redact=False)
+    unredacted_json = unredacted_json_path.read_text(encoding="utf-8")
+    assert uid in unredacted_json, "Unredacted JSON export must retain original Aadhaar"
+    assert raw_snip in unredacted_json, "Unredacted JSON export must retain raw snippet"
+
+    unredacted_md = generate_readiness_summary_markdown(result, redact=False)
+    assert uid in unredacted_md, "Unredacted Markdown export must retain original Aadhaar"
+    assert "Privacy Notice: This report has been redacted" not in unredacted_md
+
+    # 4. CLI with and without --no-redact
+    with patch("sys.argv", ["docuready", "audit", str(_PACKET_DIR)]):
+        cli_main()
+    captured_default = capsys.readouterr()
+    assert "WARNING: --no-redact specified" not in captured_default.err
+
+    with patch("sys.argv", ["docuready", "audit", str(_PACKET_DIR), "--no-redact"]):
+        cli_main()
+    captured_unredacted = capsys.readouterr()
+    assert "WARNING: --no-redact specified" in captured_unredacted.err
+
+
+def test_full_pipeline_logging_safe():
+    """Verify that end-to-end pipeline execution and logging never leak raw citizen PII or OCR text.
+
+    Verifies:
+    1. SafeLogFilter eager formatting and record.args clearing prevent downstream exposure.
+    2. Full pipeline run on synthetic packets produces zero unredacted PII in log records.
+    3. Pipeline logger masks Aadhaar, phone, bank account, and raw OCR snippets.
+    """
+    log_stream = io.StringIO()
+    handler = logging.StreamHandler(log_stream)
+    formatter = logging.Formatter("%(levelname)s: %(message)s")
+    handler.setFormatter(formatter)
+
+    pipeline_logger = get_safe_logger("docuready.pipeline")
+    pipeline_logger.setLevel(logging.DEBUG)
+    pipeline_logger.addHandler(handler)
+
+    try:
+        # Run full pipeline audit
+        pipeline = AuditPipeline()
+        res_clean, docs_clean = pipeline.load_and_audit_packet(str(_PACKET_DIR), packet_id="PKT_01_CLEAN")
+        assert res_clean.overall_status == "READY_TO_SUBMIT"
+
+        # Explicitly log potential diagnostic messages that an engineer or extractor might emit
+        uid = "9999 1111 2222"
+        phone = "9876543210"
+        bank_acc = "123456789012"
+        applicant = "Priya Test Sharma"
+        raw_ocr = "Raw OCR stream text containing Aadhaar 9999 1111 2222 and Phone 9876543210 for applicant 'Priya Test Sharma'"
+
+        # Test %s formatted logging with quoted name
+        pipeline_logger.info("Processing applicant '%s' with UID %s and acc %s", applicant, uid, bank_acc)
+        # Test freeform message logging
+        pipeline_logger.debug("Extracted raw OCR text: %s", raw_ocr)
+
+        handler.flush()
+        logs = log_stream.getvalue()
+
+        # Assert no full citizen identifiers appear anywhere in the logs
+        assert uid not in logs, f"Full Aadhaar {uid} must not be logged"
+        assert phone not in logs, f"Full phone {phone} must not be logged"
+        assert bank_acc not in logs, f"Full bank account {bank_acc} must not be logged"
+        assert "9999 1111" not in logs
+        assert "9876543210" not in logs
+        assert "'Priya Test Sharma'" not in logs, "Quoted citizen name must be masked in logs"
+
+        # Assert sanitized representations are present
+        assert "XXXX-XXXX-2222" in logs, "Masked Aadhaar must be present"
+        assert "••••••••10" in logs, "Masked phone must be present"
+        assert "9012" in logs, "Last 4 digits preserved in masked account/Aadhaar"
+        assert "'[REDACTED]'" in logs, "Quoted citizen name must be masked as '[REDACTED]'"
+
+    finally:
+        pipeline_logger.removeHandler(handler)
+
