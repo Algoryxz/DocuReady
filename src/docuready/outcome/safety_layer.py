@@ -162,6 +162,22 @@ class DecisionSafetyLayer:
         resolve_outcome directly when the pack engine is introduced.
         """
         legacy_status = finding.legacy_status_snapshot
+        if finding.rule_id == "RULE-SLOT-01":
+            is_wrong_type = getattr(finding, "_is_wrong_type", False) or "Slot mismatch" in finding.message
+            raw = Raw.VIOLATED if is_wrong_type else Raw.INDETERMINATE
+            weakest = EvidenceState.VERIFIED if is_wrong_type else EvidenceState.UNCERTAIN
+            outcome = resolve_outcome(
+                raw,
+                weakest_evidence=weakest,
+                slot_mismatch=True,
+            )
+            finding.set_resolution(
+                raw,
+                outcome.status,
+                outcome.reason_code,
+            )
+            return
+
         if finding.rule_id == "RULE-DOC-01" and legacy_status == FindingStatus.FAIL.value:
             raw = Raw.DOC_ABSENT
         elif (

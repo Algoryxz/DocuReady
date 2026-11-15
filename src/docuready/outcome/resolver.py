@@ -40,6 +40,7 @@ def resolve_outcome(
     max_severity: Optional[MaxSeverity] = None,
     match_grade: Optional[MatchGrade] = None,
     exemption_reason: Optional[str] = None,
+    slot_mismatch: bool = False,
 ) -> ResolvedOutcome:
     """Resolve a raw result using the V2 Section 6 truth table.
 
@@ -64,6 +65,20 @@ def resolve_outcome(
             Status.NOT_APPLICABLE,
             f"EXEMPT:{safe_reason}",
             "This rule does not apply to the supplied applicant category.",
+        )
+
+    if slot_mismatch:
+        evidence = normalize_evidence_state(weakest_evidence)
+        if raw is Raw.VIOLATED and evidence is EvidenceState.VERIFIED:
+            return ResolvedOutcome(
+                Status.REVIEW,
+                ReasonCode.WRONG_DOCUMENT_TYPE.value,
+                "The uploaded document does not match the required document slot.",
+            )
+        return ResolvedOutcome(
+            Status.REVIEW,
+            ReasonCode.EVIDENCE_UNCERTAIN.value,
+            "The uploaded document could not be verified for this slot.",
         )
 
     if raw is Raw.INDETERMINATE:

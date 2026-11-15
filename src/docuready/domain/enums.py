@@ -78,6 +78,7 @@ class ReasonCode(str, Enum):
     INSUFFICIENT_DATA = "INSUFFICIENT_DATA"
     DOC_ABSENT = "DOC_ABSENT"
     ADVISORY_RULE_CAP = "ADVISORY_RULE_CAP"
+    WRONG_DOCUMENT_TYPE = "WRONG_DOCUMENT_TYPE"
 
 
 class Readiness(str, Enum):

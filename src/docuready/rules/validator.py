@@ -16,6 +16,7 @@ from docuready.normalize.normalizer import (
 )
 from docuready.domain.enums import MatchGrade, MaxSeverity
 from docuready.outcome.safety_layer import DecisionSafetyLayer
+from docuready.rules.slot_validator import validate_packet_slots
 
 
 class SchemeConfig:
@@ -135,8 +136,18 @@ class DocuReadyValidator:
                 ))
                 score -= 25
 
+        # ----------------- 2.5 DOCUMENT SLOT VALIDATION -----------------
+        slot_findings, mismatched_slots = validate_packet_slots(
+            documents, self.scheme.mandatory_documents, emit_for_unreadable=False
+        )
+        for sf in slot_findings:
+            findings.append(sf)
+            score -= sf.penalty
+
         # Helper to get field safely
         def get_f(dt: DocumentType, fname: str) -> Optional[ExtractedField]:
+            if dt in mismatched_slots:
+                return None
             d = documents.get(dt)
             if d and d.status == "VALID":
                 return d.fields.get(fname)
@@ -153,6 +164,8 @@ class DocuReadyValidator:
         }
 
         for doc_type, req_fields in mandatory_field_map.items():
+            if doc_type in mismatched_slots:
+                continue
             doc = documents.get(doc_type)
             if doc and doc.status == "VALID":
                 for mf in req_fields:
