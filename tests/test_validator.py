@@ -5,6 +5,7 @@ Unit tests for deterministic validation rules and finding status categorization.
 from docuready.domain.models import (
     DocumentType, ExtractedDocument, ExtractedField, FindingStatus, Severity
 )
+from docuready.domain.enums import Status
 from docuready.rules.validator import DocuReadyValidator, SchemeConfig
 
 
@@ -12,10 +13,10 @@ def test_validator_mandatory_document_missing():
     validator = DocuReadyValidator()
     # Packet with no documents
     res = validator.validate_packet("TEST_EMPTY", {})
-    assert res.overall_status == "REJECT_PRECHECK"
+    assert res.readiness.value == "NOT_READY"
     missing_findings = [f for f in res.findings if f.rule_id == "RULE-DOC-01"]
     assert len(missing_findings) == 6
-    assert all(f.status == FindingStatus.FAIL for f in missing_findings)
+    assert all(f.status == Status.MISSING for f in missing_findings)
     assert all(f.severity == Severity.FATAL for f in missing_findings)
 
 

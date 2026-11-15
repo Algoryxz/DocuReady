@@ -10,6 +10,8 @@ Intercepts validation findings before applicant presentation to guarantee that:
 
 import re
 from typing import Dict, List, Optional, Set, Any
+from docuready.domain.enums import Raw
+from docuready.outcome.resolver import resolve_outcome, weakest_evidence
 from docuready.domain.models import (
     DocumentType, ExtractedDocument, ExtractedField, EvidenceState,
     Finding, FindingStatus, Severity
@@ -41,9 +43,135 @@ class DecisionSafetyLayer:
 
         for f in findings:
             safe_f = self._audit_single_finding(f, documents, scheme_name, scheme_config)
+            self._attach_v2_resolution(safe_f, documents, scheme_config)
             safe_findings.append(safe_f)
 
         return safe_findings
+
+    def _attach_v2_resolution(
+        self,
+        finding: Finding,
+        documents: Dict[DocumentType, ExtractedDocument],
+        scheme_config: Optional[Any] = None,
+    ) -> None:
+        """Attach the canonical V2 outcome without changing legacy snapshot fields.
+
+        This adapter lets the current validator transition safely: rule code
+        still supplies its legacy raw label, while evidence certainty and the
+        V2 resolver determine the public status. New rule primitives can call
+        resolve_outcome directly when the pack engine is introduced.
+        """
+        legacy_status = finding.legacy_status_snapshot
+        if finding.rule_id == "RULE-DOC-01" and legacy_status == FindingStatus.FAIL.value:
+            raw = Raw.DOC_ABSENT
+        elif (
+            legacy_status == FindingStatus.PASS.value
+            and finding.rule_id == "RULE-MRK-RELAX-PASS"
+            and "exempt from minimum percentage cutoffs" in finding.message.lower()
+        ):
+            # The exemption is only surfaced as NOT_APPLICABLE when the
+            # category evidence itself is present and verified.
+            raw = Raw.EXEMPT
+        elif legacy_status == FindingStatus.FAIL.value:
+            raw = Raw.VIOLATED
+        elif legacy_status == FindingStatus.PASS.value:
+            raw = Raw.SATISFIED
+        else:
+            raw = Raw.INDETERMINATE
+
+        states = self._collect_v2_evidence_states(finding, documents)
+        weakest = weakest_evidence(states)
+
+        if raw is Raw.EXEMPT and weakest is not EvidenceState.VERIFIED:
+            # A category exemption cannot be trusted when its supporting
+            # category evidence is absent, provisional, or uncertain.
+            raw = Raw.INDETERMINATE
+
+        severity_caps = getattr(scheme_config, "rule_max_severity", None) or {}
+        max_severity = severity_caps.get(finding.rule_id)
+        outcome = resolve_outcome(
+            raw,
+            weakest_evidence=weakest,
+            max_severity=max_severity,
+        )
+        finding.set_resolution(raw, outcome.status, outcome.reason_code)
+
+    def _collect_v2_evidence_states(
+        self,
+        finding: Finding,
+        documents: Dict[DocumentType, ExtractedDocument],
+    ) -> List[EvidenceState]:
+        """Collect only the evidence relevant to a finding, fail-closed."""
+        relevant_fields = self._get_relevant_fields(finding)
+        document_names = list(finding.documents_involved)
+
+        is_category_exemption = (
+            finding.rule_id == "RULE-MRK-RELAX-PASS"
+            and "exempt from minimum percentage cutoffs" in finding.message.lower()
+        )
+        if is_category_exemption:
+            relevant_fields.update({"percentage", "caste_category"})
+            # The legacy finding records only the marksheet, although category
+            # is also an input. Include whichever category documents exist.
+            for doc_type in (DocumentType.APPLICATION_FORM, DocumentType.CASTE_CERT):
+                category_doc = documents.get(doc_type)
+                has_category = bool(
+                    category_doc
+                    and any("caste_category" in field_name for field_name in category_doc.fields)
+                )
+                if has_category and doc_type.value not in document_names:
+                    document_names.append(doc_type.value)
+
+        states: List[EvidenceState] = []
+        for doc_name in document_names:
+            try:
+                doc_type = DocumentType(doc_name)
+            except (TypeError, ValueError):
+                states.append(EvidenceState.UNCERTAIN)
+                continue
+
+            document = documents.get(doc_type)
+            if document is None or document.status in ("MISSING", "UNREADABLE", "CORRUPTED"):
+                states.append(EvidenceState.UNCERTAIN)
+                continue
+
+            if relevant_fields:
+                selected_fields = [
+                    field
+                    for name, field in document.fields.items()
+                    if name in relevant_fields
+                ]
+            else:
+                selected_fields = list(document.fields.values())
+
+            if selected_fields:
+                for field in selected_fields:
+                    if field.is_uncertain:
+                        states.append(EvidenceState.UNCERTAIN)
+                    else:
+                        states.append(field.evidence_state)
+                continue
+
+            # Some older validator paths create provenance without a matching
+            # model field. Preserve its extraction method, but missing metadata
+            # must not be treated as verified.
+            provenance = [
+                item for item in finding.evidence
+                if item.document_type == doc_type.value
+            ]
+            if not provenance:
+                states.append(EvidenceState.UNCERTAIN)
+                continue
+
+            for item in provenance:
+                if item.extraction_method == "NATIVE_VECTOR":
+                    states.append(EvidenceState.VERIFIED_TEXT)
+                elif item.extraction_method == "LOCAL_OCR":
+                    states.append(EvidenceState.OCR_EXTRACTED)
+                else:
+                    states.append(EvidenceState.UNCERTAIN)
+
+        return states
 
     def _audit_single_finding(
         self,
@@ -52,9 +180,9 @@ class DecisionSafetyLayer:
         scheme_name: str,
         scheme_config: Optional[Any] = None
     ) -> Finding:
-        if finding.status == FindingStatus.FAIL:
+        if finding.legacy_status_snapshot == FindingStatus.FAIL.value:
             return self._audit_fail_finding(finding, documents, scheme_name, scheme_config)
-        elif finding.status == FindingStatus.PASS:
+        elif finding.legacy_status_snapshot == FindingStatus.PASS.value:
             return self._audit_pass_finding(finding, documents, scheme_name, scheme_config)
         else:
             # REVIEW and UNKNOWN findings already represent non-definitive/investigative states

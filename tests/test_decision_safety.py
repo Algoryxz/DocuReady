@@ -14,6 +14,7 @@ from docuready.domain.models import (
     DocumentType, ExtractedDocument, ExtractedField, EvidenceProvenance,
     Finding, FindingStatus, Severity, EvidenceState, ExtractionMethod
 )
+from docuready.domain.enums import Status
 from docuready.outcome.safety_layer import DecisionSafetyLayer
 from docuready.rules.validator import DocuReadyValidator, SchemeConfig
 
@@ -50,7 +51,7 @@ def test_pass_with_no_provenance_downgrades_to_unknown(safety_layer):
 
     res = safety_layer.audit_findings([finding], docs, "Test Scheme")
     assert len(res) == 1
-    assert res[0].status == FindingStatus.UNKNOWN
+    assert res[0].status == FindingStatus.REVIEW
     assert res[0].penalty > 0
     assert "lacks supporting evidence provenance" in res[0].message
 
@@ -88,7 +89,7 @@ def test_cross_doc_pass_single_source_downgrades_to_unknown(safety_layer):
 
     res = safety_layer.audit_findings([finding], docs, "Test Scheme")
     assert len(res) == 1
-    assert res[0].status == FindingStatus.UNKNOWN
+    assert res[0].status == FindingStatus.REVIEW
     assert res[0].rule_id == "RULE-NAME-PASS-SINGLE-SOURCE"
     assert "Cannot establish cross-document consistency without dual-document evidence" in res[0].message
 
@@ -253,7 +254,7 @@ def test_pass_relying_on_unreadable_or_missing_field_downgrades_to_unknown(safet
 
     res = safety_layer.audit_findings([finding], docs, "Test Scheme")
     assert len(res) == 1
-    assert res[0].status == FindingStatus.UNKNOWN
+    assert res[0].status == FindingStatus.REVIEW
     assert "unreadable" in res[0].message.lower() or "missing" in res[0].message.lower()
 
 
@@ -357,7 +358,7 @@ def test_cross_doc_fail_single_source_downgrades_to_unknown(safety_layer):
 
     res = safety_layer.audit_findings([finding], docs, "Test Scheme")
     assert len(res) == 1
-    assert res[0].status == FindingStatus.UNKNOWN
+    assert res[0].status == FindingStatus.REVIEW
     assert res[0].rule_id == "RULE-DOB-01-SINGLE-SOURCE"
     assert "Cannot establish contradiction without dual-document evidence" in res[0].message
 
@@ -436,11 +437,11 @@ def test_genuinely_absent_mandatory_document_fails_cleanly():
     # CASTE_CERT is explicitly mandatory, so RULE-DOC-01 MUST remain FAIL
     missing_doc_findings = [f for f in audit_res.findings if f.rule_id == "RULE-DOC-01"]
     assert len(missing_doc_findings) == 1
-    assert missing_doc_findings[0].status == FindingStatus.FAIL
+    assert missing_doc_findings[0].status is Status.MISSING
     assert missing_doc_findings[0].severity == Severity.FATAL
     assert "CASTE_CERT" in missing_doc_findings[0].documents_involved
     assert audit_res.summary_counts["FAIL"] >= 1
-    assert audit_res.overall_status in ["REJECT_PRECHECK", "ACTION_REQUIRED"]
+    assert audit_res.readiness.value == "NOT_READY"
 
 
 # ----------------- 10. Correct summary counts and readiness score after a safety downgrade -----------------

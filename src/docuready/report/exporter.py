@@ -8,7 +8,8 @@ import json
 import re
 import os
 from typing import Dict, Any, List
-from docuready.domain.models import AuditResult, FindingStatus
+from docuready.domain.models import AuditResult
+from docuready.domain.enums import Status
 from docuready.report.redact import redact_text_pii, redact_audit_result_dict
 
 _sanitize_message = redact_text_pii
@@ -19,7 +20,7 @@ def export_audit_report_json(result: AuditResult, output_path: str, redact: bool
     Exports AuditResult object into formatted JSON report.
     By default (redact=True), masks raw document snippets and extracted citizen PII.
     """
-    data = result.model_dump()
+    data = result.to_public_dict()
     if redact:
         data = redact_audit_result_dict(data)
     with open(output_path, "w", encoding="utf-8") as f:
@@ -33,13 +34,11 @@ def generate_readiness_summary_markdown(result: AuditResult, redact: bool = True
     By default (redact=True), masks raw document snippets and citizen PII.
     """
     status_emojis = {
-        "READY_TO_SUBMIT": "🟢 READY TO SUBMIT",
-        "REVIEW_RECOMMENDED": "🟡 REVIEW RECOMMENDED",
-        "ACTION_REQUIRED": "🟠 ACTION REQUIRED (SUBMISSION HALTED)",
-        "REJECT_PRECHECK": "🔴 REJECTED AT PRE-CHECK",
-        "UNREADABLE_PACKET": "⚪ UNREADABLE DOCUMENT PACKET"
+        "NO_ISSUES_FOUND": "🟢 NO ISSUES FOUND",
+        "NEEDS_CHECKS": "🟡 CHECKS NEEDED",
+        "NOT_READY": "🔴 NOT READY",
     }
-    status_label = status_emojis.get(result.overall_status, result.overall_status)
+    status_label = status_emojis[result.readiness.value]
 
     md = []
     md.append("# DOCUREADY PRE-SUBMISSION READINESS REPORT")
@@ -53,21 +52,25 @@ def generate_readiness_summary_markdown(result: AuditResult, redact: bool = True
     md.append(f"**Determination:** **{status_label}**  \n")
     md.append("---")
     md.append("## Executive Summary")
-    md.append(f"- **Passed Checks:** {result.summary_counts.get(FindingStatus.PASS.value, 0)}")
-    md.append(f"- **Review Advisory Items:** {result.summary_counts.get(FindingStatus.REVIEW.value, 0)}")
-    md.append(f"- **Failed Statutory Rules:** {result.summary_counts.get(FindingStatus.FAIL.value, 0)}")
-    md.append(f"- **Unreadable / Missing Evidence:** {result.summary_counts.get(FindingStatus.UNKNOWN.value, 0)}\n")
+    counts = result.v2_summary_counts
+    md.append(f"- **Confirmed Matches:** {counts[Status.PASS.value]}")
+    md.append(f"- **Probable Defects:** {counts[Status.WARN.value]}")
+    md.append(f"- **Human Review:** {counts[Status.REVIEW.value]}")
+    md.append(f"- **Confirmed Defects:** {counts[Status.FAIL.value]}")
+    md.append(f"- **Missing Documents:** {counts[Status.MISSING.value]}")
+    md.append(f"- **Not Applicable:** {counts[Status.NOT_APPLICABLE.value]}\n")
 
     md.append("---")
     md.append("## Detailed Evidence-Linked Findings\n")
 
     for idx, f in enumerate(result.findings, 1):
-        status_badge = f"[{f.status.value}]"
+        status_badge = f"[{f.resolved_status.value}]"
         penalty_str = f"(-{f.penalty} pts)" if f.penalty > 0 else "(0 pts)"
         msg = _sanitize_message(f.message) if redact else f.message
 
         md.append(f"### {idx}. {status_badge} {f.rule_name} {penalty_str}")
         md.append(f"- **Rule ID:** `{f.rule_id}`")
+        md.append(f"- **Reason Code:** `{f.reason_code}`")
         md.append(f"- **Severity Tier:** `{f.severity.value}`")
         md.append(f"- **Documents Involved:** {', '.join(f.documents_involved)}")
         md.append(f"- **Description:** {msg}")
