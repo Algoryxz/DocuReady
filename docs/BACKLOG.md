@@ -221,12 +221,13 @@ T1.x tasks are independent of each other and can run in parallel once G0 passes.
 
 #### T1.5 — Citation audit and `sources.yaml`
 - **Scope:** `packs/generic.demo/sources.yaml`, `docs/CITATION_AUDIT.md`.
+- **Status note (15 November 2026):** Implementation merged into `main` at commit `bf77012ff2f261f18c6faca362cb84782aacfd6d` via PR #30. Delivered `packs/generic.demo/sources.yaml` (covering all 10 core rule groups, 13 rules classified with `status: verified`, issuing body, official URL, retrieval date, and scheme parameters), `docs/CITATION_AUDIT.md` (statutory and administrative citation matrix, scheme/state parameter analysis), and `tests/test_citation_sources.py`. Remote CI on `main` passed across all four Python matrix jobs (3.11–3.14, run [43689894883](https://github.com/Algoryxz/DocuReady/actions/runs/43689894883)) with 117 passing tests and zero skips. Deliverables verified against acceptance criteria. Formal task acceptance pending explicit review by Deeptiman.
 - **Behaviour:** For each of the 10 rules, locate the real governing document (scheme guideline, notification, manual). Record title, issuing body, URL, `retrieved_on`, the exact clause number, and whether the cited clause actually supports the rule. Where it does not, mark `placeholder` and propose either a correct citation or a rewording of the rule as a **document-consistency check** without a statutory claim.
 - **Non-goals:** Do not paraphrase law from memory. If a source cannot be found, write `UNVERIFIED`.
 - **Acceptance:**
-  - [ ] 10 rows, each `verified` / `placeholder` / `unverified` with evidence
-  - [ ] Every `verified` row has URL, retrieval date and a one-line quote-free summary of the clause
-  - [ ] List of rules whose parameters (income cap, validity period, cutoffs) depend on the specific scheme or state
+  - [x] 10 rows, each `verified` / `placeholder` / `unverified` with evidence (13 rows across all 10 core rule groups verified in `docs/CITATION_AUDIT.md` and `packs/generic.demo/sources.yaml`)
+  - [x] Every `verified` row has URL, retrieval date and a one-line quote-free summary of the clause (documented with official portal/gazette URLs, retrieval dates, and clause summaries)
+  - [x] List of rules whose parameters (income cap, validity period, cutoffs) depend on the specific scheme or state (detailed in §3 of `docs/CITATION_AUDIT.md` and in YAML `scheme_dependent_params`)
 - **Gate:** G1
 
 ### WS2 — Correctness
