@@ -326,13 +326,13 @@ if screen == "1. Dashboard":
             st.caption("Advisory preparation aid; does not guarantee official portal acceptance or scheme approval.")
             if res.readiness is Readiness.NO_ISSUES_FOUND:
                 st.markdown("<span class='status-badge-ready'>🟢 NO ISSUES FOUND</span>", unsafe_allow_html=True)
-                st.write("The configured checks found no issue on the supplied verified evidence.")
+                st.write("The configured checks found no issue on the supplied verified evidence. (Advisory preparation aid; does not guarantee official portal acceptance or scheme approval.)")
             elif res.readiness is Readiness.NEEDS_CHECKS:
                 st.markdown("<span class='status-badge-review'>🟡 CHECKS NEEDED</span>", unsafe_allow_html=True)
-                st.write("Some findings need additional evidence or human review.")
+                st.write("Some findings need additional evidence or human review. (Advisory preparation aid; does not guarantee official portal acceptance or scheme approval.)")
             else:
                 st.markdown("<span class='status-badge-reject'>🔴 NOT READY</span>", unsafe_allow_html=True)
-                st.write("One or more required documents are missing or a defect is confirmed.")
+                st.write("One or more required documents are missing or a defect is confirmed. (Advisory preparation aid; does not guarantee official portal acceptance or scheme approval.)")
 
         with c_counts:
             st.write("**Rule Results Breakdown:**")

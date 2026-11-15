@@ -256,9 +256,9 @@ T1.x tasks are independent of each other and can run in parallel once G0 passes.
 ### WS2 — Correctness
 
 #### T2.1 — Status vocabulary and symmetric resolver
-- **Depends on:** G0, T1.1, formal Gate G1 acceptance, and formal Gate G2 authorization (all satisfied on 15 November 2026).
+- **Depends on:** G0, T1.1.
 - **Scope:** `domain/enums.py`, `outcome/resolver.py`, report/UI/CLI usage.
-- **Status note (15 November 2026):** PR #43 (branch `task/T2.1-status-vocabulary-resolver`) was merged into `main` at commit `8f1801348399617437e3432b6b16a70540a6f47a` across 14 files and 35 commits following formal G1 acceptance and G2 authorization by Deeptiman. However, mainline CI run 43710042545 failed across all four matrix jobs (29 failed, 161 passed) due to enum resolution and assertion breaks. Corrective repair is actively underway on branch `fix/T2.1-mainline-outcome-repair` to resolve clean packet handling, update test suite contracts, and restore full matrix CI to achieve technical acceptance.
+- **Status note (15 November 2026):** Initial implementation was merged into `main` at commit `8f1801348399617437e3432b6b16a70540a6f47a` via PR #43 (`task/T2.1-status-vocabulary-resolver`). Mainline CI run [43710042545](https://github.com/Algoryxz/DocuReady/actions/runs/43710042545) failed with 29 test failures across legacy assertions, readiness comparisons, clean packet confidence downgrades, and CLI exit semantics. Corrective repair in PR #44 (`f67df61`) and stabilization PR #46 (`fix/T2.1-post-merge-stabilization`) resolves all 29 test failures, restoring 188 passed and 2 skipped across 190 total test items (zero failures) with golden baseline snapshot intact (`E8FB1A6B842A47089937777133DE79E1E7F704BEE591D5B4471A1A90BC8C5FA9`). Implementation is merged, stabilization PR #46 is open under review, and formal task acceptance as well as Gate G1 acceptance and Gate G2 authorization remain strictly pending Product Owner review by Deeptiman.
 - **Behaviour:** Implement ARCHITECTURE_V2 §6 exactly: `Status`, `Raw`, reason codes, readiness, `max_severity` cap, `NOT_APPLICABLE` for exemptions (shown, not dropped), CLI exit codes 0/1/2/64.
 - **Acceptance:**
   - [ ] Truth-table test covers every row of the §6 matrix
