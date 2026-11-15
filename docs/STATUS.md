@@ -2,21 +2,25 @@
 
 **Last reviewed:** 15 November 2026
 **Canonical repository:** `Algoryxz/DocuReady`
-**Status note:** This is the coordination snapshot based on verified GitHub repository, PR, and CI evidence. Verified `main` HEAD at this update: `169cb82373e4bda9aaee2433f5be13d6a0cfd2bf` (incorporates merged PRs #17, #18, #20, #22, #23, #24, #26, #27, #28, #29, #30, #31, #32, #33, #34, #35, #36, #37, and #39). Latest post-merge main CI [run 43699721352](https://github.com/Algoryxz/DocuReady/actions/runs/43699721352) on this commit passed all four blocking Python matrix jobs (3.11, 3.12, 3.13, 3.14) with zero skips and golden baseline checksum intact (`E8FB1A6B842A47089937777133DE79E1E7F704BEE591D5B4471A1A90BC8C5FA9`). Refresh every branch, PR, CI result, and commit before acting; these values can go stale.
+**Status note:** This is the coordination snapshot based on verified GitHub repository, PR, and CI evidence. Verified `main` HEAD at this update: `b75ef85b185d131807bd05b819aa3612ebdafe04` (incorporates merged PRs #17, #18, #20, #22, #23, #24, #26, #27, #28, #29, #30, #31, #32, #33, #34, #35, #36, #37, #39, #40, and #41). Latest post-merge main CI [run 43701003837](https://github.com/Algoryxz/DocuReady/actions/runs/43701003837) on commit `b75ef85` passed all four blocking Python matrix jobs (3.11, 3.12, 3.13, 3.14) with 148 tests executed per job, zero skips, distribution packaging with `--no-isolation`, isolated wheel verification with locked dependencies and `pip check`, and golden baseline checksum intact (`E8FB1A6B842A47089937777133DE79E1E7F704BEE591D5B4471A1A90BC8C5FA9`). At main HEAD `b75ef85`, all 41 previous PRs were resolved with 0 open PRs. In the current repository state, two PRs are open on GitHub: PR #42 (branch `docs/post-merge-g1-governance-reconciliation`, under Product Owner review) and PR #43 (branch `task/T2.1-status-vocabulary-resolver`, an unmerged draft for T2.1 on hold with implementation paused). Vercel commit preview deployment status is `failure` (`PYTHON_ENTRYPOINT_NOT_FOUND`), which is decoupled from GitHub Actions CI; the architectural root cause is documented in `docs/adr/ADR-002-deployment-architecture.md` (Streamlit requires a persistent, long-running Python process and WebSocket server, which serverless functions without custom runtime cannot host). Refresh every branch, PR, CI result, and commit before acting; these values can go stale.
 
-## Current gates
+---
+
+## 1. Current gates
 
 | Gate | State | Evidence / blocker |
 |---|---|---|
 | G0 — Baseline frozen | **PASSED — ACCEPTED BY DEEPTIMAN** | Formally accepted and closed by Product Owner Deeptiman on 15 November 2026. All constituent tasks (T0.1, T0.2, T0.3) are accepted. G0.1 runtime modernization (`>=3.11,<3.15`) and provisional PyMuPDF 2.1 technical baseline verified. Remote CI on `main` passed across all four Python matrix jobs (3.11–3.14, runs [43630377408](https://github.com/Algoryxz/DocuReady/actions/runs/43630377408) and [43636186644](https://github.com/Algoryxz/DocuReady/actions/runs/43636186644)) with 88 passing tests, zero skips, distribution packaging with `--no-isolation`, CLI benchmark/audit verification, locked dependency installation in an isolated virtual environment, and `pip check` with 0 broken dependencies. The golden baseline snapshot (`tests/golden/legacy_v0/GOLDEN_BASELINE.json`, SHA-256 `E8FB1A6B842A47089937777133DE79E1E7F704BEE591D5B4471A1A90BC8C5FA9`) remains completely unmodified and intact. The historical sequencing deviation (PR #17 merged before PR #18) was explicitly reviewed and ratified by Deeptiman. G1 / WS1 (Trust and Compliance) is authorized to begin. |
-| G1 — Honest and clean | **doing (pending formal acceptance)** | Authorized to start following G0 acceptance on 15 November 2026. All constituent WS1 implementation PRs are merged to `main`: T1.1 (PR #34, PR #26), T1.2 (PR #24), T1.3 (PR #27, PR #35), T1.4 (PR #29, PR #33), T1.5 (PR #30, PR #32). Track B Mobile Web MVP (PR #36) is merged and kept distinct from G1. Qualification deliverables (ADR-002, backend comparative evaluation, mobile viewport proofs) submitted in PR #40. Packaging follow-up Issue #38 / PR #41 (direct PyYAML dev dependency declaration) is open and tracked separately from G1. Gate G1 remains strictly pending formal acceptance until explicit Product Owner acceptance by Deeptiman exists. |
-| G2 — Safe outcomes | Not started | Track B prototype was merged at commit `1994f66af9217d720549124bf6d0e7b23998ac88`, but formal V2 Gate G2 acceptance requires T2.1–T2.4 completion, V2 status vocabulary, and property tests. |
+| G1 — Honest and clean | **doing (merged deliverables complete; formal PO acceptance pending)** | Authorized to start following G0 acceptance on 15 November 2026. All constituent WS1 implementation PRs are merged to `main`: T1.1 (PR #34, PR #26), T1.2 (PR #24), T1.3 (PR #27, PR #35), T1.4 (PR #29, PR #33), T1.5 (PR #30, PR #32). Track B Mobile Web MVP (PR #36, PR #40) is merged and governed independently from G1. Qualification deliverables (ADR-002, backend comparative evaluation, mobile viewport proofs, Screen 6 privacy hardening) are merged in PR #40 (`b75ef85`). Packaging follow-up Issue #38 (direct PyYAML dev dependency declaration) is merged in PR #41 (`69e797e`). Active PR #42 reconciles documentation accuracy and evidence references. Gate G1 remains strictly pending formal acceptance until explicit Product Owner review and decision by Deeptiman. |
+| G2 — Safe outcomes | **Not authorized (premature draft PR #43 on hold)** | G2 is not authorized; Gate G1 remains pending formal Product Owner acceptance. A premature draft PR #43 (`task/T2.1-status-vocabulary-resolver`, head `a23c439794427fefab98173c294ad08646fd88b9`) was opened against `b75ef85` and failed CI run [43705315353](https://github.com/Algoryxz/DocuReady/actions/runs/43705315353). All G2 implementation activity is frozen and on hold awaiting explicit G1 acceptance and G2 authorization by Deeptiman. |
 | G3 — Engine equivalence | Not started | YAML schema/primitives and generic.demo port are future work. |
 | G4 — Real pack | Not started | Subhadra pack must remain a sourced, dated demo snapshot. |
 | G5 — Credible evaluation | Not started | Synthetic split/evaluation protocol not yet accepted. |
 | G6 — Release | Not started | Requires G1–G5 evidence and T5.1–T5.3. |
 
-## Task and PR tracker
+---
+
+## 2. Task and PR tracker
 
 | Task / work | Owner | State (`todo / doing / review / done / blocked`) | Branch / PR | Gate | Notes |
 |---|---|---|---|---|---|
@@ -58,19 +62,21 @@
 | PR #36 — Mobile Web MVP | Antigravity | **done (merged)** | `feature/mobile-web-mvp` / [PR #36](https://github.com/Algoryxz/DocuReady/pull/36) | Track B | Merged into `main` at commit `3d5300e811e79a11dd741dd3a8a5f9d380ef4df4`. Delivered responsive mobile styling, touch targets (>=44px), sticky readiness bar, LAN run guide (`docs/MOBILE_RUN_GUIDE.md`), and automated test suite (`tests/test_mobile_ui.py`). Main CI run 43692321717 passed across Python 3.11–3.14. (Track B is distinct from Gate G1). |
 | PR #37 — Post-T1.5 corrective documentation & status reconciliation | Susmita / Team | **done (merged)** | `docs/post-t1.5-g1-reconciliation` / [PR #37](https://github.com/Algoryxz/DocuReady/pull/37) | Docs | Merged into `main` at commit `4a2d6f8b8038d16eacb2b927283964d2db2782ff`. Synchronized `docs/STATUS.md` and `docs/BACKLOG.md` post-T1.5 corrective PR #32. Main CI run 43694849378 passed across Python 3.11–3.14. |
 | PR #39 — Post-PR #34 governance reconciliation | Akriti | **done (merged)** | `docs/post-pr34-governance-reconciliation` / [PR #39](https://github.com/Algoryxz/DocuReady/pull/39) | Docs | Merged into `main` at commit `169cb82373e4bda9aaee2433f5be13d6a0cfd2bf`. Reconciled `docs/STATUS.md` and `docs/BACKLOG.md` post-PR #34, PR #26, PR #35, PR #36, and PR #37. Main post-merge CI run 43699721352 passed across Python 3.11–3.14. |
-| PR #40 — G1 qualification, ADR-002 & mobile hardening | Smarak Padhi / Antigravity | **open (review in progress)** | `feat/g1-qualification-mobile-deploy-resolution` / [PR #40](https://github.com/Algoryxz/DocuReady/pull/40) | Track B / G1 | Delivers `docs/adr/ADR-002-deployment-architecture.md` (root cause of Vercel failure, 3-tier architecture: Local Desktop, Mobile LAN, Streamlit Community Cloud with `DOCUREADY_SYNTHETIC_ONLY=1`), `eval/reports/backend_comparison.md`, 5 mobile viewport screenshots in `screenshots/mobile/`, `packages.txt`, synthetic-only runtime bugfix, and full export redaction / pipeline logging integration tests. |
-| PR #41 (Issue #38) — Declare PyYAML directly in dev and all extras | Akriti | **open** | `fix/pyyaml-direct-dev-dependency` / [PR #41](https://github.com/Algoryxz/DocuReady/pull/41) | Packaging | Packaging follow-up: Declares `pyyaml>=6.0.0` directly in `dev` and `all` optional dependencies in `pyproject.toml`, recompiles four hash-locked CI requirement files (`requirements/ci-lock-py3.11.txt` through `ci-lock-py3.14.txt`), and adds packaging contract tests in `tests/test_package_contract.py`. Verified in CI run 43696044124 with all four Python matrix jobs passing (138 full suite tests passed, package builds and isolated wheel `pip check` clean). Packaging follow-up tracked separately from G1. |
+| PR #40 — G1 qualification, ADR-002 & mobile hardening | Smarak Padhi / Antigravity | **done (merged)** | `feat/g1-qualification-mobile-deploy-resolution` / [PR #40](https://github.com/Algoryxz/DocuReady/pull/40) | Track B / G1 | Merged into `main` at commit `b75ef85b185d131807bd05b819aa3612ebdafe04`. Delivered `docs/adr/ADR-002-deployment-architecture.md` (root cause of Vercel failure, 3-tier architecture: Local Desktop, Mobile LAN, Streamlit Community Cloud with `DOCUREADY_SYNTHETIC_ONLY=1`), `eval/reports/backend_comparison.md`, 5 mobile viewport screenshots in `screenshots/mobile/`, `packages.txt`, synthetic-only runtime bugfix for replacement uploaders, and full export redaction / pipeline logging integration tests in `tests/test_redaction_safe_logging.py`. |
+| PR #41 (Issue #38) — Declare PyYAML directly in dev and all extras | Akriti | **done (merged)** | `fix/pyyaml-direct-dev-dependency` / [PR #41](https://github.com/Algoryxz/DocuReady/pull/41) | Packaging | Merged into `main` at commit `69e797e003c7f60f02d174c3835686a124f60e10`. Declared `pyyaml>=6.0.0` directly in `dev` and `all` optional dependencies in `pyproject.toml`, recompiled four hash-locked CI requirement files (`requirements/ci-lock-py3.11.txt` through `ci-lock-py3.14.txt`), and added packaging contract tests in `tests/test_package_contract.py`. Verified in CI run 43696044124 with all four Python matrix jobs passing (138 full suite tests passed, package builds and isolated wheel `pip check` clean). |
+| PR #42 — Post-merge G1 governance reconciliation | Antigravity / Team | **review (open)** | `docs/post-merge-g1-governance-reconciliation` / [PR #42](https://github.com/Algoryxz/DocuReady/pull/42) | Docs | Open under Product Owner review. Reconciles post-merge documentation across PRs #39, #40, #41, corrects T1.4 test references, clarifies Track B independent governance boundary, records draft PR #43 hold status, and calibrates release and quality frameworks. CI run [43706495624](https://github.com/Algoryxz/DocuReady/actions/runs/43706495624) passed across Python 3.11–3.14 (148 tests per job). |
+| PR #43 — T2.1 status vocabulary / symmetric resolver (draft) | Akriti / Team | **open (draft / paused)** | `task/T2.1-status-vocabulary-resolver` / [PR #43](https://github.com/Algoryxz/DocuReady/pull/43) | G2 | Premature draft PR opened against `b75ef85` before Gate G1 formal acceptance and before G2 authorization. Head `a23c439794427fefab98173c294ad08646fd88b9`. CI [run 43705315353](https://github.com/Algoryxz/DocuReady/actions/runs/43705315353) failed on all matrix jobs due to V2 enum resolver changes breaking legacy assertions. Implementation activity is frozen on hold pending G1 acceptance and formal G2 authorization. |
 | G0.1 — Runtime Support, PDF Baseline & Golden/OCR Contract Modernization | Antigravity (implementation); Deeptiman (lead/acceptance) | **done (merged)** | `task/G0.1-runtime-support-modernization` / [PR #8](https://github.com/Algoryxz/DocuReady/pull/8) & `fix/G0.1-post-merge-ci-hardening` / [PR #10](https://github.com/Algoryxz/DocuReady/pull/10) | G0 | Merged into `main` at commit `407b100f07129263c17baf7944f8ac1511cc6edf`. Main post-merge CI [run 43617979009](https://github.com/Algoryxz/DocuReady/actions/runs/43617979009) passed all 4 matrix jobs. Supported runtime range is `>=3.11,<3.15`. Golden baseline snapshot (`tests/golden/legacy_v0/GOLDEN_BASELINE.json`) intact and unchanged (SHA-256 `E8FB1A6B842A47089937777133DE79E1E7F704BEE591D5B4471A1A90BC8C5FA9`). |
 | T0.1 — Characterise current behaviour | Deeptiman (lead/final acceptance); Akriti (CI/baseline); Susmita (rules/citations) | **done (accepted)** | `task/T0.1-characterise-current-behaviour` / [PR #5](https://github.com/Algoryxz/DocuReady/pull/5) | G0 | Formally accepted by Deeptiman on 14 November 2026. Main CI passed across Python 3.11–3.14. |
 | T0.2 — CI that exercises OCR | Akriti (CI infrastructure in PR #14); Antigravity (OCR integration proof in PR #18) | **done (accepted)** | `task/T0.2-ci-that-exercises-ocr` / [PR #14](https://github.com/Algoryxz/DocuReady/pull/14) & `task/T0.2-ocr-success-proof` / [PR #18](https://github.com/Algoryxz/DocuReady/pull/18) | G0 | Formally accepted by Product Owner Deeptiman on 15 November 2026. PR #14 merged foundational CI dependencies; PR #18 delivered genuine OCR integration proof. Post-merge `main` CI passed all four matrix jobs with 88 tests. |
 | T0.3 — Package contract verification | Akriti | **done (accepted)** | `task/T0.3-package-contract-verification` / [PR #17](https://github.com/Algoryxz/DocuReady/pull/17) | G0 | Formally accepted by Product Owner Deeptiman on 15 November 2026. PR #17 delivered package contract tests (`tests/test_package_contract.py`), distribution build validation (`python -m build --no-isolation`), clean editable install with declared extras, isolated wheel CLI invocation checks outside repository working directory, synthetic packet audit with console script, and the package architecture gap inventory in `docs/history/PACKAGE_GAP_INVENTORY_T0.md`. Post-merge `main` CI passed all four jobs with 88 tests passed and 0 skips (run 43630377408). The historical merge sequencing deviation (PR #17 merged before PR #18) was explicitly reviewed, ratified, and accepted by Deeptiman. |
-| T1.1 — Claims register / honest claims | Deeptiman | **review (implementation merged; formal acceptance pending)** | `task/T1.1-claims-register-corrective` / [PR #34](https://github.com/Algoryxz/DocuReady/pull/34) & [PR #26](https://github.com/Algoryxz/DocuReady/pull/26) | G1 | Implementation merged into `main` via PR #34 (`1341540`) and PR #26 (`1a9d6a1`). Established `docs/CLAIMS_REGISTER.md` (CLM-001 to CLM-011), qualified README claims, sanitized research documents (`PUBLICATION_REPORT.md`, `COMPETITOR_ANALYSIS.md`, `HACKNATION_IDEA_SELECTION.md`), and added claims contract tests with non-silent assertions in `tests/contract/test_claims.py`. Main CI run 43694830687 passed (138 tests passed per job, 0 skipped). Formal task acceptance pending Deeptiman's review. |
-| T1.2 — Telemetry off / no-network contract | Akriti | **done (accepted)** | `task/T1.2-telemetry-off-no-network` / [PR #24](https://github.com/Algoryxz/DocuReady/pull/24) | G1 | Merged into `main` at commit `90b88718b24adfc97fa5b828e6c332a98a6ddc48` via PR #24; documentation reconciled in PR #28. Committed `.streamlit/config.toml` (`[browser] gatherUsageStats = false`), updated `.gitignore` to unignore `.streamlit/`, and added 12 contract tests in `tests/contract/test_no_network.py`. Main CI run 43687049948 passed across Python 3.11–3.14 with 100 passing tests. Exact negative proof confirmed locally via socket interception. Accepted based on verified PR #24 implementation and green CI. |
+| T1.1 — Claims register / honest claims | Deeptiman | **review (implementation merged; formal acceptance pending)** | `task/T1.1-claims-register-corrective` / [PR #34](https://github.com/Algoryxz/DocuReady/pull/34) & [PR #26](https://github.com/Algoryxz/DocuReady/pull/26) | G1 | Implementation merged into `main` via PR #34 (`1341540`) and PR #26 (`1a9d6a1`). Established `docs/CLAIMS_REGISTER.md` (CLM-001 to CLM-011), qualified README claims, sanitized research documents (`PUBLICATION_REPORT.md`, `COMPETITOR_ANALYSIS.md`, `HACKNATION_IDEA_SELECTION.md`), and added claims contract tests with non-silent assertions in `tests/contract/test_claims.py`. Main CI run 43701003837 passed across Python 3.11–3.14 (148 tests passed per job, 0 skipped). Formal task acceptance pending Deeptiman's review. |
+| T1.2 — Telemetry off / no-network contract | Akriti | **done (accepted)** | `task/T1.2-telemetry-off-no-network` / [PR #24](https://github.com/Algoryxz/DocuReady/pull/24) | G1 | Merged into `main` at commit `90b88718b24adfc97fa5b828e6c332a98a6ddc48` via PR #24; documentation reconciled in PR #28. Committed `.streamlit/config.toml` (`[browser] gatherUsageStats = false`), updated `.gitignore` to unignore `.streamlit/`, and added 12 contract tests in `tests/contract/test_no_network.py`. Main CI run 43701003837 passed across Python 3.11–3.14 with zero skips. Exact negative proof confirmed locally via socket interception. Accepted based on verified PR #24 implementation and green CI. |
 | T1.3 — PDF backend / licence decision | Akriti | **review (implementation merged; qualification report delivered; formal acceptance pending)** | `task/T1.3-pdf-backend-licensing-corrective` / [PR #35](https://github.com/Algoryxz/DocuReady/pull/35) | G1 | Implementation merged into `main` across PR #27 and PR #35 (`f3da08ba14affa71c02ca85cbef7958b098faeb9`). Introduced `PDFDocumentBackend` abstraction (`base.py`, `pymupdf_backend.py`, prototype `pdfium_backend.py`), `NOTICE`, `docs/adr/ADR-001-pdf-backend.md`, eliminated dummy coordinates, added `scripts/evaluate_pdf_backends.py`, and committed `eval/reports/backend_comparison.md`. PyMuPDF is the working production default; PDFium `get_words()` raises `NotImplementedError` (field accuracy `UNVERIFIED`). Completing T1.3 under original dual-backend scope requires either remaining PDFium layout segmentation work or explicit Product Owner approval of reduced scope. Formal task acceptance pending Deeptiman's review and scope decision. |
-| T1.4 — Redaction / safe logging | Akriti | **review (merged PR #29 & PR #33; acceptance pending)** | `task/T1.4-redaction-safe-logging-corrective` / [PR #33](https://github.com/Algoryxz/DocuReady/pull/33) | G1 | Merged into `main` across PR #29 and PR #33 (`72b20a7efb0bb99fe2fbffbc2e82f5b9d31dca21`). Hardened `SafeLogFilter` with eager formatting and args clearing, enhanced field-aware redaction, audited temp cleanup, and pipeline safe logging. Full integration evidence provided in PR #40. Formal task acceptance pending Deeptiman's review. |
+| T1.4 — Redaction / safe logging | Akriti | **review (merged PR #29, #33 & #40; acceptance pending)** | `task/T1.4-redaction-safe-logging-corrective` / [PR #33](https://github.com/Algoryxz/DocuReady/pull/33) | G1 | Merged into `main` across PR #29, PR #33 (`72b20a7efb0bb99fe2fbffbc2e82f5b9d31dca21`), and PR #40 (`b75ef85b185d131807bd05b819aa3612ebdafe04`). Hardened `SafeLogFilter` with eager formatting and args clearing, enhanced field-aware redaction, audited temp cleanup, Screen 6 replacement uploader synthetic-only guard, and full integration tests in `tests/test_redaction_safe_logging.py`. Logging verified against synthetic packet execution and candidate diagnostic injection (`test_full_pipeline_logging_safe`), temp cleanup on success/exception (`test_secure_temporary_directory_cleanup_on_success/exception`), and synthetic-only upload guards (`test_apptest_synthetic_only_mode_screen6_guard_and_reaudit/zero_uploaders`). Direct `LogRecord.args == ()` inspection noted as remaining gap. Formal task acceptance pending Deeptiman's review. |
 | T1.5 — Citation audit / sources.yaml | Susmita | **review (merged PR #30 & PR #32; acceptance pending)** | `task/T1.5-citation-audit-corrective` / [PR #32](https://github.com/Algoryxz/DocuReady/pull/32) | G1 | Merged into `main` across PR #30 and PR #32 (`ace9e5d4cb058e0a29486c31bfad770020bc8209`). Sourced and corrected statutory citations, mapped 10 validator rule groups to sources, classified 5 verified statutory rules vs 8 unverified heuristics, and enforced PyYAML schema validation in `tests/test_citation_sources.py`. Formal task acceptance pending Deeptiman's review. |
-| Track B — Mobile Web MVP | Antigravity | **review (merged PR #36; qualification delivered)** | `feature/mobile-web-mvp` / [PR #36](https://github.com/Algoryxz/DocuReady/pull/36) | Track B | Merged to `main` at `3d5300e`. Responsive styling, >=44px touch targets, sticky readiness bar, LAN run guide (`docs/MOBILE_RUN_GUIDE.md`), automated tests (`tests/test_mobile_ui.py`), 5 viewport visual proofs in `screenshots/mobile/`, and synthetic-only runtime guard in PR #40. Formal review pending. |
-| T2.1 — Status vocabulary / symmetric resolver | Susmita | todo | After G1 prerequisites | G2 | One resolver; public vocabulary from V2 only. Deeptiman reviews product meaning. |
+| Track B — Mobile Web MVP | Antigravity | **review (merged PR #36 & #40; qualification delivered)** | `feature/mobile-web-mvp` / [PR #36](https://github.com/Algoryxz/DocuReady/pull/36) | Track B | Merged to `main` at `3d5300e` (PR #36) with qualification deliverables merged at `b75ef85` (PR #40). Responsive styling, stricter internal design target of >=44px touch targets (aligned with WCAG 2.1 AAA SC 2.5.5, exceeding WCAG 2.2 AA SC 2.5.8 24px minimum), sticky readiness bar, LAN run guide (`docs/MOBILE_RUN_GUIDE.md`), automated tests (`tests/test_mobile_ui.py`), 5 viewport visual proofs in `screenshots/mobile/`, and synthetic-only runtime guard. Governed independently from Gate G1. Formal review pending. |
+| T2.1 — Status vocabulary / symmetric resolver | Susmita | **paused (draft PR #43 on hold)** | `task/T2.1-status-vocabulary-resolver` / [PR #43](https://github.com/Algoryxz/DocuReady/pull/43) | G2 | Implementation started prematurely in unmerged draft PR #43 (`a23c439`) and failed CI run 43705315353. Work is frozen and on hold awaiting formal G1 acceptance and G2 authorization. Deeptiman reviews product meaning and vocabulary. |
 | T2.2 — Per-rule test matrix | Susmita | todo | After T2.1 | G2 | At least 60 applicable cases; every resolver branch exercised. |
 | T2.3 — Match grades / injected clock | Susmita | todo | After T2.1 | G2 | Explicit exact/compatible/conflict/ambiguous grades and `as_of`. |
 | T2.4 — Slot validation | Akriti | todo | After T2.1 | G2 | Wrong/missing/unreadable/wrong-language document slots. |
@@ -86,11 +92,120 @@
 | T5.2 — Supply chain | Akriti | todo | After G5 | G6 | Reproducible lock, pip-audit, SBOM, ruff/mypy. |
 | T5.3 — Release | Deeptiman | todo | After G5 | G6 | Security/contribution docs, release notes, v1.0.0 only after gates. |
 
-## Status update rules
+---
+
+## 3. Semantic Release Version Strategy (Proposed — Pending PO Ratification)
+
+The project follows a proposed semantic version progression (detailed in [`docs/RELEASE_VERSION_STRATEGY.md`](RELEASE_VERSION_STRATEGY.md)):
+- **Phase 1 (`0.1.0`, Current Baseline):** `pyproject.toml` declares `version = "0.1.0"` with PyPI classifier `Development Status :: 3 - Alpha` (no prerelease suffix in package metadata). Focuses on Sprint 0 (G0) baseline freeze and WS1 (G1) Trust & Compliance closeout.
+- **Phase 2 (`0.2.0`, Proposed Milestone Release):** Proposed technical/community beta upon completing Gates G2 through G6 (WS2 Correctness, WS3 Packs, WS5 Evaluation, WS6 Container/Supply Chain). Subject to explicit Product Owner decision on defining an intermediate beta release task vs retaining `v1.0.0` as the sole release tag at T5.3. Any hosted beta remains strictly **synthetic-only** (`DOCUREADY_SYNTHETIC_ONLY=1`), not for real citizen identity documents or official eligibility determinations.
+- **Phase 3 (`1.0.0`, Proposed Production General Availability):** Fulfills canonical Backlog `T5.3` release intent following formal approval of `T4.4` protocol, execution of a separately authorized real-sample field evaluation, third-party security review, and explicit authorization by Product Owner Deeptiman.
+- **Statistical Release Criteria (Proposed):** Any target such as `<0.1% false-pass rate` is an unverified design objective; using it as a release gate requires a defined numerator, denominator, held-out test corpus, sample-size rationale, and statistical confidence-bound method ratified by the Product Owner.
+- **Prohibition:** Package version in `pyproject.toml` remains at `0.1.0` during active development and must not be bumped in routine feature PRs.
+
+---
+
+## 4. Non-Visual Product and Engineering Quality Assessment
+
+A comprehensive 12-dimension gap analysis and calibrated evaluation framework is established in [`docs/QUALITY_GAP_ANALYSIS.md`](QUALITY_GAP_ANALYSIS.md).
+- **Scope Boundary:** Visual frontend graphic design, artistic polish, and native Android application development are outside this scoring target. Website functional reliability, touch usability, mobile viewport responsiveness, client-side data privacy, and security remain strictly inside scope.
+- **Score Anchors & Rules:** Score 5 (Baseline / Prototype), Score 7 (Production-Ready / Bounded), Score 9 (Exemplary / Hardened with independent verification and fail-closed invariants). No dimension receives Score 9 without direct empirical evidence meeting the Score 9 criteria.
+- **Confidence & Grounding:** Ratings declare High / Medium / Low confidence describing what the underlying tests validate. Citations distinguish 5 verified statutory rules from 8 unverified operational heuristics. False memory zeroing claims are eliminated in favor of verifiable upload buffer ephemerality tests. PDFium layout segmentation remains deferred pending PO scope decision.
+- **Accessibility Terminology:** DocuReady's 44 × 44 CSS px target is a stricter internal product standard (aligned with WCAG 2.1 AAA SC 2.5.5, exceeding WCAG 2.2 AA SC 2.5.8 24px minimum).
+
+---
+
+## 5. Gate G1 Evidence Matrix & Product Owner Decision Record (WS1 — Trust and Compliance)
+
+### Gate G1 Evidence Matrix (WS1 — Trust and Compliance)
+
+*Note: Per `docs/BACKLOG.md`, Track B (Mobile Web MVP) is governed independently from Gate G1 and is documented in Section 6 below.*
+
+| Work Package | Implementation Artifacts | Verification Tests | Remote CI Status | Known Scope Bounds & Remaining Limitations | Acceptance State |
+|---|---|---|---|---|---|
+| **T1.1 — Claims Register & Honest Claims** | `docs/CLAIMS_REGISTER.md` (CLM-001–CLM-011), `README.md` sanitization, research doc qualification | 9 contract tests in `tests/contract/test_claims.py` (reusable banned-phrase helper, advisory disclaimer, synthetic qualification) | Passed (CI run [43701003837](https://github.com/Algoryxz/DocuReady/actions/runs/43701003837)) | Banned phrase test checks 6 core overreaching phrases; future docs must be continuously added to test surfaces. | Ready for PO Acceptance |
+| **T1.2 — Telemetry Off & No-Network Contract** | `.streamlit/config.toml` (`gatherUsageStats = false`), `.gitignore` unignored `.streamlit/` | 12 contract tests in `tests/contract/test_no_network.py` intercepting `socket.socket` & `socket.getaddrinfo`; negative proof verified | Passed (CI run [43701003837](https://github.com/Algoryxz/DocuReady/actions/runs/43701003837)) | Enforces process-level network isolation; platform container sandbox belongs to G6 (T5.1). | **ACCEPTED** by Deeptiman (PR #24) |
+| **T1.3 — PDF Backend & Licensing Decision** | `src/docuready/ingest/pdf_backend/`, `NOTICE`, `docs/adr/ADR-001-pdf-backend.md`, `scripts/evaluate_pdf_backends.py`, `eval/reports/backend_comparison.md` | 6 tests in `tests/test_pdf_backend.py` | Passed (CI run [43701003837](https://github.com/Algoryxz/DocuReady/actions/runs/43701003837)) | PyMuPDF 2.1 is production default; PDFium `get_words()` raises `NotImplementedError` (numerical metrics `UNVERIFIED`). Dual-backend completion deferred pending PO decision. | Ready for PO Scope Decision & Acceptance |
+| **T1.4 — Default Redaction & Safe Logging** | `src/docuready/report/redact.py`, `SafeLogFilter`, 0700 temp isolation, Screen 6 synthetic-only guard | 16 unit & integration tests in `tests/test_redaction_safe_logging.py` and `tests/test_ui_privacy.py` | Passed (CI run [43701003837](https://github.com/Algoryxz/DocuReady/actions/runs/43701003837)) | Logging verified on synthetic packets and candidate diagnostic injection (`test_full_pipeline_logging_safe`); does not test real citizen docs; direct `LogRecord.args == ()` inspection noted as remaining gap. | Ready for PO Acceptance |
+| **T1.5 — Citation Audit & `sources.yaml`** | `packs/generic.demo/sources.yaml` (13 rules: 5 verified statutory, 8 unverified heuristics), `docs/CITATION_AUDIT.md` | 4 schema validation tests in `tests/test_citation_sources.py` | Passed (CI run [43701003837](https://github.com/Algoryxz/DocuReady/actions/runs/43701003837)) | Covers generic.demo rule set; state-specific scheme pack parameterization belongs to G3/G4. | Ready for PO Acceptance |
+
+---
+
+### Product Owner Gate G1 Determination Record
+
+*The following decision record is prepared for Product Owner review and explicit sign-off by Deeptiman. Do not fill in or alter without PO direction.*
+
+```markdown
+PRODUCT OWNER FORMAL GATE G1 DETERMINATION RECORD
+
+Date: ________________________
+Product Owner: Deeptiman
+Repository: Algoryxz/DocuReady
+
+[ ] Decision Point 1 — T1.3 PDF Backend Scope Decision:
+    [ ] OPTION A (Recommended): Accept PyMuPDF 2.1 as verified production default backend
+        under AGPL-v3 (with appropriate NOTICE and commercial dual-licensing roadmap in ADR-001);
+        ratify reduced scope for T1.3 with deferred PDFium layout segmentation.
+    [ ] OPTION B: Require full PDFium layout segmentation parity before T1.3 acceptance.
+
+[ ] Decision Point 2 — WS1 Task Acceptance:
+    - T1.1 (Claims Register & Honest Claims):        [ ACCEPT / REVISE ]
+    - T1.2 (Telemetry Off & No-Network Contract):     [ ACCEPTED on 15 Nov 2026 ]
+    - T1.3 (PDF Backend Abstraction & Licensing):    [ ACCEPT / REVISE ]
+    - T1.4 (Default Redaction & Safe Logging):        [ ACCEPT / REVISE ]
+    - T1.5 (Citation Audit & sources.yaml):           [ ACCEPT / REVISE ]
+
+[ ] Decision Point 3 — Gate G1 Formal Closure:
+    [ ] Gate G1 (Trust & Compliance) is formally PASSED and CLOSED.
+
+[ ] Decision Point 4 — Gate G2 Authorization:
+    [ ] Gate G2 (WS2 — Correctness: T2.1–T2.4) is AUTHORIZED to begin.
+
+Product Owner Signature: _____________________________________
+```
+
+---
+
+## 6. Track B Evidence Matrix & Product Owner Decision Record (Mobile Web MVP — Independent Track)
+
+### Track B Evidence Matrix (Mobile Web MVP)
+
+*Note: In accordance with `docs/BACKLOG.md`, Track B is governed independently from Gate G1. Track B acceptance does not block Gate G1 closure, nor does Gate G1 closure dictate Track B acceptance.*
+
+| Work Package | Implementation Artifacts | Verification Tests | Remote CI Status | Known Scope Bounds & Remaining Limitations | Acceptance State |
+|---|---|---|---|---|---|
+| **Track B — Mobile Web MVP** | Responsive CSS (`@media (max-width: 768px)`), >=44px touch targets, sticky readiness bar, `docs/MOBILE_RUN_GUIDE.md`, ADR-002, 5 viewport screenshots in `screenshots/mobile/` | 13 unit, DOM, and AppTest tests in `tests/test_mobile_ui.py` | Passed (CI run [43701003837](https://github.com/Algoryxz/DocuReady/actions/runs/43701003837)) | Responsive mobile browser interface on Streamlit runtime; CSS touch target test is source-level smoke check; native mobile APK/bundle is out of scope. | Ready for PO Acceptance |
+
+---
+
+### Product Owner Track B Determination Record
+
+*The following decision record is prepared for Product Owner review and explicit sign-off by Deeptiman. Do not fill in or alter without PO direction.*
+
+```markdown
+PRODUCT OWNER FORMAL TRACK B DETERMINATION RECORD
+
+Date: ________________________
+Product Owner: Deeptiman
+Repository: Algoryxz/DocuReady
+
+[ ] Decision Point B.1 — Track B (Mobile Web MVP) Task Acceptance:
+    [ ] Track B Mobile Web MVP:                      [ ACCEPT / REVISE ]
+
+[ ] Decision Point B.2 — Public Demo Deployment Authorization:
+    [ ] Authorization for public synthetic-only demo deployment on Streamlit Community Cloud
+        per ADR-002 (with DOCUREADY_SYNTHETIC_ONLY=1).
+        (Note: Demo is strictly synthetic-only; does not process real citizen documents.)
+
+Product Owner Signature: _____________________________________
+```
+
+---
+
+## 7. Status update rules
 
 - Update this file only from observed repository/CI/PR evidence.
 - Use `UNVERIFIED` if evidence is unavailable; do not infer task completion from a PR description.
 - Do not mark a task `done` until its acceptance criteria are demonstrated and the designated owner accepts the handoff.
 - Keep each task on its own branch and PR. Do not begin a dependent task before the preceding task is explicitly accepted.
 - Deeptiman owns final gate acceptance.
-
