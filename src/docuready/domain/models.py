@@ -9,6 +9,7 @@ from pydantic import BaseModel, Field, PrivateAttr, model_serializer, model_vali
 from docuready.domain.enums import (
     EvidenceState,
     ExtractionMethod,
+    MatchGrade,
     Raw,
     Readiness,
     Status,
@@ -111,6 +112,7 @@ class Finding(BaseModel):
     evidence: List[EvidenceProvenance] = Field(default_factory=list)
     remediation: str
     statutory_reference: str
+    match_grade: Optional[MatchGrade] = Field(default=None, exclude=True)
 
     # This excluded field preserves the legacy snapshot label strictly for
     # model_dump()/golden regression serialization. Runtime status is V2.
@@ -140,10 +142,18 @@ class Finding(BaseModel):
             data["status"] = self.legacy_status_snapshot
         return data
 
-    def set_resolution(self, raw: Raw, status: Status, reason_code: str) -> None:
+    def set_resolution(
+        self,
+        raw: Raw,
+        status: Status,
+        reason_code: str,
+        match_grade: Optional[MatchGrade] = None,
+    ) -> None:
         self._raw_result = raw
         self.status = status
         self._reason_code = reason_code
+        if match_grade is not None:
+            self.match_grade = match_grade
 
     @property
     def resolved_status(self) -> Status:
@@ -168,6 +178,7 @@ class AuditResult(BaseModel):
     summary_counts: Dict[str, int]
     execution_time_ms: float
     timestamp: str
+    as_of: Optional[str] = Field(default=None, exclude=True)
 
     # Excluded from normal V2 models, emitted only by the serializer so the
     # immutable legacy_v0 baseline remains comparable.
@@ -230,7 +241,11 @@ class AuditResult(BaseModel):
         data["overall_status"] = readiness.value
         data["readiness"] = readiness.value
         data["summary_counts"] = self.v2_summary_counts
+        if self.as_of is not None:
+            data["as_of"] = self.as_of
         for item, finding in zip(data.get("findings", []), self.findings):
             item["status"] = finding.resolved_status.value
             item["reason_code"] = finding.reason_code
+            if finding.match_grade is not None:
+                item["match_grade"] = finding.match_grade.value
         return data

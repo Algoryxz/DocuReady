@@ -4,7 +4,7 @@ Implements statutory rules, cross-document entity comparisons, and provenance-li
 """
 
 import re
-from datetime import date, datetime
+from datetime import date
 from typing import Dict, List, Optional, Tuple, Any
 from docuready.domain.models import (
     DocumentType, ExtractedDocument, ExtractedField, EvidenceProvenance,
@@ -12,9 +12,9 @@ from docuready.domain.models import (
 )
 from docuready.normalize.normalizer import (
     compare_names, parse_and_normalize_date, normalize_cert_number,
-    validate_ifsc_code
+    validate_ifsc_code, compare_amounts, compare_dates, compare_identifiers
 )
-from docuready.domain.enums import MaxSeverity
+from docuready.domain.enums import MatchGrade, MaxSeverity
 from docuready.outcome.safety_layer import DecisionSafetyLayer
 
 
@@ -28,7 +28,8 @@ class SchemeConfig:
         sc_st_cutoff_policy: str = "PASS_ONLY",  # "PASS_ONLY" (Post-Matric), "RELAXED_50" (Medhabruti), "STRICT" (PM-YASASVI)
         income_cert_validity_years: int = 3,
         mandatory_documents: Optional[List[DocumentType]] = None,
-        rule_max_severity: Optional[Dict[str, MaxSeverity]] = None
+        rule_max_severity: Optional[Dict[str, MaxSeverity]] = None,
+        income_tolerance: float = 0.0,
     ):
         self.name = name
         self.target_state = target_state.upper()
@@ -37,6 +38,7 @@ class SchemeConfig:
         self.sc_st_cutoff_policy = sc_st_cutoff_policy
         self.income_cert_validity_years = income_cert_validity_years
         self.rule_max_severity = dict(rule_max_severity or {})
+        self.income_tolerance = float(income_tolerance)
         self.mandatory_documents = mandatory_documents or [
             DocumentType.INCOME_CERT,
             DocumentType.CASTE_CERT,
@@ -50,13 +52,35 @@ class SchemeConfig:
 class DocuReadyValidator:
     """Validates multi-document applicant packets against statutory rules and cross-document facts."""
 
-    def __init__(self, scheme_config: Optional[SchemeConfig] = None, audit_date: Optional[date] = None):
+    def __init__(
+        self,
+        scheme_config: Optional[SchemeConfig] = None,
+        audit_date: Optional[date] = None,
+        as_of: Optional[date] = None,
+    ):
+        if as_of is not None and audit_date is not None and as_of != audit_date:
+            raise ValueError(
+                f"Conflicting as_of ({as_of}) and audit_date ({audit_date}) provided"
+            )
         self.scheme = scheme_config or SchemeConfig()
-        # Reference date set to Nov 13, 2026
-        self.audit_date = audit_date or date(2026, 11, 13)
+        # Reference date set to Nov 13, 2026 if not supplied
+        effective_as_of = as_of or audit_date or date(2026, 11, 13)
+        self.as_of = effective_as_of
+        self.audit_date = effective_as_of
         self.safety_layer = DecisionSafetyLayer()
 
-    def validate_packet(self, packet_id: str, documents: Dict[DocumentType, ExtractedDocument]) -> AuditResult:
+    def validate_packet(
+        self,
+        packet_id: str,
+        documents: Dict[DocumentType, ExtractedDocument],
+        audit_date: Optional[date] = None,
+        as_of: Optional[date] = None,
+    ) -> AuditResult:
+        if as_of is not None and audit_date is not None and as_of != audit_date:
+            raise ValueError(
+                f"Conflicting as_of ({as_of}) and audit_date ({audit_date}) provided"
+            )
+        effective_as_of = as_of or audit_date or self.as_of
         findings: List[Finding] = []
         score = 100
 
@@ -179,7 +203,8 @@ class DocuReadyValidator:
                         message=f"Apparent name discrepancy between {primary_dt.value} ('{primary_f.raw_value}') and {dt2.value} ('{f2.raw_value}'), but extraction from {unc_src} has low confidence. Human review required.",
                         evidence=ev,
                         remediation="Inspect physical scan to verify whether apparent name variance is due to scanning noise or an actual discrepancy.",
-                        statutory_reference="MeitY Demographic Verification Standards 2023, Clause 4.2"
+                        statutory_reference="MeitY Demographic Verification Standards 2023, Clause 4.2",
+                        match_grade=MatchGrade.AMBIGUOUS,
                     ))
                     score -= 10
                 else:
@@ -194,7 +219,8 @@ class DocuReadyValidator:
                         message=f"Conflicting applicant names between {primary_dt.value} ('{primary_f.raw_value}') and {dt2.value} ('{f2.raw_value}').",
                         evidence=ev,
                         remediation="Ensure the exact legal name is used across all documents or attach Gazette notification/affidavit.",
-                        statutory_reference="MeitY Demographic Verification Standards 2023, Clause 4.2"
+                        statutory_reference="MeitY Demographic Verification Standards 2023, Clause 4.2",
+                        match_grade=cmp.get("grade", MatchGrade.CONFLICT),
                     ))
                     score -= 25
             elif cmp["status"] == "REVIEW" and dt2 not in divergent_docs_seen:
@@ -210,7 +236,8 @@ class DocuReadyValidator:
                     message=f"Name variation detected between {primary_dt.value} ('{primary_f.raw_value}') and {dt2.value} ('{f2.raw_value}'): {cmp['notes']}.",
                     evidence=ev,
                     remediation="Verify if this abbreviation/transliteration is acceptable under local portal rules or upload self-declaration.",
-                    statutory_reference="UIDAI Name Matching Standard Guidelines"
+                    statutory_reference="UIDAI Name Matching Standard Guidelines",
+                    match_grade=cmp.get("grade", MatchGrade.COMPATIBLE),
                 ))
                 score -= 10
 
@@ -236,7 +263,8 @@ class DocuReadyValidator:
                 message="Applicant name matches consistently across all verified documents.",
                 evidence=primary_ev,
                 remediation="No action required.",
-                statutory_reference="MeitY Demographic Verification Standards 2023"
+                statutory_reference="MeitY Demographic Verification Standards 2023",
+                match_grade=MatchGrade.EXACT,
             ))
 
         # ----------------- 5. CROSS-DOCUMENT DATE OF BIRTH CONSISTENCY & VALIDITY -----------------
@@ -263,7 +291,7 @@ class DocuReadyValidator:
                     message=f"Malformed Date of Birth format: Application Form ('{dob_f_app.raw_value}') or Marksheet ('{dob_f_mark.raw_value}').",
                     evidence=ev_dob,
                     remediation="Enter Date of Birth in standardized DD/MM/YYYY format.",
-                    statutory_reference="HSC Examination Board Verification Manual"
+                    statutory_reference="HSC Examination Board Verification Manual",
                 ))
                 score -= 25
             elif amb1 or amb2:
@@ -278,7 +306,8 @@ class DocuReadyValidator:
                     message=f"Ambiguous date representation detected ('{dob_f_app.raw_value}' vs '{dob_f_mark.raw_value}'). Could represent DD/MM/YYYY or MM/DD/YYYY.",
                     evidence=ev_dob,
                     remediation="Confirm whether day precedes month before final submission.",
-                    statutory_reference="ISO 8601 Date Standard & NSP Portal Format Requirement"
+                    statutory_reference="ISO 8601 Date Standard & NSP Portal Format Requirement",
+                    match_grade=MatchGrade.AMBIGUOUS,
                 ))
                 score -= 5
             elif d1 and d2:
@@ -296,7 +325,8 @@ class DocuReadyValidator:
                             message=f"Potential Date of Birth discrepancy between Application Form ({d1}) and Marksheet ({d2}), but extraction from {unc_doc} has low OCR confidence. Human verification required.",
                             evidence=ev_dob,
                             remediation="Inspect original certificates to verify exact date of birth digits.",
-                            statutory_reference="UIDAI Demographic Guidelines 2023"
+                            statutory_reference="UIDAI Demographic Guidelines 2023",
+                            match_grade=MatchGrade.AMBIGUOUS,
                         ))
                         score -= 10
                     else:
@@ -311,7 +341,8 @@ class DocuReadyValidator:
                             message=f"Date of Birth contradiction: Application Form ({d1}) vs Marksheet ({d2}).",
                             evidence=ev_dob,
                             remediation="Update Date of Birth on portal application to strictly match the Class 10 High School Certificate.",
-                            statutory_reference="UIDAI & Board of Secondary Education Regulation Clause 7"
+                            statutory_reference="UIDAI & Board of Secondary Education Regulation Clause 7",
+                            match_grade=MatchGrade.CONFLICT,
                         ))
                         score -= 25
                 else:
@@ -326,7 +357,8 @@ class DocuReadyValidator:
                         message=f"Date of Birth matches consistently ({d1}).",
                         evidence=ev_dob,
                         remediation="No action required.",
-                        statutory_reference="HSC Board Verification Guidelines"
+                        statutory_reference="HSC Board Verification Guidelines",
+                        match_grade=MatchGrade.EXACT,
                     ))
 
         # ----------------- 6. INCOME VALUE CONSISTENCY & CEILING VALIDATION -----------------
@@ -349,7 +381,7 @@ class DocuReadyValidator:
                     message=f"Could not parse valid numerical income from Income Certificate ('{inc_f_cert.raw_value}').",
                     evidence=[ev_inc_cert],
                     remediation="Verify income figure on certificate is not smudged or obscured.",
-                    statutory_reference="Odisha Misc Cert Rules 2019"
+                    statutory_reference="Odisha Misc Cert Rules 2019",
                 ))
                 score -= 20
             else:
@@ -367,7 +399,8 @@ class DocuReadyValidator:
                             message=f"Certified annual income appears to be ₹{cert_val:,.0f} (above ceiling ₹{self.scheme.income_ceiling:,.0f}), but extraction has low OCR confidence. Verify certificate manually.",
                             evidence=[ev_inc_cert],
                             remediation="Inspect certificate scan manually to confirm the exact income digits.",
-                            statutory_reference="Post-Matric Scholarship Scheme Guidelines 2021-2026, Clause 5.2"
+                            statutory_reference="Post-Matric Scholarship Scheme Guidelines 2021-2026, Clause 5.2",
+                            match_grade=MatchGrade.AMBIGUOUS,
                         ))
                         score -= 10
                     else:
@@ -382,7 +415,8 @@ class DocuReadyValidator:
                             message=f"Certified annual income ₹{cert_val:,.0f} exceeds scheme ceiling ₹{self.scheme.income_ceiling:,.0f}.",
                             evidence=[ev_inc_cert],
                             remediation=f"Applicant exceeds statutory economic threshold of ₹{self.scheme.income_ceiling:,.0f} for this scheme.",
-                            statutory_reference="Post-Matric Scholarship Scheme Guidelines 2021-2026, Clause 5.2"
+                            statutory_reference="Post-Matric Scholarship Scheme Guidelines 2021-2026, Clause 5.2",
+                            match_grade=MatchGrade.CONFLICT,
                         ))
                         score -= 35
                 else:
@@ -397,7 +431,8 @@ class DocuReadyValidator:
                         message=f"Certified annual income ₹{cert_val:,.0f} is within statutory ceiling (₹{self.scheme.income_ceiling:,.0f}).",
                         evidence=[ev_inc_cert],
                         remediation="No action required.",
-                        statutory_reference="Post-Matric Scholarship Guidelines Clause 5.2"
+                        statutory_reference="Post-Matric Scholarship Guidelines Clause 5.2",
+                        match_grade=MatchGrade.EXACT,
                     ))
 
                 # Compare with Application Form declared income
@@ -407,6 +442,8 @@ class DocuReadyValidator:
                         ev_inc_cert,
                         inc_f_app.provenance or EvidenceProvenance(document_type="APPLICATION_FORM", file_name="", extracted_field="annual_income", raw_snippet=inc_f_app.raw_value)
                     ]
+                    tol = getattr(self.scheme, "income_tolerance", 0.0)
+                    inc_cmp = compare_amounts(cert_val, app_val, tolerance=tol, is_uncertain=inc_f_cert.is_uncertain or inc_f_app.is_uncertain)
                     if abs(cert_val - app_val) > 1.0:
                         if inc_f_cert.is_uncertain or inc_f_app.is_uncertain:
                             findings.append(Finding(
@@ -420,7 +457,8 @@ class DocuReadyValidator:
                                 message=f"Income variance detected: Certified ₹{cert_val:,.0f} vs Declared ₹{app_val:,.0f}, but extraction has low OCR confidence. Verify figures visually.",
                                 evidence=ev_both,
                                 remediation="Check application form and income certificate to confirm values.",
-                                statutory_reference="NSP Guidelines on Income Declaration Verification"
+                                statutory_reference="NSP Guidelines on Income Declaration Verification",
+                                match_grade=MatchGrade.AMBIGUOUS,
                             ))
                             score -= 10
                         else:
@@ -435,7 +473,8 @@ class DocuReadyValidator:
                                 message=f"Income mismatch: Certified ₹{cert_val:,.0f} vs Declared on form ₹{app_val:,.0f}.",
                                 evidence=ev_both,
                                 remediation="Correct declared income in application form to exactly equal the certified income.",
-                                statutory_reference="NSP Guidelines on Income Declaration Verification"
+                                statutory_reference="NSP Guidelines on Income Declaration Verification",
+                                match_grade=inc_cmp.get("grade", MatchGrade.CONFLICT),
                             ))
                             score -= 25
                     else:
@@ -450,7 +489,8 @@ class DocuReadyValidator:
                             message=f"Declared income (₹{app_val:,.0f}) matches certified income exactly.",
                             evidence=ev_both,
                             remediation="No action required.",
-                            statutory_reference="NSP Guidelines"
+                            statutory_reference="NSP Guidelines",
+                            match_grade=MatchGrade.EXACT,
                         ))
 
         # ----------------- 7. CERTIFICATE EXPIRY CHECK (INCOME CERTIFICATE) -----------------
@@ -470,11 +510,11 @@ class DocuReadyValidator:
                     message=f"Issue date '{inc_date_f.raw_value}' on Income Certificate is unreadable or malformed.",
                     evidence=ev_date,
                     remediation="Ensure the certificate date stamp is crisp and legible.",
-                    statutory_reference="Odisha Misc Cert Rules 2019"
+                    statutory_reference="Odisha Misc Cert Rules 2019",
                 ))
                 score -= 20
             else:
-                age_days = (self.audit_date - p_date).days
+                age_days = (effective_as_of - p_date).days
                 age_years = age_days / 365.25
                 if age_years > self.scheme.income_cert_validity_years:
                     findings.append(Finding(
@@ -488,7 +528,8 @@ class DocuReadyValidator:
                         message=f"Income Certificate expired: issued on {p_date} ({age_years:.1f} years ago; maximum validity is {self.scheme.income_cert_validity_years} years).",
                         evidence=ev_date,
                         remediation="Apply for a renewed Income Certificate at the nearest Tahsil Office or e-District portal.",
-                        statutory_reference="Odisha Misc Cert Rules 2019, Rule 8(2)"
+                        statutory_reference="Odisha Misc Cert Rules 2019, Rule 8(2)",
+                        match_grade=MatchGrade.CONFLICT,
                     ))
                     score -= 25
                 else:
@@ -503,7 +544,8 @@ class DocuReadyValidator:
                         message=f"Income Certificate is valid (issued {p_date}, age {age_years:.1f} years <= {self.scheme.income_cert_validity_years} years).",
                         evidence=ev_date,
                         remediation="No action required.",
-                        statutory_reference="Odisha Misc Cert Rules 2019, Rule 8(2)"
+                        statutory_reference="Odisha Misc Cert Rules 2019, Rule 8(2)",
+                        match_grade=MatchGrade.EXACT,
                     ))
 
         # ----------------- 8. CERTIFICATE NUMBER INCONSISTENCIES -----------------
@@ -527,7 +569,8 @@ class DocuReadyValidator:
                     message=f"Application form references Income Cert '{app_inc_no.raw_value}', but uploaded document has '{act_inc_no.raw_value}'.",
                     evidence=ev_c,
                     remediation="Update certificate reference number in portal application to match uploaded certificate.",
-                    statutory_reference="OSSP e-District Integration Guideline"
+                    statutory_reference="OSSP e-District Integration Guideline",
+                    match_grade=MatchGrade.CONFLICT,
                 ))
                 score -= 25
             else:
@@ -542,7 +585,8 @@ class DocuReadyValidator:
                     message="Income Certificate number matches reference on application form.",
                     evidence=ev_c,
                     remediation="No action required.",
-                    statutory_reference="OSSP e-District Guidelines"
+                    statutory_reference="OSSP e-District Guidelines",
+                    match_grade=MatchGrade.EXACT,
                 ))
 
         # Caste cert no
@@ -565,7 +609,8 @@ class DocuReadyValidator:
                     message=f"Application form references Caste Cert '{app_cst_no.raw_value}', but uploaded document has '{act_cst_no.raw_value}'.",
                     evidence=ev_cst,
                     remediation="Update caste certificate reference number on the portal.",
-                    statutory_reference="OSSP Guidelines Section 4.3"
+                    statutory_reference="OSSP Guidelines Section 4.3",
+                    match_grade=MatchGrade.CONFLICT,
                 ))
                 score -= 25
             else:
@@ -580,7 +625,8 @@ class DocuReadyValidator:
                     message="Caste Certificate number matches reference on application form.",
                     evidence=ev_cst,
                     remediation="No action required.",
-                    statutory_reference="OSSP Guidelines"
+                    statutory_reference="OSSP Guidelines",
+                    match_grade=MatchGrade.EXACT,
                 ))
 
         # ----------------- 9. BANK IFSC & ACCOUNT NUMBER VALIDATION -----------------
@@ -603,7 +649,7 @@ class DocuReadyValidator:
                     message=f"Bank IFSC code '{pass_ifsc.raw_value}' violates standard RBI format (4 letters, 0, 6 alphanumeric).",
                     evidence=ev_ifsc,
                     remediation="Check the passbook or contact branch for the official 11-character RBI IFSC code.",
-                    statutory_reference="RBI Master Direction - Core Banking IFSC Standards"
+                    statutory_reference="RBI Master Direction - Core Banking IFSC Standards",
                 ))
                 score -= 20
             else:
@@ -618,7 +664,8 @@ class DocuReadyValidator:
                     message=f"Bank IFSC code '{pass_ifsc.raw_value}' is valid per RBI standard.",
                     evidence=ev_ifsc,
                     remediation="No action required.",
-                    statutory_reference="RBI Master Direction"
+                    statutory_reference="RBI Master Direction",
+                    match_grade=MatchGrade.EXACT,
                 ))
 
         # Cross check account number if application form present
@@ -639,7 +686,8 @@ class DocuReadyValidator:
                     message=f"Bank account number discrepancy: Passbook '{pass_acc.raw_value}' vs Form '{app_acc.raw_value}'.",
                     evidence=ev_acc,
                     remediation="Ensure the exact DBT bank account number is typed into the scholarship portal.",
-                    statutory_reference="DBT Mission Guidelines for Direct Benefit Transfer"
+                    statutory_reference="DBT Mission Guidelines for Direct Benefit Transfer",
+                    match_grade=MatchGrade.CONFLICT,
                 ))
                 score -= 25
 
@@ -779,7 +827,7 @@ class DocuReadyValidator:
 
         # ----------------- INDEPENDENT DECISION SAFETY LAYER -----------------
         findings = self.safety_layer.audit_findings(
-            findings, documents, self.scheme.name, scheme_config=self.scheme, audit_date=self.audit_date
+            findings, documents, self.scheme.name, scheme_config=self.scheme, audit_date=effective_as_of
         )
 
         # ----------------- OVERALL STATUS & SCORE DETERMINATION -----------------
@@ -824,5 +872,6 @@ class DocuReadyValidator:
             findings=findings,
             summary_counts=summary_counts,
             execution_time_ms=0.0,
-            timestamp=datetime.now().isoformat()
+            timestamp=f"{effective_as_of.isoformat()}T00:00:00",
+            as_of=effective_as_of.isoformat(),
         )

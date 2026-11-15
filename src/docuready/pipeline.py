@@ -24,15 +24,44 @@ class AuditPipeline:
         self,
         scheme_config: Optional[SchemeConfig] = None,
         audit_date: Optional[date] = None,
+        as_of: Optional[date] = None,
     ):
-        self.extractor = DocumentExtractor()
-        self.validator = DocuReadyValidator(scheme_config=scheme_config, audit_date=audit_date)
+        if as_of is not None and audit_date is not None and as_of != audit_date:
+            raise ValueError(
+                f"Conflicting as_of ({as_of}) and audit_date ({audit_date}) provided"
+            )
+        env_as_of = os.environ.get("DOCUREADY_AS_OF")
+        if as_of is not None or audit_date is not None:
+            effective_as_of = as_of or audit_date
+        elif env_as_of:
+            effective_as_of = date.fromisoformat(env_as_of)
+        else:
+            effective_as_of = date.today()
 
-    def load_and_audit_packet(self, packet_dir: str, packet_id: Optional[str] = None) -> Tuple_Audit:
+        self.as_of = effective_as_of
+        self.audit_date = effective_as_of
+        self.extractor = DocumentExtractor()
+        self.validator = DocuReadyValidator(
+            scheme_config=scheme_config,
+            as_of=self.as_of,
+        )
+
+    def load_and_audit_packet(
+        self,
+        packet_dir: str,
+        packet_id: Optional[str] = None,
+        as_of: Optional[date] = None,
+        audit_date: Optional[date] = None,
+    ) -> Tuple_Audit:
         """
         Ingests all PDF documents in packet_dir, extracts fields with provenance,
         and executes the validation rules.
         """
+        if as_of is not None and audit_date is not None and as_of != audit_date:
+            raise ValueError(
+                f"Conflicting as_of ({as_of}) and audit_date ({audit_date}) provided"
+            )
+        effective_as_of = as_of or audit_date or self.as_of
         t0 = time.perf_counter()
         pid = packet_id or os.path.basename(packet_dir)
         logger.info("Starting audit for packet_id=%s in directory=%s", pid, os.path.basename(packet_dir))
@@ -60,7 +89,7 @@ class AuditPipeline:
 
         # Run validation
         logger.info("Extracted %d documents for packet %s", len(extracted_docs), pid)
-        audit_result = self.validator.validate_packet(pid, extracted_docs)
+        audit_result = self.validator.validate_packet(pid, extracted_docs, as_of=effective_as_of)
         t1 = time.perf_counter()
         audit_result.execution_time_ms = round((t1 - t0) * 1000.0, 3)
         logger.info(
@@ -77,17 +106,24 @@ class AuditPipeline:
         current_docs: Dict[DocumentType, ExtractedDocument],
         replacement_file_path: str,
         doc_type: DocumentType,
-        packet_id: str = "REPLACED_PACKET"
+        packet_id: str = "REPLACED_PACKET",
+        as_of: Optional[date] = None,
+        audit_date: Optional[date] = None,
     ) -> Tuple_Audit:
         """
         Replaces a specific document in current_docs with replacement_file_path and reruns the audit.
         """
+        if as_of is not None and audit_date is not None and as_of != audit_date:
+            raise ValueError(
+                f"Conflicting as_of ({as_of}) and audit_date ({audit_date}) provided"
+            )
+        effective_as_of = as_of or audit_date or self.as_of
         t0 = time.perf_counter()
         new_docs = dict(current_docs)
         new_doc = self.extractor.extract_document(replacement_file_path, expected_type=doc_type)
         new_docs[doc_type] = new_doc
 
-        audit_result = self.validator.validate_packet(packet_id, new_docs)
+        audit_result = self.validator.validate_packet(packet_id, new_docs, as_of=effective_as_of)
         t1 = time.perf_counter()
         audit_result.execution_time_ms = round((t1 - t0) * 1000.0, 3)
 

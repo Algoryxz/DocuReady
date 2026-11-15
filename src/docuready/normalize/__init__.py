@@ -9,6 +9,9 @@ from docuready.normalize.normalizer import (
     validate_ifsc_code,
     normalize_cert_number,
     get_date_ambiguity_candidates,
+    compare_dates,
+    compare_identifiers,
+    compare_amounts,
 )
 
 __all__ = [
@@ -20,4 +23,7 @@ __all__ = [
     "validate_ifsc_code",
     "normalize_cert_number",
     "get_date_ambiguity_candidates",
+    "compare_dates",
+    "compare_identifiers",
+    "compare_amounts",
 ]
