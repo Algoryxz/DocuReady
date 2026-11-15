@@ -20,8 +20,9 @@ from pathlib import Path
 import streamlit as st
 
 from docuready.domain.models import (
-    DocumentType, DOC_TYPE_LABELS, FindingStatus, Severity
+    DocumentType, DOC_TYPE_LABELS, Severity
 )
+from docuready.domain.enums import Readiness, Status
 from docuready.pipeline import AuditPipeline
 from docuready.generator import generate_marksheet, generate_income_certificate
 from docuready.report.exporter import (
@@ -278,11 +279,10 @@ st.markdown("""
 if st.session_state.audit_result:
     res_mob = st.session_state.audit_result
     status_label = {
-        "READY_TO_SUBMIT": "PASSED (NO DISCREPANCIES)",
-        "REVIEW_RECOMMENDED": "MANUAL REVIEW",
-        "ACTION_REQUIRED": "ISSUES IDENTIFIED",
-        "REJECT_PRECHECK": "CRITICAL DEFECTS",
-    }.get(res_mob.overall_status, res_mob.overall_status)
+        Readiness.NO_ISSUES_FOUND: "NO ISSUES FOUND",
+        Readiness.NEEDS_CHECKS: "CHECKS NEEDED",
+        Readiness.NOT_READY: "NOT READY",
+    }[res_mob.readiness]
     st.markdown(f"""
     <div class='mobile-sticky-bar'>
         <span class='mobile-bar-score'>🛡️ Readiness: {res_mob.readiness_score}/100</span>
@@ -323,28 +323,22 @@ if screen == "1. Dashboard":
 
         with c_status:
             st.write("**Pre-Check Advisory Determination:**")
-            if res.overall_status == "READY_TO_SUBMIT":
-                st.markdown("<span class='status-badge-ready'>🟢 AUDIT COMPLETE: NO DISCREPANCIES DETECTED</span>", unsafe_allow_html=True)
-                st.write("No cross-document discrepancies detected in this demonstration packet. (Advisory preparation aid; does not guarantee official portal acceptance or scheme approval.)")
-            elif res.overall_status == "REVIEW_RECOMMENDED":
-                st.markdown("<span class='status-badge-review'>🟡 MANUAL REVIEW RECOMMENDED</span>", unsafe_allow_html=True)
-                st.write("Variations detected (e.g. initials or ambiguous date format). Manual inspection recommended before submission.")
-            elif res.overall_status == "ACTION_REQUIRED":
-                st.markdown("<span class='status-badge-action'>🟠 ISSUES IDENTIFIED (ACTION REQUIRED)</span>", unsafe_allow_html=True)
-                st.write("Discrepancies identified (e.g. DOB mismatch or expired certificate). Review remediation guidance below.")
-            elif res.overall_status == "REJECT_PRECHECK":
-                st.markdown("<span class='status-badge-reject'>🔴 CRITICAL DEFECTS IDENTIFIED</span>", unsafe_allow_html=True)
-                st.write("Critical barrier identified (e.g. income ceiling breach or missing mandatory certificate). Submission would likely be rejected.")
+            if res.readiness is Readiness.NO_ISSUES_FOUND:
+                st.markdown("<span class='status-badge-ready'>🟢 NO ISSUES FOUND</span>", unsafe_allow_html=True)
+                st.write("The configured checks found no issue on the supplied verified evidence.")
+            elif res.readiness is Readiness.NEEDS_CHECKS:
+                st.markdown("<span class='status-badge-review'>🟡 CHECKS NEEDED</span>", unsafe_allow_html=True)
+                st.write("Some findings need additional evidence or human review.")
             else:
-                st.markdown("<span class='status-badge-reject'>⚪ UNREADABLE DOCUMENT</span>", unsafe_allow_html=True)
-                st.write("Scan quality is insufficient for statutory verification.")
+                st.markdown("<span class='status-badge-reject'>🔴 NOT READY</span>", unsafe_allow_html=True)
+                st.write("One or more required documents are missing or a defect is confirmed.")
 
         with c_counts:
             st.write("**Rule Results Breakdown:**")
-            st.write(f"- ✅ **Passed Checks:** {res.summary_counts.get('PASS', 0)}")
-            st.write(f"- ⚠️ **Human Review Items:** {res.summary_counts.get('REVIEW', 0)}")
-            st.write(f"- ❌ **Failed Violations:** {res.summary_counts.get('FAIL', 0)}")
-            st.write(f"- ❓ **Unreadable / Missing Evidence:** {res.summary_counts.get('UNKNOWN', 0)}")
+            st.write(f"- ✅ **Passed Checks:** {res.v2_summary_counts.get(Status.PASS.value, 0)}")
+            st.write(f"- ⚠️ **Human Review Items:** {res.v2_summary_counts.get(Status.REVIEW.value, 0)}")
+            st.write(f"- ❌ **Failed Violations:** {res.v2_summary_counts.get(Status.FAIL.value, 0)}")
+            st.write(f"- ❓ **Unreadable / Missing Evidence:** {res.v2_summary_counts.get(Status.WARN.value, 0) + res.v2_summary_counts.get(Status.MISSING.value, 0)}")
 
         st.markdown("---")
         st.subheader("Quick Navigation & Workflow")
@@ -584,26 +578,30 @@ elif screen == "5. Audit Results":
             st.metric("Readiness Score", f"{res.readiness_score} / 100")
             st.progress(res.readiness_score / 100.0)
         with m2:
-            st.metric("Passed Checks", res.summary_counts.get("PASS", 0))
+            st.metric("Passed Checks", res.v2_summary_counts.get(Status.PASS.value, 0))
         with m3:
-            st.metric("Review Items", res.summary_counts.get("REVIEW", 0))
+            st.metric("Review Items", res.v2_summary_counts.get(Status.REVIEW.value, 0))
         with m4:
-            st.metric("Failed Violations", res.summary_counts.get("FAIL", 0))
+            st.metric("Failed Violations", res.v2_summary_counts.get(Status.FAIL.value, 0))
 
         st.markdown("---")
         st.subheader("Audit Findings & Evidence Citations")
 
         for idx, f in enumerate(res.findings, 1):
             card_class = "finding-card"
-            if f.status == FindingStatus.FAIL:
+            resolved_status = f.resolved_status
+            if resolved_status in (Status.FAIL, Status.MISSING):
                 card_class += " finding-card-fail"
-                badge = "<span class='status-badge-reject'>FAIL</span>"
-            elif f.status == FindingStatus.REVIEW:
+                badge = f"<span class='status-badge-reject'>{resolved_status.value}</span>"
+            elif resolved_status is Status.WARN:
+                card_class += " finding-card-action"
+                badge = "<span class='status-badge-action'>WARN</span>"
+            elif resolved_status is Status.REVIEW:
                 card_class += " finding-card-review"
                 badge = "<span class='status-badge-review'>REVIEW</span>"
-            elif f.status == FindingStatus.UNKNOWN:
-                card_class += " finding-card-reject"
-                badge = "<span class='status-badge-reject'>UNKNOWN</span>"
+            elif resolved_status is Status.NOT_APPLICABLE:
+                card_class += " finding-card-review"
+                badge = "<span class='status-badge-review'>NOT APPLICABLE</span>"
             else:
                 card_class += " finding-card-pass"
                 badge = "<span class='status-badge-ready'>PASS</span>"
@@ -617,6 +615,7 @@ elif screen == "5. Audit Results":
             safe_docs = html.escape(', '.join(f.documents_involved))
             safe_message = html.escape(str(f.message))
             safe_statutory = html.escape(str(f.statutory_reference))
+            safe_reason_code = html.escape(str(f.reason_code))
 
             st.markdown(f"""
             <div class='{card_class}'>
@@ -626,17 +625,18 @@ elif screen == "5. Audit Results":
                 </div>
                 <p><b>Statutory Rule:</b> <code>{safe_rule_id}</code> | <b>Severity:</b> {safe_severity} | <b>Documents:</b> {safe_docs}</p>
                 <p><b>Description:</b> {safe_message}</p>
+                <p><b>Reason Code:</b> <code>{safe_reason_code}</code></p>
                 <p><b>Legal Reference:</b> <i>{safe_statutory}</i></p>
             </div>
             """, unsafe_allow_html=True)
 
             if f.evidence:
-                with st.expander(f"🔍 View Original Evidence for Finding #{idx}", expanded=(f.status != FindingStatus.PASS)):
+                with st.expander(f"🔍 View Original Evidence for Finding #{idx}", expanded=(resolved_status is not Status.PASS)):
                     for ev in f.evidence:
                         bbox_str = f", BBox: {ev.bounding_box}" if ev.bounding_box else ""
                         st.info(f"**Document:** `{ev.document_type}` (Page {ev.page_number}{bbox_str})\n\n**Extracted Snippet:** \"{html.escape(str(ev.raw_snippet))}\"")
 
-            if f.status in [FindingStatus.FAIL, FindingStatus.REVIEW, FindingStatus.UNKNOWN]:
+            if resolved_status in [Status.FAIL, Status.WARN, Status.REVIEW, Status.MISSING]:
                 st.warning(f"👉 **Correction Guidance:** {f.remediation}")
 
             st.write("")
@@ -677,7 +677,7 @@ elif screen == "6. Document Replacement & Rerun":
         st.warning("No active audit packet loaded. Please load or audit a packet in Screen 2.")
     else:
         current_res = st.session_state.audit_result
-        st.info(f"**Active Packet:** `{current_res.packet_id}` | **Current Score:** {current_res.readiness_score}/100 | **Status:** `{current_res.overall_status}`")
+        st.info(f"**Active Packet:** `{current_res.packet_id}` | **Current Score:** {current_res.readiness_score}/100 | **Status:** `{current_res.readiness.value}`")
 
         st.subheader("1. Select Document to Replace")
         doc_types = list(st.session_state.extracted_docs.keys())
