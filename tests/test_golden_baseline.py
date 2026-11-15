@@ -88,6 +88,8 @@ def golden_data():
 
 @pytest.fixture(scope="module")
 def pipeline():
+    # The historical golden baseline was generated on 2026-11-13 and must use
+    # its original reference date rather than the current wall-clock date.
     return AuditPipeline(as_of=date(2026, 11, 13))
 
 

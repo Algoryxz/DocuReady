@@ -69,6 +69,7 @@ def validate_slot(
                     raw_snippet=f"[{doc.status} UPLOAD / INSUFFICIENT EVIDENCE]",
                     extracted_field="DOCUMENT_SLOT",
                     extraction_method=doc.extraction_method,
+                    page_number=None,
                 )
             ],
             remediation=f"Upload a clear, legible {slot_label} to the {slot.value} slot.",
@@ -104,11 +105,16 @@ def validate_slot(
             message=msg,
             evidence=[
                 EvidenceProvenance(
-                    document_type=slot.value,
+                    document_type=doc.detected_type.value,
                     file_name=doc.file_path,
-                    raw_snippet=f"Detected primary anchors: [{anchors_str}]",
+                    raw_snippet=(
+                        f"Expected slot: '{slot.value}'; Detected candidate: '{doc.detected_type.value}'; "
+                        f"Primary anchor(s): [{anchors_str}]"
+                        + (f"; Corroborating: [{corrob_str}]" if corrob_str else "")
+                    ),
                     extracted_field="DOCUMENT_SLOT",
                     extraction_method=doc.extraction_method,
+                    page_number=None,
                 )
             ],
             remediation=f"Upload the correct {slot_label} to the {slot.value} slot instead of {cand_label}.",
@@ -148,11 +154,16 @@ def validate_slot(
                 message=msg,
                 evidence=[
                     EvidenceProvenance(
-                        document_type=slot.value,
+                        document_type=candidate_type.value,
                         file_name=doc.file_path,
-                        raw_snippet=f"Detected primary anchors: [{anchors_str}]",
+                        raw_snippet=(
+                            f"Expected slot: '{slot.value}'; Detected candidate: '{candidate_type.value}'; "
+                            f"Primary anchor(s): [{anchors_str}]"
+                            + (f"; Corroborating: [{corrob_str}]" if corrob_str else "")
+                        ),
                         extracted_field="DOCUMENT_SLOT",
                         extraction_method=doc.extraction_method,
+                        page_number=None,
                     )
                 ],
                 remediation=f"Upload the correct {slot_label} to the {slot.value} slot instead of {cand_label}.",
@@ -185,6 +196,7 @@ def validate_slot(
                     raw_snippet=f"Slot uncertainty: {reason}",
                     extracted_field="DOCUMENT_SLOT",
                     extraction_method=doc.extraction_method,
+                    page_number=None,
                 )
             ],
             remediation=f"Ensure an authoritative, legible {slot_label} with clear title headers is uploaded.",
@@ -214,11 +226,12 @@ def validate_slot(
             message=msg,
             evidence=[
                 EvidenceProvenance(
-                    document_type=slot.value,
+                    document_type=doc.doc_type.value,
                     file_name=doc.file_path,
-                    raw_snippet=f"Synthetic document type: {doc.doc_type.value}",
+                    raw_snippet=f"Expected slot: '{slot.value}'; Synthetic document type: '{doc.doc_type.value}'",
                     extracted_field="DOCUMENT_SLOT",
                     extraction_method=doc.extraction_method,
+                    page_number=None,
                 )
             ],
             remediation=f"Upload the correct {slot_label} to the {slot.value} slot instead of {cand_label}.",
@@ -245,6 +258,7 @@ def validate_slot(
                 raw_snippet="[BLANK / EMPTY DOCUMENT]",
                 extracted_field="DOCUMENT_SLOT",
                 extraction_method=doc.extraction_method,
+                page_number=None,
             )
         ],
         remediation=f"Upload a complete, valid {slot_label} to the {slot.value} slot.",
