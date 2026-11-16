@@ -1,6 +1,6 @@
 # DocuReady Desktop
 
-Local-first, offline-only Electron desktop application for the DocuReady document readiness engine.
+Local-first Electron desktop application for the DocuReady document readiness engine.
 
 ## Overview
 
@@ -59,7 +59,7 @@ The output package will be generated under `apps/desktop/out/DocuReady-<platform
 - IPC sender origin validation on all invoke channels
 - WebRequest restrictions: new windows and external navigations are denied
 - Ingestion limits: 20 documents/packet, 50MB/file, 200MB/packet, 50 pages/file
-- Ephemeral workspace isolation with automated multi-stage cleanup and 0% PII leakage
+- Ephemeral workspace isolation with automated multi-stage cleanup; privacy controls are not a guarantee of zero PII leakage
 
 ## Release Documentation
 
@@ -69,7 +69,7 @@ The output package will be generated under `apps/desktop/out/DocuReady-<platform
 - In-memory binary document delivery (`documents:get-binary` / `getDocumentBinary`) passes `Uint8Array` directly to the viewer without exposing filesystem paths
 - File signature and size validation (50MB single file limit, 200MB packet limit)
 - Isolated temporary workspaces with automatic cleanup on session clear or packet deletion
-- 100% offline: zero cloud dependencies, zero telemetry, zero background network traffic
+- Designed for local document processing. No claim of system-wide network isolation or zero outbound traffic is made; renderer CSP and process-level checks have narrower scopes.
 
 ## Coordinate Geometry Contract
 
