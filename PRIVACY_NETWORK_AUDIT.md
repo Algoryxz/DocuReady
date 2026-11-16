@@ -18,8 +18,8 @@ A multi-tier process-level network and privacy audit was conducted across the co
 5. **Bundled Tesseract OCR Subprocess** (`tesseract.exe 5.4.0`)
 
 ### Final Process-Level Audit Verdict:
-> **`ZERO_NETWORK_TRAFFIC_VERIFIED`**  
-> Under continuous 50ms interval process-level monitoring of the entire process tree during installation, application launch, sidecar health handshake, packet ingestion, OCR invocation on degraded documents, rule evaluation, and application shutdown, **0 outbound TCP connections, 0 listening TCP sockets, and 0 UDP endpoints** were established.
+> **`NO_CONNECTIONS_OBSERVED_IN_RECORDED_SAMPLES`**  
+> The committed script polls `psutil.Process.net_connections()` every 50ms for selected PIDs and descendants. This is best-effort sampling, not kernel event tracing. The saved summary's runtime process tree lists only `DocuReady.exe`, and the recorded PIDs do not identify the sidecar or Tesseract. The data supports only the narrower statement that no connections were observed in the recorded samples; it does not prove zero network egress.
 
 ---
 
@@ -102,7 +102,7 @@ export function getContentSecurityPolicy(isDevelopment: boolean): string {
 
 ## 3. Dynamic Process-Level Monitoring Evidence
 
-Dynamic telemetry was captured using `scripts/network_privacy_audit.py` with continuous high-frequency polling (50ms interval) via `psutil` and Windows `Get-NetTCPConnection` APIs.
+Dynamic telemetry was captured using `scripts/network_privacy_audit.py` with 50ms polling via `psutil.Process.net_connections()`. The checked-in implementation does not call Windows `Get-NetTCPConnection`, ETW, WFP, or another kernel event-tracing API.
 
 ### Test Stages Executed & Recorded:
 
@@ -116,7 +116,7 @@ Dynamic telemetry was captured using `scripts/network_privacy_audit.py` with con
 | **Stage 6: Report Export & Redaction** | Exporter Worker | Monitored | 0 | 0 |
 | **Stage 7: Process Teardown** | Process termination & workspace wipe | Monitored | 0 | 0 |
 
-### Connection Log Summary:
+### Connection Log Summary (Limited Scope):
 ```json
 {
   "audit_timestamp": 1794820332.24,
@@ -172,3 +172,14 @@ To preserve strict scientific integrity, the following boundaries and conditions
 2. **Development vs. Production Mode:** In development mode (`npm run start`), Vite opens a local loopback WebSocket (`ws://localhost:5173`) to support Hot Module Replacement (HMR). This development-only loopback is explicitly excluded in the production binary (`DocuReady.exe`), where all assets are loaded locally from `app.asar` via `file://`.
 3. **Third-Party DLL Boundary:** Dynamic library inspections confirmed that `leptonica-1.84.1.dll`, `libpng16.dll`, `libjpeg-62.dll`, and `libtiff-5.dll` bundled with Tesseract contain no networking code and do not link to `ws2_32.dll` (Windows Sockets) or `wininet.dll`.
 4. **Air-Gap Capability:** The application operates without degradation on fully air-gapped workstations with physical network adapters disabled.
+
+
+## 7. Correction: What This Audit Does Not Prove
+
+- Polling every 50ms can miss connections that open and close between samples. It is not equivalent to kernel-level event capture.
+- The JSON summary's `runtime_stage.process_tree` contains only the Electron root process. The recorded PID list does not demonstrate that the sidecar and OCR subprocess were included in the persisted process-tree evidence.
+- `psutil.net_connections()` does not provide a complete system-wide audit of DNS requests, traffic emitted by unrelated broker/system processes, raw packet activity, or every possible transport.
+- The script's installer stage runs the setup executable with `--silent` for a bounded 10-second window and may kill it on timeout. This is not a clean-machine install/uninstall qualification.
+- CSP `connect-src 'self'` constrains renderer-originated connections; it does not constrain every network-capable API in Electron's main process or native child processes.
+
+**Corrected verdict:** no connections were observed in the captured samples for the processes visible to this polling implementation. A zero-egress guarantee is not established. Do not use the phrase “kernel-level verified” or “zero network traffic verified” until a Windows Filtering Platform/ETW/packet-capture audit covers the complete process tree and its descendants.
