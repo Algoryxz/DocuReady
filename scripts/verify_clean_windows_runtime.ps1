@@ -60,6 +60,51 @@ function Invoke-SidecarHealth([string]$SidecarExe, [string]$Workspace) {
             throw "Bundled OCR unavailable. Health response: $line"
         }
         Write-Log "PASS: bundled sidecar health and OCR resource discovery. $line"
+
+        function Send-SidecarRequest([string]$RequestId, [string]$Method, [hashtable]$Params) {
+            $request = @{ protocol = 1; id = $RequestId; method = $Method; params = $Params } | ConvertTo-Json -Depth 12 -Compress
+            $proc.StandardInput.WriteLine($request)
+            $proc.StandardInput.Flush()
+            $deadline = (Get-Date).AddMinutes(3)
+            while ((Get-Date) -lt $deadline) {
+                $readTask = $proc.StandardOutput.ReadLineAsync()
+                if (-not $readTask.Wait(180000)) { throw "Sidecar request $Method timed out." }
+                $responseLine = $readTask.Result
+                if ([string]::IsNullOrWhiteSpace($responseLine)) { throw "Sidecar closed stdout during $Method." }
+                $frame = $responseLine | ConvertFrom-Json
+                if ($frame.id -eq $RequestId) { return $frame }
+            }
+            throw "No correlated JSON-RPC response for $Method."
+        }
+
+        $repoData = Join-Path $RepoRoot "synthetic_data"
+        $cases = @(
+            @{ Name = "clean"; Source = (Join-Path $repoData "pkt_01_clean"); PacketId = "pkt_01_clean" },
+            @{ Name = "degraded-ocr"; Source = (Join-Path $repoData "pkt_07_unreadable_doc"); PacketId = "pkt_07_unreadable_doc" },
+            @{ Name = "name-conflict"; Source = (Join-Path $repoData "pkt_02_name_conflict"); PacketId = "pkt_02_name_conflict" }
+        )
+        foreach ($case in $cases) {
+            if (-not (Test-Path -LiteralPath $case.Source -PathType Container)) {
+                throw "Required synthetic acceptance packet missing: $($case.Source)"
+            }
+            $staged = Join-Path $Workspace $case.Name
+            Copy-Item -LiteralPath $case.Source -Destination $staged -Recurse -Force
+            $audit = Send-SidecarRequest ("release-" + $case.Name) "audit_packet" @{
+                packet_dir = $staged
+                packet_id = $case.PacketId
+                as_of = "2026-03-31"
+            }
+            if (-not $audit.ok) { throw "Sidecar audit failed for $($case.Name): $($audit | ConvertTo-Json -Depth 8 -Compress)" }
+            $auditResult = if ($audit.result.audit) { $audit.result.audit } else { $audit.result.audit_result }
+            if (-not $auditResult) { throw "No audit result returned for $($case.Name)." }
+            Write-Log "PASS: sidecar packet audit '$($case.Name)' returned status '$($auditResult.overall_status)'."
+            if ($case.Name -eq "name-conflict") {
+                $finding = $auditResult.findings | Where-Object { $_.rule_id -eq "RULE-NAME-01" } | Select-Object -First 1
+                if (-not $finding) { throw "Expected RULE-NAME-01 finding missing from name-conflict packet." }
+                Write-Log "PASS: name-conflict packet produced RULE-NAME-01."
+            }
+        }
+
         $proc.StandardInput.WriteLine('{"protocol":1,"id":"release-shutdown","method":"shutdown","params":{}}')
         $proc.StandardInput.Flush()
         $proc.WaitForExit(5000) | Out-Null
