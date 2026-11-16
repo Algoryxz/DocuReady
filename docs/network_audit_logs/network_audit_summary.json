@@ -1,0 +1,33 @@
+{
+  "audit_timestamp": 1794820332.242757,
+  "total_connections_detected": 0,
+  "installer_stage": {
+    "stage": "installer",
+    "pids_monitored": [
+      26244,
+      11116
+    ],
+    "samples": 157,
+    "connections_detected": [],
+    "exit_code": null
+  },
+  "runtime_stage": {
+    "stage": "application_runtime_and_ocr",
+    "pids_monitored": [
+      5772,
+      4964
+    ],
+    "process_tree": [
+      {
+        "pid": 4964,
+        "name": "DocuReady.exe",
+        "cmdline": [
+          "C:\\Users\\smara\\Desktop\\New folder\\apps\\desktop\\out\\DocuReady-win32-x64\\DocuReady.exe"
+        ]
+      }
+    ],
+    "samples": 146,
+    "connections_detected": []
+  },
+  "verdict": "ZERO_NETWORK_TRAFFIC_VERIFIED"
+}
