@@ -74,7 +74,7 @@ Gate it contributes to
 |---|---|---|
 | **G0** Baseline frozen | Safe to refactor | **PASSED (Accepted 15 Nov 2026)**: T0.1–T0.3 accepted; golden snapshots green; remote CI green on main (runs 43630377408, 43636186644) |
 | **G1** Honest and clean | Public claims match reality | **PASSED (Accepted 15 Nov 2026 by Deeptiman)**: T1.1–T1.5 accepted; claims register complete; no-network test green; licence decision recorded in ADR-001; Track A/B deliverables qualified |
-| **G2** Safe outcomes | No false assurance | **AUTHORIZED — IN PROGRESS (15 Nov 2026 by Deeptiman)**: G2 authorized; T2.1 and T2.2 formally ACCEPTED by Product Owner Deeptiman on 15 November 2026; T2.3 (Match grades / injected clock) AUTHORIZED to start and active under Susmita; T2.4 (Slot validation) pending; G2 closure requires completion and acceptance of T2.3 and T2.4 |
+| **G2** Safe outcomes | No false assurance | **PASSED (Accepted 16 Nov 2026 by Deeptiman)**: G2 passed; T2.1, T2.2, T2.3, and T2.4 formally ACCEPTED by Product Owner Deeptiman on 16 November 2026; 423 collected tests (421 passed, 2 skipped locally; 423 passed in remote CI); golden baseline checksum intact at `E8FB1A6B842A47089937777133DE79E1E7F704BEE591D5B4471A1A90BC8C5FA9`; sequencing deviation (PR #69 before PR #70) ratified; non-blocking follow-ups documented; Gate G3 authorized to begin |
 | **G3** Engine equivalence | Rules as data, same behaviour | T3.1–T3.2 accepted; `generic.demo` reproduces golden snapshots except the changes approved in T2.x |
 | **G4** Real pack | First scheme pack with sources | T3.3 accepted; pack lint passes; status is `demo_snapshot` or `verified` truthfully |
 | **G5** Credible evaluation | Numbers mean something | T4.1–T4.3 accepted; `eval/EVAL_CARD.md` published; regression gate in CI |
@@ -269,35 +269,37 @@ T1.x tasks are independent of each other and can run in parallel once G0 passes.
 
 #### T2.2 — Per-rule test matrix
 - **Scope:** `tests/unit/test_rules_matrix.py`, `tests/integration/test_validator_rule_matrix.py`.
-- **Status note (15 November 2026):** **FORMALLY ACCEPTED by Product Owner Deeptiman on 15 November 2026.** Implementation and fixture matrix merged into `main` across PR #49 (`1a5fc70b933a296388aca737eb71716363cd426c`, 105 tests in `tests/unit/test_rules_matrix.py`), PR #57 (`925d636be6089d2cc848c9bbd10efd80c0511568`, 52 integration tests), PR #61 (`9e36e90b636d070fa9b1ac3de5911fea2d9f5392`, 53 integration tests in `tests/integration/test_validator_rule_matrix.py`), PR #63 (`4806e7f4abd59cff2e7d5cd7e0ae957a186d06be`, 0 additional tests), PR #62, PR #64, and PR #65. Total validator-level matrix stands at 53 tests and total test suite stands at 372 collected items (370 passed, 2 skipped on local Windows host due to missing host tesseract binary; 372 passed in remote CI across Python 3.11–3.14). Gate G2 remains authorized and in progress.
+- **Status note (15 November 2026):** **FORMALLY ACCEPTED by Product Owner Deeptiman on 15 November 2026.** Implementation and fixture matrix merged into `main` across PR #49 (`1a5fc70b933a296388aca737eb71716363cd426c`, 105 tests in `tests/unit/test_rules_matrix.py`), PR #57 (`925d636be6089d2cc848c9bbd10efd80c0511568`, 52 integration tests), PR #61 (`9e36e90b636d070fa9b1ac3de5911fea2d9f5392`, 53 integration tests in `tests/integration/test_validator_rule_matrix.py`), PR #63 (`4806e7f4abd59cff2e7d5cd7e0ae957a186d06be`, 0 additional tests), PR #62, PR #64, and PR #65. Total validator-level matrix stands at 53 tests. Full test suite reached 372 collected items at T2.2 acceptance.
 - **Behaviour:** For each of the 10 rules, parametrised cases: satisfied/verified, violated/verified, violated/provisional, violated/uncertain, indeterminate, document missing, exempt (where applicable).
 - **Acceptance:**
   - [x] ≥ 60 cases, each rule covered for every applicable row (105 resolver-level tests in PR #49; 53 validator-level fixture tests in PR #57 and PR #61)
   - [x] Coverage report shows every branch of `outcome/resolver.py` hit
-  - [x] Each canonical rule group is exercised through actual validator execution using representative document fixtures, not solely through direct calls to resolve_outcome(). (Delivered across PR #57 and PR #61 with 53 test items in tests/integration/test_validator_rule_matrix.py; branch ancestry reconciled in PR #63; overall formal technical acceptance of T2.2 pending PO review)
+  - [x] Each canonical rule group is exercised through actual validator execution using representative document fixtures, not solely through direct calls to resolve_outcome(). (Delivered across PR #57 and PR #61 with 53 test items in `tests/integration/test_validator_rule_matrix.py`; branch ancestry reconciled in PR #63; formally accepted by Product Owner Deeptiman on 15 November 2026)
 - **Gate:** G2
 
 #### T2.3 — Match grades and the injected clock
 - **Scope & Implementation Mapping:** `src/docuready/normalize/normalizer.py`, `src/docuready/rules/validator.py`, `src/docuready/pipeline.py`, `src/docuready/domain/enums.py` (`MatchGrade`), and `src/docuready/outcome/resolver.py`. Note: normalization is consolidated in `normalizer.py` rather than separate files, and `MatchGrade` is in `domain/enums.py` / `outcome/resolver.py`.
-- **Status note (15 November 2026):** **FORMALLY AUTHORIZED TO START by Product Owner Deeptiman on 15 November 2026.** Active development in progress under Susmita following formal acceptance of T2.1 and T2.2.
+- **Status note (16 November 2026):** **FORMALLY ACCEPTED by Product Owner Deeptiman on 16 November 2026.** Implementation and hardening merged into `main` across PR #67 (`06d993fb548c7847c20cb88c1b9df542c943fc25`), PR #68 (`bdf0a7e26f1f58def415fa26e26a63cfa51da259`), and PR #70 (`62425c94b20de6b435df4c16117786c3fc811595`). Delivered full `MatchGrade` enum (`EXACT`, `COMPATIBLE`, `CONFLICT`, `AMBIGUOUS`), compatible initials expansion, token reordering, diacritic folding, name match resolution, injected deterministic clock (`as_of`), 0 prohibited clock calls in subsystems (`rules/`, `outcome/`, `normalize/`), and full canonical replay invariance across 19 tests in `tests/test_match_grades_clock.py`. Non-blocking follow-up items tracked: (1) direct `validate_packet()` invocation timestamp synthesis, and (2) compatible-name findings retaining legacy `Severity.REVIEW` with V2 `Status.WARN`. (Merged after PR #69; sequencing deviation ratified by PO on 16 Nov 2026).
 - **Behaviour:** Implement the §4.2 grade table. `A. Sharma` vs `Aarav Sharma` → `COMPATIBLE` (WARN at most). Ambiguous `dd/mm` vs `mm/dd` → `AMBIGUOUS`. Failed Verhoeff on Aadhaar → treat as extraction doubt, not a conflict. Remove every `datetime.now()` from rule/validation code; pipeline takes `as_of: date` (default today, always recorded in the report).
 - **Acceptance:**
-  - [ ] Grade tests including initials, token reorder, diacritics, common-name collisions, ambiguous dates
-  - [ ] `grep` finds no `datetime.now/today` inside `rules/`, `outcome/`, `normalize/`
-  - [ ] Replaying a saved packet with the same `as_of` gives identical report bodies
+  - [x] Grade tests including initials, token reorder, diacritics, common-name collisions, ambiguous dates (verified in `tests/test_match_grades_clock.py`)
+  - [x] `grep` finds no `datetime.now/today` inside `rules/`, `outcome/`, `normalize/` (verified via `test_no_prohibited_clock_calls_in_subsystems`)
+  - [x] Replaying a saved packet with the same `as_of` gives identical report bodies (verified via `test_canonical_replay_invariance_with_fixed_clock`)
 - **Gate:** G2
 
 #### T2.4 — Slot validation
-- **Scope:** `extract/classify.py`, pipeline intake.
+- **Scope:** `extract/classify.py`, `pipeline.py`, pipeline intake.
+- **Status note (16 November 2026):** **FORMALLY ACCEPTED by Product Owner Deeptiman on 16 November 2026.** Implementation merged into `main` at commit `963177d27c55dd8a7414607e7832c6d6b5bcd981` via PR #69 (`task/T2.4-slot-validation`). Implemented scheme-aware document slot validation, anchor-keyword detection per document slot, fail-closed `REVIEW` findings with `WRONG_DOCUMENT_TYPE`, and zero unhandled exceptions on malformed inputs across 29 unit tests covering 24 scenarios in `tests/test_slot_validation.py`. Main CI run 43753211026 passed across Python 3.11–3.14. (Note sequencing deviation: PR #69 merged prior to PR #70 final remediation; ratified by PO on 16 Nov 2026).
 - **Behaviour:** Each upload belongs to a slot. Anchor-keyword check per doc type; mismatch → `REVIEW` with `WRONG_DOCUMENT_TYPE`; unreadable → `REVIEW`.
 - **Acceptance:**
-  - [ ] Tests: swapped documents, blank page, wrong-language page
-  - [ ] No exception for any malformed input; result is a finding
+  - [x] Tests: swapped documents, blank page, wrong-language page (verified across 29 unit tests covering 24 scenarios in `tests/test_slot_validation.py`)
+  - [x] No exception for any malformed input; result is a finding
 - **Gate:** G2
 
 ### WS3 — Scheme-pack engine
 
 #### T3.1 — Pack schema, loader and lint
+- **Depends on:** Gate G2 formal acceptance (unblocked).
 - **Scope:** `rules/schema.py`, `loader.py`, `lint.py`, `docuready packs lint`.
 - **Behaviour:** Pydantic models for `pack.yaml` and `sources.yaml` per ARCHITECTURE_V2 §7. Lint rules: verified requires url/retrieved_on/reviewed_by; every rule has citation, remediation, max_severity; `$param` references resolve; unknown primitive is an error; `draft` rejected without `--allow-draft`.
 - **Acceptance:**
