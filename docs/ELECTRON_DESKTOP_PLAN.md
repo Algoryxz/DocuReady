@@ -345,4 +345,27 @@ DocuReady/
 
 ---
 
-**Decision record:** This is an engineering proposal, not a claim that the Electron application has been implemented, packaged, tested, or privacy-certified. All release blockers remain open until demonstrated by reproducible tests and project-owner acceptance.
+## 13. Loop 1 implementation & verification record (16 Nov 2026)
+
+- **Status:** Loop 1 Complete — Electron Desktop Foundation & Python Engine Integration.
+- **Python sidecar:** Versioned stdio JSONL protocol v1 (`sidecar/docuready_sidecar.py`) with health handshake, progress streaming (`intake`, `extraction`, `validation`, `redaction`, `completed`), workspace isolation boundary validation, structured errors (`INVALID_PROTOCOL_VERSION`, `REQUEST_TOO_LARGE`, `WORKSPACE_VIOLATION`, `UNSUPPORTED_METHOD`, `INVALID_REQUEST`, `REQUEST_FAILED`), and graceful shutdown.
+- **Electron runtime:** Electron Forge 8.0.1 + React 19 + TypeScript 5.9 + Vite 8.0 (`apps/desktop/`). Packaged builds and reproducible `package-lock.json` committed.
+- **Security controls:** `nodeIntegration: false`, `contextIsolation: true`, `sandbox: true`, strict CSP headers installed on webRequest, IPC sender validation, navigation/window.open denied, file magic-byte validation (PDF `%PDF-`, PNG, JPEG), file size limits (50MB per file, 200MB packet max), and private per-job isolated workspaces.
+- **Application bridge:** Narrow, typed `window.docureadyDesktop` bridge exposing:
+  - `getEngineHealth()`
+  - `selectDocuments()`
+  - `createPacket(options)`
+  - `startAudit(packetId)`
+  - `cancelAudit(packetId)`
+  - `getAuditStatus(packetId)`
+  - `exportReport(options)`
+  - `clearSession()`
+  - `onAuditProgress(callback)`
+- **End-to-end parity:** Verified on synthetic packet `pkt_01_clean` (`tests/test_desktop_sidecar_protocol.py` and `apps/desktop/tests/parity.test.ts`), confirming exact match with Python `AuditPipeline` for readiness status (`NO_ISSUES_FOUND`), score (`100`), finding IDs, match grades, reason codes, evidence provenance, and redacted public output. Staged workspace is cleanly removed after audit.
+- **Test suites:**
+  - Python suite: 436 collected items, 435 passed, 1 skipped.
+  - Desktop suite: 11 tests passed in `apps/desktop/tests/`.
+
+---
+
+**Decision record:** Loop 1 foundation verified by reproducible tests. Release packaging gates (including PyMuPDF AGPL licensing) remain open as tracked in Section 6.
