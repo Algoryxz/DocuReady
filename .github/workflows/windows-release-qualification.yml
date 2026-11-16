@@ -2,6 +2,18 @@ name: Windows desktop release qualification
 
 on:
   workflow_dispatch:
+  pull_request:
+    branches:
+      - feat/loop5-independent-validation-and-demo
+    paths:
+      - "apps/desktop/**"
+      - "sidecar/**"
+      - "src/**"
+      - "tests/**"
+      - "scripts/verify_clean_windows_runtime.ps1"
+      - "pyproject.toml"
+      - "requirements.txt"
+      - ".github/workflows/windows-release-qualification.yml"
   push:
     branches:
       - feat/loop6-release-integrity-and-reproducibility
