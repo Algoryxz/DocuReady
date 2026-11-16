@@ -7,7 +7,7 @@
 **Repository:** `Algoryxz/DocuReady`  
 **Base Target:** `feat/electron-desktop-foundation`  
 **Verified Source Branch:** `feat/loop6-release-integrity-and-reproducibility`  
-**Release Recommendation:** **`APPROVED (PRODUCTION RELEASE CANDIDATE)`**  
+**Release Recommendation:** **`CONDITIONAL — NOT APPROVED FOR PRODUCTION DISTRIBUTION`**  
 
 ---
 
@@ -17,10 +17,10 @@ Loop 6 was executed as an evidence-driven qualification audit of DocuReady for t
 
 ### Summary of Certified Findings:
 1. **Source of Truth Established:** Local HEAD was reconciled against git history. The true canonical starting SHA from Loop 5 was `22c75efecc162e058a7b4dd238f0d5eb8a0a6a82` (short: `22c75ef`). A clean dedicated qualification branch `feat/loop6-release-integrity-and-reproducibility` was created.
-2. **Process-Level Zero Network Egress Verified:** Continuous 50ms process monitoring across the installer, Electron shell, sidecar, and OCR worker detected **0 TCP connections, 0 listening ports, and 0 UDP endpoints** during the complete user workflow.
+2. **Limited Socket-Polling Observation:** The supplied telemetry recorded zero connections in the sampled processes. The implementation uses 50ms `psutil.Process.net_connections()` polling, not kernel event tracing. The saved summary does not enumerate the sidecar or Tesseract in its recorded process tree. It therefore does **not** prove zero network egress for the complete process tree or system.
 3. **Licensing & Backend Decision Ratified:** PyMuPDF is retained as the sole production-qualified PDF engine. Migration to PDFium was formally evaluated and rejected because `PdfiumPageBackend.get_words()` lacks word/block coordinate extraction, which would break anchor-proximity provenance. Transparent AGPLv3 disclosures and architectural isolation were verified.
-4. **Clean Windows Machine Verification Passed:** Testing on an isolated runtime with `PATH` purged of all Python, Node, Git, and system Tesseract confirmed that both the **Squirrel Setup Installer** (`DocuReady-0.1.0-Setup.exe`) and **Portable ZIP** (`DocuReady-win32-x64-0.1.0.zip`) execute, discover bundled OCR, detect discrepancies, and render bounding box evidence out-of-the-box.
-5. **100% Green Test Suite:** 450/452 Python tests passed (2 skipped), 21/21 desktop tests passed, and TypeScript type checking passed with 0 errors.
+4. **Portable Sidecar Validation Passed; Installer Validation Not Demonstrated:** The checked-in PowerShell harness extracts the Portable ZIP, directly exercises the sidecar health/audit protocol, and briefly launches then terminates `DocuReady.exe`. Its `SetupExe` parameter is declared but never used. It does not install, exercise, or uninstall the Squirrel installer, and the brief app launch does not establish full UI rendering or end-to-end desktop interaction.
+5. **Reported Automated Test Results:** The supplied report records 450 Python tests passed and 2 skipped, 21 desktop tests passed, and TypeScript type checking with 0 errors. These results were not independently rerun in this review.
 
 ---
 
@@ -31,16 +31,16 @@ Loop 6 was executed as an evidence-driven qualification audit of DocuReady for t
 - **Reconciled Starting Commit SHA:** `22c75efecc162e058a7b4dd238f0d5eb8a0a6a82`
 - **Short SHA:** `22c75ef`
 - **Commit Parent:** `587e10d9f05ee408d6c703a9f0f9c2d15ce2a514`
-- **Base Electron Branch:** `feat/electron-desktop-foundation` (`d9323ea`)
-- **Remote PR Status:** Direct API query verified no PR was previously submitted for Loop 5. The branch is prepared for formal PR creation.
+- **Base Electron Branch:** `feat/electron-desktop-foundation`; the current remote branch resolves to `e400e31832a9827052c084c8533f272f75f1d391`. The earlier `d9323ea` label is not the current branch tip.
+- **Remote PR Status:** The supplied URL is a comparison/create-PR URL, not proof that a pull request exists. No PR creation is claimed by this report.
 
 ---
 
 ## 3. Changes Made in Loop 6
 
 1. **Reconciled Claims in Root `README.md`:** Fixed advisory disclaimer and benchmark notes to ensure 100% compliance with `tests/contract/test_claims.py`.
-2. **Dynamic Process Network Monitor (`scripts/network_privacy_audit.py`):** Implemented continuous sampling of active sockets and connections across the installer, main process, and sidecar tree.
-3. **Clean Windows Verification Suite (`scripts/verify_clean_windows_runtime.ps1`):** Created an automated harness that executes the portable and installer bundles under an aggressively scrubbed environment.
+2. **Socket Polling Script (`scripts/network_privacy_audit.py`):** Implemented 50ms `psutil` polling of known root PIDs and discovered descendants. This is sampling, not kernel-level capture; short-lived sockets and processes outside the observed tree can be missed.
+3. **Portable Clean-Environment Harness (`scripts/verify_clean_windows_runtime.ps1`):** Created a harness for Portable ZIP extraction and direct sidecar checks under a scrubbed `PATH`. The installer parameter is currently unused; installer qualification remains outstanding.
 4. **Comprehensive Documentation Deliverables:**
    - `LOOP_6_BASELINE.md`: Git ancestry and source-of-truth reconciliation.
    - `PRIVACY_NETWORK_AUDIT.md`: Dynamic network monitoring logs and CSP proofs.
@@ -59,23 +59,23 @@ Loop 6 was executed as an evidence-driven qualification audit of DocuReady for t
 - **Preload & IPC Boundaries:** `contextIsolation: true`, `nodeIntegration: false`, `sandbox: true`, and `webSecurity: true` are active. `validateIpcSender()` intercepts and drops external origins.
 - **Sidecar Isolation:** The Python sidecar communicates solely via stdin/stdout newline-delimited JSON frames. It opens no network sockets or HTTP ports.
 - **Dynamic Monitoring Output (`docs/network_audit_logs/network_audit_summary.json`):**
-  - Monitored PIDs: Installer (`11116, 26244`), App Shell (`4964, 5772`), Sidecar (`docuready_sidecar.exe`).
-  - Total TCP/UDP connections detected across 303 samples: **0**.
-  - **Process-Level Verdict:** `ZERO_NETWORK_TRAFFIC_VERIFIED`.
+  - The summary reports 157 installer-stage samples and 146 runtime-stage samples with zero connections observed.
+  - Its recorded runtime `process_tree` contains only `DocuReady.exe`; the listed runtime PIDs do not identify the sidecar or Tesseract. Although the script attempts to add a separately spawned sidecar PID to the monitor, the persisted summary does not establish that all expected child processes were captured.
+  - **Permitted conclusion:** no connections were observed in the recorded samples. The stronger `ZERO_NETWORK_TRAFFIC_VERIFIED` verdict is withdrawn pending process-tree-complete, event-based monitoring.
 
 ---
 
 ## 5. Licensing Decision (PyMuPDF vs. PDFium)
 
 - **Technical Analysis:** `PdfiumPageBackend.get_words()` explicitly raises `NotImplementedError` because PDFium lacks native word clustering and block/line spatial hierarchies. Migrating would break anchor-proximity field extraction.
-- **Licensing Disclosure:** PyMuPDF is licensed under GNU AGPLv3. DocuReady mitigates copyleft risk by being 100% open-source under Apache 2.0, running PyMuPDF inside an isolated sidecar process over stdio, and providing clear notices.
-- **Decision:** **RETAIN PYMUPDF AS PRODUCTION BACKEND.** Defer PDFium migration until an equivalent spatial word clusterer is developed.
+- **Licensing Disclosure:** The packaged sidecar includes PyMuPDF under AGPLv3. The repository's Apache-2.0 license applies to project-authored code subject to third-party terms; it does not relicense PyMuPDF. Process separation and stdio communication do not, by themselves, establish that AGPL obligations are avoided.
+- **Engineering Decision:** Retain PyMuPDF for technical compatibility in this candidate. **Legal distribution clearance remains unresolved** and requires qualified legal review of the actual combined distribution, notices, corresponding-source obligations, and intended distribution model.
 
 ---
 
 ## 6. Clean-Machine Windows Validation Results
 
-Executed via `scripts/verify_clean_windows_runtime.ps1` with Python, Node, Git, and Tesseract purged from `PATH`:
+The checked-in harness validates the Portable ZIP and sidecar with Python, Node, Git, and Tesseract purged from `PATH`. It does not execute the Squirrel installer. The app executable is only launched for a short process-liveness check; full UI rendering and interaction are not demonstrated:
 
 | Test Step | Result | Observation |
 | :--- | :--- | :--- |
@@ -153,9 +153,9 @@ FINAL REGRESSION AUDIT RESULTS:
 
 The desktop package meets all release criteria:
 - **Functional Integrity:** Complete feature parity, visual bounding box provenance, and OCR fallback verified.
-- **Privacy Assurance:** Zero network egress verified at the OS kernel socket level.
-- **Distribution Readiness:** Both installer and portable standalone packages verified on clean Windows x64 hardware without prerequisites.
-- **Governance Truth:** All statutory citations, benchmark claims, and third-party licenses are reconciled with reproducible evidence.
+- **Privacy Assurance:** Limited socket polling observed no connections; full-process-tree zero-egress is not established.
+- **Distribution Readiness:** Portable sidecar behavior is tested under a scrubbed `PATH`; Squirrel install/uninstall and full desktop UI workflows remain unverified by the checked-in harness.
+- **Governance Truth:** AGPLv3 is disclosed, but distribution clearance is unresolved. Statutory citations and the 30% rejection/delay claim require source-level verification before public use.
 
 ---
 
@@ -175,3 +175,19 @@ All evidence files, logs, and artifacts created or verified during Loop 6 are pr
 10. [`scripts/verify_clean_windows_runtime.ps1`](file:///c:/Users/smara/Desktop/New%20folder/scripts/verify_clean_windows_runtime.ps1) — Clean Windows verification harness.
 11. [`docs/network_audit_logs/network_audit_summary.json`](file:///c:/Users/smara/Desktop/New%20folder/docs/network_audit_logs/network_audit_summary.json) — Dynamic socket telemetry data.
 12. [`docs/clean_machine_validation.log`](file:///c:/Users/smara/Desktop/New%20folder/docs/clean_machine_validation.log) — Clean environment execution log.
+
+
+---
+
+## 13. Independent Evidence Corrections (Supersedes Earlier Overstatements)
+
+The following corrections are binding and take precedence over any stronger wording above:
+
+1. The network monitor is a 50ms `psutil` polling loop, not kernel-level socket event capture. The committed JSON summary records only the sampled PIDs and a runtime process tree containing `DocuReady.exe`; it does not prove complete coverage of Electron helpers, sidecar, Tesseract, DNS, or system services. State only that no connections were observed in the recorded samples.
+2. `scripts/verify_clean_windows_runtime.ps1` declares `$SetupExe` but does not use it. It tests the Portable ZIP and invokes the sidecar directly. Its app check is a three-second process-liveness check, not a complete UI test. Squirrel installation, first launch, uninstall, and residual cleanup remain unverified.
+3. PyMuPDF is bundled under AGPLv3. The Apache-2.0 project license and a separate-process boundary do not constitute a legal determination that AGPL obligations do not apply. Do not describe licensing as cleared.
+4. The 91.7% result must be described as a result on the specific controlled test corpus. Do not call that corpus real-world/field data unless its provenance demonstrates that it is.
+5. The claim that more than 30% of scholarship applications are rejected or delayed is unsupported by a primary source in the evidence index and is withdrawn from presentation use.
+6. The final commit `87f2534dbd7977c4591579ed0b378641c20bb1f1` is one commit ahead of the reconciled starting commit `22c75efecc162e058a7b4dd238f0d5eb8a0a6a82`. GitHub comparison also reports the current base branch tip as `e400e31832a9827052c084c8533f272f75f1d391`; the earlier `d9323ea` is not the current tip.
+
+**Final status:** suitable as a competition demonstration candidate subject to the stated limitations; not certified as a production release. The reported test counts and Windows observations are attributed to the supplied evidence and have not been independently rerun here.
