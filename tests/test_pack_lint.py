@@ -436,3 +436,245 @@ def test_lint_all_packs_empty_and_missing_root(tmp_path):
     # Non-existent packs root
     non_existent = tmp_path / "does_not_exist"
     assert lint_all_packs(non_existent) == []
+
+
+def test_lint_match_across_missing_grade_rejected(tmp_path):
+    pack_dir = tmp_path / "match_across_no_grade"
+    pack_dir.mkdir()
+
+    sources_yaml = """
+pack_id: test.match
+version: "1.0.0"
+reviewed_by: "Auditor"
+sources:
+  - id: S1
+    title: "T"
+    issuing_body: "B"
+    url: "https://example.gov.in"
+    retrieved_on: "2026-11-15"
+    status: verified
+"""
+    # match_across without grade
+    pack_yaml = """
+pack_id: test.match
+version: "1.0.0"
+status: verified
+rules:
+  - id: R1
+    primitive: match_across
+    inputs: { fields: ["name", "applicant_name"] }
+    params: { threshold: 0.85 }
+    max_severity: FAIL
+    citation: { source: S1 }
+    remediation: { authority: "Auth" }
+"""
+    (pack_dir / "pack.yaml").write_text(pack_yaml, encoding="utf-8")
+    (pack_dir / "sources.yaml").write_text(sources_yaml, encoding="utf-8")
+
+    result = lint_pack(pack_dir)
+    assert not result.is_valid
+    assert any("missing required parameter 'grade'" in str(e) for e in result.errors)
+
+
+def test_lint_input_contracts_and_param_type_compatibility(tmp_path):
+    pack_dir = tmp_path / "input_contracts_pack"
+    pack_dir.mkdir()
+
+    sources_yaml = """
+pack_id: test.inputs
+version: "1.0.0"
+reviewed_by: "Auditor"
+sources:
+  - id: S1
+    title: "T"
+    issuing_body: "B"
+    url: "https://example.gov.in"
+    retrieved_on: "2026-11-15"
+    status: verified
+"""
+    (pack_dir / "sources.yaml").write_text(sources_yaml, encoding="utf-8")
+
+    # 1. Unsupported input field without param
+    p1 = """
+pack_id: test.inputs
+version: "1.0.0"
+status: verified
+rules:
+  - id: R1
+    primitive: numeric_cap
+    inputs: { unsupported_field: "val" }
+    params: { cap: 250000 }
+    max_severity: FAIL
+    citation: { source: S1 }
+    remediation: { authority: "Auth" }
+"""
+    (pack_dir / "pack.yaml").write_text(p1, encoding="utf-8")
+    r1 = lint_pack(pack_dir)
+    assert not r1.is_valid
+    assert any("unsupported input field 'unsupported_field'" in str(e) for e in r1.errors)
+
+    # 2. Parameter reference in uncontracted input field
+    p2 = """
+pack_id: test.inputs
+version: "1.0.0"
+status: verified
+parameters:
+  my_param: "field_name"
+rules:
+  - id: R1
+    primitive: numeric_cap
+    inputs: { arbitrary_field: $my_param }
+    params: { cap: 250000 }
+    max_severity: FAIL
+    citation: { source: S1 }
+    remediation: { authority: "Auth" }
+"""
+    (pack_dir / "pack.yaml").write_text(p2, encoding="utf-8")
+    r2 = lint_pack(pack_dir)
+    assert not r2.is_valid
+    assert any("uncontracted input field 'arbitrary_field'" in str(e) for e in r2.errors)
+
+    # 3. Type mismatch: string expected for 'field', got integer param
+    p3 = """
+pack_id: test.inputs
+version: "1.0.0"
+status: verified
+parameters:
+  int_param: 12345
+rules:
+  - id: R1
+    primitive: numeric_cap
+    inputs: { field: $int_param }
+    params: { cap: 250000 }
+    max_severity: FAIL
+    citation: { source: S1 }
+    remediation: { authority: "Auth" }
+"""
+    (pack_dir / "pack.yaml").write_text(p3, encoding="utf-8")
+    r3 = lint_pack(pack_dir)
+    assert not r3.is_valid
+    assert any("numeric_cap.inputs.field must be string, got int" in str(e) for e in r3.errors)
+
+    # 4. Type mismatch: string expected inside docs list, got integer param
+    p4 = """
+pack_id: test.inputs
+version: "1.0.0"
+status: verified
+parameters:
+  bad_slot_param: 999
+rules:
+  - id: R1
+    primitive: numeric_cap
+    inputs: { field: "income.annual", docs: [$bad_slot_param] }
+    params: { cap: 250000 }
+    max_severity: FAIL
+    citation: { source: S1 }
+    remediation: { authority: "Auth" }
+"""
+    (pack_dir / "pack.yaml").write_text(p4, encoding="utf-8")
+    r4 = lint_pack(pack_dir)
+    assert not r4.is_valid
+    assert any("numeric_cap.inputs.docs list must be string, got int" in str(e) for e in r4.errors)
+
+    # 5. Valid typed input parameter reference passes
+    p5 = """
+pack_id: test.inputs
+version: "1.0.0"
+status: verified
+parameters:
+  valid_field_name: "income.annual"
+  valid_slot_name: "income_certificate"
+rules:
+  - id: R1
+    primitive: numeric_cap
+    inputs: { field: $valid_field_name, docs: [$valid_slot_name] }
+    params: { cap: 250000 }
+    max_severity: FAIL
+    citation: { source: S1 }
+    remediation: { authority: "Auth" }
+"""
+    (pack_dir / "pack.yaml").write_text(p5, encoding="utf-8")
+    r5 = lint_pack(pack_dir)
+    assert r5.is_valid
+
+
+def test_lint_absent_parameter_value_rejected_when_referenced(tmp_path):
+    pack_dir = tmp_path / "absent_param_value_pack"
+    pack_dir.mkdir()
+
+    sources_yaml = """
+pack_id: test.absent
+version: "1.0.0"
+reviewed_by: "Auditor"
+sources:
+  - id: S1
+    title: "T"
+    issuing_body: "B"
+    url: "https://example.gov.in"
+    retrieved_on: "2026-11-15"
+    status: verified
+"""
+    (pack_dir / "sources.yaml").write_text(sources_yaml, encoding="utf-8")
+
+    # 1. Parameter with omitted value in rule.params
+    p1 = """
+pack_id: test.absent
+version: "1.0.0"
+status: verified
+parameters:
+  unconfigured_cap:
+    type: number
+rules:
+  - id: R1
+    primitive: numeric_cap
+    params: { cap: $unconfigured_cap }
+    max_severity: FAIL
+    citation: { source: S1 }
+    remediation: { authority: "Auth" }
+"""
+    (pack_dir / "pack.yaml").write_text(p1, encoding="utf-8")
+    r1 = lint_pack(pack_dir)
+    assert not r1.is_valid
+    assert any("has no configured value; absent parameter values cannot be treated as executable configuration" in str(e) for e in r1.errors)
+
+    # 2. Parameter with omitted value in rule.inputs
+    p2 = """
+pack_id: test.absent
+version: "1.0.0"
+status: verified
+parameters:
+  unconfigured_field:
+    type: string
+rules:
+  - id: R1
+    primitive: numeric_cap
+    inputs: { field: $unconfigured_field }
+    params: { cap: 250000 }
+    max_severity: FAIL
+    citation: { source: S1 }
+    remediation: { authority: "Auth" }
+"""
+    (pack_dir / "pack.yaml").write_text(p2, encoding="utf-8")
+    r2 = lint_pack(pack_dir)
+    assert not r2.is_valid
+    assert any("has no configured value; absent parameter values cannot be treated as executable configuration" in str(e) for e in r2.errors)
+
+    # 3. Unreferenced parameter with omitted value passes linting
+    p3 = """
+pack_id: test.absent
+version: "1.0.0"
+status: verified
+parameters:
+  abstract_schema_param:
+    type: number
+rules:
+  - id: R1
+    primitive: numeric_cap
+    params: { cap: 250000 }
+    max_severity: FAIL
+    citation: { source: S1 }
+    remediation: { authority: "Auth" }
+"""
+    (pack_dir / "pack.yaml").write_text(p3, encoding="utf-8")
+    r3 = lint_pack(pack_dir)
+    assert r3.is_valid

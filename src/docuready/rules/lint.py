@@ -69,6 +69,58 @@ PRIMITIVE_PARAMETER_CONTRACTS: Dict[str, Dict[str, str]] = {
     },
 }
 
+# Supported input field type contracts for closed primitives
+PRIMITIVE_INPUT_CONTRACTS: Dict[str, Dict[str, str]] = {
+    "require_document": {
+        "slot": "string",
+        "slots": "list",
+        "docs": "list",
+    },
+    "field_present": {
+        "field": "string",
+        "docs": "list",
+        "slots": "list",
+    },
+    "match_across": {
+        "fields": "list",
+        "field": "string",
+        "docs": "list",
+        "slots": "list",
+    },
+    "within_validity": {
+        "field": "string",
+        "docs": "list",
+        "slots": "list",
+    },
+    "numeric_cap": {
+        "field": "string",
+        "docs": "list",
+        "slots": "list",
+    },
+    "numeric_consistency": {
+        "fields": "list",
+        "docs": "list",
+        "slots": "list",
+    },
+    "age_on": {
+        "field": "string",
+        "dob_field": "string",
+        "docs": "list",
+        "slots": "list",
+    },
+    "enum_in": {
+        "field": "string",
+        "docs": "list",
+        "slots": "list",
+    },
+    "legible": {
+        "field": "string",
+        "slot": "string",
+        "docs": "list",
+        "slots": "list",
+    },
+}
+
 ALLOWED_MATCH_GRADES: frozenset[str] = frozenset(
     {"name", "date", "id", "text", "exact"}
 )
@@ -191,6 +243,15 @@ def _get_parameter_type(param_decl: Any) -> str:
         except ValueError:
             return "string"
     return "unknown"
+
+
+def _get_parameter_raw_value(param_decl: Any) -> Any:
+    """Retrieve raw configured value from parameter declaration or literal."""
+    if isinstance(param_decl, ParameterDeclaration):
+        return param_decl.value
+    if isinstance(param_decl, dict) and "value" in param_decl:
+        return param_decl.get("value")
+    return param_decl
 
 
 def _is_type_compatible(actual: str, expected: str) -> bool:
@@ -384,6 +445,11 @@ def lint_pack(pack_dir: Path | str, allow_draft: bool = False) -> LintResult:
                 "Rule using primitive 'numeric_cap' missing required parameter 'cap'",
                 rule_id=rule.id,
             )
+        elif rule.primitive == "match_across" and "grade" not in rule.params:
+            result.add_error(
+                "Rule using primitive 'match_across' missing required parameter 'grade'",
+                rule_id=rule.id,
+            )
         elif rule.primitive == "within_validity" and not any(
             k in rule.params
             for k in ("validity_days", "validity_months", "validity_years")
@@ -430,7 +496,14 @@ def lint_pack(pack_dir: Path | str, allow_draft: bool = False) -> LintResult:
                         rule_id=rule.id,
                     )
                 else:
-                    actual_type = _get_parameter_type(pack_manifest.parameters[pref])
+                    p_obj = pack_manifest.parameters[pref]
+                    raw_val = _get_parameter_raw_value(p_obj)
+                    if raw_val is None:
+                        result.add_error(
+                            f"Referenced parameter '${pref}' in '{param_key}' has no configured value; absent parameter values cannot be treated as executable configuration",
+                            rule_id=rule.id,
+                        )
+                    actual_type = _get_parameter_type(p_obj)
                     if not _is_type_compatible(actual_type, expected_type):
                         result.add_error(
                             f"Parameter '${pref}' for {rule.primitive}.{param_key} must be {expected_type}, got {actual_type}",
@@ -438,11 +511,9 @@ def lint_pack(pack_dir: Path | str, allow_draft: bool = False) -> LintResult:
                         )
                     # Check match_across grade value if constant
                     if rule.primitive == "match_across" and param_key == "grade":
-                        p_obj = pack_manifest.parameters[pref]
-                        raw_v = getattr(p_obj, "value", p_obj)
-                        if isinstance(raw_v, str) and raw_v.lower().strip() not in ALLOWED_MATCH_GRADES:
+                        if isinstance(raw_val, str) and raw_val.lower().strip() not in ALLOWED_MATCH_GRADES:
                             result.add_error(
-                                f"Invalid match grade '{raw_v}' in parameter '${pref}'. Allowed: {sorted(ALLOWED_MATCH_GRADES)}",
+                                f"Invalid match grade '{raw_val}' in parameter '${pref}'. Allowed: {sorted(ALLOWED_MATCH_GRADES)}",
                                 rule_id=rule.id,
                             )
             else:
@@ -459,14 +530,93 @@ def lint_pack(pack_dir: Path | str, allow_draft: bool = False) -> LintResult:
                             rule_id=rule.id,
                         )
 
-        # Check $param resolution in rule.inputs
+        # Check rule.inputs contracts and $param resolution
+        input_contract = PRIMITIVE_INPUT_CONTRACTS.get(rule.primitive, {})
+        for in_key, in_val in rule.inputs.items():
+            if in_key not in input_contract:
+                refs = _extract_param_references(in_val)
+                if refs:
+                    for pref in sorted(refs):
+                        result.add_error(
+                            f"Rule references parameter '${pref}' in uncontracted input field '{in_key}' for primitive '{rule.primitive}'",
+                            rule_id=rule.id,
+                        )
+                else:
+                    result.add_error(
+                        f"Rule specifies unsupported input field '{in_key}' for primitive '{rule.primitive}'",
+                        rule_id=rule.id,
+                    )
+                continue
+
+            expected_in_type = input_contract[in_key]
+
+            if isinstance(in_val, str) and in_val.startswith("$") and not in_val.startswith("$$"):
+                pref = in_val[1:]
+                if pref not in pack_manifest.parameters:
+                    result.add_error(
+                        f"Rule references undefined parameter '${pref}' in 'inputs'",
+                        rule_id=rule.id,
+                    )
+                else:
+                    p_obj = pack_manifest.parameters[pref]
+                    raw_val = _get_parameter_raw_value(p_obj)
+                    if raw_val is None:
+                        result.add_error(
+                            f"Referenced parameter '${pref}' in 'inputs.{in_key}' has no configured value; absent parameter values cannot be treated as executable configuration",
+                            rule_id=rule.id,
+                        )
+                    actual_type = _get_parameter_type(p_obj)
+                    if not _is_type_compatible(actual_type, expected_in_type):
+                        result.add_error(
+                            f"Parameter '${pref}' for {rule.primitive}.inputs.{in_key} must be {expected_in_type}, got {actual_type}",
+                            rule_id=rule.id,
+                        )
+            elif isinstance(in_val, list):
+                if expected_in_type != "list":
+                    result.add_error(
+                        f"Literal input '{in_key}' for {rule.primitive} must be {expected_in_type}, got list",
+                        rule_id=rule.id,
+                    )
+                else:
+                    for item in in_val:
+                        if isinstance(item, str) and item.startswith("$") and not item.startswith("$$"):
+                            pref = item[1:]
+                            if pref not in pack_manifest.parameters:
+                                result.add_error(
+                                    f"Rule references undefined parameter '${pref}' in 'inputs'",
+                                    rule_id=rule.id,
+                                )
+                            else:
+                                p_obj = pack_manifest.parameters[pref]
+                                raw_val = _get_parameter_raw_value(p_obj)
+                                if raw_val is None:
+                                    result.add_error(
+                                        f"Referenced parameter '${pref}' in 'inputs.{in_key}' list has no configured value; absent parameter values cannot be treated as executable configuration",
+                                        rule_id=rule.id,
+                                    )
+                                actual_type = _get_parameter_type(p_obj)
+                                if not _is_type_compatible(actual_type, "string"):
+                                    result.add_error(
+                                        f"Parameter '${pref}' in {rule.primitive}.inputs.{in_key} list must be string, got {actual_type}",
+                                        rule_id=rule.id,
+                                    )
+            else:
+                lit_type = _get_parameter_type(in_val)
+                if not _is_type_compatible(lit_type, expected_in_type):
+                    result.add_error(
+                        f"Literal input '{in_key}' for {rule.primitive} must be {expected_in_type}, got {lit_type}",
+                        rule_id=rule.id,
+                    )
+
+        # Catch any remaining unreferenced $param in rule.inputs
         input_refs = _extract_param_references(rule.inputs)
         for pref in input_refs:
             if pref not in pack_manifest.parameters:
-                result.add_error(
-                    f"Rule references undefined parameter '${pref}' in 'inputs'",
-                    rule_id=rule.id,
-                )
+                if not any(f"references undefined parameter '${pref}' in 'inputs" in m.message for m in result.errors):
+                    result.add_error(
+                        f"Rule references undefined parameter '${pref}' in 'inputs'",
+                        rule_id=rule.id,
+                    )
 
         # Check $param resolution and type contract in rule.exempt_when
         if rule.exempt_when:
@@ -478,9 +628,16 @@ def lint_pack(pack_dir: Path | str, allow_draft: bool = False) -> LintResult:
                         rule_id=rule.id,
                     )
                 else:
+                    p_obj = pack_manifest.parameters[pref]
+                    raw_val = _get_parameter_raw_value(p_obj)
+                    if raw_val is None:
+                        result.add_error(
+                            f"Referenced parameter '${pref}' in 'exempt_when' has no configured value; absent parameter values cannot be treated as executable configuration",
+                            rule_id=rule.id,
+                        )
                     # If parameter is used in an 'in' clause, ensure it has list type
                     if isinstance(rule.exempt_when, dict) and rule.exempt_when.get("in") == f"${pref}":
-                        actual_type = _get_parameter_type(pack_manifest.parameters[pref])
+                        actual_type = _get_parameter_type(p_obj)
                         if actual_type != "list":
                             result.add_error(
                                 f"Parameter '${pref}' for exempt_when 'in' condition must be list, got {actual_type}",

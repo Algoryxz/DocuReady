@@ -3,6 +3,7 @@
 from docuready.rules.lint import (
     ALLOWED_MATCH_GRADES,
     CLOSED_PRIMITIVES,
+    PRIMITIVE_INPUT_CONTRACTS,
     PRIMITIVE_PARAMETER_CONTRACTS,
     LintMessage,
     LintResult,
@@ -56,6 +57,7 @@ __all__ = [
     "load_yaml_with_unique_keys",
     "CLOSED_PRIMITIVES",
     "PRIMITIVE_PARAMETER_CONTRACTS",
+    "PRIMITIVE_INPUT_CONTRACTS",
     "ALLOWED_MATCH_GRADES",
     "LintMessage",
     "LintResult",

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import date
+from datetime import date, datetime
 from enum import Enum
 from typing import Any, Dict, List, Optional, Union
 
@@ -144,6 +144,70 @@ class ParameterDeclaration(BaseModel):
                 f"Invalid parameter type '{v}'. Allowed types: {sorted(valid_types)}"
             )
         return v.lower().strip()
+
+    @model_validator(mode="after")
+    def validate_value_type_consistency(self) -> "ParameterDeclaration":
+        """
+        Validate consistency between declared type and configured value.
+
+        Omitted values (value is None) are permitted at schema level to allow
+        abstract or runtime parameter declarations. When a non-null value is provided,
+        it must strictly conform to the declared type without silent coercion.
+        """
+        if self.value is None:
+            return self
+
+        t = self.type.lower().strip()
+        val = self.value
+
+        if t == "int":
+            if isinstance(val, bool) or not isinstance(val, int):
+                raise ValueError(
+                    f"Parameter of type 'int' must contain an integer (not a boolean or string), got {type(val).__name__} (value: {val!r})"
+                )
+        elif t == "float":
+            if isinstance(val, bool) or not isinstance(val, (float, int)):
+                raise ValueError(
+                    f"Parameter of type 'float' must contain a valid numeric value, got {type(val).__name__} (value: {val!r})"
+                )
+        elif t == "number":
+            if isinstance(val, bool) or not isinstance(val, (int, float)):
+                raise ValueError(
+                    f"Parameter of type 'number' must contain an integer or float (not a boolean), got {type(val).__name__} (value: {val!r})"
+                )
+        elif t in ("string", "str"):
+            if not isinstance(val, str):
+                raise ValueError(
+                    f"Parameter of type '{t}' must contain a string, got {type(val).__name__} (value: {val!r})"
+                )
+        elif t in ("bool", "boolean"):
+            if not isinstance(val, bool):
+                raise ValueError(
+                    f"Parameter of type '{t}' must contain a boolean, got {type(val).__name__} (value: {val!r})"
+                )
+        elif t == "date":
+            if isinstance(val, bool):
+                raise ValueError("Parameter of type 'date' cannot be a boolean")
+            if isinstance(val, (date, datetime)):
+                pass
+            elif isinstance(val, str):
+                try:
+                    date.fromisoformat(val)
+                except (ValueError, TypeError) as exc:
+                    raise ValueError(
+                        f"Parameter of type 'date' contains invalid date string '{val}': {exc}"
+                    )
+            else:
+                raise ValueError(
+                    f"Parameter of type 'date' must contain a valid date representation, got {type(val).__name__} (value: {val!r})"
+                )
+        elif t == "list":
+            if not isinstance(val, list):
+                raise ValueError(
+                    f"Parameter of type 'list' must contain a list, got {type(val).__name__} (value: {val!r})"
+                )
+
+        return self
 
 
 class PackManifest(BaseModel):

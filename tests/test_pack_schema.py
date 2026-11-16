@@ -128,18 +128,132 @@ def test_citation_reference_and_remediation_non_empty():
 
 
 def test_parameter_declaration_validation():
-    # Valid declarations
+    # Valid declarations across all supported types
     p_int = ParameterDeclaration.model_validate({"type": "int", "value": 250000})
     assert p_int.type == "int"
     assert p_int.value == 250000
 
+    p_float = ParameterDeclaration.model_validate({"type": "float", "value": 3.14})
+    assert p_float.type == "float"
+    assert p_float.value == 3.14
+
+    p_float_int = ParameterDeclaration.model_validate({"type": "float", "value": 10})
+    assert p_float_int.type == "float"
+    assert p_float_int.value == 10
+
+    p_num = ParameterDeclaration.model_validate({"type": "number", "value": 100})
+    assert p_num.type == "number"
+    assert p_num.value == 100
+
     p_str = ParameterDeclaration.model_validate({"type": "string", "value": "test"})
     assert p_str.type == "string"
+    assert p_str.value == "test"
 
-    # Invalid type rejected
+    p_str_alias = ParameterDeclaration.model_validate({"type": "str", "value": "demo"})
+    assert p_str_alias.type == "str"
+    assert p_str_alias.value == "demo"
+
+    p_bool = ParameterDeclaration.model_validate({"type": "bool", "value": True})
+    assert p_bool.type == "bool"
+    assert p_bool.value is True
+
+    p_boolean = ParameterDeclaration.model_validate({"type": "boolean", "value": False})
+    assert p_boolean.type == "boolean"
+    assert p_boolean.value is False
+
+    p_date_obj = ParameterDeclaration.model_validate({"type": "date", "value": date(2026, 4, 1)})
+    assert p_date_obj.type == "date"
+    assert p_date_obj.value == date(2026, 4, 1)
+
+    p_date_str = ParameterDeclaration.model_validate({"type": "date", "value": "2026-04-15"})
+    assert p_date_str.type == "date"
+    assert p_date_str.value == "2026-04-15"
+
+    p_list = ParameterDeclaration.model_validate({"type": "list", "value": ["a", "b"]})
+    assert p_list.type == "list"
+    assert p_list.value == ["a", "b"]
+
+    # Boundary cases: omitted value permitted at schema level
+    p_none = ParameterDeclaration.model_validate({"type": "int", "value": None})
+    assert p_none.type == "int"
+    assert p_none.value is None
+
+    p_omitted = ParameterDeclaration.model_validate({"type": "string"})
+    assert p_omitted.type == "string"
+    assert p_omitted.value is None
+
+    # Invalid declared type
     with pytest.raises(ValidationError) as exc:
         ParameterDeclaration.model_validate({"type": "unknown_type"})
     assert "Invalid parameter type" in str(exc.value)
+
+    # Type/value inconsistencies across all types
+    # 1. int cannot be boolean or string
+    with pytest.raises(ValidationError) as exc:
+        ParameterDeclaration.model_validate({"type": "int", "value": True})
+    assert "Parameter of type 'int' must contain an integer" in str(exc.value)
+
+    with pytest.raises(ValidationError) as exc:
+        ParameterDeclaration.model_validate({"type": "int", "value": "250000"})
+    assert "Parameter of type 'int' must contain an integer" in str(exc.value)
+
+    # 2. float cannot be boolean or string
+    with pytest.raises(ValidationError) as exc:
+        ParameterDeclaration.model_validate({"type": "float", "value": False})
+    assert "Parameter of type 'float' must contain a valid numeric value" in str(exc.value)
+
+    with pytest.raises(ValidationError) as exc:
+        ParameterDeclaration.model_validate({"type": "float", "value": "3.14"})
+    assert "Parameter of type 'float' must contain a valid numeric value" in str(exc.value)
+
+    # 3. number cannot be boolean or string
+    with pytest.raises(ValidationError) as exc:
+        ParameterDeclaration.model_validate({"type": "number", "value": True})
+    assert "Parameter of type 'number' must contain an integer or float" in str(exc.value)
+
+    with pytest.raises(ValidationError) as exc:
+        ParameterDeclaration.model_validate({"type": "number", "value": "100"})
+    assert "Parameter of type 'number' must contain an integer or float" in str(exc.value)
+
+    # 4. string cannot be int or bool
+    with pytest.raises(ValidationError) as exc:
+        ParameterDeclaration.model_validate({"type": "string", "value": 123})
+    assert "Parameter of type 'string' must contain a string" in str(exc.value)
+
+    with pytest.raises(ValidationError) as exc:
+        ParameterDeclaration.model_validate({"type": "string", "value": True})
+    assert "Parameter of type 'string' must contain a string" in str(exc.value)
+
+    # 5. bool cannot be int or string
+    with pytest.raises(ValidationError) as exc:
+        ParameterDeclaration.model_validate({"type": "bool", "value": 1})
+    assert "Parameter of type 'bool' must contain a boolean" in str(exc.value)
+
+    with pytest.raises(ValidationError) as exc:
+        ParameterDeclaration.model_validate({"type": "bool", "value": "true"})
+    assert "Parameter of type 'bool' must contain a boolean" in str(exc.value)
+
+    # 6. date cannot be bool, int, or malformed string
+    with pytest.raises(ValidationError) as exc:
+        ParameterDeclaration.model_validate({"type": "date", "value": True})
+    assert "Parameter of type 'date' cannot be a boolean" in str(exc.value)
+
+    with pytest.raises(ValidationError) as exc:
+        ParameterDeclaration.model_validate({"type": "date", "value": 20260401})
+    assert "Parameter of type 'date' must contain a valid date representation" in str(exc.value)
+
+    with pytest.raises(ValidationError) as exc:
+        ParameterDeclaration.model_validate({"type": "date", "value": "not-a-date"})
+    assert "invalid date string" in str(exc.value)
+
+    # 7. list cannot be string or int
+    with pytest.raises(ValidationError) as exc:
+        ParameterDeclaration.model_validate({"type": "list", "value": "not a list"})
+    assert "Parameter of type 'list' must contain a list" in str(exc.value)
+
+    with pytest.raises(ValidationError) as exc:
+        ParameterDeclaration.model_validate({"type": "list", "value": 123})
+    assert "Parameter of type 'list' must contain a list" in str(exc.value)
 
 
 def test_pack_manifest_unique_rule_ids_and_typed_parameters():
