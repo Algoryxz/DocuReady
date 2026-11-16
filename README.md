@@ -170,7 +170,7 @@ DocuReady/
 │           └── ui/                     # Interactive Streamlit interface
 │               └── app.py              # Streamlit dashboard implementation
 │
-├── tests/                              # Comprehensive test suite (372 test items)
+├── tests/                              # Comprehensive test suite (423 test items)
 │   ├── contract/                       # Claims register & zero-network contract tests
 │   ├── integration/                    # Validator-level per-rule fixture matrix (53 tests)
 │   ├── unit/                           # Outcome resolver per-rule truth table (105 tests)
@@ -181,9 +181,11 @@ DocuReady/
 │   ├── test_evidence_calibration.py    # 9-feature logistic calibrator tests
 │   ├── test_extractor.py               # Vector extraction & OCR fallback tests
 │   ├── test_golden_baseline.py         # Bit-for-bit regression suite with diagnostic diffs
+│   ├── test_match_grades_clock.py      # Match grades and injected clock tests (19 tests)
 │   ├── test_normalizer.py              # Verhoeff, date, income & IFSC unit tests
 │   ├── test_replacement_rerun.py       # Single-document remediation workflow tests
 │   ├── test_safety_layer.py            # Safety downgrade matrix tests
+│   ├── test_slot_validation.py         # Scheme-aware document slot validation tests (29 tests)
 │   ├── test_ui_privacy.py              # Zero-telemetry, asset isolation & PII masking
 │   ├── test_uncertainty_safety.py      # Scan quality & uncertainty handling tests
 │   └── test_validator.py               # Statutory rule violation & exemption tests
@@ -320,7 +322,7 @@ for finding in result.findings:
 DocuReady maintains a comprehensive automated test suite enforcing 100% bit-for-bit vector parity and adversarial robustness:
 
 ```bash
-# Run full test suite (372 test items)
+# Run full test suite (423 test items)
 pytest tests/ -v --tb=short
 
 # Run with test coverage report
@@ -334,6 +336,8 @@ pytest --cov=docuready --cov-report=term-missing
 | **Contract Invariants** | `tests/contract/` | Zero network egress (`test_no_network.py`) & claims anti-overreach (`test_claims.py`). |
 | **Validator Integration Matrix** | `tests/integration/test_validator_rule_matrix.py` | End-to-end validator execution across all 10 canonical rule groups with fixture packets. |
 | **Resolver Outcome Matrix** | `tests/unit/test_rules_matrix.py` | Section 6 truth-table transitions, match-grade caps, exemptions, and packet readiness. |
+| **Match Grades & Injected Clock** | `tests/test_match_grades_clock.py` | Explicit match grades (initials, reorder, diacritics), injected `as_of` clock, 0 prohibited clock calls, and replay invariance. |
+| **Document Slot Validation** | `tests/test_slot_validation.py` | Scheme-aware document slot verification, anchor-keyword matching, and fail-closed reviews. |
 | **Date Invariance Safety** | `tests/test_date_invariance_safety.py` | Native vector candidate invariance, OCR ambiguity exclusion, and boundary evaluation. |
 | **Adversarial Robustness** | `tests/test_adversarial.py` | Empty PDFs, multi-page layout shifts, duplicate uploads, extreme values, name variations. |
 | **Ground Truth Evaluation** | `tests/test_dataset_ground_truth.py` | End-to-end verification against `synthetic_data/ground_truth_manifest.json`. |
