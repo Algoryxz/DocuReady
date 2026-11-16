@@ -134,6 +134,25 @@ print(json.dumps(public_dict))
       if (baseFinding.match_grade) {
         assert.strictEqual(deskFinding.match_grade, baseFinding.match_grade);
       }
+
+      // Evidence provenance parity
+      if (Array.isArray(baseFinding.evidence)) {
+        assert.strictEqual(
+          deskFinding.evidence?.length || 0,
+          baseFinding.evidence.length,
+          `Evidence count mismatch for rule ${baseFinding.rule_id}`
+        );
+        for (let e = 0; e < baseFinding.evidence.length; e++) {
+          const baseEv = baseFinding.evidence[e];
+          const deskEv = deskFinding.evidence![e];
+          assert.strictEqual(deskEv.file_name, baseEv.file_name);
+          assert.strictEqual(deskEv.page_number, baseEv.page_number);
+          assert.deepStrictEqual(deskEv.bounding_box, baseEv.bounding_box);
+          assert.strictEqual(deskEv.raw_snippet, baseEv.raw_snippet);
+          assert.strictEqual(deskEv.extracted_field, baseEv.extracted_field);
+          assert.strictEqual(deskEv.extraction_method, baseEv.extraction_method);
+        }
+      }
     }
 
     // (f) Summary Counts Parity
