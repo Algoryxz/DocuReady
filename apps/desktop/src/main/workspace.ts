@@ -8,23 +8,16 @@ import type {
   SupportedFileType,
   SupportedMimeType
 } from "../shared/types.ts";
-import { createRequire } from "node:module";
+import { app as electronApp } from "electron";
 import {
   MAX_PACKET_SIZE_BYTES,
   validateFileSize,
   validateFileSignature
 } from "./security.ts";
 
-const nodeRequire = createRequire(import.meta.url);
-
 function getElectronApp(): { getPath(name: string): string } | null {
   if (process.versions.electron) {
-    try {
-      const electron = nodeRequire("electron");
-      return (electron as any).app || null;
-    } catch {
-      return null;
-    }
+    return electronApp;
   }
   return null;
 }
