@@ -1,13 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
-import {
+import { normalizeFindingsAndEvidence } from "../shared/evidence.ts";
+import type {
   AuditProgress,
   AuditStatusResponse,
   DocumentDescriptor,
   EngineHealth,
+  NormalizedEvidenceItem,
   PacketDescriptor,
   RedactedAuditResult
-} from "../shared/types";
+} from "../shared/types.ts";
+import { DocumentNav } from "./components/DocumentNav.tsx";
+import { EvidenceViewer } from "./components/EvidenceViewer.tsx";
+import { FindingPanel } from "./components/FindingPanel.tsx";
 import "./styles.css";
 
 function App(): React.JSX.Element {
@@ -21,6 +26,14 @@ function App(): React.JSX.Element {
   const [auditResult, setAuditResult] = useState<RedactedAuditResult | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [exportMessage, setExportMessage] = useState<string | null>(null);
+
+  // Evidence & Workspace inspection state
+  const [activeDocumentId, setActiveDocumentId] = useState<string | null>(null);
+  const [activeDocumentBytes, setActiveDocumentBytes] = useState<Uint8Array | null>(null);
+  const [selectedRuleId, setSelectedRuleId] = useState<string | null>(null);
+  const [selectedEvidenceId, setSelectedEvidenceId] = useState<string | null>(null);
+  const [targetPage, setTargetPage] = useState<number>(1);
+  const [bytesCache, setBytesCache] = useState<Record<string, Uint8Array>>({});
 
   useEffect(() => {
     // Initial health check
@@ -53,6 +66,81 @@ function App(): React.JSX.Element {
     }
   }, []);
 
+  // Compute normalized findings and evidence
+  const normalizedData = useMemo(() => {
+    return normalizeFindingsAndEvidence(auditResult, documents);
+  }, [auditResult, documents]);
+
+  // Compute finding counts per document
+  const findingCountsByDocument = useMemo(() => {
+    const counts: Record<string, { pass: number; fail: number; warn: number }> = {};
+    for (const doc of documents) {
+      counts[doc.name] = { pass: 0, fail: 0, warn: 0 };
+    }
+
+    if (auditResult && Array.isArray(auditResult.findings)) {
+      for (const finding of auditResult.findings) {
+        const involved = finding.documents_involved || [];
+        const isFail = finding.status === "FAIL" || finding.status === "MISSING";
+        const isWarn = finding.status === "WARN";
+        const isPass = finding.status === "PASS";
+
+        for (const doc of documents) {
+          const matches =
+            involved.includes(doc.name) ||
+            involved.some((inv) => doc.name.toLowerCase().includes(inv.toLowerCase()));
+          if (matches) {
+            if (isFail) counts[doc.name].fail++;
+            else if (isWarn) counts[doc.name].warn++;
+            else if (isPass) counts[doc.name].pass++;
+          }
+        }
+      }
+    }
+    return counts;
+  }, [documents, auditResult]);
+
+  // Get active document object
+  const activeDocument = useMemo(() => {
+    if (!activeDocumentId && documents.length > 0) {
+      return documents[0];
+    }
+    return documents.find((d) => d.id === activeDocumentId) || null;
+  }, [activeDocumentId, documents]);
+
+  // Fetch binary bytes when active document changes
+  useEffect(() => {
+    let isCancelled = false;
+
+    if (!activeDocument) {
+      setActiveDocumentBytes(null);
+      return;
+    }
+
+    if (bytesCache[activeDocument.id]) {
+      setActiveDocumentBytes(bytesCache[activeDocument.id]);
+      return;
+    }
+
+    if (window.docureadyDesktop) {
+      window.docureadyDesktop
+        .getDocumentBinary(activeDocument.id)
+        .then((bytes) => {
+          if (!isCancelled && bytes) {
+            setBytesCache((prev) => ({ ...prev, [activeDocument.id]: bytes }));
+            setActiveDocumentBytes(bytes);
+          }
+        })
+        .catch((err) => {
+          console.error(`Failed to load document binary for '${activeDocument.name}':`, err);
+        });
+    }
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [activeDocument, bytesCache]);
+
   const handleSelectDocuments = async () => {
     try {
       setErrorMessage(null);
@@ -61,7 +149,11 @@ function App(): React.JSX.Element {
         setDocuments((prev) => {
           const existingIds = new Set(prev.map((d) => d.id));
           const additions = selected.filter((d) => !existingIds.has(d.id));
-          return [...prev, ...additions];
+          const next = [...prev, ...additions];
+          if (!activeDocumentId && next.length > 0) {
+            setActiveDocumentId(next[0].id);
+          }
+          return next;
         });
       }
     } catch (err) {
@@ -69,8 +161,8 @@ function App(): React.JSX.Element {
     }
   };
 
-  const handleRemoveDocument = (id: string) => {
-    setDocuments((prev) => prev.filter((d) => d.id !== id));
+  const handleDocumentSelect = (doc: DocumentDescriptor) => {
+    setActiveDocumentId(doc.id);
   };
 
   const handleRunAudit = async () => {
@@ -107,6 +199,9 @@ function App(): React.JSX.Element {
       if (response.status === "completed" && response.result) {
         setAuditStatus("completed");
         setAuditResult(response.result);
+        if (response.result.findings.length > 0) {
+          setSelectedRuleId(response.result.findings[0].rule_id);
+        }
       } else if (response.status === "failed") {
         setAuditStatus("failed");
         setErrorMessage(response.error?.message || "Audit execution failed.");
@@ -156,27 +251,57 @@ function App(): React.JSX.Element {
       setAuditResult(null);
       setErrorMessage(null);
       setExportMessage(null);
+      setActiveDocumentId(null);
+      setActiveDocumentBytes(null);
+      setSelectedRuleId(null);
+      setSelectedEvidenceId(null);
+      setBytesCache({});
     } catch (err) {
       setErrorMessage(err instanceof Error ? err.message : String(err));
     }
   };
 
+  // Inspect evidence callback from FindingPanel
+  const handleInspectEvidence = (evidence: NormalizedEvidenceItem) => {
+    setSelectedEvidenceId(evidence.id);
+    setSelectedRuleId(evidence.ruleId);
+
+    // Find matching document by file name or document type
+    const matchingDoc = documents.find(
+      (d) =>
+        d.name === evidence.fileName ||
+        d.name.toLowerCase().includes(evidence.documentType.toLowerCase())
+    );
+
+    if (matchingDoc) {
+      setActiveDocumentId(matchingDoc.id);
+    }
+
+    if (evidence.pageNumber > 0) {
+      setTargetPage(evidence.pageNumber);
+    }
+  };
+
+  // Select finding callback (sync selection from Bounding Box or list)
+  const handleSelectFinding = (ruleId: string) => {
+    setSelectedRuleId(ruleId);
+    const element = document.getElementById(`finding-${ruleId}`);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+  };
+
   return (
     <main className="app-shell">
+      {/* Sidebar Controls */}
       <aside className="sidebar">
         <div className="brand">
           <div className="brand-mark">D</div>
           <div>
             <strong>DocuReady</strong>
-            <span>PRE-FLIGHT AUDIT</span>
+            <span>EVIDENCE WORKSPACE</span>
           </div>
         </div>
-
-        <nav aria-label="Primary navigation">
-          <button className="nav-item active" type="button">
-            Packet Workspace
-          </button>
-        </nav>
 
         <div className="sidebar-section">
           <label className="section-title" htmlFor="scheme-select">SCHEME PACK</label>
@@ -201,7 +326,60 @@ function App(): React.JSX.Element {
             value={asOfDate}
             onChange={(e) => setAsOfDate(e.target.value)}
             disabled={auditStatus === "running"}
-          />
+          >
+          </input>
+        </div>
+
+        <div className="sidebar-actions">
+          <button
+            className="btn btn-primary btn-block"
+            type="button"
+            onClick={handleSelectDocuments}
+            disabled={auditStatus === "running"}
+          >
+            + Add Documents
+          </button>
+
+          {auditStatus === "running" ? (
+            <button
+              className="btn btn-danger btn-block"
+              type="button"
+              onClick={handleCancelAudit}
+            >
+              Cancel Audit
+            </button>
+          ) : (
+            <button
+              className="btn btn-accent btn-block"
+              type="button"
+              onClick={handleRunAudit}
+              disabled={documents.length === 0}
+            >
+              {auditStatus === "completed" ? "Re-Run Audit" : "Run Pre-Flight Audit"}
+            </button>
+          )}
+
+          {auditResult && (
+            <div className="export-sidebar-group">
+              <span className="section-title">EXPORT REPORT</span>
+              <div className="export-btn-row">
+                <button
+                  type="button"
+                  className="btn btn-outline btn-sm"
+                  onClick={() => handleExport("json")}
+                >
+                  JSON
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-outline btn-sm"
+                  onClick={() => handleExport("markdown")}
+                >
+                  Markdown
+                </button>
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="sidebar-footer">
@@ -234,10 +412,35 @@ function App(): React.JSX.Element {
         </div>
       </aside>
 
+      {/* Main Panel */}
       <section className="main-panel">
         <header className="topbar">
-          <span>DOCUREADY DESKTOP / WORKSPACE</span>
+          <div className="topbar-left">
+            <span className="topbar-breadcrumb">DOCUREADY DESKTOP / WORKSPACE</span>
+            {auditResult && (
+              <span className="packet-badge">Packet: {auditResult.packet_id}</span>
+            )}
+          </div>
+
           <div className="topbar-right">
+            {auditResult && (
+              <div className="readiness-header-pill">
+                <span className="readiness-label">READINESS SCORE</span>
+                <span className="readiness-score-val">
+                  <strong>{auditResult.readiness_score}</strong>/100
+                </span>
+                <span
+                  className={`status-pill ${
+                    auditResult.overall_status === "NO_ISSUES_FOUND"
+                      ? "pill-green"
+                      : "pill-orange"
+                  }`}
+                >
+                  {auditResult.overall_status}
+                </span>
+              </div>
+            )}
+
             <button
               className="btn-clear"
               type="button"
@@ -246,250 +449,65 @@ function App(): React.JSX.Element {
             >
               Clear Session
             </button>
-            <span className="version">
-              APP v{window.docureadyDesktop?.version || "0.1.0"}
-            </span>
           </div>
         </header>
 
-        <div className="content">
-          <div className="eyebrow">STATUTORY DOCUMENT PREPARATION</div>
-          <h1>Pre-Flight Readiness Audit</h1>
-          <p className="intro">
-            Check your scholarship document packet for clerical discrepancies, missing
-            certificates, and name/DOB/income inconsistencies before portal submission.
-          </p>
-
-          {errorMessage && (
-            <div className="alert alert-error" role="alert">
-              <strong>Error:</strong> {errorMessage}
-            </div>
-          )}
-
-          {exportMessage && (
-            <div className="alert alert-success" role="status">
-              <strong>Success:</strong> {exportMessage}
-            </div>
-          )}
-
-          {/* Section 1: Document Selection */}
-          <section className="card document-selection-card">
-            <div className="card-header">
-              <div>
-                <h2>Document Intake</h2>
-                <p>
-                  Select PDF or image documents from your computer. Files are staged in an
-                  isolated local workspace.
-                </p>
-              </div>
-              <button
-                className="btn btn-primary"
-                type="button"
-                onClick={handleSelectDocuments}
-                disabled={auditStatus === "running"}
-              >
-                + Add Documents
-              </button>
-            </div>
-
-            {documents.length === 0 ? (
-              <div className="empty-dropzone" onClick={handleSelectDocuments}>
-                <span className="empty-icon">📄</span>
-                <p>No documents selected yet.</p>
-                <small>Click to choose PDFs or images from your computer</small>
-              </div>
-            ) : (
-              <ul className="doc-list" aria-label="Selected documents">
-                {documents.map((doc) => (
-                  <li key={doc.id} className="doc-item">
-                    <span className="doc-badge">{doc.fileType.toUpperCase()}</span>
-                    <span className="doc-name">{doc.name}</span>
-                    <span className="doc-size">
-                      {(doc.size / 1024).toFixed(1)} KB
-                    </span>
-                    <button
-                      className="btn-remove"
-                      type="button"
-                      aria-label={`Remove ${doc.name}`}
-                      onClick={() => handleRemoveDocument(doc.id)}
-                      disabled={auditStatus === "running"}
-                    >
-                      ✕
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </section>
-
-          {/* Section 2: Audit Actions & Progress */}
-          <section className="card audit-action-card">
-            <div className="action-row">
-              <div>
-                <h2>Run Audit Pipeline</h2>
-                <p>
-                  Executes the Python audit engine with 10 deterministic statutory rules.
-                </p>
-              </div>
-              <div className="action-buttons">
-                {auditStatus === "running" ? (
-                  <button
-                    className="btn btn-danger"
-                    type="button"
-                    onClick={handleCancelAudit}
-                  >
-                    Cancel Audit
-                  </button>
-                ) : (
-                  <button
-                    className="btn btn-accent"
-                    type="button"
-                    onClick={handleRunAudit}
-                    disabled={documents.length === 0}
-                  >
-                    Run Pre-Flight Audit
-                  </button>
-                )}
-              </div>
-            </div>
-
-            {auditStatus === "running" && progress && (
-              <div className="progress-container">
-                <div className="progress-label">
-                  <span>Stage: <strong>{progress.stage.toUpperCase()}</strong></span>
-                  <span>{progress.percent}%</span>
-                </div>
-                <div className="progress-bar">
-                  <div
-                    className="progress-fill"
-                    style={{ width: `${progress.percent}%` }}
-                  />
-                </div>
-              </div>
-            )}
-          </section>
-
-          {/* Section 3: Audit Results */}
-          {auditStatus === "completed" && auditResult && (
-            <section className="card results-card" aria-labelledby="results-title">
-              <div className="results-header">
-                <div>
-                  <h2 id="results-title">Audit Results</h2>
-                  <span className="packet-id-tag">Packet: {auditResult.packet_id}</span>
-                </div>
-                <div className="score-badge-group">
-                  <div className="score-pill">
-                    <span className="score-number">{auditResult.readiness_score}</span>
-                    <span className="score-denom">/100</span>
-                  </div>
-                  <span
-                    className={`status-pill ${
-                      auditResult.overall_status === "NO_ISSUES_FOUND"
-                        ? "pill-green"
-                        : "pill-orange"
-                    }`}
-                  >
-                    {auditResult.overall_status}
-                  </span>
-                </div>
-              </div>
-
-              {/* Summary Counter Grid */}
-              <div className="summary-grid">
-                <div className="summary-card">
-                  <span className="summary-num">{auditResult.findings.length}</span>
-                  <span className="summary-lbl">Rules Evaluated</span>
-                </div>
-                <div className="summary-card">
-                  <span className="summary-num summary-green">
-                    {auditResult.summary_counts?.PASS || 0}
-                  </span>
-                  <span className="summary-lbl">Passed</span>
-                </div>
-                <div className="summary-card">
-                  <span className="summary-num summary-yellow">
-                    {auditResult.summary_counts?.WARN || 0}
-                  </span>
-                  <span className="summary-lbl">Warnings</span>
-                </div>
-                <div className="summary-card">
-                  <span className="summary-num summary-red">
-                    {auditResult.summary_counts?.FAIL || 0}
-                  </span>
-                  <span className="summary-lbl">Action Required</span>
-                </div>
-              </div>
-
-              {/* Findings Table */}
-              <div className="findings-section">
-                <h3>Evaluated Rules & Findings</h3>
-                <div className="findings-table-wrapper">
-                  <table className="findings-table">
-                    <thead>
-                      <tr>
-                        <th>Rule ID</th>
-                        <th>Name</th>
-                        <th>Status</th>
-                        <th>Field</th>
-                        <th>Severity</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {auditResult.findings.map((f, i) => (
-                        <tr key={`${f.rule_id}-${i}`}>
-                          <td><code>{f.rule_id}</code></td>
-                          <td>{f.rule_name}</td>
-                          <td>
-                            <span
-                              className={`finding-status ${
-                                f.status === "PASS"
-                                  ? "badge-pass"
-                                  : f.status === "FAIL"
-                                  ? "badge-fail"
-                                  : "badge-warn"
-                              }`}
-                            >
-                              {f.status}
-                            </span>
-                          </td>
-                          <td>{f.field}</td>
-                          <td>{f.severity}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-
-              {/* Export Controls */}
-              <div className="export-bar">
-                <span>Export Redacted Audit Report:</span>
-                <button
-                  className="btn btn-outline"
-                  type="button"
-                  onClick={() => handleExport("json")}
-                >
-                  Export JSON
-                </button>
-                <button
-                  className="btn btn-outline"
-                  type="button"
-                  onClick={() => handleExport("markdown")}
-                >
-                  Export Markdown
-                </button>
-              </div>
-            </section>
-          )}
-
-          <div className="notice">
-            <strong>Advisory tool only</strong>
-            <p>
-              DocuReady checks the supplied evidence against configured statutory
-              rules. It does not determine legal eligibility or guarantee acceptance
-              by any government portal or authority.
-            </p>
+        {/* Global Alerts / Messages */}
+        {errorMessage && (
+          <div className="alert alert-error" role="alert">
+            <strong>Error:</strong> {errorMessage}
           </div>
+        )}
+
+        {exportMessage && (
+          <div className="alert alert-success" role="status">
+            <strong>Success:</strong> {exportMessage}
+          </div>
+        )}
+
+        {/* Progress Bar when running */}
+        {auditStatus === "running" && progress && (
+          <div className="progress-banner">
+            <div className="progress-label">
+              <span>Audit in Progress — Stage: <strong>{progress.stage.toUpperCase()}</strong></span>
+              <span>{progress.percent}%</span>
+            </div>
+            <div className="progress-bar">
+              <div className="progress-fill" style={{ width: `${progress.percent}%` }} />
+            </div>
+          </div>
+        )}
+
+        {/* Three-Panel Audit Workspace Layout */}
+        <div className="audit-workspace-layout">
+          {/* Panel 1: Document Navigation (Left) */}
+          <DocumentNav
+            documents={documents}
+            activeDocumentId={activeDocument?.id || null}
+            onSelectDocument={handleDocumentSelect}
+            findingCountsByDocument={findingCountsByDocument}
+            isAuditing={auditStatus === "running"}
+          />
+
+          {/* Panel 2: Central PDF Evidence Viewer */}
+          <EvidenceViewer
+            document={activeDocument}
+            documentBytes={activeDocumentBytes}
+            evidenceItems={normalizedData.evidenceItems}
+            selectedEvidenceId={selectedEvidenceId}
+            onSelectEvidence={(item) => setSelectedEvidenceId(item.id)}
+            onSelectFinding={handleSelectFinding}
+            targetPage={targetPage}
+          />
+
+          {/* Panel 3: Finding & Explainability Panel (Right) */}
+          <FindingPanel
+            findings={normalizedData.findings}
+            evidenceItems={normalizedData.evidenceItems}
+            selectedRuleId={selectedRuleId}
+            onSelectFinding={handleSelectFinding}
+            onInspectEvidence={handleInspectEvidence}
+          />
         </div>
       </section>
     </main>
