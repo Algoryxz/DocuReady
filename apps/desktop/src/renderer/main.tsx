@@ -32,7 +32,7 @@ function App(): React.JSX.Element {
       <section className="main-panel">
         <header className="topbar">
           <span>WORKSPACE / OVERVIEW</span>
-          <span className="version">DESKTOP PREVIEW · v{window.docureadyDesktop.getVersion()}</span>
+          <span className="version">DESKTOP PREVIEW · v{window.docureadyDesktop.version}</span>
         </header>
 
         <div className="content">
