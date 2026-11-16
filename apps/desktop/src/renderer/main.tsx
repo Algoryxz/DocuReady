@@ -4,6 +4,7 @@ import { normalizeFindingsAndEvidence } from "../shared/evidence.ts";
 import type {
   AuditProgress,
   AuditStatusResponse,
+  DiagnosticReport,
   DocumentDescriptor,
   EngineHealth,
   NormalizedEvidenceItem,
@@ -34,6 +35,8 @@ function App(): React.JSX.Element {
   const [selectedEvidenceId, setSelectedEvidenceId] = useState<string | null>(null);
   const [targetPage, setTargetPage] = useState<number>(1);
   const [bytesCache, setBytesCache] = useState<Record<string, Uint8Array>>({});
+  const [diagnosticReport, setDiagnosticReport] = useState<DiagnosticReport | null>(null);
+  const [showDiagnosticsModal, setShowDiagnosticsModal] = useState<boolean>(false);
 
   useEffect(() => {
     // Initial health check
@@ -261,6 +264,18 @@ function App(): React.JSX.Element {
     }
   };
 
+  const handleOpenDiagnostics = async () => {
+    try {
+      if (window.docureadyDesktop) {
+        const report = await window.docureadyDesktop.getDiagnosticReport();
+        setDiagnosticReport(report);
+        setShowDiagnosticsModal(true);
+      }
+    } catch (err) {
+      setErrorMessage(err instanceof Error ? err.message : String(err));
+    }
+  };
+
   // Inspect evidence callback from FindingPanel
   const handleInspectEvidence = (evidence: NormalizedEvidenceItem) => {
     setSelectedEvidenceId(evidence.id);
@@ -442,6 +457,15 @@ function App(): React.JSX.Element {
             )}
 
             <button
+              className="btn btn-outline btn-sm-top"
+              type="button"
+              onClick={handleOpenDiagnostics}
+              title="System & Runtime Diagnostics"
+            >
+              Diagnostics ⚙
+            </button>
+
+            <button
               className="btn-clear"
               type="button"
               onClick={handleClearSession}
@@ -510,6 +534,88 @@ function App(): React.JSX.Element {
           />
         </div>
       </section>
+
+      {/* Release Diagnostics Modal */}
+      {showDiagnosticsModal && diagnosticReport && (
+        <div className="modal-backdrop" onClick={() => setShowDiagnosticsModal(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h3>System & Runtime Diagnostics</h3>
+              <button
+                type="button"
+                className="btn-close"
+                onClick={() => setShowDiagnosticsModal(false)}
+              >
+                ✕
+              </button>
+            </div>
+            <div className="modal-body">
+              <div className="diag-grid">
+                <div className="diag-item">
+                  <span className="diag-lbl">Desktop Application</span>
+                  <span className="diag-val">v{diagnosticReport.appVersion} ({diagnosticReport.platform}-{diagnosticReport.arch})</span>
+                </div>
+                <div className="diag-item">
+                  <span className="diag-lbl">Sidecar Architecture</span>
+                  <span className="diag-val">
+                    {diagnosticReport.sidecarType === "packaged_binary"
+                      ? "Packaged Standalone Binary (PyInstaller)"
+                      : "Python Script Mode (Development)"}
+                  </span>
+                </div>
+                <div className="diag-item">
+                  <span className="diag-lbl">Engine Version</span>
+                  <span className="diag-val">v{diagnosticReport.engineVersion} (Protocol v{diagnosticReport.protocolVersion})</span>
+                </div>
+                <div className="diag-item">
+                  <span className="diag-lbl">Python Runtime</span>
+                  <span className="diag-val">Python {diagnosticReport.pythonVersion}</span>
+                </div>
+                <div className="diag-item">
+                  <span className="diag-lbl">Active PDF Backend</span>
+                  <span className="diag-val">{diagnosticReport.pdfBackend.toUpperCase()} (Top-Left Provenance Coordinates)</span>
+                </div>
+                <div className="diag-item">
+                  <span className="diag-lbl">OCR Runtime</span>
+                  <span className="diag-val">
+                    {diagnosticReport.ocrAvailable
+                      ? `Tesseract ${diagnosticReport.tesseractVersion || "Active"}`
+                      : "Unavailable"}
+                  </span>
+                </div>
+                <div className="diag-item">
+                  <span className="diag-lbl">OCR Languages</span>
+                  <span className="diag-val">
+                    {diagnosticReport.ocrLanguages.length > 0
+                      ? diagnosticReport.ocrLanguages.join(", ")
+                      : "eng"}
+                  </span>
+                </div>
+                <div className="diag-item">
+                  <span className="diag-lbl">Workspace Isolation</span>
+                  <span className="diag-val">Active ({diagnosticReport.workspaceHealth.activeWorkspacesCount} active session packets)</span>
+                </div>
+              </div>
+
+              <div className="diag-privacy-notice">
+                <span>🔒</span>
+                <p>
+                  Zero Applicant Data. This diagnostic report contains only system runtime metadata and no document text, filenames, or personal identifiers.
+                </p>
+              </div>
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={() => setShowDiagnosticsModal(false)}
+              >
+                Done
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   );
 }

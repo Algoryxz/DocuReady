@@ -5,6 +5,7 @@ import type {
   AuditStatusResponse,
   ClearSessionResult,
   CreatePacketOptions,
+  DiagnosticReport,
   DocumentDescriptor,
   EngineHealth,
   ExportReportOptions,
@@ -283,6 +284,44 @@ export class IpcHandlerRegistry {
 
         await fs.writeFile(saveDialog.filePath, content, "utf-8");
         return { ok: true, filePath: saveDialog.filePath };
+      }
+    );
+
+    // 7b. Get Diagnostic Report
+    ipcMain.handle(
+      "diagnostics:get-report",
+      async (event): Promise<DiagnosticReport> => {
+        this.validateSender(event);
+
+        const health = await this.sidecarManager.getHealth();
+        const sidecarType = this.sidecarManager.getSidecarType();
+        const isPackaged = !this.isDevelopment;
+
+        return {
+          timestamp: new Date().toISOString(),
+          appVersion: "0.1.0",
+          platform: process.platform,
+          arch: process.arch,
+          isPackaged,
+          sidecarType,
+          protocolVersion: health.protocol || 1,
+          engineVersion: health.engineVersion || "0.1.0",
+          pythonVersion: health.pythonVersion || "unknown",
+          pdfBackend: health.pdfBackend || "pymupdf",
+          ocrAvailable: health.ocrAvailable,
+          ocrLanguages: health.ocrLanguages || ["eng"],
+          tesseractVersion: health.tesseractVersion,
+          tesseractPath: health.tesseractPath,
+          workspaceHealth: {
+            status: "healthy",
+            staleWorkspacesCleaned: 0,
+            activeWorkspacesCount: this.workspaceManager.getActiveWorkspaceCount()
+          },
+          resourceStatus: {
+            sidecarExecutableFound: sidecarType === "packaged_binary",
+            tesseractFound: health.ocrAvailable
+          }
+        };
       }
     );
 

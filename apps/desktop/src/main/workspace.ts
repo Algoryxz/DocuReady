@@ -224,6 +224,10 @@ export class WorkspaceManager {
     return this.packets.get(packetId);
   }
 
+  public getActiveWorkspaceCount(): number {
+    return this.packets.size;
+  }
+
   public async cleanPacket(packetId: string): Promise<boolean> {
     const packet = this.packets.get(packetId);
     if (!packet) return false;

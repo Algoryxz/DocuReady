@@ -10,8 +10,37 @@ export interface EngineHealth {
   pythonVersion: string;
   pdfBackend: string;
   ocrAvailable: boolean;
+  ocrLanguages?: string[];
+  tesseractVersion?: string;
+  tesseractPath?: string;
   status: "healthy" | "unhealthy" | "error";
   error?: string;
+}
+
+export interface DiagnosticReport {
+  timestamp: string;
+  appVersion: string;
+  platform: string;
+  arch: string;
+  isPackaged: boolean;
+  sidecarType: "packaged_binary" | "python_script";
+  protocolVersion: number;
+  engineVersion: string;
+  pythonVersion: string;
+  pdfBackend: string;
+  ocrAvailable: boolean;
+  ocrLanguages: string[];
+  tesseractVersion?: string;
+  tesseractPath?: string;
+  workspaceHealth: {
+    status: "healthy" | "degraded" | "error";
+    staleWorkspacesCleaned: number;
+    activeWorkspacesCount: number;
+  };
+  resourceStatus: {
+    sidecarExecutableFound: boolean;
+    tesseractFound: boolean;
+  };
 }
 
 export type SupportedMimeType = "application/pdf" | "image/png" | "image/jpeg";
@@ -178,6 +207,7 @@ export interface DocuReadyBridge {
   cancelAudit(packetId: string): Promise<AuditStatusResponse>;
   getAuditStatus(packetId: string): Promise<AuditStatusResponse>;
   exportReport(options: ExportReportOptions): Promise<ExportReportResult>;
+  getDiagnosticReport(): Promise<DiagnosticReport>;
   getDocumentBinary(documentId: string): Promise<Uint8Array | null>;
   clearSession(): Promise<ClearSessionResult>;
   onAuditProgress(callback: (progress: AuditProgress) => void): () => void;

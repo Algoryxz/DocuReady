@@ -4,6 +4,7 @@ import type {
   AuditStatusResponse,
   ClearSessionResult,
   CreatePacketOptions,
+  DiagnosticReport,
   DocuReadyBridge,
   DocumentDescriptor,
   EngineHealth,
@@ -71,6 +72,10 @@ const desktopBridge: DocuReadyBridge = Object.freeze({
       throw new Error("exportReport format must be 'json' or 'markdown'.");
     }
     return await ipcRenderer.invoke("report:export", options);
+  },
+
+  async getDiagnosticReport(): Promise<DiagnosticReport> {
+    return await ipcRenderer.invoke("diagnostics:get-report");
   },
 
   async clearSession(): Promise<ClearSessionResult> {

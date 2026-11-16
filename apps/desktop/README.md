@@ -58,6 +58,14 @@ The output package will be generated under `apps/desktop/out/DocuReady-<platform
 - Strict Content Security Policy (`default-src 'self'; script-src 'self'; object-src 'none'`)
 - IPC sender origin validation on all invoke channels
 - WebRequest restrictions: new windows and external navigations are denied
+- Ingestion limits: 20 documents/packet, 50MB/file, 200MB/packet, 50 pages/file
+- Ephemeral workspace isolation with automated multi-stage cleanup and 0% PII leakage
+
+## Release Documentation
+
+- [Release Readiness Specification](../../docs/RELEASE_READINESS.md)
+- [Licensing & Distribution Audit](../../docs/LICENSING_AND_DISTRIBUTION_AUDIT.md)
+- [Electron Desktop Architecture Plan](../../docs/ELECTRON_DESKTOP_PLAN.md)
 - In-memory binary document delivery (`documents:get-binary` / `getDocumentBinary`) passes `Uint8Array` directly to the viewer without exposing filesystem paths
 - File signature and size validation (50MB single file limit, 200MB packet limit)
 - Isolated temporary workspaces with automatic cleanup on session clear or packet deletion
