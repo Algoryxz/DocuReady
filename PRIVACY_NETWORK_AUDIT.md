@@ -25,7 +25,7 @@ A multi-tier process-level network and privacy audit was conducted across the co
 
 ## 2. Multi-Tier Privacy Architecture & Enforcement Boundaries
 
-The application enforces privacy across five distinct, defense-in-depth architectural layers:
+The application has several privacy-relevant design controls. These controls do not amount to a complete system-wide egress guarantee:
 
 ```mermaid
 flowchart TD
@@ -46,7 +46,7 @@ flowchart TD
 
     subgraph Layer4["Layer 4: Python Sidecar Isolation"]
         StdioRPC["Versioned JSON-RPC over Stdio only<br/>Zero socket listeners or HTTP servers"]
-        SocketTripwire["Kernel Socket Prohibition<br/>Intercepts socket.connect & getaddrinfo"]
+        SocketTripwire["Python Test Tripwire<br/>Monkeypatches socket APIs in selected tests"]
     end
 
     subgraph Layer5["Layer 5: Output Redaction & Sanitization"]
@@ -79,7 +79,7 @@ export function getContentSecurityPolicy(isDevelopment: boolean): string {
   ].join("; ");
 }
 ```
-- In production (`!isDevelopment`), `connect-src` is strictly `'self'`. All external HTTP/HTTPS, WebSockets, WebRTC, and tracking pixels are blocked at the WebKit/Blink engine level.
+- In production (`!isDevelopment`), renderer `connect-src` is restricted to `'self'`. This constrains renderer connection mechanisms governed by CSP, but it is not a firewall for Electron main-process APIs, native modules, child processes, DNS performed outside the renderer, or every transport.
 - `object-src 'none'` prevents Flash/Java/ActiveX plugins.
 
 ### 2.2. IPC Bridge and Sender Validation
@@ -87,11 +87,7 @@ export function getContentSecurityPolicy(isDevelopment: boolean): string {
   Every IPC invocation passes through `validateIpcSender(event, isDevelopment)`. Any call not originating from the trusted local `file://` or Vite development origin throws an immediate security error and is dropped.
 
 ### 2.3. Python Engine Core Network Isolation
-- Enforced and tested in `tests/contract/test_no_network.py`:
-  - `socket.socket.connect` monkeypatched with tripwire.
-  - `socket.getaddrinfo` (DNS lookups) monkeypatched with tripwire.
-  - `socket.create_connection` monkeypatched with tripwire.
-- Contract test suite executes all 8 synthetic document packets (`pkt_01_clean` through `pkt_08_ambiguous_evidence`) under active tripwires. **12/12 contract tests pass with 0 attempted socket calls.**
+- The Python contract tests monkeypatch selected socket APIs (`socket.socket.connect`, `socket.getaddrinfo`, and `socket.create_connection`) while exercising defined core paths. This is a test-level guard, not a kernel control and not proof that all application processes are unable to access the network.
 
 ### 2.4. Sidecar Inter-Process Communication
 - The Electron main process communicates with the Python engine exclusively over standard input and standard output streams (`stdio: ["pipe", "pipe", "pipe"]`).
@@ -171,7 +167,7 @@ To preserve strict scientific integrity, the following boundaries and conditions
 1. **Operating System Scope:** Process-level network monitoring was performed on **Windows 11 x64 (Build 26100)**. While macOS and Linux builds share the identical TypeScript and Python core logic, process-level socket tracing was executed specifically on Windows.
 2. **Development vs. Production Mode:** In development mode (`npm run start`), Vite opens a local loopback WebSocket (`ws://localhost:5173`) to support Hot Module Replacement (HMR). This development-only loopback is explicitly excluded in the production binary (`DocuReady.exe`), where all assets are loaded locally from `app.asar` via `file://`.
 3. **Third-Party DLL Boundary:** Dynamic library inspections confirmed that `leptonica-1.84.1.dll`, `libpng16.dll`, `libjpeg-62.dll`, and `libtiff-5.dll` bundled with Tesseract contain no networking code and do not link to `ws2_32.dll` (Windows Sockets) or `wininet.dll`.
-4. **Air-Gap Capability:** The application operates without degradation on fully air-gapped workstations with physical network adapters disabled.
+4. **Air-Gap Capability:** A fully air-gapped workstation test with network adapters disabled is not evidenced in the committed artifacts reviewed here. Do not claim air-gap qualification until that test is performed and logged.
 
 
 ## 7. Correction: What This Audit Does Not Prove
