@@ -412,3 +412,29 @@ DocuReady/
     - Full Python suite: 439 collected items, 438 passed, 1 skipped.
     - Full Desktop test suite: 19 tests passed (0 failures).
 
+## 13. Loop 3 Implementation Record: Production Hardening, OCR Distribution & Licensing Readiness (16 Nov 2026)
+
+Loop 3 completes the transformation of DocuReady Desktop into a production-hardened candidate while preserving the canonical Python statutory audit engine unchanged:
+
+- **Licensing and Distribution Audit (`docs/LICENSING_AND_DISTRIBUTION_AUDIT.md`):**
+  - Comprehensive audit of all direct and transitive runtime dependencies (PyMuPDF, MuPDF, pypdfium2, PDFium, pdfjs-dist, Tesseract, Leptonica, PyInstaller, Electron, React, Vite).
+  - Identified the AGPL-3.0 distribution gate on PyMuPDF and formally documented the required Project Owner Decision: Option A (Commercial PyMuPDF license) vs Option B (Full AGPL-3.0 open release).
+  - Produced a technical blocker analysis on PDFium parity: documented why `pypdfium2` cannot replace PyMuPDF in Loop 3 without breaking coordinate origins, reading order, and golden test baselines.
+- **Self-Contained Python Sidecar Packaging:**
+  - Authored PyInstaller onedir specification in `sidecar/docuready_sidecar.spec`.
+  - Packaged standalone Python 3.12 runtime and native C extensions into `sidecar/dist/docuready_sidecar/docuready_sidecar.exe`.
+  - Enhanced Electron `SidecarManager` to dynamically discover the packaged binary in `resources/` or `sidecar/dist/` with seamless fallback to Python script in dev.
+  - Fixed Windows standard I/O encoding by configuring UTF-8 binary buffer streams on sidecar stdin/stdout.
+- **Dynamic Local Tesseract OCR Discovery (`src/docuready/ingest/tesseract_discovery.py`):**
+  - Dynamic discovery supporting `DOCUREADY_TESSERACT_PATH`, bundled resources (`process.resourcesPath`), PATH, and standard Windows/UNIX installation paths.
+  - Zero-PII diagnostics reporting: exposes `ocr_available`, sanitized binary name, and installed languages (`eng.traineddata`).
+  - Added 6 dedicated OCR acceptance tests (`tests/test_ocr_acceptance.py`) covering printed text, blank images, noisy scans, missing runtimes, and process errors.
+- **Adversarial Document Resilience & Processing Limits:**
+  - Enforced strict ingestion boundaries: max 20 documents/packet, 50MB/file, 200MB/packet, 50 pages/doc.
+  - Added 7 adversarial tests (`tests/test_adversarial_documents.py`) covering malformed PDFs, 0-byte files, extension spoofing, mixed page rotations, and encrypted PDFs without unhandled crashes.
+- **Desktop Diagnostics & Workspace Lifecycle:**
+  - Added `diagnostics:get-report` IPC handler and modal in the renderer topbar showing real-time environment versions, OCR status, and active workspaces with 0% PII leakage.
+  - Ephemeral workspace tracking with automated cleanup across success, error, cancellation, app exit, and startup sweeps.
+- **Release Readiness Specification (`docs/RELEASE_READINESS.md`):**
+  - Comprehensive specification detailing Windows/macOS/Linux packaging matrix, code signing, notarization, and verification checklists.
+
