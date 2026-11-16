@@ -122,7 +122,7 @@ app.whenReady().then(async () => {
   console.error("[startup] DocuReady failed to initialize:", message);
   dialog.showErrorBox(
     "DocuReady could not start",
-    `The application failed its startup checks.\\n\\n${message}\\n\\nReinstall the complete package and try again.`
+    `The application failed its startup checks.\n\n${message}\n\nReinstall the complete package and try again.`
   );
   app.quit();
 });
