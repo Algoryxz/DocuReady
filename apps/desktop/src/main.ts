@@ -1,5 +1,6 @@
 import { app, BrowserWindow, session } from "electron";
 import path from "node:path";
+import { pathToFileURL } from "node:url";
 
 const isDevelopment = !app.isPackaged;
 
@@ -58,13 +59,10 @@ async function createMainWindow(): Promise<void> {
       return;
     }
 
-    const expectedEntry = path.join(
-      __dirname,
-      `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`
-    );
-    if (!targetUrl.startsWith("file:") || !targetUrl.endsWith("/index.html")) {
-      event.preventDefault();
-    }
+    const expectedEntry = pathToFileURL(
+      path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`)
+    ).href;
+    if (targetUrl !== expectedEntry) event.preventDefault();
   });
 
   if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
