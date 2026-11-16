@@ -5,7 +5,6 @@ import fs from "node:fs";
 import path from "node:path";
 import readline from "node:readline";
 import { EventEmitter } from "node:events";
-import { fileURLToPath } from "node:url";
 import type {
   AuditProgress,
   AuditStatusResponse,
@@ -13,7 +12,7 @@ import type {
   RedactedAuditResult
 } from "../shared/types.ts";
 
-const currentDir = path.dirname(fileURLToPath(import.meta.url));
+// Electron Forge/Vite emits the main process as CommonJS (.cjs). In that\n// runtime import.meta.url is undefined; __dirname is the correct bundle path.\nconst currentDir = __dirname;
 
 export interface SidecarRequest {
   protocol: number;
