@@ -1,0 +1,34 @@
+# DocuReady Scheme Pack Manifest — generic.demo
+# Task T3.1: Pack schema, loader and lint scaffold
+# Transitional inert draft scaffold (rules list empty until T3.2 execution engine)
+
+pack_id: generic.demo
+version: "2.1.0"
+status: draft
+effective:
+  from: 2026-04-01
+  to: 2027-03-31
+as_of_required: false
+parameters:
+  income_ceiling_inr: 250000
+  cert_validity_days: 1095
+  academic_cutoff_pct: 60.0
+doc_slots:
+  APPLICATION_FORM:
+    ocr_langs:
+      - eng
+    required: true
+  MARKSHEET:
+    ocr_langs:
+      - eng
+    required: true
+  INCOME_CERT:
+    ocr_langs:
+      - eng
+      - ori
+    required: true
+  BANK_PASSBOOK:
+    ocr_langs:
+      - eng
+    required: true
+rules: []
