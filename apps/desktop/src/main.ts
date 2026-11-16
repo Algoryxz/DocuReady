@@ -48,12 +48,21 @@ async function createMainWindow(): Promise<void> {
   window.webContents.setWindowOpenHandler(() => ({ action: "deny" }));
 
   window.webContents.on("will-navigate", (event, targetUrl) => {
-    const currentOrigin = window.webContents.getURL();
-    try {
-      const target = new URL(targetUrl);
-      const current = new URL(currentOrigin);
-      if (target.origin !== current.origin) event.preventDefault();
-    } catch {
+    if (isDevelopment && MAIN_WINDOW_VITE_DEV_SERVER_URL) {
+      const allowedOrigin = new URL(MAIN_WINDOW_VITE_DEV_SERVER_URL).origin;
+      try {
+        if (new URL(targetUrl).origin !== allowedOrigin) event.preventDefault();
+      } catch {
+        event.preventDefault();
+      }
+      return;
+    }
+
+    const expectedEntry = path.join(
+      __dirname,
+      `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`
+    );
+    if (!targetUrl.startsWith("file:") || !targetUrl.endsWith("/index.html")) {
       event.preventDefault();
     }
   });
