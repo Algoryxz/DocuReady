@@ -23,11 +23,10 @@ from docuready.normalize.normalizer import (
     validate_ifsc_code, normalize_cert_number
 )
 from docuready.evidence.calibrator import ConfidenceCalibrator, validate_field_syntax
+from docuready.ingest.tesseract_discovery import configure_pytesseract
 
-# Configure local Tesseract binary path
-TESSERACT_EXE = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
-if os.path.exists(TESSERACT_EXE):
-    pytesseract.pytesseract.tesseract_cmd = TESSERACT_EXE
+# Configure local Tesseract binary path dynamically
+configure_pytesseract()
 
 
 def detect_document_type(text: str) -> Optional[DocumentType]:
