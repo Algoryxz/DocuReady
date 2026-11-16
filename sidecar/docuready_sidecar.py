@@ -105,7 +105,9 @@ def _handle(request: dict[str, Any]) -> dict[str, Any]:
             raise ValueError("Packet id must be a non-empty string of at most 128 characters.")
 
         as_of_value = params.get("as_of")
-        effective_date = date.fromisoformat(as_of_value) if as_of_value else date.today()
+        if not isinstance(as_of_value, str) or not as_of_value:
+            raise ValueError("An explicit ISO date is required for deterministic audits.")
+        effective_date = date.fromisoformat(as_of_value)
 
         _write_frame(
             {
@@ -151,6 +153,7 @@ def _handle(request: dict[str, Any]) -> dict[str, Any]:
 
 def main() -> int:
     for raw_line in sys.stdin.buffer:
+        request: Any = None
         if len(raw_line) > MAX_REQUEST_BYTES:
             _write_frame(
                 {
@@ -178,10 +181,7 @@ def main() -> int:
                 flush=True,
             )
             request_id = None
-            try:
-                request_id = request.get("id") if isinstance(request, dict) else None
-            except UnboundLocalError:
-                pass
+            request_id = request.get("id") if isinstance(request, dict) else None
             _write_frame(
                 {
                     "protocol": PROTOCOL_VERSION,
