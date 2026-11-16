@@ -170,7 +170,7 @@ DocuReady/
 │           └── ui/                     # Interactive Streamlit interface
 │               └── app.py              # Streamlit dashboard implementation
 │
-├── tests/                              # Comprehensive test suite (423 test items)
+├── tests/                              # Comprehensive test suite (431 test items)
 │   ├── contract/                       # Claims register & zero-network contract tests
 │   ├── integration/                    # Validator-level per-rule fixture matrix (53 tests)
 │   ├── unit/                           # Outcome resolver per-rule truth table (105 tests)
@@ -185,7 +185,7 @@ DocuReady/
 │   ├── test_normalizer.py              # Verhoeff, date, income & IFSC unit tests
 │   ├── test_replacement_rerun.py       # Single-document remediation workflow tests
 │   ├── test_safety_layer.py            # Safety downgrade matrix tests
-│   ├── test_slot_validation.py         # Scheme-aware document slot validation tests (29 tests)
+│   ├── test_slot_validation.py         # Scheme-aware document slot validation tests (37 tests)
 │   ├── test_ui_privacy.py              # Zero-telemetry, asset isolation & PII masking
 │   ├── test_uncertainty_safety.py      # Scan quality & uncertainty handling tests
 │   └── test_validator.py               # Statutory rule violation & exemption tests
@@ -322,7 +322,7 @@ for finding in result.findings:
 DocuReady maintains a comprehensive automated test suite enforcing 100% bit-for-bit vector parity and adversarial robustness:
 
 ```bash
-# Run full test suite (423 test items)
+# Run full test suite (431 test items)
 pytest tests/ -v --tb=short
 
 # Run with test coverage report
