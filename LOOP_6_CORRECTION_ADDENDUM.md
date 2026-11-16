@@ -52,3 +52,12 @@ The current evidence supports a competition demonstration candidate, not a produ
 3. Obtain qualified legal review of the packaged AGPLv3 component and distribution obligations.
 4. Verify every statutory citation against primary official source documents and remove unsupported references.
 5. Publish only artifacts built from the exact reviewed commit, with verified checksums and an actual release asset URL.
+
+
+### 6. Evidence files absent from the reviewed branch
+
+The report's evidence index names `docs/network_audit_logs/network_audit_raw.log` and `docs/clean_machine_validation.log`, but both paths return 404 when fetched from the reviewed branch. The summary JSON exists; the raw monitoring and clean-machine logs do not appear in the committed branch at those paths. Treat the numerical observations as claims in the report, not independently inspectable raw evidence, until the logs are committed or attached. The referenced Windows screenshots are also not listed among the changed files reviewed here.
+
+### 7. Documentation corrections
+
+The root README has been revised to remove the unsupported 30% prevalence statistic, narrow privacy language, distinguish project-authored Apache-2.0 code from AGPLv3 PyMuPDF, mark PDFium as incomplete, and qualify the statutory reference table as candidate mappings requiring scheme-specific verification. Aadhaar checksum validation and IFSC syntax checking are explicitly distinguished from identity or bank-registry verification.
