@@ -8,7 +8,7 @@
 [![Desktop Tests](https://img.shields.io/badge/Desktop%20Tests-21%2F21%20Passed-brightgreen.svg)](apps/desktop)
 [![Python Tests](https://img.shields.io/badge/Python%20Tests-450%20Passed-brightgreen.svg)](tests)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
-[![Privacy: Offline Verified](https://img.shields.io/badge/Privacy-100%25%20Offline%20%7C%20Zero--PII-0A2540.svg)](docs/02-ARCHITECTURE/SECURITY_AND_PRIVACY.md)
+[![Privacy: Local Processing](https://img.shields.io/badge/Privacy-Local%20Processing-0A2540.svg)](PRIVACY_NETWORK_AUDIT.md)
 [![Platform: Windows x64](https://img.shields.io/badge/Platform-Windows%20x64%20(Packaged)-blueviolet.svg)](apps/desktop/out/make)
 
 ---
@@ -20,7 +20,7 @@ DocuReady exists in two complementary surfaces:
 | Surface | Purpose & Architecture | Hosted Location / Access |
 | :--- | :--- | :--- |
 | **🌐 Informational Web Showcase** | Public-facing product showcase, statutory overview, and interactive architecture guide. **Does not process citizen documents or execute audits.** Zero document data is uploaded or stored. | **[docu-ready-steel.vercel.app/#workflow](https://docu-ready-steel.vercel.app/#workflow)** |
-| **💻 Offline Desktop Application** | **The canonical core product deliverable.** Full-featured native Windows desktop app running 100% locally. Bundles the complete Python audit engine sidecar, PDF.js visual evidence viewer, OCR fallback, and cross-document validation pipeline with zero external network connectivity. | **[Download Windows Installer](#windows-desktop-download--installation)** |
+| **💻 Offline Desktop Application** | **The canonical core product deliverable.** Native Windows desktop app designed for local document processing. Bundles the Python audit engine sidecar, PDF.js visual evidence viewer, OCR fallback, and cross-document validation pipeline. The current network audit observed no connections in its recorded samples but does not establish a system-wide zero-egress guarantee. | **[Download Windows Installer](#windows-desktop-download--installation)** |
 
 ---
 
@@ -28,7 +28,7 @@ DocuReady exists in two complementary surfaces:
 
 **DocuReady** is a local-first, deterministic applicant-side document audit assistant designed for scholarship and public-benefit applications (such as India's National Scholarship Portal, state post-matric schemes, and social welfare programs). 
 
-Across government portals, over 30% of scholarship applications face rejection, delays, or forfeiture of critical education funds due to simple clerical discrepancies—such as name variations across certificates, date-of-birth format ambiguities (`DD/MM/YYYY` vs. `MM/DD/YYYY`), expired income certificates, or blurry scans.
+Clerical discrepancies—such as name variations across certificates, date-of-birth format ambiguities (`DD/MM/YYYY` vs. `MM/DD/YYYY`), expired income certificates, or blurry scans—can create avoidable delays, rework, or requests for correction. This repository does not assert a quantified prevalence rate.
 
 DocuReady audits multi-document application packets **before submission**, cross-referencing names, dates, categories, validity windows, and financial figures across Income Certificates, Caste Certificates, Domicile Certificates, Marksheets, and Bank Passbooks. Every finding is anchored directly to its source document coordinates with visual bounding box provenance.
 
@@ -88,7 +88,7 @@ flowchart TD
 
 ## Windows Desktop Download & Installation
 
-The desktop application has been built, packaged, and verified for Windows 10/11 64-bit systems.
+Windows x64 installer and portable artifacts have been built. The checked-in clean-environment harness exercises the portable package and sidecar; it does not yet qualify Squirrel installation/uninstallation or full UI interaction on a clean machine.
 
 ### Release Artifact Manifest
 
@@ -245,20 +245,20 @@ Evaluation performed on reference hardware against the synthetic validation suit
 | Benchmark Suite | Documents | Exact Match Accuracy | Mean Latency per Packet | Execution Pipeline |
 | :--- | :--- | :--- | :--- | :--- |
 | **Canonical Synthetic Packets** | 48 Documents | 100.0% | 0.38s | Native Vector Extraction |
-| **Degraded Physical Scans** | 60 Documents | 91.7% | 1.15s | Vector + Local Tesseract OCR |
+| **Controlled Degraded-Scan Test Set** | 60 Documents | 91.7% | 1.15s | Vector + Local Tesseract OCR |
 
-*Note: Benchmarks reflect performance on synthetic test datasets under controlled test conditions and do not represent field portal acceptance guarantees.*
+*Note: Results are limited to the named controlled test corpora and conditions. They do not establish field accuracy, real-world prevalence, or portal acceptance guarantees.*
 
 ---
 
 ## Security, Privacy & Compliance
 
-DocuReady is built from the ground up for strict compliance with privacy standards such as India's **Digital Personal Data Protection (DPDP) Act 2023**:
+DocuReady is designed around privacy-by-design principles informed by India's **Digital Personal Data Protection (DPDP) Act 2023**. This is not a claim of legal compliance, certification, or legal advice:
 
-1. **Zero External Network Egress:** The application makes zero outbound HTTP/HTTPS requests. Documents, audit metadata, and citizen identity attributes never leave the local computer.
+1. **Local Processing:** Documents are processed by the local desktop engine. The current Windows socket-polling audit observed no connections in its recorded samples, but it is not kernel-level capture and does not establish a system-wide zero-egress guarantee. See [PRIVACY_NETWORK_AUDIT.md](PRIVACY_NETWORK_AUDIT.md).
 2. **Ephemeral Document Workspace:** Uploaded files are copied into isolated, temporary per-session directories and completely removed upon session completion or window closure.
 3. **Automated Zero-PII Redaction:** Exported JSON and Markdown reports redact sensitive government identifiers (e.g. masking Aadhaar numbers to show only the last 4 digits: `XXXX-XXXX-1234`).
-4. **Offline Demographics Verification:** DocuReady functions entirely offline on standard laptops and desktops without cloud dependencies or telemetry beacons.
+4. **Offline Operation:** Core document processing is designed to run locally without cloud dependencies. Do not interpret this as a verified system-wide network-egress guarantee.
 
 ---
 
@@ -268,13 +268,13 @@ DocuReady is licensed under the **Apache License 2.0**. See the [LICENSE](LICENS
 
 ### Third-Party Components & Copyleft Disclosures
 
-The application distribution incorporates third-party open-source components with explicit license attribution (detailed in the [NOTICE](NOTICE) file):
+The application distribution incorporates third-party components with separate license terms (detailed in the [NOTICE](NOTICE) and [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md)). The repository's Apache-2.0 license does not relicense these components:
 
 - **Tesseract OCR:** Copyright © Google LLC. Licensed under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0).
 - **Leptonica Image Processing Library:** Copyright © Dan Bloomberg. Licensed under the [2-Clause BSD License](http://www.leptonica.org/).
 - **PDF.js (`pdfjs-dist`):** Copyright © Mozilla Foundation. Licensed under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0).
 - **React & Lucide React:** Copyright © Meta Platforms, Inc. and Lucide Contributors. Licensed under the [MIT License](https://opensource.org/licenses/MIT).
 - **PyMuPDF (`fitz`):** Copyright © Artifex Software, Inc. PyMuPDF is licensed under the GNU Affero General Public License v3 (**AGPLv3**). 
-  - *Licensing Notice:* For enterprise deployments requiring strictly permissive licensing, DocuReady provides an architectural abstraction layer (`src/docuready/ingest/`) designed for seamless drop-in integration with the Apache-2.0 licensed **PDFium** backend (`pypdfium2`), eliminating AGPLv3 copyleft exposure where required.
+  - *Licensing Notice:* PyMuPDF is currently the production PDF backend and is distributed under AGPLv3. The PDFium adapter is incomplete (`get_words()` is not implemented), so it is not a drop-in replacement and does not currently remove the AGPLv3 component. Obtain qualified legal review before redistributing the packaged application.
 
 Copyright © 2026 HackNation DocuReady Authors (Algoryxz).
