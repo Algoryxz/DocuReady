@@ -1,24 +1,19 @@
 import { app, BrowserWindow, session } from "electron";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
+import { IpcHandlerRegistry } from "./main/ipc.ts";
+import { getContentSecurityPolicy } from "./main/security.ts";
+import { SidecarManager } from "./main/sidecar.ts";
+import { WorkspaceManager } from "./main/workspace.ts";
 
 const isDevelopment = !app.isPackaged;
 
+let workspaceManager: WorkspaceManager | null = null;
+let sidecarManager: SidecarManager | null = null;
+let mainWindow: BrowserWindow | null = null;
+
 function installContentSecurityPolicy(): void {
-  const policy = [
-    "default-src 'self'",
-    "script-src 'self'",
-    "style-src 'self' 'unsafe-inline'",
-    "img-src 'self' data: blob:",
-    "font-src 'self' data:",
-    isDevelopment
-      ? "connect-src 'self' ws://localhost:* http://localhost:*"
-      : "connect-src 'self'",
-    "object-src 'none'",
-    "base-uri 'none'",
-    "form-action 'self'",
-    "frame-ancestors 'none'"
-  ].join("; ");
+  const policy = getContentSecurityPolicy(isDevelopment);
 
   session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
     callback({
@@ -30,7 +25,7 @@ function installContentSecurityPolicy(): void {
   });
 }
 
-async function createMainWindow(): Promise<void> {
+async function createMainWindow(): Promise<BrowserWindow> {
   const window = new BrowserWindow({
     width: 1440,
     height: 940,
@@ -46,8 +41,10 @@ async function createMainWindow(): Promise<void> {
     }
   });
 
+  // Strict popup restriction: deny any window.open()
   window.webContents.setWindowOpenHandler(() => ({ action: "deny" }));
 
+  // Strict navigation guard: prevent navigating away from application entry
   window.webContents.on("will-navigate", (event, targetUrl) => {
     if (isDevelopment && MAIN_WINDOW_VITE_DEV_SERVER_URL) {
       const allowedOrigin = new URL(MAIN_WINDOW_VITE_DEV_SERVER_URL).origin;
@@ -74,10 +71,31 @@ async function createMainWindow(): Promise<void> {
   }
 
   window.once("ready-to-show", () => window.show());
+  mainWindow = window;
+  return window;
 }
 
 app.whenReady().then(async () => {
   installContentSecurityPolicy();
+
+  // Initialize isolated workspace manager
+  workspaceManager = new WorkspaceManager();
+  await workspaceManager.initialize();
+
+  // Initialize and start sidecar manager
+  sidecarManager = new SidecarManager(workspaceManager.getWorkspaceRoot());
+  await sidecarManager.start();
+
+  // Register all typed IPC handlers
+  const ipcRegistry = new IpcHandlerRegistry(
+    workspaceManager,
+    sidecarManager,
+    isDevelopment,
+    MAIN_WINDOW_VITE_DEV_SERVER_URL,
+    MAIN_WINDOW_VITE_NAME
+  );
+  ipcRegistry.registerAll();
+
   await createMainWindow();
 
   app.on("activate", async () => {
@@ -85,6 +103,15 @@ app.whenReady().then(async () => {
       await createMainWindow();
     }
   });
+});
+
+app.on("before-quit", async () => {
+  if (sidecarManager) {
+    await sidecarManager.shutdown().catch(() => {});
+  }
+  if (workspaceManager) {
+    await workspaceManager.clearAll().catch(() => {});
+  }
 });
 
 app.on("window-all-closed", () => {

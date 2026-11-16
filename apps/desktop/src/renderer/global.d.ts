@@ -1,10 +1,9 @@
+import { DocuReadyBridge } from "../shared/types";
+
 export {};
 
 declare global {
   interface Window {
-    docureadyDesktop: {
-      readonly platform: string;
-      readonly version: string;
-    };
+    docureadyDesktop: DocuReadyBridge;
   }
 }

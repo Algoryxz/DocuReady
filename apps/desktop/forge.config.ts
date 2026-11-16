@@ -1,4 +1,5 @@
 import type { ForgeConfig } from "@electron-forge/shared-types";
+import { MakerZIP } from "@electron-forge/maker-zip";
 import { VitePlugin } from "@electron-forge/plugin-vite";
 
 const config: ForgeConfig = {
@@ -6,10 +7,7 @@ const config: ForgeConfig = {
     asar: true
   },
   makers: [
-    {
-      name: "@electron-forge/maker-zip",
-      platforms: ["darwin", "linux", "win32"]
-    }
+    new MakerZIP({}, ["darwin", "linux", "win32"])
   ],
   plugins: [
     new VitePlugin({
