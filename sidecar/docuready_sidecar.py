@@ -8,7 +8,6 @@ from __future__ import annotations
 import json
 import os
 import sys
-import traceback
 from datetime import date
 from pathlib import Path
 from typing import Any
@@ -32,7 +31,7 @@ def _workspace_path(raw_path: Any) -> Path:
 
     root = Path(root_value).resolve(strict=True)
     candidate = Path(raw_path).resolve(strict=True)
-    if not candidate.is_dir() or not candidate.is_relative_to(root):
+    if candidate == root or not candidate.is_dir() or not candidate.is_relative_to(root):
         raise ValueError("The packet directory is outside the managed workspace.")
     return candidate
 
