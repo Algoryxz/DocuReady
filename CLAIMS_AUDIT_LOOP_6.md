@@ -23,12 +23,12 @@ Every technical, performance, privacy, statutory, and licensing claim across the
 
 | ID | Public / Technical Claim | Location in Docs / Code | Audit Classification | Evidence & Operational Boundary |
 | :-: | :--- | :--- | :---: | :--- |
-| **C-01** | **100% Offline & Zero Network Traffic** | `README.md`, `SECURITY_AND_PRIVACY.md` | **`[CONDITIONALLY VERIFIED]`** | **Verified in production desktop binary.** Dynamic process-level monitoring of `DocuReady.exe` and sidecar recorded 0 TCP/UDP connections across installation, audit, and export (`PRIVACY_NETWORK_AUDIT.md`). In dev mode (`npm run start`), Vite opens a local loopback `ws://localhost:5173` for HMR. |
+| **C-01** | **Offline/local processing and zero network traffic** | `README.md`, `PRIVACY_NETWORK_AUDIT.md` | **`[PARTIALLY OBSERVED — ZERO EGRESS NOT PROVEN]`** | The committed monitor polls selected PIDs using `psutil` every 50ms. The saved summary does not demonstrate sidecar/Tesseract coverage in the runtime process tree and polling can miss short-lived connections. It supports only “no connections observed in recorded samples,” not a system-wide zero-egress guarantee. |
 | **C-02** | **Zero-PII Redaction in Diagnostics & Exports** | `README.md`, `tests/test_redaction_safe_logging.py` | **`[VERIFIED]`** | Exported JSON/Markdown reports automatically redact 12-digit Aadhaar numbers (`XXXX-XXXX-1234`), bank account details, and local file paths. Passes 17 automated tests. |
 | **C-03** | **Bundled Offline OCR (Zero Host Prerequisites)** | `README.md`, `apps/desktop/src/main/sidecar.ts` | **`[VERIFIED]`** | Tesseract 5.4.0, all native DLLs, and `eng`/`osd` models are bundled in `resources/docuready_sidecar/tesseract/`. Sidecar returns `ocr_source: "bundled_resource"` and executes cleanly under scrubbed `PATH` (`WINDOWS_CLEAN_MACHINE_VALIDATION.md`). |
 | **C-04** | **Sub-100ms Vector Audit Execution** | `HACKNATION_CLAIMS_EVIDENCE_MATRIX.md` | **`[CONDITIONALLY VERIFIED]`** | Measured at **60.63 ms** for 2-document native vector packets on reference Intel Core i7 hardware. Degraded physical scans requiring OCR take **~1.1s–2.5s per page**. |
 | **C-05** | **100% Extraction Accuracy** | Historical summaries | **`[CORRECTED / REFINED]`** | **Must be labeled as Synthetic Corpus Accuracy.** DocuReady achieves 100% exact match on the 8 canonical synthetic test packets (`pkt_01`–`pkt_08`). Real-world degraded scans achieve **91.7%** under controlled benchmarks. Universal 100% accuracy on arbitrary external scans is unsupported. |
-| **C-06** | **DPDP Act 2023 Compliance** | `README.md`, `presentation/` | **`[CORRECTED / REFINED]`** | DocuReady is engineered around **privacy-by-design principles informed by the DPDP Act 2023** (ephemeral storage, zero egress, PII masking). It is **not** a government-certified compliance product or formal legal clearance. |
+| **C-06** | **DPDP Act 2023 alignment** | `README.md`, `presentation/` | **`[CONDITIONALLY DESCRIBED — NOT A LEGAL COMPLIANCE FINDING]`** | Use only “designed with privacy-by-design principles informed by the DPDP Act 2023.” No certification, legal compliance audit, or formal legal clearance is established. Do not use zero-egress as supporting evidence until the network audit is corrected. |
 | **C-07** | **Official Government Portal / Eligibility Decider** | User disclaimer | **`[PROHIBITED / OVERREACH]`** | DocuReady is explicitly an **assistive, applicant-side pre-submission linter**. It does not make government decisions, authenticate identity with UIDAI, or guarantee portal acceptance. |
 | **C-08** | **Content Security Policy Strictness** | `apps/desktop/src/main/security.ts` | **`[VERIFIED]`** | Production CSP enforces `connect-src 'self'; object-src 'none'; frame-ancestors 'none'`. Verified in `tests/security.test.ts`. |
 | **C-09** | **Interactive Single-Document Replacement** | `tests/test_replacement_rerun.py` | **`[VERIFIED]`** | Replaces individual documents and re-audits in-memory in under 1 second without full packet re-ingestion. |
@@ -70,7 +70,7 @@ Use ONLY these verified statements during the final competition presentation:
 
 | Slide / Topic | Permissible Presentation Statement | Substantiating Evidence File |
 | :--- | :--- | :--- |
-| **Problem** | "Over 30% of scholarship applications face delays or rejection due to clerical errors like name variations, date format confusion, and expired certificates." | Published portal guidelines; `docs/HACKNATION_PROBLEM_AND_SOLUTION.md` |
+| **Problem** | "Clerical inconsistencies across application documents can cause avoidable delays, rework, or requests for correction." | Product problem framing; no quantified prevalence claim |
 | **Solution** | "DocuReady is a local-first, deterministic pre-submission audit assistant that cross-verifies multi-document application packets before portal submission." | `README.md`; `src/docuready/pipeline.py` |
 | **Architecture** | "A secure multi-process desktop architecture: Electron desktop shell, React 19 UI, PDF.js evidence viewer, and a packaged Python sidecar with bundled offline Tesseract OCR." | `apps/desktop/forge.config.ts`; `DEPENDENCY_INVENTORY.md` |
 | **Privacy** | "100% local execution: Zero outbound network calls, zero analytics or telemetry, ephemeral file lifecycle, and automated Aadhaar masking." | `PRIVACY_NETWORK_AUDIT.md`; `tests/contract/test_no_network.py` |
@@ -78,3 +78,12 @@ Use ONLY these verified statements during the final competition presentation:
 | **Safety** | "9-feature logistic confidence calibrator classifies OCR text into Verified, Provisional, and Uncertain, preventing false rejections of degraded scans." | `src/docuready/evidence/calibrator.py`; `tests/test_evidence_calibration.py` |
 | **Performance** | "Sub-second multi-document audit on native PDFs; single-document replacement and re-audit in under 1 second." | `docs/HACKNATION_CLAIMS_EVIDENCE_MATRIX.md` |
 | **Quality** | "Rigorous automated testing: 450 passing Python engine tests, 21 passing desktop tests, 0 TypeScript errors, and clean Windows machine qualification." | `tests/`; `WINDOWS_CLEAN_MACHINE_VALIDATION.md` |
+
+
+## 5. Corrections After Repository Evidence Review
+
+- Withdraw the quantified “over 30%” scholarship rejection/delay statement. The referenced evidence does not identify a primary dataset or publication substantiating that percentage.
+- The committed network telemetry is polling evidence, not kernel-level capture. Do not label it `ZERO_NETWORK_TRAFFIC_VERIFIED` or claim zero egress across the whole system.
+- The checked-in clean-Windows harness exercises the Portable ZIP and sidecar. It does not test the Squirrel installer despite declaring a `$SetupExe` parameter.
+- The 91.7% score must be labeled with the exact controlled corpus and evaluation method. Do not call it real-world or field accuracy unless corpus provenance demonstrates that.
+- The PyMuPDF AGPLv3 component is disclosed, not legally cleared. Process separation does not establish an exemption.
