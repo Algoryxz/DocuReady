@@ -16,10 +16,10 @@
 | **Word-Level BBox API** | `page.get_text("words")` with block & line IDs | **NOT IMPLEMENTED** (Raises `NotImplementedError`) |
 | **Extraction Reliability** | 100% exact match on synthetic corpus (450/450 tests pass) | Severe regression; breaks anchor-proximity extractor |
 | **Memory & Latency** | 0.02s / page; ~45MB baseline | 0.03s / page + Python layout reconstruction overhead |
-| **Release Qualification** | **QUALIFIED & PRODUCTION VERIFIED** | **BLOCKED (Technical Infeasibility)** |
+| **Release Qualification** | **Technically used by current candidate; legal distribution clearance pending** | **Prototype incomplete** |
 
-### Formal Decision:
-**Do not migrate to PDFium for the Loop 6 release.**  
+### Engineering Decision (Not Legal Clearance):
+**Do not migrate to PDFium for the Loop 6 candidate.**  
 PyMuPDF remains the sole production-qualified PDF extraction engine for DocuReady. The existing `PDFDocumentBackend` abstraction layer in `src/docuready/ingest/pdf_backend/` is preserved as an architectural interface for future permissive backend development.
 
 > [!WARNING]
@@ -66,12 +66,12 @@ A rigorous technical evaluation of the `pypdfium2` prototype (`src/docuready/ing
 - **PyMuPDF & MuPDF:** Authored and copyrighted by Artifex Software, Inc. Distributed under the GNU Affero General Public License v3 (AGPLv3).
 - **Core AGPLv3 Mandate:** Downstream distributions that combine or link with AGPLv3 software must convey the entire source code of the combined work under AGPLv3 terms, and must offer source code to network users (Section 13).
 
-### 3.2. DocuReady Architectural Isolation & Mitigations
-DocuReady addresses AGPLv3 copyleft exposure through three explicit structural measures:
+### 3.2. Distribution Boundary — Disclosure, Not Clearance
+The following facts are relevant to the distribution analysis, but **do not establish that AGPLv3 obligations are avoided**:
 
-1. **Full Open-Source Availability:** DocuReady is 100% open-source under the Apache License 2.0. The entire repository, including all rules, normalizers, and desktop code, is published publicly on GitHub.
-2. **Sidecar Process Boundary:** In the packaged desktop application, PyMuPDF is bundled exclusively inside the `docuready_sidecar.exe` process. The Electron shell communicates with the sidecar over standard OS pipes (`stdio` JSON-RPC).
-3. **Transparent Upstream Disclosure:** The repository `NOTICE`, `README.md`, and `THIRD_PARTY_LICENSES.md` explicitly disclose Artifex Software's copyright and AGPLv3 licensing.
+1. **Project License:** Apache-2.0 applies to project-authored code to the extent stated in the repository's license. It does not relicense third-party components.
+2. **Bundled Component:** The distributed sidecar includes PyMuPDF/MuPDF under AGPLv3. The actual combined distribution and interaction model require legal analysis; a separate process and stdio protocol are not a safe harbor by themselves.
+3. **Disclosure:** `NOTICE`, `README.md`, and `THIRD_PARTY_LICENSES.md` identify the AGPLv3 component. Disclosure is necessary but does not itself satisfy all license obligations.
 
 ### 3.3. Commercial & Enterprise Distribution Path
 For enterprise deployers who cannot accept AGPLv3 copyleft terms (e.g. embedding DocuReady into closed-source commercial workflows), two sanctioned options exist:
@@ -85,3 +85,12 @@ For enterprise deployers who cannot accept AGPLv3 copyleft terms (e.g. embedding
 1. **Retain PyMuPDF as Primary Engine:** Maintain `pymupdf==2.1` as the active dependency in `pyproject.toml` and the packaged binary.
 2. **Preserve Pluggable Interface:** Retain `src/docuready/ingest/pdf_backend/` to ensure zero API lock-in.
 3. **No False Claims:** Maintain clear, unambiguous disclosures in all user-facing documentation that the current release uses PyMuPDF under AGPLv3 copyleft terms.
+
+
+## 5. Corrected Distribution Status
+
+- PyMuPDF remains the only currently implemented/qualified production PDF backend in this candidate.
+- `PdfiumPageBackend.get_words()` raises `NotImplementedError`; it is not a working drop-in alternative and does not currently eliminate the AGPL component from the packaged build.
+- The root Apache-2.0 license must not be presented as the license for the complete packaged application without clearly excluding third-party components and explaining their separate terms.
+- The current report is an engineering inventory, not a legal opinion. Obtain qualified legal review of the exact source and binary distribution, corresponding-source obligations, notices, modifications, and intended commercial/non-commercial use before calling distribution legally cleared.
+- **Release gate:** AGPLv3 is disclosed, but legal distribution clearance remains **OPEN**.
