@@ -1,3 +1,4 @@
+import { app } from "electron";
 import { ChildProcess, spawn } from "node:child_process";
 import crypto from "node:crypto";
 import fs from "node:fs";
@@ -140,6 +141,14 @@ export class SidecarManager extends EventEmitter {
 
     this.isShuttingDown = false;
     const isBinary = Boolean(this.sidecarBinaryPath && fs.existsSync(this.sidecarBinaryPath));
+
+    // Packaged builds must be self-contained. A host-Python fallback makes a
+    // broken installer appear to launch but fail later on clean machines.
+    if (app.isPackaged && !isBinary) {
+      throw new Error(
+        "The bundled DocuReady sidecar is missing. Reinstall the application or use a complete release package."
+      );
+    }
 
     const command = isBinary
       ? this.sidecarBinaryPath!
