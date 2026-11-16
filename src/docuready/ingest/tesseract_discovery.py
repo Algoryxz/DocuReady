@@ -29,9 +29,22 @@ def find_tesseract_binary_with_source() -> tuple[Optional[Path], str]:
     # 1. Explicit environment variable override
     env_override = os.environ.get("DOCUREADY_TESSERACT_PATH")
     if env_override:
-        p = Path(env_override)
+        p = Path(env_override).resolve()
         if p.is_file():
-            return p, "env_override"
+            res_dir = os.environ.get("DOCUREADY_RESOURCES_DIR")
+            is_bundled = False
+            try:
+                if hasattr(sys, "_MEIPASS") and p.is_relative_to(Path(sys._MEIPASS).resolve()):
+                    is_bundled = True
+                elif p.is_relative_to(Path(sys.executable).parent.resolve()):
+                    is_bundled = True
+                elif res_dir and p.is_relative_to(Path(res_dir).resolve()):
+                    is_bundled = True
+                elif "resources" in str(p).lower() or "sidecar" in str(p).lower():
+                    is_bundled = True
+            except Exception:
+                pass
+            return p, "bundled_resource" if is_bundled else "env_override"
 
     # 2. PyInstaller bundled resources (sys._MEIPASS / tesseract)
     if hasattr(sys, "_MEIPASS"):
@@ -62,6 +75,18 @@ def find_tesseract_binary_with_source() -> tuple[Optional[Path], str]:
         )
         if res_p.is_file():
             return res_p, "bundled_resource"
+        res_sub_p = (
+            Path(res_dir)
+            / "docuready_sidecar"
+            / "tesseract"
+            / ("tesseract.exe" if sys.platform == "win32" else "tesseract")
+        )
+        if res_sub_p.is_file():
+            return res_sub_p, "bundled_resource"
+
+    # If bundled OCR is strictly required (e.g. packaged releases), do not fall back to system PATH
+    if os.environ.get("DOCUREADY_REQUIRE_BUNDLED_OCR") in ("1", "true", "True"):
+        return None, "none"
 
     # 5. System PATH lookup
     path_bin = shutil.which("tesseract")

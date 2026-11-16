@@ -81,9 +81,15 @@ export class SidecarManager extends EventEmitter {
     // 2. Electron packaged resources
     const resourcesPath = (process as any).resourcesPath;
     if (resourcesPath) {
-      const packagedBinary = path.join(resourcesPath, "sidecar", exeName);
-      if (fs.existsSync(packagedBinary)) {
-        return { binaryPath: packagedBinary, scriptPath: "" };
+      const candidates = [
+        path.join(resourcesPath, "sidecar", exeName),
+        path.join(resourcesPath, "docuready_sidecar", exeName),
+        path.join(resourcesPath, exeName),
+      ];
+      for (const cand of candidates) {
+        if (fs.existsSync(cand)) {
+          return { binaryPath: cand, scriptPath: "" };
+        }
       }
     }
 
@@ -141,13 +147,39 @@ export class SidecarManager extends EventEmitter {
 
     const args = isBinary ? [] : ["-u", this.sidecarScriptPath];
 
+    const resourcesPath = (process as any).resourcesPath;
+    let bundledTesseractPath: string | undefined;
+    let bundledTessdataPath: string | undefined;
+
+    const tesseractCandidates = [
+      resourcesPath ? path.join(resourcesPath, "docuready_sidecar", "tesseract", process.platform === "win32" ? "tesseract.exe" : "tesseract") : null,
+      resourcesPath ? path.join(resourcesPath, "tesseract", process.platform === "win32" ? "tesseract.exe" : "tesseract") : null,
+      this.sidecarBinaryPath ? path.join(path.dirname(this.sidecarBinaryPath), "tesseract", process.platform === "win32" ? "tesseract.exe" : "tesseract") : null,
+      path.resolve(currentDir, "../../sidecar/dist/docuready_sidecar/tesseract/tesseract.exe"),
+      path.resolve(currentDir, "../../../sidecar/dist/docuready_sidecar/tesseract/tesseract.exe"),
+    ];
+
+    for (const cand of tesseractCandidates) {
+      if (cand && fs.existsSync(cand)) {
+        bundledTesseractPath = cand;
+        const tessdata = path.join(path.dirname(cand), "tessdata");
+        if (fs.existsSync(tessdata)) {
+          bundledTessdataPath = tessdata;
+        }
+        break;
+      }
+    }
+
     const child = spawn(command, args, {
       env: {
         ...process.env,
         PYTHONUNBUFFERED: "1",
         PYTHONIOENCODING: "utf-8",
         PYTHONUTF8: "1",
-        DOCUREADY_WORKSPACE_ROOT: this.workspaceRoot
+        DOCUREADY_WORKSPACE_ROOT: this.workspaceRoot,
+        DOCUREADY_RESOURCES_DIR: resourcesPath || path.resolve(currentDir, "../../.."),
+        ...(bundledTesseractPath ? { DOCUREADY_TESSERACT_PATH: bundledTesseractPath } : {}),
+        ...(bundledTessdataPath ? { TESSDATA_PREFIX: bundledTessdataPath } : {})
       },
       stdio: ["pipe", "pipe", "pipe"]
     });
@@ -292,6 +324,7 @@ export class SidecarManager extends EventEmitter {
             : ["eng"],
           ocrSource: String(res.result.ocr_source || "none"),
           isBundled: Boolean(res.result.is_bundled),
+          ocrError: res.result.ocr_error ? String(res.result.ocr_error) : undefined,
           tesseractVersion: res.result.tesseract_version
             ? String(res.result.tesseract_version)
             : undefined,

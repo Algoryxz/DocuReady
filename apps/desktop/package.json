@@ -3,6 +3,7 @@
   "productName": "DocuReady",
   "version": "0.1.0",
   "description": "Local-first document readiness desktop application",
+  "author": "DocuReady Team",
   "private": true,
   "type": "module",
   "main": ".vite/build/main.cjs",
@@ -15,6 +16,7 @@
   },
   "devDependencies": {
     "@electron-forge/cli": "8.0.1",
+    "@electron-forge/maker-squirrel": "^8.0.1",
     "@electron-forge/maker-zip": "8.0.1",
     "@electron-forge/plugin-vite": "8.0.1",
     "@electron-forge/shared-types": "8.0.1",

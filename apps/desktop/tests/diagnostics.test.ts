@@ -34,8 +34,11 @@ test("Diagnostic metadata enforces zero-PII and includes runtime health", async 
         `Expected sanitized binary basename, got: ${health.tesseractPath}`
       );
       assert.ok(health.tesseractPath.startsWith("tesseract"));
-      assert.strictEqual(health.isBundled, false); // Host Tesseract is system prerequisite
-      assert.strictEqual(health.ocrSource, "system_prerequisite");
+      assert.strictEqual(typeof health.isBundled, "boolean");
+      assert.ok(
+        health.ocrSource === "bundled_resource" || health.ocrSource === "system_prerequisite",
+        `Expected valid OCR source, got: ${health.ocrSource}`
+      );
     }
 
     // Active workspace tracking
@@ -53,9 +56,8 @@ test("Diagnostic metadata enforces zero-PII and includes runtime health", async 
     // Sidecar type resolution
     const sidecarType = sidecar.getSidecarType();
     assert.ok(sidecarType === "packaged_binary" || sidecarType === "python_script");
-
-    await sidecar.shutdown();
   } finally {
+    await sidecar.shutdown();
     await fs.rm(tmpWs, { recursive: true, force: true });
   }
 });
