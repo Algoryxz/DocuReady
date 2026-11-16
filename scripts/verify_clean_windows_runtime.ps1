@@ -189,7 +189,8 @@ try {
     & $updateExe --uninstall -s
     if ($LASTEXITCODE -ne 0) { throw "Squirrel uninstall failed with exit code $LASTEXITCODE." }
     Start-Sleep -Seconds 2
-    if (Test-Path $installRoot) { throw "Squirrel uninstall left install directory behind: $installRoot" }
+    if (Test-Path $installedExe) { throw "Squirrel uninstall left the application executable behind: $installedExe" }
+    if (Test-Path $updateExe) { throw "Squirrel uninstall left Update.exe behind: $updateExe" }
     $installedByThisRun = $false
     Write-Log "PASS: Squirrel install, installed UI launch, bundled sidecar, and uninstall."
     Write-Log "RESULT: PASS"
