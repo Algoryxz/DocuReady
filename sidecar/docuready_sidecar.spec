@@ -6,7 +6,10 @@ from pathlib import Path
 from PyInstaller.utils.hooks import collect_data_files, collect_submodules
 
 block_cipher = None
-repo_root = Path(SPECPATH).resolve().parent
+# The sidecar entry point lives in /sidecar, while the canonical Python
+# package lives in the repository-root /src directory.
+sidecar_dir = Path(SPECPATH).resolve()
+repo_root = sidecar_dir.parent
 src_dir = str(repo_root / "src")
 
 # Ensure src is on sys.path during analysis
