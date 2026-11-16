@@ -1,6 +1,6 @@
 """DocuReady desktop sidecar: versioned JSON Lines protocol over stdio.
 
-Stdout is reserved for protocol frames. Diagnostics are written to stderr.
+Stdout is reserved exclusively for protocol frames. Diagnostics are written to stderr.
 The Electron main process is the only intended client.
 """
 from __future__ import annotations
@@ -61,7 +61,7 @@ def _document_summaries(extracted_docs: dict[Any, Any]) -> list[dict[str, Any]]:
             )
         summaries.append(
             {
-                "document_type": doc.doc_type.value,
+                "document_type": doc.doc_type.value if hasattr(doc.doc_type, "value") else str(doc.doc_type),
                 "page_count": doc.page_count,
                 "extraction_method": doc.extraction_method,
                 "fields": fields,
@@ -70,7 +70,17 @@ def _document_summaries(extracted_docs: dict[Any, Any]) -> list[dict[str, Any]]:
     return summaries
 
 
+def _get_ocr_availability() -> bool:
+    try:
+        import pytesseract
+        pytesseract.get_tesseract_version()
+        return True
+    except Exception:
+        return False
+
+
 def _handle(request: dict[str, Any]) -> dict[str, Any]:
+    from docuready import __version__ as engine_version
     from docuready.pipeline import AuditPipeline
     from docuready.report.redact import redact_audit_result_dict
 
@@ -86,6 +96,7 @@ def _handle(request: dict[str, Any]) -> dict[str, Any]:
         raise ValueError("Request params must be an object.")
 
     if method == "health":
+        pdf_backend = os.environ.get("DOCUREADY_PDF_BACKEND", "pymupdf").lower()
         return {
             "protocol": PROTOCOL_VERSION,
             "id": request_id,
@@ -93,7 +104,20 @@ def _handle(request: dict[str, Any]) -> dict[str, Any]:
             "result": {
                 "sidecar": "docuready-python",
                 "protocol": PROTOCOL_VERSION,
+                "engine_version": engine_version,
                 "python": ".".join(map(str, sys.version_info[:3])),
+                "pdf_backend": pdf_backend,
+                "ocr_available": _get_ocr_availability(),
+            },
+        }
+
+    if method == "shutdown":
+        return {
+            "protocol": PROTOCOL_VERSION,
+            "id": request_id,
+            "ok": True,
+            "result": {
+                "status": "shutting_down",
             },
         }
 
@@ -108,33 +132,62 @@ def _handle(request: dict[str, Any]) -> dict[str, Any]:
             raise ValueError("An explicit ISO date is required for deterministic audits.")
         effective_date = date.fromisoformat(as_of_value)
 
+        # Stage 1: Intake
         _write_frame(
             {
                 "protocol": PROTOCOL_VERSION,
                 "event": "progress",
                 "job_id": request_id,
-                "stage": "audit",
-                "completed": 0,
-                "total": 1,
+                "stage": "intake",
+                "completed": 1,
+                "total": 5,
             }
         )
 
         pipeline = AuditPipeline(as_of=effective_date)
+
+        # Stage 2: Extraction
+        _write_frame(
+            {
+                "protocol": PROTOCOL_VERSION,
+                "event": "progress",
+                "job_id": request_id,
+                "stage": "extraction",
+                "completed": 2,
+                "total": 5,
+            }
+        )
+
         result, extracted_docs = pipeline.load_and_audit_packet(
             str(packet_dir),
             packet_id=packet_id,
             as_of=effective_date,
         )
+
+        # Stage 3: Validation
+        _write_frame(
+            {
+                "protocol": PROTOCOL_VERSION,
+                "event": "progress",
+                "job_id": request_id,
+                "stage": "validation",
+                "completed": 3,
+                "total": 5,
+            }
+        )
+
+        # Stage 4: Redaction & Canonical Formatting
         public_result = redact_audit_result_dict(result.to_public_dict(canonical=True))
+        doc_summaries = _document_summaries(extracted_docs)
 
         _write_frame(
             {
                 "protocol": PROTOCOL_VERSION,
                 "event": "progress",
                 "job_id": request_id,
-                "stage": "audit",
-                "completed": 1,
-                "total": 1,
+                "stage": "completed",
+                "completed": 5,
+                "total": 5,
             }
         )
         return {
@@ -143,7 +196,7 @@ def _handle(request: dict[str, Any]) -> dict[str, Any]:
             "ok": True,
             "result": {
                 "audit": public_result,
-                "documents": _document_summaries(extracted_docs),
+                "documents": doc_summaries,
             },
         }
 
@@ -168,26 +221,57 @@ def main() -> int:
             continue
 
         try:
-            request = json.loads(raw_line)
+            line_str = raw_line.decode("utf-8")
+        except UnicodeDecodeError:
+            _write_frame(
+                {
+                    "protocol": PROTOCOL_VERSION,
+                    "id": None,
+                    "ok": False,
+                    "error": {
+                        "code": "INVALID_ENCODING",
+                        "message": "Protocol requests must be valid UTF-8.",
+                    },
+                }
+            )
+            continue
+
+        try:
+            request = json.loads(line_str)
             if not isinstance(request, dict):
                 raise ValueError("Request frame must be a JSON object.")
             response = _handle(request)
             _write_frame(response)
+            if request.get("method") == "shutdown":
+                return 0
         except Exception as exc:  # protocol boundary: never leak raw exception text to renderer
+            exc_name = type(exc).__name__
+            exc_msg = str(exc)
             print(
-                f"sidecar request failed ({type(exc).__name__})",
+                f"sidecar request failed ({exc_name})",
                 file=sys.stderr,
                 flush=True,
             )
-            request_id = None
             request_id = request.get("id") if isinstance(request, dict) else None
+
+            # Map to structured error code
+            code = "REQUEST_FAILED"
+            if "protocol version" in exc_msg.lower():
+                code = "INVALID_PROTOCOL_VERSION"
+            elif "outside the managed workspace" in exc_msg.lower() or "workspace root" in exc_msg.lower():
+                code = "WORKSPACE_VIOLATION"
+            elif "unsupported sidecar method" in exc_msg.lower():
+                code = "UNSUPPORTED_METHOD"
+            elif "request frame must be a json object" in exc_msg.lower() or "request id" in exc_msg.lower():
+                code = "INVALID_REQUEST"
+
             _write_frame(
                 {
                     "protocol": PROTOCOL_VERSION,
                     "id": request_id,
                     "ok": False,
                     "error": {
-                        "code": "REQUEST_FAILED",
+                        "code": code,
                         "message": "The requested operation could not be completed.",
                     },
                 }
