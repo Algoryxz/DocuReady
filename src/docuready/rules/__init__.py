@@ -1,6 +1,14 @@
 """Deterministic validation rules, scheme packs, and citation registries."""
 
-from docuready.rules.lint import CLOSED_PRIMITIVES, LintMessage, LintResult, lint_all_packs, lint_pack
+from docuready.rules.lint import (
+    ALLOWED_MATCH_GRADES,
+    CLOSED_PRIMITIVES,
+    PRIMITIVE_PARAMETER_CONTRACTS,
+    LintMessage,
+    LintResult,
+    lint_all_packs,
+    lint_pack,
+)
 from docuready.rules.loader import (
     DuplicateKeyError,
     PackLoadError,
@@ -14,6 +22,7 @@ from docuready.rules.schema import (
     DocSlotDefinition,
     PackManifest,
     PackStatus,
+    ParameterDeclaration,
     RemediationMetadata,
     RuleDefinition,
     SourceDefinition,
@@ -36,6 +45,7 @@ __all__ = [
     "CitationReference",
     "RemediationMetadata",
     "RuleDefinition",
+    "ParameterDeclaration",
     "PackManifest",
     "SourceDefinition",
     "SourceManifest",
@@ -45,6 +55,8 @@ __all__ = [
     "load_pack",
     "load_yaml_with_unique_keys",
     "CLOSED_PRIMITIVES",
+    "PRIMITIVE_PARAMETER_CONTRACTS",
+    "ALLOWED_MATCH_GRADES",
     "LintMessage",
     "LintResult",
     "lint_pack",

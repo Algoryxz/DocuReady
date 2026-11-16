@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from datetime import date
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Set
 from urllib.parse import urlparse
@@ -11,6 +12,7 @@ from docuready.rules.loader import DuplicateKeyError, PackLoadError, load_pack
 from docuready.rules.schema import (
     PackManifest,
     PackStatus,
+    ParameterDeclaration,
     RuleDefinition,
     SourceDefinition,
     SourceManifest,
@@ -29,6 +31,46 @@ CLOSED_PRIMITIVES: frozenset[str] = frozenset(
         "enum_in",
         "legible",
     }
+)
+
+# Supported parameter type contracts for closed primitives
+PRIMITIVE_PARAMETER_CONTRACTS: Dict[str, Dict[str, str]] = {
+    "require_document": {
+        "min_pages": "int",
+    },
+    "field_present": {},
+    "match_across": {
+        "grade": "string",
+        "threshold": "number",
+    },
+    "within_validity": {
+        "validity_days": "int",
+        "validity_months": "int",
+        "validity_years": "int",
+    },
+    "numeric_cap": {
+        "cap": "number",
+    },
+    "numeric_consistency": {
+        "tolerance_pct": "number",
+        "tolerance": "number",
+    },
+    "age_on": {
+        "reference_date": "date",
+        "min_age": "int",
+        "max_age": "int",
+    },
+    "enum_in": {
+        "allowed": "list",
+        "values": "list",
+    },
+    "legible": {
+        "min_confidence": "number",
+    },
+}
+
+ALLOWED_MATCH_GRADES: frozenset[str] = frozenset(
+    {"name", "date", "id", "text", "exact"}
 )
 
 
@@ -116,6 +158,60 @@ def _extract_param_references(value: Any) -> Set[str]:
     return refs
 
 
+def _get_parameter_type(param_decl: Any) -> str:
+    """Determine the canonical type of a declared parameter."""
+    if isinstance(param_decl, ParameterDeclaration):
+        t = param_decl.type.lower().strip()
+        if t in ("string", "str"):
+            return "string"
+        if t in ("bool", "boolean"):
+            return "bool"
+        return t
+    if isinstance(param_decl, dict) and "type" in param_decl:
+        t = str(param_decl["type"]).lower().strip()
+        if t in ("string", "str"):
+            return "string"
+        if t in ("bool", "boolean"):
+            return "bool"
+        return t
+    if isinstance(param_decl, bool):
+        return "bool"
+    if isinstance(param_decl, int):
+        return "int"
+    if isinstance(param_decl, float):
+        return "float"
+    if isinstance(param_decl, date):
+        return "date"
+    if isinstance(param_decl, (list, tuple)):
+        return "list"
+    if isinstance(param_decl, str):
+        try:
+            date.fromisoformat(param_decl)
+            return "date"
+        except ValueError:
+            return "string"
+    return "unknown"
+
+
+def _is_type_compatible(actual: str, expected: str) -> bool:
+    """Check if actual parameter type satisfies expected primitive parameter type."""
+    if expected == "number":
+        return actual in ("int", "float", "number")
+    if expected == "int":
+        return actual == "int"
+    if expected == "float":
+        return actual in ("float", "int", "number")
+    if expected == "string":
+        return actual in ("string", "date")
+    if expected == "date":
+        return actual == "date"
+    if expected == "bool":
+        return actual == "bool"
+    if expected == "list":
+        return actual == "list"
+    return False
+
+
 def _is_valid_http_url(url: Optional[str]) -> bool:
     if not url or not isinstance(url, str):
         return False
@@ -137,8 +233,9 @@ def lint_pack(pack_dir: Path | str, allow_draft: bool = False) -> LintResult:
       4. Remediation: every rule has authority and steps.
       5. Citation: every rule cites a valid source that resolves in sources.yaml.
       6. Source verification: verified sources must have valid URL, retrieval date, and reviewed_by.
-      7. Parameters: all $param references resolve in pack.yaml parameters with type compatibility.
+      7. Parameters: all $param references resolve in pack.yaml parameters with typed contract compatibility.
       8. Explanatory notes: unverified sources must provide notes.
+      9. Exemptions: parameters referenced in exempt_when resolve and satisfy list type where required.
     """
     path = Path(pack_dir).resolve()
     result = LintResult(pack_dir=path)
@@ -231,6 +328,7 @@ def lint_pack(pack_dir: Path | str, allow_draft: bool = False) -> LintResult:
                 f"Unknown primitive '{rule.primitive}'. Must be one of: {sorted(CLOSED_PRIMITIVES)}",
                 rule_id=rule.id,
             )
+            continue
 
         # Check remediation authority
         if not rule.remediation.authority or not rule.remediation.authority.strip():
@@ -269,31 +367,125 @@ def lint_pack(pack_dir: Path | str, allow_draft: bool = False) -> LintResult:
                     rule_id=rule.id,
                 )
 
-        # Check $param resolution
-        param_refs = _extract_param_references(rule.params) | _extract_param_references(
-            rule.inputs
-        )
-        for pref in param_refs:
-            if pref not in pack_manifest.parameters:
+        # Validate primitive parameter contracts
+        contract = PRIMITIVE_PARAMETER_CONTRACTS.get(rule.primitive, {})
+
+        # Check for unsupported parameter keys
+        for param_key in rule.params.keys():
+            if param_key not in contract:
                 result.add_error(
-                    f"References undefined parameter '${pref}'",
+                    f"Rule specifies unsupported parameter '{param_key}' for primitive '{rule.primitive}'",
                     rule_id=rule.id,
                 )
+
+        # Check primitive-specific mandatory parameter requirements
+        if rule.primitive == "numeric_cap" and "cap" not in rule.params:
+            result.add_error(
+                "Rule using primitive 'numeric_cap' missing required parameter 'cap'",
+                rule_id=rule.id,
+            )
+        elif rule.primitive == "within_validity" and not any(
+            k in rule.params
+            for k in ("validity_days", "validity_months", "validity_years")
+        ):
+            result.add_error(
+                "Rule using primitive 'within_validity' must specify 'validity_days', 'validity_months', or 'validity_years'",
+                rule_id=rule.id,
+            )
+        elif rule.primitive == "age_on":
+            if "reference_date" not in rule.params:
+                result.add_error(
+                    "Rule using primitive 'age_on' missing required parameter 'reference_date'",
+                    rule_id=rule.id,
+                )
+            if "min_age" not in rule.params and "max_age" not in rule.params:
+                result.add_error(
+                    "Rule using primitive 'age_on' must specify 'min_age' and/or 'max_age'",
+                    rule_id=rule.id,
+                )
+        elif rule.primitive == "enum_in" and not any(
+            k in rule.params for k in ("allowed", "values")
+        ):
+            result.add_error(
+                "Rule using primitive 'enum_in' must specify 'allowed' or 'values'",
+                rule_id=rule.id,
+            )
+        elif rule.primitive == "legible" and "min_confidence" not in rule.params:
+            result.add_error(
+                "Rule using primitive 'legible' missing required parameter 'min_confidence'",
+                rule_id=rule.id,
+            )
+
+        # Check parameter types and $param resolution in rule.params
+        for param_key, param_val in rule.params.items():
+            if param_key not in contract:
+                continue
+            expected_type = contract[param_key]
+
+            if isinstance(param_val, str) and param_val.startswith("$") and not param_val.startswith("$$"):
+                pref = param_val[1:]
+                if pref not in pack_manifest.parameters:
+                    result.add_error(
+                        f"Rule references undefined parameter '${pref}' in '{param_key}'",
+                        rule_id=rule.id,
+                    )
+                else:
+                    actual_type = _get_parameter_type(pack_manifest.parameters[pref])
+                    if not _is_type_compatible(actual_type, expected_type):
+                        result.add_error(
+                            f"Parameter '${pref}' for {rule.primitive}.{param_key} must be {expected_type}, got {actual_type}",
+                            rule_id=rule.id,
+                        )
+                    # Check match_across grade value if constant
+                    if rule.primitive == "match_across" and param_key == "grade":
+                        p_obj = pack_manifest.parameters[pref]
+                        raw_v = getattr(p_obj, "value", p_obj)
+                        if isinstance(raw_v, str) and raw_v.lower().strip() not in ALLOWED_MATCH_GRADES:
+                            result.add_error(
+                                f"Invalid match grade '{raw_v}' in parameter '${pref}'. Allowed: {sorted(ALLOWED_MATCH_GRADES)}",
+                                rule_id=rule.id,
+                            )
             else:
-                param_val = pack_manifest.parameters[pref]
-                # Basic type compatibility checks for standard primitives
-                if rule.primitive == "numeric_cap" and rule.params.get("cap") == f"${pref}":
-                    if not isinstance(param_val, (int, float)):
+                lit_type = _get_parameter_type(param_val)
+                if not _is_type_compatible(lit_type, expected_type):
+                    result.add_error(
+                        f"Literal parameter '{param_key}' for {rule.primitive} must be {expected_type}, got {lit_type}",
+                        rule_id=rule.id,
+                    )
+                if rule.primitive == "match_across" and param_key == "grade":
+                    if isinstance(param_val, str) and param_val.lower().strip() not in ALLOWED_MATCH_GRADES:
                         result.add_error(
-                            f"Parameter '${pref}' for numeric_cap must be numeric, got {type(param_val).__name__}",
+                            f"Invalid match grade '{param_val}'. Allowed: {sorted(ALLOWED_MATCH_GRADES)}",
                             rule_id=rule.id,
                         )
-                elif rule.primitive == "within_validity" and rule.params.get("validity_days") == f"${pref}":
-                    if not isinstance(param_val, int):
-                        result.add_error(
-                            f"Parameter '${pref}' for within_validity days must be int, got {type(param_val).__name__}",
-                            rule_id=rule.id,
-                        )
+
+        # Check $param resolution in rule.inputs
+        input_refs = _extract_param_references(rule.inputs)
+        for pref in input_refs:
+            if pref not in pack_manifest.parameters:
+                result.add_error(
+                    f"Rule references undefined parameter '${pref}' in 'inputs'",
+                    rule_id=rule.id,
+                )
+
+        # Check $param resolution and type contract in rule.exempt_when
+        if rule.exempt_when:
+            exempt_refs = _extract_param_references(rule.exempt_when)
+            for pref in exempt_refs:
+                if pref not in pack_manifest.parameters:
+                    result.add_error(
+                        f"Rule references undefined parameter '${pref}' in 'exempt_when'",
+                        rule_id=rule.id,
+                    )
+                else:
+                    # If parameter is used in an 'in' clause, ensure it has list type
+                    if isinstance(rule.exempt_when, dict) and rule.exempt_when.get("in") == f"${pref}":
+                        actual_type = _get_parameter_type(pack_manifest.parameters[pref])
+                        if actual_type != "list":
+                            result.add_error(
+                                f"Parameter '${pref}' for exempt_when 'in' condition must be list, got {actual_type}",
+                                rule_id=rule.id,
+                            )
 
     return result
 
@@ -302,7 +494,10 @@ def lint_all_packs(packs_root: Path | str, allow_draft: bool = False) -> List[Li
     """
     Discover and lint all scheme packs under packs_root.
 
-    A scheme pack is any directory containing pack.yaml or sources.yaml.
+    If packs_root contains pack.yaml or sources.yaml, it is linted as an explicit pack.
+    Otherwise, every child directory inside packs_root is treated as an intended scheme pack.
+    Any malformed child directory (missing pack.yaml, missing sources.yaml, or both) is reported
+    as an error rather than being silently skipped.
     """
     root = Path(packs_root).resolve()
     if not root.exists() or not root.is_dir():
@@ -312,10 +507,10 @@ def lint_all_packs(packs_root: Path | str, allow_draft: bool = False) -> List[Li
     if (root / "pack.yaml").is_file() or (root / "sources.yaml").is_file():
         return [lint_pack(root, allow_draft=allow_draft)]
 
-    # Otherwise scan child directories
+    # Scan child directories inside packs root
     results: List[LintResult] = []
     for sub in sorted(root.iterdir()):
-        if sub.is_dir() and ((sub / "pack.yaml").is_file() or (sub / "sources.yaml").is_file()):
+        if sub.is_dir() and not sub.name.startswith(".") and sub.name != "__pycache__":
             results.append(lint_pack(sub, allow_draft=allow_draft))
 
     return results

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from datetime import date
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Union
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
@@ -62,6 +62,13 @@ class CitationReference(BaseModel):
     clause: Optional[str] = None
     notes: Optional[str] = None
 
+    @field_validator("source")
+    @classmethod
+    def validate_source_not_empty(cls, v: str) -> str:
+        if not isinstance(v, str) or not v.strip():
+            raise ValueError("Citation source cannot be empty")
+        return v.strip()
+
 
 class RemediationMetadata(BaseModel):
     """Citizen-facing remediation guidance when a rule defect is flagged."""
@@ -71,6 +78,13 @@ class RemediationMetadata(BaseModel):
     authority: str
     replacement_document: Optional[str] = None
     steps: List[str] = Field(default_factory=list)
+
+    @field_validator("authority")
+    @classmethod
+    def validate_authority_not_empty(cls, v: str) -> str:
+        if not isinstance(v, str) or not v.strip():
+            raise ValueError("Remediation authority cannot be empty")
+        return v.strip()
 
 
 class RuleDefinition(BaseModel):
@@ -102,6 +116,36 @@ class RuleDefinition(BaseModel):
         return v.strip()
 
 
+class ParameterDeclaration(BaseModel):
+    """Explicit typed declaration for a scheme pack parameter."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    type: str
+    value: Optional[Any] = None
+    description: Optional[str] = None
+
+    @field_validator("type")
+    @classmethod
+    def validate_type(cls, v: str) -> str:
+        valid_types = {
+            "int",
+            "float",
+            "number",
+            "string",
+            "str",
+            "bool",
+            "boolean",
+            "date",
+            "list",
+        }
+        if not isinstance(v, str) or v.lower().strip() not in valid_types:
+            raise ValueError(
+                f"Invalid parameter type '{v}'. Allowed types: {sorted(valid_types)}"
+            )
+        return v.lower().strip()
+
+
 class PackManifest(BaseModel):
     """Declarative specification of a scheme pack (pack.yaml)."""
 
@@ -112,7 +156,10 @@ class PackManifest(BaseModel):
     status: PackStatus
     effective: Optional[DateRange] = None
     as_of_required: bool = False
-    parameters: Dict[str, Any] = Field(default_factory=dict)
+    parameters: Dict[
+        str,
+        Union[ParameterDeclaration, int, float, str, bool, date, list],
+    ] = Field(default_factory=dict)
     doc_slots: Dict[str, DocSlotDefinition] = Field(default_factory=dict)
     rules: List[RuleDefinition] = Field(default_factory=list)
 
@@ -139,14 +186,11 @@ class SourceDefinition(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     id: str
-    title: Optional[str] = None
-    source_title: Optional[str] = None
+    title: str
     issuing_body: str
-    url: Optional[str] = None
-    official_url: Optional[str] = None
-    retrieved_on: Optional[date] = None
-    retrieval_date: Optional[date] = None
     status: SourceStatus
+    url: Optional[str] = None
+    retrieved_on: Optional[date] = None
     reviewed_by: Optional[str] = None
     clause: Optional[str] = None
     supports_rule: Optional[bool] = None
@@ -154,22 +198,76 @@ class SourceDefinition(BaseModel):
     original_rule_id: Optional[str] = None
     scheme_dependent_params: Optional[Dict[str, Any]] = None
 
+    # Optional alias fields to accommodate legacy input structures
+    source_title: Optional[str] = None
+    official_url: Optional[str] = None
+    retrieval_date: Optional[date] = None
+
+    @model_validator(mode="before")
+    @classmethod
+    def normalize_and_validate_aliases(cls, data: Any) -> Any:
+        if not isinstance(data, dict):
+            return data
+
+        d = dict(data)
+
+        # 1. title vs source_title
+        has_title = "title" in d and d["title"] is not None
+        has_legacy_title = "source_title" in d and d["source_title"] is not None
+        if has_title and has_legacy_title:
+            if str(d["title"]).strip() != str(d["source_title"]).strip():
+                raise ValueError(
+                    f"Conflicting aliases for title: 'title'='{d['title']}' but 'source_title'='{d['source_title']}'"
+                )
+        elif has_legacy_title and not has_title:
+            d["title"] = d["source_title"]
+
+        # 2. url vs official_url
+        has_url = "url" in d and d["url"] is not None
+        has_legacy_url = "official_url" in d and d["official_url"] is not None
+        if has_url and has_legacy_url:
+            if str(d["url"]).strip() != str(d["official_url"]).strip():
+                raise ValueError(
+                    f"Conflicting aliases for url: 'url'='{d['url']}' but 'official_url'='{d['official_url']}'"
+                )
+        elif has_legacy_url and not has_url:
+            d["url"] = d["official_url"]
+
+        # 3. retrieved_on vs retrieval_date
+        has_retrieved_on = "retrieved_on" in d and d["retrieved_on"] is not None
+        has_legacy_retrieval_date = (
+            "retrieval_date" in d and d["retrieval_date"] is not None
+        )
+        if has_retrieved_on and has_legacy_retrieval_date:
+            if str(d["retrieved_on"]).strip() != str(d["retrieval_date"]).strip():
+                raise ValueError(
+                    f"Conflicting aliases for retrieved_on: 'retrieved_on'='{d['retrieved_on']}' but 'retrieval_date'='{d['retrieval_date']}'"
+                )
+        elif has_legacy_retrieval_date and not has_retrieved_on:
+            d["retrieved_on"] = d["retrieval_date"]
+
+        return d
+
     @field_validator("id")
     @classmethod
     def validate_id_not_empty(cls, v: str) -> str:
-        if not v or not v.strip():
-            raise ValueError("Source id cannot be empty")
+        if not isinstance(v, str) or not v.strip():
+            raise ValueError("Source id must be a non-empty string")
         return v.strip()
 
-    @model_validator(mode="after")
-    def normalize_aliases(self) -> "SourceDefinition":
-        if not self.title and self.source_title:
-            self.title = self.source_title
-        if not self.url and self.official_url:
-            self.url = self.official_url
-        if not self.retrieved_on and self.retrieval_date:
-            self.retrieved_on = self.retrieval_date
-        return self
+    @field_validator("title")
+    @classmethod
+    def validate_title_not_empty(cls, v: str) -> str:
+        if not isinstance(v, str) or not v.strip():
+            raise ValueError("Source title must be a non-empty string")
+        return v.strip()
+
+    @field_validator("issuing_body")
+    @classmethod
+    def validate_issuing_body_not_empty(cls, v: str) -> str:
+        if not isinstance(v, str) or not v.strip():
+            raise ValueError("Source issuing_body must be a non-empty string")
+        return v.strip()
 
 
 class SourceManifest(BaseModel):

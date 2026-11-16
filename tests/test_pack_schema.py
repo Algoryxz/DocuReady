@@ -11,6 +11,7 @@ from docuready.rules.schema import (
     DocSlotDefinition,
     PackManifest,
     PackStatus,
+    ParameterDeclaration,
     RemediationMetadata,
     RuleDefinition,
     SourceDefinition,
@@ -61,7 +62,7 @@ def test_doc_slot_definition_defaults_and_forbid_extra():
         DocSlotDefinition.model_validate({"ocr_langs": ["eng"], "extra_field": "disallowed"})
 
 
-def test_rule_definition_validation():
+def test_rule_definition_validation_and_required_fields():
     rule_data = {
         "id": "RULE-TEST-01",
         "primitive": "numeric_cap",
@@ -82,9 +83,32 @@ def test_rule_definition_validation():
     assert rule.citation.source == "SRC-01"
     assert rule.remediation.authority == "Tehsildar"
 
-    # Empty id forbidden
+    # Missing citation rejected
+    with pytest.raises(ValidationError):
+        bad = dict(rule_data)
+        del bad["citation"]
+        RuleDefinition.model_validate(bad)
+
+    # Missing remediation rejected
+    with pytest.raises(ValidationError):
+        bad = dict(rule_data)
+        del bad["remediation"]
+        RuleDefinition.model_validate(bad)
+
+    # Missing max_severity rejected
+    with pytest.raises(ValidationError):
+        bad = dict(rule_data)
+        del bad["max_severity"]
+        RuleDefinition.model_validate(bad)
+
+    # Empty rule id rejected
     with pytest.raises(ValidationError):
         bad = dict(rule_data, id="   ")
+        RuleDefinition.model_validate(bad)
+
+    # Empty primitive rejected
+    with pytest.raises(ValidationError):
+        bad = dict(rule_data, primitive="   ")
         RuleDefinition.model_validate(bad)
 
     # Extra fields forbidden
@@ -93,16 +117,41 @@ def test_rule_definition_validation():
         RuleDefinition.model_validate(bad)
 
 
-def test_pack_manifest_unique_rule_ids():
+def test_citation_reference_and_remediation_non_empty():
+    # Empty citation source rejected
+    with pytest.raises(ValidationError):
+        CitationReference.model_validate({"source": "  "})
+
+    # Empty remediation authority rejected
+    with pytest.raises(ValidationError):
+        RemediationMetadata.model_validate({"authority": "   "})
+
+
+def test_parameter_declaration_validation():
+    # Valid declarations
+    p_int = ParameterDeclaration.model_validate({"type": "int", "value": 250000})
+    assert p_int.type == "int"
+    assert p_int.value == 250000
+
+    p_str = ParameterDeclaration.model_validate({"type": "string", "value": "test"})
+    assert p_str.type == "string"
+
+    # Invalid type rejected
+    with pytest.raises(ValidationError) as exc:
+        ParameterDeclaration.model_validate({"type": "unknown_type"})
+    assert "Invalid parameter type" in str(exc.value)
+
+
+def test_pack_manifest_unique_rule_ids_and_typed_parameters():
     rule1 = {
-        "id": "RULE-DUP-01",
+        "id": "RULE-01",
         "primitive": "field_present",
         "max_severity": "FAIL",
         "citation": {"source": "S1"},
         "remediation": {"authority": "Auth"},
     }
     rule2 = {
-        "id": "RULE-DUP-01",
+        "id": "RULE-02",
         "primitive": "field_present",
         "max_severity": "WARN",
         "citation": {"source": "S1"},
@@ -113,31 +162,129 @@ def test_pack_manifest_unique_rule_ids():
         "pack_id": "test.pack",
         "version": "1.0.0",
         "status": "draft",
+        "parameters": {
+            "cap_val": {"type": "int", "value": 250000},
+            "ratio": 60.5,
+            "category": "SC",
+            "is_active": True,
+            "slots": ["A", "B"],
+        },
         "rules": [rule1, rule2],
     }
+    manifest = PackManifest.model_validate(manifest_data)
+    assert manifest.pack_id == "test.pack"
+    assert len(manifest.rules) == 2
 
+    # Duplicate rule id rejected
+    bad_data = dict(manifest_data, rules=[rule1, dict(rule1)])
     with pytest.raises(ValidationError) as exc:
-        PackManifest.model_validate(manifest_data)
-    assert "Duplicate rule id 'RULE-DUP-01'" in str(exc.value)
+        PackManifest.model_validate(bad_data)
+    assert "Duplicate rule id 'RULE-01'" in str(exc.value)
 
 
-def test_source_definition_alias_normalization():
-    src_data = {
+def test_source_definition_canonical_requirements():
+    valid = {
         "id": "SRC-01",
-        "source_title": "Centrally Sponsored Scheme Guidelines",
-        "issuing_body": "MSJE",
-        "official_url": "https://socialjustice.gov.in/schemes/31",
+        "title": "Title 1",
+        "issuing_body": "Body 1",
+        "status": "verified",
+        "url": "https://example.gov.in",
+        "retrieved_on": "2026-11-15",
+    }
+    src = SourceDefinition.model_validate(valid)
+    assert src.id == "SRC-01"
+    assert src.title == "Title 1"
+    assert src.issuing_body == "Body 1"
+
+    # Missing title rejected
+    with pytest.raises(ValidationError) as exc:
+        bad = dict(valid)
+        del bad["title"]
+        SourceDefinition.model_validate(bad)
+    assert "title" in str(exc.value)
+
+    # Blank title rejected
+    with pytest.raises(ValidationError) as exc:
+        bad = dict(valid, title="   ")
+        SourceDefinition.model_validate(bad)
+    assert "must be a non-empty string" in str(exc.value)
+
+    # Missing issuing_body rejected
+    with pytest.raises(ValidationError) as exc:
+        bad = dict(valid)
+        del bad["issuing_body"]
+        SourceDefinition.model_validate(bad)
+    assert "issuing_body" in str(exc.value)
+
+    # Blank issuing_body rejected
+    with pytest.raises(ValidationError) as exc:
+        bad = dict(valid, issuing_body="   ")
+        SourceDefinition.model_validate(bad)
+    assert "must be a non-empty string" in str(exc.value)
+
+    # Missing id rejected
+    with pytest.raises(ValidationError) as exc:
+        bad = dict(valid)
+        del bad["id"]
+        SourceDefinition.model_validate(bad)
+    assert "id" in str(exc.value)
+
+
+def test_source_definition_legacy_aliases_normalization():
+    # Only legacy aliases supplied -> normalized to canonical
+    legacy_data = {
+        "id": "SRC-LEGACY",
+        "source_title": "Legacy Guidelines Title",
+        "issuing_body": "Department of Welfare",
+        "official_url": "https://welfare.gov.in/rules",
         "retrieval_date": "2026-11-15",
         "status": "verified",
         "reviewed_by": "Deeptiman",
-        "clause": "Section 7",
+        "clause": "Rule 4",
         "supports_rule": True,
     }
-    src = SourceDefinition.model_validate(src_data)
-    assert src.id == "SRC-01"
-    assert src.title == "Centrally Sponsored Scheme Guidelines"
-    assert src.url == "https://socialjustice.gov.in/schemes/31"
+    src = SourceDefinition.model_validate(legacy_data)
+    assert src.id == "SRC-LEGACY"
+    assert src.title == "Legacy Guidelines Title"
+    assert src.url == "https://welfare.gov.in/rules"
     assert src.retrieved_on == date(2026, 11, 15)
+
+
+def test_source_definition_conflicting_aliases_rejected():
+    base = {
+        "id": "SRC-01",
+        "issuing_body": "Ministry of Social Justice",
+        "status": "verified",
+    }
+
+    # Conflicting title vs source_title
+    with pytest.raises(ValidationError) as exc:
+        SourceDefinition.model_validate(dict(
+            base,
+            title="Canonical Title",
+            source_title="Conflicting Legacy Title",
+        ))
+    assert "Conflicting aliases for title" in str(exc.value)
+
+    # Conflicting url vs official_url
+    with pytest.raises(ValidationError) as exc:
+        SourceDefinition.model_validate(dict(
+            base,
+            title="Valid Title",
+            url="https://site-a.gov.in",
+            official_url="https://site-b.gov.in",
+        ))
+    assert "Conflicting aliases for url" in str(exc.value)
+
+    # Conflicting retrieved_on vs retrieval_date
+    with pytest.raises(ValidationError) as exc:
+        SourceDefinition.model_validate(dict(
+            base,
+            title="Valid Title",
+            retrieved_on="2026-11-15",
+            retrieval_date="2026-11-16",
+        ))
+    assert "Conflicting aliases for retrieved_on" in str(exc.value)
 
 
 def test_source_manifest_unique_source_ids():
