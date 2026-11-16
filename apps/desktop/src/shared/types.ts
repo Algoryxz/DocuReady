@@ -55,15 +55,51 @@ export interface AuditProgress {
   percent: number;
 }
 
+export interface EvidenceProvenanceDTO {
+  document_type: string;
+  file_name: string;
+  page_number: number;
+  bounding_box: [number, number, number, number] | null;
+  raw_snippet: string;
+  extracted_field: string;
+  extraction_method: string;
+  ocr_confidence: number | null;
+}
+
+export interface NormalizedEvidenceItem {
+  id: string; // unique item id e.g. `${ruleId}-${evidenceIdx}`
+  ruleId: string;
+  ruleName: string;
+  ruleStatus: string;
+  severity: string;
+  field: string;
+  documentType: string;
+  fileName: string;
+  pageNumber: number;
+  boundingBox: [number, number, number, number] | null;
+  rawSnippet: string;
+  extractedField: string;
+  extractionMethod: string;
+  ocrConfidence: number | null;
+  hasProvenance: boolean;
+  matchGrade?: string;
+  reasonCode?: string;
+  remediation?: string;
+  statutoryReference?: string;
+}
+
 export interface RedactedFinding {
   rule_id: string;
   rule_name: string;
-  status: "PASS" | "FAIL" | "WARN" | "MANUAL_REVIEW";
+  status: "PASS" | "FAIL" | "WARN" | "MANUAL_REVIEW" | "MISSING" | string;
   severity: string;
   penalty: number;
   field: string;
   documents_involved: string[];
   message?: string;
+  evidence?: EvidenceProvenanceDTO[];
+  remediation?: string;
+  statutory_reference?: string;
   reason_code?: string;
   match_grade?: string;
   evidence_details?: Array<{
@@ -73,7 +109,6 @@ export interface RedactedFinding {
     bounding_box?: [number, number, number, number];
     evidence_state?: string;
   }>;
-  remediation?: string;
 }
 
 export interface DocumentFieldSummary {
@@ -143,6 +178,7 @@ export interface DocuReadyBridge {
   cancelAudit(packetId: string): Promise<AuditStatusResponse>;
   getAuditStatus(packetId: string): Promise<AuditStatusResponse>;
   exportReport(options: ExportReportOptions): Promise<ExportReportResult>;
+  getDocumentBinary(documentId: string): Promise<Uint8Array | null>;
   clearSession(): Promise<ClearSessionResult>;
   onAuditProgress(callback: (progress: AuditProgress) => void): () => void;
 }

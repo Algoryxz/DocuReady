@@ -8,20 +8,25 @@ import type {
   SupportedFileType,
   SupportedMimeType
 } from "../shared/types.ts";
+import { createRequire } from "node:module";
 import {
   MAX_PACKET_SIZE_BYTES,
   validateFileSize,
   validateFileSignature
 } from "./security.ts";
 
-let electronApp: { getPath(name: string): string } | null = null;
-if (process.versions.electron) {
-  try {
-    const electron = await import("electron");
-    electronApp = (electron as any).app || null;
-  } catch {
-    electronApp = null;
+const nodeRequire = createRequire(import.meta.url);
+
+function getElectronApp(): { getPath(name: string): string } | null {
+  if (process.versions.electron) {
+    try {
+      const electron = nodeRequire("electron");
+      return (electron as any).app || null;
+    } catch {
+      return null;
+    }
   }
+  return null;
 }
 
 export interface StoredDocument {
@@ -48,10 +53,11 @@ export class WorkspaceManager {
   private packets: Map<string, StoredPacket> = new Map();
 
   constructor(customRoot?: string) {
+    const app = getElectronApp();
     this.workspaceRoot =
       customRoot ||
-      (electronApp
-        ? path.join(electronApp.getPath("temp"), "docuready-workspaces")
+      (app
+        ? path.join(app.getPath("temp"), "docuready-workspaces")
         : path.join(process.env.TEMP || os.tmpdir(), "docuready-workspaces"));
   }
 
@@ -123,6 +129,36 @@ export class WorkspaceManager {
 
   public getStoredDocument(id: string): StoredDocument | undefined {
     return this.documents.get(id);
+  }
+
+  public async getDocumentContent(documentIdOrName: string): Promise<Buffer | null> {
+    if (!documentIdOrName || typeof documentIdOrName !== "string") {
+      return null;
+    }
+    const cleanId = documentIdOrName.trim();
+    if (cleanId.includes("..") || cleanId.includes("/") || cleanId.includes("\\")) {
+      return null;
+    }
+
+    let targetDoc = this.documents.get(cleanId);
+    if (!targetDoc) {
+      for (const doc of this.documents.values()) {
+        if (doc.name === cleanId || doc.id === cleanId) {
+          targetDoc = doc;
+          break;
+        }
+      }
+    }
+
+    if (!targetDoc) {
+      return null;
+    }
+
+    try {
+      return await fs.readFile(targetDoc.originalPath);
+    } catch {
+      return null;
+    }
   }
 
   public async createPacket(

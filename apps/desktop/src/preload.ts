@@ -24,6 +24,13 @@ const desktopBridge: DocuReadyBridge = Object.freeze({
     return await ipcRenderer.invoke("documents:select");
   },
 
+  async getDocumentBinary(documentId: string): Promise<Uint8Array | null> {
+    if (typeof documentId !== "string" || !documentId) {
+      throw new Error("getDocumentBinary requires a valid documentId string.");
+    }
+    return await ipcRenderer.invoke("documents:get-binary", documentId);
+  },
+
   async createPacket(options: CreatePacketOptions): Promise<PacketDescriptor> {
     if (!options || !Array.isArray(options.documentIds) || options.documentIds.length === 0) {
       throw new Error("createPacket requires an options object with non-empty documentIds.");

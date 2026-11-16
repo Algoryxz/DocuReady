@@ -92,6 +92,25 @@ export class IpcHandlerRegistry {
       }
     );
 
+    // 2b. Retrieve Document Binary Safely
+    ipcMain.handle(
+      "documents:get-binary",
+      async (event, documentId: unknown): Promise<Uint8Array | null> => {
+        this.validateSender(event);
+
+        if (typeof documentId !== "string" || !documentId || documentId.length > 256) {
+          throw new Error("Invalid document identifier.");
+        }
+
+        const buffer = await this.workspaceManager.getDocumentContent(documentId);
+        if (!buffer) {
+          return null;
+        }
+
+        return new Uint8Array(buffer);
+      }
+    );
+
     // 3. Create Packet
     ipcMain.handle(
       "packet:create",
