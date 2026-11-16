@@ -128,6 +128,6 @@ jobs:
         $GITHUB_WORKSPACE/test_wheel_venv/bin/python -c "import docuready; print('Imported docuready from:', docuready.__file__); assert 'site-packages' in docuready.__file__, 'Error: docuready not imported from site-packages!'"
         $GITHUB_WORKSPACE/test_wheel_venv/bin/docuready --help
         $GITHUB_WORKSPACE/test_wheel_venv/bin/docuready audit $GITHUB_WORKSPACE/synthetic_data/pkt_01_clean --json
-        $GITHUB_WORKSPACE/test_wheel_venv/bin/docuready packs lint --allow-draft
+        $GITHUB_WORKSPACE/test_wheel_venv/bin/docuready packs lint "$GITHUB_WORKSPACE/packs" --allow-draft
         echo "PASS: Out-of-repository package import, help, audit, and packs lint verified."
         echo "============================================================"
