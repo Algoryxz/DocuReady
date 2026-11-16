@@ -47,10 +47,13 @@ export class SidecarManager extends EventEmitter {
   private workspaceRoot: string;
   private isShuttingDown: boolean = false;
   private currentAuditJobId: string | null = null;
+  private startPromise: Promise<void> | null = null;
+  private requireBundledRuntime: boolean;
 
-  constructor(workspaceRoot: string, customSidecarPath?: string) {
+  constructor(workspaceRoot: string, customSidecarPath?: string, requireBundledRuntime: boolean = false) {
     super();
     this.workspaceRoot = workspaceRoot;
+    this.requireBundledRuntime = requireBundledRuntime;
     if (customSidecarPath) {
       if (customSidecarPath.endsWith(".py")) {
         this.sidecarScriptPath = customSidecarPath;
@@ -134,12 +137,26 @@ export class SidecarManager extends EventEmitter {
   }
 
   public async start(): Promise<void> {
-    if (this.child && !this.child.killed) {
-      return;
-    }
+    if (this.child && !this.child.killed) return;
+    if (this.startPromise) return this.startPromise;
 
+    this.startPromise = this.startInternal();
+    try {
+      await this.startPromise;
+    } finally {
+      this.startPromise = null;
+    }
+  }
+
+  private async startInternal(): Promise<void> {
     this.isShuttingDown = false;
     const isBinary = Boolean(this.sidecarBinaryPath && fs.existsSync(this.sidecarBinaryPath));
+
+    if (this.requireBundledRuntime && !isBinary) {
+      throw new Error(
+        `The packaged DocuReady sidecar was not found. Expected ${process.platform === "win32" ? "docuready_sidecar.exe" : "docuready_sidecar"} under the application resources directory.`
+      );
+    }
 
     const command = isBinary
       ? this.sidecarBinaryPath!
@@ -179,7 +196,8 @@ export class SidecarManager extends EventEmitter {
         DOCUREADY_WORKSPACE_ROOT: this.workspaceRoot,
         DOCUREADY_RESOURCES_DIR: resourcesPath || path.resolve(currentDir, "../../.."),
         ...(bundledTesseractPath ? { DOCUREADY_TESSERACT_PATH: bundledTesseractPath } : {}),
-        ...(bundledTessdataPath ? { TESSDATA_PREFIX: bundledTessdataPath } : {})
+        ...(bundledTessdataPath ? { TESSDATA_PREFIX: bundledTessdataPath } : {}),
+        ...(this.requireBundledRuntime ? { DOCUREADY_REQUIRE_BUNDLED_OCR: "1" } : {})
       },
       stdio: ["pipe", "pipe", "pipe"]
     });
@@ -187,6 +205,8 @@ export class SidecarManager extends EventEmitter {
     this.child = child;
 
     if (!child.stdout || !child.stdin) {
+      this.child = null;
+      child.kill();
       throw new Error("Failed to initialize sidecar process stdio.");
     }
 
@@ -210,6 +230,20 @@ export class SidecarManager extends EventEmitter {
     child.on("error", (err: Error) => {
       console.error("[sidecar:process error]", err);
       this.rejectAllPending(new Error(`Sidecar process error: ${err.message}`));
+    });
+
+    await new Promise<void>((resolve, reject) => {
+      const onSpawn = () => {
+        child.removeListener("error", onSpawnError);
+        resolve();
+      };
+      const onSpawnError = (err: Error) => {
+        child.removeListener("spawn", onSpawn);
+        if (this.child === child) this.child = null;
+        reject(new Error(`Unable to start DocuReady sidecar '${command}': ${err.message}`));
+      };
+      child.once("spawn", onSpawn);
+      child.once("error", onSpawnError);
     });
 
     child.on("exit", (code: number | null, signal: string | null) => {
