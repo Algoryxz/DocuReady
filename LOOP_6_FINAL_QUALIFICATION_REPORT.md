@@ -4,7 +4,7 @@
 **Evaluation date:** 2026-11-16  
 **Repository:** `Algoryxz/DocuReady`  
 **Working branch:** `feat/loop6-release-integrity-and-reproducibility`  
-**Latest reviewed commit:** `4d7127538b04401aafa52e9f9ede6704b1f7ee50`  
+**Latest code commit reviewed:** `4d7127538b04401aafa52e9f9ede6704b1f7ee50`  
 **Pull request:** [#76 — Windows desktop startup and release qualification](https://github.com/Algoryxz/DocuReady/pull/76)  
 **PR target:** `feat/loop5-independent-validation-and-demo`  
 **Starting commit:** `22c75efecc162e058a7b4dd238f0d5eb8a0a6a82`
