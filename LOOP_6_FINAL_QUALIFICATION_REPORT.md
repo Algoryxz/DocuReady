@@ -15,7 +15,7 @@
 
 Loop 6 was executed as an evidence-driven qualification audit of DocuReady for the HackNation 2026 competition. The mission was to verify source provenance, enforce zero-network guarantees under live kernel socket monitoring, evaluate third-party licensing (specifically the PyMuPDF AGPLv3 copyleft boundary), validate offline bundled OCR on clean Windows hardware, and reconcile all public claims against automated tests and golden baselines.
 
-### Summary of Certified Findings:
+### Summary of Reported Findings (Narrowed by Independent Repository Review):
 1. **Source of Truth Established:** Local HEAD was reconciled against git history. The true canonical starting SHA from Loop 5 was `22c75efecc162e058a7b4dd238f0d5eb8a0a6a82` (short: `22c75ef`). A clean dedicated qualification branch `feat/loop6-release-integrity-and-reproducibility` was created.
 2. **Limited Socket-Polling Observation:** The supplied telemetry recorded zero connections in the sampled processes. The implementation uses 50ms `psutil.Process.net_connections()` polling, not kernel event tracing. The saved summary does not enumerate the sidecar or Tesseract in its recorded process tree. It therefore does **not** prove zero network egress for the complete process tree or system.
 3. **Licensing & Backend Decision Ratified:** PyMuPDF is retained as the sole production-qualified PDF engine. Migration to PDFium was formally evaluated and rejected because `PdfiumPageBackend.get_words()` lacks word/block coordinate extraction, which would break anchor-proximity provenance. Transparent AGPLv3 disclosures and architectural isolation were verified.
@@ -132,8 +132,8 @@ FINAL REGRESSION AUDIT RESULTS:
 
 ## 9. Claims Corrected or Withdrawn
 
-1. **Synthetic vs. Real-World Accuracy:** Historical claims of "100% Accuracy" have been explicitly qualified as **Synthetic Baseline Exact Match**. Benchmark performance on degraded physical scans is accurately documented as **91.7%**.
-2. **DPDP Compliance Wording:** Corrected from "DPDP Certified" to *"Engineered around privacy-by-design principles informed by the DPDP Act 2023"*.
+1. **Synthetic vs. Degraded-Scan Accuracy:** Historical claims of "100% Accuracy" have been qualified as **Synthetic Baseline Exact Match**. The 91.7% result is limited to the named controlled degraded-scan test set; field/real-world provenance has not been independently established.
+2. **DPDP Wording:** Corrected from certification/compliance language to *"Designed around privacy-by-design principles informed by the DPDP Act 2023"*; this is not a legal compliance finding.
 3. **Government Role:** Explicitly reiterated that DocuReady is an **applicant-side pre-submission linter**, not an official government service or legal authority.
 4. **PyMuPDF Disclosure:** Accurately disclosed AGPLv3 copyleft terms in `README.md`, `NOTICE`, and `THIRD_PARTY_LICENSES.md`.
 
@@ -143,7 +143,7 @@ FINAL REGRESSION AUDIT RESULTS:
 
 1. **Authenticode Code Signing:** Binaries are signed with development test signatures. Production enterprise deployment requires purchasing a commercial Sectigo/DigiCert EV Authenticode certificate to bypass Windows SmartScreen warnings.
 2. **Indic Language Traineddata:** Current bundled OCR models support English (`eng`). Adding Hindi (`hin`) and Odia (`ori`) requires placing their `.traineddata` files into `resources/docuready_sidecar/tesseract/tessdata/`.
-3. **Downstream Proprietary Integration:** Organizations embedding DocuReady into proprietary commercial software must evaluate MuPDF commercial licensing from Artifex to eliminate AGPLv3 copyleft exposure.
+3. **Downstream Proprietary Integration:** Organizations must obtain qualified legal review of the AGPLv3 component and their distribution model. A commercial MuPDF license may be one option; no legal conclusion is made here.
 
 ---
 
