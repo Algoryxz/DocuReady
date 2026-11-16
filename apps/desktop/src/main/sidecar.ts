@@ -12,7 +12,9 @@ import type {
   RedactedAuditResult
 } from "../shared/types.ts";
 
-// Electron Forge/Vite emits the main process as CommonJS (.cjs). In that\n// runtime import.meta.url is undefined; __dirname is the correct bundle path.\nconst currentDir = __dirname;
+// Electron Forge/Vite emits the main process as CommonJS (.cjs).
+// In that runtime import.meta.url is undefined; __dirname is the bundle path.
+const currentDir = __dirname;
 
 export interface SidecarRequest {
   protocol: number;
