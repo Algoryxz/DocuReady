@@ -139,6 +139,8 @@ def _handle(request: dict[str, Any]) -> dict[str, Any]:
                 "pdf_backend": pdf_backend,
                 "ocr_available": ocr_info["available"],
                 "ocr_languages": ocr_info.get("languages", ["eng"]),
+                "ocr_source": ocr_info.get("source", "none"),
+                "is_bundled": ocr_info.get("is_bundled", False),
                 "tesseract_version": ocr_info.get("version"),
                 "tesseract_path": ocr_info.get("binary_path"),
             },

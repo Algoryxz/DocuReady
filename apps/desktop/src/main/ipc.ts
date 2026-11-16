@@ -310,6 +310,8 @@ export class IpcHandlerRegistry {
           pdfBackend: health.pdfBackend || "pymupdf",
           ocrAvailable: health.ocrAvailable,
           ocrLanguages: health.ocrLanguages || ["eng"],
+          ocrSource: health.ocrSource,
+          isBundled: health.isBundled,
           tesseractVersion: health.tesseractVersion,
           tesseractPath: health.tesseractPath,
           workspaceHealth: {

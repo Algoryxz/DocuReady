@@ -24,14 +24,14 @@ _KNOWN_TESSERACT_UNIX_PATHS = [
 ]
 
 
-def find_tesseract_binary() -> Optional[Path]:
-    """Finds the Tesseract executable without assuming it is on PATH."""
+def find_tesseract_binary_with_source() -> tuple[Optional[Path], str]:
+    """Finds the Tesseract executable and identifies whether it is bundled or a system prerequisite."""
     # 1. Explicit environment variable override
     env_override = os.environ.get("DOCUREADY_TESSERACT_PATH")
     if env_override:
         p = Path(env_override)
         if p.is_file():
-            return p
+            return p, "env_override"
 
     # 2. PyInstaller bundled resources (sys._MEIPASS / tesseract)
     if hasattr(sys, "_MEIPASS"):
@@ -41,7 +41,7 @@ def find_tesseract_binary() -> Optional[Path]:
             / ("tesseract.exe" if sys.platform == "win32" else "tesseract")
         )
         if meipass_p.is_file():
-            return meipass_p
+            return meipass_p, "bundled_resource"
 
     # 3. Executable directory relative (for onedir PyInstaller or Electron resources)
     exe_dir = (
@@ -50,7 +50,7 @@ def find_tesseract_binary() -> Optional[Path]:
         / ("tesseract.exe" if sys.platform == "win32" else "tesseract")
     )
     if exe_dir.is_file():
-        return exe_dir
+        return exe_dir, "bundled_resource"
 
     # 4. Resources dir from environment
     res_dir = os.environ.get("DOCUREADY_RESOURCES_DIR")
@@ -61,12 +61,12 @@ def find_tesseract_binary() -> Optional[Path]:
             / ("tesseract.exe" if sys.platform == "win32" else "tesseract")
         )
         if res_p.is_file():
-            return res_p
+            return res_p, "bundled_resource"
 
     # 5. System PATH lookup
     path_bin = shutil.which("tesseract")
     if path_bin:
-        return Path(path_bin)
+        return Path(path_bin), "system_prerequisite"
 
     # 6. Standard platform paths
     candidate_paths = (
@@ -77,11 +77,17 @@ def find_tesseract_binary() -> Optional[Path]:
     for cp in candidate_paths:
         try:
             if cp.is_file():
-                return cp
+                return cp, "system_prerequisite"
         except (PermissionError, OSError):
             continue
 
-    return None
+    return None, "none"
+
+
+def find_tesseract_binary() -> Optional[Path]:
+    """Finds the Tesseract executable without assuming it is on PATH."""
+    bin_path, _ = find_tesseract_binary_with_source()
+    return bin_path
 
 
 def configure_pytesseract() -> Optional[Path]:
@@ -89,7 +95,7 @@ def configure_pytesseract() -> Optional[Path]:
 
     Returns the resolved binary Path if found, otherwise None.
     """
-    bin_path = find_tesseract_binary()
+    bin_path, _ = find_tesseract_binary_with_source()
     if bin_path:
         try:
             import pytesseract
@@ -107,22 +113,26 @@ def configure_pytesseract() -> Optional[Path]:
 
 def get_ocr_runtime_info() -> Dict[str, Any]:
     """Returns structured runtime metadata regarding local OCR availability."""
-    bin_path = configure_pytesseract()
+    bin_path = find_tesseract_binary()
     if not bin_path:
         return {
             "available": False,
             "version": None,
             "binary_path": None,
             "languages": [],
+            "source": "none",
+            "is_bundled": False,
             "error": "Tesseract OCR binary not found in standard paths or bundle.",
         }
+
+    _, source = find_tesseract_binary_with_source()
 
     version_str: Optional[str] = None
     languages: List[str] = []
 
     try:
         import pytesseract
-
+        pytesseract.pytesseract.tesseract_cmd = str(bin_path)
         version_str = str(pytesseract.get_tesseract_version())
     except Exception as err:
         return {
@@ -130,6 +140,8 @@ def get_ocr_runtime_info() -> Dict[str, Any]:
             "version": None,
             "binary_path": str(bin_path),
             "languages": [],
+            "source": source,
+            "is_bundled": (source == "bundled_resource"),
             "error": f"Tesseract execution failed: {err}",
         }
 
@@ -157,5 +169,7 @@ def get_ocr_runtime_info() -> Dict[str, Any]:
         "version": version_str,
         "binary_path": bin_path.name,  # Sanitize to filename only (no raw host paths)
         "languages": sorted(languages),
+        "source": source,
+        "is_bundled": (source == "bundled_resource"),
         "error": None,
     }

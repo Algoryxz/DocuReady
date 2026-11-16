@@ -1,0 +1,205 @@
+{
+  "summary": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "specificity": 1.0,
+    "accuracy": 1.0,
+    "all_workflows_passed": true
+  },
+  "documents": {
+    "VAL-01-CLEAN-APP": {
+      "status": "VALID",
+      "expected_category": "VALID_VECTOR",
+      "expected_extraction": "NATIVE_VECTOR",
+      "extraction_method": "NATIVE_VECTOR",
+      "doc_type": "APPLICATION_FORM",
+      "field_count": 7,
+      "mean_ocr_confidence": null
+    },
+    "VAL-02-CLEAN-INC": {
+      "status": "VALID",
+      "expected_category": "VALID_VECTOR",
+      "expected_extraction": "NATIVE_VECTOR",
+      "extraction_method": "NATIVE_VECTOR",
+      "doc_type": "INCOME_CERT",
+      "field_count": 6,
+      "mean_ocr_confidence": null
+    },
+    "VAL-03-CLEAN-CST": {
+      "status": "VALID",
+      "expected_category": "VALID_VECTOR",
+      "expected_extraction": "NATIVE_VECTOR",
+      "extraction_method": "NATIVE_VECTOR",
+      "doc_type": "CASTE_CERT",
+      "field_count": 7,
+      "mean_ocr_confidence": null
+    },
+    "VAL-04-CLEAN-RES": {
+      "status": "VALID",
+      "expected_category": "VALID_VECTOR",
+      "expected_extraction": "NATIVE_VECTOR",
+      "extraction_method": "NATIVE_VECTOR",
+      "doc_type": "RESIDENCE_CERT",
+      "field_count": 5,
+      "mean_ocr_confidence": null
+    },
+    "VAL-05-CLEAN-PASSBOOK": {
+      "status": "VALID",
+      "expected_category": "VALID_VECTOR",
+      "expected_extraction": "NATIVE_VECTOR",
+      "extraction_method": "NATIVE_VECTOR",
+      "doc_type": "BANK_PASSBOOK",
+      "field_count": 4,
+      "mean_ocr_confidence": null
+    },
+    "VAL-06-CLEAN-MARKSHEET": {
+      "status": "VALID",
+      "expected_category": "VALID_VECTOR",
+      "expected_extraction": "NATIVE_VECTOR",
+      "extraction_method": "NATIVE_VECTOR",
+      "doc_type": "MARKSHEET",
+      "field_count": 5,
+      "mean_ocr_confidence": null
+    },
+    "VAL-07-NAME-CONFLICT-INC": {
+      "status": "VALID",
+      "expected_category": "DELIBERATE_CONFLICT",
+      "expected_extraction": "NATIVE_VECTOR",
+      "extraction_method": "NATIVE_VECTOR",
+      "doc_type": "INCOME_CERT",
+      "field_count": 6,
+      "mean_ocr_confidence": null
+    },
+    "VAL-08-INCOME-CEIL-EXCEEDED": {
+      "status": "VALID",
+      "expected_category": "DELIBERATE_CONFLICT",
+      "expected_extraction": "NATIVE_VECTOR",
+      "extraction_method": "NATIVE_VECTOR",
+      "doc_type": "INCOME_CERT",
+      "field_count": 6,
+      "mean_ocr_confidence": null
+    },
+    "VAL-09-CORRUPTED-HEADER": {
+      "status": "CORRUPTED",
+      "expected_category": "HOSTILE_INPUT",
+      "expected_extraction": "ZERO_FIELDS_EXTRACTED",
+      "extraction_method": "UNEXTRACTED",
+      "doc_type": "APPLICATION_FORM",
+      "field_count": 0,
+      "mean_ocr_confidence": null
+    },
+    "VAL-10-EMPTY-ZERO-BYTE": {
+      "status": "CORRUPTED",
+      "expected_category": "HOSTILE_INPUT",
+      "expected_extraction": "NONE",
+      "extraction_method": "UNEXTRACTED",
+      "doc_type": "APPLICATION_FORM",
+      "field_count": 0,
+      "mean_ocr_confidence": null
+    },
+    "VAL-11-PASSWORD-ENCRYPTED": {
+      "status": "UNREADABLE",
+      "expected_category": "HOSTILE_INPUT",
+      "expected_extraction": "NONE",
+      "extraction_method": "UNEXTRACTED",
+      "doc_type": "APPLICATION_FORM",
+      "field_count": 0,
+      "mean_ocr_confidence": null
+    },
+    "VAL-12-SPOOFED-EXTENSION": {
+      "status": "CORRUPTED",
+      "expected_category": "HOSTILE_INPUT",
+      "expected_extraction": "NONE",
+      "extraction_method": "UNEXTRACTED",
+      "doc_type": "APPLICATION_FORM",
+      "field_count": 0,
+      "mean_ocr_confidence": null
+    },
+    "VAL-13-IRRELEVANT-RESUME": {
+      "status": "VALID",
+      "expected_category": "NEGATIVE_UNMAPPED",
+      "expected_extraction": "ZERO_SCHOLARSHIP_FIELDS",
+      "extraction_method": "NATIVE_VECTOR",
+      "doc_type": "APPLICATION_FORM",
+      "field_count": 0,
+      "mean_ocr_confidence": null
+    },
+    "VAL-14-SCANNED-RES": {
+      "status": "VALID",
+      "expected_category": "SCANNED_RASTER",
+      "expected_extraction": "OCR_REQUIRED",
+      "extraction_method": "LOCAL_OCR",
+      "doc_type": "RESIDENCE_CERT",
+      "field_count": 5,
+      "mean_ocr_confidence": 0.944
+    },
+    "VAL-15-SCANNED-PASSBOOK": {
+      "status": "VALID",
+      "expected_category": "SCANNED_RASTER",
+      "expected_extraction": "OCR_REQUIRED",
+      "extraction_method": "LOCAL_OCR",
+      "doc_type": "BANK_PASSBOOK",
+      "field_count": 4,
+      "mean_ocr_confidence": 0.942
+    },
+    "VAL-16-ROTATED-MARKSHEET": {
+      "status": "VALID",
+      "expected_category": "ROTATED_GEOMETRY",
+      "expected_extraction": "NATIVE_VECTOR_ROTATED",
+      "extraction_method": "NATIVE_VECTOR",
+      "doc_type": "MARKSHEET",
+      "field_count": 5,
+      "mean_ocr_confidence": null
+    }
+  },
+  "workflows": {
+    "WORKFLOW_A_CLEAN_PACKET": {
+      "overall_status": "NO_ISSUES_FOUND",
+      "readiness_score": 100,
+      "passed_rules_count": 7,
+      "failed_rules_count": 0,
+      "success": true
+    },
+    "WORKFLOW_B_NAME_CONFLICT": {
+      "overall_status": "NOT_READY",
+      "readiness_score": 75,
+      "name_rule_failed": true,
+      "success": true
+    },
+    "WORKFLOW_C_INCOME_CEILING": {
+      "overall_status": "NOT_READY",
+      "readiness_score": 40,
+      "income_rule_failed": true,
+      "success": true
+    },
+    "WORKFLOW_D_NEGATIVE_DOCUMENT": {
+      "extracted_count": 1,
+      "unexpected_fails": [],
+      "success": true
+    },
+    "WORKFLOW_E_SCANNED_OCR": {
+      "overall_status": "NOT_READY",
+      "readiness_score": 0,
+      "extraction_methods": [
+        "LOCAL_OCR",
+        "LOCAL_OCR"
+      ],
+      "all_local_ocr": true,
+      "success": true
+    }
+  },
+  "evidence_integrity": {
+    "total_evidence_fields": 60,
+    "valid_bounding_boxes": 59,
+    "invalid_bounding_boxes": 0,
+    "valid_page_indices": 60,
+    "invalid_page_indices": 0,
+    "unextracted_or_null_provenance": 1
+  },
+  "confusion_matrix": {
+    "true_positives": 2,
+    "false_positives": 0,
+    "true_negatives": 18,
+    "false_negatives": 0
+  }
+}

@@ -274,6 +274,14 @@ class DocumentExtractor:
         try:
             backend_doc = get_pdf_backend(file_path)
             doc = getattr(backend_doc, "raw_doc", backend_doc)
+            if getattr(doc, "needs_pass", False) or getattr(doc, "is_encrypted", False):
+                return ExtractedDocument(
+                    doc_type=expected_type or DocumentType.APPLICATION_FORM,
+                    file_path=file_path,
+                    status="UNREADABLE",
+                    extraction_method=ExtractionMethod.UNEXTRACTED.value,
+                    expected_slot=expected_type,
+                )
         except Exception:
             return ExtractedDocument(
                 doc_type=expected_type or DocumentType.APPLICATION_FORM,
@@ -283,7 +291,17 @@ class DocumentExtractor:
                 expected_slot=expected_type,
             )
 
-        page_count = len(doc)
+        try:
+            page_count = len(doc)
+        except Exception:
+            return ExtractedDocument(
+                doc_type=expected_type or DocumentType.APPLICATION_FORM,
+                file_path=file_path,
+                status="CORRUPTED",
+                extraction_method=ExtractionMethod.UNEXTRACTED.value,
+                expected_slot=expected_type,
+            )
+
         if page_count == 0 or page_count > MAX_PDF_PAGES:
             return ExtractedDocument(
                 doc_type=expected_type or DocumentType.APPLICATION_FORM,
@@ -295,8 +313,17 @@ class DocumentExtractor:
 
         # 1. Inspect native text across all pages
         native_text = ""
-        for p in doc:
-            native_text += p.get_text() + "\n"
+        try:
+            for p in doc:
+                native_text += p.get_text() + "\n"
+        except Exception:
+            return ExtractedDocument(
+                doc_type=expected_type or DocumentType.APPLICATION_FORM,
+                file_path=file_path,
+                status="UNREADABLE",
+                extraction_method=ExtractionMethod.UNEXTRACTED.value,
+                expected_slot=expected_type,
+            )
 
         # Check if native text is sufficiently dense and readable
         has_native_text = len(native_text.strip()) >= 30 and "ILLEGIBLE" not in native_text.upper()

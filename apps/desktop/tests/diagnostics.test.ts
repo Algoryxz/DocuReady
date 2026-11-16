@@ -22,6 +22,8 @@ test("Diagnostic metadata enforces zero-PII and includes runtime health", async 
     // Dynamic OCR runtime fields
     assert.strictEqual(typeof health.ocrAvailable, "boolean");
     assert.ok(Array.isArray(health.ocrLanguages));
+    assert.strictEqual(typeof health.isBundled, "boolean");
+    assert.ok(health.ocrSource);
 
     if (health.ocrAvailable) {
       assert.ok(health.tesseractVersion);
@@ -32,6 +34,8 @@ test("Diagnostic metadata enforces zero-PII and includes runtime health", async 
         `Expected sanitized binary basename, got: ${health.tesseractPath}`
       );
       assert.ok(health.tesseractPath.startsWith("tesseract"));
+      assert.strictEqual(health.isBundled, false); // Host Tesseract is system prerequisite
+      assert.strictEqual(health.ocrSource, "system_prerequisite");
     }
 
     // Active workspace tracking

@@ -290,6 +290,8 @@ export class SidecarManager extends EventEmitter {
           ocrLanguages: Array.isArray(res.result.ocr_languages)
             ? (res.result.ocr_languages as string[])
             : ["eng"],
+          ocrSource: String(res.result.ocr_source || "none"),
+          isBundled: Boolean(res.result.is_bundled),
           tesseractVersion: res.result.tesseract_version
             ? String(res.result.tesseract_version)
             : undefined,

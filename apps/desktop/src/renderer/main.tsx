@@ -579,8 +579,8 @@ function App(): React.JSX.Element {
                   <span className="diag-lbl">OCR Runtime</span>
                   <span className="diag-val">
                     {diagnosticReport.ocrAvailable
-                      ? `Tesseract ${diagnosticReport.tesseractVersion || "Active"}`
-                      : "Unavailable"}
+                      ? `Tesseract ${diagnosticReport.tesseractVersion || "Active"} (${diagnosticReport.isBundled ? "Bundled Resource" : "System Prerequisite, Discovered"})`
+                      : "Not Installed (System Prerequisite)"}
                   </span>
                 </div>
                 <div className="diag-item">

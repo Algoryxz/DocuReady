@@ -11,6 +11,8 @@ export interface EngineHealth {
   pdfBackend: string;
   ocrAvailable: boolean;
   ocrLanguages?: string[];
+  ocrSource?: string;
+  isBundled?: boolean;
   tesseractVersion?: string;
   tesseractPath?: string;
   status: "healthy" | "unhealthy" | "error";
@@ -30,6 +32,8 @@ export interface DiagnosticReport {
   pdfBackend: string;
   ocrAvailable: boolean;
   ocrLanguages: string[];
+  ocrSource?: string;
+  isBundled?: boolean;
   tesseractVersion?: string;
   tesseractPath?: string;
   workspaceHealth: {
