@@ -94,7 +94,7 @@ app.whenReady().then(async () => {
   if (!engineHealth.ok) {
     throw new Error(engineHealth.error || "The document engine failed its health check.");
   }
-  if (!engineHealth.ocrAvailable || !engineHealth.isBundled) {
+  if (!engineHealth.ocrAvailable || (app.isPackaged && !engineHealth.isBundled)) {
     throw new Error(
       "The bundled OCR runtime is unavailable. This installation is incomplete; reinstall a complete DocuReady package."
     );
