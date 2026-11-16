@@ -301,6 +301,23 @@ def audit_runtime_workflow() -> Dict[str, Any]:
         # Cleanup temp workspace
         shutil.rmtree(workspace_dir, ignore_errors=True)
 
+    # Capture the observed tree after the sidecar and OCR worker have run.
+    # This remains polling, not ETW/WFP or packet capture.
+    final_process_tree = []
+    for pid in sorted(monitor.monitored_pids):
+        try:
+            observed = psutil.Process(pid)
+            final_process_tree.append({
+                "pid": pid,
+                "ppid": observed.ppid(),
+                "name": observed.name(),
+                "exe": observed.exe(),
+                "cmdline": observed.cmdline(),
+                "create_time": observed.create_time(),
+            })
+        except (psutil.NoSuchProcess, psutil.AccessDenied):
+            final_process_tree.append({"pid": pid, "unavailable": True})
+
     # Let runtime settle
     time.sleep(2.0)
 
@@ -319,9 +336,16 @@ def audit_runtime_workflow() -> Dict[str, Any]:
     return {
         "stage": "application_runtime_and_ocr",
         "pids_monitored": list(monitor.monitored_pids),
-        "process_tree": process_tree,
+        "process_tree_initial": process_tree,
+        "process_tree_final": final_process_tree,
         "samples": monitor.samples_collected,
         "connections_detected": monitor.detected_connections,
+        "monitor_method": "psutil process socket polling at 50ms; not kernel event tracing",
+        "coverage_limitations": [
+            "short-lived sockets may occur between samples",
+            "only the selected process tree is monitored",
+            "this does not observe unrelated system services, DNS outside the tree, or all network transports",
+        ],
     }
 
 
@@ -339,7 +363,16 @@ def main():
         "total_connections_detected": total_connections,
         "installer_stage": installer_result,
         "runtime_stage": runtime_result,
-        "verdict": "ZERO_NETWORK_TRAFFIC_VERIFIED" if total_connections == 0 else "NETWORK_TRAFFIC_DETECTED",
+        "verdict": (
+            "NO_CONNECTIONS_OBSERVED_BY_50MS_PROCESS_SAMPLING"
+            if total_connections == 0
+            else "PROCESS_SOCKET_ACTIVITY_OBSERVED"
+        ),
+        "interpretation": (
+            "A zero count means no sockets were visible to psutil during sampled process snapshots. "
+            "It is not proof of zero egress, network isolation, or absence of short-lived connections."
+        ),
+        "monitor_method": "psutil process socket polling at 50ms; not ETW, WFP, or packet capture",
     }
 
     with open(REPORT_DATA_FILE, "w", encoding="utf-8") as f:
