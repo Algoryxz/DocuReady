@@ -256,6 +256,55 @@ def test_parameter_declaration_validation():
     assert "Parameter of type 'list' must contain a list" in str(exc.value)
 
 
+def test_parameter_declaration_item_type_validation():
+    # Valid declarations with item_type
+    p_str_list = ParameterDeclaration.model_validate(
+        {"type": "list", "item_type": "string", "value": ["a", "b", "c"]}
+    )
+    assert p_str_list.item_type == "string"
+    assert p_str_list.value == ["a", "b", "c"]
+
+    p_int_list = ParameterDeclaration.model_validate(
+        {"type": "list", "item_type": "int", "value": [1, 2, 3]}
+    )
+    assert p_int_list.item_type == "int"
+
+    p_date_list = ParameterDeclaration.model_validate(
+        {"type": "list", "item_type": "date", "value": ["2026-04-15", date(2026, 5, 1)]}
+    )
+    assert p_date_list.item_type == "date"
+
+    # Invalid item_type name
+    with pytest.raises(ValidationError) as exc:
+        ParameterDeclaration.model_validate({"type": "list", "item_type": "unknown_item"})
+    assert "Invalid parameter item_type" in str(exc.value)
+
+    # Inconsistent elements
+    with pytest.raises(ValidationError) as exc:
+        ParameterDeclaration.model_validate(
+            {"type": "list", "item_type": "string", "value": ["valid", 123]}
+        )
+    assert "must be a non-empty string" in str(exc.value)
+
+    with pytest.raises(ValidationError) as exc:
+        ParameterDeclaration.model_validate(
+            {"type": "list", "item_type": "string", "value": ["valid", True]}
+        )
+    assert "must be a non-empty string" in str(exc.value)
+
+    with pytest.raises(ValidationError) as exc:
+        ParameterDeclaration.model_validate(
+            {"type": "list", "item_type": "int", "value": [1, "two"]}
+        )
+    assert "must be an integer" in str(exc.value)
+
+    with pytest.raises(ValidationError) as exc:
+        ParameterDeclaration.model_validate(
+            {"type": "list", "item_type": "date", "value": ["2026-04-15", "not-a-date"]}
+        )
+    assert "invalid date string" in str(exc.value)
+
+
 def test_pack_manifest_unique_rule_ids_and_typed_parameters():
     rule1 = {
         "id": "RULE-01",

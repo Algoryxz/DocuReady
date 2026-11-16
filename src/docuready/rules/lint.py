@@ -61,8 +61,8 @@ PRIMITIVE_PARAMETER_CONTRACTS: Dict[str, Dict[str, str]] = {
         "max_age": "int",
     },
     "enum_in": {
-        "allowed": "list",
-        "values": "list",
+        "allowed": "list[string]",
+        "values": "list[string]",
     },
     "legible": {
         "min_confidence": "number",
@@ -73,56 +73,56 @@ PRIMITIVE_PARAMETER_CONTRACTS: Dict[str, Dict[str, str]] = {
 PRIMITIVE_INPUT_CONTRACTS: Dict[str, Dict[str, str]] = {
     "require_document": {
         "slot": "string",
-        "slots": "list",
-        "docs": "list",
+        "slots": "list[string]",
+        "docs": "list[string]",
     },
     "field_present": {
         "field": "string",
-        "docs": "list",
-        "slots": "list",
+        "docs": "list[string]",
+        "slots": "list[string]",
     },
     "match_across": {
-        "fields": "list",
+        "fields": "list[string]",
         "field": "string",
-        "docs": "list",
-        "slots": "list",
+        "docs": "list[string]",
+        "slots": "list[string]",
     },
     "within_validity": {
         "field": "string",
-        "docs": "list",
-        "slots": "list",
+        "docs": "list[string]",
+        "slots": "list[string]",
     },
     "numeric_cap": {
         "field": "string",
-        "docs": "list",
-        "slots": "list",
+        "docs": "list[string]",
+        "slots": "list[string]",
     },
     "numeric_consistency": {
-        "fields": "list",
-        "docs": "list",
-        "slots": "list",
+        "fields": "list[string]",
+        "docs": "list[string]",
+        "slots": "list[string]",
     },
     "age_on": {
         "field": "string",
         "dob_field": "string",
-        "docs": "list",
-        "slots": "list",
+        "docs": "list[string]",
+        "slots": "list[string]",
     },
     "enum_in": {
         "field": "string",
-        "docs": "list",
-        "slots": "list",
+        "docs": "list[string]",
+        "slots": "list[string]",
     },
     "legible": {
         "field": "string",
         "slot": "string",
-        "docs": "list",
-        "slots": "list",
+        "docs": "list[string]",
+        "slots": "list[string]",
     },
 }
 
 ALLOWED_MATCH_GRADES: frozenset[str] = frozenset(
-    {"name", "date", "id", "text", "exact"}
+    {"name", "date", "id", "text"}
 )
 
 
@@ -263,14 +263,21 @@ def _is_type_compatible(actual: str, expected: str) -> bool:
     if expected == "float":
         return actual in ("float", "int", "number")
     if expected == "string":
-        return actual in ("string", "date")
+        return actual == "string"
     if expected == "date":
         return actual == "date"
     if expected == "bool":
         return actual == "bool"
     if expected == "list":
         return actual == "list"
+    if expected.startswith("list[") and expected.endswith("]"):
+        return actual == "list"
     return False
+
+
+def _is_valid_string_member(item: Any) -> bool:
+    """Check whether an element is a valid non-empty string and not a boolean."""
+    return isinstance(item, str) and not isinstance(item, bool) and bool(item.strip())
 
 
 def _is_valid_http_url(url: Optional[str]) -> bool:
@@ -505,26 +512,79 @@ def lint_pack(pack_dir: Path | str, allow_draft: bool = False) -> LintResult:
                         )
                     actual_type = _get_parameter_type(p_obj)
                     if not _is_type_compatible(actual_type, expected_type):
+                        exp_display = "list" if expected_type == "list[string]" else expected_type
                         result.add_error(
-                            f"Parameter '${pref}' for {rule.primitive}.{param_key} must be {expected_type}, got {actual_type}",
+                            f"Parameter '${pref}' for {rule.primitive}.{param_key} must be {exp_display}, got {actual_type}",
                             rule_id=rule.id,
                         )
+                    else:
+                        if expected_type == "list[string]":
+                            if isinstance(p_obj, ParameterDeclaration) and p_obj.item_type:
+                                if p_obj.item_type.lower().strip() not in ("string", "str"):
+                                    result.add_error(
+                                        f"Parameter '${pref}' for {rule.primitive}.{param_key} has item_type '{p_obj.item_type}', expected 'string'",
+                                        rule_id=rule.id,
+                                    )
+                            if isinstance(raw_val, list):
+                                for idx, elem in enumerate(raw_val):
+                                    if not _is_valid_string_member(elem):
+                                        result.add_error(
+                                            f"Parameter '${pref}' for {rule.primitive}.{param_key} contains non-string element at index {idx} ({elem!r}) of type {type(elem).__name__}",
+                                            rule_id=rule.id,
+                                        )
+
                     # Check match_across grade value if constant
                     if rule.primitive == "match_across" and param_key == "grade":
-                        if isinstance(raw_val, str) and raw_val.lower().strip() not in ALLOWED_MATCH_GRADES:
+                        if not isinstance(raw_val, str) or raw_val.lower().strip() not in ALLOWED_MATCH_GRADES:
                             result.add_error(
                                 f"Invalid match grade '{raw_val}' in parameter '${pref}'. Allowed: {sorted(ALLOWED_MATCH_GRADES)}",
                                 rule_id=rule.id,
                             )
+            elif isinstance(param_val, list):
+                if not (expected_type == "list" or expected_type.startswith("list[")):
+                    result.add_error(
+                        f"Literal parameter '{param_key}' for {rule.primitive} must be {expected_type}, got list",
+                        rule_id=rule.id,
+                    )
+                else:
+                    if expected_type == "list[string]":
+                        for idx, item in enumerate(param_val):
+                            if isinstance(item, str) and item.startswith("$") and not item.startswith("$$"):
+                                pref = item[1:]
+                                if pref not in pack_manifest.parameters:
+                                    result.add_error(
+                                        f"Rule references undefined parameter '${pref}' in '{param_key}'",
+                                        rule_id=rule.id,
+                                    )
+                                else:
+                                    p_obj = pack_manifest.parameters[pref]
+                                    raw_val = _get_parameter_raw_value(p_obj)
+                                    if raw_val is None:
+                                        result.add_error(
+                                            f"Referenced parameter '${pref}' in '{param_key}' list has no configured value; absent parameter values cannot be treated as executable configuration",
+                                            rule_id=rule.id,
+                                        )
+                                    actual_type = _get_parameter_type(p_obj)
+                                    if not _is_type_compatible(actual_type, "string"):
+                                        result.add_error(
+                                            f"Parameter '${pref}' in {rule.primitive}.{param_key} list must be string, got {actual_type}",
+                                            rule_id=rule.id,
+                                        )
+                            elif not _is_valid_string_member(item):
+                                result.add_error(
+                                    f"Literal list element in parameter '{param_key}' for {rule.primitive} must be a non-empty string, got {type(item).__name__} (index {idx})",
+                                    rule_id=rule.id,
+                                )
             else:
                 lit_type = _get_parameter_type(param_val)
                 if not _is_type_compatible(lit_type, expected_type):
+                    exp_display = "list" if expected_type == "list[string]" else expected_type
                     result.add_error(
-                        f"Literal parameter '{param_key}' for {rule.primitive} must be {expected_type}, got {lit_type}",
+                        f"Literal parameter '{param_key}' for {rule.primitive} must be {exp_display}, got {lit_type}",
                         rule_id=rule.id,
                     )
                 if rule.primitive == "match_across" and param_key == "grade":
-                    if isinstance(param_val, str) and param_val.lower().strip() not in ALLOWED_MATCH_GRADES:
+                    if not isinstance(param_val, str) or param_val.lower().strip() not in ALLOWED_MATCH_GRADES:
                         result.add_error(
                             f"Invalid match grade '{param_val}'. Allowed: {sorted(ALLOWED_MATCH_GRADES)}",
                             rule_id=rule.id,
@@ -567,18 +627,34 @@ def lint_pack(pack_dir: Path | str, allow_draft: bool = False) -> LintResult:
                         )
                     actual_type = _get_parameter_type(p_obj)
                     if not _is_type_compatible(actual_type, expected_in_type):
+                        exp_display = "list" if expected_in_type == "list[string]" else expected_in_type
                         result.add_error(
-                            f"Parameter '${pref}' for {rule.primitive}.inputs.{in_key} must be {expected_in_type}, got {actual_type}",
+                            f"Parameter '${pref}' for {rule.primitive}.inputs.{in_key} must be {exp_display}, got {actual_type}",
                             rule_id=rule.id,
                         )
+                    else:
+                        if expected_in_type == "list[string]":
+                            if isinstance(p_obj, ParameterDeclaration) and p_obj.item_type:
+                                if p_obj.item_type.lower().strip() not in ("string", "str"):
+                                    result.add_error(
+                                        f"Parameter '${pref}' for {rule.primitive}.inputs.{in_key} has item_type '{p_obj.item_type}', expected 'string'",
+                                        rule_id=rule.id,
+                                    )
+                            if isinstance(raw_val, list):
+                                for idx, elem in enumerate(raw_val):
+                                    if not _is_valid_string_member(elem):
+                                        result.add_error(
+                                            f"Parameter '${pref}' for {rule.primitive}.inputs.{in_key} contains non-string element at index {idx} ({elem!r}) of type {type(elem).__name__}",
+                                            rule_id=rule.id,
+                                        )
             elif isinstance(in_val, list):
-                if expected_in_type != "list":
+                if not (expected_in_type == "list" or expected_in_type.startswith("list[")):
                     result.add_error(
                         f"Literal input '{in_key}' for {rule.primitive} must be {expected_in_type}, got list",
                         rule_id=rule.id,
                     )
                 else:
-                    for item in in_val:
+                    for idx, item in enumerate(in_val):
                         if isinstance(item, str) and item.startswith("$") and not item.startswith("$$"):
                             pref = item[1:]
                             if pref not in pack_manifest.parameters:
@@ -600,11 +676,17 @@ def lint_pack(pack_dir: Path | str, allow_draft: bool = False) -> LintResult:
                                         f"Parameter '${pref}' in {rule.primitive}.inputs.{in_key} list must be string, got {actual_type}",
                                         rule_id=rule.id,
                                     )
+                        elif expected_in_type == "list[string]" and not _is_valid_string_member(item):
+                            result.add_error(
+                                f"Literal element in inputs.{in_key} for {rule.primitive} must be a non-empty string, got {type(item).__name__} (index {idx})",
+                                rule_id=rule.id,
+                            )
             else:
                 lit_type = _get_parameter_type(in_val)
                 if not _is_type_compatible(lit_type, expected_in_type):
+                    exp_display = "list" if expected_in_type == "list[string]" else expected_in_type
                     result.add_error(
-                        f"Literal input '{in_key}' for {rule.primitive} must be {expected_in_type}, got {lit_type}",
+                        f"Literal input '{in_key}' for {rule.primitive} must be {exp_display}, got {lit_type}",
                         rule_id=rule.id,
                     )
 
@@ -618,31 +700,135 @@ def lint_pack(pack_dir: Path | str, allow_draft: bool = False) -> LintResult:
                         rule_id=rule.id,
                     )
 
-        # Check $param resolution and type contract in rule.exempt_when
+        # Check rule.exempt_when shape and type contracts
         if rule.exempt_when:
-            exempt_refs = _extract_param_references(rule.exempt_when)
-            for pref in exempt_refs:
-                if pref not in pack_manifest.parameters:
+            if not isinstance(rule.exempt_when, dict):
+                result.add_error(
+                    f"exempt_when must be a dictionary with 'fact' and 'in', got {type(rule.exempt_when).__name__}",
+                    rule_id=rule.id,
+                )
+            else:
+                # 1. Validate 'fact'
+                if "fact" not in rule.exempt_when:
                     result.add_error(
-                        f"Rule references undefined parameter '${pref}' in 'exempt_when'",
+                        "exempt_when missing required field 'fact'",
                         rule_id=rule.id,
                     )
                 else:
-                    p_obj = pack_manifest.parameters[pref]
-                    raw_val = _get_parameter_raw_value(p_obj)
-                    if raw_val is None:
-                        result.add_error(
-                            f"Referenced parameter '${pref}' in 'exempt_when' has no configured value; absent parameter values cannot be treated as executable configuration",
-                            rule_id=rule.id,
-                        )
-                    # If parameter is used in an 'in' clause, ensure it has list type
-                    if isinstance(rule.exempt_when, dict) and rule.exempt_when.get("in") == f"${pref}":
-                        actual_type = _get_parameter_type(p_obj)
-                        if actual_type != "list":
+                    fact_val = rule.exempt_when["fact"]
+                    if isinstance(fact_val, str) and fact_val.startswith("$") and not fact_val.startswith("$$"):
+                        fref = fact_val[1:]
+                        if fref not in pack_manifest.parameters:
                             result.add_error(
-                                f"Parameter '${pref}' for exempt_when 'in' condition must be list, got {actual_type}",
+                                f"Rule references undefined parameter '${fref}' in 'exempt_when'",
                                 rule_id=rule.id,
                             )
+                        else:
+                            fp_obj = pack_manifest.parameters[fref]
+                            f_raw = _get_parameter_raw_value(fp_obj)
+                            if f_raw is None:
+                                result.add_error(
+                                    f"Referenced parameter '${fref}' in 'exempt_when' has no configured value; absent parameter values cannot be treated as executable configuration",
+                                    rule_id=rule.id,
+                                )
+                            f_type = _get_parameter_type(fp_obj)
+                            if not _is_type_compatible(f_type, "string"):
+                                result.add_error(
+                                    f"Parameter '${fref}' for exempt_when 'fact' must be string, got {f_type}",
+                                    rule_id=rule.id,
+                                )
+                    elif not _is_valid_string_member(fact_val):
+                        result.add_error(
+                            f"exempt_when 'fact' must be a non-empty string, got {type(fact_val).__name__}",
+                            rule_id=rule.id,
+                        )
+
+                # 2. Validate 'in'
+                if "in" not in rule.exempt_when:
+                    result.add_error(
+                        "exempt_when missing required field 'in'",
+                        rule_id=rule.id,
+                    )
+                else:
+                    in_list = rule.exempt_when["in"]
+                    if isinstance(in_list, str) and in_list.startswith("$") and not in_list.startswith("$$"):
+                        pref = in_list[1:]
+                        if pref not in pack_manifest.parameters:
+                            result.add_error(
+                                f"Rule references undefined parameter '${pref}' in 'exempt_when'",
+                                rule_id=rule.id,
+                            )
+                        else:
+                            p_obj = pack_manifest.parameters[pref]
+                            raw_val = _get_parameter_raw_value(p_obj)
+                            if raw_val is None:
+                                result.add_error(
+                                    f"Referenced parameter '${pref}' in 'exempt_when' has no configured value; absent parameter values cannot be treated as executable configuration",
+                                    rule_id=rule.id,
+                                )
+                            actual_type = _get_parameter_type(p_obj)
+                            if actual_type != "list":
+                                result.add_error(
+                                    f"Parameter '${pref}' for exempt_when 'in' condition must be list, got {actual_type}",
+                                    rule_id=rule.id,
+                                )
+                            else:
+                                if isinstance(p_obj, ParameterDeclaration) and p_obj.item_type:
+                                    if p_obj.item_type.lower().strip() not in ("string", "str"):
+                                        result.add_error(
+                                            f"Parameter '${pref}' for exempt_when 'in' has item_type '{p_obj.item_type}', expected 'string'",
+                                            rule_id=rule.id,
+                                        )
+                                if isinstance(raw_val, list):
+                                    for idx, elem in enumerate(raw_val):
+                                        if not _is_valid_string_member(elem):
+                                            result.add_error(
+                                                f"Parameter '${pref}' for exempt_when 'in' contains non-string element at index {idx} ({elem!r}) of type {type(elem).__name__}",
+                                                rule_id=rule.id,
+                                            )
+                    elif isinstance(in_list, list):
+                        for idx, elem in enumerate(in_list):
+                            if isinstance(elem, str) and elem.startswith("$") and not elem.startswith("$$"):
+                                epref = elem[1:]
+                                if epref not in pack_manifest.parameters:
+                                    result.add_error(
+                                        f"Rule references undefined parameter '${epref}' in 'exempt_when'",
+                                        rule_id=rule.id,
+                                    )
+                                else:
+                                    ep_obj = pack_manifest.parameters[epref]
+                                    ep_raw = _get_parameter_raw_value(ep_obj)
+                                    if ep_raw is None:
+                                        result.add_error(
+                                            f"Referenced parameter '${epref}' in 'exempt_when' list has no configured value; absent parameter values cannot be treated as executable configuration",
+                                            rule_id=rule.id,
+                                        )
+                                    ep_type = _get_parameter_type(ep_obj)
+                                    if not _is_type_compatible(ep_type, "string"):
+                                        result.add_error(
+                                            f"Parameter '${epref}' in exempt_when 'in' list must be string, got {ep_type}",
+                                            rule_id=rule.id,
+                                        )
+                            elif not _is_valid_string_member(elem):
+                                result.add_error(
+                                    f"Literal element in exempt_when 'in' list must be a non-empty string, got {type(elem).__name__} (index {idx})",
+                                    rule_id=rule.id,
+                                )
+                    else:
+                        result.add_error(
+                            f"exempt_when 'in' condition must be a list or $param referencing a list, got {type(in_list).__name__}",
+                            rule_id=rule.id,
+                        )
+
+            # Catch any remaining unreferenced parameters in exempt_when
+            exempt_refs = _extract_param_references(rule.exempt_when)
+            for pref in exempt_refs:
+                if pref not in pack_manifest.parameters:
+                    if not any(f"references undefined parameter '${pref}' in exempt_when" in m.message for m in result.errors):
+                        result.add_error(
+                            f"Rule references undefined parameter '${pref}' in 'exempt_when'",
+                            rule_id=rule.id,
+                        )
 
     return result
 

@@ -678,3 +678,357 @@ rules:
     (pack_dir / "pack.yaml").write_text(p3, encoding="utf-8")
     r3 = lint_pack(pack_dir)
     assert r3.is_valid
+
+
+def test_lint_strict_string_compatibility_date_rejected_for_string_contract(tmp_path):
+    pack_dir = tmp_path / "strict_string_pack"
+    pack_dir.mkdir()
+
+    sources_yaml = """
+pack_id: test.strict_string
+version: "1.0.0"
+reviewed_by: "Auditor"
+sources:
+  - id: S1
+    title: "T"
+    issuing_body: "B"
+    url: "https://example.gov.in"
+    retrieved_on: "2026-11-15"
+    status: verified
+"""
+    (pack_dir / "sources.yaml").write_text(sources_yaml, encoding="utf-8")
+
+    # 1. Parameter with date type used where string is expected (match_across grade)
+    p1 = """
+pack_id: test.strict_string
+version: "1.0.0"
+status: verified
+parameters:
+  typed_date:
+    type: date
+    value: "2026-04-15"
+rules:
+  - id: R1
+    primitive: match_across
+    params: { grade: $typed_date }
+    max_severity: FAIL
+    citation: { source: S1 }
+    remediation: { authority: "Auth" }
+"""
+    (pack_dir / "pack.yaml").write_text(p1, encoding="utf-8")
+    r1 = lint_pack(pack_dir)
+    assert not r1.is_valid
+    assert any("must be string, got date" in str(e) for e in r1.errors)
+
+    # 2. Unquoted YAML date parsed as datetime.date used in inputs.field
+    p2 = """
+pack_id: test.strict_string
+version: "1.0.0"
+status: verified
+parameters:
+  raw_date: 2026-04-15
+rules:
+  - id: R2
+    primitive: numeric_cap
+    inputs: { field: $raw_date }
+    params: { cap: 250000 }
+    max_severity: FAIL
+    citation: { source: S1 }
+    remediation: { authority: "Auth" }
+"""
+    (pack_dir / "pack.yaml").write_text(p2, encoding="utf-8")
+    r2 = lint_pack(pack_dir)
+    assert not r2.is_valid
+    assert any("numeric_cap.inputs.field must be string, got date" in str(e) for e in r2.errors)
+
+
+def test_lint_match_across_allowed_grades_closed_set(tmp_path):
+    pack_dir = tmp_path / "grades_pack"
+    pack_dir.mkdir()
+
+    sources_yaml = """
+pack_id: test.grades
+version: "1.0.0"
+reviewed_by: "Auditor"
+sources:
+  - id: S1
+    title: "T"
+    issuing_body: "B"
+    url: "https://example.gov.in"
+    retrieved_on: "2026-11-15"
+    status: verified
+"""
+    (pack_dir / "sources.yaml").write_text(sources_yaml, encoding="utf-8")
+
+    # Closed set {"name", "date", "id", "text"} must all pass
+    for valid_grade in ("name", "date", "id", "text"):
+        valid_yaml = f"""
+pack_id: test.grades
+version: "1.0.0"
+status: verified
+rules:
+  - id: R_{valid_grade}
+    primitive: match_across
+    params: {{ grade: "{valid_grade}" }}
+    max_severity: FAIL
+    citation: {{ source: S1 }}
+    remediation: {{ authority: "Auth" }}
+"""
+        (pack_dir / "pack.yaml").write_text(valid_yaml, encoding="utf-8")
+        res = lint_pack(pack_dir)
+        assert res.is_valid, f"Expected valid grade '{valid_grade}' to pass, got errors: {res.errors}"
+
+    # 'exact' is NOT in architecture closed set and must be rejected
+    bad_exact_yaml = """
+pack_id: test.grades
+version: "1.0.0"
+status: verified
+rules:
+  - id: R_exact
+    primitive: match_across
+    params: { grade: "exact" }
+    max_severity: FAIL
+    citation: { source: S1 }
+    remediation: { authority: "Auth" }
+"""
+    (pack_dir / "pack.yaml").write_text(bad_exact_yaml, encoding="utf-8")
+    res_exact = lint_pack(pack_dir)
+    assert not res_exact.is_valid
+    assert any("Invalid match grade 'exact'" in str(e) for e in res_exact.errors)
+
+    # Non-string literal grade (int or bool) rejected
+    bad_int_yaml = """
+pack_id: test.grades
+version: "1.0.0"
+status: verified
+rules:
+  - id: R_int
+    primitive: match_across
+    params: { grade: 123 }
+    max_severity: FAIL
+    citation: { source: S1 }
+    remediation: { authority: "Auth" }
+"""
+    (pack_dir / "pack.yaml").write_text(bad_int_yaml, encoding="utf-8")
+    res_int = lint_pack(pack_dir)
+    assert not res_int.is_valid
+    assert any("Invalid match grade '123'" in str(e) for e in res_int.errors)
+
+
+def test_lint_list_member_type_enforcement_for_inputs_and_params(tmp_path):
+    pack_dir = tmp_path / "list_members_pack"
+    pack_dir.mkdir()
+
+    sources_yaml = """
+pack_id: test.list_members
+version: "1.0.0"
+reviewed_by: "Auditor"
+sources:
+  - id: S1
+    title: "T"
+    issuing_body: "B"
+    url: "https://example.gov.in"
+    retrieved_on: "2026-11-15"
+    status: verified
+"""
+    (pack_dir / "sources.yaml").write_text(sources_yaml, encoding="utf-8")
+
+    # 1. Literal non-string item in inputs.docs
+    p1 = """
+pack_id: test.list_members
+version: "1.0.0"
+status: verified
+rules:
+  - id: R1
+    primitive: require_document
+    inputs: { slot: "AADHAAR", docs: ["AADHAAR_CARD", 12345] }
+    max_severity: FAIL
+    citation: { source: S1 }
+    remediation: { authority: "Auth" }
+"""
+    (pack_dir / "pack.yaml").write_text(p1, encoding="utf-8")
+    r1 = lint_pack(pack_dir)
+    assert not r1.is_valid
+    assert any("Literal element in inputs.docs for require_document must be a non-empty string" in str(e) for e in r1.errors)
+
+    # 2. Whole-list $param with non-string elements in inputs.docs
+    p2 = """
+pack_id: test.list_members
+version: "1.0.0"
+status: verified
+parameters:
+  bad_docs_list:
+    type: list
+    value: ["AADHAAR_CARD", 999]
+rules:
+  - id: R2
+    primitive: require_document
+    inputs: { slot: "AADHAAR", docs: $bad_docs_list }
+    max_severity: FAIL
+    citation: { source: S1 }
+    remediation: { authority: "Auth" }
+"""
+    (pack_dir / "pack.yaml").write_text(p2, encoding="utf-8")
+    r2 = lint_pack(pack_dir)
+    assert not r2.is_valid
+    assert any("contains non-string element at index 1" in str(e) for e in r2.errors)
+
+    # 3. Whole-list $param with declared item_type 'int' for inputs.docs
+    p3 = """
+pack_id: test.list_members
+version: "1.0.0"
+status: verified
+parameters:
+  int_list:
+    type: list
+    item_type: int
+    value: [1, 2, 3]
+rules:
+  - id: R3
+    primitive: require_document
+    inputs: { slot: "AADHAAR", docs: $int_list }
+    max_severity: FAIL
+    citation: { source: S1 }
+    remediation: { authority: "Auth" }
+"""
+    (pack_dir / "pack.yaml").write_text(p3, encoding="utf-8")
+    r3 = lint_pack(pack_dir)
+    assert not r3.is_valid
+    assert any("has item_type 'int', expected 'string'" in str(e) for e in r3.errors)
+
+    # 4. enum_in with literal non-string in allowed
+    p4 = """
+pack_id: test.list_members
+version: "1.0.0"
+status: verified
+rules:
+  - id: R4
+    primitive: enum_in
+    inputs: { field: "category" }
+    params: { allowed: ["GENERAL", 123] }
+    max_severity: FAIL
+    citation: { source: S1 }
+    remediation: { authority: "Auth" }
+"""
+    (pack_dir / "pack.yaml").write_text(p4, encoding="utf-8")
+    r4 = lint_pack(pack_dir)
+    assert not r4.is_valid
+    assert any("Literal list element in parameter 'allowed' for enum_in must be a non-empty string" in str(e) for e in r4.errors)
+
+
+def test_lint_exempt_when_shape_and_member_validation(tmp_path):
+    pack_dir = tmp_path / "exempt_pack"
+    pack_dir.mkdir()
+
+    sources_yaml = """
+pack_id: test.exempt
+version: "1.0.0"
+reviewed_by: "Auditor"
+sources:
+  - id: S1
+    title: "T"
+    issuing_body: "B"
+    url: "https://example.gov.in"
+    retrieved_on: "2026-11-15"
+    status: verified
+"""
+    (pack_dir / "sources.yaml").write_text(sources_yaml, encoding="utf-8")
+
+    # 1. Non-dict exempt_when
+    p1 = """
+pack_id: test.exempt
+version: "1.0.0"
+status: verified
+rules:
+  - id: R1
+    primitive: numeric_cap
+    params: { cap: 250000 }
+    exempt_when: "not a dictionary"
+    max_severity: FAIL
+    citation: { source: S1 }
+    remediation: { authority: "Auth" }
+"""
+    (pack_dir / "pack.yaml").write_text(p1, encoding="utf-8")
+    r1 = lint_pack(pack_dir)
+    assert not r1.is_valid
+    assert any("exempt_when" in str(e) for e in r1.errors)
+
+    # 2. Missing 'fact'
+    p2 = """
+pack_id: test.exempt
+version: "1.0.0"
+status: verified
+rules:
+  - id: R2
+    primitive: numeric_cap
+    params: { cap: 250000 }
+    exempt_when: { in: ["EXEMPT_CAT"] }
+    max_severity: FAIL
+    citation: { source: S1 }
+    remediation: { authority: "Auth" }
+"""
+    (pack_dir / "pack.yaml").write_text(p2, encoding="utf-8")
+    r2 = lint_pack(pack_dir)
+    assert not r2.is_valid
+    assert any("exempt_when missing required field 'fact'" in str(e) for e in r2.errors)
+
+    # 3. Missing 'in'
+    p3 = """
+pack_id: test.exempt
+version: "1.0.0"
+status: verified
+rules:
+  - id: R3
+    primitive: numeric_cap
+    params: { cap: 250000 }
+    exempt_when: { fact: "applicant.category" }
+    max_severity: FAIL
+    citation: { source: S1 }
+    remediation: { authority: "Auth" }
+"""
+    (pack_dir / "pack.yaml").write_text(p3, encoding="utf-8")
+    r3 = lint_pack(pack_dir)
+    assert not r3.is_valid
+    assert any("exempt_when missing required field 'in'" in str(e) for e in r3.errors)
+
+    # 4. Non-string element in literal 'in' list
+    p4 = """
+pack_id: test.exempt
+version: "1.0.0"
+status: verified
+rules:
+  - id: R4
+    primitive: numeric_cap
+    params: { cap: 250000 }
+    exempt_when: { fact: "applicant.category", in: ["CAT_A", 123] }
+    max_severity: FAIL
+    citation: { source: S1 }
+    remediation: { authority: "Auth" }
+"""
+    (pack_dir / "pack.yaml").write_text(p4, encoding="utf-8")
+    r4 = lint_pack(pack_dir)
+    assert not r4.is_valid
+    assert any("Literal element in exempt_when 'in' list must be a non-empty string" in str(e) for e in r4.errors)
+
+    # 5. Whole-list parameter for 'in' with non-string elements
+    p5 = """
+pack_id: test.exempt
+version: "1.0.0"
+status: verified
+parameters:
+  bad_cats:
+    type: list
+    value: ["CAT_A", True]
+rules:
+  - id: R5
+    primitive: numeric_cap
+    params: { cap: 250000 }
+    exempt_when: { fact: "applicant.category", in: $bad_cats }
+    max_severity: FAIL
+    citation: { source: S1 }
+    remediation: { authority: "Auth" }
+"""
+    (pack_dir / "pack.yaml").write_text(p5, encoding="utf-8")
+    r5 = lint_pack(pack_dir)
+    assert not r5.is_valid
+    assert any("contains non-string element at index 1" in str(e) for e in r5.errors)

@@ -122,6 +122,7 @@ class ParameterDeclaration(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     type: str
+    item_type: Optional[str] = None
     value: Optional[Any] = None
     description: Optional[str] = None
 
@@ -142,6 +143,27 @@ class ParameterDeclaration(BaseModel):
         if not isinstance(v, str) or v.lower().strip() not in valid_types:
             raise ValueError(
                 f"Invalid parameter type '{v}'. Allowed types: {sorted(valid_types)}"
+            )
+        return v.lower().strip()
+
+    @field_validator("item_type")
+    @classmethod
+    def validate_item_type(cls, v: Optional[str]) -> Optional[str]:
+        if v is None:
+            return None
+        valid_types = {
+            "int",
+            "float",
+            "number",
+            "string",
+            "str",
+            "bool",
+            "boolean",
+            "date",
+        }
+        if not isinstance(v, str) or v.lower().strip() not in valid_types:
+            raise ValueError(
+                f"Invalid parameter item_type '{v}'. Allowed types: {sorted(valid_types)}"
             )
         return v.lower().strip()
 
@@ -206,6 +228,45 @@ class ParameterDeclaration(BaseModel):
                 raise ValueError(
                     f"Parameter of type 'list' must contain a list, got {type(val).__name__} (value: {val!r})"
                 )
+            if self.item_type is not None:
+                it = self.item_type.lower().strip()
+                for idx, elem in enumerate(val):
+                    if it in ("string", "str"):
+                        if not isinstance(elem, str) or isinstance(elem, bool) or not elem.strip():
+                            raise ValueError(
+                                f"List element at index {idx} must be a non-empty string, got {type(elem).__name__} (value: {elem!r})"
+                            )
+                    elif it == "int":
+                        if isinstance(elem, bool) or not isinstance(elem, int):
+                            raise ValueError(
+                                f"List element at index {idx} must be an integer, got {type(elem).__name__} (value: {elem!r})"
+                            )
+                    elif it in ("float", "number"):
+                        if isinstance(elem, bool) or not isinstance(elem, (int, float)):
+                            raise ValueError(
+                                f"List element at index {idx} must be numeric, got {type(elem).__name__} (value: {elem!r})"
+                            )
+                    elif it in ("bool", "boolean"):
+                        if not isinstance(elem, bool):
+                            raise ValueError(
+                                f"List element at index {idx} must be a boolean, got {type(elem).__name__} (value: {elem!r})"
+                            )
+                    elif it == "date":
+                        if isinstance(elem, bool):
+                            raise ValueError(f"List element at index {idx} cannot be a boolean")
+                        if isinstance(elem, (date, datetime)):
+                            pass
+                        elif isinstance(elem, str):
+                            try:
+                                date.fromisoformat(elem)
+                            except (ValueError, TypeError) as exc:
+                                raise ValueError(
+                                    f"List element at index {idx} contains invalid date string '{elem}': {exc}"
+                                )
+                        else:
+                            raise ValueError(
+                                f"List element at index {idx} must be a valid date, got {type(elem).__name__} (value: {elem!r})"
+                            )
 
         return self
 
