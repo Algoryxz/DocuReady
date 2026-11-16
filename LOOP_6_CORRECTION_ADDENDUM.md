@@ -3,7 +3,9 @@
 **Date:** 2026-11-16  
 **Repository:** Algoryxz/DocuReady  
 **Branch:** feat/loop6-release-integrity-and-reproducibility  
-**Reviewed commit:** 87f2534dbd7977c4591579ed0b378641c20bb1f1
+**Reviewed source commit:** 4d7127538b04401aafa52e9f9ede6704b1f7ee50
+**Current report commit:** updated in the active qualification branch
+**Pull request:** https://github.com/Algoryxz/DocuReady/pull/76
 
 ## Purpose
 
@@ -13,7 +15,7 @@ This addendum corrects overstatements in the original Loop 6 qualification repor
 
 ### 1. Source provenance
 
-GitHub comparison confirms that commit `87f2534dbd7977c4591579ed0b378641c20bb1f1` is one commit ahead of `22c75efecc162e058a7b4dd238f0d5eb8a0a6a82`. The comparison against the current remote `feat/electron-desktop-foundation` branch reports its tip as `e400e31832a9827052c084c8533f272f75f1d391`; therefore the older `d9323ea` label is not the current branch tip. A compare/create-PR URL is not evidence that a PR has been created.
+The active qualification branch descends from `22c75efecc162e058a7b4dd238f0d5eb8a0a6a82` and is proposed for review in draft PR #76 targeting `feat/loop5-independent-validation-and-demo`. The comparison against the current remote `feat/electron-desktop-foundation` branch reports its tip as `e400e31832a9827052c084c8533f272f75f1d391`; therefore the older `d9323ea` label is not the current branch tip. A compare/create-PR URL is not evidence that a PR has been created.
 
 ### 2. Network audit scope
 
@@ -24,10 +26,9 @@ The committed monitor calls `psutil.Process.net_connections(kind="all")` in a 50
 
 ### 3. Clean Windows validation
 
-The checked-in PowerShell harness declares a `$SetupExe` parameter but never uses it. It extracts the Portable ZIP, directly tests the sidecar, and launches `DocuReady.exe` for a short process-liveness check. It does not install or uninstall the Squirrel package, and the short launch does not prove full UI rendering or end-to-end desktop interaction.
+The original harness had an unused `$SetupExe` parameter and did not install the Squirrel package. The current branch replaces it with a Windows qualification harness that is designed to test the portable ZIP, sidecar health, clean/degraded/conflict synthetic packet audits, visible app-window launch, Squirrel install, installed app launch, and uninstall. These are test steps in code, not passed results: the harness has not yet been run on Windows in this review.
 
-**Approved wording:** “Portable package and sidecar checks passed in a scrubbed PATH environment, according to the supplied test report.”  
-**Not established:** Squirrel clean-machine install/uninstall, complete desktop UI workflow, or installer cleanup.
+**Current status:** Windows qualification is pending. The new harness must pass on a Windows runner before either distribution can be called verified.
 
 ### 4. AGPLv3 licensing
 
@@ -45,9 +46,9 @@ The packaged sidecar includes PyMuPDF under AGPLv3. The project’s Apache-2.0 l
 
 **CONDITIONAL — NOT APPROVED FOR PRODUCTION DISTRIBUTION.**
 
-The current evidence supports a competition demonstration candidate, not a production-certified release. Remaining release gates:
+The current source branch includes startup fail-fast checks, a corrected PyInstaller source path, a Windows build/qualification workflow, and a stronger install/launch/uninstall harness. The Windows workflow result is not yet verified. The current evidence therefore supports neither a production-certified release nor a confirmed working EXE. Remaining release gates:
 
-1. Run a clean Windows Squirrel install, full UI workflow, uninstall, and residual-file test.
+1. Obtain a green run of `.github/workflows/windows-release-qualification.yml` and independently smoke-test its generated installer and ZIP.
 2. Perform complete process-tree network capture using Windows Filtering Platform/ETW or equivalent event-based tooling.
 3. Obtain qualified legal review of the packaged AGPLv3 component and distribution obligations.
 4. Verify every statutory citation against primary official source documents and remove unsupported references.
@@ -61,3 +62,14 @@ The report's evidence index names `docs/network_audit_logs/network_audit_raw.log
 ### 7. Documentation corrections
 
 The root README has been revised to remove the unsupported 30% prevalence statistic, narrow privacy language, distinguish project-authored Apache-2.0 code from AGPLv3 PyMuPDF, mark PDFium as incomplete, and qualify the statutory reference table as candidate mappings requiring scheme-specific verification. Aadhaar checksum validation and IFSC syntax checking are explicitly distinguished from identity or bank-registry verification.
+
+
+### 8. Windows packaging hardening added after the initial correction
+
+- Packaged Electron builds no longer silently fall back to host Python when the sidecar executable is missing.
+- Packaged startup now checks the sidecar health handshake and requires bundled OCR before presenting the UI as ready. Development mode can still use system OCR or operate without OCR.
+- The PyInstaller spec now points to the repository-root Python package at `src/docuready`.
+- The new Windows workflow builds the sidecar, stages Tesseract, runs tests, builds both Windows distributions, and invokes the clean-machine harness.
+- The desktop README no longer claims system-wide offline operation or zero PII leakage.
+
+These changes are source-level fixes. They do not prove the generated EXE works until the Windows workflow passes. Existing binary hashes in older reports are stale for this source branch.
