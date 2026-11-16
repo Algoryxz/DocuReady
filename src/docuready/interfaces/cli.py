@@ -3,6 +3,7 @@ Command-Line Interface (CLI) for DocuReady
 Usage:
     docuready audit <folder_path> [--json] [--export <path>]
     docuready benchmark
+    docuready packs lint [<pack_path>] [--allow-draft]
 """
 
 import sys
@@ -13,8 +14,8 @@ from pathlib import Path
 
 from docuready.domain.enums import ExitCode
 from docuready.outcome.resolver import exit_code_for_readiness
-from docuready.pipeline import AuditPipeline
 from docuready.report.exporter import generate_readiness_summary_markdown, export_audit_report_json
+from docuready.rules.lint import lint_all_packs
 
 
 class DocuReadyArgumentParser(argparse.ArgumentParser):
@@ -52,6 +53,68 @@ def _resolve_synthetic_manifest() -> tuple[Path, Path]:
     )
 
 
+def _handle_packs_lint(args, parser: argparse.ArgumentParser) -> None:
+    """Handle 'docuready packs lint' command without instantiating AuditPipeline."""
+    if args.pack_path:
+        target_path = Path(args.pack_path).resolve()
+    else:
+        # Default to ./packs in cwd or relative to repository root
+        candidates = [
+            Path.cwd() / "packs",
+            Path(__file__).resolve().parents[3] / "packs",
+        ]
+        target_path = None
+        for cand in candidates:
+            if cand.is_dir():
+                target_path = cand
+                break
+        if target_path is None:
+            print("Error: No scheme packs directory found (searched ./packs).", file=sys.stderr)
+            sys.exit(int(ExitCode.USAGE_ERROR))
+
+    if not target_path.exists():
+        print(f"Error: Path '{args.pack_path}' not found.", file=sys.stderr)
+        sys.exit(int(ExitCode.USAGE_ERROR))
+
+    results = lint_all_packs(target_path, allow_draft=args.allow_draft)
+
+    if not results:
+        print(f"Error: No scheme packs found at '{target_path}'.", file=sys.stderr)
+        sys.exit(int(ExitCode.USAGE_ERROR))
+
+    total_errors = 0
+    total_warnings = 0
+
+    print("=" * 80)
+    print("DOCUREADY SCHEME PACK LINTER")
+    print("=" * 80)
+
+    for res in results:
+        pack_name = res.pack_id or res.pack_dir.name
+        n_err = len(res.errors)
+        n_warn = len(res.warnings)
+        total_errors += n_err
+        total_warnings += n_warn
+
+        if res.is_valid:
+            print(f"✓ [PASS] Pack '{pack_name}' ({res.pack_dir}) — 0 errors, {n_warn} warning(s)")
+        else:
+            print(f"✗ [FAIL] Pack '{pack_name}' ({res.pack_dir}) — {n_err} error(s), {n_warn} warning(s)")
+
+        for err in res.errors:
+            print(f"    ERROR: {err}")
+        for warn in res.warnings:
+            print(f"    WARNING: {warn}")
+
+    print("=" * 80)
+    print(f"Summary: {len(results)} pack(s) inspected, {total_errors} error(s), {total_warnings} warning(s)")
+    print("=" * 80)
+
+    if total_errors > 0:
+        sys.exit(int(ExitCode.NEEDS_CHECKS))
+    sys.exit(int(ExitCode.NO_ISSUES))
+
+
 def main():
     parser = DocuReadyArgumentParser(description="DocuReady CLI — Document Consistency Linter")
     subparsers = parser.add_subparsers(dest="command", help="Commands", parser_class=DocuReadyArgumentParser)
@@ -70,10 +133,35 @@ def main():
     # Benchmark command
     subparsers.add_parser("benchmark", help="Run benchmark across all synthetic test packets")
 
-    args = parser.parse_args()
-    pipeline = AuditPipeline()
+    # Packs command (T3.1)
+    packs_parser = subparsers.add_parser("packs", help="Scheme pack management and verification")
+    packs_subparsers = packs_parser.add_subparsers(dest="packs_command", help="Pack subcommands", parser_class=DocuReadyArgumentParser)
 
-    if args.command == "audit":
+    lint_parser = packs_subparsers.add_parser("lint", help="Lint scheme pack manifests and citation sources")
+    lint_parser.add_argument(
+        "pack_path",
+        nargs="?",
+        default=None,
+        help="Path to specific scheme pack folder or root packs directory (defaults to ./packs)",
+    )
+    lint_parser.add_argument(
+        "--allow-draft",
+        action="store_true",
+        help="Allow packs in 'draft' status without failing the lint",
+    )
+
+    args = parser.parse_args()
+
+    if args.command == "packs":
+        if args.packs_command == "lint":
+            _handle_packs_lint(args, packs_parser)
+        else:
+            packs_parser.print_help()
+            sys.exit(int(ExitCode.USAGE_ERROR))
+    elif args.command == "audit":
+        from docuready.pipeline import AuditPipeline
+
+        pipeline = AuditPipeline()
         packet_path = Path(args.packet_dir).resolve()
         if not packet_path.exists() or not packet_path.is_dir():
             print(f"Error: Directory '{args.packet_dir}' not found.", file=sys.stderr)
@@ -110,6 +198,9 @@ def main():
 
         raise SystemExit(int(exit_code_for_readiness(result.readiness)))
     elif args.command == "benchmark":
+        from docuready.pipeline import AuditPipeline
+
+        pipeline = AuditPipeline()
         try:
             manifest_path, synthetic_dir = _resolve_synthetic_manifest()
         except FileNotFoundError as err:
