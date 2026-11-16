@@ -49,7 +49,7 @@ PRIMARY_ANCHOR_PATTERNS: Dict[DocumentType, List[str]] = {
         r"\b(?:SCHOLARSHIP\s+APPLICATION|COMMON\s+SCHOLARSHIP\s+PORTAL|APPLICATION\s+ACKNOWLEDGEMENT|APPLICATION\s+ACKNOWLEDGMENT)\b",
     ],
     DocumentType.AADHAAR: [
-        r"\b(?:UNIQUE\s+IDENTIFICATION\s+AUTHORITY|AADHAAR\s+CARD|MERA\s+AADHAAR|UIDAI)\b",
+        r"\b(?:UNIQUE\s+IDENTIFICATION\s+AUTHORITY\s+OF\s+INDIA|UNIQUE\s+IDENTIFICATION\s+AUTHORITY|AADHAAR\s+CARD|MERA\s+AADHAAR|UIDAI)\b",
     ],
 }
 
@@ -98,10 +98,47 @@ CORROBORATING_PATTERNS: Dict[DocumentType, List[str]] = {
     ],
     DocumentType.AADHAAR: [
         r"\bUIDAI\b",
-        r"\bAADHAAR\s+NUMBER\b",
+        r"\bAADHAAR\s+(?:NUMBER|NO)\b",
+        r"\bAADHAAR\b",
         r"\bGOVERNMENT\s+OF\s+INDIA\b",
+        r"\bENROLMENT\s+(?:NO|NUMBER)\b",
     ],
 }
+
+# Terms indicating instructions, checklists, upload requirements, or attachments
+# that must not be mistaken for authoritative document title headers.
+INSTRUCTION_EXCLUSION_TERMS = [
+    "REQUIRED",
+    "REQUIREMENT",
+    "REQUIREMENTS",
+    "UPLOAD",
+    "UPLOADING",
+    "UPLOADED",
+    "ATTACH",
+    "ATTACHED",
+    "ATTACHMENT",
+    "ATTACHMENTS",
+    "ENCLOSE",
+    "ENCLOSED",
+    "ENCLOSURE",
+    "ENCLOSURES",
+    "SUBMIT",
+    "SUBMISSION",
+    "SUBMITTED",
+    "MANDATORY",
+    "CHECKLIST",
+    "COPY OF",
+    "COPIES OF",
+    "DETAILS OF",
+    "PARTICULARS OF",
+    "ENCLOSED CERTIFICATE",
+    "DOCUMENTS ENCLOSED",
+    "DOCUMENTS TO ATTACH",
+    "DOCUMENTS TO BE ATTACHED",
+    "SUPPORTING DOCUMENTS",
+    "ELIGIBILITY",
+    "ANNEXURE",
+]
 
 BANK_STATEMENT_INDICATORS = [
     "BANK STATEMENT",
@@ -141,6 +178,13 @@ def classify_document_content(text: str) -> SlotClassification:
     matched_primary: Dict[DocumentType, List[str]] = {}
     matched_corroborating: Dict[DocumentType, List[str]] = {}
 
+    lines = [l.strip() for l in t.splitlines() if l.strip()]
+
+    # Detect whether document contains application form title anchors
+    has_app_form_title = any(
+        re.search(pat, t) for pat in PRIMARY_ANCHOR_PATTERNS[DocumentType.APPLICATION_FORM]
+    )
+
     for doc_type, patterns in PRIMARY_ANCHOR_PATTERNS.items():
         found_primary: List[str] = []
 
@@ -148,37 +192,60 @@ def classify_document_content(text: str) -> SlotClassification:
             # Special protection: bank statements cannot be classified as passbooks
             if not is_bank_statement:
                 for pat in patterns:
-                    matches = re.findall(pat, t)
-                    if matches:
-                        # Exclude 'SAVINGS BANK' if 'STATEMENT' is present on the same line
-                        if pat == r"\bSAVINGS\s+BANK\b":
-                            lines_with_sb = [line for line in t.split("\n") if "SAVINGS BANK" in line]
-                            valid_lines = [l for l in lines_with_sb if "STATEMENT" not in l]
-                            if valid_lines:
-                                found_primary.extend(matches)
-                        else:
+                    for line in lines:
+                        if pat == r"\bSAVINGS\s+BANK\b" and "STATEMENT" in line:
+                            continue
+                        matches = re.findall(pat, line)
+                        if matches:
                             found_primary.extend(matches)
 
         elif doc_type == DocumentType.AADHAAR:
-            # Special protection: check strong identity anchors first
+            # Specific identity-document context required (AADHAAR CARD, UIDAI, etc.)
+            # Exclude instructional upload references e.g. "Upload Aadhaar Card"
             for pat in patterns:
-                matches = re.findall(pat, t)
-                if matches:
-                    found_primary.extend(matches)
-            # If bare AADHAAR appears, verify it is not in bank passbook DBT/seeding context
-            if not found_primary and "AADHAAR" in t:
-                for line in t.split("\n"):
-                    if "AADHAAR" in line:
-                        if any(term in line for term in ["SEEDING", "MAPPED", "LINKED", "DBT", "NPCI", "BANK"]):
-                            continue
-                        found_primary.append("AADHAAR")
-                        break
+                for line in lines:
+                    if any(term in line for term in INSTRUCTION_EXCLUSION_TERMS):
+                        continue
+                    matches = re.findall(pat, line)
+                    if matches:
+                        found_primary.extend(matches)
+
+        elif doc_type in (DocumentType.INCOME_CERT, DocumentType.CASTE_CERT, DocumentType.RESIDENCE_CERT):
+            # Certificate primary anchors must be authoritative header titles, not
+            # body-text references, checklist items, or upload instructions.
+            for pat in patterns:
+                for idx, line in enumerate(lines):
+                    if any(term in line for term in INSTRUCTION_EXCLUSION_TERMS):
+                        continue
+                    if re.match(r"^(\d+[\.\)]|\([a-z\d]+\)|[\-\*•])\s+", line):
+                        continue
+                    if has_app_form_title and idx > 3:
+                        # In an application form, subordinate certificate mentions are not titles
+                        continue
+                    matches = re.findall(pat, line)
+                    if matches:
+                        found_primary.extend(matches)
+
+        elif doc_type == DocumentType.MARKSHEET:
+            for pat in patterns:
+                for line in lines:
+                    if any(term in line for term in INSTRUCTION_EXCLUSION_TERMS):
+                        continue
+                    if re.match(r"^(\d+[\.\)]|\([a-z\d]+\)|[\-\*•])\s+", line):
+                        continue
+                    if has_app_form_title:
+                        continue
+                    matches = re.findall(pat, line)
+                    if matches:
+                        found_primary.extend(matches)
 
         else:
+            # Application form
             for pat in patterns:
-                matches = re.findall(pat, t)
-                if matches:
-                    found_primary.extend(matches)
+                for line in lines:
+                    matches = re.findall(pat, line)
+                    if matches:
+                        found_primary.extend(matches)
 
         if found_primary:
             matched_primary[doc_type] = found_primary

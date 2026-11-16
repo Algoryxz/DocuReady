@@ -693,3 +693,246 @@ def test_pipeline_swapped_files_integration(tmp_path):
     # Verify readiness reflects NEEDS_CHECKS and NOT automatic FAIL
     assert audit_res.readiness is Readiness.NEEDS_CHECKS
     assert audit_res.v2_summary_counts[Status.FAIL.value] == 0
+
+
+# ==============================================================================
+# 8. REVIEW HARDENING & INTEGRATION REGRESSION TESTS (T2.4 PR #69 REVIEW)
+# ==============================================================================
+
+def test_aadhaar_field_in_application_form_remains_application_form():
+    """Regression: An application form with an Aadhaar number field remains APPLICATION_FORM."""
+    app_text = (
+        "COMMON SCHOLARSHIP PORTAL\n"
+        "APPLICATION ACKNOWLEDGEMENT RECEIPT — POST-MATRIC SCHOLARSHIP (SC/ST/OBC)\n"
+        "Section 1: Applicant Demographics\n"
+        "Applicant Full Name: Smruti Ranjan Nayak\n"
+        "Aadhaar Number: 1234 5678 9012\n"
+        "Aadhaar Enrollment Status: ENROLLED\n"
+    )
+    classification = classify_document_content(app_text)
+    assert classification.is_confident is True
+    assert classification.candidate_type == DocumentType.APPLICATION_FORM
+    assert classification.is_uncertain is False
+    assert DocumentType.AADHAAR not in classification.conflicting_types
+
+    doc = _make_doc(DocumentType.APPLICATION_FORM, raw_text=app_text)
+    finding = validate_slot(slot=DocumentType.APPLICATION_FORM, doc=doc)
+    assert finding is None
+
+
+def test_aadhaar_linking_or_seeding_in_application_not_aadhaar():
+    """Regression: An application form mentioning Aadhaar linking/seeding is not classified as Aadhaar."""
+    app_text = (
+        "SCHOLARSHIP APPLICATION FORM 2025-26\n"
+        "Section 3: Bank Account & DBT Verification\n"
+        "Applicant Name: Smruti Ranjan Nayak\n"
+        "Bank Name: State Bank of India\n"
+        "Aadhaar seeding with bank account: YES\n"
+        "Aadhaar mapped to NPCI payment bridge: ACTIVE\n"
+    )
+    classification = classify_document_content(app_text)
+    assert classification.is_confident is True
+    assert classification.candidate_type == DocumentType.APPLICATION_FORM
+    assert classification.candidate_type != DocumentType.AADHAAR
+    assert "APPLICATION" in classification.primary_anchors[0]
+
+
+def test_genuine_aadhaar_synthetic_identity_document_classified_as_aadhaar():
+    """Regression: A genuine synthetic Aadhaar identity document is classified as AADHAAR."""
+    aadhaar_text = (
+        "GOVERNMENT OF INDIA\n"
+        "UNIQUE IDENTIFICATION AUTHORITY OF INDIA\n"
+        "AADHAAR CARD\n"
+        "Mera Aadhaar, Meri Pehchan\n"
+        "To: Smruti Ranjan Nayak\n"
+        "DOB: 15/08/2005\n"
+        "Gender: MALE\n"
+        "Aadhaar Number: 1234 5678 9012\n"
+    )
+    classification = classify_document_content(aadhaar_text)
+    assert classification.is_confident is True
+    assert classification.candidate_type == DocumentType.AADHAAR
+    assert len(classification.primary_anchors) >= 1
+
+    doc = _make_doc(DocumentType.AADHAAR, raw_text=aadhaar_text)
+    # Valid in Aadhaar slot
+    assert validate_slot(slot=DocumentType.AADHAAR, doc=doc) is None
+    # Mismatch in Income slot
+    mismatch_f = validate_slot(slot=DocumentType.INCOME_CERT, doc=doc)
+    assert mismatch_f is not None
+    assert mismatch_f.status == FindingStatus.REVIEW
+    assert "Expected 'INCOME_CERT'" in mismatch_f.message
+    assert "identifies as 'AADHAAR'" in mismatch_f.message
+
+
+def test_bare_aadhaar_number_and_generic_demographics_remains_uncertain():
+    """Regression: A document with only an Aadhaar number and generic identity wording remains uncertain."""
+    generic_id_text = (
+        "Aadhaar Number: 1234 5678 9012\n"
+        "Name: Smruti Ranjan Nayak\n"
+        "Date of Birth: 15/08/2005\n"
+        "Address: Plot 104, Saheed Nagar, Bhubaneswar\n"
+    )
+    classification = classify_document_content(generic_id_text)
+    assert classification.candidate_type is None
+    assert classification.is_confident is False
+    assert classification.is_uncertain is True
+    assert "authoritative primary title anchors are missing" in classification.uncertainty_reason
+
+    doc = _make_doc(DocumentType.AADHAAR, raw_text=generic_id_text)
+    finding = validate_slot(slot=DocumentType.AADHAAR, doc=doc)
+    assert finding is not None
+    assert finding.status == FindingStatus.REVIEW
+    assert finding._is_wrong_type is False
+
+
+def test_application_form_with_body_certificate_references_remains_application_form():
+    """Regression: Body text references to required certificates do not trigger conflicting classification."""
+    app_text = (
+        "COMMON SCHOLARSHIP PORTAL\n"
+        "APPLICATION ACKNOWLEDGEMENT RECEIPT — POST-MATRIC SCHOLARSHIP\n"
+        "Applicant Full Name: Smruti Ranjan Nayak\n"
+        "Instructions & Enclosures:\n"
+        "- Income certificate required.\n"
+        "- Upload caste certificate.\n"
+        "- Residence certificate attachment.\n"
+        "Documents to be submitted:\n"
+        "1. Income Certificate\n"
+        "2. Caste Certificate\n"
+        "3. Residence Certificate\n"
+    )
+    classification = classify_document_content(app_text)
+    assert classification.is_confident is True
+    assert classification.candidate_type == DocumentType.APPLICATION_FORM
+    assert classification.conflicting_types == []
+    assert len(classification.primary_anchors) >= 1
+
+    doc = _make_doc(DocumentType.APPLICATION_FORM, raw_text=app_text)
+    assert validate_slot(slot=DocumentType.APPLICATION_FORM, doc=doc) is None
+
+
+def test_evidence_provenance_reports_detected_type_and_no_fabricated_page():
+    """Regression: Evidence provenance records detected candidate type and avoids fabricated page 1."""
+    caste_text = SYNTHETIC_TEXTS[DocumentType.CASTE_CERT]
+    doc = _make_doc(DocumentType.CASTE_CERT, raw_text=caste_text, file_name="uploaded_file.pdf")
+    finding = validate_slot(slot=DocumentType.INCOME_CERT, doc=doc)
+
+    assert finding is not None
+    assert finding.rule_id == "RULE-SLOT-01"
+    assert len(finding.evidence) == 1
+    ev = finding.evidence[0]
+
+    # Must report detected candidate type, NOT expected slot
+    assert ev.document_type == DocumentType.CASTE_CERT.value
+    assert ev.document_type != DocumentType.INCOME_CERT.value
+    # Must NOT fabricate page 1 provenance when page number is unknown
+    assert ev.page_number is None
+    assert ev.extracted_field == "DOCUMENT_SLOT"
+    assert "Expected slot: 'INCOME_CERT'" in ev.raw_snippet
+    assert "Detected candidate: 'CASTE_CERT'" in ev.raw_snippet
+
+    # Message must not leak sensitive applicant details
+    assert "Smruti" not in finding.message
+    assert "Nayak" not in finding.message
+
+
+def test_unreadable_and_corrupted_integrated_matrix_outcomes():
+    """Regression: End-to-end validate_packet unreadable and corrupted outcomes match agreed domain matrix."""
+    # 1. Unreadable document produces RULE-DOC-02 with REVIEW / EVIDENCE_UNCERTAIN
+    doc_unreadable = ExtractedDocument(
+        doc_type=DocumentType.INCOME_CERT,
+        file_path="synthetic_data/income_cert.pdf",
+        status="UNREADABLE",
+        extraction_method=ExtractionMethod.UNEXTRACTED.value,
+    )
+    validator = DocuReadyValidator(SchemeConfig(), audit_date=date(2026, 11, 15))
+    result = validator.validate_packet("TEST_UNREADABLE", {DocumentType.INCOME_CERT: doc_unreadable})
+
+    doc02_findings = [f for f in result.findings if f.rule_id == "RULE-DOC-02"]
+    assert len(doc02_findings) == 1
+    f_unreadable = doc02_findings[0]
+    assert f_unreadable.status is Status.REVIEW
+    assert f_unreadable.reason_code == ReasonCode.EVIDENCE_UNCERTAIN.value
+    assert f_unreadable.severity is Severity.CRITICAL
+    assert f_unreadable.penalty == 25
+
+    # Verify no duplicate unreadable slot finding is emitted
+    slot_findings = [f for f in result.findings if f.rule_id == "RULE-SLOT-01"]
+    assert len(slot_findings) == 0
+
+    # 2. Missing mandatory upload produces RULE-DOC-01 with MISSING / DOC_ABSENT
+    result_missing = validator.validate_packet("TEST_MISSING", {})
+    doc01_findings = [f for f in result_missing.findings if f.rule_id == "RULE-DOC-01"]
+    assert len(doc01_findings) > 0
+    for f_m in doc01_findings:
+        assert f_m.status is Status.MISSING
+        assert f_m.reason_code == ReasonCode.DOC_ABSENT.value
+
+    # 3. Blank upload produces RULE-SLOT-01 with REVIEW / EVIDENCE_UNCERTAIN
+    doc_blank = ExtractedDocument(
+        doc_type=DocumentType.INCOME_CERT,
+        file_path="synthetic_data/income_cert.pdf",
+        status="VALID",
+        raw_text="",
+        fields={},
+        extraction_method=ExtractionMethod.NATIVE_VECTOR.value,
+    )
+    result_blank = validator.validate_packet("TEST_BLANK", {DocumentType.INCOME_CERT: doc_blank})
+    slot_blank_findings = [f for f in result_blank.findings if f.rule_id == "RULE-SLOT-01"]
+    assert len(slot_blank_findings) == 1
+    assert slot_blank_findings[0].status is Status.REVIEW
+    assert slot_blank_findings[0].reason_code == ReasonCode.EVIDENCE_UNCERTAIN.value
+
+
+def test_actual_malformed_temporary_files_handling(tmp_path):
+    """Regression: Real corrupted, blank, and truncated files on disk extract and audit cleanly without uncaught exceptions."""
+    import pymupdf
+    from docuready.ingest.extractor import DocumentExtractor
+    from docuready.pipeline import AuditPipeline
+
+    # 1. Corrupted PDF header file
+    corrupted_hdr = tmp_path / "corrupted_hdr.pdf"
+    corrupted_hdr.write_bytes(b"NOT_A_VALID_PDF_HEADER_ABCDEF123456")
+
+    # 2. Valid blank-page PDF
+    blank_pdf = tmp_path / "blank_page.pdf"
+    doc_blank = pymupdf.open()
+    doc_blank.new_page()
+    doc_blank.save(str(blank_pdf))
+    doc_blank.close()
+
+    # 3. Truncated PDF body
+    truncated_pdf = tmp_path / "truncated_body.pdf"
+    truncated_pdf.write_bytes(b"%PDF-1.4\nTRUNCATED_BODY_GARBAGE\x00\x01\x02\xff\xfe")
+
+    extractor = DocumentExtractor()
+
+    # Extraction must not crash with uncaught exceptions
+    ed_corrupt = extractor.extract_document(str(corrupted_hdr), DocumentType.INCOME_CERT)
+    assert ed_corrupt.status == "CORRUPTED"
+
+    ed_blank = extractor.extract_document(str(blank_pdf), DocumentType.CASTE_CERT)
+    assert ed_blank.status == "UNREADABLE"
+
+    ed_trunc = extractor.extract_document(str(truncated_pdf), DocumentType.MARKSHEET)
+    assert ed_trunc.status == "CORRUPTED"
+
+    # Pipeline intake with malformed files in a packet directory
+    pkt_dir = tmp_path / "malformed_packet"
+    pkt_dir.mkdir()
+    (pkt_dir / "income_cert.pdf").write_bytes(b"NOT_A_PDF_HEADER_ABCDEF")
+    (pkt_dir / "caste_cert.pdf").write_bytes(blank_pdf.read_bytes())
+    (pkt_dir / "marksheet.pdf").write_bytes(truncated_pdf.read_bytes())
+
+    pipeline = AuditPipeline(as_of=date(2026, 11, 15))
+    audit_res, docs = pipeline.load_and_audit_packet(str(pkt_dir), packet_id="PKT_MALFORMED")
+
+    # Final audit result status reflects NEEDS_CHECKS or NOT_READY
+    assert audit_res.readiness in (Readiness.NEEDS_CHECKS, Readiness.NOT_READY)
+
+    # All unreadable/corrupted findings must resolve to REVIEW / EVIDENCE_UNCERTAIN
+    unreadable_findings = [f for f in audit_res.findings if f.rule_id == "RULE-DOC-02"]
+    assert len(unreadable_findings) >= 2
+    for f in unreadable_findings:
+        assert f.status is Status.REVIEW
+        assert f.reason_code == ReasonCode.EVIDENCE_UNCERTAIN.value
