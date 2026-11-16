@@ -1,4 +1,4 @@
-import { app, BrowserWindow, session } from "electron";
+import { app, BrowserWindow, dialog, session } from "electron";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import { IpcHandlerRegistry } from "./main/ipc.ts";
@@ -11,6 +11,8 @@ const isDevelopment = !app.isPackaged;
 let workspaceManager: WorkspaceManager | null = null;
 let sidecarManager: SidecarManager | null = null;
 let mainWindow: BrowserWindow | null = null;
+let shutdownStarted = false;
+let shutdownComplete = false;
 
 function installContentSecurityPolicy(): void {
   const policy = getContentSecurityPolicy(isDevelopment);
@@ -84,8 +86,22 @@ app.whenReady().then(async () => {
   await workspaceManager.initialize();
 
   // Initialize and start sidecar manager
-  sidecarManager = new SidecarManager(workspaceManager.getWorkspaceRoot());
+  sidecarManager = new SidecarManager(workspaceManager.getWorkspaceRoot(), undefined, !isDevelopment);
   await sidecarManager.start();
+
+  // Do not show a seemingly usable desktop if the packaged engine or bundled OCR is broken.
+  const engineHealth = await sidecarManager.getHealth(45000);
+  if (!engineHealth.ok) {
+    throw new Error(`The document engine failed its startup check: ${engineHealth.error || "unknown sidecar error"}`);
+  }
+  if (!isDevelopment && (!engineHealth.isBundled || !engineHealth.ocrAvailable)) {
+    throw new Error(
+      `The packaged OCR runtime is unavailable. Expected bundled Tesseract; source=${engineHealth.ocrSource || "unknown"}, available=${engineHealth.ocrAvailable}.`
+    );
+  }
+  if (!isDevelopment && !engineHealth.ocrLanguages.includes("eng")) {
+    throw new Error("The bundled OCR runtime is missing the required English trained-data file (eng.traineddata).");
+  }
 
   // Register all typed IPC handlers
   const ipcRegistry = new IpcHandlerRegistry(
@@ -104,15 +120,36 @@ app.whenReady().then(async () => {
       await createMainWindow();
     }
   });
+}).catch((error: unknown) => {
+  const message = error instanceof Error ? error.message : String(error);
+  console.error("[startup] DocuReady failed to initialize:", message);
+  dialog.showErrorBox(
+    "DocuReady could not start",
+    message + "\n\nReinstall DocuReady. If the problem continues, provide the diagnostic details to the project team."
+  );
+  app.quit();
 });
 
-app.on("before-quit", async () => {
-  if (sidecarManager) {
-    await sidecarManager.shutdown().catch(() => {});
-  }
-  if (workspaceManager) {
-    await workspaceManager.clearAll().catch(() => {});
-  }
+app.on("before-quit", (event) => {
+  if (shutdownComplete) return;
+  event.preventDefault();
+  if (shutdownStarted) return;
+  shutdownStarted = true;
+
+  void (async () => {
+    try {
+      await sidecarManager?.shutdown();
+    } catch (error) {
+      console.error("[shutdown] Sidecar cleanup failed:", error);
+    }
+    try {
+      await workspaceManager?.clearAll();
+    } catch (error) {
+      console.error("[shutdown] Workspace cleanup failed:", error);
+    }
+    shutdownComplete = true;
+    app.quit();
+  })();
 });
 
 app.on("window-all-closed", () => {
