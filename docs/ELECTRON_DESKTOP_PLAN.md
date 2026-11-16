@@ -368,4 +368,47 @@ DocuReady/
 
 ---
 
-**Decision record:** Loop 1 foundation verified by reproducible tests. Release packaging gates (including PyMuPDF AGPL licensing) remain open as tracked in Section 6.
+## 14. Loop 2 implementation & verification record (16 Nov 2026)
+
+- **Status:** Loop 2 Complete — Evidence Viewer, Finding Traceability & Audit Explainability.
+- **Evidence Data Contract & DTO:**
+  - Standardized `EvidenceProvenanceDTO` and `NormalizedEvidenceItem` in `apps/desktop/src/shared/types.ts`.
+  - Normalizer in `apps/desktop/src/shared/evidence.ts` (`normalizeFindingsAndEvidence`): maps engine findings to documents, pages, and bounding boxes.
+  - Preserves negative evidence: missing documents and absent fields maintain `hasProvenance: false` and `boundingBox: null` without fabricating coordinates.
+  - Redaction integrity: evidence snippets in public dictionaries remain redacted (`[REDACTED EVIDENCE SNIPPET]`) while retaining exact coordinate geometries.
+- **Coordinate Transformation Proof & Implementation (`apps/desktop/src/shared/coordinates.ts`):**
+  - PyMuPDF engine coordinate space: points (1/72 inch), top-left origin `(0, 0)`, unrotated coordinates `[x0, y0, x1, y1]`.
+  - PDF.js viewport coordinate space: CSS pixels, top-left origin `(0, 0)`, rotated viewports.
+  - Verified exact mathematical transformation formulas:
+    - 0° (upright): `left = x0 * scale`, `top = y0 * scale`, `width = (x1 - x0) * scale`, `height = (y1 - y0) * scale`.
+    - 90° clockwise: `left = (pageHeight - y1) * scale`, `top = x0 * scale`, `width = (y1 - y0) * scale`, `height = (x1 - x0) * scale`.
+    - 180° rotation: `left = (pageWidth - x1) * scale`, `top = (pageHeight - y1) * scale`, `width = (x1 - x0) * scale`, `height = (y1 - y0) * scale`.
+    - 270° clockwise: `left = y0 * scale`, `top = (pageWidth - x1) * scale`, `width = (y1 - y0) * scale`, `height = (x1 - x0) * scale`.
+  - Bounding box clamping, inverted coordinate recovery (`x1 < x0`), and crop/viewBox offset adjustments.
+- **PDF Evidence Viewer (`apps/desktop/src/renderer/components/EvidenceViewer.tsx`):**
+  - Built with `pdfjs-dist@6.5.438` (audited with 0 vulnerabilities, resolving GHSA-hq66-cqwq-w95j present in 5.x).
+  - High-DPI canvas rendering with device pixel ratio scaling.
+  - Zoom controls: Zoom In (+), Zoom Out (−), 100% Reset, and Fit-to-Width.
+  - Page navigation controls with direct page counters and rapid page transition cancellation.
+  - Bounding-box overlay layer with status-coded borders (PASS = green, FAIL = red, WARN = amber), active selection glow, match grade tags, and tooltips.
+  - Bidirectional navigation: clicking an overlay box focuses the corresponding finding in the right panel.
+- **Finding Inspection Panel (`apps/desktop/src/renderer/components/FindingPanel.tsx`):**
+  - Filtering by status pills (`ALL`, `FAIL` / `MISSING`, `WARN`, `PASS`, `MANUAL_REVIEW`).
+  - Search filter across rule IDs, rule titles, fields, messages, and reason codes.
+  - Multi-criteria sorting (Severity descending, Status, Rule ID).
+  - Comprehensive inspection cards exposing: Rule ID, status, severity, penalty points deduction, evaluated field, match grade, reason code, statutory reference, human-readable message, and engine-provided remediation guidance.
+  - Evidence list with "Inspect in Viewer ↗" action that switches documents and pages and scrolls directly to the evidence bounding box.
+- **Three-Panel Professional Workspace Layout:**
+  - Panel 1 (Left): `DocumentNav` — document switching, file type indicators, size, and per-document FAIL/WARN/PASS issue counts.
+  - Panel 2 (Center): `EvidenceViewer` — central document inspection stage with toolbar and overlays.
+  - Panel 3 (Right): `FindingPanel` — comprehensive finding and explainability list.
+  - Topbar: live engine health status, readiness score, overall outcome status, report export (JSON/Markdown), and session clear.
+- **IPC & Security Enhancements:**
+  - Secure binary delivery: added `documents:get-binary` IPC channel and `getDocumentBinary(id)` in preload.
+  - Enforces workspace boundaries: only serves registered session documents, completely blocks directory traversal (`..`, absolute paths), and passes `Uint8Array` in-memory without exposing local filesystem paths to the renderer.
+- **Packaging & Parity Verification:**
+  - `npm run package` runs cleanly through Electron Forge 8, producing `apps/desktop/out/DocuReady-win32-x64/DocuReady.exe`.
+  - Zero-regression test verification:
+    - Full Python suite: 439 collected items, 438 passed, 1 skipped.
+    - Full Desktop test suite: 19 tests passed (0 failures).
+

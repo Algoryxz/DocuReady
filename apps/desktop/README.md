@@ -1,59 +1,75 @@
 # DocuReady Desktop
 
-Electron desktop shell for the existing Python DocuReady engine.
+Local-first, offline-only Electron desktop application for the DocuReady document readiness engine.
+
+## Overview
+
+DocuReady Desktop integrates the canonical Python statutory audit engine as a background sidecar process over a secure stdio JSON Lines protocol, providing a 3-panel evidence inspection and explainability workspace:
+
+- **Document Navigation Panel:** Manage and switch between packet documents with live status and issue counters.
+- **Central Evidence Viewer:** Built on PDF.js with high-DPI canvas rendering, zoom controls, fit-to-width, page navigation, and exact bounding-box overlays.
+- **Finding Inspection Panel:** Filter by status (PASS, WARN, FAIL, REVIEW), search by rule ID/field, sort by severity, inspect match grades, reason codes, statutory citations, and remediation guidance, with 1-click inspection linking directly to source document pages.
 
 ## Prerequisites
 
-- Node.js 24 LTS (Electron Forge 8 requires Node.js 22.17 or newer).
-- npm.
-- Python 3.11–3.14 for sidecar development.
-- The repository's supported Python dependencies and Tesseract OCR for real audit execution.
+- Node.js 22.17+ or 24 LTS.
+- npm 11+.
+- Python 3.11–3.14 (with `docuready` installed, e.g. `pip install -e .`).
+- Tesseract OCR (optional, for image/scanned document extraction).
 
 ## Development
 
-From this directory:
+From `apps/desktop`:
 
 ```bash
 npm install
 npm start
 ```
 
-Type-check the desktop sources:
+### Type-Checking & Verification
+
+Run strict TypeScript type-checking:
 
 ```bash
 npm run lint:types
 ```
 
-Package the current shell:
+Run the desktop test suite (IPC security, coordinate transformation, evidence normalizer, binary delivery, and end-to-end parity):
+
+```bash
+npm test
+```
+
+### Packaging
+
+Package the application with Electron Forge 8:
 
 ```bash
 npm run package
 ```
 
-The current renderer is an initial shell. It does not yet expose document selection or invoke the Python sidecar. Do not treat the app as an operational document-auditing tool.
+The output package will be generated under `apps/desktop/out/DocuReady-<platform>-<arch>/`.
 
-## Security boundary
+## Security Architecture
 
-The renderer has no Node.js integration. It uses a minimal context-isolated preload bridge. Main-process IPC operations and the Python process manager will be added behind typed, allow-listed APIs. No remote UI assets or cloud service are required.
+- `nodeIntegration: false`
+- `contextIsolation: true`
+- `sandbox: true`
+- Strict Content Security Policy (`default-src 'self'; script-src 'self'; object-src 'none'`)
+- IPC sender origin validation on all invoke channels
+- WebRequest restrictions: new windows and external navigations are denied
+- In-memory binary document delivery (`documents:get-binary` / `getDocumentBinary`) passes `Uint8Array` directly to the viewer without exposing filesystem paths
+- File signature and size validation (50MB single file limit, 200MB packet limit)
+- Isolated temporary workspaces with automatic cleanup on session clear or packet deletion
+- 100% offline: zero cloud dependencies, zero telemetry, zero background network traffic
 
-## Python sidecar development
+## Coordinate Geometry Contract
 
-From the repository root, configure a private workspace and run:
+PyMuPDF coordinates:
+- Origin: Top-Left `(0, 0)` in PDF points (1/72 inch).
+- Format: `[x0, y0, x1, y1]` where `x1 >= x0` and `y1 >= y0`.
 
-```bash
-export DOCUREADY_WORKSPACE_ROOT=/absolute/path/to/private-workspace
-python sidecar/docuready_sidecar.py
-```
+PDF.js viewport coordinates:
+- CSS pixels, scaled by zoom factor and transformed according to page rotation (0°, 90°, 180°, 270°).
+- Supported by mathematical transformation in `apps/desktop/src/shared/coordinates.ts` (`transformBBoxToViewport`) with automatic boundary clamping and crop box offset handling.
 
-The sidecar accepts JSON Lines requests on stdin and writes protocol frames to stdout. Diagnostics go to stderr. The only currently implemented methods are `health` and `audit_packet`. The Electron main process has not yet been wired to this process.
-
-For an audit request, the caller must stage a packet directory below `DOCUREADY_WORKSPACE_ROOT` and provide an explicit ISO `as_of` date. The sidecar returns a redacted public audit projection and document evidence metadata; it intentionally omits extracted field values from the document summary.
-
-## Current limitations
-
-- No IPC client or sidecar lifecycle manager yet.
-- No native file selection, packet workspace, PDF viewer, or report-save dialog yet.
-- No packaged Python runtime or bundled Tesseract binary yet.
-- No platform-specific installer/signing configuration yet.
-- PDF backend licensing must be resolved before binary redistribution.
-- This workspace has not yet been built or tested on a developer workstation. Generate and commit a lockfile after local installation and validation.
