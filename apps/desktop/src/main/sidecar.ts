@@ -43,6 +43,7 @@ export class SidecarManager extends EventEmitter {
     }
   > = new Map();
   private sidecarScriptPath: string;
+  private sidecarBinaryPath: string | null = null;
   private workspaceRoot: string;
   private isShuttingDown: boolean = false;
   private currentAuditJobId: string | null = null;
@@ -50,20 +51,76 @@ export class SidecarManager extends EventEmitter {
   constructor(workspaceRoot: string, customSidecarPath?: string) {
     super();
     this.workspaceRoot = workspaceRoot;
-    this.sidecarScriptPath = customSidecarPath || this.resolveSidecarPath();
+    if (customSidecarPath) {
+      if (customSidecarPath.endsWith(".py")) {
+        this.sidecarScriptPath = customSidecarPath;
+        this.sidecarBinaryPath = null;
+      } else {
+        this.sidecarBinaryPath = customSidecarPath;
+        this.sidecarScriptPath = "";
+      }
+    } else {
+      const target = this.resolveSidecarTarget();
+      this.sidecarBinaryPath = target.binaryPath;
+      this.sidecarScriptPath = target.scriptPath;
+    }
   }
 
-  private resolveSidecarPath(): string {
+  private resolveSidecarTarget(): { binaryPath: string | null; scriptPath: string } {
+    const isWindows = process.platform === "win32";
+    const exeName = isWindows ? "docuready_sidecar.exe" : "docuready_sidecar";
+
+    // 1. Explicit env var override
+    if (process.env.DOCUREADY_SIDECAR_EXECUTABLE) {
+      const explicit = path.resolve(process.env.DOCUREADY_SIDECAR_EXECUTABLE);
+      if (fs.existsSync(explicit)) {
+        return { binaryPath: explicit, scriptPath: "" };
+      }
+    }
+
+    // 2. Electron packaged resources
+    const resourcesPath = (process as any).resourcesPath;
+    if (resourcesPath) {
+      const packagedBinary = path.join(resourcesPath, "sidecar", exeName);
+      if (fs.existsSync(packagedBinary)) {
+        return { binaryPath: packagedBinary, scriptPath: "" };
+      }
+    }
+
+    // 3. Search up from currentDir
     let cur = currentDir;
+    let foundBinary: string | null = null;
+    let foundScript: string | null = null;
+
     while (cur !== path.dirname(cur)) {
-      const candidate = path.join(cur, "sidecar", "docuready_sidecar.py");
-      if (fs.existsSync(candidate)) {
-        return candidate;
+      const binaryCandidate1 = path.join(cur, "sidecar", "dist", "docuready_sidecar", exeName);
+      const binaryCandidate2 = path.join(cur, "dist", "docuready_sidecar", exeName);
+      if (!foundBinary && fs.existsSync(binaryCandidate1)) {
+        foundBinary = binaryCandidate1;
+      } else if (!foundBinary && fs.existsSync(binaryCandidate2)) {
+        foundBinary = binaryCandidate2;
+      }
+      const scriptCandidate = path.join(cur, "sidecar", "docuready_sidecar.py");
+      if (!foundScript && fs.existsSync(scriptCandidate)) {
+        foundScript = scriptCandidate;
       }
       cur = path.dirname(cur);
     }
-    // Fallback to relative path
-    return path.resolve(__dirname, "../../../sidecar/docuready_sidecar.py");
+
+    return {
+      binaryPath: foundBinary,
+      scriptPath: foundScript || path.resolve(currentDir, "../../../sidecar/docuready_sidecar.py")
+    };
+  }
+
+  public getSidecarType(): "packaged_binary" | "python_script" {
+    return this.sidecarBinaryPath && fs.existsSync(this.sidecarBinaryPath)
+      ? "packaged_binary"
+      : "python_script";
+  }
+
+  public getSidecarBinaryPath(): string | null {
+    return this.sidecarBinaryPath;
   }
 
   public getScriptPath(): string {
@@ -76,20 +133,24 @@ export class SidecarManager extends EventEmitter {
     }
 
     this.isShuttingDown = false;
-    const pythonExe = process.env.PYTHON_EXECUTABLE || "python";
+    const isBinary = Boolean(this.sidecarBinaryPath && fs.existsSync(this.sidecarBinaryPath));
 
-    const child = spawn(
-      pythonExe,
-      ["-u", this.sidecarScriptPath],
-      {
-        env: {
-          ...process.env,
-          PYTHONUNBUFFERED: "1",
-          DOCUREADY_WORKSPACE_ROOT: this.workspaceRoot
-        },
-        stdio: ["pipe", "pipe", "pipe"]
-      }
-    );
+    const command = isBinary
+      ? this.sidecarBinaryPath!
+      : (process.env.PYTHON_EXECUTABLE || "python");
+
+    const args = isBinary ? [] : ["-u", this.sidecarScriptPath];
+
+    const child = spawn(command, args, {
+      env: {
+        ...process.env,
+        PYTHONUNBUFFERED: "1",
+        PYTHONIOENCODING: "utf-8",
+        PYTHONUTF8: "1",
+        DOCUREADY_WORKSPACE_ROOT: this.workspaceRoot
+      },
+      stdio: ["pipe", "pipe", "pipe"]
+    });
 
     this.child = child;
 
@@ -214,9 +275,9 @@ export class SidecarManager extends EventEmitter {
     });
   }
 
-  public async getHealth(): Promise<EngineHealth> {
+  public async getHealth(timeoutMs: number = 30000): Promise<EngineHealth> {
     try {
-      const res = await this.sendRequest("health", {}, 5000);
+      const res = await this.sendRequest("health", {}, timeoutMs);
       if (res.ok && res.result) {
         return {
           ok: true,
@@ -226,6 +287,15 @@ export class SidecarManager extends EventEmitter {
           pythonVersion: String(res.result.python || "unknown"),
           pdfBackend: String(res.result.pdf_backend || "pymupdf"),
           ocrAvailable: Boolean(res.result.ocr_available),
+          ocrLanguages: Array.isArray(res.result.ocr_languages)
+            ? (res.result.ocr_languages as string[])
+            : ["eng"],
+          tesseractVersion: res.result.tesseract_version
+            ? String(res.result.tesseract_version)
+            : undefined,
+          tesseractPath: res.result.tesseract_path
+            ? String(res.result.tesseract_path)
+            : undefined,
           status: "healthy"
         };
       }

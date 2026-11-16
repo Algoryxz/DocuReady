@@ -18,6 +18,31 @@ Supported methods:
 - Protocol size limit: requests larger than 1MB are rejected with `REQUEST_TOO_LARGE`.
 - Negative evidence handling: findings with missing documents or unlocated fields maintain empty evidence lists (`[]`) and never fabricate bounding box coordinates.
 - Redaction policy: evidence snippet values are redacted to `"[REDACTED EVIDENCE SNIPPET]"` in public frames to ensure zero PII leaks while preserving exact coordinate geometries and page numbers.
+- Processing limits: packets are restricted to a maximum of 20 documents, 50MB per individual file, 200MB per packet, and 50 pages per document. 0-byte files are rejected with structured errors.
+
+## Standalone Sidecar Packaging (Loop 3)
+
+The sidecar can be packaged into a standalone self-contained executable distribution via PyInstaller:
+
+```bash
+pyinstaller sidecar/docuready_sidecar.spec --noconfirm
+```
+
+This compiles the Python 3.12 runtime, PyMuPDF C extensions, and dependencies into `sidecar/dist/docuready_sidecar/`:
+- Windows: `docuready_sidecar.exe`
+- macOS / Linux: `docuready_sidecar`
+
+Electron's `SidecarManager` automatically resolves the compiled binary from `resources/` or `sidecar/dist/` in production, with seamless fallback to `python sidecar/docuready_sidecar.py` in development environments.
+
+## Dynamic OCR Runtime Discovery
+
+OCR availability is dynamically detected via `src/docuready/ingest/tesseract_discovery.py`. It probes:
+1. `DOCUREADY_TESSERACT_PATH` override
+2. Bundled application resources (`process.resourcesPath/tesseract`)
+3. System `PATH`
+4. Standard operating system directories (`C:\Program Files\Tesseract-OCR\tesseract.exe`, `/usr/bin/tesseract`, etc.)
+
+Sidecar `health` frames report sanitized binary metadata (basename only) and installed languages with zero host path exposure.
 
 ## Local Development & Testing
 
@@ -29,6 +54,6 @@ python sidecar/docuready_sidecar.py
 Run sidecar protocol unit and integration tests:
 
 ```bash
-pytest tests/test_desktop_sidecar_protocol.py tests/test_evidence_provenance_contract.py -v
+pytest tests/test_desktop_sidecar_protocol.py tests/test_evidence_provenance_contract.py tests/test_ocr_acceptance.py tests/test_adversarial_documents.py -v
 ```
 

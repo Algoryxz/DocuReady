@@ -14,10 +14,38 @@ from typing import Any
 
 PROTOCOL_VERSION = 1
 MAX_REQUEST_BYTES = 1_048_576
+MAX_PACKET_DOCUMENTS = 20
+MAX_FILE_BYTES = 52_428_800  # 50MB
+MAX_PAGE_COUNT_PER_DOC = 50
+
+# Ensure stdin/stdout/stderr are UTF-8 across all operating systems and binary hooks
+if hasattr(sys.stdout, "reconfigure"):
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
+if hasattr(sys.stderr, "reconfigure"):
+    try:
+        sys.stderr.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
+if hasattr(sys.stdin, "reconfigure"):
+    try:
+        sys.stdin.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
 
 
 def _write_frame(payload: dict[str, Any]) -> None:
-    sys.stdout.write(json.dumps(payload, ensure_ascii=False, separators=(",", ":")) + "\n")
+    data = json.dumps(payload, ensure_ascii=False, separators=(",", ":")) + "\n"
+    try:
+        sys.stdout.write(data)
+    except UnicodeEncodeError:
+        if hasattr(sys.stdout, "buffer"):
+            sys.stdout.buffer.write(data.encode("utf-8"))
+            sys.stdout.buffer.flush()
+            return
+        raise
     sys.stdout.flush()
 
 
@@ -96,6 +124,8 @@ def _handle(request: dict[str, Any]) -> dict[str, Any]:
         raise ValueError("Request params must be an object.")
 
     if method == "health":
+        from docuready.ingest.tesseract_discovery import get_ocr_runtime_info
+        ocr_info = get_ocr_runtime_info()
         pdf_backend = os.environ.get("DOCUREADY_PDF_BACKEND", "pymupdf").lower()
         return {
             "protocol": PROTOCOL_VERSION,
@@ -107,7 +137,10 @@ def _handle(request: dict[str, Any]) -> dict[str, Any]:
                 "engine_version": engine_version,
                 "python": ".".join(map(str, sys.version_info[:3])),
                 "pdf_backend": pdf_backend,
-                "ocr_available": _get_ocr_availability(),
+                "ocr_available": ocr_info["available"],
+                "ocr_languages": ocr_info.get("languages", ["eng"]),
+                "tesseract_version": ocr_info.get("version"),
+                "tesseract_path": ocr_info.get("binary_path"),
             },
         }
 
@@ -131,6 +164,18 @@ def _handle(request: dict[str, Any]) -> dict[str, Any]:
         if not isinstance(as_of_value, str) or not as_of_value:
             raise ValueError("An explicit ISO date is required for deterministic audits.")
         effective_date = date.fromisoformat(as_of_value)
+
+        # Enforce packet document limits
+        doc_files = [p for p in packet_dir.iterdir() if p.is_file() and not p.name.startswith(".")]
+        if len(doc_files) > MAX_PACKET_DOCUMENTS:
+            raise ValueError(f"Packet document count ({len(doc_files)}) exceeds maximum limit of {MAX_PACKET_DOCUMENTS}.")
+
+        for doc_file in doc_files:
+            file_size = doc_file.stat().st_size
+            if file_size > MAX_FILE_BYTES:
+                raise ValueError(f"Document '{doc_file.name}' exceeds maximum file size limit of 50MB.")
+            if file_size == 0:
+                raise ValueError(f"Document '{doc_file.name}' is empty (0 bytes).")
 
         # Stage 1: Intake
         _write_frame(
@@ -248,7 +293,7 @@ def main() -> int:
             exc_name = type(exc).__name__
             exc_msg = str(exc)
             print(
-                f"sidecar request failed ({exc_name})",
+                f"sidecar request failed ({exc_name}): {exc_msg}",
                 file=sys.stderr,
                 flush=True,
             )
