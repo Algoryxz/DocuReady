@@ -7,7 +7,7 @@
 [![CI Tests](https://github.com/Algoryxz/DocuReady/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/Algoryxz/DocuReady/actions/workflows/tests.yml)
 [![Desktop Tests](https://img.shields.io/badge/Desktop%20Tests-21%2F21%20Passed-brightgreen.svg)](apps/desktop)
 [![Python Tests](https://img.shields.io/badge/Python%20Tests-450%20Passed-brightgreen.svg)](tests)
-[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
+[![Project Source License: Apache 2.0](https://img.shields.io/badge/Project%20Source-Apache_2.0-blue.svg)](LICENSE)
 [![Privacy: Local Processing](https://img.shields.io/badge/Privacy-Local%20Processing-0A2540.svg)](PRIVACY_NETWORK_AUDIT.md)
 [![Platform: Windows x64](https://img.shields.io/badge/Platform-Windows%20x64%20(Packaged)-blueviolet.svg)](apps/desktop/out/make)
 
@@ -128,9 +128,9 @@ All distributables are located in `apps/desktop/out/make/`:
 
 ## Document Consistency & Scheme Requirement Rules Engine
 
-DocuReady evaluates document packets against 10 explicit cross-document checks (with verified statutory citations and state revenue operational heuristics):
+DocuReady evaluates document packets against 10 configured cross-document checks. The reference mappings below are implementation context, not legal advice or a determination that a particular scheme accepts these rules. Scheme owners and applicants must verify current primary-source requirements before relying on them:
 
-| Rule ID | Rule Name | Regulatory / Statutory Basis | Severity |
+| Rule ID | Rule Name | Candidate reference mapping (verify against current scheme notice) | Severity |
 | :--- | :--- | :--- | :--- |
 | **RULE-NAME-01** | Name Consistency | MeitY Demographic Verification Standards 2023 & MoSJE Guidelines §4.2 | `CRITICAL` |
 | **RULE-DOB-01** | Date of Birth Consistency | Secondary Education Examination Board Rule 8 & UIDAI Verification Norms | `CRITICAL` |
@@ -142,6 +142,8 @@ DocuReady evaluates document packets against 10 explicit cross-document checks (
 | **RULE-DOC-01** | Mandatory Document Checklist | Scheme Mandatory Application Checklist Clause 2.1 | `CRITICAL` |
 | **RULE-DOC-02** | Document Legibility & Scan Quality | NSP Upload Guidelines & Information Technology Act 2000 Section 6A | `CRITICAL` |
 | **RULE-MRK-01** | Academic Eligibility Cutoff | Scheme Educational Criteria Notification (SC/ST Applicants Exempt) | `CRITICAL` |
+
+**Rule applicability warning:** These checks are not an official government rules engine. Scheme thresholds, certificate validity periods, exemptions, and document lists vary by scheme, state, and application year. A rule result is advisory and must not be presented as a statutory determination.
 
 ### 2. 9-Feature Logistic Confidence Calibrator & Safety Firewall
 To prevent unfair rejections caused by degraded scans, low camera resolution, or paper creases, DocuReady classifies evidence confidence into three calibrated states:
@@ -159,10 +161,10 @@ Every extracted datum retains its physical page number, bounding box coordinates
 Applicants can replace a single defective document (e.g. upload a refreshed Income Certificate) and re-audit the entire packet in-memory in under 1 second without re-uploading the entire bundle.
 
 ### 5. Domain-Specific Normalizers
-- **Aadhaar Verhoeff Checksum:** Mathematically verifies 12-digit Aadhaar numbers against the dihedral group $D_5$ algorithm.
+- **Aadhaar Verhoeff Checksum:** Checks the checksum structure of a 12-digit value using the Verhoeff algorithm; it does not authenticate an Aadhaar holder or verify the number with UIDAI.
 - **Indian Date Normalizer:** Resolves ambiguous date formats (`05/06/2004` vs. `06/05/2004`) using multi-certificate cross-referencing.
 - **Indian Currency Parser:** Parses numeric amounts in Lakhs and Crores (`₹2.5 Lakh`, `2,50,000/-`).
-- **RBI IFSC Code Verifier:** Validates bank branch routing codes against RBI format specifications.
+- **IFSC Format Check:** Checks whether an IFSC-like value matches expected syntax; it does not verify a live bank branch or confirm the code against an RBI registry.
 
 ---
 
@@ -247,7 +249,7 @@ Evaluation performed on reference hardware against the synthetic validation suit
 | **Canonical Synthetic Packets** | 48 Documents | 100.0% | 0.38s | Native Vector Extraction |
 | **Controlled Degraded-Scan Test Set** | 60 Documents | 91.7% | 1.15s | Vector + Local Tesseract OCR |
 
-*Note: Results are limited to the named controlled test corpora and conditions. They do not establish field accuracy, real-world prevalence, or portal acceptance guarantees.*
+*Note: Results are limited to the named controlled test corpora and conditions. The provenance of the degraded-scan set has not been independently established here; do not describe its score as field or real-world accuracy. These results do not establish real-world prevalence or portal acceptance.*
 
 ---
 
