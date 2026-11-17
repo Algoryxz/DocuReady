@@ -3,6 +3,9 @@
 Demonstrates that a new statutory requirement can be added entirely through
 declarative YAML configuration without editing any Python source code, while
 leveraging the closed primitive registry and safe linter.
+
+Note: This fixture explicitly uses an unverified synthetic demonstration source
+with a reserved .invalid URL to ensure no implication of genuine statutory authority.
 """
 
 from datetime import date
@@ -12,12 +15,10 @@ import pytest
 from docuready.domain.enums import Readiness, Status
 from docuready.domain.models import DocumentType, ExtractedDocument, ExtractedField
 from docuready.rules.engine import PackExecutionEngine
-from docuready.rules.loader import load_pack
-from docuready.rules.primitives import ExecutionContext
 
 
 def test_yaml_only_rule_extension(tmp_path: Path):
-    """Demonstrate adding a synthetic age eligibility rule entirely in YAML."""
+    """Demonstrate adding a synthetic age eligibility rule entirely in declarative YAML."""
     pack_dir = tmp_path / "custom.scheme"
     pack_dir.mkdir(parents=True)
 
@@ -25,21 +26,22 @@ def test_yaml_only_rule_extension(tmp_path: Path):
 pack_id: custom.scheme
 version: "1.0.0"
 sources:
-  - id: "SRC-AGE-01"
-    title: "National Youth Skill Development Guidelines 2026"
-    issuing_body: "Ministry of Skill Development"
-    url: "https://example.gov.in/guidelines"
+  - id: "SRC-SYNTHETIC-AGE-01"
+    title: "Synthetic Test Guidelines for Age Eligibility"
+    issuing_body: "Synthetic Test Authority (Not Real)"
+    url: "https://example.invalid/guidelines"
     retrieved_on: "2026-11-15"
-    status: "verified"
-    reviewed_by: "Deeptiman (Product Owner)"
+    status: "unverified"
+    reviewed_by: "Automated Test Suite / Not Real"
     clause: "Section 4.1 (Age Eligibility)"
-    supports_rule: true
+    supports_rule: false
+    notes: "Synthetic test fixture demonstrating declarative rule extension without legal authority"
 """
     # New rule declared purely in YAML using existing closed primitive 'age_on'
     pack_yaml = """
 pack_id: custom.scheme
 version: "1.0.0"
-status: verified
+status: draft
 
 parameters:
   min_applicant_age:
@@ -65,20 +67,21 @@ rules:
     params:
       min_age: $min_applicant_age
       max_age: $max_applicant_age
+      reference_date: "2026-11-15"
     max_severity: FAIL
     citation:
-      source: SRC-AGE-01
+      source: SRC-SYNTHETIC-AGE-01
       clause: "Section 4.1"
     remediation:
-      authority: "Ministry of Skill Development"
+      authority: "Synthetic Test Authority"
       steps:
         - "Applicant must be between 18 and 25 years of age as of audit date."
 """
     (pack_dir / "sources.yaml").write_text(sources_yaml.strip(), encoding="utf-8")
     (pack_dir / "pack.yaml").write_text(pack_yaml.strip(), encoding="utf-8")
 
-    # Load and execute the purely declarative custom pack
-    engine = PackExecutionEngine(pack_dir)
+    # Load and execute the purely declarative custom pack using allow_draft=True
+    engine = PackExecutionEngine(pack_dir, allow_draft=True)
 
     # 1. Test eligible candidate (DOB 2005-08-15 -> age 21 on 2026-11-15)
     eligible_packet = {
@@ -98,10 +101,11 @@ rules:
 
     result_eligible = engine.validate_packet("ELIGIBLE_001", eligible_packet, as_of=date(2026, 11, 15))
     assert result_eligible.readiness is Readiness.NO_ISSUES_FOUND
-    finding = result_eligible.findings[0]
-    assert finding.rule_id == "RULE-AGE-ELIGIBILITY"
+    finding = next(f for f in result_eligible.findings if f.rule_id == "RULE-AGE-ELIGIBILITY")
     assert finding.resolved_status is Status.PASS
     assert "satisfies age eligibility criteria" in finding.message
+    # Check that unverified source disclosure is retained
+    assert "[source pending verification]" in finding.statutory_reference
 
     # 2. Test ineligible candidate (DOB 1995-08-15 -> age 31 on 2026-11-15, exceeds max 25)
     ineligible_packet = {
@@ -121,7 +125,6 @@ rules:
 
     result_ineligible = engine.validate_packet("INELIGIBLE_001", ineligible_packet, as_of=date(2026, 11, 15))
     assert result_ineligible.readiness is Readiness.NOT_READY
-    finding_bad = result_ineligible.findings[0]
-    assert finding_bad.rule_id == "RULE-AGE-ELIGIBILITY"
+    finding_bad = next(f for f in result_ineligible.findings if f.rule_id == "RULE-AGE-ELIGIBILITY")
     assert finding_bad.resolved_status is Status.FAIL
     assert "exceeds statutory maximum 25 years" in finding_bad.message

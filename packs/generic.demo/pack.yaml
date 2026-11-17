@@ -1,6 +1,6 @@
 # DocuReady Scheme Pack Manifest — generic.demo
 # Task T3.2: Closed Primitive Execution Engine & generic.demo Port
-# Declarative implementation of the 10 canonical rule groups using closed primitives
+# Declarative implementation of the canonical statutory rule groups using closed primitives
 
 pack_id: generic.demo
 version: "2.1.0"
@@ -84,7 +84,13 @@ rules:
     primitive: field_present
     inputs:
       field: applicant_name
-      docs: [application_form, income_certificate]
+      docs:
+        - application_form
+        - income_certificate
+        - caste_certificate
+        - residence_certificate
+        - marksheet
+        - bank_passbook
     params: {}
     max_severity: FAIL
     citation:
@@ -200,6 +206,23 @@ rules:
       steps:
         - "Update certificate reference number in portal application to match uploaded certificate."
 
+  - id: RULE-REF-02
+    primitive: match_across
+    inputs:
+      fields:
+        - application_form.caste_cert_no
+        - caste_certificate.certificate_no
+    params:
+      grade: id
+    max_severity: FAIL
+    citation:
+      source: SRC-REF-01
+      clause: "Section 4.3"
+    remediation:
+      authority: "State e-District Portal"
+      steps:
+        - "Update caste certificate reference number on the portal."
+
   - id: RULE-BNK-01
     primitive: match_across
     inputs:
@@ -215,6 +238,23 @@ rules:
       authority: "Bank Branch / RBI Core Banking"
       steps:
         - "Check the passbook or contact branch for the official 11-character RBI IFSC code."
+
+  - id: RULE-BNK-02
+    primitive: match_across
+    inputs:
+      fields:
+        - bank_passbook.account_no
+        - application_form.account_no
+    params:
+      grade: id
+    max_severity: FAIL
+    citation:
+      source: SRC-BNK-02
+      clause: "Beneficiary Account Matching Operational Protocols"
+    remediation:
+      authority: "Direct Benefit Transfer Mission"
+      steps:
+        - "Ensure exact DBT bank account number is typed into scholarship portal."
 
   - id: RULE-DOM-01
     primitive: enum_in
