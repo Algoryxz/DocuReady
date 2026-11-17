@@ -310,13 +310,18 @@ T1.x tasks are independent of each other and can run in parallel once G0 passes.
 
 #### T3.2 — Primitives and the `generic.demo` port
 - **Depends on:** T2.1–T2.3, T3.1, T1.5.
-- **Status note (17 November 2026):** **IN PROGRESS on task branch `task/T3.2-primitives-generic-demo-port`.** Implementing closed primitive execution engine across all 9 primitives, legacy-to-pack rule mapping, porting the 10 canonical rule groups into `packs/generic.demo/pack.yaml`, verifying 10-group equivalence against `tests/integration/test_validator_rule_matrix.py`, and verifying golden baseline bit-exact parity. Not accepted until all technical evidence and Product Owner review are complete.
+- **Status note (17 November 2026):** **MERGED IN PR #78 (NOT FORMALLY ACCEPTED).** Implementation merged into `main` at commit `d1ef67c4d0204b2062cf4f8734a237bc3a25c02e` (head `db208855948284a752f1659befc624bebd98cecd`). Post-merge review identified safety, lifecycle, and equivalence gaps. Corrective task T3.2.1 is actively IN PROGRESS under branch `task/T3.2.1-post-merge-safety-equivalence` to deliver full safety, lifecycle, and pack-driven equivalence verification before formal Product Owner acceptance. T3.3 remains not started.
 - **Behaviour:** Implement the closed primitive set. Re-express the 10 existing rules as `packs/generic.demo/pack.yaml`. Delete the hardcoded rule logic only after equivalence passes.
 - **Acceptance:**
-  - [ ] All golden snapshots reproduced by the pack-driven engine (diffs only where T2.x approved changes)
-  - [ ] Per-rule matrix (T2.2) runs against the pack-driven engine
-  - [ ] A new rule can be added by editing YAML only (demonstrate with one example in the handoff)
-  - [ ] No `eval`/`exec` in `rules/`
+  - [x] All golden snapshots reproduced by the pack-driven engine (diffs only where T2.x approved changes)
+  - [x] Per-rule matrix (T2.2) runs against the pack-driven engine (`tests/integration/test_pack_matrix.py`)
+  - [x] A new rule can be added by editing YAML only (`tests/test_yaml_extension.py`)
+  - [x] No `eval`/`exec` in `rules/`
+- **Gate:** G3
+
+#### T3.2.1 — Post-merge safety & equivalence remediation
+- **Scope:** `src/docuready/rules/engine.py`, `src/docuready/rules/primitives.py`, `packs/generic.demo/pack.yaml`, `tests/test_pack_engine.py`, `tests/test_primitives.py`, `tests/integration/test_pack_matrix.py`, `tests/test_pack_golden_baseline.py`, `docs/history/T3.2_LEGACY_TO_PACK_MAPPING.md`.
+- **Status note (17 November 2026):** **IN PROGRESS on task branch `task/T3.2.1-post-merge-safety-equivalence`.** Remediation of draft-pack lifecycle and lint enforcement (`allow_draft=False` by default), weakest-evidence propagation across all 9 primitives, structural slot completeness across all 6 slots, tri-state fail-closed exemption evaluation, slot mismatch isolation, pack-driven 10-group matrix & 8-packet golden test suite, and YAML extension sanitization.
 - **Gate:** G3
 
 #### T3.3 — First real pack: `odisha.subhadra` (demo snapshot)
