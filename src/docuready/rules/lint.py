@@ -50,6 +50,7 @@ PRIMITIVE_PARAMETER_CONTRACTS: Dict[str, Dict[str, str]] = {
     },
     "numeric_cap": {
         "cap": "number",
+        "comparator": "string",
     },
     "numeric_consistency": {
         "tolerance_pct": "number",
@@ -518,7 +519,13 @@ def lint_pack(pack_dir: Path | str, allow_draft: bool = False) -> LintResult:
                             rule_id=rule.id,
                         )
                     else:
-                        if expected_type == "list[string]":
+                        if expected_type == "string":
+                            if not _is_valid_string_member(raw_val):
+                                result.add_error(
+                                    f"Referenced parameter '${pref}' for {rule.primitive}.{param_key} must be a non-empty string, got {raw_val!r}",
+                                    rule_id=rule.id,
+                                )
+                        elif expected_type == "list[string]":
                             if isinstance(p_obj, ParameterDeclaration) and p_obj.item_type:
                                 if p_obj.item_type.lower().strip() not in ("string", "str"):
                                     result.add_error(
@@ -633,7 +640,13 @@ def lint_pack(pack_dir: Path | str, allow_draft: bool = False) -> LintResult:
                             rule_id=rule.id,
                         )
                     else:
-                        if expected_in_type == "list[string]":
+                        if expected_in_type == "string":
+                            if not _is_valid_string_member(raw_val):
+                                result.add_error(
+                                    f"Referenced parameter '${pref}' for {rule.primitive}.inputs.{in_key} must be a non-empty string, got {raw_val!r}",
+                                    rule_id=rule.id,
+                                )
+                        elif expected_in_type == "list[string]":
                             if isinstance(p_obj, ParameterDeclaration) and p_obj.item_type:
                                 if p_obj.item_type.lower().strip() not in ("string", "str"):
                                     result.add_error(
@@ -701,10 +714,10 @@ def lint_pack(pack_dir: Path | str, allow_draft: bool = False) -> LintResult:
                     )
 
         # Check rule.exempt_when shape and type contracts
-        if rule.exempt_when:
-            if not isinstance(rule.exempt_when, dict):
+        if rule.exempt_when is not None:
+            if not isinstance(rule.exempt_when, dict) or len(rule.exempt_when) == 0:
                 result.add_error(
-                    f"exempt_when must be a dictionary with 'fact' and 'in', got {type(rule.exempt_when).__name__}",
+                    f"exempt_when must be a non-empty dictionary with 'fact' and 'in', got {type(rule.exempt_when).__name__ if not isinstance(rule.exempt_when, dict) else 'empty dictionary'}",
                     rule_id=rule.id,
                 )
             else:
