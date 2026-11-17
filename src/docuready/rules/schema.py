@@ -101,6 +101,14 @@ class RuleDefinition(BaseModel):
     citation: CitationReference
     remediation: RemediationMetadata
 
+    @field_validator("exempt_when")
+    @classmethod
+    def validate_exempt_when(cls, v: Optional[Dict[str, Any]]) -> Optional[Dict[str, Any]]:
+        if v is not None:
+            if not isinstance(v, dict) or len(v) == 0:
+                raise ValueError("exempt_when must be a non-empty mapping or omitted")
+        return v
+
     @field_validator("id")
     @classmethod
     def validate_id_not_empty(cls, v: str) -> str:
@@ -176,6 +184,11 @@ class ParameterDeclaration(BaseModel):
         abstract or runtime parameter declarations. When a non-null value is provided,
         it must strictly conform to the declared type without silent coercion.
         """
+        if self.type != "list" and self.item_type is not None:
+            raise ValueError(
+                f"Parameter item_type can only be specified when type is 'list', got type '{self.type}'"
+            )
+
         if self.value is None:
             return self
 
@@ -201,6 +214,10 @@ class ParameterDeclaration(BaseModel):
             if not isinstance(val, str):
                 raise ValueError(
                     f"Parameter of type '{t}' must contain a string, got {type(val).__name__} (value: {val!r})"
+                )
+            if not val.strip():
+                raise ValueError(
+                    f"Parameter of type '{t}' cannot be empty or whitespace-only, got {val!r}"
                 )
         elif t in ("bool", "boolean"):
             if not isinstance(val, bool):
