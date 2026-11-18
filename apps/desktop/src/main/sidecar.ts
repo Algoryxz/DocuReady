@@ -1,10 +1,10 @@
-import { app } from "electron";
 import { ChildProcess, spawn } from "node:child_process";
 import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import readline from "node:readline";
 import { EventEmitter } from "node:events";
+import { fileURLToPath } from "node:url";
 import type {
   AuditProgress,
   AuditStatusResponse,
@@ -14,7 +14,37 @@ import type {
 
 // Electron Forge/Vite emits the main process as CommonJS (.cjs).
 // In that runtime import.meta.url is undefined; __dirname is the bundle path.
-const currentDir = __dirname;
+// When running in Node ESM (e.g. tests), __dirname is undefined; import.meta.url is used.
+function getCurrentDir(): string {
+  if (typeof __dirname !== "undefined" && __dirname) {
+    return __dirname;
+  }
+  if (typeof import.meta !== "undefined" && import.meta && import.meta.url) {
+    try {
+      return path.dirname(fileURLToPath(import.meta.url));
+    } catch {
+      // Fallback if import.meta.url cannot be converted
+    }
+  }
+  return process.cwd();
+}
+
+const currentDir = getCurrentDir();
+
+function getIsPackaged(): boolean {
+  if (typeof process !== "undefined" && process.versions && process.versions.electron) {
+    try {
+      if (typeof require !== "undefined") {
+        const electron = require("electron");
+        const app = electron?.app || electron?.default?.app;
+        return Boolean(app?.isPackaged);
+      }
+    } catch {
+      return false;
+    }
+  }
+  return false;
+}
 
 export interface SidecarRequest {
   protocol: number;
@@ -145,7 +175,7 @@ export class SidecarManager extends EventEmitter {
 
     // Packaged builds must be self-contained. A host-Python fallback makes a
     // broken installer appear to launch but fail later on clean machines.
-    if (app.isPackaged && !isBinary) {
+    if (getIsPackaged() && !isBinary) {
       throw new Error(
         "The bundled DocuReady sidecar is missing. Reinstall the application or use a complete release package."
       );

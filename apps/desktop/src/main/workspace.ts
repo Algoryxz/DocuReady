@@ -1,5 +1,6 @@
 import crypto from "node:crypto";
 import fs from "node:fs/promises";
+import { createRequire } from "node:module";
 import os from "node:os";
 import path from "node:path";
 import type {
@@ -8,20 +9,24 @@ import type {
   SupportedFileType,
   SupportedMimeType
 } from "../shared/types.ts";
-import { createRequire } from "node:module";
 import {
   MAX_PACKET_SIZE_BYTES,
   validateFileSize,
   validateFileSignature
 } from "./security.ts";
 
-const nodeRequire = createRequire(__filename);
-
 function getElectronApp(): { getPath(name: string): string } | null {
-  if (process.versions.electron) {
+  if (typeof process !== "undefined" && process.versions && process.versions.electron) {
     try {
-      const electron = nodeRequire("electron");
-      return (electron as any).app || null;
+      if (typeof require !== "undefined") {
+        const electron = require("electron");
+        return (electron as any).app || (electron as any).default?.app || null;
+      }
+      if (typeof import.meta !== "undefined" && import.meta && import.meta.url) {
+        const nodeRequire = createRequire(import.meta.url);
+        const electron = nodeRequire("electron");
+        return (electron as any).app || (electron as any).default?.app || null;
+      }
     } catch {
       return null;
     }

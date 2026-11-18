@@ -96,11 +96,11 @@ All distributables are located in `apps/desktop/out/make/`:
 
 | Artifact | Type | File Size | SHA-256 Checksum | Purpose |
 | :--- | :--- | :--- | :--- | :--- |
-| **`DocuReady-0.1.0-Setup.exe`** | Setup Installer | 415.65 MB | `E8326B71C919A203A3099126CB745C1FAC1D84D01BDBD1E442F1432D8578EC01` | Recommended Windows installer with desktop and Start Menu shortcuts. |
-| **`DocuReady-win32-x64-0.1.0.zip`** | Portable ZIP | 426.01 MB | `DEE339C290B23A953BF9A86ED94E0EDD1AAEE79C4E5714283C004350A80196C5` | Zero-install standalone archive. Extract and run `DocuReady.exe`. |
-| **`DocuReady-0.1.0-full.nupkg`** | NuGet Package | 416.31 MB | `2CC94A5FB06B89E9AD4DBB44ABE17F5A88601DD1A182C62BEC298F534BC220D7` | Squirrel package containing full application payload for updates. |
-| **`RELEASES`** | Manifest | 80 bytes | `6DEC1473B7123F7544BDEFEA1B5F8DAB1CBA5D46110FA816EC841666E39CC247` | Squirrel delta/release catalog index. |
-| **`DocuReady.exe`** | Executable | 238.47 MB | `79194130F9177F53B5D824DFC8987381C4DE1829DE5C287432EF5D30B0A93FF2` | Main unpacked application binary in `apps/desktop/out/DocuReady-win32-x64/`. |
+| **`DocuReady-0.1.0-Setup.exe`** | Setup Installer | 415.65 MB | `BF508AE5F2B235B5F9034E39D408AF66377B79E5303C77B7AB060D5CF9DB9967` | Recommended Windows installer with desktop and Start Menu shortcuts. |
+| **`DocuReady-win32-x64-0.1.0.zip`** | Portable ZIP | 426.01 MB | `EAD12BFD37867E5F020AA3F31B63DD2B7BCCF5BAD170553D8A8440FEEA217AA1` | Zero-install standalone archive. Extract and run `DocuReady.exe`. |
+| **`DocuReady-0.1.0-full.nupkg`** | NuGet Package | 416.31 MB | `7E429169ABB5A9CF6AD7603D4D9CD59220BF9E91AA928745F5172B77200C7F2A` | Squirrel package containing full application payload for updates. |
+| **`RELEASES`** | Manifest | 80 bytes | `93CBF8C4076ED7F293277AA99B1DA71B83B7A5ED5B6A3F9A471386575BE5D29B` | Squirrel delta/release catalog index. |
+| **`DocuReady.exe`** | Executable | 238.47 MB | `E66369A2BBA689A540B13282D95BA7C333703CDC4C548C5F684E80BBF5AF4478` | Main unpacked application binary in `apps/desktop/out/DocuReady-win32-x64/`. |
 
 ### Installation Instructions
 

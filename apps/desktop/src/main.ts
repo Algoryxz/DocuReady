@@ -80,7 +80,9 @@ app.whenReady().then(async () => {
   installContentSecurityPolicy();
 
   // Initialize isolated workspace manager
-  workspaceManager = new WorkspaceManager();
+  workspaceManager = new WorkspaceManager(
+    path.join(app.getPath("temp"), "docuready-workspaces")
+  );
   await workspaceManager.initialize();
 
   // Initialize and start the bundled sidecar before exposing document workflows.

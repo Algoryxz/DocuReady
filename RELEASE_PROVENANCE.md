@@ -41,11 +41,11 @@ All production binaries reside in `apps/desktop/out/`:
 
 | Artifact Filename | Relative Distribution Path | File Size (Bytes) | Size (MB) | SHA-256 Checksum | SHA-1 Checksum |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **`DocuReady-0.1.0-Setup.exe`** | `apps/desktop/out/make/squirrel.windows/x64/DocuReady-0.1.0-Setup.exe` | 435,838,464 | 415.65 MB | `E8326B71C919A203A3099126CB745C1FAC1D84D01BDBD1E442F1432D8578EC01` | `56F7DB47CA3CE27C44EC585B5A405CF4AE25A943` |
-| **`DocuReady-win32-x64-0.1.0.zip`** | `apps/desktop/out/make/zip/win32/x64/DocuReady-win32-x64-0.1.0.zip` | 446,700,288 | 426.01 MB | `DEE339C290B23A953BF9A86ED94E0EDD1AAEE79C4E5714283C004350A80196C5` | `839D37C8D42A4E045CE03B8D56A414A5CEFF60F6` |
-| **`DocuReady-0.1.0-full.nupkg`** | `apps/desktop/out/make/squirrel.windows/x64/DocuReady-0.1.0-full.nupkg` | 436,532,263 | 416.31 MB | `2CC94A5FB06B89E9AD4DBB44ABE17F5A88601DD1A182C62BEC298F534BC220D7` | `648FECC888072E0BF62B04F5A5EEA7CC91E03264` |
-| **`RELEASES`** | `apps/desktop/out/make/squirrel.windows/x64/RELEASES` | 80 | 0.00 MB | `6DEC1473B7123F7544BDEFEA1B5F8DAB1CBA5D46110FA816EC841666E39CC247` | `E570499C6A7B0568B342898BFA91873ED355D211` |
-| **`DocuReady.exe`** | `apps/desktop/out/DocuReady-win32-x64/DocuReady.exe` | 250,056,704 | 238.47 MB | `79194130F9177F53B5D824DFC8987381C4DE1829DE5C287432EF5D30B0A93FF2` | `29541C7C171787C17F16F4F5651FDEFD2ECAFD08` |
+| **`DocuReady-0.1.0-Setup.exe`** | `apps/desktop/out/make/squirrel.windows/x64/DocuReady-0.1.0-Setup.exe` | 435,838,464 | 415.65 MB | `BF508AE5F2B235B5F9034E39D408AF66377B79E5303C77B7AB060D5CF9DB9967` | `0889F38A79913E7A60957DA903E822A3FBBCB369` |
+| **`DocuReady-win32-x64-0.1.0.zip`** | `apps/desktop/out/make/zip/win32/x64/DocuReady-win32-x64-0.1.0.zip` | 446,700,371 | 426.01 MB | `EAD12BFD37867E5F020AA3F31B63DD2B7BCCF5BAD170553D8A8440FEEA217AA1` | `8FF421FE260C683FEB6B7014ACCDCF50E5B95CD3` |
+| **`DocuReady-0.1.0-full.nupkg`** | `apps/desktop/out/make/squirrel.windows/x64/DocuReady-0.1.0-full.nupkg` | 436,532,320 | 416.31 MB | `7E429169ABB5A9CF6AD7603D4D9CD59220BF9E91AA928745F5172B77200C7F2A` | `5C00D828CA7495F24E63AF8FC4369F14733E7D90` |
+| **`RELEASES`** | `apps/desktop/out/make/squirrel.windows/x64/RELEASES` | 80 | 0.00 MB | `93CBF8C4076ED7F293277AA99B1DA71B83B7A5ED5B6A3F9A471386575BE5D29B` | `87F69A3803A8424EC5172B61A9249D6B6DCEDD92` |
+| **`DocuReady.exe`** | `apps/desktop/out/DocuReady-win32-x64/DocuReady.exe` | 250,056,704 | 238.47 MB | `E66369A2BBA689A540B13282D95BA7C333703CDC4C548C5F684E80BBF5AF4478` | `2257B31623AF6B50667B7734189265045A4543AB` |
 
 ---
 
@@ -54,10 +54,10 @@ All production binaries reside in `apps/desktop/out/`:
 The Squirrel Windows update system relies on mutual consistency between the `.nupkg` package, `RELEASES` index, and `Setup.exe`.
 Direct verification of `apps/desktop/out/make/squirrel.windows/x64/RELEASES`:
 ```text
-648FECC888072E0BF62B04F5A5EEA7CC91E03264 DocuReady-0.1.0-full.nupkg 436532263
+5C00D828CA7495F24E63AF8FC4369F14733E7D90 DocuReady-0.1.0-full.nupkg 436532320
 ```
-- **Recorded Hash:** `648FECC888072E0BF62B04F5A5EEA7CC91E03264` matches the SHA-1 of `DocuReady-0.1.0-full.nupkg` exactly.
-- **Recorded Length:** `436532263` bytes matches the physical disk size of `DocuReady-0.1.0-full.nupkg` exactly.
+- **Recorded Hash:** `5C00D828CA7495F24E63AF8FC4369F14733E7D90` matches the SHA-1 of `DocuReady-0.1.0-full.nupkg` exactly.
+- **Recorded Length:** `436532320` bytes matches the physical disk size of `DocuReady-0.1.0-full.nupkg` exactly.
 
 ---
 
