@@ -86,9 +86,11 @@ def validate_slot(
         details = doc.classification_details or {}
         anchors = details.get("primary_anchors", [])
         corrob = details.get("corroborating_terms", [])
+        source_lines = details.get("source_lines", [])
         anchors_str = ", ".join(f"'{a}'" for a in anchors) or "title anchors"
         corrob_str = ", ".join(f"'{c}'" for c in corrob[:3])
         corrob_desc = f" and corroborating term(s) [{corrob_str}]" if corrob_str else ""
+        lines_str = "; ".join(f"'{l}'" for l in source_lines[:2])
         msg = (
             f"Slot mismatch: Expected '{slot.value}' ({slot_label}) but uploaded document identifies as "
             f"'{doc.detected_type.value}' ({cand_label}) based on primary anchor(s) [{anchors_str}]{corrob_desc}. "
@@ -110,7 +112,7 @@ def validate_slot(
                     raw_snippet=(
                         f"Expected slot: '{slot.value}'; Detected candidate: '{doc.detected_type.value}'; "
                         f"Primary anchor(s): [{anchors_str}]"
-                        + (f"; Corroborating: [{corrob_str}]" if corrob_str else "")
+                        + (f"; Matched line(s): [{lines_str}]" if lines_str else (f"; Corroborating: [{corrob_str}]" if corrob_str else ""))
                     ),
                     extracted_field="DOCUMENT_SLOT",
                     extraction_method=doc.extraction_method,
@@ -138,6 +140,7 @@ def validate_slot(
             anchors_str = ", ".join(f"'{a}'" for a in classification.primary_anchors) or "title anchors"
             corrob_str = ", ".join(f"'{c}'" for c in classification.corroborating_terms[:3])
             corrob_desc = f" and corroborating term(s) [{corrob_str}]" if corrob_str else ""
+            lines_str = "; ".join(f"'{l}'" for l in classification.source_lines[:2])
             msg = (
                 f"Slot mismatch: Expected '{slot.value}' ({slot_label}) but uploaded document identifies as "
                 f"'{candidate_type.value}' ({cand_label}) based on primary anchor(s) [{anchors_str}]{corrob_desc}. "
@@ -159,7 +162,7 @@ def validate_slot(
                         raw_snippet=(
                             f"Expected slot: '{slot.value}'; Detected candidate: '{candidate_type.value}'; "
                             f"Primary anchor(s): [{anchors_str}]"
-                            + (f"; Corroborating: [{corrob_str}]" if corrob_str else "")
+                            + (f"; Matched line(s): [{lines_str}]" if lines_str else (f"; Corroborating: [{corrob_str}]" if corrob_str else ""))
                         ),
                         extracted_field="DOCUMENT_SLOT",
                         extraction_method=doc.extraction_method,
@@ -176,6 +179,7 @@ def validate_slot(
         reason = classification.uncertainty_reason or "Document content could not be verified"
         corrob_str = ", ".join(f"'{c}'" for c in classification.corroborating_terms[:3])
         corrob_desc = f" (supporting terms found: [{corrob_str}])" if corrob_str else ""
+        lines_str = "; ".join(f"'{l}'" for l in classification.source_lines[:2])
         msg = (
             f"Slot verification uncertain: Document in slot '{slot.value}' cannot be verified as {slot_label}: "
             f"{reason}{corrob_desc}."
@@ -193,7 +197,7 @@ def validate_slot(
                 EvidenceProvenance(
                     document_type=slot.value,
                     file_name=doc.file_path,
-                    raw_snippet=f"Slot uncertainty: {reason}",
+                    raw_snippet=f"Slot uncertainty: {reason}" + (f"; Conflicting line(s): [{lines_str}]" if lines_str else ""),
                     extracted_field="DOCUMENT_SLOT",
                     extraction_method=doc.extraction_method,
                     page_number=None,

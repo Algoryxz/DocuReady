@@ -25,6 +25,7 @@ class SlotClassification:
     primary_anchors: List[str] = field(default_factory=list)
     corroborating_terms: List[str] = field(default_factory=list)
     conflicting_types: List[DocumentType] = field(default_factory=list)
+    source_lines: List[str] = field(default_factory=list)
 
 
 # Primary title anchors per document slot
@@ -129,15 +130,46 @@ INSTRUCTION_EXCLUSION_TERMS = [
     "CHECKLIST",
     "COPY OF",
     "COPIES OF",
-    "DETAILS OF",
-    "PARTICULARS OF",
-    "ENCLOSED CERTIFICATE",
-    "DOCUMENTS ENCLOSED",
-    "DOCUMENTS TO ATTACH",
-    "DOCUMENTS TO BE ATTACHED",
+    "DOCUMENTS TO",
     "SUPPORTING DOCUMENTS",
+    "DETAILS",
+    "PARTICULARS",
+    "INFORMATION",
+    "HOLDER",
+    "HOLDERS",
+    "NUMBER",
+    "NO.",
+    "NO:",
+    "REF",
+    "REFERENCE",
+    "STATUS",
+    "LINKED",
+    "SEEDED",
+    "SEEDING",
+    "MAPPED",
     "ELIGIBILITY",
     "ANNEXURE",
+    "SECTION",
+    "CLAUSE",
+]
+
+# Terms indicating prose, statutory purpose statements, or submission justifications
+# that must not be mistaken for authoritative document title headers.
+PROSE_NARRATIVE_TERMS = [
+    "ISSUED FOR",
+    "SUBMITTED FOR",
+    "SUBMITTED WITH",
+    "SUBMITTED ALONG",
+    "ALONG WITH",
+    "IN CONNECTION WITH",
+    "PURPOSES",
+    "PURPOSE OF",
+    "APPLYING FOR",
+    "BONAFIDE",
+    "CERTIFY THAT",
+    "HEREBY",
+    "THIS IS TO",
+    "CERTIFIED THAT",
 ]
 
 BANK_STATEMENT_INDICATORS = [
@@ -152,15 +184,53 @@ BANK_STATEMENT_INDICATORS = [
 ]
 
 
+def is_authoritative_title_line(line: str, doc_type: DocumentType) -> bool:
+    """Evaluates whether a text line is an authoritative document title header.
+
+    Rejects:
+    - Empty or whitespace lines
+    - Lines containing instructional or checklist terms (UPLOAD, ATTACH, REQUIRED, etc.)
+    - Lines containing narrative or prose justification terms (ISSUED FOR, SUBMITTED ALONG, etc.)
+    - Numbered or bulleted list items (e.g. '1. ', '(a) ', '- ')
+    - Form field labels / key-value lines (ending with ':' or having short prefix before ':')
+    - Bank statement lines for BANK_PASSBOOK
+    """
+    line_clean = line.strip().upper()
+    if not line_clean:
+        return False
+
+    if any(ex in line_clean for ex in INSTRUCTION_EXCLUSION_TERMS):
+        return False
+
+    if any(p in line_clean for p in PROSE_NARRATIVE_TERMS):
+        return False
+
+    if re.match(r"^(\d+[\.\)]|\([a-z\d]+\)|[\-\*•])\s+", line_clean):
+        return False
+
+    if line_clean.endswith(":"):
+        return False
+    if ":" in line_clean:
+        parts = line_clean.split(":", 1)
+        if len(parts[0].split()) <= 4:
+            return False
+
+    if doc_type == DocumentType.BANK_PASSBOOK:
+        if "STATEMENT" in line_clean:
+            return False
+
+    return True
+
+
 def classify_document_content(text: str) -> SlotClassification:
     """Classifies document text into one of the 7 DocumentTypes using anchor checks.
 
     Adheres to:
-    - Primary anchors establish candidate identity.
+    - Primary anchors establish candidate identity when found on authoritative title lines.
     - Multiple conflicting primary anchors -> EVIDENCE_UNCERTAIN.
     - No primary anchor -> EVIDENCE_UNCERTAIN (supporting terms alone are insufficient).
     - Bank statement cannot be treated as a bank passbook.
-    - Bare 12-digit numbers or QR codes without identity anchors cannot identify Aadhaar.
+    - Bare numbers, field labels, or instructions cannot establish document identity.
     """
     if not text or not text.strip():
         return SlotClassification(
@@ -176,79 +246,31 @@ def classify_document_content(text: str) -> SlotClassification:
     is_bank_statement = any(stmt in t for stmt in BANK_STATEMENT_INDICATORS)
 
     matched_primary: Dict[DocumentType, List[str]] = {}
+    matched_source_lines: Dict[DocumentType, List[str]] = {}
     matched_corroborating: Dict[DocumentType, List[str]] = {}
 
     lines = [l.strip() for l in t.splitlines() if l.strip()]
 
-    # Detect whether document contains application form title anchors
-    has_app_form_title = any(
-        re.search(pat, t) for pat in PRIMARY_ANCHOR_PATTERNS[DocumentType.APPLICATION_FORM]
-    )
-
     for doc_type, patterns in PRIMARY_ANCHOR_PATTERNS.items():
+        if doc_type == DocumentType.BANK_PASSBOOK and is_bank_statement:
+            continue
+
         found_primary: List[str] = []
+        found_lines: List[str] = []
 
-        if doc_type == DocumentType.BANK_PASSBOOK:
-            # Special protection: bank statements cannot be classified as passbooks
-            if not is_bank_statement:
-                for pat in patterns:
-                    for line in lines:
-                        if pat == r"\bSAVINGS\s+BANK\b" and "STATEMENT" in line:
-                            continue
-                        matches = re.findall(pat, line)
-                        if matches:
-                            found_primary.extend(matches)
-
-        elif doc_type == DocumentType.AADHAAR:
-            # Specific identity-document context required (AADHAAR CARD, UIDAI, etc.)
-            # Exclude instructional upload references e.g. "Upload Aadhaar Card"
-            for pat in patterns:
-                for line in lines:
-                    if any(term in line for term in INSTRUCTION_EXCLUSION_TERMS):
-                        continue
-                    matches = re.findall(pat, line)
-                    if matches:
-                        found_primary.extend(matches)
-
-        elif doc_type in (DocumentType.INCOME_CERT, DocumentType.CASTE_CERT, DocumentType.RESIDENCE_CERT):
-            # Certificate primary anchors must be authoritative header titles, not
-            # body-text references, checklist items, or upload instructions.
-            for pat in patterns:
-                for idx, line in enumerate(lines):
-                    if any(term in line for term in INSTRUCTION_EXCLUSION_TERMS):
-                        continue
-                    if re.match(r"^(\d+[\.\)]|\([a-z\d]+\)|[\-\*•])\s+", line):
-                        continue
-                    if has_app_form_title and idx > 3:
-                        # In an application form, subordinate certificate mentions are not titles
-                        continue
-                    matches = re.findall(pat, line)
-                    if matches:
-                        found_primary.extend(matches)
-
-        elif doc_type == DocumentType.MARKSHEET:
-            for pat in patterns:
-                for line in lines:
-                    if any(term in line for term in INSTRUCTION_EXCLUSION_TERMS):
-                        continue
-                    if re.match(r"^(\d+[\.\)]|\([a-z\d]+\)|[\-\*•])\s+", line):
-                        continue
-                    if has_app_form_title:
-                        continue
-                    matches = re.findall(pat, line)
-                    if matches:
-                        found_primary.extend(matches)
-
-        else:
-            # Application form
-            for pat in patterns:
-                for line in lines:
-                    matches = re.findall(pat, line)
-                    if matches:
-                        found_primary.extend(matches)
+        for pat in patterns:
+            for line in lines:
+                if not is_authoritative_title_line(line, doc_type):
+                    continue
+                matches = re.findall(pat, line)
+                if matches:
+                    found_primary.extend(matches)
+                    if line not in found_lines:
+                        found_lines.append(line)
 
         if found_primary:
             matched_primary[doc_type] = found_primary
+            matched_source_lines[doc_type] = found_lines
 
     # Collect corroborating terms
     for doc_type, patterns in CORROBORATING_PATTERNS.items():
@@ -264,13 +286,16 @@ def classify_document_content(text: str) -> SlotClassification:
     if len(matched_primary) > 1:
         conflicting = list(matched_primary.keys())
         all_anchors = [a for sub in matched_primary.values() for a in sub]
+        all_source_lines = [l for sub in matched_source_lines.values() for l in sub]
         return SlotClassification(
             candidate_type=None,
             is_confident=False,
             is_uncertain=True,
             uncertainty_reason=f"Conflicting primary anchors detected from multiple types: {', '.join(dt.value for dt in conflicting)}",
             primary_anchors=all_anchors,
+            corroborating_terms=[],
             conflicting_types=conflicting,
+            source_lines=all_source_lines,
         )
 
     # Exactly one document type matched
@@ -278,6 +303,7 @@ def classify_document_content(text: str) -> SlotClassification:
         cand_type = next(iter(matched_primary.keys()))
         primary = matched_primary[cand_type]
         corrob = matched_corroborating.get(cand_type, [])
+        source_lines = matched_source_lines.get(cand_type, [])
         return SlotClassification(
             candidate_type=cand_type,
             is_confident=True,
@@ -286,6 +312,7 @@ def classify_document_content(text: str) -> SlotClassification:
             primary_anchors=primary,
             corroborating_terms=corrob,
             conflicting_types=[],
+            source_lines=source_lines,
         )
 
     # Zero primary anchors matched
@@ -310,4 +337,5 @@ def classify_document_content(text: str) -> SlotClassification:
         primary_anchors=[],
         corroborating_terms=all_corrob,
         conflicting_types=[],
+        source_lines=[],
     )

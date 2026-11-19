@@ -936,3 +936,208 @@ def test_actual_malformed_temporary_files_handling(tmp_path):
     for f in unreadable_findings:
         assert f.status is Status.REVIEW
         assert f.reason_code == ReasonCode.EVIDENCE_UNCERTAIN.value
+
+
+# ---------------------------------------------------------------------------
+# POST-MERGE REVIEW HARDENING REGRESSION TESTS
+# ---------------------------------------------------------------------------
+
+
+def test_regression_01_app_form_with_aadhaar_number_field():
+    """Regression 1: Application form containing an Aadhaar Number field remains APPLICATION_FORM."""
+    doc_text = (
+        "COMMON SCHOLARSHIP PORTAL\n"
+        "APPLICATION ACKNOWLEDGEMENT RECEIPT\n"
+        "Applicant Name: Smruti Ranjan Nayak\n"
+        "Aadhaar Number: 1234 5678 9012\n"
+    )
+    classification = classify_document_content(doc_text)
+    assert classification.is_confident is True
+    assert classification.candidate_type == DocumentType.APPLICATION_FORM
+    assert classification.conflicting_types == []
+    assert DocumentType.AADHAAR not in classification.conflicting_types
+
+    doc = _make_doc(DocumentType.APPLICATION_FORM, raw_text=doc_text)
+    finding = validate_slot(slot=DocumentType.APPLICATION_FORM, doc=doc)
+    assert finding is None
+
+
+def test_regression_02_app_form_with_aadhaar_holder_details():
+    """Regression 2: Application form containing 'Aadhaar Card holder details' remains APPLICATION_FORM."""
+    doc_text = (
+        "COMMON SCHOLARSHIP PORTAL\n"
+        "SCHOLARSHIP APPLICATION FORM 2025-26\n"
+        "Aadhaar Card holder details: Verified\n"
+        "Aadhaar Number: 1234 5678 9012\n"
+    )
+    classification = classify_document_content(doc_text)
+    assert classification.is_confident is True
+    assert classification.candidate_type == DocumentType.APPLICATION_FORM
+    assert classification.conflicting_types == []
+    assert DocumentType.AADHAAR not in classification.conflicting_types
+
+    doc = _make_doc(DocumentType.APPLICATION_FORM, raw_text=doc_text)
+    finding = validate_slot(slot=DocumentType.APPLICATION_FORM, doc=doc)
+    assert finding is None
+
+
+def test_regression_03_app_form_with_bank_passbook_upload_instructions():
+    """Regression 3: Application form instructing to upload bank passbook remains APPLICATION_FORM."""
+    doc_text = (
+        "COMMON SCHOLARSHIP PORTAL\n"
+        "APPLICATION ACKNOWLEDGEMENT RECEIPT\n"
+        "Upload bank passbook\n"
+        "Bank passbook required\n"
+        "Passbook details: Account 123456\n"
+    )
+    classification = classify_document_content(doc_text)
+    assert classification.is_confident is True
+    assert classification.candidate_type == DocumentType.APPLICATION_FORM
+    assert classification.conflicting_types == []
+    assert DocumentType.BANK_PASSBOOK not in classification.conflicting_types
+
+    doc = _make_doc(DocumentType.APPLICATION_FORM, raw_text=doc_text)
+    finding = validate_slot(slot=DocumentType.APPLICATION_FORM, doc=doc)
+    assert finding is None
+
+
+def test_regression_04_app_form_mentioning_income_caste_residence_certificates():
+    """Regression 4: Application form checklist mentioning certificates remains APPLICATION_FORM."""
+    doc_text = (
+        "COMMON SCHOLARSHIP PORTAL\n"
+        "APPLICATION ACKNOWLEDGEMENT RECEIPT\n"
+        "- Income certificate required.\n"
+        "- Upload caste certificate.\n"
+        "- Residence certificate attachment.\n"
+        "Supporting documents to attach:\n"
+        "1. Income Certificate\n"
+        "2. Caste Certificate\n"
+        "3. Residence Certificate\n"
+    )
+    classification = classify_document_content(doc_text)
+    assert classification.is_confident is True
+    assert classification.candidate_type == DocumentType.APPLICATION_FORM
+    assert classification.conflicting_types == []
+
+    doc = _make_doc(DocumentType.APPLICATION_FORM, raw_text=doc_text)
+    finding = validate_slot(slot=DocumentType.APPLICATION_FORM, doc=doc)
+    assert finding is None
+
+
+def test_regression_05_genuine_standalone_aadhaar_identification():
+    """Regression 5: Standalone Aadhaar card is positively classified as AADHAAR."""
+    doc_text = (
+        "GOVERNMENT OF INDIA\n"
+        "UNIQUE IDENTIFICATION AUTHORITY OF INDIA\n"
+        "AADHAAR CARD\n"
+        "Mera Aadhaar, Meri Pehchan\n"
+        "Aadhaar Number: 1234 5678 9012\n"
+    )
+    classification = classify_document_content(doc_text)
+    assert classification.is_confident is True
+    assert classification.candidate_type == DocumentType.AADHAAR
+    assert classification.conflicting_types == []
+    assert len(classification.source_lines) >= 1
+
+    doc = _make_doc(DocumentType.AADHAAR, raw_text=doc_text)
+    assert validate_slot(slot=DocumentType.AADHAAR, doc=doc) is None
+
+    # Mismatch when uploaded to INCOME_CERT slot
+    finding_mismatch = validate_slot(slot=DocumentType.INCOME_CERT, doc=doc)
+    assert finding_mismatch is not None
+    assert finding_mismatch.status == FindingStatus.REVIEW
+    assert finding_mismatch._is_wrong_type is True
+    assert finding_mismatch.evidence[0].document_type == DocumentType.AADHAAR.value
+    assert finding_mismatch.evidence[0].page_number is None
+
+
+def test_regression_06_genuine_standalone_bank_passbook_identification():
+    """Regression 6: Standalone bank passbook is positively classified as BANK_PASSBOOK."""
+    doc_text = (
+        "STATE BANK OF INDIA\n"
+        "SAVINGS BANK PASSBOOK — BHUBANESWAR MAIN BRANCH\n"
+        "Account Holder Name: Smruti Ranjan Nayak\n"
+        "Account Number: 12345678901\n"
+        "IFSC: SBIN0001234\n"
+    )
+    classification = classify_document_content(doc_text)
+    assert classification.is_confident is True
+    assert classification.candidate_type == DocumentType.BANK_PASSBOOK
+    assert classification.conflicting_types == []
+    assert len(classification.source_lines) >= 1
+
+    doc = _make_doc(DocumentType.BANK_PASSBOOK, raw_text=doc_text)
+    assert validate_slot(slot=DocumentType.BANK_PASSBOOK, doc=doc) is None
+
+    # Mismatch when uploaded to MARKSHEET slot
+    finding_mismatch = validate_slot(slot=DocumentType.MARKSHEET, doc=doc)
+    assert finding_mismatch is not None
+    assert finding_mismatch.status == FindingStatus.REVIEW
+    assert finding_mismatch._is_wrong_type is True
+    assert finding_mismatch.evidence[0].document_type == DocumentType.BANK_PASSBOOK.value
+    assert finding_mismatch.evidence[0].page_number is None
+
+
+def test_regression_07_bank_statement_vs_passbook_distinction():
+    """Regression 7: Bank statement cannot be classified as BANK_PASSBOOK; produces uncertainty."""
+    doc_text = (
+        "STATE BANK OF INDIA\n"
+        "SAVINGS BANK ACCOUNT STATEMENT\n"
+        "Statement Period: 01/01/2025 to 31/01/2025\n"
+        "Closing Balance: 50000.00\n"
+        "Account Number: 12345678901\n"
+    )
+    classification = classify_document_content(doc_text)
+    assert classification.candidate_type is None
+    assert classification.is_uncertain is True
+    assert "statement" in classification.uncertainty_reason.lower()
+
+    doc = _make_doc(DocumentType.BANK_PASSBOOK, raw_text=doc_text)
+    finding = validate_slot(slot=DocumentType.BANK_PASSBOOK, doc=doc)
+    assert finding is not None
+    assert finding.status == FindingStatus.REVIEW
+    assert finding._is_wrong_type is False
+    assert "bank statement" in finding.message.lower()
+
+
+def test_regression_08_genuine_certificate_with_long_header():
+    """Regression 8: Genuine certificate with multiple administrative header lines qualifies without cutoff."""
+    doc_text = (
+        "GOVERNMENT OF ODISHA\n"
+        "REVENUE & DISASTER MANAGEMENT DEPARTMENT\n"
+        "OFFICE OF THE ADDITIONAL DISTRICT MAGISTRATE\n"
+        "SUB-DIVISIONAL MAGISTRATE, CUTTACK\n"
+        "TAHSILDAR OFFICE, SADAR\n"
+        "INCOME CERTIFICATE\n"
+        "Certificate No: E-INC/2025/998877\n"
+        "Annual Family Income: 120000\n"
+    )
+    classification = classify_document_content(doc_text)
+    assert classification.is_confident is True
+    assert classification.candidate_type == DocumentType.INCOME_CERT
+    assert classification.conflicting_types == []
+    assert len(classification.source_lines) >= 1
+
+    doc = _make_doc(DocumentType.INCOME_CERT, raw_text=doc_text)
+    assert validate_slot(slot=DocumentType.INCOME_CERT, doc=doc) is None
+
+
+def test_regression_09_incidental_body_mention_of_application_form():
+    """Regression 9: Incidental body/narrative mention of application in another document does not conflict."""
+    doc_text = (
+        "GOVERNMENT OF ODISHA\n"
+        "DEPARTMENT OF ST & SC DEVELOPMENT\n"
+        "COMMUNITY / CASTE CERTIFICATE\n"
+        "Certificate No: CST/2025/112233\n"
+        "This certificate is issued for educational, scholarship and statutory purposes.\n"
+        "Submitted along with scholarship application.\n"
+    )
+    classification = classify_document_content(doc_text)
+    assert classification.is_confident is True
+    assert classification.candidate_type == DocumentType.CASTE_CERT
+    assert classification.conflicting_types == []
+    assert DocumentType.APPLICATION_FORM not in classification.conflicting_types
+    assert len(classification.source_lines) >= 1
+
+    doc = _make_doc(DocumentType.CASTE_CERT, raw_text=doc_text)
+    assert validate_slot(slot=DocumentType.CASTE_CERT, doc=doc) is None
