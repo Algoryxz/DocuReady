@@ -14,6 +14,7 @@ Guarantees:
 """
 
 from __future__ import annotations
+import os
 from typing import Dict, List, Optional, Set, Tuple
 
 from docuready.domain.enums import ReasonCode, Status
@@ -45,6 +46,7 @@ def validate_slot(
         return None
 
     slot_label = DOC_TYPE_LABELS.get(slot, slot.value)
+    safe_file_name = os.path.basename(doc.file_path) if doc.file_path else ""
 
     if doc.status in ("UNREADABLE", "CORRUPTED"):
         if not emit_for_unreadable:
@@ -65,7 +67,7 @@ def validate_slot(
             evidence=[
                 EvidenceProvenance(
                     document_type=slot.value,
-                    file_name=doc.file_path,
+                    file_name=safe_file_name,
                     raw_snippet=f"[{doc.status} UPLOAD / INSUFFICIENT EVIDENCE]",
                     extracted_field="DOCUMENT_SLOT",
                     extraction_method=doc.extraction_method,
@@ -106,7 +108,7 @@ def validate_slot(
             evidence=[
                 EvidenceProvenance(
                     document_type=doc.detected_type.value,
-                    file_name=doc.file_path,
+                    file_name=safe_file_name,
                     raw_snippet=(
                         f"Expected slot: '{slot.value}'; Detected candidate: '{doc.detected_type.value}'; "
                         f"Primary anchor(s): [{anchors_str}]"
@@ -155,7 +157,7 @@ def validate_slot(
                 evidence=[
                     EvidenceProvenance(
                         document_type=candidate_type.value,
-                        file_name=doc.file_path,
+                        file_name=safe_file_name,
                         raw_snippet=(
                             f"Expected slot: '{slot.value}'; Detected candidate: '{candidate_type.value}'; "
                             f"Primary anchor(s): [{anchors_str}]"
@@ -192,7 +194,7 @@ def validate_slot(
             evidence=[
                 EvidenceProvenance(
                     document_type=slot.value,
-                    file_name=doc.file_path,
+                    file_name=safe_file_name,
                     raw_snippet=f"Slot uncertainty: {reason}",
                     extracted_field="DOCUMENT_SLOT",
                     extraction_method=doc.extraction_method,
@@ -227,7 +229,7 @@ def validate_slot(
             evidence=[
                 EvidenceProvenance(
                     document_type=doc.doc_type.value,
-                    file_name=doc.file_path,
+                    file_name=safe_file_name,
                     raw_snippet=f"Expected slot: '{slot.value}'; Synthetic document type: '{doc.doc_type.value}'",
                     extracted_field="DOCUMENT_SLOT",
                     extraction_method=doc.extraction_method,
@@ -254,7 +256,7 @@ def validate_slot(
         evidence=[
             EvidenceProvenance(
                 document_type=slot.value,
-                file_name=doc.file_path,
+                file_name=safe_file_name,
                 raw_snippet="[BLANK / EMPTY DOCUMENT]",
                 extracted_field="DOCUMENT_SLOT",
                 extraction_method=doc.extraction_method,

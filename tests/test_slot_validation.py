@@ -42,6 +42,7 @@ from docuready.ingest.slot_classifier import (
     SlotClassification,
 )
 from docuready.outcome.resolver import resolve_outcome
+from docuready.report.redact import redact_audit_result_dict
 from docuready.rules.slot_validator import validate_packet_slots, validate_slot
 from docuready.rules.validator import DocuReadyValidator, SchemeConfig
 
@@ -1261,3 +1262,76 @@ def test_regression_12_narrative_sentences_without_trailing_period_yield_uncerta
         assert finding.status == FindingStatus.REVIEW
         assert finding._is_wrong_type is False
         assert finding.evidence[0].page_number is None
+
+
+def test_regression_13_narrative_fragments_yield_uncertainty():
+    """Regression 13: Narrative fragments and relational noun phrases yield EVIDENCE_UNCERTAIN."""
+    narrative_fragments = [
+        ("An income certificate from the Tahsildar", DocumentType.INCOME_CERT),
+        ("Income certificate of the applicant", DocumentType.INCOME_CERT),
+        ("A marksheet of the student", DocumentType.MARKSHEET),
+        ("Scholarship application for eligible students", DocumentType.APPLICATION_FORM),
+        ("Caste certificate issued to the applicant", DocumentType.CASTE_CERT),
+        ("Residence certificate required for scholarship eligibility", DocumentType.RESIDENCE_CERT),
+    ]
+
+    for fragment, target_slot in narrative_fragments:
+        clf = classify_document_content(fragment)
+        assert clf.candidate_type is None, f"Expected None candidate for: {fragment}, got {clf.candidate_type}"
+        assert clf.is_confident is False
+        assert clf.is_uncertain is True
+
+        doc = _make_doc(target_slot, raw_text=fragment)
+        finding = validate_slot(slot=target_slot, doc=doc)
+        assert finding is not None, f"Expected uncertain finding for: {fragment}"
+        assert finding.status == FindingStatus.REVIEW
+        assert finding._is_wrong_type is False
+        assert finding.evidence[0].page_number is None
+
+
+def test_regression_14_filename_provenance_and_pii_redaction():
+    """Regression 14: EvidenceProvenance uses basename and redact_audit_result_dict masks filename PII."""
+    full_path_with_pii = "C:/secure/uploads/users/Akriti_Lohani_123456789012_Aadhaar.pdf"
+    doc = _make_doc(
+        DocumentType.AADHAAR,
+        file_name=full_path_with_pii,
+        raw_text=SYNTHETIC_TEXTS[DocumentType.AADHAAR],
+    )
+
+    # 1. Mismatched slot triggers finding; check EvidenceProvenance filename sanitization
+    finding = validate_slot(slot=DocumentType.INCOME_CERT, doc=doc)
+    assert finding is not None
+    assert len(finding.evidence) == 1
+    ev = finding.evidence[0]
+    # File name must be the basename only, never the full filesystem path
+    assert ev.file_name == "Akriti_Lohani_123456789012_Aadhaar.pdf"
+    assert "C:" not in ev.file_name
+    assert "secure" not in ev.file_name
+    assert "uploads" not in ev.file_name
+
+    # 2. Privacy-redacted export must sanitize citizen identifiers in file_name
+    raw_payload = {
+        "findings": [
+            {
+                "rule_id": finding.rule_id,
+                "message": finding.message,
+                "remediation": finding.remediation,
+                "evidence": [
+                    {
+                        "document_type": ev.document_type,
+                        "file_name": ev.file_name,
+                        "raw_snippet": ev.raw_snippet,
+                        "page_number": ev.page_number,
+                    }
+                ],
+            }
+        ]
+    }
+
+    redacted = redact_audit_result_dict(raw_payload)
+    redacted_ev = redacted["findings"][0]["evidence"][0]
+
+    # Aadhaar number masked
+    assert "123456789012" not in redacted_ev["file_name"]
+    assert "XXXX-XXXX-9012" in redacted_ev["file_name"]
+    assert redacted_ev["raw_snippet"] == "[REDACTED EVIDENCE SNIPPET]"

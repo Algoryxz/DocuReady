@@ -231,6 +231,18 @@ NARRATIVE_SUBJECT_PATTERNS = [
     r"^(?:THE|A|AN)\s+[A-Z\s]+\s+(?:IS|ARE|WAS|WERE|HAS|HAD)\b",
 ]
 
+# Patterns indicating narrative fragments, indefinite article references, or relational phrases
+# describing persons, offices, or eligibility conditions rather than standalone document titles.
+NARRATIVE_RELATIONAL_PATTERNS = [
+    r"^\s*AN?\s+",
+    r"\bOF\s+THE\s+(?:APPLICANT|STUDENT|CANDIDATE|BENEFICIARY|HOLDER|PERSON|CHILD)\b",
+    r"\bOF\s+(?:THE\s+)?(?:APPLICANT|STUDENT|CANDIDATE)['’]?S\b",
+    r"\bFROM\s+THE\s+(?:TAHSILDAR|OFFICE|SCHOOL|COLLEGE|DISTRICT|APPLICANT|STUDENT|AUTHORITY)\b",
+    r"\bFOR\s+(?:ELIGIBLE|ALL|THE|ANY)?\s*(?:STUDENTS?|APPLICANTS?|CANDIDATES?|SCHOLARSHIPS?|ADMISSIONS?|ELIGIBILITY)\b",
+    r"\b(?:ISSUED|GRANTED|AWARDED|PROVIDED|SUBMITTED)\s+(?:TO|BY)\b",
+    r"\bREQUIRED\s+(?:FOR|BY)\b",
+]
+
 BANK_STATEMENT_INDICATORS = [
     "BANK STATEMENT",
     "ACCOUNT STATEMENT",
@@ -265,6 +277,10 @@ def is_authoritative_title_line(line: str, doc_type: DocumentType) -> bool:
 
     # Terminal sentence punctuation indicates running prose, not a title header
     if line_clean.endswith((".", "?", "!")):
+        return False
+
+    # Narrative fragments, indefinite article clauses, or relational phrases
+    if any(re.search(pat, line_clean) for pat in NARRATIVE_RELATIONAL_PATTERNS):
         return False
 
     # Narrative subject starters (e.g. "The applicant has...", "A caste certificate is...")
