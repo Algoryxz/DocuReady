@@ -172,6 +172,65 @@ PROSE_NARRATIVE_TERMS = [
     "CERTIFIED THAT",
 ]
 
+# Terms indicating narrative sentences, finite verb predicates, or descriptive clauses
+# that establish a line is running prose/body text rather than an authoritative document title header.
+VERB_PREDICATE_TERMS = [
+    "HAS",
+    "HAVE",
+    "HAD",
+    "IS",
+    "ARE",
+    "WAS",
+    "WERE",
+    "BEEN",
+    "BEING",
+    "BE",
+    "REVIEWED",
+    "MENTIONED",
+    "DISCUSSED",
+    "SUBMITTED",
+    "SUBMITS",
+    "PROVIDES",
+    "PROVIDED",
+    "RECEIVED",
+    "STATING",
+    "STATED",
+    "CERTIFIES",
+    "CAN",
+    "COULD",
+    "WILL",
+    "WOULD",
+    "SHALL",
+    "SHOULD",
+    "MAY",
+    "MIGHT",
+    "MUST",
+]
+
+NARRATIVE_ADVERBIALS = [
+    "EARLIER",
+    "PREVIOUSLY",
+    "ALREADY",
+    "LATER",
+    "RECENTLY",
+]
+
+NARRATIVE_PHRASES = [
+    "BY THE COMMITTEE",
+    "BY THE APPLICANT",
+    "BY THE STUDENT",
+    "FROM THE DISTRICT",
+    "IN THE DISCUSSION",
+    "FOR THE COMMITTEE",
+    "ELIGIBILITY DISCUSSION",
+    "COMMITTEE REVIEW",
+]
+
+NARRATIVE_SUBJECT_PATTERNS = [
+    r"^(?:THE|A|AN|THIS|THAT)\s+(?:APPLICANT|STUDENT|CANDIDATE|COMMITTEE|BOARD|COUNCIL|OFFICER|DISCUSSION|MEETING|RECORD)\b",
+    r"^(?:THE|A|AN)\s+[A-Z\s]+\s+(?:IS|ARE|WAS|WERE|HAS|HAD)\b",
+]
+
 BANK_STATEMENT_INDICATORS = [
     "BANK STATEMENT",
     "ACCOUNT STATEMENT",
@@ -189,6 +248,11 @@ def is_authoritative_title_line(line: str, doc_type: DocumentType) -> bool:
 
     Rejects:
     - Empty or whitespace lines
+    - Running prose / narrative sentences (ending with sentence terminal punctuation: '.', '?', '!')
+    - Lines starting with narrative subjects ('The applicant...', 'A caste certificate is...')
+    - Lines containing finite verbs/predicates ('has', 'was reviewed', 'is mentioned', 'submitted')
+    - Lines containing narrative sentence adverbials ('earlier', 'previously', etc.)
+    - Lines containing narrative prepositional/discussion phrases ('in the eligibility discussion', etc.)
     - Lines containing instructional or checklist terms (UPLOAD, ATTACH, REQUIRED, etc.)
     - Lines containing narrative or prose justification terms (ISSUED FOR, SUBMITTED ALONG, etc.)
     - Numbered or bulleted list items (e.g. '1. ', '(a) ', '- ')
@@ -197,6 +261,25 @@ def is_authoritative_title_line(line: str, doc_type: DocumentType) -> bool:
     """
     line_clean = line.strip().upper()
     if not line_clean:
+        return False
+
+    # Terminal sentence punctuation indicates running prose, not a title header
+    if line_clean.endswith((".", "?", "!")):
+        return False
+
+    # Narrative subject starters (e.g. "The applicant has...", "A caste certificate is...")
+    if any(re.search(pat, line_clean) for pat in NARRATIVE_SUBJECT_PATTERNS):
+        return False
+
+    # Narrative verbs/predicates forming a sentence
+    words = set(re.findall(r"\b[A-Z]+\b", line_clean))
+    if any(verb in words for verb in VERB_PREDICATE_TERMS):
+        return False
+
+    if any(adv in words for adv in NARRATIVE_ADVERBIALS):
+        return False
+
+    if any(phrase in line_clean for phrase in NARRATIVE_PHRASES):
         return False
 
     if any(ex in line_clean for ex in INSTRUCTION_EXCLUSION_TERMS):
@@ -265,8 +348,9 @@ def classify_document_content(text: str) -> SlotClassification:
                 matches = re.findall(pat, line)
                 if matches:
                     found_primary.extend(matches)
-                    if line not in found_lines:
-                        found_lines.append(line)
+                    for m in matches:
+                        if m not in found_lines:
+                            found_lines.append(m)
 
         if found_primary:
             matched_primary[doc_type] = found_primary

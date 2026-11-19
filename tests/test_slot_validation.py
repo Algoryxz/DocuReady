@@ -1141,3 +1141,123 @@ def test_regression_09_incidental_body_mention_of_application_form():
 
     doc = _make_doc(DocumentType.CASTE_CERT, raw_text=doc_text)
     assert validate_slot(slot=DocumentType.CASTE_CERT, doc=doc) is None
+
+
+def test_regression_10_pii_on_title_line_not_leaked_into_evidence_provenance():
+    """Regression 10: Personal information on the same line as a valid title is never leaked into evidence provenance or messages."""
+    # 1. Aadhaar Card with synthetic 12-digit number on title line
+    aadhaar_text = "GOVERNMENT OF INDIA\nAADHAAR CARD — 1234 5678 9012\nMera Aadhaar, Meri Pehchan"
+    clf_aadhaar = classify_document_content(aadhaar_text)
+    assert clf_aadhaar.is_confident is True
+    assert clf_aadhaar.candidate_type == DocumentType.AADHAAR
+    for line in clf_aadhaar.source_lines:
+        assert "1234" not in line
+        assert "5678" not in line
+        assert "9012" not in line
+
+    doc_aadhaar = _make_doc(DocumentType.AADHAAR, raw_text=aadhaar_text)
+    # Uploaded to mismatched slot INCOME_CERT
+    finding_aadhaar = validate_slot(slot=DocumentType.INCOME_CERT, doc=doc_aadhaar)
+    assert finding_aadhaar is not None
+    assert finding_aadhaar.status == FindingStatus.REVIEW
+    assert finding_aadhaar._is_wrong_type is True
+    ev_a = finding_aadhaar.evidence[0]
+    assert ev_a.page_number is None
+    assert "1234" not in ev_a.raw_snippet
+    assert "5678" not in ev_a.raw_snippet
+    assert "9012" not in ev_a.raw_snippet
+    assert "1234" not in finding_aadhaar.message
+
+    # 2. Income Certificate with synthetic applicant name on title line
+    income_text = "OFFICE OF THE TAHSILDAR\nINCOME CERTIFICATE — Applicant Akriti Lohani\nAnnual Family Income: 120000"
+    clf_income = classify_document_content(income_text)
+    assert clf_income.is_confident is True
+    assert clf_income.candidate_type == DocumentType.INCOME_CERT
+    for line in clf_income.source_lines:
+        assert "AKRITI" not in line.upper()
+        assert "LOHANI" not in line.upper()
+
+    doc_income = _make_doc(DocumentType.INCOME_CERT, raw_text=income_text)
+    finding_income = validate_slot(slot=DocumentType.CASTE_CERT, doc=doc_income)
+    assert finding_income is not None
+    ev_i = finding_income.evidence[0]
+    assert ev_i.page_number is None
+    assert "Akriti" not in ev_i.raw_snippet
+    assert "Lohani" not in ev_i.raw_snippet
+    assert "Akriti" not in finding_income.message
+    assert "Lohani" not in finding_income.message
+
+    # 3. Bank Passbook with account number, phone number, and address on title line
+    bank_text = (
+        "STATE BANK OF INDIA\n"
+        "SAVINGS BANK PASSBOOK — Account 12345678901, Phone 9876543210, Plot 42 Shaheed Nagar, Bhubaneswar\n"
+        "IFSC: SBIN0001234"
+    )
+    clf_bank = classify_document_content(bank_text)
+    assert clf_bank.is_confident is True
+    assert clf_bank.candidate_type == DocumentType.BANK_PASSBOOK
+    for line in clf_bank.source_lines:
+        assert "12345678901" not in line
+        assert "9876543210" not in line
+        assert "SHAHEED" not in line.upper()
+        assert "BHUBANESWAR" not in line.upper()
+
+    doc_bank = _make_doc(DocumentType.BANK_PASSBOOK, raw_text=bank_text)
+    finding_bank = validate_slot(slot=DocumentType.MARKSHEET, doc=doc_bank)
+    assert finding_bank is not None
+    ev_b = finding_bank.evidence[0]
+    assert ev_b.page_number is None
+    assert "12345678901" not in ev_b.raw_snippet
+    assert "9876543210" not in ev_b.raw_snippet
+    assert "Shaheed" not in ev_b.raw_snippet
+    assert "Bhubaneswar" not in ev_b.raw_snippet
+    assert "12345678901" not in finding_bank.message
+    assert "9876543210" not in finding_bank.message
+    assert "Shaheed" not in finding_bank.message
+    assert "Bhubaneswar" not in finding_bank.message
+
+
+def test_regression_11_ordinary_narrative_sentences_yield_uncertainty():
+    """Regression 11: Ordinary narrative sentences mentioning documents do not produce confident document types."""
+    narrative_cases = [
+        ("The applicant has an income certificate from the district office.", DocumentType.INCOME_CERT),
+        ("The scholarship application was reviewed by the committee.", DocumentType.APPLICATION_FORM),
+        ("A caste certificate is mentioned in the eligibility discussion.", DocumentType.CASTE_CERT),
+        ("The student submitted a marksheet earlier.", DocumentType.MARKSHEET),
+    ]
+
+    for sentence, target_slot in narrative_cases:
+        clf = classify_document_content(sentence)
+        assert clf.candidate_type is None, f"Expected None candidate for: {sentence}, got {clf.candidate_type}"
+        assert clf.is_confident is False
+        assert clf.is_uncertain is True
+
+        doc = _make_doc(target_slot, raw_text=sentence)
+        finding = validate_slot(slot=target_slot, doc=doc)
+        assert finding is not None, f"Expected uncertain finding for: {sentence}"
+        assert finding.status == FindingStatus.REVIEW
+        assert finding._is_wrong_type is False
+        assert finding.evidence[0].page_number is None
+
+
+def test_regression_12_narrative_sentences_without_trailing_period_yield_uncertainty():
+    """Regression 12: Narrative sentences without trailing punctuation still produce uncertainty via grammar analysis."""
+    narrative_no_punct = [
+        ("The applicant has an income certificate from the district office", DocumentType.INCOME_CERT),
+        ("The scholarship application was reviewed by the committee", DocumentType.APPLICATION_FORM),
+        ("A caste certificate is mentioned in the eligibility discussion", DocumentType.CASTE_CERT),
+        ("The student submitted a marksheet earlier", DocumentType.MARKSHEET),
+    ]
+
+    for sentence, target_slot in narrative_no_punct:
+        clf = classify_document_content(sentence)
+        assert clf.candidate_type is None, f"Expected None candidate for: {sentence}, got {clf.candidate_type}"
+        assert clf.is_confident is False
+        assert clf.is_uncertain is True
+
+        doc = _make_doc(target_slot, raw_text=sentence)
+        finding = validate_slot(slot=target_slot, doc=doc)
+        assert finding is not None
+        assert finding.status == FindingStatus.REVIEW
+        assert finding._is_wrong_type is False
+        assert finding.evidence[0].page_number is None
