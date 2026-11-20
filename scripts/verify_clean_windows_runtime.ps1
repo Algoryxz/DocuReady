@@ -25,11 +25,13 @@ function Assert-File([string]$Path, [string]$Label) {
     if (-not (Test-Path -LiteralPath $Path -PathType Leaf)) { throw "$Label missing: $Path" }
 }
 function Find-AppExe([string]$Root) {
-    $match = Get-ChildItem -LiteralPath $Root -Filter "DocuReady.exe" -File -Recurse |
-        Where-Object { $_.FullName -notmatch '\\(uninstall|SquirrelTemp)\\' } |
-        Select-Object -First 1
-    if (-not $match) { throw "DocuReady.exe not found below $Root" }
-    return $match.FullName
+    $matches = Get-ChildItem -LiteralPath $Root -Filter "DocuReady.exe" -File -Recurse |
+        Where-Object { $_.FullName -notmatch '\\(uninstall|SquirrelTemp)\\' }
+    $versioned = $matches | Where-Object { $_.FullName -match '\\app-[^\\]+\\DocuReady\.exe$' } | Select-Object -First 1
+    if ($versioned) { return $versioned.FullName }
+    $first = $matches | Select-Object -First 1
+    if (-not $first) { throw "DocuReady.exe not found below $Root" }
+    return $first.FullName
 }
 function Invoke-SidecarHealth([string]$SidecarExe, [string]$Workspace) {
     Assert-File $SidecarExe "Bundled sidecar"
@@ -72,7 +74,7 @@ function Invoke-SidecarHealth([string]$SidecarExe, [string]$Workspace) {
                 $responseLine = $readTask.Result
                 if ([string]::IsNullOrWhiteSpace($responseLine)) { throw "Sidecar closed stdout during $Method." }
                 $frame = $responseLine | ConvertFrom-Json
-                if ($frame.id -eq $RequestId) { return $frame }
+                if ($frame.PSObject.Properties['id'] -and $frame.id -eq $RequestId) { return $frame }
             }
             throw "No correlated JSON-RPC response for $Method."
         }
@@ -95,7 +97,7 @@ function Invoke-SidecarHealth([string]$SidecarExe, [string]$Workspace) {
                 as_of = "2026-03-31"
             }
             if (-not $audit.ok) { throw "Sidecar audit failed for $($case.Name): $($audit | ConvertTo-Json -Depth 8 -Compress)" }
-            $auditResult = if ($audit.result.audit) { $audit.result.audit } else { $audit.result.audit_result }
+            $auditResult = if ($audit.result.PSObject.Properties['audit']) { $audit.result.audit } else { $audit.result.audit_result }
             if (-not $auditResult) { throw "No audit result returned for $($case.Name)." }
             Write-Log "PASS: sidecar packet audit '$($case.Name)' returned status '$($auditResult.overall_status)'."
             if ($case.Name -eq "name-conflict") {
@@ -131,10 +133,12 @@ function Test-AppLaunch([string]$ExePath, [string]$Label) {
     }
     finally {
         if (-not $proc.HasExited) {
-            Stop-Process -Id $proc.Id -Force -ErrorAction SilentlyContinue
+            Start-Process -FilePath "taskkill.exe" -ArgumentList "/F", "/T", "/PID", "$($proc.Id)" -Wait -NoNewWindow -ErrorAction SilentlyContinue
             $proc.WaitForExit(10000) | Out-Null
         }
         $proc.Dispose()
+        Start-Process -FilePath "taskkill.exe" -ArgumentList "/F", "/T", "/IM", "DocuReady.exe" -Wait -NoNewWindow -ErrorAction SilentlyContinue
+        Start-Process -FilePath "taskkill.exe" -ArgumentList "/F", "/T", "/IM", "docuready_sidecar.exe" -Wait -NoNewWindow -ErrorAction SilentlyContinue
     }
 }
 
@@ -186,11 +190,24 @@ try {
     Invoke-SidecarHealth $installedSidecar (Join-Path $workspace "installed")
     Test-AppLaunch $installedExe "Installed DocuReady"
 
-    & $updateExe --uninstall -s
-    if ($LASTEXITCODE -ne 0) { throw "Squirrel uninstall failed with exit code $LASTEXITCODE." }
+    Start-Process -FilePath "taskkill.exe" -ArgumentList "/F", "/T", "/IM", "DocuReady.exe" -Wait -NoNewWindow -ErrorAction SilentlyContinue
+    Start-Process -FilePath "taskkill.exe" -ArgumentList "/F", "/T", "/IM", "docuready_sidecar.exe" -Wait -NoNewWindow -ErrorAction SilentlyContinue
     Start-Sleep -Seconds 2
+
+    $uninstall = Start-Process -FilePath $updateExe -ArgumentList "--uninstall", "-s" -Wait -PassThru
+    Write-Log "Squirrel Update.exe uninstall exit code: $($uninstall.ExitCode)"
+    if ($uninstall.ExitCode -ne 0) { throw "Squirrel uninstall failed with exit code $($uninstall.ExitCode)." }
+
+    # Squirrel schedules background folder deletion (ping delay then rmdir). Wait up to 15s for removal.
+    $deadline = (Get-Date).AddSeconds(15)
+    while (((Test-Path $installedExe) -or (Test-Path $updateExe)) -and ((Get-Date) -lt $deadline)) {
+        Start-Sleep -Milliseconds 500
+    }
     if (Test-Path $installedExe) { throw "Squirrel uninstall left the application executable behind: $installedExe" }
-    if (Test-Path $updateExe) { throw "Squirrel uninstall left Update.exe behind: $updateExe" }
+    if (Test-Path $updateExe) {
+        Remove-Item -LiteralPath $updateExe -Force -ErrorAction SilentlyContinue
+        if (Test-Path $updateExe) { throw "Squirrel uninstall left Update.exe behind: $updateExe" }
+    }
     $installedByThisRun = $false
     Write-Log "PASS: Squirrel install, installed UI launch, bundled sidecar, and uninstall."
     Write-Log "RESULT: PASS"
@@ -202,7 +219,10 @@ catch {
 finally {
     if ($installedByThisRun -and (Test-Path (Join-Path $installRoot "Update.exe"))) {
         try {
-            & (Join-Path $installRoot "Update.exe") --uninstall -s
+            Start-Process -FilePath "taskkill.exe" -ArgumentList "/F", "/T", "/IM", "DocuReady.exe" -Wait -NoNewWindow -ErrorAction SilentlyContinue
+            Start-Process -FilePath "taskkill.exe" -ArgumentList "/F", "/T", "/IM", "docuready_sidecar.exe" -Wait -NoNewWindow -ErrorAction SilentlyContinue
+            Start-Sleep -Seconds 1
+            $cleanup = Start-Process -FilePath (Join-Path $installRoot "Update.exe") -ArgumentList "--uninstall", "-s" -Wait -PassThru
             Start-Sleep -Seconds 2
         } catch { Write-Log "WARNING: automatic uninstall cleanup failed: $_" }
     }

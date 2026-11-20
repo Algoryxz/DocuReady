@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   pull_request:
     branches:
-      - feat/loop5-independent-validation-and-demo
+      - main
     paths:
       - "apps/desktop/**"
       - "sidecar/**"
@@ -16,7 +16,7 @@ on:
       - ".github/workflows/windows-release-qualification.yml"
   push:
     branches:
-      - feat/loop6-release-integrity-and-reproducibility
+      - main
     paths:
       - "apps/desktop/**"
       - "sidecar/**"
@@ -55,25 +55,80 @@ jobs:
           cache: "npm"
           cache-dependency-path: apps/desktop/package-lock.json
 
+      - name: Install and configure Tesseract OCR with language packs
+        shell: pwsh
+        run: |
+          choco install tesseract --yes --no-progress
+          $tesseractRoot = "C:\Program Files\Tesseract-OCR"
+          if (-not (Test-Path "$tesseractRoot\tesseract.exe")) {
+            throw "Tesseract installation failed: $tesseractRoot\tesseract.exe not found."
+          }
+
+          # Update GITHUB_PATH and current step PATH
+          "$tesseractRoot" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+          $env:PATH = "$tesseractRoot;$env:PATH"
+
+          # Pinned official source for missing language packs (Odia and Hindi)
+          $tessdataDir = "$tesseractRoot\tessdata"
+          if (-not (Test-Path $tessdataDir)) {
+            New-Item -ItemType Directory -Path $tessdataDir -Force | Out-Null
+          }
+
+          $pinnedBaseUrl = "https://github.com/tesseract-ocr/tessdata_fast/raw/4.1.0"
+          $langPacks = @(
+            @{ Name = "ori.traineddata"; Sha256 = "36f3135e61d501a3acfad41f5fe60b8e791274fff4c5375c969fdcca980cdbac" },
+            @{ Name = "hin.traineddata"; Sha256 = "4c73ffc59d497c186b19d1e90f5d721d678ea6b2e277b719bee4e2af12271825" }
+          )
+
+          foreach ($pack in $langPacks) {
+            $dest = Join-Path $tessdataDir $pack.Name
+            if (-not (Test-Path $dest)) {
+              Write-Host "Downloading $($pack.Name) from $pinnedBaseUrl..."
+              Invoke-WebRequest -Uri "$pinnedBaseUrl/$($pack.Name)" -OutFile $dest
+            }
+            $hash = (Get-FileHash -LiteralPath $dest -Algorithm SHA256).Hash.ToLowerInvariant()
+            if ($hash -ne $pack.Sha256.ToLowerInvariant()) {
+              throw "Hash mismatch for $($pack.Name)! Expected $($pack.Sha256), got $hash"
+            }
+            Write-Host "Verified $($pack.Name): SHA256 $hash"
+          }
+
+          # Verify Tesseract binary and discovered languages
+          & "$tesseractRoot\tesseract.exe" --version
+          $availableLangs = (& "$tesseractRoot\tesseract.exe" --list-langs) | ForEach-Object { $_.Trim() }
+          Write-Host "Available Tesseract languages:"
+          $availableLangs | ForEach-Object { Write-Host " - $_" }
+
+          foreach ($required in @("eng", "ori", "hin")) {
+            if ($availableLangs -notcontains $required) {
+              throw "Required Tesseract language '$required' is missing from Tesseract installation!"
+            }
+          }
+          Write-Host "All required language packs (eng, ori, hin) verified."
+
       - name: Install Python engine and packager
         shell: pwsh
         run: |
           python -m pip install --upgrade pip
           python -m pip install -e ".[all]" "pyinstaller>=6,<7"
+          python -c "import pytesseract; print('pytesseract languages:', pytesseract.get_languages())"
           python -m pytest -q
 
       - name: Build standalone Python sidecar
         shell: pwsh
         run: |
-          pyinstaller sidecar/docuready_sidecar.spec --noconfirm --clean
+          pyinstaller sidecar/docuready_sidecar.spec --distpath sidecar/dist --workpath sidecar/build --noconfirm --clean
+          if (-not (Test-Path "sidecar/dist/docuready_sidecar/docuready_sidecar.exe") -and (Test-Path "dist/docuready_sidecar/docuready_sidecar.exe")) {
+            New-Item -ItemType Directory -Path "sidecar/dist" -Force | Out-Null
+            Move-Item "dist/docuready_sidecar" "sidecar/dist/docuready_sidecar" -Force
+          }
           if (-not (Test-Path "sidecar/dist/docuready_sidecar/docuready_sidecar.exe")) {
-            throw "PyInstaller did not produce the standalone sidecar executable."
+            throw "PyInstaller did not produce the standalone sidecar executable at sidecar/dist/docuready_sidecar/docuready_sidecar.exe."
           }
 
-      - name: Install and stage Tesseract OCR runtime
+      - name: Stage bundled Tesseract OCR runtime in sidecar
         shell: pwsh
         run: |
-          choco install tesseract --yes --no-progress
           $tesseractRoot = "C:\Program Files\Tesseract-OCR"
           if (-not (Test-Path "$tesseractRoot/tesseract.exe")) {
             throw "Tesseract installation did not produce tesseract.exe."
@@ -81,11 +136,10 @@ jobs:
           $target = "sidecar/dist/docuready_sidecar/tesseract"
           New-Item -ItemType Directory -Path $target -Force | Out-Null
           Copy-Item "$tesseractRoot/*" $target -Recurse -Force
-          if (-not (Test-Path "$target/tessdata/eng.traineddata")) {
-            throw "English OCR traineddata is missing from the staged runtime."
-          }
-          if (-not (Test-Path "$target/tessdata/osd.traineddata")) {
-            throw "OSD traineddata is missing from the staged runtime."
+          foreach ($file in @("eng.traineddata", "osd.traineddata", "ori.traineddata", "hin.traineddata")) {
+            if (-not (Test-Path "$target/tessdata/$file")) {
+              throw "Traineddata '$file' is missing from staged sidecar runtime: $target/tessdata/$file"
+            }
           }
 
       - name: Install desktop dependencies
