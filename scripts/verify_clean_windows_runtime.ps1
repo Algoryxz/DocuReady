@@ -72,7 +72,7 @@ function Invoke-SidecarHealth([string]$SidecarExe, [string]$Workspace) {
                 $responseLine = $readTask.Result
                 if ([string]::IsNullOrWhiteSpace($responseLine)) { throw "Sidecar closed stdout during $Method." }
                 $frame = $responseLine | ConvertFrom-Json
-                if ($frame.id -eq $RequestId) { return $frame }
+                if ($frame.PSObject.Properties['id'] -and $frame.id -eq $RequestId) { return $frame }
             }
             throw "No correlated JSON-RPC response for $Method."
         }
@@ -95,7 +95,7 @@ function Invoke-SidecarHealth([string]$SidecarExe, [string]$Workspace) {
                 as_of = "2026-03-31"
             }
             if (-not $audit.ok) { throw "Sidecar audit failed for $($case.Name): $($audit | ConvertTo-Json -Depth 8 -Compress)" }
-            $auditResult = if ($audit.result.audit) { $audit.result.audit } else { $audit.result.audit_result }
+            $auditResult = if ($audit.result.PSObject.Properties['audit']) { $audit.result.audit } else { $audit.result.audit_result }
             if (-not $auditResult) { throw "No audit result returned for $($case.Name)." }
             Write-Log "PASS: sidecar packet audit '$($case.Name)' returned status '$($auditResult.overall_status)'."
             if ($case.Name -eq "name-conflict") {
