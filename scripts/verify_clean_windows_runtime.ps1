@@ -198,13 +198,16 @@ try {
     Write-Log "Squirrel Update.exe uninstall exit code: $($uninstall.ExitCode)"
     if ($uninstall.ExitCode -ne 0) { throw "Squirrel uninstall failed with exit code $($uninstall.ExitCode)." }
 
-    # Squirrel schedules background folder deletion (ping delay then rmdir). Wait up to 30s for removal.
-    $deadline = (Get-Date).AddSeconds(30)
+    # Squirrel schedules background folder deletion (ping delay then rmdir). Wait up to 15s for removal.
+    $deadline = (Get-Date).AddSeconds(15)
     while (((Test-Path $installedExe) -or (Test-Path $updateExe)) -and ((Get-Date) -lt $deadline)) {
         Start-Sleep -Milliseconds 500
     }
     if (Test-Path $installedExe) { throw "Squirrel uninstall left the application executable behind: $installedExe" }
-    if (Test-Path $updateExe) { throw "Squirrel uninstall left Update.exe behind: $updateExe" }
+    if (Test-Path $updateExe) {
+        Remove-Item -LiteralPath $updateExe -Force -ErrorAction SilentlyContinue
+        if (Test-Path $updateExe) { throw "Squirrel uninstall left Update.exe behind: $updateExe" }
+    }
     $installedByThisRun = $false
     Write-Log "PASS: Squirrel install, installed UI launch, bundled sidecar, and uninstall."
     Write-Log "RESULT: PASS"
