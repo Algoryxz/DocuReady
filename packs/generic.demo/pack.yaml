@@ -1,0 +1,296 @@
+# DocuReady Scheme Pack Manifest — generic.demo
+# Task T3.2: Closed Primitive Execution Engine & generic.demo Port
+# Declarative implementation of the canonical statutory rule groups using closed primitives
+
+pack_id: generic.demo
+version: "2.1.0"
+status: draft
+
+parameters:
+  income_ceiling:
+    type: number
+    value: 250000.0
+    description: "Statutory annual family income ceiling in INR"
+  income_tolerance:
+    type: number
+    value: 0.0
+    description: "Tolerance threshold for declared versus certified income variance in INR"
+  income_cert_validity_years:
+    type: int
+    value: 3
+    description: "Maximum statutory validity period of revenue income certificate in years"
+  min_academic_percentage:
+    type: number
+    value: 50.0
+    description: "Minimum qualifying examination marks percentage threshold"
+  target_state:
+    type: string
+    value: "ODISHA"
+    description: "Statutory state domicile requirement"
+
+doc_slots:
+  application_form:
+    ocr_langs: [eng]
+    required: true
+  income_certificate:
+    ocr_langs: [eng, ori]
+    required: true
+  caste_certificate:
+    ocr_langs: [eng, ori]
+    required: true
+  residence_certificate:
+    ocr_langs: [eng, ori]
+    required: true
+  marksheet:
+    ocr_langs: [eng]
+    required: true
+  bank_passbook:
+    ocr_langs: [eng]
+    required: true
+
+rules:
+  - id: RULE-DOC-01
+    primitive: require_document
+    inputs:
+      slot: income_certificate
+    params:
+      min_pages: 1
+    max_severity: FAIL
+    citation:
+      source: SRC-DOC-01
+      clause: "Section 7"
+    remediation:
+      authority: "Competent Revenue Authority"
+      replacement_document: "income_certificate"
+      steps:
+        - "Obtain and upload a valid Income Certificate before portal submission."
+
+  - id: RULE-DOC-02
+    primitive: legible
+    inputs:
+      slot: income_certificate
+    params:
+      min_confidence: 0.60
+    max_severity: WARN
+    citation:
+      source: SRC-DOC-02
+      clause: "Portal Upload Instructions"
+    remediation:
+      authority: "Applicant / Scanning Centre"
+      steps:
+        - "Re-scan the document with at least 300 DPI flatbed scanner and ensure good lighting."
+
+  - id: RULE-FLD-01
+    primitive: field_present
+    inputs:
+      field: applicant_name
+      docs:
+        - application_form
+        - income_certificate
+        - caste_certificate
+        - residence_certificate
+        - marksheet
+        - bank_passbook
+    params: {}
+    max_severity: FAIL
+    citation:
+      source: SRC-FLD-01
+      clause: "Operational Guidance on Mandatory Attributes"
+    remediation:
+      authority: "State Scholarship Portal"
+      steps:
+        - "Ensure mandatory applicant name is clearly visible and legible on all documents."
+
+  - id: RULE-NAME-01
+    primitive: match_across
+    inputs:
+      fields:
+        - application_form.applicant_name
+        - income_certificate.applicant_name
+        - caste_certificate.applicant_name
+        - residence_certificate.applicant_name
+        - marksheet.applicant_name
+        - bank_passbook.applicant_name
+    params:
+      grade: name
+    max_severity: FAIL
+    citation:
+      source: SRC-NAME-01
+      clause: "Demographic Verification Procedures"
+    remediation:
+      authority: "State Scholarship Portal / Revenue Authority"
+      steps:
+        - "Ensure exact legal name is used across all documents or attach Gazette notification/affidavit."
+
+  - id: RULE-DOB-01
+    primitive: match_across
+    inputs:
+      fields:
+        - application_form.dob
+        - marksheet.dob
+    params:
+      grade: date
+    max_severity: FAIL
+    citation:
+      source: SRC-DOB-01
+      clause: "Rule 69.2 (Change/Correction in Date of Birth)"
+    remediation:
+      authority: "Secondary Education Examination Board"
+      steps:
+        - "Update Date of Birth on portal application to strictly match the Class 10 High School Certificate."
+
+  - id: RULE-INC-01
+    primitive: numeric_cap
+    inputs:
+      field: annual_income
+      docs: [income_certificate]
+    params:
+      cap: $income_ceiling
+      comparator: "<="
+    max_severity: FAIL
+    citation:
+      source: SRC-INC-01
+      clause: "Clause 3.1 (Conditions of Eligibility — Means Test Ceiling)"
+    remediation:
+      authority: "Ministry of Social Justice and Empowerment / Tahsil Office"
+      steps:
+        - "Applicant exceeds statutory economic threshold of ₹2,50,000 for this scheme."
+
+  - id: RULE-INC-02
+    primitive: numeric_consistency
+    inputs:
+      fields:
+        - income_certificate.annual_income
+        - application_form.annual_income
+    params:
+      tolerance: $income_tolerance
+    max_severity: FAIL
+    citation:
+      source: SRC-INC-02
+      clause: "Income Scrutiny Protocol"
+    remediation:
+      authority: "State Scholarship Portal"
+      steps:
+        - "Correct declared income in application form to exactly equal the certified income."
+
+  - id: RULE-EXP-01
+    primitive: within_validity
+    inputs:
+      field: issue_date
+      docs: [income_certificate]
+    params:
+      validity_years: $income_cert_validity_years
+    max_severity: FAIL
+    citation:
+      source: SRC-EXP-01
+      clause: "State Executive Instructions on Income Certificate Duration"
+    remediation:
+      authority: "Revenue Department / Tahsil Office"
+      steps:
+        - "Apply for a renewed Income Certificate at the nearest Tahsil Office or e-District portal."
+
+  - id: RULE-REF-01
+    primitive: match_across
+    inputs:
+      fields:
+        - application_form.income_cert_no
+        - income_certificate.certificate_no
+    params:
+      grade: id
+    max_severity: FAIL
+    citation:
+      source: SRC-REF-01
+      clause: "e-District Online Verification Service Specifications"
+    remediation:
+      authority: "State e-District Portal"
+      steps:
+        - "Update certificate reference number in portal application to match uploaded certificate."
+
+  - id: RULE-REF-02
+    primitive: match_across
+    inputs:
+      fields:
+        - application_form.caste_cert_no
+        - caste_certificate.certificate_no
+    params:
+      grade: id
+    max_severity: FAIL
+    citation:
+      source: SRC-REF-01
+      clause: "Section 4.3"
+    remediation:
+      authority: "State e-District Portal"
+      steps:
+        - "Update caste certificate reference number on the portal."
+
+  - id: RULE-BNK-01
+    primitive: match_across
+    inputs:
+      field: ifsc
+      docs: [bank_passbook]
+    params:
+      grade: id
+    max_severity: FAIL
+    citation:
+      source: SRC-BNK-01
+      clause: "Chapter 2, Section 2.1 (IFSC Code Structure Specification)"
+    remediation:
+      authority: "Bank Branch / RBI Core Banking"
+      steps:
+        - "Check the passbook or contact branch for the official 11-character RBI IFSC code."
+
+  - id: RULE-BNK-02
+    primitive: match_across
+    inputs:
+      fields:
+        - bank_passbook.account_no
+        - application_form.account_no
+    params:
+      grade: id
+    max_severity: FAIL
+    citation:
+      source: SRC-BNK-02
+      clause: "Beneficiary Account Matching Operational Protocols"
+    remediation:
+      authority: "Direct Benefit Transfer Mission"
+      steps:
+        - "Ensure exact DBT bank account number is typed into scholarship portal."
+
+  - id: RULE-DOM-01
+    primitive: enum_in
+    inputs:
+      field: state
+      docs: [residence_certificate]
+    params:
+      values:
+        - ODISHA
+    max_severity: FAIL
+    citation:
+      source: SRC-DOM-01
+      clause: "Scheme Specific Domicile Clauses"
+    remediation:
+      authority: "Revenue Authority of Odisha"
+      steps:
+        - "Submit a valid Resident Certificate issued by Revenue Authority of ODISHA."
+
+  - id: RULE-MRK-01
+    primitive: numeric_cap
+    inputs:
+      field: percentage
+      docs: [marksheet]
+    params:
+      cap: $min_academic_percentage
+      comparator: ">="
+    max_severity: FAIL
+    exempt_when:
+      fact: application_form.caste_category
+      in:
+        - SC
+        - ST
+    citation:
+      source: SRC-MRK-01
+      clause: "Clause 5.2"
+    remediation:
+      authority: "Academic Council / Examination Board"
+      steps:
+        - "Ensure candidate meets the minimum academic criteria or check reservation category."

@@ -375,6 +375,7 @@ class DocumentExtractor:
                         "primary_anchors": classification.primary_anchors,
                         "corroborating_terms": classification.corroborating_terms,
                         "conflicting_types": [dt.value for dt in classification.conflicting_types],
+                        "source_lines": classification.source_lines,
                     },
                 )
 
@@ -399,6 +400,7 @@ class DocumentExtractor:
                 "primary_anchors": classification.primary_anchors,
                 "corroborating_terms": classification.corroborating_terms,
                 "conflicting_types": [dt.value for dt in classification.conflicting_types],
+                "source_lines": classification.source_lines,
             },
         )
 

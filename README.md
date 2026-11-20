@@ -6,8 +6,9 @@
 
 [![CI Tests](https://github.com/Algoryxz/DocuReady/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/Algoryxz/DocuReady/actions/workflows/tests.yml)
 [![Desktop Tests](https://img.shields.io/badge/Desktop%20Tests-21%2F21%20Passed-brightgreen.svg)](apps/desktop)
-[![Python Tests](https://img.shields.io/badge/Python%20Tests-450%20Passed-brightgreen.svg)](tests)
+[![Python Tests](https://img.shields.io/badge/Python%20Tests-607%20Passed-brightgreen.svg)](tests)
 [![Project Source License: Apache 2.0](https://img.shields.io/badge/Project%20Source-Apache_2.0-blue.svg)](LICENSE)
+[![Python: 3.11–3.14](https://img.shields.io/badge/Python-3.11%20%7C%203.12%20%7C%203.13%20%7C%203.14-0A2540.svg)](pyproject.toml)
 [![Privacy: Local Processing](https://img.shields.io/badge/Privacy-Local%20Processing-0A2540.svg)](PRIVACY_NETWORK_AUDIT.md)
 [![Platform: Windows x64](https://img.shields.io/badge/Platform-Windows%20x64%20(Packaged)-blueviolet.svg)](apps/desktop/out/make)
 
@@ -30,10 +31,10 @@ DocuReady exists in two complementary surfaces:
 
 Clerical discrepancies—such as name variations across certificates, date-of-birth format ambiguities (`DD/MM/YYYY` vs. `MM/DD/YYYY`), expired income certificates, or blurry scans—can create avoidable delays, rework, or requests for correction. This repository does not assert a quantified prevalence rate.
 
-DocuReady audits multi-document application packets **before submission**, cross-referencing names, dates, categories, validity windows, and financial figures across Income Certificates, Caste Certificates, Domicile Certificates, Marksheets, and Bank Passbooks. Every finding is anchored directly to its source document coordinates with visual bounding box provenance.
+DocuReady audits multi-document application packets **before submission**, cross-referencing names, dates, categories, validity windows, and financial figures across Income Certificates, Caste Certificates, Domicile Certificates, Marksheets, Bank Passbooks, and Scholarship Application Forms. Every finding is anchored directly to its source document coordinates with visual bounding box provenance.
 
 > [!NOTE]
-> **Advisory Disclaimer:** DocuReady is an offline pre-submission demographic consistency and document readiness linter, not an official government portal. It does not provide legal advice, official statutory certification, or guarantee government scheme acceptance or benefit disbursement. A successful pre-check indicates only that the configured checks passed on the provided files; applicants must always follow official scheme instructions.
+> **Advisory Disclaimer:** DocuReady is an assistive, pre-submission demographic verification tool and document readiness linter, not an official government portal. It does not provide legal advice, official statutory certification, or guarantee government scheme acceptance or benefit disbursement. A successful pre-check indicates only that the configured checks passed on the provided files; applicants must always follow official scheme instructions.
 
 ---
 
@@ -55,6 +56,7 @@ flowchart TD
         Ingest["Dual Ingestion Engine<br/>PyMuPDF Vector + Tesseract OCR"]
         Calibrator["9-Feature Logistic Calibrator<br/>(VERIFIED / PROVISIONAL / UNCERTAIN)"]
         Rules["Deterministic Rules Engine<br/>(10 Cross-Document Statutory Checks)"]
+        Packs["Declarative Scheme Pack Engine<br/>(YAML Schemas & Safe Loader)"]
         Safety["Evidence Safety Firewall<br/>(Downgrades Unproven Violations)"]
         Exporter["Redacted Audit Exporter<br/>(Zero-PII JSON & Markdown)"]
     end
@@ -62,109 +64,156 @@ flowchart TD
     subgraph Bundled_OCR["Bundled Offline OCR Dependencies"]
         TessBin["tesseract.exe 5.4.0<br/>(Self-Contained Executable)"]
         TessData["Tessdata Models<br/>(eng.traineddata + osd.traineddata)"]
-        TessLibs["Native Dynamic Libraries<br/>(leptonica, libpng, libtiff, etc.)"]
+        TessLibs["Native Dynamic Libraries<br/>(leptonica-1.84.1, libpng, zlib)"]
     end
 
-    UI -->|IPC Events| Main
-    PDFViewer -->|Render Coordinates| UI
-    Main -->|Lifecycle & Validation| Workspace
-    Main -->|Stdio JSON-RPC| Protocol
+    UI <--> Main
+    Main --> Workspace
+    Main <-->|Structured JSON-RPC Stdio IPC| Protocol
+    PDFViewer <--> UI
     Protocol --> Ingest
     Ingest --> Bundled_OCR
     Ingest --> Calibrator
     Calibrator --> Rules
+    Rules --> Packs
     Rules --> Safety
     Safety --> Exporter
-    Exporter -->|Audit Results| Protocol
+    Exporter --> Protocol
 ```
 
-### Architectural Guarantees
-1. **Strict Process Isolation:** Renderer runs with `contextIsolation: true`, `nodeIntegration: false`, `sandbox: true`, and `webSecurity: true`.
-2. **Strict Content Security Policy (CSP):** `default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self'; font-src 'self' data:; object-src 'none'`.
-3. **Stdio JSON-RPC Sidecar Protocol:** The Electron main process communicates with the compiled Python audit engine exclusively via stdin/stdout newline-delimited JSON messages (`health`, `audit_packet`, `validate_document`, `replace_and_reaudit`, `shutdown`).
-4. **Zero-PII Redaction:** All diagnostic logs and exported audit reports redact Aadhaar numbers, tax IDs, and sensitive citizen identity attributes.
+### Windows Desktop Download & Installation
 
----
+The desktop application is packaged for 64-bit Windows systems with self-contained runtimes:
 
-## Windows Desktop Download & Installation
-
-Windows x64 installer and portable artifacts have been built. The checked-in clean-environment harness exercises the portable package and sidecar; it does not yet qualify Squirrel installation/uninstallation or full UI interaction on a clean machine.
-
-### Release Artifact Manifest
-
-All distributables are located in `apps/desktop/out/make/`:
-
-| Artifact | Type | File Size | SHA-256 Checksum | Purpose |
-| :--- | :--- | :--- | :--- | :--- |
-| **`DocuReady-0.1.0-Setup.exe`** | Setup Installer | 415.65 MB | `BF508AE5F2B235B5F9034E39D408AF66377B79E5303C77B7AB060D5CF9DB9967` | Recommended Windows installer with desktop and Start Menu shortcuts. |
-| **`DocuReady-win32-x64-0.1.0.zip`** | Portable ZIP | 426.01 MB | `EAD12BFD37867E5F020AA3F31B63DD2B7BCCF5BAD170553D8A8440FEEA217AA1` | Zero-install standalone archive. Extract and run `DocuReady.exe`. |
-| **`DocuReady-0.1.0-full.nupkg`** | NuGet Package | 416.31 MB | `7E429169ABB5A9CF6AD7603D4D9CD59220BF9E91AA928745F5172B77200C7F2A` | Squirrel package containing full application payload for updates. |
-| **`RELEASES`** | Manifest | 80 bytes | `93CBF8C4076ED7F293277AA99B1DA71B83B7A5ED5B6A3F9A471386575BE5D29B` | Squirrel delta/release catalog index. |
-| **`DocuReady.exe`** | Executable | 238.47 MB | `E66369A2BBA689A540B13282D95BA7C333703CDC4C548C5F684E80BBF5AF4478` | Main unpacked application binary in `apps/desktop/out/DocuReady-win32-x64/`. |
-
-### Installation Instructions
-
-#### Method 1: Windows Setup Installer (Recommended)
-1. Download `DocuReady-0.1.0-Setup.exe` from the release build artifacts or build it locally.
-2. Double-click `DocuReady-0.1.0-Setup.exe`.
-3. The Squirrel installer automatically installs DocuReady into `%LOCALAPPDATA%\DocuReady`, sets up Start Menu and Desktop shortcuts, and launches the application.
-4. To install silently (unattended/enterprise deployment):
-   ```cmd
-   DocuReady-0.1.0-Setup.exe --silent
-   ```
-
-#### Method 2: Portable Standalone ZIP (No Admin Rights Required)
-1. Download `DocuReady-win32-x64-0.1.0.zip`.
-2. Extract the archive to any local folder (e.g. `C:\DocuReady` or a USB drive).
-3. Open the extracted directory and run `DocuReady.exe`.
-4. No installation, registry keys, or administrative privileges are required.
-
-### Bundled OCR Runtime Status
-- **Self-Contained Tesseract 5.4.0:** DocuReady bundles the complete Tesseract OCR runtime (`tesseract.exe`, English and OSD traineddata models, and all native DLL dependencies) inside `resources/docuready_sidecar/tesseract/`.
-- **Zero Host Prerequisites:** The desktop application works immediately out-of-the-box on clean Windows installations without requiring Python, Node.js, or Tesseract on the system `PATH`.
-- **System Discovery Fallback:** If needed for custom deployments, DocuReady also supports environment variables (`DOCUREADY_TESSERACT_PATH`, `DOCUREADY_RESOURCES_DIR`) or discovers host-installed Tesseract installations.
+1. **Standard Windows Installer (`.exe`):**
+   - Download `DocuReady-Setup-0.1.0.exe` from `apps/desktop/out/make/squirrel.windows/x64/`.
+   - Run the installer. Creates desktop/start-menu shortcuts and an uninstaller.
+2. **Portable Standalone Distribution (`.zip`):**
+   - Download `DocuReady-win32-x64-0.1.0.zip` from `apps/desktop/out/make/zip/win32/x64/`.
+   - Extract and launch `DocuReady.exe` directly without administrative installation.
+3. **Bundled OCR Runtime:**
+   - Bundles an isolated Tesseract 5.4.0 executable, `eng.traineddata`, and native DLLs alongside the Python PyInstaller sidecar. No external system software installation is required for packaged execution.
 
 ---
 
 ## Document Consistency & Scheme Requirement Rules Engine
 
-DocuReady evaluates document packets against 10 configured cross-document checks. The reference mappings below are implementation context, not legal advice or a determination that a particular scheme accepts these rules. Scheme owners and applicants must verify current primary-source requirements before relying on them:
+DocuReady executes 10 cross-document consistency checks and scheme requirement verifications across application packets:
 
-| Rule ID | Rule Name | Candidate reference mapping (verify against current scheme notice) | Severity |
-| :--- | :--- | :--- | :--- |
-| **RULE-NAME-01** | Name Consistency | MeitY Demographic Verification Standards 2023 & MoSJE Guidelines §4.2 | `CRITICAL` |
-| **RULE-DOB-01** | Date of Birth Consistency | Secondary Education Examination Board Rule 8 & UIDAI Verification Norms | `CRITICAL` |
-| **RULE-INC-01** | Statutory Income Ceiling | Centrally Sponsored Post-Matric Scholarship Scheme Guideline 3.1 | `CRITICAL` |
-| **RULE-INC-02** | Declared vs. Certified Income | State Scholarship Portal Compliance Guidelines Clause 5.1 | `CRITICAL` |
-| **RULE-EXP-01** | Certificate Validity Period | State Revenue Authority Validity Norms (1 Financial Year heuristic) | `CRITICAL` |
-| **RULE-CST-01** | Caste Category Consistency | Constitution (Scheduled Castes/Scheduled Tribes) Orders & Scheme Clause 4 | `CRITICAL` |
-| **RULE-DOM-01** | Domicile Verification | State Scholarship Rules Clause 2(a) | `CRITICAL` |
-| **RULE-DOC-01** | Mandatory Document Checklist | Scheme Mandatory Application Checklist Clause 2.1 | `CRITICAL` |
-| **RULE-DOC-02** | Document Legibility & Scan Quality | NSP Upload Guidelines & Information Technology Act 2000 Section 6A | `CRITICAL` |
-| **RULE-MRK-01** | Academic Eligibility Cutoff | Scheme Educational Criteria Notification (SC/ST Applicants Exempt) | `CRITICAL` |
+1. **Cross-Document Name Consistency (`RULE-NAME-01`):** Cross-references applicant names across matriculation marksheets, Aadhaar, and income certificates using explicit match grades (`EXACT`, `INITIALS`, `REORDER`, `DIACRITICS`).
+2. **Date of Birth Alignment (`RULE-DOB-01`):** Cross-references date of birth between matriculation marksheets and application declarations, resolving format ambiguities (`DD/MM/YYYY` vs. `MM/DD/YYYY`).
+3. **Document Slot Verification (`RULE-SLOT-01`):** Verifies uploaded documents against expected document slots (e.g. Income Certificate, Caste Certificate, Marksheet, Bank Passbook, Aadhaar) using anchor headers. Produces human-review findings on mismatches rather than automatic rejections.
+4. **Income Certificate Validity & Ceiling (`RULE-INC-01`, `RULE-EXP-01`):** Evaluates annual family income against scheme ceilings and verifies certificate issue dates. Certificate validity is checked against an operational heuristic window (e.g., one financial year), not a uniform national statutory mandate.
+5. **Community & Caste Category Alignment (`RULE-CAT-01`):** Verifies declared scheme categories (SC, ST, OBC, SEBC) against certified caste certificates and authority jurisdiction.
+6. **Permanent Residence & Domicile Alignment (`RULE-DOM-01`):** Checks residency status and territorial jurisdiction for state-specific scholarship eligibility.
+7. **Bank Passbook DBT Verification (`RULE-BANK-01`, `RULE-BANK-02`):** Validates account holder name matching, account number syntax, and IFSC format. Disallows commercial bank statements as substitutes for savings passbooks.
+8. **Missing Mandatory Documents (`RULE-DOC-01`):** Identifies absent mandatory uploads required for statutory scheme evaluation.
+9. **Document Legibility & Corruption (`RULE-DOC-02`):** Identifies corrupted, unreadable, or truncated files.
+10. **Deterministic Clock & Replay Invariance:** Evaluates all temporal validity rules against an explicitly injected `as_of` date clock, guaranteeing deterministic reproducibility without hidden system-clock drift.
 
-**Rule applicability warning:** These checks are not an official government rules engine. Scheme thresholds, certificate validity periods, exemptions, and document lists vary by scheme, state, and application year. A rule result is advisory and must not be presented as a statutory determination.
+### Scheme Pack System
 
-### 2. 9-Feature Logistic Confidence Calibrator & Safety Firewall
-To prevent unfair rejections caused by degraded scans, low camera resolution, or paper creases, DocuReady classifies evidence confidence into three calibrated states:
+In addition to programmatic rules, DocuReady supports declarative YAML-based Scheme Packs (`packs/generic.demo/`):
+- **Closed Primitive Engine (`src/docuready/rules/engine.py`):** Evaluates rule logic through a sandboxed, Turing-incomplete DSL.
+- **Safe Loader & Schema (`src/docuready/rules/schema.py`, `src/docuready/rules/loader.py`):** Enforces strict types, parameter schemas, and statutory citations.
+- **Pack Linter CLI (`docuready-lint`):** Validates scheme pack definitions and sources before runtime execution.
+
+---
+
+## Core Capabilities & Innovations
+
+### 1. Calibrated Evidence Safety Layer
+Ingested evidence passes through a 9-feature logistic regression calibrator:
 - **`VERIFIED` ($P \ge 0.85$):** High certainty; triggers standard rule evaluation.
 - **`PROVISIONAL` ($0.60 \le P < 0.85$):** Moderate certainty; emits warnings rather than hard rejections.
 - **`UNCERTAIN` ($P < 0.60$):** Unreliable evidence; automatically downgraded by the Evidence Safety Firewall to `MANUAL REVIEW` instead of failing the applicant.
 
-### 3. Visual Bounding Box Provenance & PDF.js Viewer
+### 2. Visual Bounding Box Provenance & PDF.js Viewer
 Every extracted datum retains its physical page number, bounding box coordinates (`[x0, y0, x1, y1]`), and rotation metadata. When a user selects any finding in the desktop UI:
 - The PDF.js viewer smoothly navigates to the exact page.
 - Renders an interactive highlight box over the source evidence.
 - Handles coordinate transformations across $0^\circ$, $90^\circ$, $180^\circ$, and $270^\circ$ viewport rotations.
 
-### 4. Interactive Single-Document Replacement
+### 3. Interactive Single-Document Replacement
 Applicants can replace a single defective document (e.g. upload a refreshed Income Certificate) and re-audit the entire packet in-memory in under 1 second without re-uploading the entire bundle.
 
-### 5. Domain-Specific Normalizers
+### 4. Domain-Specific Normalizers
 - **Aadhaar Verhoeff Checksum:** Checks the checksum structure of a 12-digit value using the Verhoeff algorithm; it does not authenticate an Aadhaar holder or verify the number with UIDAI.
 - **Indian Date Normalizer:** Resolves ambiguous date formats (`05/06/2004` vs. `06/05/2004`) using multi-certificate cross-referencing.
 - **Indian Currency Parser:** Parses numeric amounts in Lakhs and Crores (`₹2.5 Lakh`, `2,50,000/-`).
 - **IFSC Format Check:** Checks whether an IFSC-like value matches expected syntax; it does not verify a live bank branch or confirm the code against an RBI registry.
+
+---
+
+## Architecture & Repository Structure
+
+DocuReady is organized as a modular monorepo combining the native Electron desktop shell and the core Python audit package:
+
+```text
+DocuReady/
+├── pyproject.toml                      # Standard PEP 517/518 Python build configuration
+├── LICENSE                             # Apache 2.0 Open Source License
+├── NOTICE                              # Third-party attribution & copyleft notices
+├── README.md                           # Repository documentation
+├── PRIVACY_NETWORK_AUDIT.md            # Socket-polling privacy audit and network limits
+├── THIRD_PARTY_LICENSES.md             # Third-party component licenses & disclosures
+│
+├── apps/
+│   └── desktop/                        # Native Electron desktop application
+│       ├── package.json                # Electron Forge & Vite configuration
+│       ├── src/
+│       │   ├── main.ts                 # Hardened Electron main process & lifecycle
+│       │   ├── preload.ts              # Context-isolated secure IPC bridge
+│       │   ├── renderer/               # React 19 UI with Tailwind CSS & PDF.js
+│       │   ├── sidecar.ts              # Python sidecar child-process lifecycle manager
+│       │   └── workspace.ts            # Ephemeral workspace manager & path traversal guard
+│       └── tests/                      # Desktop Node test suite (21 tests)
+│
+├── sidecar/                            # Standalone Python sidecar packaging
+│   ├── docuready_sidecar.py            # JSON-RPC stdio protocol bridge
+│   └── docuready_sidecar.spec          # PyInstaller onedir packaging specification
+│
+├── src/
+│   └── docuready/                      # Core Python audit engine package
+│       ├── domain/                     # Typed domain entities, enums & models
+│       ├── ingest/                     # PDF ingestion, vector extractor, slot classifier, OCR fallback
+│       ├── evidence/                   # 9-feature logistic confidence calibrator
+│       ├── normalize/                  # Deterministic Verhoeff, date, currency, IFSC normalizers
+│       ├── outcome/                    # Evidence safety firewall & status resolver
+│       ├── rules/                      # Scheme rules, closed primitive engine, pack loader & schema
+│       ├── pipeline.py                 # Unified end-to-end audit orchestrator
+│       ├── report/                     # Privacy-preserving redacted JSON & Markdown exporters
+│       └── interfaces/                 # Console CLI ("docuready") and Streamlit reference UI
+│
+├── packs/                              # Declarative scheme packs
+│   └── generic.demo/                   # Canonical reference pack (pack.yaml & sources.yaml)
+│
+├── tests/                              # Comprehensive test suite (612 test items)
+│   ├── contract/                       # Claims register & zero-network contract tests
+│   ├── integration/                    # Rule matrix & scheme pack matrix integration tests
+│   ├── unit/                           # Outcome resolver per-rule truth tables
+│   ├── test_slot_validation.py         # Scheme-aware document slot validation (51 tests)
+│   ├── test_match_grades_clock.py      # Match grades and injected clock tests (19 tests)
+│   ├── test_desktop_sidecar_protocol.py# JSON-RPC sidecar protocol tests
+│   ├── test_pack_engine.py             # Closed primitive engine tests
+│   ├── test_golden_baseline.py         # Bit-for-bit regression suite with diagnostic diffs
+│   └── test_adversarial.py             # Adversarial edge cases & malformed files
+│
+├── synthetic_data/                     # Synthetic test packets (no real citizen PII)
+│   ├── ground_truth_manifest.json      # Dataset metadata & expected audit findings
+│   └── pkt_01_clean/ ... pkt_08/       # Canonical test packets
+│
+├── docs/                               # Engineering documentation & decision records
+│   ├── START_HERE.md                   # Onboarding & architecture overview
+│   ├── ARCHITECTURE_V2.md              # Target modular architecture specification
+│   ├── ARCHITECTURE_REVIEW.md          # Deep architectural critique and risk register
+│   ├── CLAIMS_REGISTER.md              # Governance audit matrix of public-facing claims
+│   ├── CITATION_AUDIT.md               # Statutory citations and heuristic classifications
+│   ├── BACKLOG.md                      # Project workstreams and delivery gate register
+│   └── STATUS.md                       # Task delivery tracking status
+│
+└── scripts/                            # Release qualification, verification, and audit utilities
+```
 
 ---
 
@@ -186,28 +235,43 @@ python -m venv .venv
 
 # Install Python package with development dependencies
 pip install -e ".[all]"
-
-# Install desktop Node dependencies
-npm --prefix apps/desktop install
 ```
 
-### 2. Compile Python Sidecar
+### 2. Development Execution
+
+#### Option A: Electron Desktop Application (Recommended)
 ```bash
-# Build the self-contained sidecar onedir distribution
-pyinstaller sidecar/docuready_sidecar.spec --noconfirm
+# Install desktop dependencies and launch Electron development shell
+cd apps/desktop
+npm install
+npm start
 ```
 
-### 3. Run Desktop Application in Development Mode
+#### Option B: Python Command-Line Interface (CLI)
 ```bash
-npm --prefix apps/desktop run start
+# Audit a single document packet folder (human-readable markdown output)
+docuready audit synthetic_data/pkt_01_clean
+
+# Audit a packet and output JSON
+docuready audit synthetic_data/pkt_02_name_conflict --json
+
+# Audit and export report to a file
+docuready audit synthetic_data/pkt_04_income_conflict --export audit_report.md
 ```
 
-### 4. Package Windows Installers & Portable ZIP
+#### Option C: Python Reference UI (Streamlit)
 ```bash
-# Package the application binary
-npm --prefix apps/desktop run package
+streamlit run src/docuready/interfaces/ui/app.py
+```
 
-# Build the Squirrel installer (.exe) and portable ZIP (.zip)
+### 3. Packaging Windows Desktop Application
+To build the standalone Windows installer and portable distributions:
+
+```bash
+# Build standalone Python sidecar executable
+pyinstaller sidecar/docuready_sidecar.spec --noconfirm --clean
+
+# Build Windows Squirrel installer (.exe) and portable ZIP (.zip)
 npm --prefix apps/desktop run make
 ```
 The distributables will be output to `apps/desktop/out/make/`.
@@ -219,7 +283,7 @@ The distributables will be output to `apps/desktop/out/make/`.
 DocuReady enforces end-to-end automated testing across all layers:
 
 ```bash
-# 1. Run Python Audit Engine Test Suite (450 passing tests)
+# 1. Run Python Audit Engine Test Suite (612 test items: 607 passed, 5 skipped)
 pytest
 
 # 2. Run Desktop Node Test Suite (21 passing tests)
@@ -233,10 +297,32 @@ npm --prefix apps/desktop run lint:types
 
 | Test Domain | Target Suite | Status | Key Verifications |
 | :--- | :--- | :--- | :--- |
-| **Python Audit Engine** | `pytest` (452 items) | **450 Passed, 2 Skipped** (100% active) | Golden baselines, statutory rule matrix, date invariance, safety downgrades, zero-network egress invariants, adversarial corrupt document handling. |
+| **Python Audit Engine** | `pytest` (612 items) | **607 Passed, 5 Skipped** | Golden baselines, statutory rule matrix, scheme packs, slot validation, match grades, date invariance, safety downgrades, zero-network egress invariants, adversarial document handling. |
 | **Desktop Shell & IPC** | `apps/desktop/tests/` | **21 Passed, 0 Failed** | Packaged sidecar execution, health handshake, crash recovery, workspace traversal defense, file magic-byte validation, Content Security Policy, zero-PII diagnostics. |
 | **Evidence Math & Viewport** | `apps/desktop/tests/evidence.test.ts` | **Passed** | Bounding box normalization, clamp behavior, viewport transformations across $0^\circ$, $90^\circ$, $180^\circ$, and $270^\circ$ rotations. |
 | **TypeScript Type Checking** | `tsc --noEmit` | **0 Errors** | Strict type compliance across main process, preload bridge, and renderer UI. |
+
+### Test Suite Structure
+
+| Test Category | Test File / Directory | Scope |
+| :--- | :--- | :--- |
+| **Contract Invariants** | `tests/contract/` | Zero network egress (`test_no_network.py`) & claims anti-overreach (`test_claims.py`). |
+| **Validator Integration Matrix** | `tests/integration/test_validator_rule_matrix.py` | End-to-end validator execution across all 10 canonical rule groups with fixture packets. |
+| **Resolver Outcome Matrix** | `tests/unit/test_rules_matrix.py` | Section 6 truth-table transitions, match-grade caps, exemptions, and packet readiness. |
+| **Document Slot Validation** | `tests/test_slot_validation.py` | Scheme-aware document slot verification, anchor-keyword matching, and fail-closed reviews (51 tests). |
+| **Match Grades & Injected Clock** | `tests/test_match_grades_clock.py` | Explicit match grades (initials, reorder, diacritics), injected `as_of` clock, 0 prohibited clock calls, and replay invariance (19 tests). |
+| **Scheme Pack Engine & Matrix** | `tests/test_pack_engine.py`, `tests/integration/test_pack_matrix.py` | Closed primitive engine evaluation, declarative YAML packs, and generic.demo equivalence. |
+| **Desktop Sidecar Protocol** | `tests/test_desktop_sidecar_protocol.py`, `tests/test_evidence_provenance_contract.py` | JSON-RPC stdio protocol, schema contracts, crash handling, and coordinate contracts. |
+| **Date Invariance Safety** | `tests/test_date_invariance_safety.py` | Native vector candidate invariance, OCR ambiguity exclusion, and boundary evaluation. |
+| **Adversarial Robustness** | `tests/test_adversarial.py`, `tests/test_adversarial_documents.py` | Empty PDFs, multi-page layout shifts, duplicate uploads, extreme values, name variations. |
+| **Ground Truth Evaluation** | `tests/test_dataset_ground_truth.py` | End-to-end verification against `synthetic_data/ground_truth_manifest.json`. |
+| **Decision Safety Firewall** | `tests/test_decision_safety.py` | Provenance enforcement and safety downgrade validation. |
+| **Confidence Calibration** | `tests/test_evidence_calibration.py` | 9-feature logistic regression scoring and threshold testing. |
+| **Vector & OCR Ingestion** | `tests/test_extractor.py`, `tests/test_ocr_acceptance.py` | PyMuPDF vector bounding boxes and Tesseract fallback routines. |
+| **Golden Regression Baselines** | `tests/test_golden_baseline.py`, `tests/test_pack_golden_baseline.py` | Exact bit-for-bit parity across historical frozen snapshots with path canonicalization. |
+| **Deterministic Normalizers** | `tests/test_normalizer.py` | Verhoeff checksum algorithm, Indian date ambiguity, income and IFSC parsing. |
+| **Document Remediation** | `tests/test_replacement_rerun.py` | In-memory single-document replacement and re-audit validation. |
+| **UI Privacy & Isolation** | `tests/test_ui_privacy.py`, `tests/test_redaction_safe_logging.py` | Zero remote assets, PII masking in exports, safe logging, and temporary directory cleanup. |
 
 ---
 
@@ -249,11 +335,11 @@ Evaluation performed on reference hardware against the synthetic validation suit
 | **Canonical Synthetic Packets** | 48 Documents | 100.0% | 0.38s | Native Vector Extraction |
 | **Controlled Degraded-Scan Test Set** | 60 Documents | 91.7% | 1.15s | Vector + Local Tesseract OCR |
 
-*Note: Results are limited to the named controlled test corpora and conditions. The provenance of the degraded-scan set has not been independently established here; do not describe its score as field or real-world accuracy. These results do not establish real-world prevalence or portal acceptance.*
+*Note: Benchmarks reflect performance on synthetic test datasets under controlled test conditions and do not represent field portal acceptance guarantees. Results are limited to the named controlled test corpora and conditions. The provenance of the degraded-scan set has not been independently established here; do not describe its score as field or real-world accuracy. These results do not establish real-world prevalence or portal acceptance.*
 
 ---
 
-## Security, Privacy & Compliance
+## Security, Privacy & Data Protection
 
 DocuReady is designed around privacy-by-design principles informed by India's **Digital Personal Data Protection (DPDP) Act 2023**. This is not a claim of legal compliance, certification, or legal advice:
 

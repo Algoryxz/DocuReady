@@ -62,7 +62,7 @@ ExtractionMethod = ExtractionMethod
 class EvidenceProvenance(BaseModel):
     document_type: str
     file_name: str
-    page_number: int = 1
+    page_number: Optional[int] = 1
     bounding_box: Optional[List[float]] = None  # [x0, y0, x1, y1]
     raw_snippet: str = ""
     extracted_field: str = ""

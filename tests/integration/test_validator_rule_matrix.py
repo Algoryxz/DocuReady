@@ -253,7 +253,7 @@ def test_grp01_unreadable_or_corrupted_document_yields_rule_doc_02_review():
     assert f is not None
     assert f.status is Status.REVIEW
     assert f.raw_result is Raw.INDETERMINATE
-    assert f.reason_code == ReasonCode.INSUFFICIENT_DATA.value
+    assert f.reason_code == ReasonCode.EVIDENCE_UNCERTAIN.value
     assert f.severity is Severity.CRITICAL
     assert f.penalty == 25
     assert f.field == "SCAN_QUALITY"
