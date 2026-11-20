@@ -137,6 +137,7 @@ function Test-AppLaunch([string]$ExePath, [string]$Label) {
             $proc.WaitForExit(10000) | Out-Null
         }
         $proc.Dispose()
+        Get-Process -Name "DocuReady" -ErrorAction SilentlyContinue | Stop-Process -Force
     }
 }
 
@@ -188,9 +189,13 @@ try {
     Invoke-SidecarHealth $installedSidecar (Join-Path $workspace "installed")
     Test-AppLaunch $installedExe "Installed DocuReady"
 
-    & $updateExe --uninstall -s
-    if ($LASTEXITCODE -ne 0) { throw "Squirrel uninstall failed with exit code $LASTEXITCODE." }
+    Get-Process -Name "DocuReady" -ErrorAction SilentlyContinue | Stop-Process -Force
     Start-Sleep -Seconds 2
+
+    $uninstall = Start-Process -FilePath $updateExe -ArgumentList "--uninstall", "-s" -Wait -PassThru
+    Write-Log "Squirrel Update.exe uninstall exit code: $($uninstall.ExitCode)"
+    if ($uninstall.ExitCode -ne 0) { throw "Squirrel uninstall failed with exit code $($uninstall.ExitCode)." }
+    Start-Sleep -Seconds 3
     if (Test-Path $installedExe) { throw "Squirrel uninstall left the application executable behind: $installedExe" }
     if (Test-Path $updateExe) { throw "Squirrel uninstall left Update.exe behind: $updateExe" }
     $installedByThisRun = $false
@@ -204,7 +209,9 @@ catch {
 finally {
     if ($installedByThisRun -and (Test-Path (Join-Path $installRoot "Update.exe"))) {
         try {
-            & (Join-Path $installRoot "Update.exe") --uninstall -s
+            Get-Process -Name "DocuReady" -ErrorAction SilentlyContinue | Stop-Process -Force
+            Start-Sleep -Seconds 1
+            $cleanup = Start-Process -FilePath (Join-Path $installRoot "Update.exe") -ArgumentList "--uninstall", "-s" -Wait -PassThru
             Start-Sleep -Seconds 2
         } catch { Write-Log "WARNING: automatic uninstall cleanup failed: $_" }
     }
