@@ -7,8 +7,8 @@
 [![CI Tests](https://github.com/Algoryxz/DocuReady/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/Algoryxz/DocuReady/actions/workflows/tests.yml)
 [![Desktop Tests](https://img.shields.io/badge/Desktop%20Tests-21%2F21%20Passed-brightgreen.svg)](apps/desktop)
 [![Python Tests](https://img.shields.io/badge/Python%20Tests-450%20Passed-brightgreen.svg)](tests)
-[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
-[![Privacy: Offline Verified](https://img.shields.io/badge/Privacy-100%25%20Offline%20%7C%20Zero--PII-0A2540.svg)](docs/02-ARCHITECTURE/SECURITY_AND_PRIVACY.md)
+[![Project Source License: Apache 2.0](https://img.shields.io/badge/Project%20Source-Apache_2.0-blue.svg)](LICENSE)
+[![Privacy: Local Processing](https://img.shields.io/badge/Privacy-Local%20Processing-0A2540.svg)](PRIVACY_NETWORK_AUDIT.md)
 [![Platform: Windows x64](https://img.shields.io/badge/Platform-Windows%20x64%20(Packaged)-blueviolet.svg)](apps/desktop/out/make)
 
 ---
@@ -20,7 +20,7 @@ DocuReady exists in two complementary surfaces:
 | Surface | Purpose & Architecture | Hosted Location / Access |
 | :--- | :--- | :--- |
 | **🌐 Informational Web Showcase** | Public-facing product showcase, statutory overview, and interactive architecture guide. **Does not process citizen documents or execute audits.** Zero document data is uploaded or stored. | **[docu-ready-steel.vercel.app/#workflow](https://docu-ready-steel.vercel.app/#workflow)** |
-| **💻 Offline Desktop Application** | **The canonical core product deliverable.** Full-featured native Windows desktop app running 100% locally. Bundles the complete Python audit engine sidecar, PDF.js visual evidence viewer, OCR fallback, and cross-document validation pipeline with zero external network connectivity. | **[Download Windows Installer](#windows-desktop-download--installation)** |
+| **💻 Offline Desktop Application** | **The canonical core product deliverable.** Native Windows desktop app designed for local document processing. Bundles the Python audit engine sidecar, PDF.js visual evidence viewer, OCR fallback, and cross-document validation pipeline. The current network audit observed no connections in its recorded samples but does not establish a system-wide zero-egress guarantee. | **[Download Windows Installer](#windows-desktop-download--installation)** |
 
 ---
 
@@ -28,12 +28,12 @@ DocuReady exists in two complementary surfaces:
 
 **DocuReady** is a local-first, deterministic applicant-side document audit assistant designed for scholarship and public-benefit applications (such as India's National Scholarship Portal, state post-matric schemes, and social welfare programs). 
 
-Across government portals, over 30% of scholarship applications face rejection, delays, or forfeiture of critical education funds due to simple clerical discrepancies—such as name variations across certificates, date-of-birth format ambiguities (`DD/MM/YYYY` vs. `MM/DD/YYYY`), expired income certificates, or blurry scans.
+Clerical discrepancies—such as name variations across certificates, date-of-birth format ambiguities (`DD/MM/YYYY` vs. `MM/DD/YYYY`), expired income certificates, or blurry scans—can create avoidable delays, rework, or requests for correction. This repository does not assert a quantified prevalence rate.
 
 DocuReady audits multi-document application packets **before submission**, cross-referencing names, dates, categories, validity windows, and financial figures across Income Certificates, Caste Certificates, Domicile Certificates, Marksheets, and Bank Passbooks. Every finding is anchored directly to its source document coordinates with visual bounding box provenance.
 
 > [!NOTE]
-> **Advisory Notice:** DocuReady is an offline pre-submission demographic consistency and document readiness linter. It is **not** an official government portal, legal authority, or Aadhaar authentication service. A successful pre-check indicates that the configured checks passed on the provided files; applicants must always follow official scheme instructions.
+> **Advisory Disclaimer:** DocuReady is an offline pre-submission demographic consistency and document readiness linter, not an official government portal. It does not provide legal advice, official statutory certification, or guarantee government scheme acceptance or benefit disbursement. A successful pre-check indicates only that the configured checks passed on the provided files; applicants must always follow official scheme instructions.
 
 ---
 
@@ -88,7 +88,7 @@ flowchart TD
 
 ## Windows Desktop Download & Installation
 
-The desktop application has been built, packaged, and verified for Windows 10/11 64-bit systems.
+Windows x64 installer and portable artifacts have been built. The checked-in clean-environment harness exercises the portable package and sidecar; it does not yet qualify Squirrel installation/uninstallation or full UI interaction on a clean machine.
 
 ### Release Artifact Manifest
 
@@ -96,11 +96,11 @@ All distributables are located in `apps/desktop/out/make/`:
 
 | Artifact | Type | File Size | SHA-256 Checksum | Purpose |
 | :--- | :--- | :--- | :--- | :--- |
-| **`DocuReady-0.1.0-Setup.exe`** | Setup Installer | 415.65 MB | `E8326B71C919A203A3099126CB745C1FAC1D84D01BDBD1E442F1432D8578EC01` | Recommended Windows installer with desktop and Start Menu shortcuts. |
-| **`DocuReady-win32-x64-0.1.0.zip`** | Portable ZIP | 426.01 MB | `DEE339C290B23A953BF9A86ED94E0EDD1AAEE79C4E5714283C004350A80196C5` | Zero-install standalone archive. Extract and run `DocuReady.exe`. |
-| **`DocuReady-0.1.0-full.nupkg`** | NuGet Package | 416.31 MB | `2CC94A5FB06B89E9AD4DBB44ABE17F5A88601DD1A182C62BEC298F534BC220D7` | Squirrel package containing full application payload for updates. |
-| **`RELEASES`** | Manifest | 80 bytes | `6DEC1473B7123F7544BDEFEA1B5F8DAB1CBA5D46110FA816EC841666E39CC247` | Squirrel delta/release catalog index. |
-| **`DocuReady.exe`** | Executable | 238.47 MB | `79194130F9177F53B5D824DFC8987381C4DE1829DE5C287432EF5D30B0A93FF2` | Main unpacked application binary in `apps/desktop/out/DocuReady-win32-x64/`. |
+| **`DocuReady-0.1.0-Setup.exe`** | Setup Installer | 415.65 MB | `BF508AE5F2B235B5F9034E39D408AF66377B79E5303C77B7AB060D5CF9DB9967` | Recommended Windows installer with desktop and Start Menu shortcuts. |
+| **`DocuReady-win32-x64-0.1.0.zip`** | Portable ZIP | 426.01 MB | `EAD12BFD37867E5F020AA3F31B63DD2B7BCCF5BAD170553D8A8440FEEA217AA1` | Zero-install standalone archive. Extract and run `DocuReady.exe`. |
+| **`DocuReady-0.1.0-full.nupkg`** | NuGet Package | 416.31 MB | `7E429169ABB5A9CF6AD7603D4D9CD59220BF9E91AA928745F5172B77200C7F2A` | Squirrel package containing full application payload for updates. |
+| **`RELEASES`** | Manifest | 80 bytes | `93CBF8C4076ED7F293277AA99B1DA71B83B7A5ED5B6A3F9A471386575BE5D29B` | Squirrel delta/release catalog index. |
+| **`DocuReady.exe`** | Executable | 238.47 MB | `E66369A2BBA689A540B13282D95BA7C333703CDC4C548C5F684E80BBF5AF4478` | Main unpacked application binary in `apps/desktop/out/DocuReady-win32-x64/`. |
 
 ### Installation Instructions
 
@@ -126,12 +126,11 @@ All distributables are located in `apps/desktop/out/make/`:
 
 ---
 
-## Core Features & Technical Highlights
+## Document Consistency & Scheme Requirement Rules Engine
 
-### 1. Deterministic Cross-Document Rules Engine
-DocuReady evaluates 10 explicit statutory checks anchored in published government guidelines:
+DocuReady evaluates document packets against 10 configured cross-document checks. The reference mappings below are implementation context, not legal advice or a determination that a particular scheme accepts these rules. Scheme owners and applicants must verify current primary-source requirements before relying on them:
 
-| Rule ID | Rule Name | Regulatory / Statutory Basis | Severity |
+| Rule ID | Rule Name | Candidate reference mapping (verify against current scheme notice) | Severity |
 | :--- | :--- | :--- | :--- |
 | **RULE-NAME-01** | Name Consistency | MeitY Demographic Verification Standards 2023 & MoSJE Guidelines §4.2 | `CRITICAL` |
 | **RULE-DOB-01** | Date of Birth Consistency | Secondary Education Examination Board Rule 8 & UIDAI Verification Norms | `CRITICAL` |
@@ -143,6 +142,8 @@ DocuReady evaluates 10 explicit statutory checks anchored in published governmen
 | **RULE-DOC-01** | Mandatory Document Checklist | Scheme Mandatory Application Checklist Clause 2.1 | `CRITICAL` |
 | **RULE-DOC-02** | Document Legibility & Scan Quality | NSP Upload Guidelines & Information Technology Act 2000 Section 6A | `CRITICAL` |
 | **RULE-MRK-01** | Academic Eligibility Cutoff | Scheme Educational Criteria Notification (SC/ST Applicants Exempt) | `CRITICAL` |
+
+**Rule applicability warning:** These checks are not an official government rules engine. Scheme thresholds, certificate validity periods, exemptions, and document lists vary by scheme, state, and application year. A rule result is advisory and must not be presented as a statutory determination.
 
 ### 2. 9-Feature Logistic Confidence Calibrator & Safety Firewall
 To prevent unfair rejections caused by degraded scans, low camera resolution, or paper creases, DocuReady classifies evidence confidence into three calibrated states:
@@ -160,10 +161,10 @@ Every extracted datum retains its physical page number, bounding box coordinates
 Applicants can replace a single defective document (e.g. upload a refreshed Income Certificate) and re-audit the entire packet in-memory in under 1 second without re-uploading the entire bundle.
 
 ### 5. Domain-Specific Normalizers
-- **Aadhaar Verhoeff Checksum:** Mathematically verifies 12-digit Aadhaar numbers against the dihedral group $D_5$ algorithm.
+- **Aadhaar Verhoeff Checksum:** Checks the checksum structure of a 12-digit value using the Verhoeff algorithm; it does not authenticate an Aadhaar holder or verify the number with UIDAI.
 - **Indian Date Normalizer:** Resolves ambiguous date formats (`05/06/2004` vs. `06/05/2004`) using multi-certificate cross-referencing.
 - **Indian Currency Parser:** Parses numeric amounts in Lakhs and Crores (`₹2.5 Lakh`, `2,50,000/-`).
-- **RBI IFSC Code Verifier:** Validates bank branch routing codes against RBI format specifications.
+- **IFSC Format Check:** Checks whether an IFSC-like value matches expected syntax; it does not verify a live bank branch or confirm the code against an RBI registry.
 
 ---
 
@@ -239,14 +240,27 @@ npm --prefix apps/desktop run lint:types
 
 ---
 
+## Verified Benchmarks
+
+Evaluation performed on reference hardware against the synthetic validation suite:
+
+| Benchmark Suite | Documents | Exact Match Accuracy | Mean Latency per Packet | Execution Pipeline |
+| :--- | :--- | :--- | :--- | :--- |
+| **Canonical Synthetic Packets** | 48 Documents | 100.0% | 0.38s | Native Vector Extraction |
+| **Controlled Degraded-Scan Test Set** | 60 Documents | 91.7% | 1.15s | Vector + Local Tesseract OCR |
+
+*Note: Results are limited to the named controlled test corpora and conditions. The provenance of the degraded-scan set has not been independently established here; do not describe its score as field or real-world accuracy. These results do not establish real-world prevalence or portal acceptance.*
+
+---
+
 ## Security, Privacy & Compliance
 
-DocuReady is built from the ground up for strict compliance with privacy standards such as India's **Digital Personal Data Protection (DPDP) Act 2023**:
+DocuReady is designed around privacy-by-design principles informed by India's **Digital Personal Data Protection (DPDP) Act 2023**. This is not a claim of legal compliance, certification, or legal advice:
 
-1. **Zero External Network Egress:** The application makes zero outbound HTTP/HTTPS requests. Documents, audit metadata, and citizen identity attributes never leave the local computer.
+1. **Local Processing:** Documents are processed by the local desktop engine. The current Windows socket-polling audit observed no connections in its recorded samples, but it is not kernel-level capture and does not establish a system-wide zero-egress guarantee. See [PRIVACY_NETWORK_AUDIT.md](PRIVACY_NETWORK_AUDIT.md).
 2. **Ephemeral Document Workspace:** Uploaded files are copied into isolated, temporary per-session directories and completely removed upon session completion or window closure.
 3. **Automated Zero-PII Redaction:** Exported JSON and Markdown reports redact sensitive government identifiers (e.g. masking Aadhaar numbers to show only the last 4 digits: `XXXX-XXXX-1234`).
-4. **Offline Demographics Verification:** DocuReady functions entirely offline on standard laptops and desktops without cloud dependencies or telemetry beacons.
+4. **Offline Operation:** Core document processing is designed to run locally without cloud dependencies. Do not interpret this as a verified system-wide network-egress guarantee.
 
 ---
 
@@ -256,13 +270,13 @@ DocuReady is licensed under the **Apache License 2.0**. See the [LICENSE](LICENS
 
 ### Third-Party Components & Copyleft Disclosures
 
-The application distribution incorporates third-party open-source components with explicit license attribution (detailed in the [NOTICE](NOTICE) file):
+The application distribution incorporates third-party components with separate license terms (detailed in the [NOTICE](NOTICE) and [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md)). The repository's Apache-2.0 license does not relicense these components:
 
 - **Tesseract OCR:** Copyright © Google LLC. Licensed under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0).
 - **Leptonica Image Processing Library:** Copyright © Dan Bloomberg. Licensed under the [2-Clause BSD License](http://www.leptonica.org/).
 - **PDF.js (`pdfjs-dist`):** Copyright © Mozilla Foundation. Licensed under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0).
 - **React & Lucide React:** Copyright © Meta Platforms, Inc. and Lucide Contributors. Licensed under the [MIT License](https://opensource.org/licenses/MIT).
 - **PyMuPDF (`fitz`):** Copyright © Artifex Software, Inc. PyMuPDF is licensed under the GNU Affero General Public License v3 (**AGPLv3**). 
-  - *Licensing Notice:* For enterprise deployments requiring strictly permissive licensing, DocuReady provides an architectural abstraction layer (`src/docuready/ingest/`) designed for seamless drop-in integration with the Apache-2.0 licensed **PDFium** backend (`pypdfium2`), eliminating AGPLv3 copyleft exposure where required.
+  - *Licensing Notice:* PyMuPDF is currently the production PDF backend and is distributed under AGPLv3. The PDFium adapter is incomplete (`get_words()` is not implemented), so it is not a drop-in replacement and does not currently remove the AGPLv3 component. Obtain qualified legal review before redistributing the packaged application.
 
 Copyright © 2026 HackNation DocuReady Authors (Algoryxz).

@@ -1,0 +1,131 @@
+name: Windows desktop release qualification
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - feat/loop5-independent-validation-and-demo
+    paths:
+      - "apps/desktop/**"
+      - "sidecar/**"
+      - "src/**"
+      - "tests/**"
+      - "scripts/verify_clean_windows_runtime.ps1"
+      - "pyproject.toml"
+      - "requirements.txt"
+      - ".github/workflows/windows-release-qualification.yml"
+  push:
+    branches:
+      - feat/loop6-release-integrity-and-reproducibility
+    paths:
+      - "apps/desktop/**"
+      - "sidecar/**"
+      - "src/**"
+      - "tests/**"
+      - "scripts/verify_clean_windows_runtime.ps1"
+      - "pyproject.toml"
+      - "requirements.txt"
+      - ".github/workflows/windows-release-qualification.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: docuready-windows-qualification-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-qualify:
+    runs-on: windows-2022
+    timeout-minutes: 60
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22.17.0"
+          cache: "npm"
+          cache-dependency-path: apps/desktop/package-lock.json
+
+      - name: Install Python engine and packager
+        shell: pwsh
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ".[all]" "pyinstaller>=6,<7"
+          python -m pytest -q
+
+      - name: Build standalone Python sidecar
+        shell: pwsh
+        run: |
+          pyinstaller sidecar/docuready_sidecar.spec --noconfirm --clean
+          if (-not (Test-Path "sidecar/dist/docuready_sidecar/docuready_sidecar.exe")) {
+            throw "PyInstaller did not produce the standalone sidecar executable."
+          }
+
+      - name: Install and stage Tesseract OCR runtime
+        shell: pwsh
+        run: |
+          choco install tesseract --yes --no-progress
+          $tesseractRoot = "C:\Program Files\Tesseract-OCR"
+          if (-not (Test-Path "$tesseractRoot/tesseract.exe")) {
+            throw "Tesseract installation did not produce tesseract.exe."
+          }
+          $target = "sidecar/dist/docuready_sidecar/tesseract"
+          New-Item -ItemType Directory -Path $target -Force | Out-Null
+          Copy-Item "$tesseractRoot/*" $target -Recurse -Force
+          if (-not (Test-Path "$target/tessdata/eng.traineddata")) {
+            throw "English OCR traineddata is missing from the staged runtime."
+          }
+          if (-not (Test-Path "$target/tessdata/osd.traineddata")) {
+            throw "OSD traineddata is missing from the staged runtime."
+          }
+
+      - name: Install desktop dependencies
+        working-directory: apps/desktop
+        run: npm ci
+
+      - name: Type-check desktop
+        working-directory: apps/desktop
+        run: npm run lint:types
+
+      - name: Run desktop tests
+        working-directory: apps/desktop
+        run: npm test
+
+      - name: Build Windows installer and portable ZIP
+        working-directory: apps/desktop
+        run: npm run make
+
+      - name: Verify expected release outputs
+        shell: pwsh
+        run: |
+          $setup = "apps/desktop/out/make/squirrel.windows/x64/DocuReady-0.1.0-Setup.exe"
+          $zip = "apps/desktop/out/make/zip/win32/x64/DocuReady-win32-x64-0.1.0.zip"
+          if (-not (Test-Path $setup)) { throw "Squirrel installer missing: $setup" }
+          if (-not (Test-Path $zip)) { throw "Portable ZIP missing: $zip" }
+          Get-FileHash $setup -Algorithm SHA256 | Format-List
+          Get-FileHash $zip -Algorithm SHA256 | Format-List
+
+      - name: Install, launch, smoke-test sidecar, and uninstall
+        shell: pwsh
+        run: ./scripts/verify_clean_windows_runtime.ps1
+
+      - name: Upload qualification artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: docuready-windows-qualification-${{ github.run_number }}
+          path: |
+            apps/desktop/out/make/squirrel.windows/x64/DocuReady-0.1.0-Setup.exe
+            apps/desktop/out/make/zip/win32/x64/DocuReady-win32-x64-0.1.0.zip
+            docs/clean_machine_validation.log
+          if-no-files-found: warn
+          retention-days: 14

@@ -1,4 +1,4 @@
-import { app, BrowserWindow, session } from "electron";
+import { app, BrowserWindow, dialog, session } from "electron";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import { IpcHandlerRegistry } from "./main/ipc.ts";
@@ -80,12 +80,27 @@ app.whenReady().then(async () => {
   installContentSecurityPolicy();
 
   // Initialize isolated workspace manager
-  workspaceManager = new WorkspaceManager();
+  workspaceManager = new WorkspaceManager(
+    path.join(app.getPath("temp"), "docuready-workspaces")
+  );
   await workspaceManager.initialize();
 
-  // Initialize and start sidecar manager
+  // Initialize and start the bundled sidecar before exposing document workflows.
   sidecarManager = new SidecarManager(workspaceManager.getWorkspaceRoot());
   await sidecarManager.start();
+
+  // A process that merely spawned is not proof that the engine or OCR runtime
+  // is healthy. Verify the JSON-RPC handshake and bundled OCR before showing
+  // the application as ready.
+  const engineHealth = await sidecarManager.getHealth(30000);
+  if (!engineHealth.ok) {
+    throw new Error(engineHealth.error || "The document engine failed its health check.");
+  }
+  if (app.isPackaged && (!engineHealth.ocrAvailable || !engineHealth.isBundled)) {
+    throw new Error(
+      "The bundled OCR runtime is unavailable. This installation is incomplete; reinstall a complete DocuReady package."
+    );
+  }
 
   // Register all typed IPC handlers
   const ipcRegistry = new IpcHandlerRegistry(
@@ -104,6 +119,14 @@ app.whenReady().then(async () => {
       await createMainWindow();
     }
   });
+}).catch((error: unknown) => {
+  const message = error instanceof Error ? error.message : String(error);
+  console.error("[startup] DocuReady failed to initialize:", message);
+  dialog.showErrorBox(
+    "DocuReady could not start",
+    `The application failed its startup checks.\n\n${message}\n\nReinstall the complete package and try again.`
+  );
+  app.quit();
 });
 
 app.on("before-quit", async () => {
