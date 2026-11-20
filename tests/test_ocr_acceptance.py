@@ -117,6 +117,7 @@ def test_ocr_process_failure_handling() -> None:
     """Verifies that if pytesseract raises an exception, the system catches it safely."""
     with patch("pytesseract.get_tesseract_version", side_effect=RuntimeError("Subprocess failed")):
         with patch("docuready.ingest.tesseract_discovery.find_tesseract_binary", return_value=Path("dummy_tesseract.exe")):
-            info = get_ocr_runtime_info()
-            assert info["available"] is False
-            assert "subprocess failed" in info["error"].lower()
+            with patch("pytesseract.pytesseract.tesseract_cmd", "tesseract"):
+                info = get_ocr_runtime_info()
+                assert info["available"] is False
+                assert "subprocess failed" in info["error"].lower()

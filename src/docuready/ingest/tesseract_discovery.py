@@ -155,11 +155,19 @@ def get_ocr_runtime_info() -> Dict[str, Any]:
     version_str: Optional[str] = None
     languages: List[str] = []
 
+    orig_cmd = None
     try:
         import pytesseract
+        orig_cmd = getattr(pytesseract.pytesseract, "tesseract_cmd", "tesseract")
         pytesseract.pytesseract.tesseract_cmd = str(bin_path)
         version_str = str(pytesseract.get_tesseract_version())
     except Exception as err:
+        try:
+            import pytesseract
+            if orig_cmd is not None:
+                pytesseract.pytesseract.tesseract_cmd = orig_cmd
+        except Exception:
+            pass
         return {
             "available": False,
             "version": None,
