@@ -36,7 +36,20 @@ Licensing & Third-Party Dependency Notices
    - pypdfium2 Python bindings: Copyright (c) 2021-2024 pypdfium2 developers.
      Dual-licensed under Apache License 2.0 and 3-Clause BSD License.
 
-4. Other Core & Testing Dependencies:
+4. Local Optical Character Recognition (OCR) Engine:
+   - Tesseract OCR engine (binary distribution): Apache License 2.0
+     (Copyright 2018 Google LLC and contributors).
+   - Leptonica image processing library: 2-Clause BSD License
+     (Copyright 2001-2024 Dan Bloomberg and contributors).
+   - English traineddata: Apache License 2.0 (Copyright Google LLC).
+
+5. Electron Desktop Application & Frontend Dependencies:
+   - Electron: MIT License (Copyright OpenJS Foundation and Electron contributors).
+   - React & React-DOM: MIT License (Copyright Meta Platforms, Inc. and affiliates).
+   - pdfjs-dist: Apache License 2.0 (Copyright Mozilla and individual contributors).
+   - Vite: MIT License (Copyright Yuxi (Evan) You and Vite contributors).
+
+6. Other Core & Testing Dependencies:
    - Pydantic: MIT License (Copyright Samuel Colvin and contributors)
    - Pillow (PIL Fork): HPND License (Copyright Alex Clark and contributors)
    - NumPy: BSD-3-Clause (Copyright NumPy Developers)

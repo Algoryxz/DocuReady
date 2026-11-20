@@ -1,0 +1,260 @@
+{
+  "summary": {
+    "total_documents_evaluated": 11,
+    "documents_fully_passing": 11,
+    "total_fields_checked": 28,
+    "fields_matched_gt": 28,
+    "field_accuracy": 1.0,
+    "packet_scenarios_passed": true,
+    "export_integrity_passed": true,
+    "inconclusive_cases": 0
+  },
+  "document_validations": {
+    "VAL_01_application_form.pdf": {
+      "status_match": true,
+      "field_matches": {
+        "applicant_name": {
+          "value_match": true,
+          "page_match": true,
+          "bbox_valid": true
+        },
+        "father_name": {
+          "value_match": true,
+          "page_match": true,
+          "bbox_valid": true
+        },
+        "dob": {
+          "value_match": true,
+          "page_match": true,
+          "bbox_valid": true
+        },
+        "caste_category": {
+          "value_match": true,
+          "page_match": true,
+          "bbox_valid": true
+        },
+        "annual_income": {
+          "value_match": true,
+          "page_match": true,
+          "bbox_valid": true
+        },
+        "account_no": {
+          "value_match": true,
+          "page_match": true,
+          "bbox_valid": true
+        },
+        "ifsc": {
+          "value_match": true,
+          "page_match": true,
+          "bbox_valid": true
+        }
+      },
+      "provenance_valid": true,
+      "inconclusive": false
+    },
+    "VAL_02_income_cert_clean.pdf": {
+      "status_match": true,
+      "field_matches": {
+        "applicant_name": {
+          "value_match": true,
+          "page_match": true,
+          "bbox_valid": true
+        },
+        "father_name": {
+          "value_match": true,
+          "page_match": true,
+          "bbox_valid": true
+        },
+        "annual_income": {
+          "value_match": true,
+          "page_match": true,
+          "bbox_valid": true
+        },
+        "certificate_no": {
+          "value_match": true,
+          "page_match": true,
+          "bbox_valid": true
+        }
+      },
+      "provenance_valid": true,
+      "inconclusive": false
+    },
+    "VAL_03_caste_cert_clean.pdf": {
+      "status_match": true,
+      "field_matches": {
+        "applicant_name": {
+          "value_match": true,
+          "page_match": true,
+          "bbox_valid": true
+        },
+        "caste_category": {
+          "value_match": true,
+          "page_match": true,
+          "bbox_valid": true
+        },
+        "sub_caste": {
+          "value_match": true,
+          "page_match": true,
+          "bbox_valid": true
+        },
+        "certificate_no": {
+          "value_match": true,
+          "page_match": true,
+          "bbox_valid": true
+        }
+      },
+      "provenance_valid": true,
+      "inconclusive": false
+    },
+    "VAL_04_residence_cert_clean.pdf": {
+      "status_match": true,
+      "field_matches": {
+        "applicant_name": {
+          "value_match": true,
+          "page_match": true,
+          "bbox_valid": true
+        },
+        "father_name": {
+          "value_match": true,
+          "page_match": true,
+          "bbox_valid": true
+        },
+        "state": {
+          "value_match": true,
+          "page_match": true,
+          "bbox_valid": true
+        },
+        "certificate_no": {
+          "value_match": true,
+          "page_match": true,
+          "bbox_valid": true
+        },
+        "issue_date": {
+          "value_match": true,
+          "page_match": true,
+          "bbox_valid": true
+        }
+      },
+      "provenance_valid": true,
+      "inconclusive": false
+    },
+    "VAL_05_bank_passbook_clean.pdf": {
+      "status_match": true,
+      "field_matches": {
+        "applicant_name": {
+          "value_match": true,
+          "page_match": true,
+          "bbox_valid": true
+        },
+        "account_no": {
+          "value_match": true,
+          "page_match": true,
+          "bbox_valid": true
+        },
+        "ifsc": {
+          "value_match": true,
+          "page_match": true,
+          "bbox_valid": true
+        }
+      },
+      "provenance_valid": true,
+      "inconclusive": false
+    },
+    "VAL_06_marksheet_clean.pdf": {
+      "status_match": true,
+      "field_matches": {
+        "applicant_name": {
+          "value_match": true,
+          "page_match": true,
+          "bbox_valid": true
+        },
+        "roll_no": {
+          "value_match": true,
+          "page_match": true,
+          "bbox_valid": true
+        },
+        "percentage": {
+          "value_match": true,
+          "page_match": true,
+          "bbox_valid": true
+        }
+      },
+      "provenance_valid": true,
+      "inconclusive": false
+    },
+    "VAL_07_income_cert_name_conflict.pdf": {
+      "status_match": true,
+      "field_matches": {
+        "applicant_name": {
+          "value_match": true,
+          "page_match": true,
+          "bbox_valid": true
+        }
+      },
+      "provenance_valid": true,
+      "inconclusive": false
+    },
+    "VAL_08_income_cert_ceiling_exceeded.pdf": {
+      "status_match": true,
+      "field_matches": {
+        "annual_income": {
+          "value_match": true,
+          "page_match": true,
+          "bbox_valid": true
+        }
+      },
+      "provenance_valid": true,
+      "inconclusive": false
+    },
+    "VAL_09_corrupted_header.pdf": {
+      "status_match": true,
+      "field_matches": {},
+      "provenance_valid": true,
+      "inconclusive": false
+    },
+    "VAL_11_encrypted_password.pdf": {
+      "status_match": true,
+      "field_matches": {},
+      "provenance_valid": true,
+      "inconclusive": false
+    },
+    "VAL_13_irrelevant_resume.pdf": {
+      "status_match": true,
+      "field_matches": {},
+      "provenance_valid": true,
+      "inconclusive": false
+    }
+  },
+  "packet_validations": {
+    "CLEAN_STATUTORY_PACKET": {
+      "expected_outcome": "NO_ISSUES_FOUND",
+      "actual_outcome": "NO_ISSUES_FOUND",
+      "readiness_score": 100,
+      "passed": true
+    },
+    "NAME_CONFLICT_DEFECT": {
+      "expected_rule_fail": "RULE-NAME-01",
+      "detected": true,
+      "actual_outcome": "NOT_READY",
+      "passed": true
+    },
+    "INCOME_CEILING_DEFECT": {
+      "expected_rule_fail": "RULE-INC-01",
+      "detected": true,
+      "actual_outcome": "NOT_READY",
+      "passed": true
+    }
+  },
+  "export_integrity": {
+    "CLEAN_STATUTORY_PACKET": {
+      "export_intact": true,
+      "findings_count": 8
+    },
+    "NAME_CONFLICT_DEFECT": {
+      "exported_failure_preserved": true
+    },
+    "INCOME_CEILING_DEFECT": {
+      "exported_failure_preserved": true
+    }
+  }
+}

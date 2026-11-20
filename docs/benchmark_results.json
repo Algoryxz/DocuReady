@@ -1,0 +1,53 @@
+{
+  "timestamp": "2026-11-16T04:53:38Z",
+  "system_info": {
+    "platform": "win32",
+    "cpu_count": 12,
+    "total_memory_gb": 15.73,
+    "python_version": "3.12.10",
+    "sidecar_binary": "sidecar\\dist\\docuready_sidecar\\docuready_sidecar.exe"
+  },
+  "startup": {
+    "iterations": 5,
+    "min_ms": 1147.06,
+    "median_ms": 1222.02,
+    "max_ms": 1418.11
+  },
+  "small_packet": {
+    "duration_ms": 60.63,
+    "peak_rss_mb": 119.93,
+    "status": "NOT_READY",
+    "findings_count": 8
+  },
+  "typical_packet": {
+    "duration_ms": 5861.48,
+    "peak_rss_mb": 146.19,
+    "status": "NEEDS_CHECKS",
+    "findings_count": 8
+  },
+  "max_packet": {
+    "duration_ms": 10922.31,
+    "peak_rss_mb": 191.39,
+    "status": null,
+    "findings_count": 0
+  },
+  "repeatability": {
+    "runs": 5,
+    "timings_ms": [
+      5648.4,
+      4892.45,
+      4888.82,
+      4822.52,
+      4983.85
+    ],
+    "peak_rss_mb": [
+      213.84,
+      236.57,
+      259.16,
+      281.45,
+      303.99
+    ],
+    "variance_ms": 825.88
+  },
+  "cleanup_ms": 54.87
+}
