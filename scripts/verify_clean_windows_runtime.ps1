@@ -25,11 +25,13 @@ function Assert-File([string]$Path, [string]$Label) {
     if (-not (Test-Path -LiteralPath $Path -PathType Leaf)) { throw "$Label missing: $Path" }
 }
 function Find-AppExe([string]$Root) {
-    $match = Get-ChildItem -LiteralPath $Root -Filter "DocuReady.exe" -File -Recurse |
-        Where-Object { $_.FullName -notmatch '\\(uninstall|SquirrelTemp)\\' } |
-        Select-Object -First 1
-    if (-not $match) { throw "DocuReady.exe not found below $Root" }
-    return $match.FullName
+    $matches = Get-ChildItem -LiteralPath $Root -Filter "DocuReady.exe" -File -Recurse |
+        Where-Object { $_.FullName -notmatch '\\(uninstall|SquirrelTemp)\\' }
+    $versioned = $matches | Where-Object { $_.FullName -match '\\app-[^\\]+\\DocuReady\.exe$' } | Select-Object -First 1
+    if ($versioned) { return $versioned.FullName }
+    $first = $matches | Select-Object -First 1
+    if (-not $first) { throw "DocuReady.exe not found below $Root" }
+    return $first.FullName
 }
 function Invoke-SidecarHealth([string]$SidecarExe, [string]$Workspace) {
     Assert-File $SidecarExe "Bundled sidecar"
