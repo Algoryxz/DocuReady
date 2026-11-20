@@ -117,9 +117,13 @@ jobs:
       - name: Build standalone Python sidecar
         shell: pwsh
         run: |
-          pyinstaller sidecar/docuready_sidecar.spec --noconfirm --clean
+          pyinstaller sidecar/docuready_sidecar.spec --distpath sidecar/dist --workpath sidecar/build --noconfirm --clean
+          if (-not (Test-Path "sidecar/dist/docuready_sidecar/docuready_sidecar.exe") -and (Test-Path "dist/docuready_sidecar/docuready_sidecar.exe")) {
+            New-Item -ItemType Directory -Path "sidecar/dist" -Force | Out-Null
+            Move-Item "dist/docuready_sidecar" "sidecar/dist/docuready_sidecar" -Force
+          }
           if (-not (Test-Path "sidecar/dist/docuready_sidecar/docuready_sidecar.exe")) {
-            throw "PyInstaller did not produce the standalone sidecar executable."
+            throw "PyInstaller did not produce the standalone sidecar executable at sidecar/dist/docuready_sidecar/docuready_sidecar.exe."
           }
 
       - name: Stage bundled Tesseract OCR runtime in sidecar
