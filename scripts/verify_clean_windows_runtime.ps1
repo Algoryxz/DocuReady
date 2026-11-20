@@ -133,11 +133,12 @@ function Test-AppLaunch([string]$ExePath, [string]$Label) {
     }
     finally {
         if (-not $proc.HasExited) {
-            Stop-Process -Id $proc.Id -Force -ErrorAction SilentlyContinue
+            Start-Process -FilePath "taskkill.exe" -ArgumentList "/F", "/T", "/PID", "$($proc.Id)" -Wait -NoNewWindow -ErrorAction SilentlyContinue
             $proc.WaitForExit(10000) | Out-Null
         }
         $proc.Dispose()
-        Get-Process -Name "DocuReady" -ErrorAction SilentlyContinue | Stop-Process -Force
+        Start-Process -FilePath "taskkill.exe" -ArgumentList "/F", "/T", "/IM", "DocuReady.exe" -Wait -NoNewWindow -ErrorAction SilentlyContinue
+        Start-Process -FilePath "taskkill.exe" -ArgumentList "/F", "/T", "/IM", "docuready_sidecar.exe" -Wait -NoNewWindow -ErrorAction SilentlyContinue
     }
 }
 
@@ -189,7 +190,8 @@ try {
     Invoke-SidecarHealth $installedSidecar (Join-Path $workspace "installed")
     Test-AppLaunch $installedExe "Installed DocuReady"
 
-    Get-Process -Name "DocuReady" -ErrorAction SilentlyContinue | Stop-Process -Force
+    Start-Process -FilePath "taskkill.exe" -ArgumentList "/F", "/T", "/IM", "DocuReady.exe" -Wait -NoNewWindow -ErrorAction SilentlyContinue
+    Start-Process -FilePath "taskkill.exe" -ArgumentList "/F", "/T", "/IM", "docuready_sidecar.exe" -Wait -NoNewWindow -ErrorAction SilentlyContinue
     Start-Sleep -Seconds 2
 
     $uninstall = Start-Process -FilePath $updateExe -ArgumentList "--uninstall", "-s" -Wait -PassThru
@@ -214,7 +216,8 @@ catch {
 finally {
     if ($installedByThisRun -and (Test-Path (Join-Path $installRoot "Update.exe"))) {
         try {
-            Get-Process -Name "DocuReady" -ErrorAction SilentlyContinue | Stop-Process -Force
+            Start-Process -FilePath "taskkill.exe" -ArgumentList "/F", "/T", "/IM", "DocuReady.exe" -Wait -NoNewWindow -ErrorAction SilentlyContinue
+            Start-Process -FilePath "taskkill.exe" -ArgumentList "/F", "/T", "/IM", "docuready_sidecar.exe" -Wait -NoNewWindow -ErrorAction SilentlyContinue
             Start-Sleep -Seconds 1
             $cleanup = Start-Process -FilePath (Join-Path $installRoot "Update.exe") -ArgumentList "--uninstall", "-s" -Wait -PassThru
             Start-Sleep -Seconds 2
