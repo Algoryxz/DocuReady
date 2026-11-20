@@ -105,7 +105,7 @@ def redact_text_pii(text: str) -> str:
         d = re.sub(r"\D", "", m.group(0))
         return f"XXXX-XXXX-{d[-4:]}"
 
-    text = re.sub(r"\b\d{4}[-\s]?\d{4}[-\s]?\d{4}\b", _aadhaar_sub, text)
+    text = re.sub(r"(?<!\d)\d{4}[-\s]?\d{4}[-\s]?\d{4}(?!\d)", _aadhaar_sub, text)
 
     # 2. Mask phone numbers: handles +91 prefixes, leading zero, hyphens, and spaces
     # Examples: +91 98765 43210, +91-9876543210, +919876543210, 09876543210, 9876543210
@@ -179,7 +179,7 @@ def redact_audit_result_dict(result_dict: Dict[str, Any]) -> Dict[str, Any]:
             if "raw_snippet" in ev and ev["raw_snippet"]:
                 ev["raw_snippet"] = "[REDACTED EVIDENCE SNIPPET]"
             if "file_name" in ev and ev["file_name"]:
-                ev["file_name"] = os.path.basename(ev["file_name"])
+                ev["file_name"] = redact_text_pii(os.path.basename(ev["file_name"]))
 
     # If extracted documents or fields are in the payload, redact field values
     if "documents" in redacted and isinstance(redacted["documents"], dict):

@@ -42,6 +42,7 @@ from docuready.ingest.slot_classifier import (
     SlotClassification,
 )
 from docuready.outcome.resolver import resolve_outcome
+from docuready.report.redact import redact_audit_result_dict
 from docuready.rules.slot_validator import validate_packet_slots, validate_slot
 from docuready.rules.validator import DocuReadyValidator, SchemeConfig
 
@@ -936,3 +937,401 @@ def test_actual_malformed_temporary_files_handling(tmp_path):
     for f in unreadable_findings:
         assert f.status is Status.REVIEW
         assert f.reason_code == ReasonCode.EVIDENCE_UNCERTAIN.value
+
+
+# ---------------------------------------------------------------------------
+# POST-MERGE REVIEW HARDENING REGRESSION TESTS
+# ---------------------------------------------------------------------------
+
+
+def test_regression_01_app_form_with_aadhaar_number_field():
+    """Regression 1: Application form containing an Aadhaar Number field remains APPLICATION_FORM."""
+    doc_text = (
+        "COMMON SCHOLARSHIP PORTAL\n"
+        "APPLICATION ACKNOWLEDGEMENT RECEIPT\n"
+        "Applicant Name: Smruti Ranjan Nayak\n"
+        "Aadhaar Number: 1234 5678 9012\n"
+    )
+    classification = classify_document_content(doc_text)
+    assert classification.is_confident is True
+    assert classification.candidate_type == DocumentType.APPLICATION_FORM
+    assert classification.conflicting_types == []
+    assert DocumentType.AADHAAR not in classification.conflicting_types
+
+    doc = _make_doc(DocumentType.APPLICATION_FORM, raw_text=doc_text)
+    finding = validate_slot(slot=DocumentType.APPLICATION_FORM, doc=doc)
+    assert finding is None
+
+
+def test_regression_02_app_form_with_aadhaar_holder_details():
+    """Regression 2: Application form containing 'Aadhaar Card holder details' remains APPLICATION_FORM."""
+    doc_text = (
+        "COMMON SCHOLARSHIP PORTAL\n"
+        "SCHOLARSHIP APPLICATION FORM 2025-26\n"
+        "Aadhaar Card holder details: Verified\n"
+        "Aadhaar Number: 1234 5678 9012\n"
+    )
+    classification = classify_document_content(doc_text)
+    assert classification.is_confident is True
+    assert classification.candidate_type == DocumentType.APPLICATION_FORM
+    assert classification.conflicting_types == []
+    assert DocumentType.AADHAAR not in classification.conflicting_types
+
+    doc = _make_doc(DocumentType.APPLICATION_FORM, raw_text=doc_text)
+    finding = validate_slot(slot=DocumentType.APPLICATION_FORM, doc=doc)
+    assert finding is None
+
+
+def test_regression_03_app_form_with_bank_passbook_upload_instructions():
+    """Regression 3: Application form instructing to upload bank passbook remains APPLICATION_FORM."""
+    doc_text = (
+        "COMMON SCHOLARSHIP PORTAL\n"
+        "APPLICATION ACKNOWLEDGEMENT RECEIPT\n"
+        "Upload bank passbook\n"
+        "Bank passbook required\n"
+        "Passbook details: Account 123456\n"
+    )
+    classification = classify_document_content(doc_text)
+    assert classification.is_confident is True
+    assert classification.candidate_type == DocumentType.APPLICATION_FORM
+    assert classification.conflicting_types == []
+    assert DocumentType.BANK_PASSBOOK not in classification.conflicting_types
+
+    doc = _make_doc(DocumentType.APPLICATION_FORM, raw_text=doc_text)
+    finding = validate_slot(slot=DocumentType.APPLICATION_FORM, doc=doc)
+    assert finding is None
+
+
+def test_regression_04_app_form_mentioning_income_caste_residence_certificates():
+    """Regression 4: Application form checklist mentioning certificates remains APPLICATION_FORM."""
+    doc_text = (
+        "COMMON SCHOLARSHIP PORTAL\n"
+        "APPLICATION ACKNOWLEDGEMENT RECEIPT\n"
+        "- Income certificate required.\n"
+        "- Upload caste certificate.\n"
+        "- Residence certificate attachment.\n"
+        "Supporting documents to attach:\n"
+        "1. Income Certificate\n"
+        "2. Caste Certificate\n"
+        "3. Residence Certificate\n"
+    )
+    classification = classify_document_content(doc_text)
+    assert classification.is_confident is True
+    assert classification.candidate_type == DocumentType.APPLICATION_FORM
+    assert classification.conflicting_types == []
+
+    doc = _make_doc(DocumentType.APPLICATION_FORM, raw_text=doc_text)
+    finding = validate_slot(slot=DocumentType.APPLICATION_FORM, doc=doc)
+    assert finding is None
+
+
+def test_regression_05_genuine_standalone_aadhaar_identification():
+    """Regression 5: Standalone Aadhaar card is positively classified as AADHAAR."""
+    doc_text = (
+        "GOVERNMENT OF INDIA\n"
+        "UNIQUE IDENTIFICATION AUTHORITY OF INDIA\n"
+        "AADHAAR CARD\n"
+        "Mera Aadhaar, Meri Pehchan\n"
+        "Aadhaar Number: 1234 5678 9012\n"
+    )
+    classification = classify_document_content(doc_text)
+    assert classification.is_confident is True
+    assert classification.candidate_type == DocumentType.AADHAAR
+    assert classification.conflicting_types == []
+    assert len(classification.source_lines) >= 1
+
+    doc = _make_doc(DocumentType.AADHAAR, raw_text=doc_text)
+    assert validate_slot(slot=DocumentType.AADHAAR, doc=doc) is None
+
+    # Mismatch when uploaded to INCOME_CERT slot
+    finding_mismatch = validate_slot(slot=DocumentType.INCOME_CERT, doc=doc)
+    assert finding_mismatch is not None
+    assert finding_mismatch.status == FindingStatus.REVIEW
+    assert finding_mismatch._is_wrong_type is True
+    assert finding_mismatch.evidence[0].document_type == DocumentType.AADHAAR.value
+    assert finding_mismatch.evidence[0].page_number is None
+
+
+def test_regression_06_genuine_standalone_bank_passbook_identification():
+    """Regression 6: Standalone bank passbook is positively classified as BANK_PASSBOOK."""
+    doc_text = (
+        "STATE BANK OF INDIA\n"
+        "SAVINGS BANK PASSBOOK — BHUBANESWAR MAIN BRANCH\n"
+        "Account Holder Name: Smruti Ranjan Nayak\n"
+        "Account Number: 12345678901\n"
+        "IFSC: SBIN0001234\n"
+    )
+    classification = classify_document_content(doc_text)
+    assert classification.is_confident is True
+    assert classification.candidate_type == DocumentType.BANK_PASSBOOK
+    assert classification.conflicting_types == []
+    assert len(classification.source_lines) >= 1
+
+    doc = _make_doc(DocumentType.BANK_PASSBOOK, raw_text=doc_text)
+    assert validate_slot(slot=DocumentType.BANK_PASSBOOK, doc=doc) is None
+
+    # Mismatch when uploaded to MARKSHEET slot
+    finding_mismatch = validate_slot(slot=DocumentType.MARKSHEET, doc=doc)
+    assert finding_mismatch is not None
+    assert finding_mismatch.status == FindingStatus.REVIEW
+    assert finding_mismatch._is_wrong_type is True
+    assert finding_mismatch.evidence[0].document_type == DocumentType.BANK_PASSBOOK.value
+    assert finding_mismatch.evidence[0].page_number is None
+
+
+def test_regression_07_bank_statement_vs_passbook_distinction():
+    """Regression 7: Bank statement cannot be classified as BANK_PASSBOOK; produces uncertainty."""
+    doc_text = (
+        "STATE BANK OF INDIA\n"
+        "SAVINGS BANK ACCOUNT STATEMENT\n"
+        "Statement Period: 01/01/2025 to 31/01/2025\n"
+        "Closing Balance: 50000.00\n"
+        "Account Number: 12345678901\n"
+    )
+    classification = classify_document_content(doc_text)
+    assert classification.candidate_type is None
+    assert classification.is_uncertain is True
+    assert "statement" in classification.uncertainty_reason.lower()
+
+    doc = _make_doc(DocumentType.BANK_PASSBOOK, raw_text=doc_text)
+    finding = validate_slot(slot=DocumentType.BANK_PASSBOOK, doc=doc)
+    assert finding is not None
+    assert finding.status == FindingStatus.REVIEW
+    assert finding._is_wrong_type is False
+    assert "bank statement" in finding.message.lower()
+
+
+def test_regression_08_genuine_certificate_with_long_header():
+    """Regression 8: Genuine certificate with multiple administrative header lines qualifies without cutoff."""
+    doc_text = (
+        "GOVERNMENT OF ODISHA\n"
+        "REVENUE & DISASTER MANAGEMENT DEPARTMENT\n"
+        "OFFICE OF THE ADDITIONAL DISTRICT MAGISTRATE\n"
+        "SUB-DIVISIONAL MAGISTRATE, CUTTACK\n"
+        "TAHSILDAR OFFICE, SADAR\n"
+        "INCOME CERTIFICATE\n"
+        "Certificate No: E-INC/2025/998877\n"
+        "Annual Family Income: 120000\n"
+    )
+    classification = classify_document_content(doc_text)
+    assert classification.is_confident is True
+    assert classification.candidate_type == DocumentType.INCOME_CERT
+    assert classification.conflicting_types == []
+    assert len(classification.source_lines) >= 1
+
+    doc = _make_doc(DocumentType.INCOME_CERT, raw_text=doc_text)
+    assert validate_slot(slot=DocumentType.INCOME_CERT, doc=doc) is None
+
+
+def test_regression_09_incidental_body_mention_of_application_form():
+    """Regression 9: Incidental body/narrative mention of application in another document does not conflict."""
+    doc_text = (
+        "GOVERNMENT OF ODISHA\n"
+        "DEPARTMENT OF ST & SC DEVELOPMENT\n"
+        "COMMUNITY / CASTE CERTIFICATE\n"
+        "Certificate No: CST/2025/112233\n"
+        "This certificate is issued for educational, scholarship and statutory purposes.\n"
+        "Submitted along with scholarship application.\n"
+    )
+    classification = classify_document_content(doc_text)
+    assert classification.is_confident is True
+    assert classification.candidate_type == DocumentType.CASTE_CERT
+    assert classification.conflicting_types == []
+    assert DocumentType.APPLICATION_FORM not in classification.conflicting_types
+    assert len(classification.source_lines) >= 1
+
+    doc = _make_doc(DocumentType.CASTE_CERT, raw_text=doc_text)
+    assert validate_slot(slot=DocumentType.CASTE_CERT, doc=doc) is None
+
+
+def test_regression_10_pii_on_title_line_not_leaked_into_evidence_provenance():
+    """Regression 10: Personal information on the same line as a valid title is never leaked into evidence provenance or messages."""
+    # 1. Aadhaar Card with synthetic 12-digit number on title line
+    aadhaar_text = "GOVERNMENT OF INDIA\nAADHAAR CARD — 1234 5678 9012\nMera Aadhaar, Meri Pehchan"
+    clf_aadhaar = classify_document_content(aadhaar_text)
+    assert clf_aadhaar.is_confident is True
+    assert clf_aadhaar.candidate_type == DocumentType.AADHAAR
+    for line in clf_aadhaar.source_lines:
+        assert "1234" not in line
+        assert "5678" not in line
+        assert "9012" not in line
+
+    doc_aadhaar = _make_doc(DocumentType.AADHAAR, raw_text=aadhaar_text)
+    # Uploaded to mismatched slot INCOME_CERT
+    finding_aadhaar = validate_slot(slot=DocumentType.INCOME_CERT, doc=doc_aadhaar)
+    assert finding_aadhaar is not None
+    assert finding_aadhaar.status == FindingStatus.REVIEW
+    assert finding_aadhaar._is_wrong_type is True
+    ev_a = finding_aadhaar.evidence[0]
+    assert ev_a.page_number is None
+    assert "1234" not in ev_a.raw_snippet
+    assert "5678" not in ev_a.raw_snippet
+    assert "9012" not in ev_a.raw_snippet
+    assert "1234" not in finding_aadhaar.message
+
+    # 2. Income Certificate with synthetic applicant name on title line
+    income_text = "OFFICE OF THE TAHSILDAR\nINCOME CERTIFICATE — Applicant Akriti Lohani\nAnnual Family Income: 120000"
+    clf_income = classify_document_content(income_text)
+    assert clf_income.is_confident is True
+    assert clf_income.candidate_type == DocumentType.INCOME_CERT
+    for line in clf_income.source_lines:
+        assert "AKRITI" not in line.upper()
+        assert "LOHANI" not in line.upper()
+
+    doc_income = _make_doc(DocumentType.INCOME_CERT, raw_text=income_text)
+    finding_income = validate_slot(slot=DocumentType.CASTE_CERT, doc=doc_income)
+    assert finding_income is not None
+    ev_i = finding_income.evidence[0]
+    assert ev_i.page_number is None
+    assert "Akriti" not in ev_i.raw_snippet
+    assert "Lohani" not in ev_i.raw_snippet
+    assert "Akriti" not in finding_income.message
+    assert "Lohani" not in finding_income.message
+
+    # 3. Bank Passbook with account number, phone number, and address on title line
+    bank_text = (
+        "STATE BANK OF INDIA\n"
+        "SAVINGS BANK PASSBOOK — Account 12345678901, Phone 9876543210, Plot 42 Shaheed Nagar, Bhubaneswar\n"
+        "IFSC: SBIN0001234"
+    )
+    clf_bank = classify_document_content(bank_text)
+    assert clf_bank.is_confident is True
+    assert clf_bank.candidate_type == DocumentType.BANK_PASSBOOK
+    for line in clf_bank.source_lines:
+        assert "12345678901" not in line
+        assert "9876543210" not in line
+        assert "SHAHEED" not in line.upper()
+        assert "BHUBANESWAR" not in line.upper()
+
+    doc_bank = _make_doc(DocumentType.BANK_PASSBOOK, raw_text=bank_text)
+    finding_bank = validate_slot(slot=DocumentType.MARKSHEET, doc=doc_bank)
+    assert finding_bank is not None
+    ev_b = finding_bank.evidence[0]
+    assert ev_b.page_number is None
+    assert "12345678901" not in ev_b.raw_snippet
+    assert "9876543210" not in ev_b.raw_snippet
+    assert "Shaheed" not in ev_b.raw_snippet
+    assert "Bhubaneswar" not in ev_b.raw_snippet
+    assert "12345678901" not in finding_bank.message
+    assert "9876543210" not in finding_bank.message
+    assert "Shaheed" not in finding_bank.message
+    assert "Bhubaneswar" not in finding_bank.message
+
+
+def test_regression_11_ordinary_narrative_sentences_yield_uncertainty():
+    """Regression 11: Ordinary narrative sentences mentioning documents do not produce confident document types."""
+    narrative_cases = [
+        ("The applicant has an income certificate from the district office.", DocumentType.INCOME_CERT),
+        ("The scholarship application was reviewed by the committee.", DocumentType.APPLICATION_FORM),
+        ("A caste certificate is mentioned in the eligibility discussion.", DocumentType.CASTE_CERT),
+        ("The student submitted a marksheet earlier.", DocumentType.MARKSHEET),
+    ]
+
+    for sentence, target_slot in narrative_cases:
+        clf = classify_document_content(sentence)
+        assert clf.candidate_type is None, f"Expected None candidate for: {sentence}, got {clf.candidate_type}"
+        assert clf.is_confident is False
+        assert clf.is_uncertain is True
+
+        doc = _make_doc(target_slot, raw_text=sentence)
+        finding = validate_slot(slot=target_slot, doc=doc)
+        assert finding is not None, f"Expected uncertain finding for: {sentence}"
+        assert finding.status == FindingStatus.REVIEW
+        assert finding._is_wrong_type is False
+        assert finding.evidence[0].page_number is None
+
+
+def test_regression_12_narrative_sentences_without_trailing_period_yield_uncertainty():
+    """Regression 12: Narrative sentences without trailing punctuation still produce uncertainty via grammar analysis."""
+    narrative_no_punct = [
+        ("The applicant has an income certificate from the district office", DocumentType.INCOME_CERT),
+        ("The scholarship application was reviewed by the committee", DocumentType.APPLICATION_FORM),
+        ("A caste certificate is mentioned in the eligibility discussion", DocumentType.CASTE_CERT),
+        ("The student submitted a marksheet earlier", DocumentType.MARKSHEET),
+    ]
+
+    for sentence, target_slot in narrative_no_punct:
+        clf = classify_document_content(sentence)
+        assert clf.candidate_type is None, f"Expected None candidate for: {sentence}, got {clf.candidate_type}"
+        assert clf.is_confident is False
+        assert clf.is_uncertain is True
+
+        doc = _make_doc(target_slot, raw_text=sentence)
+        finding = validate_slot(slot=target_slot, doc=doc)
+        assert finding is not None
+        assert finding.status == FindingStatus.REVIEW
+        assert finding._is_wrong_type is False
+        assert finding.evidence[0].page_number is None
+
+
+def test_regression_13_narrative_fragments_yield_uncertainty():
+    """Regression 13: Narrative fragments and relational noun phrases yield EVIDENCE_UNCERTAIN."""
+    narrative_fragments = [
+        ("An income certificate from the Tahsildar", DocumentType.INCOME_CERT),
+        ("Income certificate of the applicant", DocumentType.INCOME_CERT),
+        ("A marksheet of the student", DocumentType.MARKSHEET),
+        ("Scholarship application for eligible students", DocumentType.APPLICATION_FORM),
+        ("Caste certificate issued to the applicant", DocumentType.CASTE_CERT),
+        ("Residence certificate required for scholarship eligibility", DocumentType.RESIDENCE_CERT),
+    ]
+
+    for fragment, target_slot in narrative_fragments:
+        clf = classify_document_content(fragment)
+        assert clf.candidate_type is None, f"Expected None candidate for: {fragment}, got {clf.candidate_type}"
+        assert clf.is_confident is False
+        assert clf.is_uncertain is True
+
+        doc = _make_doc(target_slot, raw_text=fragment)
+        finding = validate_slot(slot=target_slot, doc=doc)
+        assert finding is not None, f"Expected uncertain finding for: {fragment}"
+        assert finding.status == FindingStatus.REVIEW
+        assert finding._is_wrong_type is False
+        assert finding.evidence[0].page_number is None
+
+
+def test_regression_14_filename_provenance_and_pii_redaction():
+    """Regression 14: EvidenceProvenance uses basename and redact_audit_result_dict masks filename PII."""
+    full_path_with_pii = "C:/secure/uploads/users/Akriti_Lohani_123456789012_Aadhaar.pdf"
+    doc = _make_doc(
+        DocumentType.AADHAAR,
+        file_name=full_path_with_pii,
+        raw_text=SYNTHETIC_TEXTS[DocumentType.AADHAAR],
+    )
+
+    # 1. Mismatched slot triggers finding; check EvidenceProvenance filename sanitization
+    finding = validate_slot(slot=DocumentType.INCOME_CERT, doc=doc)
+    assert finding is not None
+    assert len(finding.evidence) == 1
+    ev = finding.evidence[0]
+    # File name must be the basename only, never the full filesystem path
+    assert ev.file_name == "Akriti_Lohani_123456789012_Aadhaar.pdf"
+    assert "C:" not in ev.file_name
+    assert "secure" not in ev.file_name
+    assert "uploads" not in ev.file_name
+
+    # 2. Privacy-redacted export must sanitize citizen identifiers in file_name
+    raw_payload = {
+        "findings": [
+            {
+                "rule_id": finding.rule_id,
+                "message": finding.message,
+                "remediation": finding.remediation,
+                "evidence": [
+                    {
+                        "document_type": ev.document_type,
+                        "file_name": ev.file_name,
+                        "raw_snippet": ev.raw_snippet,
+                        "page_number": ev.page_number,
+                    }
+                ],
+            }
+        ]
+    }
+
+    redacted = redact_audit_result_dict(raw_payload)
+    redacted_ev = redacted["findings"][0]["evidence"][0]
+
+    # Aadhaar number masked
+    assert "123456789012" not in redacted_ev["file_name"]
+    assert "XXXX-XXXX-9012" in redacted_ev["file_name"]
+    assert redacted_ev["raw_snippet"] == "[REDACTED EVIDENCE SNIPPET]"
