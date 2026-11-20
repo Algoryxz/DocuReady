@@ -195,7 +195,12 @@ try {
     $uninstall = Start-Process -FilePath $updateExe -ArgumentList "--uninstall", "-s" -Wait -PassThru
     Write-Log "Squirrel Update.exe uninstall exit code: $($uninstall.ExitCode)"
     if ($uninstall.ExitCode -ne 0) { throw "Squirrel uninstall failed with exit code $($uninstall.ExitCode)." }
-    Start-Sleep -Seconds 3
+
+    # Squirrel schedules background folder deletion (ping delay then rmdir). Wait up to 30s for removal.
+    $deadline = (Get-Date).AddSeconds(30)
+    while (((Test-Path $installedExe) -or (Test-Path $updateExe)) -and ((Get-Date) -lt $deadline)) {
+        Start-Sleep -Milliseconds 500
+    }
     if (Test-Path $installedExe) { throw "Squirrel uninstall left the application executable behind: $installedExe" }
     if (Test-Path $updateExe) { throw "Squirrel uninstall left Update.exe behind: $updateExe" }
     $installedByThisRun = $false
