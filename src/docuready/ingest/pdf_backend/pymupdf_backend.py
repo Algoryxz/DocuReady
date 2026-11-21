@@ -56,8 +56,13 @@ class PyMuPDFPageBackend(PDFPageBackend):
         area = (r[2] - r[0]) * (r[3] - r[1])
         effective_dpi = 72 if area > 2000 * 2000 else dpi
         pix = self._page.get_pixmap(dpi=effective_dpi)
-        img = PIL.Image.open(io.BytesIO(pix.tobytes()))
-        return img.convert("RGB")
+        try:
+            img = PIL.Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
+        except Exception:
+            img = PIL.Image.open(io.BytesIO(pix.tobytes())).convert("RGB")
+        finally:
+            pix = None
+        return img
 
     @property
     def raw_page(self) -> pymupdf.Page:
