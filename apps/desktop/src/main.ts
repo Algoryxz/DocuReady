@@ -11,6 +11,8 @@ const isDevelopment = !app.isPackaged;
 let workspaceManager: WorkspaceManager | null = null;
 let sidecarManager: SidecarManager | null = null;
 let mainWindow: BrowserWindow | null = null;
+let shutdownStarted = false;
+let shutdownComplete = false;
 
 function installContentSecurityPolicy(): void {
   const policy = getContentSecurityPolicy(isDevelopment);
@@ -86,20 +88,23 @@ app.whenReady().then(async () => {
   await workspaceManager.initialize();
 
   // Initialize and start the bundled sidecar before exposing document workflows.
-  sidecarManager = new SidecarManager(workspaceManager.getWorkspaceRoot());
+  sidecarManager = new SidecarManager(workspaceManager.getWorkspaceRoot(), undefined, !isDevelopment);
   await sidecarManager.start();
 
   // A process that merely spawned is not proof that the engine or OCR runtime
   // is healthy. Verify the JSON-RPC handshake and bundled OCR before showing
   // the application as ready.
-  const engineHealth = await sidecarManager.getHealth(30000);
+  const engineHealth = await sidecarManager.getHealth(45000);
   if (!engineHealth.ok) {
-    throw new Error(engineHealth.error || "The document engine failed its health check.");
+    throw new Error(`The document engine failed its startup check: ${engineHealth.error || "unknown sidecar error"}`);
   }
-  if (app.isPackaged && (!engineHealth.ocrAvailable || !engineHealth.isBundled)) {
+  if (!isDevelopment && (!engineHealth.ocrAvailable || !engineHealth.isBundled)) {
     throw new Error(
-      "The bundled OCR runtime is unavailable. This installation is incomplete; reinstall a complete DocuReady package."
+      `The packaged OCR runtime is unavailable. Expected bundled Tesseract; source=${engineHealth.ocrSource || "unknown"}, available=${engineHealth.ocrAvailable}.`
     );
+  }
+  if (!isDevelopment && !engineHealth.ocrLanguages?.includes("eng")) {
+    throw new Error("The bundled OCR runtime is missing the required English trained-data file (eng.traineddata).");
   }
 
   // Register all typed IPC handlers
@@ -124,18 +129,31 @@ app.whenReady().then(async () => {
   console.error("[startup] DocuReady failed to initialize:", message);
   dialog.showErrorBox(
     "DocuReady could not start",
-    `The application failed its startup checks.\n\n${message}\n\nReinstall the complete package and try again.`
+    message + "\n\nReinstall DocuReady. If the problem continues, provide the diagnostic details to the project team."
   );
   app.quit();
 });
 
-app.on("before-quit", async () => {
-  if (sidecarManager) {
-    await sidecarManager.shutdown().catch(() => {});
-  }
-  if (workspaceManager) {
-    await workspaceManager.clearAll().catch(() => {});
-  }
+app.on("before-quit", (event) => {
+  if (shutdownComplete) return;
+  event.preventDefault();
+  if (shutdownStarted) return;
+  shutdownStarted = true;
+
+  void (async () => {
+    try {
+      await sidecarManager?.shutdown();
+    } catch (error) {
+      console.error("[shutdown] Sidecar cleanup failed:", error);
+    }
+    try {
+      await workspaceManager?.clearAll();
+    } catch (error) {
+      console.error("[shutdown] Workspace cleanup failed:", error);
+    }
+    shutdownComplete = true;
+    app.quit();
+  })();
 });
 
 app.on("window-all-closed", () => {
