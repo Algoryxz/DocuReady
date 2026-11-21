@@ -1,4 +1,4 @@
-# DocuReady Windows release qualification.
+﻿# DocuReady Windows release qualification.
 # Runs on a disposable Windows machine/VM. This script performs real install,
 # launch, bundled-sidecar checks, and uninstall. It does not claim network isolation.
 [CmdletBinding()]
@@ -198,15 +198,23 @@ try {
     Write-Log "Squirrel Update.exe uninstall exit code: $($uninstall.ExitCode)"
     if ($uninstall.ExitCode -ne 0) { throw "Squirrel uninstall failed with exit code $($uninstall.ExitCode)." }
 
-    # Squirrel schedules background folder deletion (ping delay then rmdir). Wait up to 15s for removal.
-    $deadline = (Get-Date).AddSeconds(15)
-    while (((Test-Path $installedExe) -or (Test-Path $updateExe)) -and ((Get-Date) -lt $deadline)) {
-        Start-Sleep -Milliseconds 500
+    # Squirrel schedules background folder deletion (ping delay then rmdir). Wait up to 180s for removal.
+    $deadline = (Get-Date).AddSeconds(180)
+    while ((Test-Path $installedExe) -and ((Get-Date) -lt $deadline)) {
+        Start-Sleep -Seconds 2
     }
     if (Test-Path $installedExe) { throw "Squirrel uninstall left the application executable behind: $installedExe" }
+    # Allow background uninstaller script to finish deleting Update.exe or clean up
+    $updateDeadline = (Get-Date).AddSeconds(15)
+    while ((Test-Path $updateExe) -and ((Get-Date) -lt $updateDeadline)) {
+        Start-Sleep -Seconds 1
+    }
     if (Test-Path $updateExe) {
         Remove-Item -LiteralPath $updateExe -Force -ErrorAction SilentlyContinue
         if (Test-Path $updateExe) { throw "Squirrel uninstall left Update.exe behind: $updateExe" }
+    }
+    if (Test-Path $installRoot) {
+        Remove-Item -LiteralPath $installRoot -Recurse -Force -ErrorAction SilentlyContinue
     }
     $installedByThisRun = $false
     Write-Log "PASS: Squirrel install, installed UI launch, bundled sidecar, and uninstall."
@@ -214,7 +222,7 @@ try {
 }
 catch {
     $overallFailure = $_
-    Write-Log "RESULT: FAIL — $($_.Exception.Message)"
+    Write-Log "RESULT: FAIL - $($_.Exception.Message)"
 }
 finally {
     if ($installedByThisRun -and (Test-Path (Join-Path $installRoot "Update.exe"))) {

@@ -1,10 +1,53 @@
 import { app, BrowserWindow, dialog, session } from "electron";
+import { spawn } from "node:child_process";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import { IpcHandlerRegistry } from "./main/ipc.ts";
 import { getContentSecurityPolicy } from "./main/security.ts";
 import { SidecarManager } from "./main/sidecar.ts";
 import { WorkspaceManager } from "./main/workspace.ts";
+
+function handleSquirrelEvents(): boolean {
+  if (process.platform !== "win32") {
+    return false;
+  }
+
+  const squirrelCommand = process.argv.find((arg) =>
+    arg.startsWith("--squirrel-install") ||
+    arg.startsWith("--squirrel-updated") ||
+    arg.startsWith("--squirrel-uninstall") ||
+    arg.startsWith("--squirrel-obsolete")
+  );
+
+  if (!squirrelCommand) {
+    return false;
+  }
+
+  const appExe = path.basename(process.execPath);
+  const updateExe = path.resolve(path.dirname(process.execPath), "..", "Update.exe");
+
+  const runUpdate = (args: string[]) => {
+    try {
+      spawn(updateExe, args, { detached: true });
+    } catch {
+      // Ignore shortcut error during Squirrel lifecycle
+    }
+  };
+
+  if (squirrelCommand.startsWith("--squirrel-install") || squirrelCommand.startsWith("--squirrel-updated")) {
+    runUpdate(["--createShortcut", appExe]);
+  } else if (squirrelCommand.startsWith("--squirrel-uninstall")) {
+    runUpdate(["--removeShortcut", appExe]);
+  }
+
+  app.quit();
+  process.exit(0);
+  return true;
+}
+
+if (handleSquirrelEvents()) {
+  // Exited early for squirrel lifecycle events
+}
 
 const isDevelopment = !app.isPackaged;
 
