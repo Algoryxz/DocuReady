@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-11-21T19:45:38Z",
+  "timestamp": "2026-11-21T20:20:55Z",
   "system_info": {
     "os": "Windows 11 (AMD64)",
     "python": "3.12.10",
@@ -14,36 +14,36 @@
   },
   "stage_breakdown": {
     "render_legacy_ms": {
-      "median": 267.22,
-      "mean": 263.17
+      "median": 222.29,
+      "mean": 222.95
     },
     "render_direct_buffer_ms": {
-      "median": 45.99,
-      "mean": 54.22
+      "median": 43.57,
+      "mean": 43.78
     },
     "osd_full_ms": {
-      "median": 1646.92,
-      "mean": 1625.27
+      "median": 1383.61,
+      "mean": 1361.62
     },
     "token_ocr_ms": {
-      "median": 1226.5,
-      "mean": 1210.93
+      "median": 1024.3,
+      "mean": 1033.69
     },
     "fast_path_gate_eval_ms": {
-      "median": 0.16,
-      "mean": 0.16
+      "median": 0.33,
+      "mean": 0.39
     },
     "clustering_ms": {
-      "median": 0.8,
-      "mean": 0.89
+      "median": 0.79,
+      "mean": 0.73
     },
     "search_ms": {
-      "median": 0.12,
-      "mean": 0.3
+      "median": 0.09,
+      "mean": 0.29
     },
     "optimized_ocr_page_ms": {
-      "median": 1283.72,
-      "mean": 1294.19
+      "median": 1067.45,
+      "mean": 1082.46
     }
   },
   "workload_results": [
@@ -55,12 +55,12 @@
       "results": {
         "iterations": 5,
         "total_ms": {
-          "mean": 35.22,
-          "median": 29.25,
-          "min": 27.09,
-          "max": 58.3
+          "mean": 25.5,
+          "median": 21.1,
+          "min": 20.46,
+          "max": 41.63
         },
-        "peak_rss_mb": 129.84,
+        "peak_rss_mb": 118.68,
         "status": "VALID",
         "fields_count": 6
       }
@@ -73,12 +73,12 @@
       "results": {
         "iterations": 5,
         "total_ms": {
-          "mean": 1400.71,
-          "median": 1358.55,
-          "min": 1287.13,
-          "max": 1554.55
+          "mean": 1123.69,
+          "median": 1140.25,
+          "min": 1084.74,
+          "max": 1152.83
         },
-        "peak_rss_mb": 186.34,
+        "peak_rss_mb": 118.7,
         "status": "VALID",
         "fields_count": 6
       }
@@ -91,12 +91,12 @@
       "results": {
         "iterations": 5,
         "total_ms": {
-          "mean": 4602.39,
-          "median": 4690.22,
-          "min": 4319.81,
-          "max": 4794.1
+          "mean": 3313.74,
+          "median": 3296.25,
+          "min": 3288.94,
+          "max": 3366.3
         },
-        "peak_rss_mb": 243.12,
+        "peak_rss_mb": 118.79,
         "status": "VALID",
         "fields_count": 6
       }
@@ -109,12 +109,12 @@
       "results": {
         "iterations": 5,
         "total_ms": {
-          "mean": 4343.55,
-          "median": 4237.22,
-          "min": 4193.0,
-          "max": 4592.05
+          "mean": 3306.03,
+          "median": 3327.2,
+          "min": 3190.44,
+          "max": 3385.75
         },
-        "peak_rss_mb": 299.41,
+        "peak_rss_mb": 118.79,
         "status": "VALID",
         "fields_count": 6
       }
@@ -127,12 +127,12 @@
       "results": {
         "iterations": 5,
         "total_ms": {
-          "mean": 4856.54,
-          "median": 4929.68,
-          "min": 4694.92,
-          "max": 5006.47
+          "mean": 3368.5,
+          "median": 3364.1,
+          "min": 3258.52,
+          "max": 3444.19
         },
-        "peak_rss_mb": 355.19,
+        "peak_rss_mb": 118.73,
         "status": "VALID",
         "fields_count": 6
       }
@@ -145,12 +145,12 @@
       "results": {
         "iterations": 5,
         "total_ms": {
-          "mean": 1474.54,
-          "median": 1487.79,
-          "min": 1382.02,
-          "max": 1534.63
+          "mean": 1116.76,
+          "median": 1113.06,
+          "min": 1091.21,
+          "max": 1143.63
         },
-        "peak_rss_mb": 378.38,
+        "peak_rss_mb": 118.73,
         "status": "VALID",
         "fields_count": 5
       }
@@ -163,12 +163,12 @@
       "results": {
         "iterations": 5,
         "total_ms": {
-          "mean": 1304.12,
-          "median": 1301.33,
-          "min": 1266.13,
-          "max": 1363.46
+          "mean": 1033.48,
+          "median": 1035.38,
+          "min": 1009.4,
+          "max": 1061.19
         },
-        "peak_rss_mb": 378.38,
+        "peak_rss_mb": 118.73,
         "status": "VALID",
         "fields_count": 3
       }
@@ -181,12 +181,12 @@
       "results": {
         "iterations": 5,
         "total_ms": {
-          "mean": 28.36,
-          "median": 26.5,
-          "min": 19.18,
-          "max": 38.36
+          "mean": 25.97,
+          "median": 26.76,
+          "min": 21.77,
+          "max": 31.07
         },
-        "peak_rss_mb": 378.5,
+        "peak_rss_mb": 118.85,
         "status": "VALID",
         "fields_count": 1
       }
@@ -199,12 +199,12 @@
       "results": {
         "iterations": 5,
         "total_ms": {
-          "mean": 5585.01,
-          "median": 5585.09,
-          "min": 5504.5,
-          "max": 5689.52
+          "mean": 4532.18,
+          "median": 4522.16,
+          "min": 4476.66,
+          "max": 4599.01
         },
-        "peak_rss_mb": 378.55,
+        "peak_rss_mb": 119.07,
         "status": "NEEDS_CHECKS",
         "findings_count": 8
       }
