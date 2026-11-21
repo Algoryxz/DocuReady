@@ -336,7 +336,7 @@ Product Owner Signature: Formal decision recorded in repository governance (16 N
 
 ---
 
-## 10. Task T3.2 Evidence Matrix & Product Owner Determination Record (WS3 — Scheme-Pack Engine)
+## 10. Task T3.2 Evidence Matrix & Product Owner Acceptance Evidence (WS3 — Scheme-Pack Engine)
 
 ### Task T3.2 Evidence Matrix (Primitives and generic.demo Port)
 
@@ -347,31 +347,31 @@ Product Owner Signature: Formal decision recorded in repository governance (16 N
 
 ---
 
-### Product Owner Task T3.2 Determination Record (Ratified 21 November 2026)
+### Product Owner Acceptance Evidence — 21 November 2026
 
-*Historical Determination Record formally ratified by Product Owner Deeptiman on 21 November 2026 recording formal acceptance of Task T3.2 and T3.2.1 remediation.*
+*This governance record documents Product Owner Deeptiman Parida's explicit written acceptance of the combined Task T3.2 implementation and Task T3.2.1 post-merge safety and equivalence remediation. The acceptance was communicated in writing on 21 November 2026 without a separate signed determination document.*
 
 ```markdown
-PRODUCT OWNER FORMAL TASK T3.2 DETERMINATION RECORD
+PRODUCT OWNER FORMAL TASK T3.2 ACCEPTANCE EVIDENCE
 
 Date: 21 November 2026
 Product Owner: Deeptiman Parida
 Repository: Algoryxz/DocuReady
 Verified Main HEAD: f6ba1b7087a915649468859991180a558578d263
 
-Product Owner Formal Statement (21 November 2026):
+Product Owner Explicit Written Statement (communicated in writing on 21 November 2026):
 "Yes, I have accepted your request, please keep working on the further track"
 
-[x] Decision Point 1 — Task T3.2 & T3.2.1 Implementation Acceptance:
+[x] Item 1 — Task T3.2 & T3.2.1 Implementation Acceptance:
     [x] T3.2 (Closed Primitive Execution Engine & generic.demo port, PR #78 at d1ef67c):
         [ ACCEPTED on 21 Nov 2026 ]
     [x] T3.2.1 (Post-merge Safety, Lifecycle, and Equivalence Remediation, PR #79 at daca150):
         [ ACCEPTED on 21 Nov 2026 ]
 
-[x] Decision Point 2 — Gate G3 Status:
+[x] Item 2 — Gate G3 Status:
     [x] Gate G3 (WS3 — Scheme-Pack Engine) remains IN PROGRESS.
     [x] Tasks T3.1 and T3.2 are formally ACCEPTED.
     [x] Next task is T3.3 (odisha.subhadra demo snapshot), assigned to Susmita.
 
-Product Owner Signature: Formal decision recorded in repository governance (21 November 2026)
+Governance Note: Explicit written acceptance recorded in repository governance (21 November 2026).
 ```
