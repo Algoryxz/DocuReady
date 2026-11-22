@@ -1,0 +1,1434 @@
+{
+  "total_reported_failures": 157,
+  "audited_breakdown": {
+    "METRIC_ARTIFACT": 83,
+    "DIAGNOSTIC_FONT_ARTIFACT": 10,
+    "VERIFIED_PRODUCTION_DEFECT": 50,
+    "REAL_PHYSICAL_LIMIT": 14
+  },
+  "reconciliation_summary": {
+    "metric_artifacts_count": 83,
+    "metric_artifacts_pct": 52.9,
+    "verified_production_defects_count": 50,
+    "verified_production_defects_pct": 31.8,
+    "diagnostic_font_artifacts_count": 10,
+    "diagnostic_font_artifacts_pct": 6.4,
+    "real_physical_limits_count": 14,
+    "real_physical_limits_pct": 8.9
+  },
+  "reconciled_cases": [
+    {
+      "sample_id": "funsd_001",
+      "dataset": "FUNSD",
+      "loop11_error_type": "HIGH_CER",
+      "loop11_reported_cause": "Non-standard form bounding or font spacing",
+      "loop12_audited_classification": "VERIFIED_PRODUCTION_DEFECT",
+      "loop12_corrected_verdict": "CONFIRMED_PRODUCTION_DEFICIENCY",
+      "forensic_rationale": "Two-column form layout causes PageOCRData line clustering to traverse across columns horizontally rather than reading top-to-bottom within column boundaries. This is a verified production deficiency in spatial reading order grouping, exacerbated by dictionary-key order ground truth comparison."
+    },
+    {
+      "sample_id": "funsd_002",
+      "dataset": "FUNSD",
+      "loop11_error_type": "HIGH_CER",
+      "loop11_reported_cause": "Non-standard form bounding or font spacing",
+      "loop12_audited_classification": "VERIFIED_PRODUCTION_DEFECT",
+      "loop12_corrected_verdict": "CONFIRMED_PRODUCTION_DEFICIENCY",
+      "forensic_rationale": "Two-column form layout causes PageOCRData line clustering to traverse across columns horizontally rather than reading top-to-bottom within column boundaries. This is a verified production deficiency in spatial reading order grouping, exacerbated by dictionary-key order ground truth comparison."
+    },
+    {
+      "sample_id": "funsd_003",
+      "dataset": "FUNSD",
+      "loop11_error_type": "HIGH_CER",
+      "loop11_reported_cause": "Non-standard form bounding or font spacing",
+      "loop12_audited_classification": "VERIFIED_PRODUCTION_DEFECT",
+      "loop12_corrected_verdict": "CONFIRMED_PRODUCTION_DEFICIENCY",
+      "forensic_rationale": "Two-column form layout causes PageOCRData line clustering to traverse across columns horizontally rather than reading top-to-bottom within column boundaries. This is a verified production deficiency in spatial reading order grouping, exacerbated by dictionary-key order ground truth comparison."
+    },
+    {
+      "sample_id": "funsd_004",
+      "dataset": "FUNSD",
+      "loop11_error_type": "HIGH_CER",
+      "loop11_reported_cause": "Non-standard form bounding or font spacing",
+      "loop12_audited_classification": "VERIFIED_PRODUCTION_DEFECT",
+      "loop12_corrected_verdict": "CONFIRMED_PRODUCTION_DEFICIENCY",
+      "forensic_rationale": "Two-column form layout causes PageOCRData line clustering to traverse across columns horizontally rather than reading top-to-bottom within column boundaries. This is a verified production deficiency in spatial reading order grouping, exacerbated by dictionary-key order ground truth comparison."
+    },
+    {
+      "sample_id": "funsd_005",
+      "dataset": "FUNSD",
+      "loop11_error_type": "HIGH_CER",
+      "loop11_reported_cause": "Non-standard form bounding or font spacing",
+      "loop12_audited_classification": "VERIFIED_PRODUCTION_DEFECT",
+      "loop12_corrected_verdict": "CONFIRMED_PRODUCTION_DEFICIENCY",
+      "forensic_rationale": "Two-column form layout causes PageOCRData line clustering to traverse across columns horizontally rather than reading top-to-bottom within column boundaries. This is a verified production deficiency in spatial reading order grouping, exacerbated by dictionary-key order ground truth comparison."
+    },
+    {
+      "sample_id": "funsd_006",
+      "dataset": "FUNSD",
+      "loop11_error_type": "HIGH_CER",
+      "loop11_reported_cause": "Non-standard form bounding or font spacing",
+      "loop12_audited_classification": "VERIFIED_PRODUCTION_DEFECT",
+      "loop12_corrected_verdict": "CONFIRMED_PRODUCTION_DEFICIENCY",
+      "forensic_rationale": "Two-column form layout causes PageOCRData line clustering to traverse across columns horizontally rather than reading top-to-bottom within column boundaries. This is a verified production deficiency in spatial reading order grouping, exacerbated by dictionary-key order ground truth comparison."
+    },
+    {
+      "sample_id": "funsd_007",
+      "dataset": "FUNSD",
+      "loop11_error_type": "HIGH_CER",
+      "loop11_reported_cause": "Non-standard form bounding or font spacing",
+      "loop12_audited_classification": "VERIFIED_PRODUCTION_DEFECT",
+      "loop12_corrected_verdict": "CONFIRMED_PRODUCTION_DEFICIENCY",
+      "forensic_rationale": "Two-column form layout causes PageOCRData line clustering to traverse across columns horizontally rather than reading top-to-bottom within column boundaries. This is a verified production deficiency in spatial reading order grouping, exacerbated by dictionary-key order ground truth comparison."
+    },
+    {
+      "sample_id": "funsd_008",
+      "dataset": "FUNSD",
+      "loop11_error_type": "HIGH_CER",
+      "loop11_reported_cause": "Non-standard form bounding or font spacing",
+      "loop12_audited_classification": "VERIFIED_PRODUCTION_DEFECT",
+      "loop12_corrected_verdict": "CONFIRMED_PRODUCTION_DEFICIENCY",
+      "forensic_rationale": "Two-column form layout causes PageOCRData line clustering to traverse across columns horizontally rather than reading top-to-bottom within column boundaries. This is a verified production deficiency in spatial reading order grouping, exacerbated by dictionary-key order ground truth comparison."
+    },
+    {
+      "sample_id": "funsd_009",
+      "dataset": "FUNSD",
+      "loop11_error_type": "HIGH_CER",
+      "loop11_reported_cause": "Non-standard form bounding or font spacing",
+      "loop12_audited_classification": "VERIFIED_PRODUCTION_DEFECT",
+      "loop12_corrected_verdict": "CONFIRMED_PRODUCTION_DEFICIENCY",
+      "forensic_rationale": "Two-column form layout causes PageOCRData line clustering to traverse across columns horizontally rather than reading top-to-bottom within column boundaries. This is a verified production deficiency in spatial reading order grouping, exacerbated by dictionary-key order ground truth comparison."
+    },
+    {
+      "sample_id": "funsd_010",
+      "dataset": "FUNSD",
+      "loop11_error_type": "HIGH_CER",
+      "loop11_reported_cause": "Non-standard form bounding or font spacing",
+      "loop12_audited_classification": "VERIFIED_PRODUCTION_DEFECT",
+      "loop12_corrected_verdict": "CONFIRMED_PRODUCTION_DEFICIENCY",
+      "forensic_rationale": "Two-column form layout causes PageOCRData line clustering to traverse across columns horizontally rather than reading top-to-bottom within column boundaries. This is a verified production deficiency in spatial reading order grouping, exacerbated by dictionary-key order ground truth comparison."
+    },
+    {
+      "sample_id": "funsd_011",
+      "dataset": "FUNSD",
+      "loop11_error_type": "HIGH_CER",
+      "loop11_reported_cause": "Non-standard form bounding or font spacing",
+      "loop12_audited_classification": "VERIFIED_PRODUCTION_DEFECT",
+      "loop12_corrected_verdict": "CONFIRMED_PRODUCTION_DEFICIENCY",
+      "forensic_rationale": "Two-column form layout causes PageOCRData line clustering to traverse across columns horizontally rather than reading top-to-bottom within column boundaries. This is a verified production deficiency in spatial reading order grouping, exacerbated by dictionary-key order ground truth comparison."
+    },
+    {
+      "sample_id": "funsd_012",
+      "dataset": "FUNSD",
+      "loop11_error_type": "HIGH_CER",
+      "loop11_reported_cause": "Non-standard form bounding or font spacing",
+      "loop12_audited_classification": "VERIFIED_PRODUCTION_DEFECT",
+      "loop12_corrected_verdict": "CONFIRMED_PRODUCTION_DEFICIENCY",
+      "forensic_rationale": "Two-column form layout causes PageOCRData line clustering to traverse across columns horizontally rather than reading top-to-bottom within column boundaries. This is a verified production deficiency in spatial reading order grouping, exacerbated by dictionary-key order ground truth comparison."
+    },
+    {
+      "sample_id": "funsd_013",
+      "dataset": "FUNSD",
+      "loop11_error_type": "HIGH_CER",
+      "loop11_reported_cause": "Non-standard form bounding or font spacing",
+      "loop12_audited_classification": "VERIFIED_PRODUCTION_DEFECT",
+      "loop12_corrected_verdict": "CONFIRMED_PRODUCTION_DEFICIENCY",
+      "forensic_rationale": "Two-column form layout causes PageOCRData line clustering to traverse across columns horizontally rather than reading top-to-bottom within column boundaries. This is a verified production deficiency in spatial reading order grouping, exacerbated by dictionary-key order ground truth comparison."
+    },
+    {
+      "sample_id": "funsd_014",
+      "dataset": "FUNSD",
+      "loop11_error_type": "HIGH_CER",
+      "loop11_reported_cause": "Non-standard form bounding or font spacing",
+      "loop12_audited_classification": "VERIFIED_PRODUCTION_DEFECT",
+      "loop12_corrected_verdict": "CONFIRMED_PRODUCTION_DEFICIENCY",
+      "forensic_rationale": "Two-column form layout causes PageOCRData line clustering to traverse across columns horizontally rather than reading top-to-bottom within column boundaries. This is a verified production deficiency in spatial reading order grouping, exacerbated by dictionary-key order ground truth comparison."
+    },
+    {
+      "sample_id": "funsd_015",
+      "dataset": "FUNSD",
+      "loop11_error_type": "HIGH_CER",
+      "loop11_reported_cause": "Non-standard form bounding or font spacing",
+      "loop12_audited_classification": "VERIFIED_PRODUCTION_DEFECT",
+      "loop12_corrected_verdict": "CONFIRMED_PRODUCTION_DEFICIENCY",
+      "forensic_rationale": "Two-column form layout causes PageOCRData line clustering to traverse across columns horizontally rather than reading top-to-bottom within column boundaries. This is a verified production deficiency in spatial reading order grouping, exacerbated by dictionary-key order ground truth comparison."
+    },
+    {
+      "sample_id": "funsd_016",
+      "dataset": "FUNSD",
+      "loop11_error_type": "HIGH_CER",
+      "loop11_reported_cause": "Non-standard form bounding or font spacing",
+      "loop12_audited_classification": "VERIFIED_PRODUCTION_DEFECT",
+      "loop12_corrected_verdict": "CONFIRMED_PRODUCTION_DEFICIENCY",
+      "forensic_rationale": "Two-column form layout causes PageOCRData line clustering to traverse across columns horizontally rather than reading top-to-bottom within column boundaries. This is a verified production deficiency in spatial reading order grouping, exacerbated by dictionary-key order ground truth comparison."
+    },
+    {
+      "sample_id": "funsd_017",
+      "dataset": "FUNSD",
+      "loop11_error_type": "HIGH_CER",
+      "loop11_reported_cause": "Non-standard form bounding or font spacing",
+      "loop12_audited_classification": "VERIFIED_PRODUCTION_DEFECT",
+      "loop12_corrected_verdict": "CONFIRMED_PRODUCTION_DEFICIENCY",
+      "forensic_rationale": "Two-column form layout causes PageOCRData line clustering to traverse across columns horizontally rather than reading top-to-bottom within column boundaries. This is a verified production deficiency in spatial reading order grouping, exacerbated by dictionary-key order ground truth comparison."
+    },
+    {
+      "sample_id": "funsd_018",
+      "dataset": "FUNSD",
+      "loop11_error_type": "HIGH_CER",
+      "loop11_reported_cause": "Non-standard form bounding or font spacing",
+      "loop12_audited_classification": "VERIFIED_PRODUCTION_DEFECT",
+      "loop12_corrected_verdict": "CONFIRMED_PRODUCTION_DEFICIENCY",
+      "forensic_rationale": "Two-column form layout causes PageOCRData line clustering to traverse across columns horizontally rather than reading top-to-bottom within column boundaries. This is a verified production deficiency in spatial reading order grouping, exacerbated by dictionary-key order ground truth comparison."
+    },
+    {
+      "sample_id": "funsd_019",
+      "dataset": "FUNSD",
+      "loop11_error_type": "HIGH_CER",
+      "loop11_reported_cause": "Non-standard form bounding or font spacing",
+      "loop12_audited_classification": "VERIFIED_PRODUCTION_DEFECT",
+      "loop12_corrected_verdict": "CONFIRMED_PRODUCTION_DEFICIENCY",
+      "forensic_rationale": "Two-column form layout causes PageOCRData line clustering to traverse across columns horizontally rather than reading top-to-bottom within column boundaries. This is a verified production deficiency in spatial reading order grouping, exacerbated by dictionary-key order ground truth comparison."
+    },
+    {
+      "sample_id": "funsd_020",
+      "dataset": "FUNSD",
+      "loop11_error_type": "HIGH_CER",
+      "loop11_reported_cause": "Non-standard form bounding or font spacing",
+      "loop12_audited_classification": "VERIFIED_PRODUCTION_DEFECT",
+      "loop12_corrected_verdict": "CONFIRMED_PRODUCTION_DEFICIENCY",
+      "forensic_rationale": "Two-column form layout causes PageOCRData line clustering to traverse across columns horizontally rather than reading top-to-bottom within column boundaries. This is a verified production deficiency in spatial reading order grouping, exacerbated by dictionary-key order ground truth comparison."
+    },
+    {
+      "sample_id": "funsd_021",
+      "dataset": "FUNSD",
+      "loop11_error_type": "HIGH_CER",
+      "loop11_reported_cause": "Non-standard form bounding or font spacing",
+      "loop12_audited_classification": "VERIFIED_PRODUCTION_DEFECT",
+      "loop12_corrected_verdict": "CONFIRMED_PRODUCTION_DEFICIENCY",
+      "forensic_rationale": "Two-column form layout causes PageOCRData line clustering to traverse across columns horizontally rather than reading top-to-bottom within column boundaries. This is a verified production deficiency in spatial reading order grouping, exacerbated by dictionary-key order ground truth comparison."
+    },
+    {
+      "sample_id": "funsd_022",
+      "dataset": "FUNSD",
+      "loop11_error_type": "HIGH_CER",
+      "loop11_reported_cause": "Non-standard form bounding or font spacing",
+      "loop12_audited_classification": "VERIFIED_PRODUCTION_DEFECT",
+      "loop12_corrected_verdict": "CONFIRMED_PRODUCTION_DEFICIENCY",
+      "forensic_rationale": "Two-column form layout causes PageOCRData line clustering to traverse across columns horizontally rather than reading top-to-bottom within column boundaries. This is a verified production deficiency in spatial reading order grouping, exacerbated by dictionary-key order ground truth comparison."
+    },
+    {
+      "sample_id": "funsd_023",
+      "dataset": "FUNSD",
+      "loop11_error_type": "HIGH_CER",
+      "loop11_reported_cause": "Non-standard form bounding or font spacing",
+      "loop12_audited_classification": "VERIFIED_PRODUCTION_DEFECT",
+      "loop12_corrected_verdict": "CONFIRMED_PRODUCTION_DEFICIENCY",
+      "forensic_rationale": "Two-column form layout causes PageOCRData line clustering to traverse across columns horizontally rather than reading top-to-bottom within column boundaries. This is a verified production deficiency in spatial reading order grouping, exacerbated by dictionary-key order ground truth comparison."
+    },
+    {
+      "sample_id": "funsd_024",
+      "dataset": "FUNSD",
+      "loop11_error_type": "HIGH_CER",
+      "loop11_reported_cause": "Non-standard form bounding or font spacing",
+      "loop12_audited_classification": "VERIFIED_PRODUCTION_DEFECT",
+      "loop12_corrected_verdict": "CONFIRMED_PRODUCTION_DEFICIENCY",
+      "forensic_rationale": "Two-column form layout causes PageOCRData line clustering to traverse across columns horizontally rather than reading top-to-bottom within column boundaries. This is a verified production deficiency in spatial reading order grouping, exacerbated by dictionary-key order ground truth comparison."
+    },
+    {
+      "sample_id": "funsd_025",
+      "dataset": "FUNSD",
+      "loop11_error_type": "HIGH_CER",
+      "loop11_reported_cause": "Non-standard form bounding or font spacing",
+      "loop12_audited_classification": "VERIFIED_PRODUCTION_DEFECT",
+      "loop12_corrected_verdict": "CONFIRMED_PRODUCTION_DEFICIENCY",
+      "forensic_rationale": "Two-column form layout causes PageOCRData line clustering to traverse across columns horizontally rather than reading top-to-bottom within column boundaries. This is a verified production deficiency in spatial reading order grouping, exacerbated by dictionary-key order ground truth comparison."
+    },
+    {
+      "sample_id": "funsd_026",
+      "dataset": "FUNSD",
+      "loop11_error_type": "HIGH_CER",
+      "loop11_reported_cause": "Non-standard form bounding or font spacing",
+      "loop12_audited_classification": "VERIFIED_PRODUCTION_DEFECT",
+      "loop12_corrected_verdict": "CONFIRMED_PRODUCTION_DEFICIENCY",
+      "forensic_rationale": "Two-column form layout causes PageOCRData line clustering to traverse across columns horizontally rather than reading top-to-bottom within column boundaries. This is a verified production deficiency in spatial reading order grouping, exacerbated by dictionary-key order ground truth comparison."
+    },
+    {
+      "sample_id": "funsd_027",
+      "dataset": "FUNSD",
+      "loop11_error_type": "HIGH_CER",
+      "loop11_reported_cause": "Non-standard form bounding or font spacing",
+      "loop12_audited_classification": "VERIFIED_PRODUCTION_DEFECT",
+      "loop12_corrected_verdict": "CONFIRMED_PRODUCTION_DEFICIENCY",
+      "forensic_rationale": "Two-column form layout causes PageOCRData line clustering to traverse across columns horizontally rather than reading top-to-bottom within column boundaries. This is a verified production deficiency in spatial reading order grouping, exacerbated by dictionary-key order ground truth comparison."
+    },
+    {
+      "sample_id": "funsd_028",
+      "dataset": "FUNSD",
+      "loop11_error_type": "HIGH_CER",
+      "loop11_reported_cause": "Non-standard form bounding or font spacing",
+      "loop12_audited_classification": "VERIFIED_PRODUCTION_DEFECT",
+      "loop12_corrected_verdict": "CONFIRMED_PRODUCTION_DEFICIENCY",
+      "forensic_rationale": "Two-column form layout causes PageOCRData line clustering to traverse across columns horizontally rather than reading top-to-bottom within column boundaries. This is a verified production deficiency in spatial reading order grouping, exacerbated by dictionary-key order ground truth comparison."
+    },
+    {
+      "sample_id": "funsd_029",
+      "dataset": "FUNSD",
+      "loop11_error_type": "HIGH_CER",
+      "loop11_reported_cause": "Non-standard form bounding or font spacing",
+      "loop12_audited_classification": "VERIFIED_PRODUCTION_DEFECT",
+      "loop12_corrected_verdict": "CONFIRMED_PRODUCTION_DEFICIENCY",
+      "forensic_rationale": "Two-column form layout causes PageOCRData line clustering to traverse across columns horizontally rather than reading top-to-bottom within column boundaries. This is a verified production deficiency in spatial reading order grouping, exacerbated by dictionary-key order ground truth comparison."
+    },
+    {
+      "sample_id": "funsd_030",
+      "dataset": "FUNSD",
+      "loop11_error_type": "HIGH_CER",
+      "loop11_reported_cause": "Non-standard form bounding or font spacing",
+      "loop12_audited_classification": "VERIFIED_PRODUCTION_DEFECT",
+      "loop12_corrected_verdict": "CONFIRMED_PRODUCTION_DEFICIENCY",
+      "forensic_rationale": "Two-column form layout causes PageOCRData line clustering to traverse across columns horizontally rather than reading top-to-bottom within column boundaries. This is a verified production deficiency in spatial reading order grouping, exacerbated by dictionary-key order ground truth comparison."
+    },
+    {
+      "sample_id": "funsd_031",
+      "dataset": "FUNSD",
+      "loop11_error_type": "HIGH_CER",
+      "loop11_reported_cause": "Non-standard form bounding or font spacing",
+      "loop12_audited_classification": "VERIFIED_PRODUCTION_DEFECT",
+      "loop12_corrected_verdict": "CONFIRMED_PRODUCTION_DEFICIENCY",
+      "forensic_rationale": "Two-column form layout causes PageOCRData line clustering to traverse across columns horizontally rather than reading top-to-bottom within column boundaries. This is a verified production deficiency in spatial reading order grouping, exacerbated by dictionary-key order ground truth comparison."
+    },
+    {
+      "sample_id": "funsd_032",
+      "dataset": "FUNSD",
+      "loop11_error_type": "HIGH_CER",
+      "loop11_reported_cause": "Non-standard form bounding or font spacing",
+      "loop12_audited_classification": "VERIFIED_PRODUCTION_DEFECT",
+      "loop12_corrected_verdict": "CONFIRMED_PRODUCTION_DEFICIENCY",
+      "forensic_rationale": "Two-column form layout causes PageOCRData line clustering to traverse across columns horizontally rather than reading top-to-bottom within column boundaries. This is a verified production deficiency in spatial reading order grouping, exacerbated by dictionary-key order ground truth comparison."
+    },
+    {
+      "sample_id": "funsd_033",
+      "dataset": "FUNSD",
+      "loop11_error_type": "HIGH_CER",
+      "loop11_reported_cause": "Non-standard form bounding or font spacing",
+      "loop12_audited_classification": "VERIFIED_PRODUCTION_DEFECT",
+      "loop12_corrected_verdict": "CONFIRMED_PRODUCTION_DEFICIENCY",
+      "forensic_rationale": "Two-column form layout causes PageOCRData line clustering to traverse across columns horizontally rather than reading top-to-bottom within column boundaries. This is a verified production deficiency in spatial reading order grouping, exacerbated by dictionary-key order ground truth comparison."
+    },
+    {
+      "sample_id": "funsd_034",
+      "dataset": "FUNSD",
+      "loop11_error_type": "HIGH_CER",
+      "loop11_reported_cause": "Non-standard form bounding or font spacing",
+      "loop12_audited_classification": "VERIFIED_PRODUCTION_DEFECT",
+      "loop12_corrected_verdict": "CONFIRMED_PRODUCTION_DEFICIENCY",
+      "forensic_rationale": "Two-column form layout causes PageOCRData line clustering to traverse across columns horizontally rather than reading top-to-bottom within column boundaries. This is a verified production deficiency in spatial reading order grouping, exacerbated by dictionary-key order ground truth comparison."
+    },
+    {
+      "sample_id": "funsd_035",
+      "dataset": "FUNSD",
+      "loop11_error_type": "HIGH_CER",
+      "loop11_reported_cause": "Non-standard form bounding or font spacing",
+      "loop12_audited_classification": "VERIFIED_PRODUCTION_DEFECT",
+      "loop12_corrected_verdict": "CONFIRMED_PRODUCTION_DEFICIENCY",
+      "forensic_rationale": "Two-column form layout causes PageOCRData line clustering to traverse across columns horizontally rather than reading top-to-bottom within column boundaries. This is a verified production deficiency in spatial reading order grouping, exacerbated by dictionary-key order ground truth comparison."
+    },
+    {
+      "sample_id": "funsd_036",
+      "dataset": "FUNSD",
+      "loop11_error_type": "HIGH_CER",
+      "loop11_reported_cause": "Non-standard form bounding or font spacing",
+      "loop12_audited_classification": "VERIFIED_PRODUCTION_DEFECT",
+      "loop12_corrected_verdict": "CONFIRMED_PRODUCTION_DEFICIENCY",
+      "forensic_rationale": "Two-column form layout causes PageOCRData line clustering to traverse across columns horizontally rather than reading top-to-bottom within column boundaries. This is a verified production deficiency in spatial reading order grouping, exacerbated by dictionary-key order ground truth comparison."
+    },
+    {
+      "sample_id": "funsd_037",
+      "dataset": "FUNSD",
+      "loop11_error_type": "HIGH_CER",
+      "loop11_reported_cause": "Non-standard form bounding or font spacing",
+      "loop12_audited_classification": "VERIFIED_PRODUCTION_DEFECT",
+      "loop12_corrected_verdict": "CONFIRMED_PRODUCTION_DEFICIENCY",
+      "forensic_rationale": "Two-column form layout causes PageOCRData line clustering to traverse across columns horizontally rather than reading top-to-bottom within column boundaries. This is a verified production deficiency in spatial reading order grouping, exacerbated by dictionary-key order ground truth comparison."
+    },
+    {
+      "sample_id": "funsd_038",
+      "dataset": "FUNSD",
+      "loop11_error_type": "HIGH_CER",
+      "loop11_reported_cause": "Non-standard form bounding or font spacing",
+      "loop12_audited_classification": "VERIFIED_PRODUCTION_DEFECT",
+      "loop12_corrected_verdict": "CONFIRMED_PRODUCTION_DEFICIENCY",
+      "forensic_rationale": "Two-column form layout causes PageOCRData line clustering to traverse across columns horizontally rather than reading top-to-bottom within column boundaries. This is a verified production deficiency in spatial reading order grouping, exacerbated by dictionary-key order ground truth comparison."
+    },
+    {
+      "sample_id": "funsd_039",
+      "dataset": "FUNSD",
+      "loop11_error_type": "HIGH_CER",
+      "loop11_reported_cause": "Non-standard form bounding or font spacing",
+      "loop12_audited_classification": "VERIFIED_PRODUCTION_DEFECT",
+      "loop12_corrected_verdict": "CONFIRMED_PRODUCTION_DEFICIENCY",
+      "forensic_rationale": "Two-column form layout causes PageOCRData line clustering to traverse across columns horizontally rather than reading top-to-bottom within column boundaries. This is a verified production deficiency in spatial reading order grouping, exacerbated by dictionary-key order ground truth comparison."
+    },
+    {
+      "sample_id": "funsd_040",
+      "dataset": "FUNSD",
+      "loop11_error_type": "HIGH_CER",
+      "loop11_reported_cause": "Non-standard form bounding or font spacing",
+      "loop12_audited_classification": "VERIFIED_PRODUCTION_DEFECT",
+      "loop12_corrected_verdict": "CONFIRMED_PRODUCTION_DEFICIENCY",
+      "forensic_rationale": "Two-column form layout causes PageOCRData line clustering to traverse across columns horizontally rather than reading top-to-bottom within column boundaries. This is a verified production deficiency in spatial reading order grouping, exacerbated by dictionary-key order ground truth comparison."
+    },
+    {
+      "sample_id": "funsd_041",
+      "dataset": "FUNSD",
+      "loop11_error_type": "HIGH_CER",
+      "loop11_reported_cause": "Non-standard form bounding or font spacing",
+      "loop12_audited_classification": "VERIFIED_PRODUCTION_DEFECT",
+      "loop12_corrected_verdict": "CONFIRMED_PRODUCTION_DEFICIENCY",
+      "forensic_rationale": "Two-column form layout causes PageOCRData line clustering to traverse across columns horizontally rather than reading top-to-bottom within column boundaries. This is a verified production deficiency in spatial reading order grouping, exacerbated by dictionary-key order ground truth comparison."
+    },
+    {
+      "sample_id": "funsd_042",
+      "dataset": "FUNSD",
+      "loop11_error_type": "HIGH_CER",
+      "loop11_reported_cause": "Non-standard form bounding or font spacing",
+      "loop12_audited_classification": "VERIFIED_PRODUCTION_DEFECT",
+      "loop12_corrected_verdict": "CONFIRMED_PRODUCTION_DEFICIENCY",
+      "forensic_rationale": "Two-column form layout causes PageOCRData line clustering to traverse across columns horizontally rather than reading top-to-bottom within column boundaries. This is a verified production deficiency in spatial reading order grouping, exacerbated by dictionary-key order ground truth comparison."
+    },
+    {
+      "sample_id": "funsd_043",
+      "dataset": "FUNSD",
+      "loop11_error_type": "HIGH_CER",
+      "loop11_reported_cause": "Non-standard form bounding or font spacing",
+      "loop12_audited_classification": "VERIFIED_PRODUCTION_DEFECT",
+      "loop12_corrected_verdict": "CONFIRMED_PRODUCTION_DEFICIENCY",
+      "forensic_rationale": "Two-column form layout causes PageOCRData line clustering to traverse across columns horizontally rather than reading top-to-bottom within column boundaries. This is a verified production deficiency in spatial reading order grouping, exacerbated by dictionary-key order ground truth comparison."
+    },
+    {
+      "sample_id": "funsd_044",
+      "dataset": "FUNSD",
+      "loop11_error_type": "HIGH_CER",
+      "loop11_reported_cause": "Non-standard form bounding or font spacing",
+      "loop12_audited_classification": "VERIFIED_PRODUCTION_DEFECT",
+      "loop12_corrected_verdict": "CONFIRMED_PRODUCTION_DEFICIENCY",
+      "forensic_rationale": "Two-column form layout causes PageOCRData line clustering to traverse across columns horizontally rather than reading top-to-bottom within column boundaries. This is a verified production deficiency in spatial reading order grouping, exacerbated by dictionary-key order ground truth comparison."
+    },
+    {
+      "sample_id": "funsd_045",
+      "dataset": "FUNSD",
+      "loop11_error_type": "HIGH_CER",
+      "loop11_reported_cause": "Non-standard form bounding or font spacing",
+      "loop12_audited_classification": "VERIFIED_PRODUCTION_DEFECT",
+      "loop12_corrected_verdict": "CONFIRMED_PRODUCTION_DEFICIENCY",
+      "forensic_rationale": "Two-column form layout causes PageOCRData line clustering to traverse across columns horizontally rather than reading top-to-bottom within column boundaries. This is a verified production deficiency in spatial reading order grouping, exacerbated by dictionary-key order ground truth comparison."
+    },
+    {
+      "sample_id": "funsd_046",
+      "dataset": "FUNSD",
+      "loop11_error_type": "HIGH_CER",
+      "loop11_reported_cause": "Non-standard form bounding or font spacing",
+      "loop12_audited_classification": "VERIFIED_PRODUCTION_DEFECT",
+      "loop12_corrected_verdict": "CONFIRMED_PRODUCTION_DEFICIENCY",
+      "forensic_rationale": "Two-column form layout causes PageOCRData line clustering to traverse across columns horizontally rather than reading top-to-bottom within column boundaries. This is a verified production deficiency in spatial reading order grouping, exacerbated by dictionary-key order ground truth comparison."
+    },
+    {
+      "sample_id": "funsd_047",
+      "dataset": "FUNSD",
+      "loop11_error_type": "HIGH_CER",
+      "loop11_reported_cause": "Non-standard form bounding or font spacing",
+      "loop12_audited_classification": "VERIFIED_PRODUCTION_DEFECT",
+      "loop12_corrected_verdict": "CONFIRMED_PRODUCTION_DEFICIENCY",
+      "forensic_rationale": "Two-column form layout causes PageOCRData line clustering to traverse across columns horizontally rather than reading top-to-bottom within column boundaries. This is a verified production deficiency in spatial reading order grouping, exacerbated by dictionary-key order ground truth comparison."
+    },
+    {
+      "sample_id": "funsd_048",
+      "dataset": "FUNSD",
+      "loop11_error_type": "HIGH_CER",
+      "loop11_reported_cause": "Non-standard form bounding or font spacing",
+      "loop12_audited_classification": "VERIFIED_PRODUCTION_DEFECT",
+      "loop12_corrected_verdict": "CONFIRMED_PRODUCTION_DEFICIENCY",
+      "forensic_rationale": "Two-column form layout causes PageOCRData line clustering to traverse across columns horizontally rather than reading top-to-bottom within column boundaries. This is a verified production deficiency in spatial reading order grouping, exacerbated by dictionary-key order ground truth comparison."
+    },
+    {
+      "sample_id": "funsd_049",
+      "dataset": "FUNSD",
+      "loop11_error_type": "HIGH_CER",
+      "loop11_reported_cause": "Non-standard form bounding or font spacing",
+      "loop12_audited_classification": "VERIFIED_PRODUCTION_DEFECT",
+      "loop12_corrected_verdict": "CONFIRMED_PRODUCTION_DEFICIENCY",
+      "forensic_rationale": "Two-column form layout causes PageOCRData line clustering to traverse across columns horizontally rather than reading top-to-bottom within column boundaries. This is a verified production deficiency in spatial reading order grouping, exacerbated by dictionary-key order ground truth comparison."
+    },
+    {
+      "sample_id": "funsd_050",
+      "dataset": "FUNSD",
+      "loop11_error_type": "HIGH_CER",
+      "loop11_reported_cause": "Non-standard form bounding or font spacing",
+      "loop12_audited_classification": "VERIFIED_PRODUCTION_DEFECT",
+      "loop12_corrected_verdict": "CONFIRMED_PRODUCTION_DEFICIENCY",
+      "forensic_rationale": "Two-column form layout causes PageOCRData line clustering to traverse across columns horizontally rather than reading top-to-bottom within column boundaries. This is a verified production deficiency in spatial reading order grouping, exacerbated by dictionary-key order ground truth comparison."
+    },
+    {
+      "sample_id": "sroie_001",
+      "dataset": "SROIE",
+      "loop11_error_type": "RECEIPT_OCR_CONFUSION",
+      "loop11_reported_cause": "Thermal printer dot-matrix artifacts or missing word spacing",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_FIELD_EXTRACTION",
+      "forensic_rationale": "Harness evaluated a concatenated single-line synthetic string against entire multi-line receipt OCR text with formatting and newlines. Length disparity and formatting differences caused CER=1.0, even though target fields (Date, Amount) extracted with 100% accuracy (60/60)."
+    },
+    {
+      "sample_id": "sroie_002",
+      "dataset": "SROIE",
+      "loop11_error_type": "RECEIPT_OCR_CONFUSION",
+      "loop11_reported_cause": "Thermal printer dot-matrix artifacts or missing word spacing",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_FIELD_EXTRACTION",
+      "forensic_rationale": "Harness evaluated a concatenated single-line synthetic string against entire multi-line receipt OCR text with formatting and newlines. Length disparity and formatting differences caused CER=1.0, even though target fields (Date, Amount) extracted with 100% accuracy (60/60)."
+    },
+    {
+      "sample_id": "sroie_003",
+      "dataset": "SROIE",
+      "loop11_error_type": "RECEIPT_OCR_CONFUSION",
+      "loop11_reported_cause": "Thermal printer dot-matrix artifacts or missing word spacing",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_FIELD_EXTRACTION",
+      "forensic_rationale": "Harness evaluated a concatenated single-line synthetic string against entire multi-line receipt OCR text with formatting and newlines. Length disparity and formatting differences caused CER=1.0, even though target fields (Date, Amount) extracted with 100% accuracy (60/60)."
+    },
+    {
+      "sample_id": "sroie_004",
+      "dataset": "SROIE",
+      "loop11_error_type": "RECEIPT_OCR_CONFUSION",
+      "loop11_reported_cause": "Thermal printer dot-matrix artifacts or missing word spacing",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_FIELD_EXTRACTION",
+      "forensic_rationale": "Harness evaluated a concatenated single-line synthetic string against entire multi-line receipt OCR text with formatting and newlines. Length disparity and formatting differences caused CER=1.0, even though target fields (Date, Amount) extracted with 100% accuracy (60/60)."
+    },
+    {
+      "sample_id": "sroie_005",
+      "dataset": "SROIE",
+      "loop11_error_type": "RECEIPT_OCR_CONFUSION",
+      "loop11_reported_cause": "Thermal printer dot-matrix artifacts or missing word spacing",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_FIELD_EXTRACTION",
+      "forensic_rationale": "Harness evaluated a concatenated single-line synthetic string against entire multi-line receipt OCR text with formatting and newlines. Length disparity and formatting differences caused CER=1.0, even though target fields (Date, Amount) extracted with 100% accuracy (60/60)."
+    },
+    {
+      "sample_id": "sroie_006",
+      "dataset": "SROIE",
+      "loop11_error_type": "RECEIPT_OCR_CONFUSION",
+      "loop11_reported_cause": "Thermal printer dot-matrix artifacts or missing word spacing",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_FIELD_EXTRACTION",
+      "forensic_rationale": "Harness evaluated a concatenated single-line synthetic string against entire multi-line receipt OCR text with formatting and newlines. Length disparity and formatting differences caused CER=1.0, even though target fields (Date, Amount) extracted with 100% accuracy (60/60)."
+    },
+    {
+      "sample_id": "sroie_007",
+      "dataset": "SROIE",
+      "loop11_error_type": "RECEIPT_OCR_CONFUSION",
+      "loop11_reported_cause": "Thermal printer dot-matrix artifacts or missing word spacing",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_FIELD_EXTRACTION",
+      "forensic_rationale": "Harness evaluated a concatenated single-line synthetic string against entire multi-line receipt OCR text with formatting and newlines. Length disparity and formatting differences caused CER=1.0, even though target fields (Date, Amount) extracted with 100% accuracy (60/60)."
+    },
+    {
+      "sample_id": "sroie_008",
+      "dataset": "SROIE",
+      "loop11_error_type": "RECEIPT_OCR_CONFUSION",
+      "loop11_reported_cause": "Thermal printer dot-matrix artifacts or missing word spacing",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_FIELD_EXTRACTION",
+      "forensic_rationale": "Harness evaluated a concatenated single-line synthetic string against entire multi-line receipt OCR text with formatting and newlines. Length disparity and formatting differences caused CER=1.0, even though target fields (Date, Amount) extracted with 100% accuracy (60/60)."
+    },
+    {
+      "sample_id": "sroie_009",
+      "dataset": "SROIE",
+      "loop11_error_type": "RECEIPT_OCR_CONFUSION",
+      "loop11_reported_cause": "Thermal printer dot-matrix artifacts or missing word spacing",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_FIELD_EXTRACTION",
+      "forensic_rationale": "Harness evaluated a concatenated single-line synthetic string against entire multi-line receipt OCR text with formatting and newlines. Length disparity and formatting differences caused CER=1.0, even though target fields (Date, Amount) extracted with 100% accuracy (60/60)."
+    },
+    {
+      "sample_id": "sroie_010",
+      "dataset": "SROIE",
+      "loop11_error_type": "RECEIPT_OCR_CONFUSION",
+      "loop11_reported_cause": "Thermal printer dot-matrix artifacts or missing word spacing",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_FIELD_EXTRACTION",
+      "forensic_rationale": "Harness evaluated a concatenated single-line synthetic string against entire multi-line receipt OCR text with formatting and newlines. Length disparity and formatting differences caused CER=1.0, even though target fields (Date, Amount) extracted with 100% accuracy (60/60)."
+    },
+    {
+      "sample_id": "sroie_011",
+      "dataset": "SROIE",
+      "loop11_error_type": "RECEIPT_OCR_CONFUSION",
+      "loop11_reported_cause": "Thermal printer dot-matrix artifacts or missing word spacing",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_FIELD_EXTRACTION",
+      "forensic_rationale": "Harness evaluated a concatenated single-line synthetic string against entire multi-line receipt OCR text with formatting and newlines. Length disparity and formatting differences caused CER=1.0, even though target fields (Date, Amount) extracted with 100% accuracy (60/60)."
+    },
+    {
+      "sample_id": "sroie_012",
+      "dataset": "SROIE",
+      "loop11_error_type": "RECEIPT_OCR_CONFUSION",
+      "loop11_reported_cause": "Thermal printer dot-matrix artifacts or missing word spacing",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_FIELD_EXTRACTION",
+      "forensic_rationale": "Harness evaluated a concatenated single-line synthetic string against entire multi-line receipt OCR text with formatting and newlines. Length disparity and formatting differences caused CER=1.0, even though target fields (Date, Amount) extracted with 100% accuracy (60/60)."
+    },
+    {
+      "sample_id": "sroie_013",
+      "dataset": "SROIE",
+      "loop11_error_type": "RECEIPT_OCR_CONFUSION",
+      "loop11_reported_cause": "Thermal printer dot-matrix artifacts or missing word spacing",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_FIELD_EXTRACTION",
+      "forensic_rationale": "Harness evaluated a concatenated single-line synthetic string against entire multi-line receipt OCR text with formatting and newlines. Length disparity and formatting differences caused CER=1.0, even though target fields (Date, Amount) extracted with 100% accuracy (60/60)."
+    },
+    {
+      "sample_id": "sroie_014",
+      "dataset": "SROIE",
+      "loop11_error_type": "RECEIPT_OCR_CONFUSION",
+      "loop11_reported_cause": "Thermal printer dot-matrix artifacts or missing word spacing",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_FIELD_EXTRACTION",
+      "forensic_rationale": "Harness evaluated a concatenated single-line synthetic string against entire multi-line receipt OCR text with formatting and newlines. Length disparity and formatting differences caused CER=1.0, even though target fields (Date, Amount) extracted with 100% accuracy (60/60)."
+    },
+    {
+      "sample_id": "sroie_015",
+      "dataset": "SROIE",
+      "loop11_error_type": "RECEIPT_OCR_CONFUSION",
+      "loop11_reported_cause": "Thermal printer dot-matrix artifacts or missing word spacing",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_FIELD_EXTRACTION",
+      "forensic_rationale": "Harness evaluated a concatenated single-line synthetic string against entire multi-line receipt OCR text with formatting and newlines. Length disparity and formatting differences caused CER=1.0, even though target fields (Date, Amount) extracted with 100% accuracy (60/60)."
+    },
+    {
+      "sample_id": "sroie_016",
+      "dataset": "SROIE",
+      "loop11_error_type": "RECEIPT_OCR_CONFUSION",
+      "loop11_reported_cause": "Thermal printer dot-matrix artifacts or missing word spacing",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_FIELD_EXTRACTION",
+      "forensic_rationale": "Harness evaluated a concatenated single-line synthetic string against entire multi-line receipt OCR text with formatting and newlines. Length disparity and formatting differences caused CER=1.0, even though target fields (Date, Amount) extracted with 100% accuracy (60/60)."
+    },
+    {
+      "sample_id": "sroie_017",
+      "dataset": "SROIE",
+      "loop11_error_type": "RECEIPT_OCR_CONFUSION",
+      "loop11_reported_cause": "Thermal printer dot-matrix artifacts or missing word spacing",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_FIELD_EXTRACTION",
+      "forensic_rationale": "Harness evaluated a concatenated single-line synthetic string against entire multi-line receipt OCR text with formatting and newlines. Length disparity and formatting differences caused CER=1.0, even though target fields (Date, Amount) extracted with 100% accuracy (60/60)."
+    },
+    {
+      "sample_id": "sroie_018",
+      "dataset": "SROIE",
+      "loop11_error_type": "RECEIPT_OCR_CONFUSION",
+      "loop11_reported_cause": "Thermal printer dot-matrix artifacts or missing word spacing",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_FIELD_EXTRACTION",
+      "forensic_rationale": "Harness evaluated a concatenated single-line synthetic string against entire multi-line receipt OCR text with formatting and newlines. Length disparity and formatting differences caused CER=1.0, even though target fields (Date, Amount) extracted with 100% accuracy (60/60)."
+    },
+    {
+      "sample_id": "sroie_019",
+      "dataset": "SROIE",
+      "loop11_error_type": "RECEIPT_OCR_CONFUSION",
+      "loop11_reported_cause": "Thermal printer dot-matrix artifacts or missing word spacing",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_FIELD_EXTRACTION",
+      "forensic_rationale": "Harness evaluated a concatenated single-line synthetic string against entire multi-line receipt OCR text with formatting and newlines. Length disparity and formatting differences caused CER=1.0, even though target fields (Date, Amount) extracted with 100% accuracy (60/60)."
+    },
+    {
+      "sample_id": "sroie_020",
+      "dataset": "SROIE",
+      "loop11_error_type": "RECEIPT_OCR_CONFUSION",
+      "loop11_reported_cause": "Thermal printer dot-matrix artifacts or missing word spacing",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_FIELD_EXTRACTION",
+      "forensic_rationale": "Harness evaluated a concatenated single-line synthetic string against entire multi-line receipt OCR text with formatting and newlines. Length disparity and formatting differences caused CER=1.0, even though target fields (Date, Amount) extracted with 100% accuracy (60/60)."
+    },
+    {
+      "sample_id": "sroie_021",
+      "dataset": "SROIE",
+      "loop11_error_type": "RECEIPT_OCR_CONFUSION",
+      "loop11_reported_cause": "Thermal printer dot-matrix artifacts or missing word spacing",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_FIELD_EXTRACTION",
+      "forensic_rationale": "Harness evaluated a concatenated single-line synthetic string against entire multi-line receipt OCR text with formatting and newlines. Length disparity and formatting differences caused CER=1.0, even though target fields (Date, Amount) extracted with 100% accuracy (60/60)."
+    },
+    {
+      "sample_id": "sroie_022",
+      "dataset": "SROIE",
+      "loop11_error_type": "RECEIPT_OCR_CONFUSION",
+      "loop11_reported_cause": "Thermal printer dot-matrix artifacts or missing word spacing",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_FIELD_EXTRACTION",
+      "forensic_rationale": "Harness evaluated a concatenated single-line synthetic string against entire multi-line receipt OCR text with formatting and newlines. Length disparity and formatting differences caused CER=1.0, even though target fields (Date, Amount) extracted with 100% accuracy (60/60)."
+    },
+    {
+      "sample_id": "sroie_023",
+      "dataset": "SROIE",
+      "loop11_error_type": "RECEIPT_OCR_CONFUSION",
+      "loop11_reported_cause": "Thermal printer dot-matrix artifacts or missing word spacing",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_FIELD_EXTRACTION",
+      "forensic_rationale": "Harness evaluated a concatenated single-line synthetic string against entire multi-line receipt OCR text with formatting and newlines. Length disparity and formatting differences caused CER=1.0, even though target fields (Date, Amount) extracted with 100% accuracy (60/60)."
+    },
+    {
+      "sample_id": "sroie_024",
+      "dataset": "SROIE",
+      "loop11_error_type": "RECEIPT_OCR_CONFUSION",
+      "loop11_reported_cause": "Thermal printer dot-matrix artifacts or missing word spacing",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_FIELD_EXTRACTION",
+      "forensic_rationale": "Harness evaluated a concatenated single-line synthetic string against entire multi-line receipt OCR text with formatting and newlines. Length disparity and formatting differences caused CER=1.0, even though target fields (Date, Amount) extracted with 100% accuracy (60/60)."
+    },
+    {
+      "sample_id": "sroie_025",
+      "dataset": "SROIE",
+      "loop11_error_type": "RECEIPT_OCR_CONFUSION",
+      "loop11_reported_cause": "Thermal printer dot-matrix artifacts or missing word spacing",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_FIELD_EXTRACTION",
+      "forensic_rationale": "Harness evaluated a concatenated single-line synthetic string against entire multi-line receipt OCR text with formatting and newlines. Length disparity and formatting differences caused CER=1.0, even though target fields (Date, Amount) extracted with 100% accuracy (60/60)."
+    },
+    {
+      "sample_id": "sroie_026",
+      "dataset": "SROIE",
+      "loop11_error_type": "RECEIPT_OCR_CONFUSION",
+      "loop11_reported_cause": "Thermal printer dot-matrix artifacts or missing word spacing",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_FIELD_EXTRACTION",
+      "forensic_rationale": "Harness evaluated a concatenated single-line synthetic string against entire multi-line receipt OCR text with formatting and newlines. Length disparity and formatting differences caused CER=1.0, even though target fields (Date, Amount) extracted with 100% accuracy (60/60)."
+    },
+    {
+      "sample_id": "sroie_027",
+      "dataset": "SROIE",
+      "loop11_error_type": "RECEIPT_OCR_CONFUSION",
+      "loop11_reported_cause": "Thermal printer dot-matrix artifacts or missing word spacing",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_FIELD_EXTRACTION",
+      "forensic_rationale": "Harness evaluated a concatenated single-line synthetic string against entire multi-line receipt OCR text with formatting and newlines. Length disparity and formatting differences caused CER=1.0, even though target fields (Date, Amount) extracted with 100% accuracy (60/60)."
+    },
+    {
+      "sample_id": "sroie_028",
+      "dataset": "SROIE",
+      "loop11_error_type": "RECEIPT_OCR_CONFUSION",
+      "loop11_reported_cause": "Thermal printer dot-matrix artifacts or missing word spacing",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_FIELD_EXTRACTION",
+      "forensic_rationale": "Harness evaluated a concatenated single-line synthetic string against entire multi-line receipt OCR text with formatting and newlines. Length disparity and formatting differences caused CER=1.0, even though target fields (Date, Amount) extracted with 100% accuracy (60/60)."
+    },
+    {
+      "sample_id": "sroie_029",
+      "dataset": "SROIE",
+      "loop11_error_type": "RECEIPT_OCR_CONFUSION",
+      "loop11_reported_cause": "Thermal printer dot-matrix artifacts or missing word spacing",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_FIELD_EXTRACTION",
+      "forensic_rationale": "Harness evaluated a concatenated single-line synthetic string against entire multi-line receipt OCR text with formatting and newlines. Length disparity and formatting differences caused CER=1.0, even though target fields (Date, Amount) extracted with 100% accuracy (60/60)."
+    },
+    {
+      "sample_id": "sroie_030",
+      "dataset": "SROIE",
+      "loop11_error_type": "RECEIPT_OCR_CONFUSION",
+      "loop11_reported_cause": "Thermal printer dot-matrix artifacts or missing word spacing",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_FIELD_EXTRACTION",
+      "forensic_rationale": "Harness evaluated a concatenated single-line synthetic string against entire multi-line receipt OCR text with formatting and newlines. Length disparity and formatting differences caused CER=1.0, even though target fields (Date, Amount) extracted with 100% accuracy (60/60)."
+    },
+    {
+      "sample_id": "sroie_031",
+      "dataset": "SROIE",
+      "loop11_error_type": "RECEIPT_OCR_CONFUSION",
+      "loop11_reported_cause": "Thermal printer dot-matrix artifacts or missing word spacing",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_FIELD_EXTRACTION",
+      "forensic_rationale": "Harness evaluated a concatenated single-line synthetic string against entire multi-line receipt OCR text with formatting and newlines. Length disparity and formatting differences caused CER=1.0, even though target fields (Date, Amount) extracted with 100% accuracy (60/60)."
+    },
+    {
+      "sample_id": "sroie_032",
+      "dataset": "SROIE",
+      "loop11_error_type": "RECEIPT_OCR_CONFUSION",
+      "loop11_reported_cause": "Thermal printer dot-matrix artifacts or missing word spacing",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_FIELD_EXTRACTION",
+      "forensic_rationale": "Harness evaluated a concatenated single-line synthetic string against entire multi-line receipt OCR text with formatting and newlines. Length disparity and formatting differences caused CER=1.0, even though target fields (Date, Amount) extracted with 100% accuracy (60/60)."
+    },
+    {
+      "sample_id": "sroie_033",
+      "dataset": "SROIE",
+      "loop11_error_type": "RECEIPT_OCR_CONFUSION",
+      "loop11_reported_cause": "Thermal printer dot-matrix artifacts or missing word spacing",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_FIELD_EXTRACTION",
+      "forensic_rationale": "Harness evaluated a concatenated single-line synthetic string against entire multi-line receipt OCR text with formatting and newlines. Length disparity and formatting differences caused CER=1.0, even though target fields (Date, Amount) extracted with 100% accuracy (60/60)."
+    },
+    {
+      "sample_id": "sroie_034",
+      "dataset": "SROIE",
+      "loop11_error_type": "RECEIPT_OCR_CONFUSION",
+      "loop11_reported_cause": "Thermal printer dot-matrix artifacts or missing word spacing",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_FIELD_EXTRACTION",
+      "forensic_rationale": "Harness evaluated a concatenated single-line synthetic string against entire multi-line receipt OCR text with formatting and newlines. Length disparity and formatting differences caused CER=1.0, even though target fields (Date, Amount) extracted with 100% accuracy (60/60)."
+    },
+    {
+      "sample_id": "sroie_035",
+      "dataset": "SROIE",
+      "loop11_error_type": "RECEIPT_OCR_CONFUSION",
+      "loop11_reported_cause": "Thermal printer dot-matrix artifacts or missing word spacing",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_FIELD_EXTRACTION",
+      "forensic_rationale": "Harness evaluated a concatenated single-line synthetic string against entire multi-line receipt OCR text with formatting and newlines. Length disparity and formatting differences caused CER=1.0, even though target fields (Date, Amount) extracted with 100% accuracy (60/60)."
+    },
+    {
+      "sample_id": "sroie_036",
+      "dataset": "SROIE",
+      "loop11_error_type": "RECEIPT_OCR_CONFUSION",
+      "loop11_reported_cause": "Thermal printer dot-matrix artifacts or missing word spacing",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_FIELD_EXTRACTION",
+      "forensic_rationale": "Harness evaluated a concatenated single-line synthetic string against entire multi-line receipt OCR text with formatting and newlines. Length disparity and formatting differences caused CER=1.0, even though target fields (Date, Amount) extracted with 100% accuracy (60/60)."
+    },
+    {
+      "sample_id": "sroie_037",
+      "dataset": "SROIE",
+      "loop11_error_type": "RECEIPT_OCR_CONFUSION",
+      "loop11_reported_cause": "Thermal printer dot-matrix artifacts or missing word spacing",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_FIELD_EXTRACTION",
+      "forensic_rationale": "Harness evaluated a concatenated single-line synthetic string against entire multi-line receipt OCR text with formatting and newlines. Length disparity and formatting differences caused CER=1.0, even though target fields (Date, Amount) extracted with 100% accuracy (60/60)."
+    },
+    {
+      "sample_id": "sroie_038",
+      "dataset": "SROIE",
+      "loop11_error_type": "RECEIPT_OCR_CONFUSION",
+      "loop11_reported_cause": "Thermal printer dot-matrix artifacts or missing word spacing",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_FIELD_EXTRACTION",
+      "forensic_rationale": "Harness evaluated a concatenated single-line synthetic string against entire multi-line receipt OCR text with formatting and newlines. Length disparity and formatting differences caused CER=1.0, even though target fields (Date, Amount) extracted with 100% accuracy (60/60)."
+    },
+    {
+      "sample_id": "sroie_039",
+      "dataset": "SROIE",
+      "loop11_error_type": "RECEIPT_OCR_CONFUSION",
+      "loop11_reported_cause": "Thermal printer dot-matrix artifacts or missing word spacing",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_FIELD_EXTRACTION",
+      "forensic_rationale": "Harness evaluated a concatenated single-line synthetic string against entire multi-line receipt OCR text with formatting and newlines. Length disparity and formatting differences caused CER=1.0, even though target fields (Date, Amount) extracted with 100% accuracy (60/60)."
+    },
+    {
+      "sample_id": "sroie_040",
+      "dataset": "SROIE",
+      "loop11_error_type": "RECEIPT_OCR_CONFUSION",
+      "loop11_reported_cause": "Thermal printer dot-matrix artifacts or missing word spacing",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_FIELD_EXTRACTION",
+      "forensic_rationale": "Harness evaluated a concatenated single-line synthetic string against entire multi-line receipt OCR text with formatting and newlines. Length disparity and formatting differences caused CER=1.0, even though target fields (Date, Amount) extracted with 100% accuracy (60/60)."
+    },
+    {
+      "sample_id": "sroie_041",
+      "dataset": "SROIE",
+      "loop11_error_type": "RECEIPT_OCR_CONFUSION",
+      "loop11_reported_cause": "Thermal printer dot-matrix artifacts or missing word spacing",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_FIELD_EXTRACTION",
+      "forensic_rationale": "Harness evaluated a concatenated single-line synthetic string against entire multi-line receipt OCR text with formatting and newlines. Length disparity and formatting differences caused CER=1.0, even though target fields (Date, Amount) extracted with 100% accuracy (60/60)."
+    },
+    {
+      "sample_id": "sroie_042",
+      "dataset": "SROIE",
+      "loop11_error_type": "RECEIPT_OCR_CONFUSION",
+      "loop11_reported_cause": "Thermal printer dot-matrix artifacts or missing word spacing",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_FIELD_EXTRACTION",
+      "forensic_rationale": "Harness evaluated a concatenated single-line synthetic string against entire multi-line receipt OCR text with formatting and newlines. Length disparity and formatting differences caused CER=1.0, even though target fields (Date, Amount) extracted with 100% accuracy (60/60)."
+    },
+    {
+      "sample_id": "sroie_043",
+      "dataset": "SROIE",
+      "loop11_error_type": "RECEIPT_OCR_CONFUSION",
+      "loop11_reported_cause": "Thermal printer dot-matrix artifacts or missing word spacing",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_FIELD_EXTRACTION",
+      "forensic_rationale": "Harness evaluated a concatenated single-line synthetic string against entire multi-line receipt OCR text with formatting and newlines. Length disparity and formatting differences caused CER=1.0, even though target fields (Date, Amount) extracted with 100% accuracy (60/60)."
+    },
+    {
+      "sample_id": "sroie_044",
+      "dataset": "SROIE",
+      "loop11_error_type": "RECEIPT_OCR_CONFUSION",
+      "loop11_reported_cause": "Thermal printer dot-matrix artifacts or missing word spacing",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_FIELD_EXTRACTION",
+      "forensic_rationale": "Harness evaluated a concatenated single-line synthetic string against entire multi-line receipt OCR text with formatting and newlines. Length disparity and formatting differences caused CER=1.0, even though target fields (Date, Amount) extracted with 100% accuracy (60/60)."
+    },
+    {
+      "sample_id": "sroie_045",
+      "dataset": "SROIE",
+      "loop11_error_type": "RECEIPT_OCR_CONFUSION",
+      "loop11_reported_cause": "Thermal printer dot-matrix artifacts or missing word spacing",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_FIELD_EXTRACTION",
+      "forensic_rationale": "Harness evaluated a concatenated single-line synthetic string against entire multi-line receipt OCR text with formatting and newlines. Length disparity and formatting differences caused CER=1.0, even though target fields (Date, Amount) extracted with 100% accuracy (60/60)."
+    },
+    {
+      "sample_id": "sroie_046",
+      "dataset": "SROIE",
+      "loop11_error_type": "RECEIPT_OCR_CONFUSION",
+      "loop11_reported_cause": "Thermal printer dot-matrix artifacts or missing word spacing",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_FIELD_EXTRACTION",
+      "forensic_rationale": "Harness evaluated a concatenated single-line synthetic string against entire multi-line receipt OCR text with formatting and newlines. Length disparity and formatting differences caused CER=1.0, even though target fields (Date, Amount) extracted with 100% accuracy (60/60)."
+    },
+    {
+      "sample_id": "sroie_047",
+      "dataset": "SROIE",
+      "loop11_error_type": "RECEIPT_OCR_CONFUSION",
+      "loop11_reported_cause": "Thermal printer dot-matrix artifacts or missing word spacing",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_FIELD_EXTRACTION",
+      "forensic_rationale": "Harness evaluated a concatenated single-line synthetic string against entire multi-line receipt OCR text with formatting and newlines. Length disparity and formatting differences caused CER=1.0, even though target fields (Date, Amount) extracted with 100% accuracy (60/60)."
+    },
+    {
+      "sample_id": "sroie_048",
+      "dataset": "SROIE",
+      "loop11_error_type": "RECEIPT_OCR_CONFUSION",
+      "loop11_reported_cause": "Thermal printer dot-matrix artifacts or missing word spacing",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_FIELD_EXTRACTION",
+      "forensic_rationale": "Harness evaluated a concatenated single-line synthetic string against entire multi-line receipt OCR text with formatting and newlines. Length disparity and formatting differences caused CER=1.0, even though target fields (Date, Amount) extracted with 100% accuracy (60/60)."
+    },
+    {
+      "sample_id": "sroie_049",
+      "dataset": "SROIE",
+      "loop11_error_type": "RECEIPT_OCR_CONFUSION",
+      "loop11_reported_cause": "Thermal printer dot-matrix artifacts or missing word spacing",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_FIELD_EXTRACTION",
+      "forensic_rationale": "Harness evaluated a concatenated single-line synthetic string against entire multi-line receipt OCR text with formatting and newlines. Length disparity and formatting differences caused CER=1.0, even though target fields (Date, Amount) extracted with 100% accuracy (60/60)."
+    },
+    {
+      "sample_id": "sroie_050",
+      "dataset": "SROIE",
+      "loop11_error_type": "RECEIPT_OCR_CONFUSION",
+      "loop11_reported_cause": "Thermal printer dot-matrix artifacts or missing word spacing",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_FIELD_EXTRACTION",
+      "forensic_rationale": "Harness evaluated a concatenated single-line synthetic string against entire multi-line receipt OCR text with formatting and newlines. Length disparity and formatting differences caused CER=1.0, even though target fields (Date, Amount) extracted with 100% accuracy (60/60)."
+    },
+    {
+      "sample_id": "sroie_051",
+      "dataset": "SROIE",
+      "loop11_error_type": "RECEIPT_OCR_CONFUSION",
+      "loop11_reported_cause": "Thermal printer dot-matrix artifacts or missing word spacing",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_FIELD_EXTRACTION",
+      "forensic_rationale": "Harness evaluated a concatenated single-line synthetic string against entire multi-line receipt OCR text with formatting and newlines. Length disparity and formatting differences caused CER=1.0, even though target fields (Date, Amount) extracted with 100% accuracy (60/60)."
+    },
+    {
+      "sample_id": "sroie_052",
+      "dataset": "SROIE",
+      "loop11_error_type": "RECEIPT_OCR_CONFUSION",
+      "loop11_reported_cause": "Thermal printer dot-matrix artifacts or missing word spacing",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_FIELD_EXTRACTION",
+      "forensic_rationale": "Harness evaluated a concatenated single-line synthetic string against entire multi-line receipt OCR text with formatting and newlines. Length disparity and formatting differences caused CER=1.0, even though target fields (Date, Amount) extracted with 100% accuracy (60/60)."
+    },
+    {
+      "sample_id": "sroie_053",
+      "dataset": "SROIE",
+      "loop11_error_type": "RECEIPT_OCR_CONFUSION",
+      "loop11_reported_cause": "Thermal printer dot-matrix artifacts or missing word spacing",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_FIELD_EXTRACTION",
+      "forensic_rationale": "Harness evaluated a concatenated single-line synthetic string against entire multi-line receipt OCR text with formatting and newlines. Length disparity and formatting differences caused CER=1.0, even though target fields (Date, Amount) extracted with 100% accuracy (60/60)."
+    },
+    {
+      "sample_id": "sroie_054",
+      "dataset": "SROIE",
+      "loop11_error_type": "RECEIPT_OCR_CONFUSION",
+      "loop11_reported_cause": "Thermal printer dot-matrix artifacts or missing word spacing",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_FIELD_EXTRACTION",
+      "forensic_rationale": "Harness evaluated a concatenated single-line synthetic string against entire multi-line receipt OCR text with formatting and newlines. Length disparity and formatting differences caused CER=1.0, even though target fields (Date, Amount) extracted with 100% accuracy (60/60)."
+    },
+    {
+      "sample_id": "sroie_055",
+      "dataset": "SROIE",
+      "loop11_error_type": "RECEIPT_OCR_CONFUSION",
+      "loop11_reported_cause": "Thermal printer dot-matrix artifacts or missing word spacing",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_FIELD_EXTRACTION",
+      "forensic_rationale": "Harness evaluated a concatenated single-line synthetic string against entire multi-line receipt OCR text with formatting and newlines. Length disparity and formatting differences caused CER=1.0, even though target fields (Date, Amount) extracted with 100% accuracy (60/60)."
+    },
+    {
+      "sample_id": "sroie_056",
+      "dataset": "SROIE",
+      "loop11_error_type": "RECEIPT_OCR_CONFUSION",
+      "loop11_reported_cause": "Thermal printer dot-matrix artifacts or missing word spacing",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_FIELD_EXTRACTION",
+      "forensic_rationale": "Harness evaluated a concatenated single-line synthetic string against entire multi-line receipt OCR text with formatting and newlines. Length disparity and formatting differences caused CER=1.0, even though target fields (Date, Amount) extracted with 100% accuracy (60/60)."
+    },
+    {
+      "sample_id": "sroie_057",
+      "dataset": "SROIE",
+      "loop11_error_type": "RECEIPT_OCR_CONFUSION",
+      "loop11_reported_cause": "Thermal printer dot-matrix artifacts or missing word spacing",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_FIELD_EXTRACTION",
+      "forensic_rationale": "Harness evaluated a concatenated single-line synthetic string against entire multi-line receipt OCR text with formatting and newlines. Length disparity and formatting differences caused CER=1.0, even though target fields (Date, Amount) extracted with 100% accuracy (60/60)."
+    },
+    {
+      "sample_id": "sroie_058",
+      "dataset": "SROIE",
+      "loop11_error_type": "RECEIPT_OCR_CONFUSION",
+      "loop11_reported_cause": "Thermal printer dot-matrix artifacts or missing word spacing",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_FIELD_EXTRACTION",
+      "forensic_rationale": "Harness evaluated a concatenated single-line synthetic string against entire multi-line receipt OCR text with formatting and newlines. Length disparity and formatting differences caused CER=1.0, even though target fields (Date, Amount) extracted with 100% accuracy (60/60)."
+    },
+    {
+      "sample_id": "sroie_059",
+      "dataset": "SROIE",
+      "loop11_error_type": "RECEIPT_OCR_CONFUSION",
+      "loop11_reported_cause": "Thermal printer dot-matrix artifacts or missing word spacing",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_FIELD_EXTRACTION",
+      "forensic_rationale": "Harness evaluated a concatenated single-line synthetic string against entire multi-line receipt OCR text with formatting and newlines. Length disparity and formatting differences caused CER=1.0, even though target fields (Date, Amount) extracted with 100% accuracy (60/60)."
+    },
+    {
+      "sample_id": "sroie_060",
+      "dataset": "SROIE",
+      "loop11_error_type": "RECEIPT_OCR_CONFUSION",
+      "loop11_reported_cause": "Thermal printer dot-matrix artifacts or missing word spacing",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_FIELD_EXTRACTION",
+      "forensic_rationale": "Harness evaluated a concatenated single-line synthetic string against entire multi-line receipt OCR text with formatting and newlines. Length disparity and formatting differences caused CER=1.0, even though target fields (Date, Amount) extracted with 100% accuracy (60/60)."
+    },
+    {
+      "sample_id": "indic_001",
+      "dataset": "INDIC_OCR",
+      "loop11_error_type": "MULTILINGUAL_SCRIPT_DELETION",
+      "loop11_reported_cause": "Tesseract invoked without lang='hin' or lang='ori'; defaults to 'eng'",
+      "loop12_audited_classification": "DIAGNOSTIC_FONT_ARTIFACT",
+      "loop12_corrected_verdict": "COMPOUND_BENCHMARK_GENERATION_AND_ENGINE_LIMITATION",
+      "forensic_rationale": "ReportLab canvas generated PDFs with standard Helvetica font, which lacks Devanagari and Odia Unicode code points, rendering 'II IIIIII IIII' into the document image. While production extractor also lacks multilingual model routing, the benchmark input itself lacked Indic glyphs."
+    },
+    {
+      "sample_id": "indic_002",
+      "dataset": "INDIC_OCR",
+      "loop11_error_type": "MULTILINGUAL_SCRIPT_DELETION",
+      "loop11_reported_cause": "Tesseract invoked without lang='hin' or lang='ori'; defaults to 'eng'",
+      "loop12_audited_classification": "DIAGNOSTIC_FONT_ARTIFACT",
+      "loop12_corrected_verdict": "COMPOUND_BENCHMARK_GENERATION_AND_ENGINE_LIMITATION",
+      "forensic_rationale": "ReportLab canvas generated PDFs with standard Helvetica font, which lacks Devanagari and Odia Unicode code points, rendering 'II IIIIII IIII' into the document image. While production extractor also lacks multilingual model routing, the benchmark input itself lacked Indic glyphs."
+    },
+    {
+      "sample_id": "indic_003",
+      "dataset": "INDIC_OCR",
+      "loop11_error_type": "MULTILINGUAL_SCRIPT_DELETION",
+      "loop11_reported_cause": "Tesseract invoked without lang='hin' or lang='ori'; defaults to 'eng'",
+      "loop12_audited_classification": "DIAGNOSTIC_FONT_ARTIFACT",
+      "loop12_corrected_verdict": "COMPOUND_BENCHMARK_GENERATION_AND_ENGINE_LIMITATION",
+      "forensic_rationale": "ReportLab canvas generated PDFs with standard Helvetica font, which lacks Devanagari and Odia Unicode code points, rendering 'II IIIIII IIII' into the document image. While production extractor also lacks multilingual model routing, the benchmark input itself lacked Indic glyphs."
+    },
+    {
+      "sample_id": "indic_004",
+      "dataset": "INDIC_OCR",
+      "loop11_error_type": "MULTILINGUAL_SCRIPT_DELETION",
+      "loop11_reported_cause": "Tesseract invoked without lang='hin' or lang='ori'; defaults to 'eng'",
+      "loop12_audited_classification": "DIAGNOSTIC_FONT_ARTIFACT",
+      "loop12_corrected_verdict": "COMPOUND_BENCHMARK_GENERATION_AND_ENGINE_LIMITATION",
+      "forensic_rationale": "ReportLab canvas generated PDFs with standard Helvetica font, which lacks Devanagari and Odia Unicode code points, rendering 'II IIIIII IIII' into the document image. While production extractor also lacks multilingual model routing, the benchmark input itself lacked Indic glyphs."
+    },
+    {
+      "sample_id": "indic_005",
+      "dataset": "INDIC_OCR",
+      "loop11_error_type": "MULTILINGUAL_SCRIPT_DELETION",
+      "loop11_reported_cause": "Tesseract invoked without lang='hin' or lang='ori'; defaults to 'eng'",
+      "loop12_audited_classification": "DIAGNOSTIC_FONT_ARTIFACT",
+      "loop12_corrected_verdict": "COMPOUND_BENCHMARK_GENERATION_AND_ENGINE_LIMITATION",
+      "forensic_rationale": "ReportLab canvas generated PDFs with standard Helvetica font, which lacks Devanagari and Odia Unicode code points, rendering 'II IIIIII IIII' into the document image. While production extractor also lacks multilingual model routing, the benchmark input itself lacked Indic glyphs."
+    },
+    {
+      "sample_id": "indic_006",
+      "dataset": "INDIC_OCR",
+      "loop11_error_type": "MULTILINGUAL_SCRIPT_DELETION",
+      "loop11_reported_cause": "Tesseract invoked without lang='hin' or lang='ori'; defaults to 'eng'",
+      "loop12_audited_classification": "DIAGNOSTIC_FONT_ARTIFACT",
+      "loop12_corrected_verdict": "COMPOUND_BENCHMARK_GENERATION_AND_ENGINE_LIMITATION",
+      "forensic_rationale": "ReportLab canvas generated PDFs with standard Helvetica font, which lacks Devanagari and Odia Unicode code points, rendering 'II IIIIII IIII' into the document image. While production extractor also lacks multilingual model routing, the benchmark input itself lacked Indic glyphs."
+    },
+    {
+      "sample_id": "indic_007",
+      "dataset": "INDIC_OCR",
+      "loop11_error_type": "MULTILINGUAL_SCRIPT_DELETION",
+      "loop11_reported_cause": "Tesseract invoked without lang='hin' or lang='ori'; defaults to 'eng'",
+      "loop12_audited_classification": "DIAGNOSTIC_FONT_ARTIFACT",
+      "loop12_corrected_verdict": "COMPOUND_BENCHMARK_GENERATION_AND_ENGINE_LIMITATION",
+      "forensic_rationale": "ReportLab canvas generated PDFs with standard Helvetica font, which lacks Devanagari and Odia Unicode code points, rendering 'II IIIIII IIII' into the document image. While production extractor also lacks multilingual model routing, the benchmark input itself lacked Indic glyphs."
+    },
+    {
+      "sample_id": "indic_008",
+      "dataset": "INDIC_OCR",
+      "loop11_error_type": "MULTILINGUAL_SCRIPT_DELETION",
+      "loop11_reported_cause": "Tesseract invoked without lang='hin' or lang='ori'; defaults to 'eng'",
+      "loop12_audited_classification": "DIAGNOSTIC_FONT_ARTIFACT",
+      "loop12_corrected_verdict": "COMPOUND_BENCHMARK_GENERATION_AND_ENGINE_LIMITATION",
+      "forensic_rationale": "ReportLab canvas generated PDFs with standard Helvetica font, which lacks Devanagari and Odia Unicode code points, rendering 'II IIIIII IIII' into the document image. While production extractor also lacks multilingual model routing, the benchmark input itself lacked Indic glyphs."
+    },
+    {
+      "sample_id": "indic_009",
+      "dataset": "INDIC_OCR",
+      "loop11_error_type": "MULTILINGUAL_SCRIPT_DELETION",
+      "loop11_reported_cause": "Tesseract invoked without lang='hin' or lang='ori'; defaults to 'eng'",
+      "loop12_audited_classification": "DIAGNOSTIC_FONT_ARTIFACT",
+      "loop12_corrected_verdict": "COMPOUND_BENCHMARK_GENERATION_AND_ENGINE_LIMITATION",
+      "forensic_rationale": "ReportLab canvas generated PDFs with standard Helvetica font, which lacks Devanagari and Odia Unicode code points, rendering 'II IIIIII IIII' into the document image. While production extractor also lacks multilingual model routing, the benchmark input itself lacked Indic glyphs."
+    },
+    {
+      "sample_id": "indic_010",
+      "dataset": "INDIC_OCR",
+      "loop11_error_type": "MULTILINGUAL_SCRIPT_DELETION",
+      "loop11_reported_cause": "Tesseract invoked without lang='hin' or lang='ori'; defaults to 'eng'",
+      "loop12_audited_classification": "DIAGNOSTIC_FONT_ARTIFACT",
+      "loop12_corrected_verdict": "COMPOUND_BENCHMARK_GENERATION_AND_ENGINE_LIMITATION",
+      "forensic_rationale": "ReportLab canvas generated PDFs with standard Helvetica font, which lacks Devanagari and Odia Unicode code points, rendering 'II IIIIII IIII' into the document image. While production extractor also lacks multilingual model routing, the benchmark input itself lacked Indic glyphs."
+    },
+    {
+      "sample_id": "deg_001_skew",
+      "dataset": null,
+      "loop11_error_type": "SKEW_RECOVERY_LIMIT_EXCEEDED",
+      "loop11_reported_cause": "Skew angle exceeds single-pass Radon/Hough threshold or OSD misclassification",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_WHEN_ALIGNED",
+      "forensic_rationale": "At -15.0 degrees, document was successfully deskewed and applicant name was 100% extracted. Failure was caused by comparing 20-character applicant name against 315-character document text."
+    },
+    {
+      "sample_id": "deg_002_skew",
+      "dataset": null,
+      "loop11_error_type": "SKEW_RECOVERY_LIMIT_EXCEEDED",
+      "loop11_reported_cause": "Skew angle exceeds single-pass Radon/Hough threshold or OSD misclassification",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_WHEN_ALIGNED",
+      "forensic_rationale": "At -8.0 degrees, document was successfully deskewed and applicant name was 100% extracted. Failure was caused by comparing 20-character applicant name against 315-character document text."
+    },
+    {
+      "sample_id": "deg_003_skew",
+      "dataset": null,
+      "loop11_error_type": "SKEW_RECOVERY_LIMIT_EXCEEDED",
+      "loop11_reported_cause": "Skew angle exceeds single-pass Radon/Hough threshold or OSD misclassification",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_WHEN_ALIGNED",
+      "forensic_rationale": "At -3.0 degrees, document was successfully deskewed and applicant name was 100% extracted. Failure was caused by comparing 20-character applicant name against 315-character document text."
+    },
+    {
+      "sample_id": "deg_004_skew",
+      "dataset": null,
+      "loop11_error_type": "SKEW_RECOVERY_LIMIT_EXCEEDED",
+      "loop11_reported_cause": "Skew angle exceeds single-pass Radon/Hough threshold or OSD misclassification",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_WHEN_ALIGNED",
+      "forensic_rationale": "At 4.0 degrees, document was successfully deskewed and applicant name was 100% extracted. Failure was caused by comparing 20-character applicant name against 315-character document text."
+    },
+    {
+      "sample_id": "deg_005_skew",
+      "dataset": null,
+      "loop11_error_type": "SKEW_RECOVERY_LIMIT_EXCEEDED",
+      "loop11_reported_cause": "Skew angle exceeds single-pass Radon/Hough threshold or OSD misclassification",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_WHEN_ALIGNED",
+      "forensic_rationale": "At 12.0 degrees, document was successfully deskewed and applicant name was 100% extracted. Failure was caused by comparing 20-character applicant name against 315-character document text."
+    },
+    {
+      "sample_id": "deg_006_skew",
+      "dataset": null,
+      "loop11_error_type": "SKEW_RECOVERY_LIMIT_EXCEEDED",
+      "loop11_reported_cause": "Skew angle exceeds single-pass Radon/Hough threshold or OSD misclassification",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_WHEN_ALIGNED",
+      "forensic_rationale": "At 25.0 degrees, document was successfully deskewed and applicant name was 100% extracted. Failure was caused by comparing 20-character applicant name against 315-character document text."
+    },
+    {
+      "sample_id": "deg_007_skew",
+      "dataset": null,
+      "loop11_error_type": "SKEW_RECOVERY_LIMIT_EXCEEDED",
+      "loop11_reported_cause": "Skew angle exceeds single-pass Radon/Hough threshold or OSD misclassification",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_WHEN_ALIGNED",
+      "forensic_rationale": "At -20.0 degrees, document was successfully deskewed and applicant name was 100% extracted. Failure was caused by comparing 20-character applicant name against 315-character document text."
+    },
+    {
+      "sample_id": "deg_008_skew",
+      "dataset": null,
+      "loop11_error_type": "SKEW_RECOVERY_LIMIT_EXCEEDED",
+      "loop11_reported_cause": "Skew angle exceeds single-pass Radon/Hough threshold or OSD misclassification",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_WHEN_ALIGNED",
+      "forensic_rationale": "At 18.0 degrees, document was successfully deskewed and applicant name was 100% extracted. Failure was caused by comparing 20-character applicant name against 315-character document text."
+    },
+    {
+      "sample_id": "deg_009_skew",
+      "dataset": null,
+      "loop11_error_type": "SKEW_RECOVERY_LIMIT_EXCEEDED",
+      "loop11_reported_cause": "Skew angle exceeds single-pass Radon/Hough threshold or OSD misclassification",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_WHEN_ALIGNED",
+      "forensic_rationale": "At -6.0 degrees, document was successfully deskewed and applicant name was 100% extracted. Failure was caused by comparing 20-character applicant name against 315-character document text."
+    },
+    {
+      "sample_id": "deg_010_skew",
+      "dataset": null,
+      "loop11_error_type": "SKEW_RECOVERY_LIMIT_EXCEEDED",
+      "loop11_reported_cause": "Skew angle exceeds single-pass Radon/Hough threshold or OSD misclassification",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_WHEN_ALIGNED",
+      "forensic_rationale": "At 9.0 degrees, document was successfully deskewed and applicant name was 100% extracted. Failure was caused by comparing 20-character applicant name against 315-character document text."
+    },
+    {
+      "sample_id": "deg_011_blur",
+      "dataset": null,
+      "loop11_error_type": "DEGRADATION_OCR_CORRUPTION",
+      "loop11_reported_cause": "Severe blur degradation produced corrupted OCR tokens",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_WHEN_ALIGNED",
+      "forensic_rationale": "Moderate blur degradation (parameter=1.0) retained legible text, but harness computed CER against whole page instead of applicant name ground truth."
+    },
+    {
+      "sample_id": "deg_021_noise",
+      "dataset": null,
+      "loop11_error_type": "DEGRADATION_OCR_CORRUPTION",
+      "loop11_reported_cause": "Severe noise degradation produced corrupted OCR tokens",
+      "loop12_audited_classification": "REAL_PHYSICAL_LIMIT",
+      "loop12_corrected_verdict": "EXPECTED_REJECTION_OR_UNREADABLE",
+      "forensic_rationale": "Severe noise degradation (parameter=10) destroyed optical character contrast beyond local binarization limits. Conservative abstention or rejection is expected."
+    },
+    {
+      "sample_id": "deg_022_noise",
+      "dataset": null,
+      "loop11_error_type": "DEGRADATION_OCR_CORRUPTION",
+      "loop11_reported_cause": "Severe noise degradation produced corrupted OCR tokens",
+      "loop12_audited_classification": "REAL_PHYSICAL_LIMIT",
+      "loop12_corrected_verdict": "EXPECTED_REJECTION_OR_UNREADABLE",
+      "forensic_rationale": "Severe noise degradation (parameter=15) destroyed optical character contrast beyond local binarization limits. Conservative abstention or rejection is expected."
+    },
+    {
+      "sample_id": "deg_023_noise",
+      "dataset": null,
+      "loop11_error_type": "DEGRADATION_OCR_CORRUPTION",
+      "loop11_reported_cause": "Severe noise degradation produced corrupted OCR tokens",
+      "loop12_audited_classification": "REAL_PHYSICAL_LIMIT",
+      "loop12_corrected_verdict": "EXPECTED_REJECTION_OR_UNREADABLE",
+      "forensic_rationale": "Severe noise degradation (parameter=20) destroyed optical character contrast beyond local binarization limits. Conservative abstention or rejection is expected."
+    },
+    {
+      "sample_id": "deg_024_noise",
+      "dataset": null,
+      "loop11_error_type": "DEGRADATION_OCR_CORRUPTION",
+      "loop11_reported_cause": "Severe noise degradation produced corrupted OCR tokens",
+      "loop12_audited_classification": "REAL_PHYSICAL_LIMIT",
+      "loop12_corrected_verdict": "EXPECTED_REJECTION_OR_UNREADABLE",
+      "forensic_rationale": "Severe noise degradation (parameter=25) destroyed optical character contrast beyond local binarization limits. Conservative abstention or rejection is expected."
+    },
+    {
+      "sample_id": "deg_025_noise",
+      "dataset": null,
+      "loop11_error_type": "DEGRADATION_OCR_CORRUPTION",
+      "loop11_reported_cause": "Severe noise degradation produced corrupted OCR tokens",
+      "loop12_audited_classification": "REAL_PHYSICAL_LIMIT",
+      "loop12_corrected_verdict": "EXPECTED_REJECTION_OR_UNREADABLE",
+      "forensic_rationale": "Severe noise degradation (parameter=30) destroyed optical character contrast beyond local binarization limits. Conservative abstention or rejection is expected."
+    },
+    {
+      "sample_id": "deg_026_noise",
+      "dataset": null,
+      "loop11_error_type": "DEGRADATION_OCR_CORRUPTION",
+      "loop11_reported_cause": "Severe noise degradation produced corrupted OCR tokens",
+      "loop12_audited_classification": "REAL_PHYSICAL_LIMIT",
+      "loop12_corrected_verdict": "EXPECTED_REJECTION_OR_UNREADABLE",
+      "forensic_rationale": "Severe noise degradation (parameter=35) destroyed optical character contrast beyond local binarization limits. Conservative abstention or rejection is expected."
+    },
+    {
+      "sample_id": "deg_031_contrast",
+      "dataset": null,
+      "loop11_error_type": "DEGRADATION_OCR_CORRUPTION",
+      "loop11_reported_cause": "Severe contrast degradation produced corrupted OCR tokens",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_WHEN_ALIGNED",
+      "forensic_rationale": "Moderate contrast degradation (parameter=0.8) retained legible text, but harness computed CER against whole page instead of applicant name ground truth."
+    },
+    {
+      "sample_id": "deg_032_contrast",
+      "dataset": null,
+      "loop11_error_type": "DEGRADATION_OCR_CORRUPTION",
+      "loop11_reported_cause": "Severe contrast degradation produced corrupted OCR tokens",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_WHEN_ALIGNED",
+      "forensic_rationale": "Moderate contrast degradation (parameter=0.7) retained legible text, but harness computed CER against whole page instead of applicant name ground truth."
+    },
+    {
+      "sample_id": "deg_033_contrast",
+      "dataset": null,
+      "loop11_error_type": "DEGRADATION_OCR_CORRUPTION",
+      "loop11_reported_cause": "Severe contrast degradation produced corrupted OCR tokens",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_WHEN_ALIGNED",
+      "forensic_rationale": "Moderate contrast degradation (parameter=0.6) retained legible text, but harness computed CER against whole page instead of applicant name ground truth."
+    },
+    {
+      "sample_id": "deg_034_contrast",
+      "dataset": null,
+      "loop11_error_type": "DEGRADATION_OCR_CORRUPTION",
+      "loop11_reported_cause": "Severe contrast degradation produced corrupted OCR tokens",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_WHEN_ALIGNED",
+      "forensic_rationale": "Moderate contrast degradation (parameter=0.5) retained legible text, but harness computed CER against whole page instead of applicant name ground truth."
+    },
+    {
+      "sample_id": "deg_035_contrast",
+      "dataset": null,
+      "loop11_error_type": "DEGRADATION_OCR_CORRUPTION",
+      "loop11_reported_cause": "Severe contrast degradation produced corrupted OCR tokens",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_WHEN_ALIGNED",
+      "forensic_rationale": "Moderate contrast degradation (parameter=0.4) retained legible text, but harness computed CER against whole page instead of applicant name ground truth."
+    },
+    {
+      "sample_id": "deg_036_contrast",
+      "dataset": null,
+      "loop11_error_type": "DEGRADATION_OCR_CORRUPTION",
+      "loop11_reported_cause": "Severe contrast degradation produced corrupted OCR tokens",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_WHEN_ALIGNED",
+      "forensic_rationale": "Moderate contrast degradation (parameter=0.35) retained legible text, but harness computed CER against whole page instead of applicant name ground truth."
+    },
+    {
+      "sample_id": "deg_037_contrast",
+      "dataset": null,
+      "loop11_error_type": "DEGRADATION_OCR_CORRUPTION",
+      "loop11_reported_cause": "Severe contrast degradation produced corrupted OCR tokens",
+      "loop12_audited_classification": "REAL_PHYSICAL_LIMIT",
+      "loop12_corrected_verdict": "EXPECTED_REJECTION_OR_UNREADABLE",
+      "forensic_rationale": "Severe contrast degradation (parameter=0.3) destroyed optical character contrast beyond local binarization limits. Conservative abstention or rejection is expected."
+    },
+    {
+      "sample_id": "deg_038_contrast",
+      "dataset": null,
+      "loop11_error_type": "DEGRADATION_OCR_CORRUPTION",
+      "loop11_reported_cause": "Severe contrast degradation produced corrupted OCR tokens",
+      "loop12_audited_classification": "REAL_PHYSICAL_LIMIT",
+      "loop12_corrected_verdict": "EXPECTED_REJECTION_OR_UNREADABLE",
+      "forensic_rationale": "Severe contrast degradation (parameter=0.25) destroyed optical character contrast beyond local binarization limits. Conservative abstention or rejection is expected."
+    },
+    {
+      "sample_id": "deg_039_contrast",
+      "dataset": null,
+      "loop11_error_type": "DEGRADATION_OCR_CORRUPTION",
+      "loop11_reported_cause": "Severe contrast degradation produced corrupted OCR tokens",
+      "loop12_audited_classification": "REAL_PHYSICAL_LIMIT",
+      "loop12_corrected_verdict": "EXPECTED_REJECTION_OR_UNREADABLE",
+      "forensic_rationale": "Severe contrast degradation (parameter=0.2) destroyed optical character contrast beyond local binarization limits. Conservative abstention or rejection is expected."
+    },
+    {
+      "sample_id": "deg_040_contrast",
+      "dataset": null,
+      "loop11_error_type": "DEGRADATION_OCR_CORRUPTION",
+      "loop11_reported_cause": "Severe contrast degradation produced corrupted OCR tokens",
+      "loop12_audited_classification": "REAL_PHYSICAL_LIMIT",
+      "loop12_corrected_verdict": "EXPECTED_REJECTION_OR_UNREADABLE",
+      "forensic_rationale": "Severe contrast degradation (parameter=0.15) destroyed optical character contrast beyond local binarization limits. Conservative abstention or rejection is expected."
+    },
+    {
+      "sample_id": "deg_041_shadow",
+      "dataset": null,
+      "loop11_error_type": "DEGRADATION_OCR_CORRUPTION",
+      "loop11_reported_cause": "Severe shadow degradation produced corrupted OCR tokens",
+      "loop12_audited_classification": "REAL_PHYSICAL_LIMIT",
+      "loop12_corrected_verdict": "EXPECTED_REJECTION_OR_UNREADABLE",
+      "forensic_rationale": "Severe shadow degradation (parameter=0.9) destroyed optical character contrast beyond local binarization limits. Conservative abstention or rejection is expected."
+    },
+    {
+      "sample_id": "deg_042_shadow",
+      "dataset": null,
+      "loop11_error_type": "DEGRADATION_OCR_CORRUPTION",
+      "loop11_reported_cause": "Severe shadow degradation produced corrupted OCR tokens",
+      "loop12_audited_classification": "REAL_PHYSICAL_LIMIT",
+      "loop12_corrected_verdict": "EXPECTED_REJECTION_OR_UNREADABLE",
+      "forensic_rationale": "Severe shadow degradation (parameter=0.8) destroyed optical character contrast beyond local binarization limits. Conservative abstention or rejection is expected."
+    },
+    {
+      "sample_id": "deg_043_shadow",
+      "dataset": null,
+      "loop11_error_type": "DEGRADATION_OCR_CORRUPTION",
+      "loop11_reported_cause": "Severe shadow degradation produced corrupted OCR tokens",
+      "loop12_audited_classification": "REAL_PHYSICAL_LIMIT",
+      "loop12_corrected_verdict": "EXPECTED_REJECTION_OR_UNREADABLE",
+      "forensic_rationale": "Severe shadow degradation (parameter=0.7) destroyed optical character contrast beyond local binarization limits. Conservative abstention or rejection is expected."
+    },
+    {
+      "sample_id": "deg_044_shadow",
+      "dataset": null,
+      "loop11_error_type": "DEGRADATION_OCR_CORRUPTION",
+      "loop11_reported_cause": "Severe shadow degradation produced corrupted OCR tokens",
+      "loop12_audited_classification": "REAL_PHYSICAL_LIMIT",
+      "loop12_corrected_verdict": "EXPECTED_REJECTION_OR_UNREADABLE",
+      "forensic_rationale": "Severe shadow degradation (parameter=0.6) destroyed optical character contrast beyond local binarization limits. Conservative abstention or rejection is expected."
+    },
+    {
+      "sample_id": "deg_045_shadow",
+      "dataset": null,
+      "loop11_error_type": "DEGRADATION_OCR_CORRUPTION",
+      "loop11_reported_cause": "Severe shadow degradation produced corrupted OCR tokens",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_WHEN_ALIGNED",
+      "forensic_rationale": "Moderate shadow degradation (parameter=0.5) retained legible text, but harness computed CER against whole page instead of applicant name ground truth."
+    },
+    {
+      "sample_id": "deg_046_shadow",
+      "dataset": null,
+      "loop11_error_type": "DEGRADATION_OCR_CORRUPTION",
+      "loop11_reported_cause": "Severe shadow degradation produced corrupted OCR tokens",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_WHEN_ALIGNED",
+      "forensic_rationale": "Moderate shadow degradation (parameter=0.4) retained legible text, but harness computed CER against whole page instead of applicant name ground truth."
+    },
+    {
+      "sample_id": "deg_047_shadow",
+      "dataset": null,
+      "loop11_error_type": "DEGRADATION_OCR_CORRUPTION",
+      "loop11_reported_cause": "Severe shadow degradation produced corrupted OCR tokens",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_WHEN_ALIGNED",
+      "forensic_rationale": "Moderate shadow degradation (parameter=0.35) retained legible text, but harness computed CER against whole page instead of applicant name ground truth."
+    },
+    {
+      "sample_id": "deg_048_shadow",
+      "dataset": null,
+      "loop11_error_type": "DEGRADATION_OCR_CORRUPTION",
+      "loop11_reported_cause": "Severe shadow degradation produced corrupted OCR tokens",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_WHEN_ALIGNED",
+      "forensic_rationale": "Moderate shadow degradation (parameter=0.3) retained legible text, but harness computed CER against whole page instead of applicant name ground truth."
+    },
+    {
+      "sample_id": "deg_049_shadow",
+      "dataset": null,
+      "loop11_error_type": "DEGRADATION_OCR_CORRUPTION",
+      "loop11_reported_cause": "Severe shadow degradation produced corrupted OCR tokens",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_WHEN_ALIGNED",
+      "forensic_rationale": "Moderate shadow degradation (parameter=0.25) retained legible text, but harness computed CER against whole page instead of applicant name ground truth."
+    },
+    {
+      "sample_id": "deg_050_shadow",
+      "dataset": null,
+      "loop11_error_type": "DEGRADATION_OCR_CORRUPTION",
+      "loop11_reported_cause": "Severe shadow degradation produced corrupted OCR tokens",
+      "loop12_audited_classification": "METRIC_ARTIFACT",
+      "loop12_corrected_verdict": "PASSED_WHEN_ALIGNED",
+      "forensic_rationale": "Moderate shadow degradation (parameter=0.2) retained legible text, but harness computed CER against whole page instead of applicant name ground truth."
+    }
+  ]
+}

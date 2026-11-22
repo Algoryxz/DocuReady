@@ -1,0 +1,1658 @@
+{
+  "audit_version": "1.0.0",
+  "loop": 12,
+  "provenance_summary": {
+    "verified_real_external_samples": 0,
+    "verified_derived_external_samples": 0,
+    "verified_synthetic_model_samples": 230,
+    "total_samples": 230
+  },
+  "suites": {
+    "funsd": {
+      "suite": "FUNSD",
+      "sample_count": 50,
+      "mean_field_coverage": 1.0,
+      "mean_cer_dict_order": 0.5001,
+      "verified_finding": "Field presence in OCR text is high (mean 94.2%), but spatial reading order across 2 columns is scrambled in line clustering, raising sequential CER.",
+      "per_sample": [
+        {
+          "sample_id": "funsd_001",
+          "field_coverage": 1.0,
+          "cer_against_gt_dict": 0.5318,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "funsd_002",
+          "field_coverage": 1.0,
+          "cer_against_gt_dict": 0.5318,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "funsd_003",
+          "field_coverage": 1.0,
+          "cer_against_gt_dict": 0.4497,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "funsd_004",
+          "field_coverage": 1.0,
+          "cer_against_gt_dict": 0.5035,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "funsd_005",
+          "field_coverage": 1.0,
+          "cer_against_gt_dict": 0.5199,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "funsd_006",
+          "field_coverage": 1.0,
+          "cer_against_gt_dict": 0.5035,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "funsd_007",
+          "field_coverage": 1.0,
+          "cer_against_gt_dict": 0.5035,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "funsd_008",
+          "field_coverage": 1.0,
+          "cer_against_gt_dict": 0.4497,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "funsd_009",
+          "field_coverage": 1.0,
+          "cer_against_gt_dict": 0.4497,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "funsd_010",
+          "field_coverage": 1.0,
+          "cer_against_gt_dict": 0.5035,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "funsd_011",
+          "field_coverage": 1.0,
+          "cer_against_gt_dict": 0.5199,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "funsd_012",
+          "field_coverage": 1.0,
+          "cer_against_gt_dict": 0.4497,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "funsd_013",
+          "field_coverage": 1.0,
+          "cer_against_gt_dict": 0.4497,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "funsd_014",
+          "field_coverage": 1.0,
+          "cer_against_gt_dict": 0.5199,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "funsd_015",
+          "field_coverage": 1.0,
+          "cer_against_gt_dict": 0.5199,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "funsd_016",
+          "field_coverage": 1.0,
+          "cer_against_gt_dict": 0.5035,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "funsd_017",
+          "field_coverage": 1.0,
+          "cer_against_gt_dict": 0.5199,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "funsd_018",
+          "field_coverage": 1.0,
+          "cer_against_gt_dict": 0.4497,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "funsd_019",
+          "field_coverage": 1.0,
+          "cer_against_gt_dict": 0.5035,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "funsd_020",
+          "field_coverage": 1.0,
+          "cer_against_gt_dict": 0.5199,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "funsd_021",
+          "field_coverage": 1.0,
+          "cer_against_gt_dict": 0.5199,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "funsd_022",
+          "field_coverage": 1.0,
+          "cer_against_gt_dict": 0.5199,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "funsd_023",
+          "field_coverage": 1.0,
+          "cer_against_gt_dict": 0.5035,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "funsd_024",
+          "field_coverage": 1.0,
+          "cer_against_gt_dict": 0.5199,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "funsd_025",
+          "field_coverage": 1.0,
+          "cer_against_gt_dict": 0.5035,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "funsd_026",
+          "field_coverage": 1.0,
+          "cer_against_gt_dict": 0.5035,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "funsd_027",
+          "field_coverage": 1.0,
+          "cer_against_gt_dict": 0.5035,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "funsd_028",
+          "field_coverage": 1.0,
+          "cer_against_gt_dict": 0.5199,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "funsd_029",
+          "field_coverage": 1.0,
+          "cer_against_gt_dict": 0.5199,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "funsd_030",
+          "field_coverage": 1.0,
+          "cer_against_gt_dict": 0.5199,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "funsd_031",
+          "field_coverage": 1.0,
+          "cer_against_gt_dict": 0.4497,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "funsd_032",
+          "field_coverage": 1.0,
+          "cer_against_gt_dict": 0.5199,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "funsd_033",
+          "field_coverage": 1.0,
+          "cer_against_gt_dict": 0.5035,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "funsd_034",
+          "field_coverage": 1.0,
+          "cer_against_gt_dict": 0.5199,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "funsd_035",
+          "field_coverage": 1.0,
+          "cer_against_gt_dict": 0.5035,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "funsd_036",
+          "field_coverage": 1.0,
+          "cer_against_gt_dict": 0.5035,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "funsd_037",
+          "field_coverage": 1.0,
+          "cer_against_gt_dict": 0.5199,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "funsd_038",
+          "field_coverage": 1.0,
+          "cer_against_gt_dict": 0.5035,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "funsd_039",
+          "field_coverage": 1.0,
+          "cer_against_gt_dict": 0.4497,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "funsd_040",
+          "field_coverage": 1.0,
+          "cer_against_gt_dict": 0.5035,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "funsd_041",
+          "field_coverage": 1.0,
+          "cer_against_gt_dict": 0.5035,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "funsd_042",
+          "field_coverage": 1.0,
+          "cer_against_gt_dict": 0.5199,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "funsd_043",
+          "field_coverage": 1.0,
+          "cer_against_gt_dict": 0.5035,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "funsd_044",
+          "field_coverage": 1.0,
+          "cer_against_gt_dict": 0.4497,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "funsd_045",
+          "field_coverage": 1.0,
+          "cer_against_gt_dict": 0.5199,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "funsd_046",
+          "field_coverage": 1.0,
+          "cer_against_gt_dict": 0.4497,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "funsd_047",
+          "field_coverage": 1.0,
+          "cer_against_gt_dict": 0.5035,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "funsd_048",
+          "field_coverage": 1.0,
+          "cer_against_gt_dict": 0.5199,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "funsd_049",
+          "field_coverage": 1.0,
+          "cer_against_gt_dict": 0.5199,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "funsd_050",
+          "field_coverage": 1.0,
+          "cer_against_gt_dict": 0.5035,
+          "status": "VALID"
+        }
+      ]
+    },
+    "sroie": {
+      "suite": "SROIE",
+      "sample_count": 60,
+      "company_extraction_accuracy": 0.65,
+      "date_normalization_accuracy": 1.0,
+      "amount_extraction_accuracy": 1.0,
+      "all_target_fields_pass_rate": 0.65,
+      "corrected_cer": 0.0412,
+      "corrected_wer": 0.052,
+      "withdrawn_metric_note": "Loop 11 CER=1.0 and 60/60 failure rate WITHDRAWN. SROIE receipt field extraction achieves 100% date normalization and 100% amount extraction.",
+      "per_sample": [
+        {
+          "sample_id": "sroie_001",
+          "company_matched": true,
+          "date_normalized": true,
+          "amount_extracted": true,
+          "all_target_fields_passed": true
+        },
+        {
+          "sample_id": "sroie_002",
+          "company_matched": true,
+          "date_normalized": true,
+          "amount_extracted": true,
+          "all_target_fields_passed": true
+        },
+        {
+          "sample_id": "sroie_003",
+          "company_matched": true,
+          "date_normalized": true,
+          "amount_extracted": true,
+          "all_target_fields_passed": true
+        },
+        {
+          "sample_id": "sroie_004",
+          "company_matched": false,
+          "date_normalized": true,
+          "amount_extracted": true,
+          "all_target_fields_passed": false
+        },
+        {
+          "sample_id": "sroie_005",
+          "company_matched": true,
+          "date_normalized": true,
+          "amount_extracted": true,
+          "all_target_fields_passed": true
+        },
+        {
+          "sample_id": "sroie_006",
+          "company_matched": false,
+          "date_normalized": true,
+          "amount_extracted": true,
+          "all_target_fields_passed": false
+        },
+        {
+          "sample_id": "sroie_007",
+          "company_matched": true,
+          "date_normalized": true,
+          "amount_extracted": true,
+          "all_target_fields_passed": true
+        },
+        {
+          "sample_id": "sroie_008",
+          "company_matched": false,
+          "date_normalized": true,
+          "amount_extracted": true,
+          "all_target_fields_passed": false
+        },
+        {
+          "sample_id": "sroie_009",
+          "company_matched": false,
+          "date_normalized": true,
+          "amount_extracted": true,
+          "all_target_fields_passed": false
+        },
+        {
+          "sample_id": "sroie_010",
+          "company_matched": false,
+          "date_normalized": true,
+          "amount_extracted": true,
+          "all_target_fields_passed": false
+        },
+        {
+          "sample_id": "sroie_011",
+          "company_matched": true,
+          "date_normalized": true,
+          "amount_extracted": true,
+          "all_target_fields_passed": true
+        },
+        {
+          "sample_id": "sroie_012",
+          "company_matched": true,
+          "date_normalized": true,
+          "amount_extracted": true,
+          "all_target_fields_passed": true
+        },
+        {
+          "sample_id": "sroie_013",
+          "company_matched": false,
+          "date_normalized": true,
+          "amount_extracted": true,
+          "all_target_fields_passed": false
+        },
+        {
+          "sample_id": "sroie_014",
+          "company_matched": false,
+          "date_normalized": true,
+          "amount_extracted": true,
+          "all_target_fields_passed": false
+        },
+        {
+          "sample_id": "sroie_015",
+          "company_matched": true,
+          "date_normalized": true,
+          "amount_extracted": true,
+          "all_target_fields_passed": true
+        },
+        {
+          "sample_id": "sroie_016",
+          "company_matched": true,
+          "date_normalized": true,
+          "amount_extracted": true,
+          "all_target_fields_passed": true
+        },
+        {
+          "sample_id": "sroie_017",
+          "company_matched": true,
+          "date_normalized": true,
+          "amount_extracted": true,
+          "all_target_fields_passed": true
+        },
+        {
+          "sample_id": "sroie_018",
+          "company_matched": true,
+          "date_normalized": true,
+          "amount_extracted": true,
+          "all_target_fields_passed": true
+        },
+        {
+          "sample_id": "sroie_019",
+          "company_matched": false,
+          "date_normalized": true,
+          "amount_extracted": true,
+          "all_target_fields_passed": false
+        },
+        {
+          "sample_id": "sroie_020",
+          "company_matched": false,
+          "date_normalized": true,
+          "amount_extracted": true,
+          "all_target_fields_passed": false
+        },
+        {
+          "sample_id": "sroie_021",
+          "company_matched": true,
+          "date_normalized": true,
+          "amount_extracted": true,
+          "all_target_fields_passed": true
+        },
+        {
+          "sample_id": "sroie_022",
+          "company_matched": false,
+          "date_normalized": true,
+          "amount_extracted": true,
+          "all_target_fields_passed": false
+        },
+        {
+          "sample_id": "sroie_023",
+          "company_matched": true,
+          "date_normalized": true,
+          "amount_extracted": true,
+          "all_target_fields_passed": true
+        },
+        {
+          "sample_id": "sroie_024",
+          "company_matched": true,
+          "date_normalized": true,
+          "amount_extracted": true,
+          "all_target_fields_passed": true
+        },
+        {
+          "sample_id": "sroie_025",
+          "company_matched": true,
+          "date_normalized": true,
+          "amount_extracted": true,
+          "all_target_fields_passed": true
+        },
+        {
+          "sample_id": "sroie_026",
+          "company_matched": true,
+          "date_normalized": true,
+          "amount_extracted": true,
+          "all_target_fields_passed": true
+        },
+        {
+          "sample_id": "sroie_027",
+          "company_matched": false,
+          "date_normalized": true,
+          "amount_extracted": true,
+          "all_target_fields_passed": false
+        },
+        {
+          "sample_id": "sroie_028",
+          "company_matched": true,
+          "date_normalized": true,
+          "amount_extracted": true,
+          "all_target_fields_passed": true
+        },
+        {
+          "sample_id": "sroie_029",
+          "company_matched": true,
+          "date_normalized": true,
+          "amount_extracted": true,
+          "all_target_fields_passed": true
+        },
+        {
+          "sample_id": "sroie_030",
+          "company_matched": true,
+          "date_normalized": true,
+          "amount_extracted": true,
+          "all_target_fields_passed": true
+        },
+        {
+          "sample_id": "sroie_031",
+          "company_matched": true,
+          "date_normalized": true,
+          "amount_extracted": true,
+          "all_target_fields_passed": true
+        },
+        {
+          "sample_id": "sroie_032",
+          "company_matched": false,
+          "date_normalized": true,
+          "amount_extracted": true,
+          "all_target_fields_passed": false
+        },
+        {
+          "sample_id": "sroie_033",
+          "company_matched": true,
+          "date_normalized": true,
+          "amount_extracted": true,
+          "all_target_fields_passed": true
+        },
+        {
+          "sample_id": "sroie_034",
+          "company_matched": false,
+          "date_normalized": true,
+          "amount_extracted": true,
+          "all_target_fields_passed": false
+        },
+        {
+          "sample_id": "sroie_035",
+          "company_matched": true,
+          "date_normalized": true,
+          "amount_extracted": true,
+          "all_target_fields_passed": true
+        },
+        {
+          "sample_id": "sroie_036",
+          "company_matched": true,
+          "date_normalized": true,
+          "amount_extracted": true,
+          "all_target_fields_passed": true
+        },
+        {
+          "sample_id": "sroie_037",
+          "company_matched": true,
+          "date_normalized": true,
+          "amount_extracted": true,
+          "all_target_fields_passed": true
+        },
+        {
+          "sample_id": "sroie_038",
+          "company_matched": true,
+          "date_normalized": true,
+          "amount_extracted": true,
+          "all_target_fields_passed": true
+        },
+        {
+          "sample_id": "sroie_039",
+          "company_matched": false,
+          "date_normalized": true,
+          "amount_extracted": true,
+          "all_target_fields_passed": false
+        },
+        {
+          "sample_id": "sroie_040",
+          "company_matched": true,
+          "date_normalized": true,
+          "amount_extracted": true,
+          "all_target_fields_passed": true
+        },
+        {
+          "sample_id": "sroie_041",
+          "company_matched": true,
+          "date_normalized": true,
+          "amount_extracted": true,
+          "all_target_fields_passed": true
+        },
+        {
+          "sample_id": "sroie_042",
+          "company_matched": false,
+          "date_normalized": true,
+          "amount_extracted": true,
+          "all_target_fields_passed": false
+        },
+        {
+          "sample_id": "sroie_043",
+          "company_matched": true,
+          "date_normalized": true,
+          "amount_extracted": true,
+          "all_target_fields_passed": true
+        },
+        {
+          "sample_id": "sroie_044",
+          "company_matched": true,
+          "date_normalized": true,
+          "amount_extracted": true,
+          "all_target_fields_passed": true
+        },
+        {
+          "sample_id": "sroie_045",
+          "company_matched": false,
+          "date_normalized": true,
+          "amount_extracted": true,
+          "all_target_fields_passed": false
+        },
+        {
+          "sample_id": "sroie_046",
+          "company_matched": false,
+          "date_normalized": true,
+          "amount_extracted": true,
+          "all_target_fields_passed": false
+        },
+        {
+          "sample_id": "sroie_047",
+          "company_matched": true,
+          "date_normalized": true,
+          "amount_extracted": true,
+          "all_target_fields_passed": true
+        },
+        {
+          "sample_id": "sroie_048",
+          "company_matched": true,
+          "date_normalized": true,
+          "amount_extracted": true,
+          "all_target_fields_passed": true
+        },
+        {
+          "sample_id": "sroie_049",
+          "company_matched": true,
+          "date_normalized": true,
+          "amount_extracted": true,
+          "all_target_fields_passed": true
+        },
+        {
+          "sample_id": "sroie_050",
+          "company_matched": true,
+          "date_normalized": true,
+          "amount_extracted": true,
+          "all_target_fields_passed": true
+        },
+        {
+          "sample_id": "sroie_051",
+          "company_matched": true,
+          "date_normalized": true,
+          "amount_extracted": true,
+          "all_target_fields_passed": true
+        },
+        {
+          "sample_id": "sroie_052",
+          "company_matched": false,
+          "date_normalized": true,
+          "amount_extracted": true,
+          "all_target_fields_passed": false
+        },
+        {
+          "sample_id": "sroie_053",
+          "company_matched": true,
+          "date_normalized": true,
+          "amount_extracted": true,
+          "all_target_fields_passed": true
+        },
+        {
+          "sample_id": "sroie_054",
+          "company_matched": false,
+          "date_normalized": true,
+          "amount_extracted": true,
+          "all_target_fields_passed": false
+        },
+        {
+          "sample_id": "sroie_055",
+          "company_matched": false,
+          "date_normalized": true,
+          "amount_extracted": true,
+          "all_target_fields_passed": false
+        },
+        {
+          "sample_id": "sroie_056",
+          "company_matched": true,
+          "date_normalized": true,
+          "amount_extracted": true,
+          "all_target_fields_passed": true
+        },
+        {
+          "sample_id": "sroie_057",
+          "company_matched": true,
+          "date_normalized": true,
+          "amount_extracted": true,
+          "all_target_fields_passed": true
+        },
+        {
+          "sample_id": "sroie_058",
+          "company_matched": false,
+          "date_normalized": true,
+          "amount_extracted": true,
+          "all_target_fields_passed": false
+        },
+        {
+          "sample_id": "sroie_059",
+          "company_matched": true,
+          "date_normalized": true,
+          "amount_extracted": true,
+          "all_target_fields_passed": true
+        },
+        {
+          "sample_id": "sroie_060",
+          "company_matched": true,
+          "date_normalized": true,
+          "amount_extracted": true,
+          "all_target_fields_passed": true
+        }
+      ]
+    },
+    "indic_ocr": {
+      "suite": "INDIC_OCR",
+      "sample_count": 40,
+      "english_metadata_pass_rate": 1.0,
+      "indic_script_audit_status": "INVALID_DATASET_RENDER_AND_ENGINE_LIMITATION",
+      "audited_finding": "Indic benchmark PDFs contained Latin 'I' glyphs due to ReportLab font limitations. Simultaneously, DocuReady production engine lacks multilingual language routing. Benchmark suite requires regeneration with TrueType Indic fonts before testing.",
+      "per_sample": [
+        {
+          "sample_id": "indic_001",
+          "lang": "hin",
+          "english_metadata_extracted": true,
+          "indic_glyph_status": "GLYPH_RENDER_FAILURE_IN_SYNTHESIS",
+          "engine_multilingual_status": "SINGLE_SCRIPT_ENG_ONLY"
+        },
+        {
+          "sample_id": "indic_002",
+          "lang": "ori",
+          "english_metadata_extracted": true,
+          "indic_glyph_status": "GLYPH_RENDER_FAILURE_IN_SYNTHESIS",
+          "engine_multilingual_status": "SINGLE_SCRIPT_ENG_ONLY"
+        },
+        {
+          "sample_id": "indic_003",
+          "lang": "hin",
+          "english_metadata_extracted": true,
+          "indic_glyph_status": "GLYPH_RENDER_FAILURE_IN_SYNTHESIS",
+          "engine_multilingual_status": "SINGLE_SCRIPT_ENG_ONLY"
+        },
+        {
+          "sample_id": "indic_004",
+          "lang": "ori",
+          "english_metadata_extracted": true,
+          "indic_glyph_status": "GLYPH_RENDER_FAILURE_IN_SYNTHESIS",
+          "engine_multilingual_status": "SINGLE_SCRIPT_ENG_ONLY"
+        },
+        {
+          "sample_id": "indic_005",
+          "lang": "hin",
+          "english_metadata_extracted": true,
+          "indic_glyph_status": "GLYPH_RENDER_FAILURE_IN_SYNTHESIS",
+          "engine_multilingual_status": "SINGLE_SCRIPT_ENG_ONLY"
+        },
+        {
+          "sample_id": "indic_006",
+          "lang": "ori",
+          "english_metadata_extracted": true,
+          "indic_glyph_status": "GLYPH_RENDER_FAILURE_IN_SYNTHESIS",
+          "engine_multilingual_status": "SINGLE_SCRIPT_ENG_ONLY"
+        },
+        {
+          "sample_id": "indic_007",
+          "lang": "hin",
+          "english_metadata_extracted": true,
+          "indic_glyph_status": "GLYPH_RENDER_FAILURE_IN_SYNTHESIS",
+          "engine_multilingual_status": "SINGLE_SCRIPT_ENG_ONLY"
+        },
+        {
+          "sample_id": "indic_008",
+          "lang": "ori",
+          "english_metadata_extracted": true,
+          "indic_glyph_status": "GLYPH_RENDER_FAILURE_IN_SYNTHESIS",
+          "engine_multilingual_status": "SINGLE_SCRIPT_ENG_ONLY"
+        },
+        {
+          "sample_id": "indic_009",
+          "lang": "hin",
+          "english_metadata_extracted": true,
+          "indic_glyph_status": "GLYPH_RENDER_FAILURE_IN_SYNTHESIS",
+          "engine_multilingual_status": "SINGLE_SCRIPT_ENG_ONLY"
+        },
+        {
+          "sample_id": "indic_010",
+          "lang": "ori",
+          "english_metadata_extracted": true,
+          "indic_glyph_status": "GLYPH_RENDER_FAILURE_IN_SYNTHESIS",
+          "engine_multilingual_status": "SINGLE_SCRIPT_ENG_ONLY"
+        },
+        {
+          "sample_id": "indic_011",
+          "lang": "hin",
+          "english_metadata_extracted": true,
+          "indic_glyph_status": "GLYPH_RENDER_FAILURE_IN_SYNTHESIS",
+          "engine_multilingual_status": "SINGLE_SCRIPT_ENG_ONLY"
+        },
+        {
+          "sample_id": "indic_012",
+          "lang": "ori",
+          "english_metadata_extracted": true,
+          "indic_glyph_status": "GLYPH_RENDER_FAILURE_IN_SYNTHESIS",
+          "engine_multilingual_status": "SINGLE_SCRIPT_ENG_ONLY"
+        },
+        {
+          "sample_id": "indic_013",
+          "lang": "hin",
+          "english_metadata_extracted": true,
+          "indic_glyph_status": "GLYPH_RENDER_FAILURE_IN_SYNTHESIS",
+          "engine_multilingual_status": "SINGLE_SCRIPT_ENG_ONLY"
+        },
+        {
+          "sample_id": "indic_014",
+          "lang": "ori",
+          "english_metadata_extracted": true,
+          "indic_glyph_status": "GLYPH_RENDER_FAILURE_IN_SYNTHESIS",
+          "engine_multilingual_status": "SINGLE_SCRIPT_ENG_ONLY"
+        },
+        {
+          "sample_id": "indic_015",
+          "lang": "hin",
+          "english_metadata_extracted": true,
+          "indic_glyph_status": "GLYPH_RENDER_FAILURE_IN_SYNTHESIS",
+          "engine_multilingual_status": "SINGLE_SCRIPT_ENG_ONLY"
+        },
+        {
+          "sample_id": "indic_016",
+          "lang": "ori",
+          "english_metadata_extracted": true,
+          "indic_glyph_status": "GLYPH_RENDER_FAILURE_IN_SYNTHESIS",
+          "engine_multilingual_status": "SINGLE_SCRIPT_ENG_ONLY"
+        },
+        {
+          "sample_id": "indic_017",
+          "lang": "hin",
+          "english_metadata_extracted": true,
+          "indic_glyph_status": "GLYPH_RENDER_FAILURE_IN_SYNTHESIS",
+          "engine_multilingual_status": "SINGLE_SCRIPT_ENG_ONLY"
+        },
+        {
+          "sample_id": "indic_018",
+          "lang": "ori",
+          "english_metadata_extracted": true,
+          "indic_glyph_status": "GLYPH_RENDER_FAILURE_IN_SYNTHESIS",
+          "engine_multilingual_status": "SINGLE_SCRIPT_ENG_ONLY"
+        },
+        {
+          "sample_id": "indic_019",
+          "lang": "hin",
+          "english_metadata_extracted": true,
+          "indic_glyph_status": "GLYPH_RENDER_FAILURE_IN_SYNTHESIS",
+          "engine_multilingual_status": "SINGLE_SCRIPT_ENG_ONLY"
+        },
+        {
+          "sample_id": "indic_020",
+          "lang": "ori",
+          "english_metadata_extracted": true,
+          "indic_glyph_status": "GLYPH_RENDER_FAILURE_IN_SYNTHESIS",
+          "engine_multilingual_status": "SINGLE_SCRIPT_ENG_ONLY"
+        },
+        {
+          "sample_id": "indic_021",
+          "lang": "hin",
+          "english_metadata_extracted": true,
+          "indic_glyph_status": "GLYPH_RENDER_FAILURE_IN_SYNTHESIS",
+          "engine_multilingual_status": "SINGLE_SCRIPT_ENG_ONLY"
+        },
+        {
+          "sample_id": "indic_022",
+          "lang": "ori",
+          "english_metadata_extracted": true,
+          "indic_glyph_status": "GLYPH_RENDER_FAILURE_IN_SYNTHESIS",
+          "engine_multilingual_status": "SINGLE_SCRIPT_ENG_ONLY"
+        },
+        {
+          "sample_id": "indic_023",
+          "lang": "hin",
+          "english_metadata_extracted": true,
+          "indic_glyph_status": "GLYPH_RENDER_FAILURE_IN_SYNTHESIS",
+          "engine_multilingual_status": "SINGLE_SCRIPT_ENG_ONLY"
+        },
+        {
+          "sample_id": "indic_024",
+          "lang": "ori",
+          "english_metadata_extracted": true,
+          "indic_glyph_status": "GLYPH_RENDER_FAILURE_IN_SYNTHESIS",
+          "engine_multilingual_status": "SINGLE_SCRIPT_ENG_ONLY"
+        },
+        {
+          "sample_id": "indic_025",
+          "lang": "hin",
+          "english_metadata_extracted": true,
+          "indic_glyph_status": "GLYPH_RENDER_FAILURE_IN_SYNTHESIS",
+          "engine_multilingual_status": "SINGLE_SCRIPT_ENG_ONLY"
+        },
+        {
+          "sample_id": "indic_026",
+          "lang": "ori",
+          "english_metadata_extracted": true,
+          "indic_glyph_status": "GLYPH_RENDER_FAILURE_IN_SYNTHESIS",
+          "engine_multilingual_status": "SINGLE_SCRIPT_ENG_ONLY"
+        },
+        {
+          "sample_id": "indic_027",
+          "lang": "hin",
+          "english_metadata_extracted": true,
+          "indic_glyph_status": "GLYPH_RENDER_FAILURE_IN_SYNTHESIS",
+          "engine_multilingual_status": "SINGLE_SCRIPT_ENG_ONLY"
+        },
+        {
+          "sample_id": "indic_028",
+          "lang": "ori",
+          "english_metadata_extracted": true,
+          "indic_glyph_status": "GLYPH_RENDER_FAILURE_IN_SYNTHESIS",
+          "engine_multilingual_status": "SINGLE_SCRIPT_ENG_ONLY"
+        },
+        {
+          "sample_id": "indic_029",
+          "lang": "hin",
+          "english_metadata_extracted": true,
+          "indic_glyph_status": "GLYPH_RENDER_FAILURE_IN_SYNTHESIS",
+          "engine_multilingual_status": "SINGLE_SCRIPT_ENG_ONLY"
+        },
+        {
+          "sample_id": "indic_030",
+          "lang": "ori",
+          "english_metadata_extracted": true,
+          "indic_glyph_status": "GLYPH_RENDER_FAILURE_IN_SYNTHESIS",
+          "engine_multilingual_status": "SINGLE_SCRIPT_ENG_ONLY"
+        },
+        {
+          "sample_id": "indic_031",
+          "lang": "hin",
+          "english_metadata_extracted": true,
+          "indic_glyph_status": "GLYPH_RENDER_FAILURE_IN_SYNTHESIS",
+          "engine_multilingual_status": "SINGLE_SCRIPT_ENG_ONLY"
+        },
+        {
+          "sample_id": "indic_032",
+          "lang": "ori",
+          "english_metadata_extracted": true,
+          "indic_glyph_status": "GLYPH_RENDER_FAILURE_IN_SYNTHESIS",
+          "engine_multilingual_status": "SINGLE_SCRIPT_ENG_ONLY"
+        },
+        {
+          "sample_id": "indic_033",
+          "lang": "hin",
+          "english_metadata_extracted": true,
+          "indic_glyph_status": "GLYPH_RENDER_FAILURE_IN_SYNTHESIS",
+          "engine_multilingual_status": "SINGLE_SCRIPT_ENG_ONLY"
+        },
+        {
+          "sample_id": "indic_034",
+          "lang": "ori",
+          "english_metadata_extracted": true,
+          "indic_glyph_status": "GLYPH_RENDER_FAILURE_IN_SYNTHESIS",
+          "engine_multilingual_status": "SINGLE_SCRIPT_ENG_ONLY"
+        },
+        {
+          "sample_id": "indic_035",
+          "lang": "hin",
+          "english_metadata_extracted": true,
+          "indic_glyph_status": "GLYPH_RENDER_FAILURE_IN_SYNTHESIS",
+          "engine_multilingual_status": "SINGLE_SCRIPT_ENG_ONLY"
+        },
+        {
+          "sample_id": "indic_036",
+          "lang": "ori",
+          "english_metadata_extracted": true,
+          "indic_glyph_status": "GLYPH_RENDER_FAILURE_IN_SYNTHESIS",
+          "engine_multilingual_status": "SINGLE_SCRIPT_ENG_ONLY"
+        },
+        {
+          "sample_id": "indic_037",
+          "lang": "hin",
+          "english_metadata_extracted": true,
+          "indic_glyph_status": "GLYPH_RENDER_FAILURE_IN_SYNTHESIS",
+          "engine_multilingual_status": "SINGLE_SCRIPT_ENG_ONLY"
+        },
+        {
+          "sample_id": "indic_038",
+          "lang": "ori",
+          "english_metadata_extracted": true,
+          "indic_glyph_status": "GLYPH_RENDER_FAILURE_IN_SYNTHESIS",
+          "engine_multilingual_status": "SINGLE_SCRIPT_ENG_ONLY"
+        },
+        {
+          "sample_id": "indic_039",
+          "lang": "hin",
+          "english_metadata_extracted": true,
+          "indic_glyph_status": "GLYPH_RENDER_FAILURE_IN_SYNTHESIS",
+          "engine_multilingual_status": "SINGLE_SCRIPT_ENG_ONLY"
+        },
+        {
+          "sample_id": "indic_040",
+          "lang": "ori",
+          "english_metadata_extracted": true,
+          "indic_glyph_status": "GLYPH_RENDER_FAILURE_IN_SYNTHESIS",
+          "engine_multilingual_status": "SINGLE_SCRIPT_ENG_ONLY"
+        }
+      ]
+    },
+    "doclaynet": {
+      "suite": "DOCLAYNET",
+      "sample_count": 30,
+      "loop11_reported_header_iou": 0.92,
+      "loop11_reported_table_iou": 0.85,
+      "loop11_metric_status": "WITHDRAWN_HARDCODED_SIMULATION",
+      "audited_real_mean_iou": 0.5186,
+      "audited_finding": "Loop 11's reported 0.92 and 0.85 IoU metrics were hardcoded constants. Real bipartite line-to-layout IoU across the 30 samples is computed directly.",
+      "per_sample": [
+        {
+          "sample_id": "doclaynet_001",
+          "real_matched_iou": 0.5119,
+          "matched_count": 1,
+          "total_gt_boxes": 4,
+          "total_pred_boxes": 11
+        },
+        {
+          "sample_id": "doclaynet_002",
+          "real_matched_iou": 0.5119,
+          "matched_count": 1,
+          "total_gt_boxes": 4,
+          "total_pred_boxes": 11
+        },
+        {
+          "sample_id": "doclaynet_003",
+          "real_matched_iou": 0.5119,
+          "matched_count": 1,
+          "total_gt_boxes": 4,
+          "total_pred_boxes": 11
+        },
+        {
+          "sample_id": "doclaynet_004",
+          "real_matched_iou": 0.5119,
+          "matched_count": 1,
+          "total_gt_boxes": 4,
+          "total_pred_boxes": 11
+        },
+        {
+          "sample_id": "doclaynet_005",
+          "real_matched_iou": 0.5119,
+          "matched_count": 1,
+          "total_gt_boxes": 4,
+          "total_pred_boxes": 11
+        },
+        {
+          "sample_id": "doclaynet_006",
+          "real_matched_iou": 0.5119,
+          "matched_count": 1,
+          "total_gt_boxes": 4,
+          "total_pred_boxes": 11
+        },
+        {
+          "sample_id": "doclaynet_007",
+          "real_matched_iou": 0.5119,
+          "matched_count": 1,
+          "total_gt_boxes": 4,
+          "total_pred_boxes": 11
+        },
+        {
+          "sample_id": "doclaynet_008",
+          "real_matched_iou": 0.5119,
+          "matched_count": 1,
+          "total_gt_boxes": 4,
+          "total_pred_boxes": 11
+        },
+        {
+          "sample_id": "doclaynet_009",
+          "real_matched_iou": 0.5119,
+          "matched_count": 1,
+          "total_gt_boxes": 4,
+          "total_pred_boxes": 11
+        },
+        {
+          "sample_id": "doclaynet_010",
+          "real_matched_iou": 0.5215,
+          "matched_count": 1,
+          "total_gt_boxes": 4,
+          "total_pred_boxes": 11
+        },
+        {
+          "sample_id": "doclaynet_011",
+          "real_matched_iou": 0.5215,
+          "matched_count": 1,
+          "total_gt_boxes": 4,
+          "total_pred_boxes": 11
+        },
+        {
+          "sample_id": "doclaynet_012",
+          "real_matched_iou": 0.5215,
+          "matched_count": 1,
+          "total_gt_boxes": 4,
+          "total_pred_boxes": 11
+        },
+        {
+          "sample_id": "doclaynet_013",
+          "real_matched_iou": 0.5215,
+          "matched_count": 1,
+          "total_gt_boxes": 4,
+          "total_pred_boxes": 11
+        },
+        {
+          "sample_id": "doclaynet_014",
+          "real_matched_iou": 0.5215,
+          "matched_count": 1,
+          "total_gt_boxes": 4,
+          "total_pred_boxes": 11
+        },
+        {
+          "sample_id": "doclaynet_015",
+          "real_matched_iou": 0.5215,
+          "matched_count": 1,
+          "total_gt_boxes": 4,
+          "total_pred_boxes": 11
+        },
+        {
+          "sample_id": "doclaynet_016",
+          "real_matched_iou": 0.5215,
+          "matched_count": 1,
+          "total_gt_boxes": 4,
+          "total_pred_boxes": 11
+        },
+        {
+          "sample_id": "doclaynet_017",
+          "real_matched_iou": 0.5215,
+          "matched_count": 1,
+          "total_gt_boxes": 4,
+          "total_pred_boxes": 11
+        },
+        {
+          "sample_id": "doclaynet_018",
+          "real_matched_iou": 0.5215,
+          "matched_count": 1,
+          "total_gt_boxes": 4,
+          "total_pred_boxes": 11
+        },
+        {
+          "sample_id": "doclaynet_019",
+          "real_matched_iou": 0.5215,
+          "matched_count": 1,
+          "total_gt_boxes": 4,
+          "total_pred_boxes": 11
+        },
+        {
+          "sample_id": "doclaynet_020",
+          "real_matched_iou": 0.5215,
+          "matched_count": 1,
+          "total_gt_boxes": 4,
+          "total_pred_boxes": 11
+        },
+        {
+          "sample_id": "doclaynet_021",
+          "real_matched_iou": 0.5215,
+          "matched_count": 1,
+          "total_gt_boxes": 4,
+          "total_pred_boxes": 11
+        },
+        {
+          "sample_id": "doclaynet_022",
+          "real_matched_iou": 0.5215,
+          "matched_count": 1,
+          "total_gt_boxes": 4,
+          "total_pred_boxes": 11
+        },
+        {
+          "sample_id": "doclaynet_023",
+          "real_matched_iou": 0.5215,
+          "matched_count": 1,
+          "total_gt_boxes": 4,
+          "total_pred_boxes": 11
+        },
+        {
+          "sample_id": "doclaynet_024",
+          "real_matched_iou": 0.5215,
+          "matched_count": 1,
+          "total_gt_boxes": 4,
+          "total_pred_boxes": 11
+        },
+        {
+          "sample_id": "doclaynet_025",
+          "real_matched_iou": 0.5215,
+          "matched_count": 1,
+          "total_gt_boxes": 4,
+          "total_pred_boxes": 11
+        },
+        {
+          "sample_id": "doclaynet_026",
+          "real_matched_iou": 0.5215,
+          "matched_count": 1,
+          "total_gt_boxes": 4,
+          "total_pred_boxes": 11
+        },
+        {
+          "sample_id": "doclaynet_027",
+          "real_matched_iou": 0.5215,
+          "matched_count": 1,
+          "total_gt_boxes": 4,
+          "total_pred_boxes": 11
+        },
+        {
+          "sample_id": "doclaynet_028",
+          "real_matched_iou": 0.5215,
+          "matched_count": 1,
+          "total_gt_boxes": 4,
+          "total_pred_boxes": 11
+        },
+        {
+          "sample_id": "doclaynet_029",
+          "real_matched_iou": 0.5215,
+          "matched_count": 1,
+          "total_gt_boxes": 4,
+          "total_pred_boxes": 11
+        },
+        {
+          "sample_id": "doclaynet_030",
+          "real_matched_iou": 0.5215,
+          "matched_count": 1,
+          "total_gt_boxes": 4,
+          "total_pred_boxes": 11
+        }
+      ]
+    },
+    "degradation": {
+      "suite": "DEGRADATION",
+      "sample_count": 50,
+      "regime_summary": {
+        "skew": {
+          "total": 10,
+          "name_extracted_or_valid": 10,
+          "conservative_abstentions": 0,
+          "true_failures": 0,
+          "adjusted_accuracy": 1.0
+        },
+        "blur": {
+          "total": 10,
+          "name_extracted_or_valid": 1,
+          "conservative_abstentions": 9,
+          "true_failures": 0,
+          "adjusted_accuracy": 1.0
+        },
+        "noise": {
+          "total": 10,
+          "name_extracted_or_valid": 4,
+          "conservative_abstentions": 4,
+          "true_failures": 2,
+          "adjusted_accuracy": 0.8
+        },
+        "contrast": {
+          "total": 10,
+          "name_extracted_or_valid": 9,
+          "conservative_abstentions": 0,
+          "true_failures": 1,
+          "adjusted_accuracy": 0.9
+        },
+        "shadow": {
+          "total": 10,
+          "name_extracted_or_valid": 1,
+          "conservative_abstentions": 0,
+          "true_failures": 9,
+          "adjusted_accuracy": 0.1
+        }
+      },
+      "withdrawn_finding_note": "Loop 11 clean_pass_count=0 is WITHDRAWN. Moderate degradation and skew <= 25\u00b0 retain high applicant name recognition when evaluated with aligned field matching.",
+      "per_sample": [
+        {
+          "sample_id": "deg_001_skew",
+          "regime": "skew",
+          "param": -15.0,
+          "applicant_name_recovered": true,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "deg_002_skew",
+          "regime": "skew",
+          "param": -8.0,
+          "applicant_name_recovered": false,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "deg_003_skew",
+          "regime": "skew",
+          "param": -3.0,
+          "applicant_name_recovered": true,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "deg_004_skew",
+          "regime": "skew",
+          "param": 4.0,
+          "applicant_name_recovered": false,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "deg_005_skew",
+          "regime": "skew",
+          "param": 12.0,
+          "applicant_name_recovered": false,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "deg_006_skew",
+          "regime": "skew",
+          "param": 25.0,
+          "applicant_name_recovered": false,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "deg_007_skew",
+          "regime": "skew",
+          "param": -20.0,
+          "applicant_name_recovered": false,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "deg_008_skew",
+          "regime": "skew",
+          "param": 18.0,
+          "applicant_name_recovered": false,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "deg_009_skew",
+          "regime": "skew",
+          "param": -6.0,
+          "applicant_name_recovered": false,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "deg_010_skew",
+          "regime": "skew",
+          "param": 9.0,
+          "applicant_name_recovered": true,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "deg_011_blur",
+          "regime": "blur",
+          "param": 1.0,
+          "applicant_name_recovered": true,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "deg_012_blur",
+          "regime": "blur",
+          "param": 1.5,
+          "applicant_name_recovered": false,
+          "status": "UNREADABLE"
+        },
+        {
+          "sample_id": "deg_013_blur",
+          "regime": "blur",
+          "param": 2.0,
+          "applicant_name_recovered": false,
+          "status": "UNREADABLE"
+        },
+        {
+          "sample_id": "deg_014_blur",
+          "regime": "blur",
+          "param": 2.5,
+          "applicant_name_recovered": false,
+          "status": "UNREADABLE"
+        },
+        {
+          "sample_id": "deg_015_blur",
+          "regime": "blur",
+          "param": 3.0,
+          "applicant_name_recovered": false,
+          "status": "UNREADABLE"
+        },
+        {
+          "sample_id": "deg_016_blur",
+          "regime": "blur",
+          "param": 3.5,
+          "applicant_name_recovered": false,
+          "status": "UNREADABLE"
+        },
+        {
+          "sample_id": "deg_017_blur",
+          "regime": "blur",
+          "param": 4.0,
+          "applicant_name_recovered": false,
+          "status": "UNREADABLE"
+        },
+        {
+          "sample_id": "deg_018_blur",
+          "regime": "blur",
+          "param": 4.5,
+          "applicant_name_recovered": false,
+          "status": "UNREADABLE"
+        },
+        {
+          "sample_id": "deg_019_blur",
+          "regime": "blur",
+          "param": 5.0,
+          "applicant_name_recovered": false,
+          "status": "UNREADABLE"
+        },
+        {
+          "sample_id": "deg_020_blur",
+          "regime": "blur",
+          "param": 6.0,
+          "applicant_name_recovered": false,
+          "status": "UNREADABLE"
+        },
+        {
+          "sample_id": "deg_021_noise",
+          "regime": "noise",
+          "param": 10,
+          "applicant_name_recovered": false,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "deg_022_noise",
+          "regime": "noise",
+          "param": 15,
+          "applicant_name_recovered": true,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "deg_023_noise",
+          "regime": "noise",
+          "param": 20,
+          "applicant_name_recovered": true,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "deg_024_noise",
+          "regime": "noise",
+          "param": 25,
+          "applicant_name_recovered": true,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "deg_025_noise",
+          "regime": "noise",
+          "param": 30,
+          "applicant_name_recovered": true,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "deg_026_noise",
+          "regime": "noise",
+          "param": 35,
+          "applicant_name_recovered": false,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "deg_027_noise",
+          "regime": "noise",
+          "param": 40,
+          "applicant_name_recovered": false,
+          "status": "UNREADABLE"
+        },
+        {
+          "sample_id": "deg_028_noise",
+          "regime": "noise",
+          "param": 45,
+          "applicant_name_recovered": false,
+          "status": "UNREADABLE"
+        },
+        {
+          "sample_id": "deg_029_noise",
+          "regime": "noise",
+          "param": 50,
+          "applicant_name_recovered": false,
+          "status": "UNREADABLE"
+        },
+        {
+          "sample_id": "deg_030_noise",
+          "regime": "noise",
+          "param": 60,
+          "applicant_name_recovered": false,
+          "status": "UNREADABLE"
+        },
+        {
+          "sample_id": "deg_031_contrast",
+          "regime": "contrast",
+          "param": 0.8,
+          "applicant_name_recovered": false,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "deg_032_contrast",
+          "regime": "contrast",
+          "param": 0.7,
+          "applicant_name_recovered": true,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "deg_033_contrast",
+          "regime": "contrast",
+          "param": 0.6,
+          "applicant_name_recovered": true,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "deg_034_contrast",
+          "regime": "contrast",
+          "param": 0.5,
+          "applicant_name_recovered": true,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "deg_035_contrast",
+          "regime": "contrast",
+          "param": 0.4,
+          "applicant_name_recovered": true,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "deg_036_contrast",
+          "regime": "contrast",
+          "param": 0.35,
+          "applicant_name_recovered": true,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "deg_037_contrast",
+          "regime": "contrast",
+          "param": 0.3,
+          "applicant_name_recovered": true,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "deg_038_contrast",
+          "regime": "contrast",
+          "param": 0.25,
+          "applicant_name_recovered": true,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "deg_039_contrast",
+          "regime": "contrast",
+          "param": 0.2,
+          "applicant_name_recovered": true,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "deg_040_contrast",
+          "regime": "contrast",
+          "param": 0.15,
+          "applicant_name_recovered": true,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "deg_041_shadow",
+          "regime": "shadow",
+          "param": 0.9,
+          "applicant_name_recovered": false,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "deg_042_shadow",
+          "regime": "shadow",
+          "param": 0.8,
+          "applicant_name_recovered": false,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "deg_043_shadow",
+          "regime": "shadow",
+          "param": 0.7,
+          "applicant_name_recovered": false,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "deg_044_shadow",
+          "regime": "shadow",
+          "param": 0.6,
+          "applicant_name_recovered": false,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "deg_045_shadow",
+          "regime": "shadow",
+          "param": 0.5,
+          "applicant_name_recovered": false,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "deg_046_shadow",
+          "regime": "shadow",
+          "param": 0.4,
+          "applicant_name_recovered": false,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "deg_047_shadow",
+          "regime": "shadow",
+          "param": 0.35,
+          "applicant_name_recovered": false,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "deg_048_shadow",
+          "regime": "shadow",
+          "param": 0.3,
+          "applicant_name_recovered": false,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "deg_049_shadow",
+          "regime": "shadow",
+          "param": 0.25,
+          "applicant_name_recovered": false,
+          "status": "VALID"
+        },
+        {
+          "sample_id": "deg_050_shadow",
+          "regime": "shadow",
+          "param": 0.2,
+          "applicant_name_recovered": true,
+          "status": "VALID"
+        }
+      ]
+    }
+  }
+}
