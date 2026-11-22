@@ -320,8 +320,9 @@ def extract_token_baseline_slope(data: dict, min_pairs: int = 3) -> Optional[flo
     return None
 
 
-def _ocr_page(page: pymupdf.Page, dpi: int = 200) -> PageOCRData:
+def _ocr_page(page: pymupdf.Page, dpi: int = 200, preferred_lang: Optional[str] = None) -> PageOCRData:
     """Renders page to image with direct buffer decoding, fast-path upright verification, deskew recovery, auto-orientation fallback, and timeouts."""
+    lang_to_use = preferred_lang or "eng"
     rect = page.rect
     # Security check: Page bomb protection against excessive dimensions
     if rect.width > MAX_PIXEL_DIMENSION or rect.height > MAX_PIXEL_DIMENSION:
@@ -344,7 +345,7 @@ def _ocr_page(page: pymupdf.Page, dpi: int = 200) -> PageOCRData:
 
     # Step 1: Speculative token OCR on initial 0° image
     try:
-        data = pytesseract.image_to_data(img, output_type=pytesseract.Output.DICT, timeout=OCR_TIMEOUT_SECONDS)
+        data = pytesseract.image_to_data(img, lang=lang_to_use, output_type=pytesseract.Output.DICT, timeout=OCR_TIMEOUT_SECONDS)
     except Exception:
         data = {"text": [], "conf": [], "left": [], "top": [], "width": [], "height": []}
 
@@ -361,6 +362,7 @@ def _ocr_page(page: pymupdf.Page, dpi: int = 200) -> PageOCRData:
             deskewed_img, o_sz, r_sz = deskew_image(img, corr_angle)
             deskew_data = pytesseract.image_to_data(
                 deskewed_img,
+                lang=lang_to_use,
                 output_type=pytesseract.Output.DICT,
                 timeout=OCR_TIMEOUT_SECONDS
             )
@@ -415,7 +417,7 @@ def _ocr_page(page: pymupdf.Page, dpi: int = 200) -> PageOCRData:
             rot_size = (rotated_img.width, rotated_img.height)
             # Re-run token OCR on the rotated upright image
             try:
-                data = pytesseract.image_to_data(rotated_img, output_type=pytesseract.Output.DICT, timeout=OCR_TIMEOUT_SECONDS)
+                data = pytesseract.image_to_data(rotated_img, lang=lang_to_use, output_type=pytesseract.Output.DICT, timeout=OCR_TIMEOUT_SECONDS)
             except Exception:
                 pass  # Keep initial data on secondary failure
     except Exception:
@@ -615,8 +617,13 @@ class DocumentExtractor:
                 ocr_text_accum = []
                 all_confs = []
 
+                optimal_lang = "eng"
+                if native_text and len(native_text.strip()) >= 15:
+                    from docuready.ingest.script_router import detect_unicode_script
+                    optimal_lang = detect_unicode_script(native_text)["detected_lang"]
+
                 for p in doc:
-                    p_ocr = _ocr_page(p, dpi=self.dpi)
+                    p_ocr = _ocr_page(p, dpi=self.dpi, preferred_lang=optimal_lang)
                     ocr_pages.append(p_ocr)
                     for l in p_ocr.lines:
                         ocr_text_accum.append(l["text"])

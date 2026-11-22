@@ -1,0 +1,202 @@
+{
+  "portal_a_data_gov_in": {
+    "name": "Open Government Data (OGD) Platform India",
+    "base_url": "https://www.data.gov.in",
+    "base_probe": {
+      "url": "https://www.data.gov.in",
+      "status": 200,
+      "accessible": true,
+      "latency_ms": 377.29,
+      "content_type": "text/html; charset=utf-8",
+      "content_length": "1364914",
+      "body_preview": "<!doctype html>\n<html data-n-head-ssr lang=\"en\" data-n-head=\"%7B%22lang%22:%7B%22ssr%22:%22en%22%7D%7D\">\n  <head >\n    <meta data-n-head=\"ssr\" charset=\"utf-8\"><meta data-n-head=\"ssr\" name=\"http-equiv\" content=\"text/html\"><meta data-n-head=\"ssr\" name=\"viewport\" content=\"width=device-width, initial-scale=1\"><meta data-n-head=\"ssr\" name=\"format-detection\" content=\"telephone=no\"><meta data-n-head=\"ssr\" data-hid=\"google-site-verification\" name=\"google-site-verification\" content=\"E_mHMxl8OOc7JXOce6JaG",
+      "error": null
+    },
+    "query_probes": [
+      {
+        "query": "scholarship",
+        "url": "https://data.gov.in/api/3/action/package_search?q=scholarship",
+        "status": 200,
+        "accessible": true,
+        "latency_ms": 1221.16,
+        "content_type": "text/html; charset=utf-8"
+      },
+      {
+        "query": "income certificate",
+        "url": "https://data.gov.in/api/3/action/package_search?q=income+certificate",
+        "status": 200,
+        "accessible": true,
+        "latency_ms": 924.48,
+        "content_type": "text/html; charset=utf-8"
+      },
+      {
+        "query": "caste",
+        "url": "https://data.gov.in/api/3/action/package_search?q=caste",
+        "status": 200,
+        "accessible": true,
+        "latency_ms": 1046.71,
+        "content_type": "text/html; charset=utf-8"
+      },
+      {
+        "query": "guidelines",
+        "url": "https://data.gov.in/api/3/action/package_search?q=guidelines",
+        "status": 200,
+        "accessible": true,
+        "latency_ms": 1015.34,
+        "content_type": "text/html; charset=utf-8"
+      },
+      {
+        "query": "format",
+        "url": "https://data.gov.in/api/3/action/package_search?q=format",
+        "status": 200,
+        "accessible": true,
+        "latency_ms": 1170.06,
+        "content_type": "text/html; charset=utf-8"
+      }
+    ]
+  },
+  "portal_b_ndap": {
+    "name": "National Data & Analytics Platform (NDAP) - NITI Aayog",
+    "base_url": "https://ndap.niti.gov.in",
+    "base_probe": {
+      "url": "https://ndap.niti.gov.in",
+      "status": 200,
+      "accessible": true,
+      "latency_ms": 269.78,
+      "content_type": "text/html",
+      "content_length": "9255",
+      "body_preview": "<!doctype html><html lang=\"en\"><head><meta name=\"csp-nonce\" content=\"__NONCE__\"/><title>National Data and Analytics Platform</title><meta charset=\"UTF-8\"/><meta name=\"viewport\" content=\"width=device-width,initial-scale=1,maximum-scale=1\"/><meta name=\"description\" content=\"The National Data and Analytics Platform (NDAP) facilitates and improves access to Indian government data. Through the platform, data sets from across India's extensive administrative landscape can be accessed. NDAP allows user",
+      "error": null
+    },
+    "query_probes": [
+      {
+        "query": "education",
+        "url": "https://ndap.niti.gov.in/api/v1/dataset?q=education",
+        "status": 404,
+        "accessible": false,
+        "latency_ms": 194.71,
+        "content_type": null
+      },
+      {
+        "query": "scholarship",
+        "url": "https://ndap.niti.gov.in/api/v1/dataset?q=scholarship",
+        "status": 404,
+        "accessible": false,
+        "latency_ms": 144.08,
+        "content_type": null
+      },
+      {
+        "query": "district report",
+        "url": "https://ndap.niti.gov.in/api/v1/dataset?q=district+report",
+        "status": 404,
+        "accessible": false,
+        "latency_ms": 144.85,
+        "content_type": null
+      },
+      {
+        "query": "census",
+        "url": "https://ndap.niti.gov.in/api/v1/dataset?q=census",
+        "status": 404,
+        "accessible": false,
+        "latency_ms": 155.83,
+        "content_type": null
+      }
+    ]
+  },
+  "portal_c_mospi_nada": {
+    "name": "MoSPI Microdata / National Data Archive (NADA)",
+    "base_url": "https://microdata.gov.in/nada/index.php/home",
+    "base_probe": {
+      "url": "https://microdata.gov.in/nada/index.php/home",
+      "status": 200,
+      "accessible": true,
+      "latency_ms": 290.85,
+      "content_type": "text/html; charset=UTF-8",
+      "content_length": "18852",
+      "body_preview": "<!DOCTYPE html>\n<html>\n\n<head>\n    <meta charset=\"utf-8\">\n<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n\n<title>Home</title>\n\n    <link href=\"https://microdata.gov.in/nada/themes/nada52/fontawesome/css/all.css\" rel=\"stylesheet\">\n    <link rel=\"stylesheet\" href=\"https://microdata.gov.in/nada/themes/nada52/css/bootstrap.min.css\">\n    \n\n<link rel=\"stylesheet\" href=\"https://microdata.gov.in/nada/themes/nada52/css/style.css?",
+      "error": null
+    },
+    "query_probes": [
+      {
+        "query": "NSS",
+        "url": "https://microdata.gov.in/nada/index.php/catalog?sk=NSS",
+        "status": 200,
+        "accessible": true,
+        "latency_ms": 694.89,
+        "content_type": "text/html; charset=UTF-8"
+      },
+      {
+        "query": "Schedule",
+        "url": "https://microdata.gov.in/nada/index.php/catalog?sk=Schedule",
+        "status": 200,
+        "accessible": true,
+        "latency_ms": 721.99,
+        "content_type": "text/html; charset=UTF-8"
+      },
+      {
+        "query": "Questionnaire",
+        "url": "https://microdata.gov.in/nada/index.php/catalog?sk=Questionnaire",
+        "status": 200,
+        "accessible": true,
+        "latency_ms": 259.97,
+        "content_type": "text/html; charset=UTF-8"
+      },
+      {
+        "query": "Income",
+        "url": "https://microdata.gov.in/nada/index.php/catalog?sk=Income",
+        "status": 200,
+        "accessible": true,
+        "latency_ms": 274.01,
+        "content_type": "text/html; charset=UTF-8"
+      }
+    ]
+  },
+  "portal_d_india_data_portal": {
+    "name": "India Data Portal (Bharti Institute / ISB)",
+    "base_url": "https://indiadataportal.com",
+    "base_probe": {
+      "url": "https://indiadataportal.com",
+      "status": 200,
+      "accessible": true,
+      "latency_ms": 750.73,
+      "content_type": "text/html; charset=utf-8",
+      "content_length": "34821",
+      "body_preview": "<!DOCTYPE html><html class=\"scroll-smooth hover:scroll-auto md:scroll-auto\" lang=\"en\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width\"/><title>IndiaDataPortal</title><link rel=\"icon\" href=\"/favicon.ico\"/><meta name=\"keywords\" content=\"Open Government Data, OGD, Data Portal India, Open Data Portal, Open Data, Indian Government Data, Free Data, Open Data India, Data Science, Data Visualization, Datasets, Indian Datasets,Administration and Governance, Climate and Weat",
+      "error": null
+    },
+    "query_probes": [
+      {
+        "query": "scholarship",
+        "url": "https://indiadataportal.com/?s=scholarship",
+        "status": 200,
+        "accessible": true,
+        "latency_ms": 476.68,
+        "content_type": "text/html; charset=utf-8"
+      },
+      {
+        "query": "agriculture",
+        "url": "https://indiadataportal.com/?s=agriculture",
+        "status": 200,
+        "accessible": true,
+        "latency_ms": 451.35,
+        "content_type": "text/html; charset=utf-8"
+      },
+      {
+        "query": "education",
+        "url": "https://indiadataportal.com/?s=education",
+        "status": 200,
+        "accessible": true,
+        "latency_ms": 474.33,
+        "content_type": "text/html; charset=utf-8"
+      },
+      {
+        "query": "report",
+        "url": "https://indiadataportal.com/?s=report",
+        "status": 200,
+        "accessible": true,
+        "latency_ms": 444.1,
+        "content_type": "text/html; charset=utf-8"
+      }
+    ]
+  }
+}

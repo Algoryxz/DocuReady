@@ -1,0 +1,426 @@
+{
+  "cohort_summary": {
+    "English": {
+      "samples": 5,
+      "mean_baseline_wer": 1.5422,
+      "mean_loop14_wer": 1.5422,
+      "mean_baseline_cer": 1.5172,
+      "mean_loop14_cer": 1.5172,
+      "mean_baseline_inversion_rate": 0.0507,
+      "mean_loop14_inversion_rate": 0.0507,
+      "mean_baseline_latency_ms": 689.1,
+      "mean_loop14_latency_ms": 1730.28,
+      "wer_reduction": 0.0
+    },
+    "Hindi": {
+      "samples": 4,
+      "mean_baseline_wer": 1.0008,
+      "mean_loop14_wer": 0.448,
+      "mean_baseline_cer": 0.8518,
+      "mean_loop14_cer": 0.1978,
+      "mean_baseline_inversion_rate": 0.0,
+      "mean_loop14_inversion_rate": 0.009,
+      "mean_baseline_latency_ms": 513.64,
+      "mean_loop14_latency_ms": 1162.47,
+      "wer_reduction": 0.5527
+    },
+    "Odia": {
+      "samples": 4,
+      "mean_baseline_wer": 1.0086,
+      "mean_loop14_wer": 0.3986,
+      "mean_baseline_cer": 0.8386,
+      "mean_loop14_cer": 0.1307,
+      "mean_baseline_inversion_rate": 0.0,
+      "mean_loop14_inversion_rate": 0.0325,
+      "mean_baseline_latency_ms": 497.72,
+      "mean_loop14_latency_ms": 1638.96,
+      "wer_reduction": 0.61
+    },
+    "Mixed English/Hindi": {
+      "samples": 1,
+      "mean_baseline_wer": 0.4528,
+      "mean_loop14_wer": 0.283,
+      "mean_baseline_cer": 0.3971,
+      "mean_loop14_cer": 0.2143,
+      "mean_baseline_inversion_rate": 0.0036,
+      "mean_loop14_inversion_rate": 0.0055,
+      "mean_baseline_latency_ms": 533.77,
+      "mean_loop14_latency_ms": 1726.7,
+      "wer_reduction": 0.1698
+    },
+    "Mixed English/Odia": {
+      "samples": 1,
+      "mean_baseline_wer": 0.3478,
+      "mean_loop14_wer": 0.1957,
+      "mean_baseline_cer": 0.3478,
+      "mean_loop14_cer": 0.087,
+      "mean_baseline_inversion_rate": 0.0,
+      "mean_loop14_inversion_rate": 0.0,
+      "mean_baseline_latency_ms": 600.53,
+      "mean_loop14_latency_ms": 1918.59,
+      "wer_reduction": 0.1521
+    }
+  },
+  "documents": [
+    {
+      "sample_id": "DOC_EXT_01_MOSPI_NADA_GUIDE",
+      "language": "English",
+      "provenance": "VERIFIED_EXTERNAL",
+      "routed_language": "eng",
+      "baseline": {
+        "cer": 6.9375,
+        "wer": 6.8571,
+        "inversion_rate": 0.1522,
+        "latency_ms": 1305.96
+      },
+      "loop14": {
+        "cer": 6.9375,
+        "wer": 6.8571,
+        "inversion_rate": 0.1522,
+        "latency_ms": 2394.83
+      },
+      "delta": {
+        "wer_reduction": 0.0,
+        "cer_reduction": 0.0,
+        "inversion_reduction": 0.0,
+        "latency_overhead_ms": 1088.87
+      }
+    },
+    {
+      "sample_id": "DOC_ENG_01_SCHOLARSHIP_NOTIFICATION",
+      "language": "English",
+      "provenance": "DERIVED_FROM_EXTERNAL",
+      "routed_language": "eng",
+      "baseline": {
+        "cer": 0.097,
+        "wer": 0.1449,
+        "inversion_rate": 0.0072,
+        "latency_ms": 558.18
+      },
+      "loop14": {
+        "cer": 0.097,
+        "wer": 0.1449,
+        "inversion_rate": 0.0072,
+        "latency_ms": 1770.71
+      },
+      "delta": {
+        "wer_reduction": 0.0,
+        "cer_reduction": 0.0,
+        "inversion_reduction": 0.0,
+        "latency_overhead_ms": 1212.53
+      }
+    },
+    {
+      "sample_id": "DOC_ENG_02_INCOME_CERTIFICATE",
+      "language": "English",
+      "provenance": "DERIVED_FROM_EXTERNAL",
+      "routed_language": "eng",
+      "baseline": {
+        "cer": 0.123,
+        "wer": 0.1569,
+        "inversion_rate": 0.0086,
+        "latency_ms": 625.59
+      },
+      "loop14": {
+        "cer": 0.123,
+        "wer": 0.1569,
+        "inversion_rate": 0.0086,
+        "latency_ms": 1764.18
+      },
+      "delta": {
+        "wer_reduction": 0.0,
+        "cer_reduction": 0.0,
+        "inversion_reduction": 0.0,
+        "latency_overhead_ms": 1138.59
+      }
+    },
+    {
+      "sample_id": "DOC_ENG_03_TWO_COLUMN_GAZETTE",
+      "language": "English",
+      "provenance": "DERIVED_FROM_EXTERNAL",
+      "routed_language": "eng",
+      "baseline": {
+        "cer": 0.4024,
+        "wer": 0.4651,
+        "inversion_rate": 0.0775,
+        "latency_ms": 508.43
+      },
+      "loop14": {
+        "cer": 0.4024,
+        "wer": 0.4651,
+        "inversion_rate": 0.0775,
+        "latency_ms": 1543.87
+      },
+      "delta": {
+        "wer_reduction": 0.0,
+        "cer_reduction": 0.0,
+        "inversion_reduction": 0.0,
+        "latency_overhead_ms": 1035.44
+      }
+    },
+    {
+      "sample_id": "DOC_HIN_01_ADMIN_CIRCULAR",
+      "language": "Hindi",
+      "provenance": "DERIVED_FROM_EXTERNAL",
+      "routed_language": "hin",
+      "baseline": {
+        "cer": 0.8395,
+        "wer": 1.0274,
+        "inversion_rate": 0.0,
+        "latency_ms": 641.69
+      },
+      "loop14": {
+        "cer": 0.2386,
+        "wer": 0.5205,
+        "inversion_rate": 0.0116,
+        "latency_ms": 1569.87
+      },
+      "delta": {
+        "wer_reduction": 0.5069,
+        "cer_reduction": 0.6009,
+        "inversion_reduction": -0.0116,
+        "latency_overhead_ms": 928.18
+      }
+    },
+    {
+      "sample_id": "DOC_HIN_02_INCOME_CERTIFICATE",
+      "language": "Hindi",
+      "provenance": "DERIVED_FROM_EXTERNAL",
+      "routed_language": "hin",
+      "baseline": {
+        "cer": 0.8511,
+        "wer": 1.0,
+        "inversion_rate": 0.0,
+        "latency_ms": 548.66
+      },
+      "loop14": {
+        "cer": 0.2766,
+        "wer": 0.4727,
+        "inversion_rate": 0.0244,
+        "latency_ms": 1207.05
+      },
+      "delta": {
+        "wer_reduction": 0.5273,
+        "cer_reduction": 0.5745,
+        "inversion_reduction": -0.0244,
+        "latency_overhead_ms": 658.39
+      }
+    },
+    {
+      "sample_id": "DOC_HIN_03_TWO_COLUMN_GAZETTE",
+      "language": "Hindi",
+      "provenance": "DERIVED_FROM_EXTERNAL",
+      "routed_language": "hin",
+      "baseline": {
+        "cer": 0.8718,
+        "wer": 0.9756,
+        "inversion_rate": 0.0,
+        "latency_ms": 470.67
+      },
+      "loop14": {
+        "cer": 0.1136,
+        "wer": 0.439,
+        "inversion_rate": 0.0,
+        "latency_ms": 1076.33
+      },
+      "delta": {
+        "wer_reduction": 0.5366,
+        "cer_reduction": 0.7582,
+        "inversion_reduction": 0.0,
+        "latency_overhead_ms": 605.66
+      }
+    },
+    {
+      "sample_id": "DOC_ORI_01_ADMIN_CIRCULAR",
+      "language": "Odia",
+      "provenance": "DERIVED_FROM_EXTERNAL",
+      "routed_language": "ori",
+      "baseline": {
+        "cer": 0.8607,
+        "wer": 1.0345,
+        "inversion_rate": 0.0,
+        "latency_ms": 521.0
+      },
+      "loop14": {
+        "cer": 0.2065,
+        "wer": 0.5345,
+        "inversion_rate": 0.0121,
+        "latency_ms": 2123.81
+      },
+      "delta": {
+        "wer_reduction": 0.5,
+        "cer_reduction": 0.6542,
+        "inversion_reduction": -0.0121,
+        "latency_overhead_ms": 1602.81
+      }
+    },
+    {
+      "sample_id": "DOC_ORI_02_INCOME_CERTIFICATE",
+      "language": "Odia",
+      "provenance": "DERIVED_FROM_EXTERNAL",
+      "routed_language": "ori",
+      "baseline": {
+        "cer": 0.8343,
+        "wer": 1.0,
+        "inversion_rate": 0.0,
+        "latency_ms": 573.94
+      },
+      "loop14": {
+        "cer": 0.1743,
+        "wer": 0.4314,
+        "inversion_rate": 0.0644,
+        "latency_ms": 1699.03
+      },
+      "delta": {
+        "wer_reduction": 0.5686,
+        "cer_reduction": 0.66,
+        "inversion_reduction": -0.0644,
+        "latency_overhead_ms": 1125.09
+      }
+    },
+    {
+      "sample_id": "DOC_ORI_03_TWO_COLUMN_GAZETTE",
+      "language": "Odia",
+      "provenance": "DERIVED_FROM_EXTERNAL",
+      "routed_language": "ori",
+      "baseline": {
+        "cer": 0.855,
+        "wer": 1.0,
+        "inversion_rate": 0.0,
+        "latency_ms": 509.03
+      },
+      "loop14": {
+        "cer": 0.0892,
+        "wer": 0.4286,
+        "inversion_rate": 0.0286,
+        "latency_ms": 1637.16
+      },
+      "delta": {
+        "wer_reduction": 0.5714,
+        "cer_reduction": 0.7658,
+        "inversion_reduction": -0.0286,
+        "latency_overhead_ms": 1128.13
+      }
+    },
+    {
+      "sample_id": "DOC_MIX_01_HIN_ENG_SCHOLARSHIP",
+      "language": "Mixed English/Hindi",
+      "provenance": "DERIVED_FROM_EXTERNAL",
+      "routed_language": "eng+hin",
+      "baseline": {
+        "cer": 0.3971,
+        "wer": 0.4528,
+        "inversion_rate": 0.0036,
+        "latency_ms": 533.77
+      },
+      "loop14": {
+        "cer": 0.2143,
+        "wer": 0.283,
+        "inversion_rate": 0.0055,
+        "latency_ms": 1726.7
+      },
+      "delta": {
+        "wer_reduction": 0.1698,
+        "cer_reduction": 0.1828,
+        "inversion_reduction": -0.0019,
+        "latency_overhead_ms": 1192.93
+      }
+    },
+    {
+      "sample_id": "DOC_MIX_02_ORI_ENG_SCHOLARSHIP",
+      "language": "Mixed English/Odia",
+      "provenance": "DERIVED_FROM_EXTERNAL",
+      "routed_language": "eng+ori",
+      "baseline": {
+        "cer": 0.3478,
+        "wer": 0.3478,
+        "inversion_rate": 0.0,
+        "latency_ms": 600.53
+      },
+      "loop14": {
+        "cer": 0.087,
+        "wer": 0.1957,
+        "inversion_rate": 0.0,
+        "latency_ms": 1918.59
+      },
+      "delta": {
+        "wer_reduction": 0.1521,
+        "cer_reduction": 0.2608,
+        "inversion_reduction": 0.0,
+        "latency_overhead_ms": 1318.05
+      }
+    },
+    {
+      "sample_id": "DOC_TAB_01_MARKSHEET_GRID",
+      "language": "English",
+      "provenance": "DERIVED_FROM_EXTERNAL",
+      "routed_language": "eng",
+      "baseline": {
+        "cer": 0.026,
+        "wer": 0.087,
+        "inversion_rate": 0.0079,
+        "latency_ms": 447.3
+      },
+      "loop14": {
+        "cer": 0.026,
+        "wer": 0.087,
+        "inversion_rate": 0.0079,
+        "latency_ms": 1177.8
+      },
+      "delta": {
+        "wer_reduction": 0.0,
+        "cer_reduction": 0.0,
+        "inversion_reduction": 0.0,
+        "latency_overhead_ms": 730.49
+      }
+    },
+    {
+      "sample_id": "DOC_DEG_01_HINDI_NOISY_SKEWED",
+      "language": "Hindi",
+      "provenance": "DERIVED_FROM_EXTERNAL",
+      "routed_language": "hin",
+      "baseline": {
+        "cer": 0.8446,
+        "wer": 1.0,
+        "inversion_rate": 0.0,
+        "latency_ms": 393.55
+      },
+      "loop14": {
+        "cer": 0.1622,
+        "wer": 0.36,
+        "inversion_rate": 0.0,
+        "latency_ms": 796.63
+      },
+      "delta": {
+        "wer_reduction": 0.64,
+        "cer_reduction": 0.6824,
+        "inversion_reduction": 0.0,
+        "latency_overhead_ms": 403.07
+      }
+    },
+    {
+      "sample_id": "DOC_DEG_02_ODIA_LOW_CONTRAST",
+      "language": "Odia",
+      "provenance": "DERIVED_FROM_EXTERNAL",
+      "routed_language": "ori",
+      "baseline": {
+        "cer": 0.8045,
+        "wer": 1.0,
+        "inversion_rate": 0.0,
+        "latency_ms": 386.9
+      },
+      "loop14": {
+        "cer": 0.0526,
+        "wer": 0.2,
+        "inversion_rate": 0.025,
+        "latency_ms": 1095.86
+      },
+      "delta": {
+        "wer_reduction": 0.8,
+        "cer_reduction": 0.7519,
+        "inversion_reduction": -0.025,
+        "latency_overhead_ms": 708.96
+      }
+    }
+  ]
+}
