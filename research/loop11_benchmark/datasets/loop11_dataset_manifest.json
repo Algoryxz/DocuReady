@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0.0",
+  "loop_id": "LOOP_11",
+  "project": "DocuReady - Independent Benchmark & OCR Generalization",
+  "timestamp": "2026-11-22T14:40:00+05:30",
+  "isolated_branch": "loop-11-independent-dataset-benchmark",
+  "dataset_manifest": [
+    {
+      "dataset_id": "FUNSD",
+      "full_name": "Form Understanding in Noisy Scanned Documents",
+      "version": "1.0",
+      "official_source": "https://guillaumejaume.github.io/FUNSD/",
+      "license": "Open Academic / Non-Commercial",
+      "languages": ["eng"],
+      "document_type": "Scanned Administrative and Financial Forms",
+      "official_test_split_size": 50,
+      "benchmark_sample_size": 50,
+      "ground_truth_type": "Token coordinates, transcripts, and key-value relations",
+      "target_evaluations": ["OCR Accuracy (CER/WER)", "Spatial Line Clustering", "Key-Value Extraction"]
+    },
+    {
+      "dataset_id": "SROIE",
+      "full_name": "ICDAR 2019 Scanned Receipts OCR and Information Extraction",
+      "version": "2019",
+      "official_source": "https://rrc.cvc.uab.es/?ch=13",
+      "license": "CC-BY-4.0",
+      "languages": ["eng"],
+      "document_type": "Scanned Thermal and Dot-Matrix Paper Receipts",
+      "official_test_split_size": 361,
+      "benchmark_sample_size": 60,
+      "ground_truth_type": "Exact text transcripts, bounding boxes, target entity fields",
+      "target_evaluations": ["OCR Transcription", "Date Normalization", "Financial Amount Normalization"]
+    },
+    {
+      "dataset_id": "INDIC_OCR",
+      "full_name": "IndicDLP & Indic Mozhi Multilingual Form & Circular Corpus",
+      "version": "1.1",
+      "official_source": "https://ai4bharat.iitm.ac.in",
+      "license": "MIT / CC-BY-4.0",
+      "languages": ["hin", "ori", "eng"],
+      "document_type": "Government Notifications, Educational Certificates, Gazette Extracts",
+      "official_test_split_size": 120,
+      "benchmark_sample_size": 40,
+      "ground_truth_type": "Multilingual Unicode transcripts, script metadata, word bboxes",
+      "target_evaluations": ["Multilingual Script Generalization (Hindi & Odia)", "Font Variation Robustness"]
+    },
+    {
+      "dataset_id": "DOCLAYNET_SAMPLE",
+      "full_name": "IBM Research DocLayNet Layout Segmentation Benchmark",
+      "version": "1.1",
+      "official_source": "https://github.com/DS4SD/DocLayNet",
+      "license": "CDLA-Permissive-1.0",
+      "languages": ["eng", "deu", "fra"],
+      "document_type": "Administrative Decrees, Financial Tables, Multi-Column Reports",
+      "official_test_split_size": 4999,
+      "benchmark_sample_size": 30,
+      "ground_truth_type": "COCO Layout segmentation polygons and category labels",
+      "target_evaluations": ["Layout Parsing", "Header Anchor Detection", "Bounding Box IoU"]
+    },
+    {
+      "dataset_id": "DEGRADATION_ROBUSTNESS",
+      "full_name": "DIBCO-Calibrated Controlled Document Degradation Suite",
+      "version": "1.0",
+      "official_source": "Internal Synthetic Benchmark calibrated to DIBCO/H-DIBCO standards",
+      "license": "MIT (DocuReady Research)",
+      "languages": ["eng", "hin", "ori"],
+      "document_type": "Synthetic Document Forms subjected to controlled physical noise",
+      "official_test_split_size": 50,
+      "benchmark_sample_size": 50,
+      "ground_truth_type": "Pre-degradation ground-truth text, bounding boxes, degradation levels",
+      "target_evaluations": ["Sub-degree Skew Failure Boundary", "Defocus Blur Failure Threshold", "Gaussian Noise Abstention"]
+    }
+  ]
+}

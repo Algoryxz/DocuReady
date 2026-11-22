@@ -1,0 +1,27 @@
+[
+  {
+    "dataset": "FUNSD",
+    "count": 50,
+    "ground_truth": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop11_benchmark\\ground_truth\\funsd_ground_truth.json"
+  },
+  {
+    "dataset": "SROIE",
+    "count": 60,
+    "ground_truth": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop11_benchmark\\ground_truth\\sroie_ground_truth.json"
+  },
+  {
+    "dataset": "INDIC_OCR",
+    "count": 40,
+    "ground_truth": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop11_benchmark\\ground_truth\\indic_ground_truth.json"
+  },
+  {
+    "dataset": "DOCLAYNET",
+    "count": 30,
+    "ground_truth": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop11_benchmark\\ground_truth\\doclaynet_ground_truth.json"
+  },
+  {
+    "dataset": "DEGRADATION",
+    "count": 50,
+    "ground_truth": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop11_benchmark\\ground_truth\\degradation_ground_truth.json"
+  }
+]

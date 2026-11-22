@@ -1,0 +1,452 @@
+[
+  {
+    "sample_id": "deg_001_skew",
+    "regime": "skew",
+    "parameter_value": -15.0,
+    "base_sample_id": 0,
+    "image_path": "data\\degradation\\deg_001_skew.png",
+    "clean_applicant_name": "CANDIDATE 01 SHARMA",
+    "clean_income": "INR 150000"
+  },
+  {
+    "sample_id": "deg_002_skew",
+    "regime": "skew",
+    "parameter_value": -8.0,
+    "base_sample_id": 1,
+    "image_path": "data\\degradation\\deg_002_skew.png",
+    "clean_applicant_name": "CANDIDATE 02 SHARMA",
+    "clean_income": "INR 160000"
+  },
+  {
+    "sample_id": "deg_003_skew",
+    "regime": "skew",
+    "parameter_value": -3.0,
+    "base_sample_id": 2,
+    "image_path": "data\\degradation\\deg_003_skew.png",
+    "clean_applicant_name": "CANDIDATE 03 SHARMA",
+    "clean_income": "INR 170000"
+  },
+  {
+    "sample_id": "deg_004_skew",
+    "regime": "skew",
+    "parameter_value": 4.0,
+    "base_sample_id": 3,
+    "image_path": "data\\degradation\\deg_004_skew.png",
+    "clean_applicant_name": "CANDIDATE 04 SHARMA",
+    "clean_income": "INR 180000"
+  },
+  {
+    "sample_id": "deg_005_skew",
+    "regime": "skew",
+    "parameter_value": 12.0,
+    "base_sample_id": 4,
+    "image_path": "data\\degradation\\deg_005_skew.png",
+    "clean_applicant_name": "CANDIDATE 05 SHARMA",
+    "clean_income": "INR 190000"
+  },
+  {
+    "sample_id": "deg_006_skew",
+    "regime": "skew",
+    "parameter_value": 25.0,
+    "base_sample_id": 5,
+    "image_path": "data\\degradation\\deg_006_skew.png",
+    "clean_applicant_name": "CANDIDATE 06 SHARMA",
+    "clean_income": "INR 200000"
+  },
+  {
+    "sample_id": "deg_007_skew",
+    "regime": "skew",
+    "parameter_value": -20.0,
+    "base_sample_id": 6,
+    "image_path": "data\\degradation\\deg_007_skew.png",
+    "clean_applicant_name": "CANDIDATE 07 SHARMA",
+    "clean_income": "INR 210000"
+  },
+  {
+    "sample_id": "deg_008_skew",
+    "regime": "skew",
+    "parameter_value": 18.0,
+    "base_sample_id": 7,
+    "image_path": "data\\degradation\\deg_008_skew.png",
+    "clean_applicant_name": "CANDIDATE 08 SHARMA",
+    "clean_income": "INR 220000"
+  },
+  {
+    "sample_id": "deg_009_skew",
+    "regime": "skew",
+    "parameter_value": -6.0,
+    "base_sample_id": 8,
+    "image_path": "data\\degradation\\deg_009_skew.png",
+    "clean_applicant_name": "CANDIDATE 09 SHARMA",
+    "clean_income": "INR 230000"
+  },
+  {
+    "sample_id": "deg_010_skew",
+    "regime": "skew",
+    "parameter_value": 9.0,
+    "base_sample_id": 9,
+    "image_path": "data\\degradation\\deg_010_skew.png",
+    "clean_applicant_name": "CANDIDATE 10 SHARMA",
+    "clean_income": "INR 240000"
+  },
+  {
+    "sample_id": "deg_011_blur",
+    "regime": "blur",
+    "parameter_value": 1.0,
+    "base_sample_id": 0,
+    "image_path": "data\\degradation\\deg_011_blur.png",
+    "clean_applicant_name": "CANDIDATE 01 SHARMA",
+    "clean_income": "INR 150000"
+  },
+  {
+    "sample_id": "deg_012_blur",
+    "regime": "blur",
+    "parameter_value": 1.5,
+    "base_sample_id": 1,
+    "image_path": "data\\degradation\\deg_012_blur.png",
+    "clean_applicant_name": "CANDIDATE 02 SHARMA",
+    "clean_income": "INR 160000"
+  },
+  {
+    "sample_id": "deg_013_blur",
+    "regime": "blur",
+    "parameter_value": 2.0,
+    "base_sample_id": 2,
+    "image_path": "data\\degradation\\deg_013_blur.png",
+    "clean_applicant_name": "CANDIDATE 03 SHARMA",
+    "clean_income": "INR 170000"
+  },
+  {
+    "sample_id": "deg_014_blur",
+    "regime": "blur",
+    "parameter_value": 2.5,
+    "base_sample_id": 3,
+    "image_path": "data\\degradation\\deg_014_blur.png",
+    "clean_applicant_name": "CANDIDATE 04 SHARMA",
+    "clean_income": "INR 180000"
+  },
+  {
+    "sample_id": "deg_015_blur",
+    "regime": "blur",
+    "parameter_value": 3.0,
+    "base_sample_id": 4,
+    "image_path": "data\\degradation\\deg_015_blur.png",
+    "clean_applicant_name": "CANDIDATE 05 SHARMA",
+    "clean_income": "INR 190000"
+  },
+  {
+    "sample_id": "deg_016_blur",
+    "regime": "blur",
+    "parameter_value": 3.5,
+    "base_sample_id": 5,
+    "image_path": "data\\degradation\\deg_016_blur.png",
+    "clean_applicant_name": "CANDIDATE 06 SHARMA",
+    "clean_income": "INR 200000"
+  },
+  {
+    "sample_id": "deg_017_blur",
+    "regime": "blur",
+    "parameter_value": 4.0,
+    "base_sample_id": 6,
+    "image_path": "data\\degradation\\deg_017_blur.png",
+    "clean_applicant_name": "CANDIDATE 07 SHARMA",
+    "clean_income": "INR 210000"
+  },
+  {
+    "sample_id": "deg_018_blur",
+    "regime": "blur",
+    "parameter_value": 4.5,
+    "base_sample_id": 7,
+    "image_path": "data\\degradation\\deg_018_blur.png",
+    "clean_applicant_name": "CANDIDATE 08 SHARMA",
+    "clean_income": "INR 220000"
+  },
+  {
+    "sample_id": "deg_019_blur",
+    "regime": "blur",
+    "parameter_value": 5.0,
+    "base_sample_id": 8,
+    "image_path": "data\\degradation\\deg_019_blur.png",
+    "clean_applicant_name": "CANDIDATE 09 SHARMA",
+    "clean_income": "INR 230000"
+  },
+  {
+    "sample_id": "deg_020_blur",
+    "regime": "blur",
+    "parameter_value": 6.0,
+    "base_sample_id": 9,
+    "image_path": "data\\degradation\\deg_020_blur.png",
+    "clean_applicant_name": "CANDIDATE 10 SHARMA",
+    "clean_income": "INR 240000"
+  },
+  {
+    "sample_id": "deg_021_noise",
+    "regime": "noise",
+    "parameter_value": 10,
+    "base_sample_id": 0,
+    "image_path": "data\\degradation\\deg_021_noise.png",
+    "clean_applicant_name": "CANDIDATE 01 SHARMA",
+    "clean_income": "INR 150000"
+  },
+  {
+    "sample_id": "deg_022_noise",
+    "regime": "noise",
+    "parameter_value": 15,
+    "base_sample_id": 1,
+    "image_path": "data\\degradation\\deg_022_noise.png",
+    "clean_applicant_name": "CANDIDATE 02 SHARMA",
+    "clean_income": "INR 160000"
+  },
+  {
+    "sample_id": "deg_023_noise",
+    "regime": "noise",
+    "parameter_value": 20,
+    "base_sample_id": 2,
+    "image_path": "data\\degradation\\deg_023_noise.png",
+    "clean_applicant_name": "CANDIDATE 03 SHARMA",
+    "clean_income": "INR 170000"
+  },
+  {
+    "sample_id": "deg_024_noise",
+    "regime": "noise",
+    "parameter_value": 25,
+    "base_sample_id": 3,
+    "image_path": "data\\degradation\\deg_024_noise.png",
+    "clean_applicant_name": "CANDIDATE 04 SHARMA",
+    "clean_income": "INR 180000"
+  },
+  {
+    "sample_id": "deg_025_noise",
+    "regime": "noise",
+    "parameter_value": 30,
+    "base_sample_id": 4,
+    "image_path": "data\\degradation\\deg_025_noise.png",
+    "clean_applicant_name": "CANDIDATE 05 SHARMA",
+    "clean_income": "INR 190000"
+  },
+  {
+    "sample_id": "deg_026_noise",
+    "regime": "noise",
+    "parameter_value": 35,
+    "base_sample_id": 5,
+    "image_path": "data\\degradation\\deg_026_noise.png",
+    "clean_applicant_name": "CANDIDATE 06 SHARMA",
+    "clean_income": "INR 200000"
+  },
+  {
+    "sample_id": "deg_027_noise",
+    "regime": "noise",
+    "parameter_value": 40,
+    "base_sample_id": 6,
+    "image_path": "data\\degradation\\deg_027_noise.png",
+    "clean_applicant_name": "CANDIDATE 07 SHARMA",
+    "clean_income": "INR 210000"
+  },
+  {
+    "sample_id": "deg_028_noise",
+    "regime": "noise",
+    "parameter_value": 45,
+    "base_sample_id": 7,
+    "image_path": "data\\degradation\\deg_028_noise.png",
+    "clean_applicant_name": "CANDIDATE 08 SHARMA",
+    "clean_income": "INR 220000"
+  },
+  {
+    "sample_id": "deg_029_noise",
+    "regime": "noise",
+    "parameter_value": 50,
+    "base_sample_id": 8,
+    "image_path": "data\\degradation\\deg_029_noise.png",
+    "clean_applicant_name": "CANDIDATE 09 SHARMA",
+    "clean_income": "INR 230000"
+  },
+  {
+    "sample_id": "deg_030_noise",
+    "regime": "noise",
+    "parameter_value": 60,
+    "base_sample_id": 9,
+    "image_path": "data\\degradation\\deg_030_noise.png",
+    "clean_applicant_name": "CANDIDATE 10 SHARMA",
+    "clean_income": "INR 240000"
+  },
+  {
+    "sample_id": "deg_031_contrast",
+    "regime": "contrast",
+    "parameter_value": 0.8,
+    "base_sample_id": 0,
+    "image_path": "data\\degradation\\deg_031_contrast.png",
+    "clean_applicant_name": "CANDIDATE 01 SHARMA",
+    "clean_income": "INR 150000"
+  },
+  {
+    "sample_id": "deg_032_contrast",
+    "regime": "contrast",
+    "parameter_value": 0.7,
+    "base_sample_id": 1,
+    "image_path": "data\\degradation\\deg_032_contrast.png",
+    "clean_applicant_name": "CANDIDATE 02 SHARMA",
+    "clean_income": "INR 160000"
+  },
+  {
+    "sample_id": "deg_033_contrast",
+    "regime": "contrast",
+    "parameter_value": 0.6,
+    "base_sample_id": 2,
+    "image_path": "data\\degradation\\deg_033_contrast.png",
+    "clean_applicant_name": "CANDIDATE 03 SHARMA",
+    "clean_income": "INR 170000"
+  },
+  {
+    "sample_id": "deg_034_contrast",
+    "regime": "contrast",
+    "parameter_value": 0.5,
+    "base_sample_id": 3,
+    "image_path": "data\\degradation\\deg_034_contrast.png",
+    "clean_applicant_name": "CANDIDATE 04 SHARMA",
+    "clean_income": "INR 180000"
+  },
+  {
+    "sample_id": "deg_035_contrast",
+    "regime": "contrast",
+    "parameter_value": 0.4,
+    "base_sample_id": 4,
+    "image_path": "data\\degradation\\deg_035_contrast.png",
+    "clean_applicant_name": "CANDIDATE 05 SHARMA",
+    "clean_income": "INR 190000"
+  },
+  {
+    "sample_id": "deg_036_contrast",
+    "regime": "contrast",
+    "parameter_value": 0.35,
+    "base_sample_id": 5,
+    "image_path": "data\\degradation\\deg_036_contrast.png",
+    "clean_applicant_name": "CANDIDATE 06 SHARMA",
+    "clean_income": "INR 200000"
+  },
+  {
+    "sample_id": "deg_037_contrast",
+    "regime": "contrast",
+    "parameter_value": 0.3,
+    "base_sample_id": 6,
+    "image_path": "data\\degradation\\deg_037_contrast.png",
+    "clean_applicant_name": "CANDIDATE 07 SHARMA",
+    "clean_income": "INR 210000"
+  },
+  {
+    "sample_id": "deg_038_contrast",
+    "regime": "contrast",
+    "parameter_value": 0.25,
+    "base_sample_id": 7,
+    "image_path": "data\\degradation\\deg_038_contrast.png",
+    "clean_applicant_name": "CANDIDATE 08 SHARMA",
+    "clean_income": "INR 220000"
+  },
+  {
+    "sample_id": "deg_039_contrast",
+    "regime": "contrast",
+    "parameter_value": 0.2,
+    "base_sample_id": 8,
+    "image_path": "data\\degradation\\deg_039_contrast.png",
+    "clean_applicant_name": "CANDIDATE 09 SHARMA",
+    "clean_income": "INR 230000"
+  },
+  {
+    "sample_id": "deg_040_contrast",
+    "regime": "contrast",
+    "parameter_value": 0.15,
+    "base_sample_id": 9,
+    "image_path": "data\\degradation\\deg_040_contrast.png",
+    "clean_applicant_name": "CANDIDATE 10 SHARMA",
+    "clean_income": "INR 240000"
+  },
+  {
+    "sample_id": "deg_041_shadow",
+    "regime": "shadow",
+    "parameter_value": 0.9,
+    "base_sample_id": 0,
+    "image_path": "data\\degradation\\deg_041_shadow.png",
+    "clean_applicant_name": "CANDIDATE 01 SHARMA",
+    "clean_income": "INR 150000"
+  },
+  {
+    "sample_id": "deg_042_shadow",
+    "regime": "shadow",
+    "parameter_value": 0.8,
+    "base_sample_id": 1,
+    "image_path": "data\\degradation\\deg_042_shadow.png",
+    "clean_applicant_name": "CANDIDATE 02 SHARMA",
+    "clean_income": "INR 160000"
+  },
+  {
+    "sample_id": "deg_043_shadow",
+    "regime": "shadow",
+    "parameter_value": 0.7,
+    "base_sample_id": 2,
+    "image_path": "data\\degradation\\deg_043_shadow.png",
+    "clean_applicant_name": "CANDIDATE 03 SHARMA",
+    "clean_income": "INR 170000"
+  },
+  {
+    "sample_id": "deg_044_shadow",
+    "regime": "shadow",
+    "parameter_value": 0.6,
+    "base_sample_id": 3,
+    "image_path": "data\\degradation\\deg_044_shadow.png",
+    "clean_applicant_name": "CANDIDATE 04 SHARMA",
+    "clean_income": "INR 180000"
+  },
+  {
+    "sample_id": "deg_045_shadow",
+    "regime": "shadow",
+    "parameter_value": 0.5,
+    "base_sample_id": 4,
+    "image_path": "data\\degradation\\deg_045_shadow.png",
+    "clean_applicant_name": "CANDIDATE 05 SHARMA",
+    "clean_income": "INR 190000"
+  },
+  {
+    "sample_id": "deg_046_shadow",
+    "regime": "shadow",
+    "parameter_value": 0.4,
+    "base_sample_id": 5,
+    "image_path": "data\\degradation\\deg_046_shadow.png",
+    "clean_applicant_name": "CANDIDATE 06 SHARMA",
+    "clean_income": "INR 200000"
+  },
+  {
+    "sample_id": "deg_047_shadow",
+    "regime": "shadow",
+    "parameter_value": 0.35,
+    "base_sample_id": 6,
+    "image_path": "data\\degradation\\deg_047_shadow.png",
+    "clean_applicant_name": "CANDIDATE 07 SHARMA",
+    "clean_income": "INR 210000"
+  },
+  {
+    "sample_id": "deg_048_shadow",
+    "regime": "shadow",
+    "parameter_value": 0.3,
+    "base_sample_id": 7,
+    "image_path": "data\\degradation\\deg_048_shadow.png",
+    "clean_applicant_name": "CANDIDATE 08 SHARMA",
+    "clean_income": "INR 220000"
+  },
+  {
+    "sample_id": "deg_049_shadow",
+    "regime": "shadow",
+    "parameter_value": 0.25,
+    "base_sample_id": 8,
+    "image_path": "data\\degradation\\deg_049_shadow.png",
+    "clean_applicant_name": "CANDIDATE 09 SHARMA",
+    "clean_income": "INR 230000"
+  },
+  {
+    "sample_id": "deg_050_shadow",
+    "regime": "shadow",
+    "parameter_value": 0.2,
+    "base_sample_id": 9,
+    "image_path": "data\\degradation\\deg_050_shadow.png",
+    "clean_applicant_name": "CANDIDATE 10 SHARMA",
+    "clean_income": "INR 240000"
+  }
+]

@@ -1,0 +1,762 @@
+[
+  {
+    "sample_id": "indic_001",
+    "split": "DEV",
+    "lang": "hin",
+    "pdf_path": "data\\indic_ocr\\indic_001.pdf",
+    "png_path": "data\\indic_ocr\\indic_001.png",
+    "ground_truth": {
+      "lang": "hin",
+      "doc_type": "INCOME_CERT",
+      "fields": {
+        "doc_type": "INCOME_CERT",
+        "annual_income": "180000",
+        "authority": "TAHSILDAR BHUBANESWAR",
+        "applicant_name": "Aarav Sharma"
+      },
+      "indic_title": "\u0906\u092f \u092a\u094d\u0930\u092e\u093e\u0923 \u092a\u0924\u094d\u0930 (INCOME CERTIFICATE)",
+      "indic_clause": "\u092a\u094d\u0930\u092e\u093e\u0923\u093f\u0924 \u0915\u093f\u092f\u093e \u091c\u093e\u0924\u093e \u0939\u0948 \u0915\u093f \u091b\u093e\u0924\u094d\u0930 \u0915\u093e \u0935\u093e\u0930\u094d\u0937\u093f\u0915 \u092a\u093e\u0930\u093f\u0935\u093e\u0930\u093f\u0915 \u0906\u092f \u0930\u0941\u092a\u090f 1,80,000 \u0939\u0948\u0964"
+    }
+  },
+  {
+    "sample_id": "indic_002",
+    "split": "DEV",
+    "lang": "ori",
+    "pdf_path": "data\\indic_ocr\\indic_002.pdf",
+    "png_path": "data\\indic_ocr\\indic_002.png",
+    "ground_truth": {
+      "lang": "ori",
+      "doc_type": "INCOME_CERT",
+      "fields": {
+        "doc_type": "INCOME_CERT",
+        "annual_income": "150000",
+        "authority": "TAHSILDAR CUTTACK",
+        "applicant_name": "Subrat Nayak"
+      },
+      "indic_title": "\u0b06\u0b5f \u0b2a\u0b4d\u0b30\u0b2e\u0b3e\u0b23 \u0b2a\u0b24\u0b4d\u0b30 (INCOME CERTIFICATE)",
+      "indic_clause": "\u0b2a\u0b4d\u0b30\u0b2e\u0b3e\u0b23\u0b3f\u0b24 \u0b15\u0b30\u0b3e\u0b2f\u0b3e\u0b09\u0b05\u0b1b\u0b3f \u0b15\u0b3f \u0b06\u0b2c\u0b47\u0b26\u0b28\u0b15\u0b3e\u0b30\u0b40\u0b19\u0b4d\u0b15 \u0b2c\u0b3e\u0b30\u0b4d\u0b37\u0b3f\u0b15 \u0b06\u0b5f \u0b1f\u0b19\u0b4d\u0b15\u0b3e \u0b67,\u0b6b\u0b66,\u0b66\u0b66\u0b66 \u0b05\u0b1f\u0b47\u0964"
+    }
+  },
+  {
+    "sample_id": "indic_003",
+    "split": "DEV",
+    "lang": "hin",
+    "pdf_path": "data\\indic_ocr\\indic_003.pdf",
+    "png_path": "data\\indic_ocr\\indic_003.png",
+    "ground_truth": {
+      "lang": "hin",
+      "doc_type": "INCOME_CERT",
+      "fields": {
+        "doc_type": "INCOME_CERT",
+        "annual_income": "180000",
+        "authority": "TAHSILDAR BHUBANESWAR",
+        "applicant_name": "Aarav Sharma"
+      },
+      "indic_title": "\u0906\u092f \u092a\u094d\u0930\u092e\u093e\u0923 \u092a\u0924\u094d\u0930 (INCOME CERTIFICATE)",
+      "indic_clause": "\u092a\u094d\u0930\u092e\u093e\u0923\u093f\u0924 \u0915\u093f\u092f\u093e \u091c\u093e\u0924\u093e \u0939\u0948 \u0915\u093f \u091b\u093e\u0924\u094d\u0930 \u0915\u093e \u0935\u093e\u0930\u094d\u0937\u093f\u0915 \u092a\u093e\u0930\u093f\u0935\u093e\u0930\u093f\u0915 \u0906\u092f \u0930\u0941\u092a\u090f 1,80,000 \u0939\u0948\u0964"
+    }
+  },
+  {
+    "sample_id": "indic_004",
+    "split": "DEV",
+    "lang": "ori",
+    "pdf_path": "data\\indic_ocr\\indic_004.pdf",
+    "png_path": "data\\indic_ocr\\indic_004.png",
+    "ground_truth": {
+      "lang": "ori",
+      "doc_type": "INCOME_CERT",
+      "fields": {
+        "doc_type": "INCOME_CERT",
+        "annual_income": "150000",
+        "authority": "TAHSILDAR CUTTACK",
+        "applicant_name": "Subrat Nayak"
+      },
+      "indic_title": "\u0b06\u0b5f \u0b2a\u0b4d\u0b30\u0b2e\u0b3e\u0b23 \u0b2a\u0b24\u0b4d\u0b30 (INCOME CERTIFICATE)",
+      "indic_clause": "\u0b2a\u0b4d\u0b30\u0b2e\u0b3e\u0b23\u0b3f\u0b24 \u0b15\u0b30\u0b3e\u0b2f\u0b3e\u0b09\u0b05\u0b1b\u0b3f \u0b15\u0b3f \u0b06\u0b2c\u0b47\u0b26\u0b28\u0b15\u0b3e\u0b30\u0b40\u0b19\u0b4d\u0b15 \u0b2c\u0b3e\u0b30\u0b4d\u0b37\u0b3f\u0b15 \u0b06\u0b5f \u0b1f\u0b19\u0b4d\u0b15\u0b3e \u0b67,\u0b6b\u0b66,\u0b66\u0b66\u0b66 \u0b05\u0b1f\u0b47\u0964"
+    }
+  },
+  {
+    "sample_id": "indic_005",
+    "split": "DEV",
+    "lang": "hin",
+    "pdf_path": "data\\indic_ocr\\indic_005.pdf",
+    "png_path": "data\\indic_ocr\\indic_005.png",
+    "ground_truth": {
+      "lang": "hin",
+      "doc_type": "CASTE_CERT",
+      "fields": {
+        "doc_type": "CASTE_CERT",
+        "caste_category": "OBC",
+        "authority": "SUB DIVISIONAL MAGISTRATE",
+        "applicant_name": "Rohan Kumar"
+      },
+      "indic_title": "\u091c\u093e\u0924\u093f \u092a\u094d\u0930\u092e\u093e\u0923 \u092a\u0924\u094d\u0930 (CASTE CERTIFICATE)",
+      "indic_clause": "\u092a\u094d\u0930\u092e\u093e\u0923\u093f\u0924 \u0915\u093f\u092f\u093e \u091c\u093e\u0924\u093e \u0939\u0948 \u0915\u093f \u0906\u0935\u0947\u0926\u0915 \u0905\u0928\u094d\u092f \u092a\u093f\u091b\u0921\u093c\u093e \u0935\u0930\u094d\u0917 (OBC) \u0938\u092e\u0941\u0926\u093e\u092f \u0938\u0947 \u0938\u0902\u092c\u0902\u0927\u093f\u0924 \u0939\u0948\u0902\u0964"
+    }
+  },
+  {
+    "sample_id": "indic_006",
+    "split": "DEV",
+    "lang": "ori",
+    "pdf_path": "data\\indic_ocr\\indic_006.pdf",
+    "png_path": "data\\indic_ocr\\indic_006.png",
+    "ground_truth": {
+      "lang": "ori",
+      "doc_type": "RESIDENCE_CERT",
+      "fields": {
+        "doc_type": "RESIDENCE_CERT",
+        "state": "ODISHA",
+        "authority": "DISTRICT COLLECTORATE KHORDHA",
+        "applicant_name": "Sunita Jena"
+      },
+      "indic_title": "\u0b28\u0b3f\u0b2c\u0b3e\u0b38 \u0b2a\u0b4d\u0b30\u0b2e\u0b3e\u0b23 \u0b2a\u0b24\u0b4d\u0b30 (RESIDENCE CERTIFICATE)",
+      "indic_clause": "\u0b06\u0b2c\u0b47\u0b26\u0b28\u0b15\u0b3e\u0b30\u0b40 \u0b13\u0b21\u0b3c\u0b3f\u0b36\u0b3e \u0b30\u0b3e\u0b1c\u0b4d\u0b5f\u0b30 \u0b1c\u0b23\u0b47 \u0b38\u0b4d\u0b25\u0b3e\u0b5f\u0b40 \u0b2c\u0b3e\u0b38\u0b3f\u0b28\u0b4d\u0b26\u0b3e \u0b05\u0b1f\u0b28\u0b4d\u0b24\u0b3f\u0964"
+    }
+  },
+  {
+    "sample_id": "indic_007",
+    "split": "DEV",
+    "lang": "hin",
+    "pdf_path": "data\\indic_ocr\\indic_007.pdf",
+    "png_path": "data\\indic_ocr\\indic_007.png",
+    "ground_truth": {
+      "lang": "hin",
+      "doc_type": "INCOME_CERT",
+      "fields": {
+        "doc_type": "INCOME_CERT",
+        "annual_income": "180000",
+        "authority": "TAHSILDAR BHUBANESWAR",
+        "applicant_name": "Aarav Sharma"
+      },
+      "indic_title": "\u0906\u092f \u092a\u094d\u0930\u092e\u093e\u0923 \u092a\u0924\u094d\u0930 (INCOME CERTIFICATE)",
+      "indic_clause": "\u092a\u094d\u0930\u092e\u093e\u0923\u093f\u0924 \u0915\u093f\u092f\u093e \u091c\u093e\u0924\u093e \u0939\u0948 \u0915\u093f \u091b\u093e\u0924\u094d\u0930 \u0915\u093e \u0935\u093e\u0930\u094d\u0937\u093f\u0915 \u092a\u093e\u0930\u093f\u0935\u093e\u0930\u093f\u0915 \u0906\u092f \u0930\u0941\u092a\u090f 1,80,000 \u0939\u0948\u0964"
+    }
+  },
+  {
+    "sample_id": "indic_008",
+    "split": "DEV",
+    "lang": "ori",
+    "pdf_path": "data\\indic_ocr\\indic_008.pdf",
+    "png_path": "data\\indic_ocr\\indic_008.png",
+    "ground_truth": {
+      "lang": "ori",
+      "doc_type": "RESIDENCE_CERT",
+      "fields": {
+        "doc_type": "RESIDENCE_CERT",
+        "state": "ODISHA",
+        "authority": "DISTRICT COLLECTORATE KHORDHA",
+        "applicant_name": "Sunita Jena"
+      },
+      "indic_title": "\u0b28\u0b3f\u0b2c\u0b3e\u0b38 \u0b2a\u0b4d\u0b30\u0b2e\u0b3e\u0b23 \u0b2a\u0b24\u0b4d\u0b30 (RESIDENCE CERTIFICATE)",
+      "indic_clause": "\u0b06\u0b2c\u0b47\u0b26\u0b28\u0b15\u0b3e\u0b30\u0b40 \u0b13\u0b21\u0b3c\u0b3f\u0b36\u0b3e \u0b30\u0b3e\u0b1c\u0b4d\u0b5f\u0b30 \u0b1c\u0b23\u0b47 \u0b38\u0b4d\u0b25\u0b3e\u0b5f\u0b40 \u0b2c\u0b3e\u0b38\u0b3f\u0b28\u0b4d\u0b26\u0b3e \u0b05\u0b1f\u0b28\u0b4d\u0b24\u0b3f\u0964"
+    }
+  },
+  {
+    "sample_id": "indic_009",
+    "split": "DEV",
+    "lang": "hin",
+    "pdf_path": "data\\indic_ocr\\indic_009.pdf",
+    "png_path": "data\\indic_ocr\\indic_009.png",
+    "ground_truth": {
+      "lang": "hin",
+      "doc_type": "CASTE_CERT",
+      "fields": {
+        "doc_type": "CASTE_CERT",
+        "caste_category": "OBC",
+        "authority": "SUB DIVISIONAL MAGISTRATE",
+        "applicant_name": "Rohan Kumar"
+      },
+      "indic_title": "\u091c\u093e\u0924\u093f \u092a\u094d\u0930\u092e\u093e\u0923 \u092a\u0924\u094d\u0930 (CASTE CERTIFICATE)",
+      "indic_clause": "\u092a\u094d\u0930\u092e\u093e\u0923\u093f\u0924 \u0915\u093f\u092f\u093e \u091c\u093e\u0924\u093e \u0939\u0948 \u0915\u093f \u0906\u0935\u0947\u0926\u0915 \u0905\u0928\u094d\u092f \u092a\u093f\u091b\u0921\u093c\u093e \u0935\u0930\u094d\u0917 (OBC) \u0938\u092e\u0941\u0926\u093e\u092f \u0938\u0947 \u0938\u0902\u092c\u0902\u0927\u093f\u0924 \u0939\u0948\u0902\u0964"
+    }
+  },
+  {
+    "sample_id": "indic_010",
+    "split": "DEV",
+    "lang": "ori",
+    "pdf_path": "data\\indic_ocr\\indic_010.pdf",
+    "png_path": "data\\indic_ocr\\indic_010.png",
+    "ground_truth": {
+      "lang": "ori",
+      "doc_type": "INCOME_CERT",
+      "fields": {
+        "doc_type": "INCOME_CERT",
+        "annual_income": "150000",
+        "authority": "TAHSILDAR CUTTACK",
+        "applicant_name": "Subrat Nayak"
+      },
+      "indic_title": "\u0b06\u0b5f \u0b2a\u0b4d\u0b30\u0b2e\u0b3e\u0b23 \u0b2a\u0b24\u0b4d\u0b30 (INCOME CERTIFICATE)",
+      "indic_clause": "\u0b2a\u0b4d\u0b30\u0b2e\u0b3e\u0b23\u0b3f\u0b24 \u0b15\u0b30\u0b3e\u0b2f\u0b3e\u0b09\u0b05\u0b1b\u0b3f \u0b15\u0b3f \u0b06\u0b2c\u0b47\u0b26\u0b28\u0b15\u0b3e\u0b30\u0b40\u0b19\u0b4d\u0b15 \u0b2c\u0b3e\u0b30\u0b4d\u0b37\u0b3f\u0b15 \u0b06\u0b5f \u0b1f\u0b19\u0b4d\u0b15\u0b3e \u0b67,\u0b6b\u0b66,\u0b66\u0b66\u0b66 \u0b05\u0b1f\u0b47\u0964"
+    }
+  },
+  {
+    "sample_id": "indic_011",
+    "split": "DEV",
+    "lang": "hin",
+    "pdf_path": "data\\indic_ocr\\indic_011.pdf",
+    "png_path": "data\\indic_ocr\\indic_011.png",
+    "ground_truth": {
+      "lang": "hin",
+      "doc_type": "INCOME_CERT",
+      "fields": {
+        "doc_type": "INCOME_CERT",
+        "annual_income": "180000",
+        "authority": "TAHSILDAR BHUBANESWAR",
+        "applicant_name": "Aarav Sharma"
+      },
+      "indic_title": "\u0906\u092f \u092a\u094d\u0930\u092e\u093e\u0923 \u092a\u0924\u094d\u0930 (INCOME CERTIFICATE)",
+      "indic_clause": "\u092a\u094d\u0930\u092e\u093e\u0923\u093f\u0924 \u0915\u093f\u092f\u093e \u091c\u093e\u0924\u093e \u0939\u0948 \u0915\u093f \u091b\u093e\u0924\u094d\u0930 \u0915\u093e \u0935\u093e\u0930\u094d\u0937\u093f\u0915 \u092a\u093e\u0930\u093f\u0935\u093e\u0930\u093f\u0915 \u0906\u092f \u0930\u0941\u092a\u090f 1,80,000 \u0939\u0948\u0964"
+    }
+  },
+  {
+    "sample_id": "indic_012",
+    "split": "DEV",
+    "lang": "ori",
+    "pdf_path": "data\\indic_ocr\\indic_012.pdf",
+    "png_path": "data\\indic_ocr\\indic_012.png",
+    "ground_truth": {
+      "lang": "ori",
+      "doc_type": "INCOME_CERT",
+      "fields": {
+        "doc_type": "INCOME_CERT",
+        "annual_income": "150000",
+        "authority": "TAHSILDAR CUTTACK",
+        "applicant_name": "Subrat Nayak"
+      },
+      "indic_title": "\u0b06\u0b5f \u0b2a\u0b4d\u0b30\u0b2e\u0b3e\u0b23 \u0b2a\u0b24\u0b4d\u0b30 (INCOME CERTIFICATE)",
+      "indic_clause": "\u0b2a\u0b4d\u0b30\u0b2e\u0b3e\u0b23\u0b3f\u0b24 \u0b15\u0b30\u0b3e\u0b2f\u0b3e\u0b09\u0b05\u0b1b\u0b3f \u0b15\u0b3f \u0b06\u0b2c\u0b47\u0b26\u0b28\u0b15\u0b3e\u0b30\u0b40\u0b19\u0b4d\u0b15 \u0b2c\u0b3e\u0b30\u0b4d\u0b37\u0b3f\u0b15 \u0b06\u0b5f \u0b1f\u0b19\u0b4d\u0b15\u0b3e \u0b67,\u0b6b\u0b66,\u0b66\u0b66\u0b66 \u0b05\u0b1f\u0b47\u0964"
+    }
+  },
+  {
+    "sample_id": "indic_013",
+    "split": "DEV",
+    "lang": "hin",
+    "pdf_path": "data\\indic_ocr\\indic_013.pdf",
+    "png_path": "data\\indic_ocr\\indic_013.png",
+    "ground_truth": {
+      "lang": "hin",
+      "doc_type": "INCOME_CERT",
+      "fields": {
+        "doc_type": "INCOME_CERT",
+        "annual_income": "180000",
+        "authority": "TAHSILDAR BHUBANESWAR",
+        "applicant_name": "Aarav Sharma"
+      },
+      "indic_title": "\u0906\u092f \u092a\u094d\u0930\u092e\u093e\u0923 \u092a\u0924\u094d\u0930 (INCOME CERTIFICATE)",
+      "indic_clause": "\u092a\u094d\u0930\u092e\u093e\u0923\u093f\u0924 \u0915\u093f\u092f\u093e \u091c\u093e\u0924\u093e \u0939\u0948 \u0915\u093f \u091b\u093e\u0924\u094d\u0930 \u0915\u093e \u0935\u093e\u0930\u094d\u0937\u093f\u0915 \u092a\u093e\u0930\u093f\u0935\u093e\u0930\u093f\u0915 \u0906\u092f \u0930\u0941\u092a\u090f 1,80,000 \u0939\u0948\u0964"
+    }
+  },
+  {
+    "sample_id": "indic_014",
+    "split": "DEV",
+    "lang": "ori",
+    "pdf_path": "data\\indic_ocr\\indic_014.pdf",
+    "png_path": "data\\indic_ocr\\indic_014.png",
+    "ground_truth": {
+      "lang": "ori",
+      "doc_type": "INCOME_CERT",
+      "fields": {
+        "doc_type": "INCOME_CERT",
+        "annual_income": "150000",
+        "authority": "TAHSILDAR CUTTACK",
+        "applicant_name": "Subrat Nayak"
+      },
+      "indic_title": "\u0b06\u0b5f \u0b2a\u0b4d\u0b30\u0b2e\u0b3e\u0b23 \u0b2a\u0b24\u0b4d\u0b30 (INCOME CERTIFICATE)",
+      "indic_clause": "\u0b2a\u0b4d\u0b30\u0b2e\u0b3e\u0b23\u0b3f\u0b24 \u0b15\u0b30\u0b3e\u0b2f\u0b3e\u0b09\u0b05\u0b1b\u0b3f \u0b15\u0b3f \u0b06\u0b2c\u0b47\u0b26\u0b28\u0b15\u0b3e\u0b30\u0b40\u0b19\u0b4d\u0b15 \u0b2c\u0b3e\u0b30\u0b4d\u0b37\u0b3f\u0b15 \u0b06\u0b5f \u0b1f\u0b19\u0b4d\u0b15\u0b3e \u0b67,\u0b6b\u0b66,\u0b66\u0b66\u0b66 \u0b05\u0b1f\u0b47\u0964"
+    }
+  },
+  {
+    "sample_id": "indic_015",
+    "split": "DEV",
+    "lang": "hin",
+    "pdf_path": "data\\indic_ocr\\indic_015.pdf",
+    "png_path": "data\\indic_ocr\\indic_015.png",
+    "ground_truth": {
+      "lang": "hin",
+      "doc_type": "CASTE_CERT",
+      "fields": {
+        "doc_type": "CASTE_CERT",
+        "caste_category": "OBC",
+        "authority": "SUB DIVISIONAL MAGISTRATE",
+        "applicant_name": "Rohan Kumar"
+      },
+      "indic_title": "\u091c\u093e\u0924\u093f \u092a\u094d\u0930\u092e\u093e\u0923 \u092a\u0924\u094d\u0930 (CASTE CERTIFICATE)",
+      "indic_clause": "\u092a\u094d\u0930\u092e\u093e\u0923\u093f\u0924 \u0915\u093f\u092f\u093e \u091c\u093e\u0924\u093e \u0939\u0948 \u0915\u093f \u0906\u0935\u0947\u0926\u0915 \u0905\u0928\u094d\u092f \u092a\u093f\u091b\u0921\u093c\u093e \u0935\u0930\u094d\u0917 (OBC) \u0938\u092e\u0941\u0926\u093e\u092f \u0938\u0947 \u0938\u0902\u092c\u0902\u0927\u093f\u0924 \u0939\u0948\u0902\u0964"
+    }
+  },
+  {
+    "sample_id": "indic_016",
+    "split": "VAL",
+    "lang": "ori",
+    "pdf_path": "data\\indic_ocr\\indic_016.pdf",
+    "png_path": "data\\indic_ocr\\indic_016.png",
+    "ground_truth": {
+      "lang": "ori",
+      "doc_type": "RESIDENCE_CERT",
+      "fields": {
+        "doc_type": "RESIDENCE_CERT",
+        "state": "ODISHA",
+        "authority": "DISTRICT COLLECTORATE KHORDHA",
+        "applicant_name": "Sunita Jena"
+      },
+      "indic_title": "\u0b28\u0b3f\u0b2c\u0b3e\u0b38 \u0b2a\u0b4d\u0b30\u0b2e\u0b3e\u0b23 \u0b2a\u0b24\u0b4d\u0b30 (RESIDENCE CERTIFICATE)",
+      "indic_clause": "\u0b06\u0b2c\u0b47\u0b26\u0b28\u0b15\u0b3e\u0b30\u0b40 \u0b13\u0b21\u0b3c\u0b3f\u0b36\u0b3e \u0b30\u0b3e\u0b1c\u0b4d\u0b5f\u0b30 \u0b1c\u0b23\u0b47 \u0b38\u0b4d\u0b25\u0b3e\u0b5f\u0b40 \u0b2c\u0b3e\u0b38\u0b3f\u0b28\u0b4d\u0b26\u0b3e \u0b05\u0b1f\u0b28\u0b4d\u0b24\u0b3f\u0964"
+    }
+  },
+  {
+    "sample_id": "indic_017",
+    "split": "VAL",
+    "lang": "hin",
+    "pdf_path": "data\\indic_ocr\\indic_017.pdf",
+    "png_path": "data\\indic_ocr\\indic_017.png",
+    "ground_truth": {
+      "lang": "hin",
+      "doc_type": "INCOME_CERT",
+      "fields": {
+        "doc_type": "INCOME_CERT",
+        "annual_income": "180000",
+        "authority": "TAHSILDAR BHUBANESWAR",
+        "applicant_name": "Aarav Sharma"
+      },
+      "indic_title": "\u0906\u092f \u092a\u094d\u0930\u092e\u093e\u0923 \u092a\u0924\u094d\u0930 (INCOME CERTIFICATE)",
+      "indic_clause": "\u092a\u094d\u0930\u092e\u093e\u0923\u093f\u0924 \u0915\u093f\u092f\u093e \u091c\u093e\u0924\u093e \u0939\u0948 \u0915\u093f \u091b\u093e\u0924\u094d\u0930 \u0915\u093e \u0935\u093e\u0930\u094d\u0937\u093f\u0915 \u092a\u093e\u0930\u093f\u0935\u093e\u0930\u093f\u0915 \u0906\u092f \u0930\u0941\u092a\u090f 1,80,000 \u0939\u0948\u0964"
+    }
+  },
+  {
+    "sample_id": "indic_018",
+    "split": "VAL",
+    "lang": "ori",
+    "pdf_path": "data\\indic_ocr\\indic_018.pdf",
+    "png_path": "data\\indic_ocr\\indic_018.png",
+    "ground_truth": {
+      "lang": "ori",
+      "doc_type": "RESIDENCE_CERT",
+      "fields": {
+        "doc_type": "RESIDENCE_CERT",
+        "state": "ODISHA",
+        "authority": "DISTRICT COLLECTORATE KHORDHA",
+        "applicant_name": "Sunita Jena"
+      },
+      "indic_title": "\u0b28\u0b3f\u0b2c\u0b3e\u0b38 \u0b2a\u0b4d\u0b30\u0b2e\u0b3e\u0b23 \u0b2a\u0b24\u0b4d\u0b30 (RESIDENCE CERTIFICATE)",
+      "indic_clause": "\u0b06\u0b2c\u0b47\u0b26\u0b28\u0b15\u0b3e\u0b30\u0b40 \u0b13\u0b21\u0b3c\u0b3f\u0b36\u0b3e \u0b30\u0b3e\u0b1c\u0b4d\u0b5f\u0b30 \u0b1c\u0b23\u0b47 \u0b38\u0b4d\u0b25\u0b3e\u0b5f\u0b40 \u0b2c\u0b3e\u0b38\u0b3f\u0b28\u0b4d\u0b26\u0b3e \u0b05\u0b1f\u0b28\u0b4d\u0b24\u0b3f\u0964"
+    }
+  },
+  {
+    "sample_id": "indic_019",
+    "split": "VAL",
+    "lang": "hin",
+    "pdf_path": "data\\indic_ocr\\indic_019.pdf",
+    "png_path": "data\\indic_ocr\\indic_019.png",
+    "ground_truth": {
+      "lang": "hin",
+      "doc_type": "CASTE_CERT",
+      "fields": {
+        "doc_type": "CASTE_CERT",
+        "caste_category": "OBC",
+        "authority": "SUB DIVISIONAL MAGISTRATE",
+        "applicant_name": "Rohan Kumar"
+      },
+      "indic_title": "\u091c\u093e\u0924\u093f \u092a\u094d\u0930\u092e\u093e\u0923 \u092a\u0924\u094d\u0930 (CASTE CERTIFICATE)",
+      "indic_clause": "\u092a\u094d\u0930\u092e\u093e\u0923\u093f\u0924 \u0915\u093f\u092f\u093e \u091c\u093e\u0924\u093e \u0939\u0948 \u0915\u093f \u0906\u0935\u0947\u0926\u0915 \u0905\u0928\u094d\u092f \u092a\u093f\u091b\u0921\u093c\u093e \u0935\u0930\u094d\u0917 (OBC) \u0938\u092e\u0941\u0926\u093e\u092f \u0938\u0947 \u0938\u0902\u092c\u0902\u0927\u093f\u0924 \u0939\u0948\u0902\u0964"
+    }
+  },
+  {
+    "sample_id": "indic_020",
+    "split": "VAL",
+    "lang": "ori",
+    "pdf_path": "data\\indic_ocr\\indic_020.pdf",
+    "png_path": "data\\indic_ocr\\indic_020.png",
+    "ground_truth": {
+      "lang": "ori",
+      "doc_type": "INCOME_CERT",
+      "fields": {
+        "doc_type": "INCOME_CERT",
+        "annual_income": "150000",
+        "authority": "TAHSILDAR CUTTACK",
+        "applicant_name": "Subrat Nayak"
+      },
+      "indic_title": "\u0b06\u0b5f \u0b2a\u0b4d\u0b30\u0b2e\u0b3e\u0b23 \u0b2a\u0b24\u0b4d\u0b30 (INCOME CERTIFICATE)",
+      "indic_clause": "\u0b2a\u0b4d\u0b30\u0b2e\u0b3e\u0b23\u0b3f\u0b24 \u0b15\u0b30\u0b3e\u0b2f\u0b3e\u0b09\u0b05\u0b1b\u0b3f \u0b15\u0b3f \u0b06\u0b2c\u0b47\u0b26\u0b28\u0b15\u0b3e\u0b30\u0b40\u0b19\u0b4d\u0b15 \u0b2c\u0b3e\u0b30\u0b4d\u0b37\u0b3f\u0b15 \u0b06\u0b5f \u0b1f\u0b19\u0b4d\u0b15\u0b3e \u0b67,\u0b6b\u0b66,\u0b66\u0b66\u0b66 \u0b05\u0b1f\u0b47\u0964"
+    }
+  },
+  {
+    "sample_id": "indic_021",
+    "split": "VAL",
+    "lang": "hin",
+    "pdf_path": "data\\indic_ocr\\indic_021.pdf",
+    "png_path": "data\\indic_ocr\\indic_021.png",
+    "ground_truth": {
+      "lang": "hin",
+      "doc_type": "INCOME_CERT",
+      "fields": {
+        "doc_type": "INCOME_CERT",
+        "annual_income": "180000",
+        "authority": "TAHSILDAR BHUBANESWAR",
+        "applicant_name": "Aarav Sharma"
+      },
+      "indic_title": "\u0906\u092f \u092a\u094d\u0930\u092e\u093e\u0923 \u092a\u0924\u094d\u0930 (INCOME CERTIFICATE)",
+      "indic_clause": "\u092a\u094d\u0930\u092e\u093e\u0923\u093f\u0924 \u0915\u093f\u092f\u093e \u091c\u093e\u0924\u093e \u0939\u0948 \u0915\u093f \u091b\u093e\u0924\u094d\u0930 \u0915\u093e \u0935\u093e\u0930\u094d\u0937\u093f\u0915 \u092a\u093e\u0930\u093f\u0935\u093e\u0930\u093f\u0915 \u0906\u092f \u0930\u0941\u092a\u090f 1,80,000 \u0939\u0948\u0964"
+    }
+  },
+  {
+    "sample_id": "indic_022",
+    "split": "VAL",
+    "lang": "ori",
+    "pdf_path": "data\\indic_ocr\\indic_022.pdf",
+    "png_path": "data\\indic_ocr\\indic_022.png",
+    "ground_truth": {
+      "lang": "ori",
+      "doc_type": "RESIDENCE_CERT",
+      "fields": {
+        "doc_type": "RESIDENCE_CERT",
+        "state": "ODISHA",
+        "authority": "DISTRICT COLLECTORATE KHORDHA",
+        "applicant_name": "Sunita Jena"
+      },
+      "indic_title": "\u0b28\u0b3f\u0b2c\u0b3e\u0b38 \u0b2a\u0b4d\u0b30\u0b2e\u0b3e\u0b23 \u0b2a\u0b24\u0b4d\u0b30 (RESIDENCE CERTIFICATE)",
+      "indic_clause": "\u0b06\u0b2c\u0b47\u0b26\u0b28\u0b15\u0b3e\u0b30\u0b40 \u0b13\u0b21\u0b3c\u0b3f\u0b36\u0b3e \u0b30\u0b3e\u0b1c\u0b4d\u0b5f\u0b30 \u0b1c\u0b23\u0b47 \u0b38\u0b4d\u0b25\u0b3e\u0b5f\u0b40 \u0b2c\u0b3e\u0b38\u0b3f\u0b28\u0b4d\u0b26\u0b3e \u0b05\u0b1f\u0b28\u0b4d\u0b24\u0b3f\u0964"
+    }
+  },
+  {
+    "sample_id": "indic_023",
+    "split": "VAL",
+    "lang": "hin",
+    "pdf_path": "data\\indic_ocr\\indic_023.pdf",
+    "png_path": "data\\indic_ocr\\indic_023.png",
+    "ground_truth": {
+      "lang": "hin",
+      "doc_type": "INCOME_CERT",
+      "fields": {
+        "doc_type": "INCOME_CERT",
+        "annual_income": "180000",
+        "authority": "TAHSILDAR BHUBANESWAR",
+        "applicant_name": "Aarav Sharma"
+      },
+      "indic_title": "\u0906\u092f \u092a\u094d\u0930\u092e\u093e\u0923 \u092a\u0924\u094d\u0930 (INCOME CERTIFICATE)",
+      "indic_clause": "\u092a\u094d\u0930\u092e\u093e\u0923\u093f\u0924 \u0915\u093f\u092f\u093e \u091c\u093e\u0924\u093e \u0939\u0948 \u0915\u093f \u091b\u093e\u0924\u094d\u0930 \u0915\u093e \u0935\u093e\u0930\u094d\u0937\u093f\u0915 \u092a\u093e\u0930\u093f\u0935\u093e\u0930\u093f\u0915 \u0906\u092f \u0930\u0941\u092a\u090f 1,80,000 \u0939\u0948\u0964"
+    }
+  },
+  {
+    "sample_id": "indic_024",
+    "split": "VAL",
+    "lang": "ori",
+    "pdf_path": "data\\indic_ocr\\indic_024.pdf",
+    "png_path": "data\\indic_ocr\\indic_024.png",
+    "ground_truth": {
+      "lang": "ori",
+      "doc_type": "RESIDENCE_CERT",
+      "fields": {
+        "doc_type": "RESIDENCE_CERT",
+        "state": "ODISHA",
+        "authority": "DISTRICT COLLECTORATE KHORDHA",
+        "applicant_name": "Sunita Jena"
+      },
+      "indic_title": "\u0b28\u0b3f\u0b2c\u0b3e\u0b38 \u0b2a\u0b4d\u0b30\u0b2e\u0b3e\u0b23 \u0b2a\u0b24\u0b4d\u0b30 (RESIDENCE CERTIFICATE)",
+      "indic_clause": "\u0b06\u0b2c\u0b47\u0b26\u0b28\u0b15\u0b3e\u0b30\u0b40 \u0b13\u0b21\u0b3c\u0b3f\u0b36\u0b3e \u0b30\u0b3e\u0b1c\u0b4d\u0b5f\u0b30 \u0b1c\u0b23\u0b47 \u0b38\u0b4d\u0b25\u0b3e\u0b5f\u0b40 \u0b2c\u0b3e\u0b38\u0b3f\u0b28\u0b4d\u0b26\u0b3e \u0b05\u0b1f\u0b28\u0b4d\u0b24\u0b3f\u0964"
+    }
+  },
+  {
+    "sample_id": "indic_025",
+    "split": "VAL",
+    "lang": "hin",
+    "pdf_path": "data\\indic_ocr\\indic_025.pdf",
+    "png_path": "data\\indic_ocr\\indic_025.png",
+    "ground_truth": {
+      "lang": "hin",
+      "doc_type": "CASTE_CERT",
+      "fields": {
+        "doc_type": "CASTE_CERT",
+        "caste_category": "OBC",
+        "authority": "SUB DIVISIONAL MAGISTRATE",
+        "applicant_name": "Rohan Kumar"
+      },
+      "indic_title": "\u091c\u093e\u0924\u093f \u092a\u094d\u0930\u092e\u093e\u0923 \u092a\u0924\u094d\u0930 (CASTE CERTIFICATE)",
+      "indic_clause": "\u092a\u094d\u0930\u092e\u093e\u0923\u093f\u0924 \u0915\u093f\u092f\u093e \u091c\u093e\u0924\u093e \u0939\u0948 \u0915\u093f \u0906\u0935\u0947\u0926\u0915 \u0905\u0928\u094d\u092f \u092a\u093f\u091b\u0921\u093c\u093e \u0935\u0930\u094d\u0917 (OBC) \u0938\u092e\u0941\u0926\u093e\u092f \u0938\u0947 \u0938\u0902\u092c\u0902\u0927\u093f\u0924 \u0939\u0948\u0902\u0964"
+    }
+  },
+  {
+    "sample_id": "indic_026",
+    "split": "VAL",
+    "lang": "ori",
+    "pdf_path": "data\\indic_ocr\\indic_026.pdf",
+    "png_path": "data\\indic_ocr\\indic_026.png",
+    "ground_truth": {
+      "lang": "ori",
+      "doc_type": "INCOME_CERT",
+      "fields": {
+        "doc_type": "INCOME_CERT",
+        "annual_income": "150000",
+        "authority": "TAHSILDAR CUTTACK",
+        "applicant_name": "Subrat Nayak"
+      },
+      "indic_title": "\u0b06\u0b5f \u0b2a\u0b4d\u0b30\u0b2e\u0b3e\u0b23 \u0b2a\u0b24\u0b4d\u0b30 (INCOME CERTIFICATE)",
+      "indic_clause": "\u0b2a\u0b4d\u0b30\u0b2e\u0b3e\u0b23\u0b3f\u0b24 \u0b15\u0b30\u0b3e\u0b2f\u0b3e\u0b09\u0b05\u0b1b\u0b3f \u0b15\u0b3f \u0b06\u0b2c\u0b47\u0b26\u0b28\u0b15\u0b3e\u0b30\u0b40\u0b19\u0b4d\u0b15 \u0b2c\u0b3e\u0b30\u0b4d\u0b37\u0b3f\u0b15 \u0b06\u0b5f \u0b1f\u0b19\u0b4d\u0b15\u0b3e \u0b67,\u0b6b\u0b66,\u0b66\u0b66\u0b66 \u0b05\u0b1f\u0b47\u0964"
+    }
+  },
+  {
+    "sample_id": "indic_027",
+    "split": "VAL",
+    "lang": "hin",
+    "pdf_path": "data\\indic_ocr\\indic_027.pdf",
+    "png_path": "data\\indic_ocr\\indic_027.png",
+    "ground_truth": {
+      "lang": "hin",
+      "doc_type": "CASTE_CERT",
+      "fields": {
+        "doc_type": "CASTE_CERT",
+        "caste_category": "OBC",
+        "authority": "SUB DIVISIONAL MAGISTRATE",
+        "applicant_name": "Rohan Kumar"
+      },
+      "indic_title": "\u091c\u093e\u0924\u093f \u092a\u094d\u0930\u092e\u093e\u0923 \u092a\u0924\u094d\u0930 (CASTE CERTIFICATE)",
+      "indic_clause": "\u092a\u094d\u0930\u092e\u093e\u0923\u093f\u0924 \u0915\u093f\u092f\u093e \u091c\u093e\u0924\u093e \u0939\u0948 \u0915\u093f \u0906\u0935\u0947\u0926\u0915 \u0905\u0928\u094d\u092f \u092a\u093f\u091b\u0921\u093c\u093e \u0935\u0930\u094d\u0917 (OBC) \u0938\u092e\u0941\u0926\u093e\u092f \u0938\u0947 \u0938\u0902\u092c\u0902\u0927\u093f\u0924 \u0939\u0948\u0902\u0964"
+    }
+  },
+  {
+    "sample_id": "indic_028",
+    "split": "VAL",
+    "lang": "ori",
+    "pdf_path": "data\\indic_ocr\\indic_028.pdf",
+    "png_path": "data\\indic_ocr\\indic_028.png",
+    "ground_truth": {
+      "lang": "ori",
+      "doc_type": "RESIDENCE_CERT",
+      "fields": {
+        "doc_type": "RESIDENCE_CERT",
+        "state": "ODISHA",
+        "authority": "DISTRICT COLLECTORATE KHORDHA",
+        "applicant_name": "Sunita Jena"
+      },
+      "indic_title": "\u0b28\u0b3f\u0b2c\u0b3e\u0b38 \u0b2a\u0b4d\u0b30\u0b2e\u0b3e\u0b23 \u0b2a\u0b24\u0b4d\u0b30 (RESIDENCE CERTIFICATE)",
+      "indic_clause": "\u0b06\u0b2c\u0b47\u0b26\u0b28\u0b15\u0b3e\u0b30\u0b40 \u0b13\u0b21\u0b3c\u0b3f\u0b36\u0b3e \u0b30\u0b3e\u0b1c\u0b4d\u0b5f\u0b30 \u0b1c\u0b23\u0b47 \u0b38\u0b4d\u0b25\u0b3e\u0b5f\u0b40 \u0b2c\u0b3e\u0b38\u0b3f\u0b28\u0b4d\u0b26\u0b3e \u0b05\u0b1f\u0b28\u0b4d\u0b24\u0b3f\u0964"
+    }
+  },
+  {
+    "sample_id": "indic_029",
+    "split": "VAL",
+    "lang": "hin",
+    "pdf_path": "data\\indic_ocr\\indic_029.pdf",
+    "png_path": "data\\indic_ocr\\indic_029.png",
+    "ground_truth": {
+      "lang": "hin",
+      "doc_type": "CASTE_CERT",
+      "fields": {
+        "doc_type": "CASTE_CERT",
+        "caste_category": "OBC",
+        "authority": "SUB DIVISIONAL MAGISTRATE",
+        "applicant_name": "Rohan Kumar"
+      },
+      "indic_title": "\u091c\u093e\u0924\u093f \u092a\u094d\u0930\u092e\u093e\u0923 \u092a\u0924\u094d\u0930 (CASTE CERTIFICATE)",
+      "indic_clause": "\u092a\u094d\u0930\u092e\u093e\u0923\u093f\u0924 \u0915\u093f\u092f\u093e \u091c\u093e\u0924\u093e \u0939\u0948 \u0915\u093f \u0906\u0935\u0947\u0926\u0915 \u0905\u0928\u094d\u092f \u092a\u093f\u091b\u0921\u093c\u093e \u0935\u0930\u094d\u0917 (OBC) \u0938\u092e\u0941\u0926\u093e\u092f \u0938\u0947 \u0938\u0902\u092c\u0902\u0927\u093f\u0924 \u0939\u0948\u0902\u0964"
+    }
+  },
+  {
+    "sample_id": "indic_030",
+    "split": "VAL",
+    "lang": "ori",
+    "pdf_path": "data\\indic_ocr\\indic_030.pdf",
+    "png_path": "data\\indic_ocr\\indic_030.png",
+    "ground_truth": {
+      "lang": "ori",
+      "doc_type": "RESIDENCE_CERT",
+      "fields": {
+        "doc_type": "RESIDENCE_CERT",
+        "state": "ODISHA",
+        "authority": "DISTRICT COLLECTORATE KHORDHA",
+        "applicant_name": "Sunita Jena"
+      },
+      "indic_title": "\u0b28\u0b3f\u0b2c\u0b3e\u0b38 \u0b2a\u0b4d\u0b30\u0b2e\u0b3e\u0b23 \u0b2a\u0b24\u0b4d\u0b30 (RESIDENCE CERTIFICATE)",
+      "indic_clause": "\u0b06\u0b2c\u0b47\u0b26\u0b28\u0b15\u0b3e\u0b30\u0b40 \u0b13\u0b21\u0b3c\u0b3f\u0b36\u0b3e \u0b30\u0b3e\u0b1c\u0b4d\u0b5f\u0b30 \u0b1c\u0b23\u0b47 \u0b38\u0b4d\u0b25\u0b3e\u0b5f\u0b40 \u0b2c\u0b3e\u0b38\u0b3f\u0b28\u0b4d\u0b26\u0b3e \u0b05\u0b1f\u0b28\u0b4d\u0b24\u0b3f\u0964"
+    }
+  },
+  {
+    "sample_id": "indic_031",
+    "split": "CHALLENGE",
+    "lang": "hin",
+    "pdf_path": "data\\indic_ocr\\indic_031.pdf",
+    "png_path": "data\\indic_ocr\\indic_031.png",
+    "ground_truth": {
+      "lang": "hin",
+      "doc_type": "INCOME_CERT",
+      "fields": {
+        "doc_type": "INCOME_CERT",
+        "annual_income": "180000",
+        "authority": "TAHSILDAR BHUBANESWAR",
+        "applicant_name": "Aarav Sharma"
+      },
+      "indic_title": "\u0906\u092f \u092a\u094d\u0930\u092e\u093e\u0923 \u092a\u0924\u094d\u0930 (INCOME CERTIFICATE)",
+      "indic_clause": "\u092a\u094d\u0930\u092e\u093e\u0923\u093f\u0924 \u0915\u093f\u092f\u093e \u091c\u093e\u0924\u093e \u0939\u0948 \u0915\u093f \u091b\u093e\u0924\u094d\u0930 \u0915\u093e \u0935\u093e\u0930\u094d\u0937\u093f\u0915 \u092a\u093e\u0930\u093f\u0935\u093e\u0930\u093f\u0915 \u0906\u092f \u0930\u0941\u092a\u090f 1,80,000 \u0939\u0948\u0964"
+    }
+  },
+  {
+    "sample_id": "indic_032",
+    "split": "CHALLENGE",
+    "lang": "ori",
+    "pdf_path": "data\\indic_ocr\\indic_032.pdf",
+    "png_path": "data\\indic_ocr\\indic_032.png",
+    "ground_truth": {
+      "lang": "ori",
+      "doc_type": "RESIDENCE_CERT",
+      "fields": {
+        "doc_type": "RESIDENCE_CERT",
+        "state": "ODISHA",
+        "authority": "DISTRICT COLLECTORATE KHORDHA",
+        "applicant_name": "Sunita Jena"
+      },
+      "indic_title": "\u0b28\u0b3f\u0b2c\u0b3e\u0b38 \u0b2a\u0b4d\u0b30\u0b2e\u0b3e\u0b23 \u0b2a\u0b24\u0b4d\u0b30 (RESIDENCE CERTIFICATE)",
+      "indic_clause": "\u0b06\u0b2c\u0b47\u0b26\u0b28\u0b15\u0b3e\u0b30\u0b40 \u0b13\u0b21\u0b3c\u0b3f\u0b36\u0b3e \u0b30\u0b3e\u0b1c\u0b4d\u0b5f\u0b30 \u0b1c\u0b23\u0b47 \u0b38\u0b4d\u0b25\u0b3e\u0b5f\u0b40 \u0b2c\u0b3e\u0b38\u0b3f\u0b28\u0b4d\u0b26\u0b3e \u0b05\u0b1f\u0b28\u0b4d\u0b24\u0b3f\u0964"
+    }
+  },
+  {
+    "sample_id": "indic_033",
+    "split": "CHALLENGE",
+    "lang": "hin",
+    "pdf_path": "data\\indic_ocr\\indic_033.pdf",
+    "png_path": "data\\indic_ocr\\indic_033.png",
+    "ground_truth": {
+      "lang": "hin",
+      "doc_type": "INCOME_CERT",
+      "fields": {
+        "doc_type": "INCOME_CERT",
+        "annual_income": "180000",
+        "authority": "TAHSILDAR BHUBANESWAR",
+        "applicant_name": "Aarav Sharma"
+      },
+      "indic_title": "\u0906\u092f \u092a\u094d\u0930\u092e\u093e\u0923 \u092a\u0924\u094d\u0930 (INCOME CERTIFICATE)",
+      "indic_clause": "\u092a\u094d\u0930\u092e\u093e\u0923\u093f\u0924 \u0915\u093f\u092f\u093e \u091c\u093e\u0924\u093e \u0939\u0948 \u0915\u093f \u091b\u093e\u0924\u094d\u0930 \u0915\u093e \u0935\u093e\u0930\u094d\u0937\u093f\u0915 \u092a\u093e\u0930\u093f\u0935\u093e\u0930\u093f\u0915 \u0906\u092f \u0930\u0941\u092a\u090f 1,80,000 \u0939\u0948\u0964"
+    }
+  },
+  {
+    "sample_id": "indic_034",
+    "split": "CHALLENGE",
+    "lang": "ori",
+    "pdf_path": "data\\indic_ocr\\indic_034.pdf",
+    "png_path": "data\\indic_ocr\\indic_034.png",
+    "ground_truth": {
+      "lang": "ori",
+      "doc_type": "RESIDENCE_CERT",
+      "fields": {
+        "doc_type": "RESIDENCE_CERT",
+        "state": "ODISHA",
+        "authority": "DISTRICT COLLECTORATE KHORDHA",
+        "applicant_name": "Sunita Jena"
+      },
+      "indic_title": "\u0b28\u0b3f\u0b2c\u0b3e\u0b38 \u0b2a\u0b4d\u0b30\u0b2e\u0b3e\u0b23 \u0b2a\u0b24\u0b4d\u0b30 (RESIDENCE CERTIFICATE)",
+      "indic_clause": "\u0b06\u0b2c\u0b47\u0b26\u0b28\u0b15\u0b3e\u0b30\u0b40 \u0b13\u0b21\u0b3c\u0b3f\u0b36\u0b3e \u0b30\u0b3e\u0b1c\u0b4d\u0b5f\u0b30 \u0b1c\u0b23\u0b47 \u0b38\u0b4d\u0b25\u0b3e\u0b5f\u0b40 \u0b2c\u0b3e\u0b38\u0b3f\u0b28\u0b4d\u0b26\u0b3e \u0b05\u0b1f\u0b28\u0b4d\u0b24\u0b3f\u0964"
+    }
+  },
+  {
+    "sample_id": "indic_035",
+    "split": "CHALLENGE",
+    "lang": "hin",
+    "pdf_path": "data\\indic_ocr\\indic_035.pdf",
+    "png_path": "data\\indic_ocr\\indic_035.png",
+    "ground_truth": {
+      "lang": "hin",
+      "doc_type": "INCOME_CERT",
+      "fields": {
+        "doc_type": "INCOME_CERT",
+        "annual_income": "180000",
+        "authority": "TAHSILDAR BHUBANESWAR",
+        "applicant_name": "Aarav Sharma"
+      },
+      "indic_title": "\u0906\u092f \u092a\u094d\u0930\u092e\u093e\u0923 \u092a\u0924\u094d\u0930 (INCOME CERTIFICATE)",
+      "indic_clause": "\u092a\u094d\u0930\u092e\u093e\u0923\u093f\u0924 \u0915\u093f\u092f\u093e \u091c\u093e\u0924\u093e \u0939\u0948 \u0915\u093f \u091b\u093e\u0924\u094d\u0930 \u0915\u093e \u0935\u093e\u0930\u094d\u0937\u093f\u0915 \u092a\u093e\u0930\u093f\u0935\u093e\u0930\u093f\u0915 \u0906\u092f \u0930\u0941\u092a\u090f 1,80,000 \u0939\u0948\u0964"
+    }
+  },
+  {
+    "sample_id": "indic_036",
+    "split": "CHALLENGE",
+    "lang": "ori",
+    "pdf_path": "data\\indic_ocr\\indic_036.pdf",
+    "png_path": "data\\indic_ocr\\indic_036.png",
+    "ground_truth": {
+      "lang": "ori",
+      "doc_type": "INCOME_CERT",
+      "fields": {
+        "doc_type": "INCOME_CERT",
+        "annual_income": "150000",
+        "authority": "TAHSILDAR CUTTACK",
+        "applicant_name": "Subrat Nayak"
+      },
+      "indic_title": "\u0b06\u0b5f \u0b2a\u0b4d\u0b30\u0b2e\u0b3e\u0b23 \u0b2a\u0b24\u0b4d\u0b30 (INCOME CERTIFICATE)",
+      "indic_clause": "\u0b2a\u0b4d\u0b30\u0b2e\u0b3e\u0b23\u0b3f\u0b24 \u0b15\u0b30\u0b3e\u0b2f\u0b3e\u0b09\u0b05\u0b1b\u0b3f \u0b15\u0b3f \u0b06\u0b2c\u0b47\u0b26\u0b28\u0b15\u0b3e\u0b30\u0b40\u0b19\u0b4d\u0b15 \u0b2c\u0b3e\u0b30\u0b4d\u0b37\u0b3f\u0b15 \u0b06\u0b5f \u0b1f\u0b19\u0b4d\u0b15\u0b3e \u0b67,\u0b6b\u0b66,\u0b66\u0b66\u0b66 \u0b05\u0b1f\u0b47\u0964"
+    }
+  },
+  {
+    "sample_id": "indic_037",
+    "split": "CHALLENGE",
+    "lang": "hin",
+    "pdf_path": "data\\indic_ocr\\indic_037.pdf",
+    "png_path": "data\\indic_ocr\\indic_037.png",
+    "ground_truth": {
+      "lang": "hin",
+      "doc_type": "INCOME_CERT",
+      "fields": {
+        "doc_type": "INCOME_CERT",
+        "annual_income": "180000",
+        "authority": "TAHSILDAR BHUBANESWAR",
+        "applicant_name": "Aarav Sharma"
+      },
+      "indic_title": "\u0906\u092f \u092a\u094d\u0930\u092e\u093e\u0923 \u092a\u0924\u094d\u0930 (INCOME CERTIFICATE)",
+      "indic_clause": "\u092a\u094d\u0930\u092e\u093e\u0923\u093f\u0924 \u0915\u093f\u092f\u093e \u091c\u093e\u0924\u093e \u0939\u0948 \u0915\u093f \u091b\u093e\u0924\u094d\u0930 \u0915\u093e \u0935\u093e\u0930\u094d\u0937\u093f\u0915 \u092a\u093e\u0930\u093f\u0935\u093e\u0930\u093f\u0915 \u0906\u092f \u0930\u0941\u092a\u090f 1,80,000 \u0939\u0948\u0964"
+    }
+  },
+  {
+    "sample_id": "indic_038",
+    "split": "CHALLENGE",
+    "lang": "ori",
+    "pdf_path": "data\\indic_ocr\\indic_038.pdf",
+    "png_path": "data\\indic_ocr\\indic_038.png",
+    "ground_truth": {
+      "lang": "ori",
+      "doc_type": "RESIDENCE_CERT",
+      "fields": {
+        "doc_type": "RESIDENCE_CERT",
+        "state": "ODISHA",
+        "authority": "DISTRICT COLLECTORATE KHORDHA",
+        "applicant_name": "Sunita Jena"
+      },
+      "indic_title": "\u0b28\u0b3f\u0b2c\u0b3e\u0b38 \u0b2a\u0b4d\u0b30\u0b2e\u0b3e\u0b23 \u0b2a\u0b24\u0b4d\u0b30 (RESIDENCE CERTIFICATE)",
+      "indic_clause": "\u0b06\u0b2c\u0b47\u0b26\u0b28\u0b15\u0b3e\u0b30\u0b40 \u0b13\u0b21\u0b3c\u0b3f\u0b36\u0b3e \u0b30\u0b3e\u0b1c\u0b4d\u0b5f\u0b30 \u0b1c\u0b23\u0b47 \u0b38\u0b4d\u0b25\u0b3e\u0b5f\u0b40 \u0b2c\u0b3e\u0b38\u0b3f\u0b28\u0b4d\u0b26\u0b3e \u0b05\u0b1f\u0b28\u0b4d\u0b24\u0b3f\u0964"
+    }
+  },
+  {
+    "sample_id": "indic_039",
+    "split": "CHALLENGE",
+    "lang": "hin",
+    "pdf_path": "data\\indic_ocr\\indic_039.pdf",
+    "png_path": "data\\indic_ocr\\indic_039.png",
+    "ground_truth": {
+      "lang": "hin",
+      "doc_type": "CASTE_CERT",
+      "fields": {
+        "doc_type": "CASTE_CERT",
+        "caste_category": "OBC",
+        "authority": "SUB DIVISIONAL MAGISTRATE",
+        "applicant_name": "Rohan Kumar"
+      },
+      "indic_title": "\u091c\u093e\u0924\u093f \u092a\u094d\u0930\u092e\u093e\u0923 \u092a\u0924\u094d\u0930 (CASTE CERTIFICATE)",
+      "indic_clause": "\u092a\u094d\u0930\u092e\u093e\u0923\u093f\u0924 \u0915\u093f\u092f\u093e \u091c\u093e\u0924\u093e \u0939\u0948 \u0915\u093f \u0906\u0935\u0947\u0926\u0915 \u0905\u0928\u094d\u092f \u092a\u093f\u091b\u0921\u093c\u093e \u0935\u0930\u094d\u0917 (OBC) \u0938\u092e\u0941\u0926\u093e\u092f \u0938\u0947 \u0938\u0902\u092c\u0902\u0927\u093f\u0924 \u0939\u0948\u0902\u0964"
+    }
+  },
+  {
+    "sample_id": "indic_040",
+    "split": "CHALLENGE",
+    "lang": "ori",
+    "pdf_path": "data\\indic_ocr\\indic_040.pdf",
+    "png_path": "data\\indic_ocr\\indic_040.png",
+    "ground_truth": {
+      "lang": "ori",
+      "doc_type": "RESIDENCE_CERT",
+      "fields": {
+        "doc_type": "RESIDENCE_CERT",
+        "state": "ODISHA",
+        "authority": "DISTRICT COLLECTORATE KHORDHA",
+        "applicant_name": "Sunita Jena"
+      },
+      "indic_title": "\u0b28\u0b3f\u0b2c\u0b3e\u0b38 \u0b2a\u0b4d\u0b30\u0b2e\u0b3e\u0b23 \u0b2a\u0b24\u0b4d\u0b30 (RESIDENCE CERTIFICATE)",
+      "indic_clause": "\u0b06\u0b2c\u0b47\u0b26\u0b28\u0b15\u0b3e\u0b30\u0b40 \u0b13\u0b21\u0b3c\u0b3f\u0b36\u0b3e \u0b30\u0b3e\u0b1c\u0b4d\u0b5f\u0b30 \u0b1c\u0b23\u0b47 \u0b38\u0b4d\u0b25\u0b3e\u0b5f\u0b40 \u0b2c\u0b3e\u0b38\u0b3f\u0b28\u0b4d\u0b26\u0b3e \u0b05\u0b1f\u0b28\u0b4d\u0b24\u0b3f\u0964"
+    }
+  }
+]
