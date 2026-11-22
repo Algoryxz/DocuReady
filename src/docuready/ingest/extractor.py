@@ -251,6 +251,51 @@ def _is_demonstrably_upright(data: Dict[str, List[Any]]) -> bool:
     return True
 
 
+def extract_token_baseline_slope(data: dict, min_pairs: int = 3) -> Optional[float]:
+    """
+    Computes the median baseline slope in degrees from adjacent words in pytesseract image_to_data dict.
+    Returns None if fewer than min_pairs adjacent horizontal tokens exist.
+    """
+    texts = data.get("text", [])
+    confs = data.get("conf", [])
+    lefts = data.get("left", [])
+    tops = data.get("top", [])
+    widths = data.get("width", [])
+    heights = data.get("height", [])
+    line_nums = data.get("line_num", [])
+    block_nums = data.get("block_num", [])
+
+    token_positions = []
+    for i in range(len(texts)):
+        word = str(texts[i]).strip()
+        c = float(confs[i]) if i < len(confs) else -1.0
+        if word and c >= 25.0 and any(ch.isalnum() for ch in word):
+            b = block_nums[i] if i < len(block_nums) else 0
+            l = line_nums[i] if i < len(line_nums) else 0
+            x = float(lefts[i]) if i < len(lefts) else 0.0
+            y = float(tops[i]) if i < len(tops) else 0.0
+            w = float(widths[i]) if i < len(widths) else 0.0
+            h = float(heights[i]) if i < len(heights) else 0.0
+            token_positions.append((b, l, x, y, w, h))
+
+    slopes = []
+    for i in range(len(token_positions) - 1):
+        b1, l1, x1, y1, w1, h1 = token_positions[i]
+        b2, l2, x2, y2, w2, h2 = token_positions[i + 1]
+        if b1 == b2 and l1 == l2 and x2 > x1 + (w1 * 0.3):
+            dx = x2 - x1
+            dy = y2 - y1
+            angle_deg = math.degrees(math.atan2(dy, dx))
+            if -45.0 <= angle_deg <= 45.0:
+                slopes.append(angle_deg)
+
+    if len(slopes) >= min_pairs:
+        slopes.sort()
+        med = slopes[len(slopes) // 2]
+        return round(med, 2)
+    return None
+
+
 def _ocr_page(page: pymupdf.Page, dpi: int = 200) -> PageOCRData:
     """Renders page to image with direct buffer decoding, fast-path upright verification, deskew recovery, auto-orientation fallback, and timeouts."""
     rect = page.rect
@@ -284,15 +329,10 @@ def _ocr_page(page: pymupdf.Page, dpi: int = 200) -> PageOCRData:
     if _is_demonstrably_upright(data):
         return PageOCRData(data, dpi=dpi, rotation_applied=0)
 
-    # Step 3: Fast-path gate did not pass (tokens < 15, low confidence, tilted baselines, or empty).
-    # If there are 0 valid tokens (e.g. blank scan), skip OSD to avoid 'Too few characters' error.
-    valid_token_count = sum(1 for w, c in zip(data.get("text", []), data.get("conf", [])) if str(w).strip() and float(c) >= 0)
-    if valid_token_count == 0:
-        return PageOCRData(data, dpi=dpi, rotation_applied=0)
-
-    # Step 4: Skew Analysis & Recovery for non-orthogonal rotations
+    # Step 3: Skew Analysis & Recovery for non-orthogonal rotations
     try:
-        corr_angle, skew_conf = estimate_skew_angle(img, max_angle=45.0)
+        hint_angle = extract_token_baseline_slope(data)
+        corr_angle, skew_conf = estimate_skew_angle(img, max_angle=45.0, hint_angle=hint_angle)
         if abs(corr_angle) >= 1.0 and skew_conf >= 5.0:
             deskewed_img, o_sz, r_sz = deskew_image(img, corr_angle)
             deskew_data = pytesseract.image_to_data(
@@ -300,7 +340,9 @@ def _ocr_page(page: pymupdf.Page, dpi: int = 200) -> PageOCRData:
                 output_type=pytesseract.Output.DICT,
                 timeout=OCR_TIMEOUT_SECONDS
             )
-            if _is_demonstrably_upright(deskew_data):
+            deskew_valid_count = sum(1 for w, c in zip(deskew_data.get("text", []), deskew_data.get("conf", [])) if str(w).strip() and float(c) >= 0)
+            initial_valid_count = sum(1 for w, c in zip(data.get("text", []), data.get("conf", [])) if str(w).strip() and float(c) >= 0)
+            if _is_demonstrably_upright(deskew_data) or deskew_valid_count > initial_valid_count:
                 return PageOCRData(
                     deskew_data,
                     dpi=dpi,
@@ -311,6 +353,11 @@ def _ocr_page(page: pymupdf.Page, dpi: int = 200) -> PageOCRData:
                 )
     except Exception:
         pass
+
+    # Step 4: If not deskewed, check if there are 0 valid tokens (e.g. blank scan), skip OSD to avoid 'Too few characters' error.
+    valid_token_count = sum(1 for w, c in zip(data.get("text", []), data.get("conf", [])) if str(w).strip() and float(c) >= 0)
+    if valid_token_count == 0:
+        return PageOCRData(data, dpi=dpi, rotation_applied=0)
 
     # Step 5: Fallback to OSD for orthogonal orientation recovery on 90°, 180°, 270° pages
     try:
@@ -775,7 +822,7 @@ class DocumentExtractor:
         if doc_type == DocumentType.INCOME_CERT:
             add_field_func("applicant_name", [r"certify\s+that\s+([^,]+),", r"Applicant\s*Name\s*[:\-]?(.*)", r"certify\s+that\s+([A-Za-z\s]+)"], normalize_name)
             add_field_func("father_name", [r"Son/Daughter\s+of\s+([^,]+),", r"Father['\s]*s?\s*Name\s*[:\-]?(.*)"], normalize_name)
-            add_field_func("annual_income", [r"Annual\s+Family\s+Income\s*\(in\s+figures\)\s*[:\-]?(.*)", r"Annual\s+Family\s+Income[^\n:]*[:\-]?(.*)"], normalize_income)
+            add_field_func("annual_income", [r"(?:Annual\s+)?(?:Family\s+)?Income\s*\(in\s+figures\)\s*[:\-]?(.*)", r"Annual\s+Family\s+Income\s*\(in\s+figures\)\s*[:\-]?(.*)", r"Annual\s+Family\s+Income[^\n:]*[:\-]?(.*)"], normalize_income)
             add_field_func("issue_date", [r"Issue\s+Date\s*[:\-]?\s*(\d{2}/\d{2}/\d{4}|\d{4}-\d{2}-\d{2})", r"Date\s+of\s+Issue\s*[:\-]?\s*(\d{2}/\d{2}/\d{4}|\d{4}-\d{2}-\d{2})"], parse_dt)
             add_field_func("certificate_no", [r"Certificate\s+No\s*[:\-]?\s*([A-Za-z0-9/\-]+)", r"Cert\s+No\s*[:\-]?\s*([A-Za-z0-9/\-]+)"], normalize_cert_number)
             add_field_func("state", [r"GOVERNMENT\s+OF\s+([^\n]+)", r"State\s+of\s+([^,\n]+)"], lambda s: s.strip().upper() if s else None)

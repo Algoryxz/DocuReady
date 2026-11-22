@@ -13,7 +13,8 @@ def estimate_skew_angle(
     img: PIL.Image.Image,
     max_angle: float = 45.0,
     thumb_height: int = 600,
-    min_confidence: float = 5.0
+    min_confidence: float = 5.0,
+    hint_angle: Optional[float] = None
 ) -> Tuple[float, float]:
     """
     Estimates document skew angle in degrees using horizontal projection profile variance.
@@ -31,14 +32,20 @@ def estimate_skew_angle(
     thumb = img.resize((new_w, thumb_height), PIL.Image.Resampling.BILINEAR).convert("L")
     arr = np.array(thumb)
 
-    # Adaptive binarization: 1 for text, 0 for background
-    mean_val = float(np.mean(arr))
-    thresh = mean_val * 0.90
+    # Dynamic percentile thresholding:
+    # Captures faint text (carbon copies) and handles shadow gradients robustly
+    p_low = float(np.percentile(arr, 0.05))
+    p_high = float(np.percentile(arr, 99.5))
+    dynamic_range = p_high - p_low
+    if dynamic_range <= 2.0:
+        return 0.0, 0.0
+
+    thresh = p_low + 0.60 * dynamic_range
     bin_arr = (arr < thresh).astype(np.uint8)
 
     # If document has almost no foreground pixels (e.g. blank scan), return 0.0
     fg_count = int(np.sum(bin_arr))
-    if fg_count < 100:
+    if fg_count < 50:
         return 0.0, 0.0
 
     bin_pil = PIL.Image.fromarray(bin_arr * 255)
@@ -57,21 +64,69 @@ def estimate_skew_angle(
         coarse_scores.append(score)
 
     coarse_scores = np.array(coarse_scores)
-    best_coarse_idx = int(np.argmax(coarse_scores))
-    best_coarse_angle = float(coarse_angles[best_coarse_idx])
-    peak_score = float(coarse_scores[best_coarse_idx])
     median_score = float(np.median(coarse_scores))
+    if median_score <= 0:
+        median_score = 1e-6
 
-    confidence = peak_score / max(median_score, 1e-6)
+    # Detect prominent local peaks (higher than neighbors)
+    peaks = []
+    for i in range(len(coarse_scores)):
+        prev_s = coarse_scores[i - 1] if i > 0 else -1.0
+        next_s = coarse_scores[i + 1] if i < len(coarse_scores) - 1 else -1.0
+        if coarse_scores[i] >= prev_s and coarse_scores[i] >= next_s:
+            peaks.append((coarse_scores[i], float(coarse_angles[i])))
+
+    peaks.sort(key=lambda x: x[0], reverse=True)
+    if not peaks:
+        return 0.0, 0.0
+
+    best_score, best_angle = peaks[0]
+    peak_ratio = best_score / median_score
+    selected_angle = best_angle
+    confidence = peak_ratio
+
+    # Ambiguity and multi-signal resolution
+    if hint_angle is not None:
+        dist_best = abs(best_angle - hint_angle)
+        if dist_best <= 2.5:
+            selected_angle = best_angle
+            confidence = peak_ratio
+        else:
+            # Best peak does not match token slope (likely watermark or border).
+            # Look for a candidate peak that matches the hint angle within 2.5°
+            matching_peaks = [p for p in peaks if abs(p[1] - hint_angle) <= 2.5 and (p[0] / median_score) >= min_confidence]
+            if matching_peaks:
+                selected_angle = matching_peaks[0][1]
+                confidence = matching_peaks[0][0] / median_score
+            else:
+                confidence = peak_ratio * 0.3
+    else:
+        # No hint available
+        if abs(best_angle) > 25.0:
+            # Extreme angle typical of diagonal watermarks; check plausible physical skew range
+            plausible_peaks = [p for p in peaks if abs(p[1]) <= 25.0 and (p[0] / median_score) >= min_confidence]
+            if plausible_peaks:
+                selected_angle = plausible_peaks[0][1]
+                confidence = plausible_peaks[0][0] / median_score
+            else:
+                confidence = peak_ratio * 0.5
+        else:
+            # Plausible range: check dominance ratio against competing secondary peaks
+            secondary_peaks = [p for p in peaks[1:] if abs(p[1] - best_angle) >= 3.0]
+            if secondary_peaks:
+                sec_score, sec_angle = secondary_peaks[0]
+                dominance_ratio = best_score / max(sec_score, 1e-6)
+                if dominance_ratio < 1.35:
+                    confidence = peak_ratio * (dominance_ratio / 1.35)
 
     # If peak-to-median ratio is weak, no reliable horizontal line structure exists
     if confidence < min_confidence:
         return 0.0, confidence
 
-    # Fine search: 0.2 degree increments in ±1.2 degrees around coarse peak
-    fine_angles = np.arange(best_coarse_angle - 1.2, best_coarse_angle + 1.4, 0.2)
-    best_fine_angle = best_coarse_angle
-    best_fine_score = peak_score
+    # Fine search: 0.1 degree increments in ±1.5 degrees around selected coarse peak
+    fine_angles = np.arange(selected_angle - 1.5, selected_angle + 1.55, 0.1)
+    best_fine_angle = selected_angle
+    best_fine_score = -1.0
 
     for a in fine_angles:
         rot_arr = np.array(bin_pil.rotate(float(a), resample=PIL.Image.Resampling.NEAREST))
@@ -165,6 +220,12 @@ def transform_bbox_inverse(
     min_y = max(0.0, min(c[1] for c in orig_corners))
     max_x = min(float(W0), max(c[0] for c in orig_corners))
     max_y = min(float(H0), max(c[1] for c in orig_corners))
+
+    # Guard against degenerate zero-width or zero-height boxes (e.g. single-pixel punctuation or extreme clipping)
+    if max_x - min_x < 1.0:
+        max_x = min(float(W0), min_x + 1.0)
+    if max_y - min_y < 1.0:
+        max_y = min(float(H0), min_y + 1.0)
 
     return [
         round(min_x * scale, 1),
