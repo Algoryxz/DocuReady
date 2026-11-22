@@ -1,0 +1,196 @@
+{
+  "benchmark_name": "Loop 21 Dedicated Stress Cohorts",
+  "total_documents": 6,
+  "cohorts": [
+    "E_hierarchical_headers",
+    "F_decimal_integrity"
+  ],
+  "documents": {
+    "HIER_01_QUARTERLY_PERFORMANCE": {
+      "cohort": "E_hierarchical_headers",
+      "category": "Hierarchical Multi-Tier",
+      "critical_fields": [
+        {
+          "name": "agri_actual_capex",
+          "expected": "148000",
+          "row": 0,
+          "col": 3,
+          "type": "amount",
+          "target_pattern": "Agriculture",
+          "col_pattern": "Actual Capex"
+        },
+        {
+          "name": "health_target_opex",
+          "expected": "65000",
+          "row": 2,
+          "col": 2,
+          "type": "amount",
+          "target_pattern": "Health Mission",
+          "col_pattern": "Target Opex"
+        }
+      ]
+    },
+    "HIER_02_HEALTH_IMMUNIZATION": {
+      "cohort": "E_hierarchical_headers",
+      "category": "Hierarchical Multi-Tier",
+      "critical_fields": [
+        {
+          "name": "khordha_rural_given",
+          "expected": "26500",
+          "row": 0,
+          "col": 4,
+          "type": "count",
+          "target_pattern": "Khordha",
+          "col_pattern": "Rural Given"
+        },
+        {
+          "name": "cuttack_urban_given",
+          "expected": "13200",
+          "row": 1,
+          "col": 2,
+          "type": "count",
+          "target_pattern": "Cuttack",
+          "col_pattern": "Urban Given"
+        }
+      ]
+    },
+    "HIER_03_TAX_REVENUE": {
+      "cohort": "E_hierarchical_headers",
+      "category": "Hierarchical Multi-Tier",
+      "critical_fields": [
+        {
+          "name": "central_comm_coll",
+          "expected": "1150000",
+          "row": 1,
+          "col": 2,
+          "type": "amount",
+          "target_pattern": "Zone Central",
+          "col_pattern": "Comm Coll"
+        },
+        {
+          "name": "north_res_coll",
+          "expected": "395000",
+          "row": 0,
+          "col": 4,
+          "type": "amount",
+          "target_pattern": "Zone North",
+          "col_pattern": "Res Coll"
+        }
+      ]
+    },
+    "DEC_01_BIOCHEMISTRY_REPORT": {
+      "cohort": "F_decimal_integrity",
+      "category": "Decimal Integrity",
+      "critical_fields": [
+        {
+          "name": "serum_albumin",
+          "expected": "4.2",
+          "row": 0,
+          "col": 1,
+          "type": "number",
+          "target_pattern": "Serum Albumin"
+        },
+        {
+          "name": "total_bilirubin",
+          "expected": "0.8",
+          "row": 1,
+          "col": 1,
+          "type": "number",
+          "target_pattern": "Total Bilirubin"
+        },
+        {
+          "name": "serum_creatinine",
+          "expected": "1.25",
+          "row": 2,
+          "col": 1,
+          "type": "number",
+          "target_pattern": "Serum Creatinine"
+        },
+        {
+          "name": "blood_urea",
+          "expected": "24",
+          "row": 3,
+          "col": 1,
+          "type": "number",
+          "target_pattern": "Blood Urea Nitrogen"
+        }
+      ]
+    },
+    "DEC_02_COMMODITY_RATES": {
+      "cohort": "F_decimal_integrity",
+      "category": "Decimal Integrity",
+      "critical_fields": [
+        {
+          "name": "mustard_settlement",
+          "expected": "56.25",
+          "row": 0,
+          "col": 2,
+          "type": "number",
+          "target_pattern": "Mustard Seed"
+        },
+        {
+          "name": "chana_opening",
+          "expected": "68.5",
+          "row": 2,
+          "col": 1,
+          "type": "number",
+          "target_pattern": "Chana Whole"
+        },
+        {
+          "name": "turmeric_settlement",
+          "expected": "138.50",
+          "row": 3,
+          "col": 2,
+          "type": "number",
+          "target_pattern": "Turmeric Polished"
+        },
+        {
+          "name": "barley_volume",
+          "expected": "3100",
+          "row": 4,
+          "col": 3,
+          "type": "count",
+          "target_pattern": "Barley Feed"
+        }
+      ]
+    },
+    "DEC_03_PHARMA_DOSAGE": {
+      "cohort": "F_decimal_integrity",
+      "category": "Decimal Integrity",
+      "critical_fields": [
+        {
+          "name": "levo_strength",
+          "expected": "0.25",
+          "row": 0,
+          "col": 1,
+          "type": "number",
+          "target_pattern": "Levothyroxine Tab"
+        },
+        {
+          "name": "clonazepam_strength",
+          "expected": "0.5",
+          "row": 1,
+          "col": 1,
+          "type": "number",
+          "target_pattern": "Clonazepam Tab"
+        },
+        {
+          "name": "amlodipine_strength",
+          "expected": "2.5",
+          "row": 2,
+          "col": 1,
+          "type": "number",
+          "target_pattern": "Amlodipine Besylate"
+        },
+        {
+          "name": "metformin_strength",
+          "expected": "500",
+          "row": 3,
+          "col": 1,
+          "type": "number",
+          "target_pattern": "Metformin HCl"
+        }
+      ]
+    }
+  }
+}
