@@ -30,7 +30,7 @@ export const FindingPanel: React.FC<FindingPanelProps> = ({
     fail: findings.filter((f) => f.status === "FAIL" || f.status === "MISSING").length,
     warn: findings.filter((f) => f.status === "WARN").length,
     pass: findings.filter((f) => f.status === "PASS").length,
-    review: findings.filter((f) => f.status === "MANUAL_REVIEW").length
+    review: findings.filter((f) => f.status === "REVIEW" || f.status === "MANUAL_REVIEW").length
   };
 
   const filteredFindings = filterFindings(findings, {
@@ -80,8 +80,8 @@ export const FindingPanel: React.FC<FindingPanelProps> = ({
           {counts.review > 0 && (
             <button
               type="button"
-              className={`filter-pill review ${statusFilter === "MANUAL_REVIEW" ? "active" : ""}`}
-              onClick={() => setStatusFilter("MANUAL_REVIEW")}
+              className={`filter-pill review ${statusFilter === "REVIEW" || statusFilter === "MANUAL_REVIEW" ? "active" : ""}`}
+              onClick={() => setStatusFilter("REVIEW")}
             >
               REVIEW ({counts.review})
             </button>

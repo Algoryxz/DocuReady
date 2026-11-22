@@ -925,6 +925,16 @@ class DocuReadyValidator:
             findings, documents, self.scheme.name, scheme_config=self.scheme, audit_date=effective_as_of
         )
 
+        # Deduplicate findings if identical rule, documents, field, and status occur
+        deduped_findings: List[Finding] = []
+        seen_finding_keys = set()
+        for f in findings:
+            f_key = (f.rule_id, tuple(sorted(f.documents_involved)), f.field, f.resolved_status)
+            if f_key not in seen_finding_keys:
+                seen_finding_keys.add(f_key)
+                deduped_findings.append(f)
+        findings = deduped_findings
+
         # ----------------- OVERALL STATUS & SCORE DETERMINATION -----------------
         score = 100 - sum(f.penalty for f in findings)
         score = max(0, min(100, score))

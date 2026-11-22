@@ -53,6 +53,9 @@ from docuready.rules.schema import (
     SourceStatus,
 )
 from docuready.rules.slot_validator import validate_packet_slots
+from docuready.report.redact import get_safe_logger
+
+logger = get_safe_logger("docuready.rules.engine")
 
 
 class ExemptionVerdict(str, Enum):
@@ -391,16 +394,29 @@ class PackExecutionEngine:
                 ]
             else:
                 eval_fn = PRIMITIVE_REGISTRY[rule.primitive]
-                prim_res: PrimitiveResult = eval_fn(
-                    documents, resolved_inputs, resolved_params, context
-                )
-                raw_result = prim_res.raw
-                match_grade = prim_res.match_grade
-                weakest = prim_res.evidence_state or EvidenceState.VERIFIED
-                finding_msg = prim_res.message or f"Rule {rule.id} evaluation completed."
-                ev_list = prim_res.evidence
-                field_name = prim_res.field_name or rule.inputs.get("field", "GENERAL").upper()
-                docs_involved = prim_res.documents_involved
+                try:
+                    prim_res: PrimitiveResult = eval_fn(
+                        documents, resolved_inputs, resolved_params, context
+                    )
+                    raw_result = prim_res.raw
+                    match_grade = prim_res.match_grade
+                    weakest = prim_res.evidence_state or EvidenceState.VERIFIED
+                    finding_msg = prim_res.message or f"Rule {rule.id} evaluation completed."
+                    ev_list = prim_res.evidence
+                    field_name = prim_res.field_name or rule.inputs.get("field", "GENERAL").upper()
+                    docs_involved = prim_res.documents_involved
+                except Exception as exc:
+                    logger.error("Unexpected exception executing primitive %s for rule %s: %s", rule.primitive, rule.id, str(exc))
+                    raw_result = Raw.INDETERMINATE
+                    match_grade = MatchGrade.AMBIGUOUS
+                    weakest = EvidenceState.UNCERTAIN
+                    finding_msg = f"Rule {rule.id} execution encountered an internal error: {exc}. Human review required."
+                    ev_list = []
+                    field_name = rule.inputs.get("field", "GENERAL").upper()
+                    docs_involved = [
+                        (resolve_doc_type(d).value if resolve_doc_type(d) else d)
+                        for d in rule.inputs.get("docs", [])
+                    ]
 
             stat_ref = self._format_statutory_reference(rule)
             remediation = self._format_remediation(rule)
@@ -461,6 +477,16 @@ class PackExecutionEngine:
                 match_grade=match_grade,
             )
             findings.append(finding)
+
+        # Deduplicate findings if identical rule, documents, field, and status occur
+        deduped_findings: List[Finding] = []
+        seen_finding_keys = set()
+        for f in findings:
+            f_key = (f.rule_id, tuple(sorted(f.documents_involved)), f.field, f.resolved_status)
+            if f_key not in seen_finding_keys:
+                seen_finding_keys.add(f_key)
+                deduped_findings.append(f)
+        findings = deduped_findings
 
         # 4. Overall Readiness and Score
         score = 100 - sum(f.penalty for f in findings)
