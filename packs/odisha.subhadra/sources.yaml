@@ -1,0 +1,55 @@
+# DocuReady Rule Pack Sources — odisha.subhadra
+# Task T3.3: First Real Scheme Pack (Demo Snapshot)
+# Authoritative statutory and administrative citation registry
+
+pack_id: odisha.subhadra
+version: "2024.1"
+description: "Authoritative statutory and regulatory source registry for Odisha SUBHADRA Yojana (FY 2024-25 demonstration snapshot)"
+last_audited: 2026-11-21
+audited_by: "Susmita (Domain Rules & Evaluation Lead)"
+reviewed_by: "Pending Independent PO Review"
+
+sources:
+  - id: "SRC-SUB-GUIDELINES-2024"
+    title: "Guidelines for Implementation of 'SUBHADRA' Scheme (Letter No. 19188/WCD)"
+    issuing_body: "Women and Child Development Department, Government of Odisha"
+    url: "https://wcd.odisha.gov.in/sites/default/files/2025-06/148.%20Lt.%20No.%2019188Dt.%2029.08.2024%20Circulation%20of%20Subhadra%20guideline%20English.pdf"
+    retrieved_on: 2026-11-21
+    status: "verified"
+    reviewed_by: "Susmita (Domain Rules, Evidence & Evaluation Lead)"
+    clause: "Letter No. 19188/WCD dated 29.08.2024, Sections 5.1, 5.2, 6, 7"
+    supports_rule: true
+    notes: "Circulated English guidelines establishing eligibility (§5.1), exclusion categories with family-member scope (§5.2), beneficiary identification via field inquiry (§6), and benefit delivery (§7)."
+
+  - id: "SRC-SUB-GAZETTE-2024"
+    title: "The Odisha Gazette Extraordinary No. 1637 — Resolution No. 19898—WCD-SUBH-SCHM-0008/2024/WCD"
+    issuing_body: "Women and Child Development Department, Government of Odisha"
+    url: "https://wcd.odisha.gov.in/sites/default/files/2025-07/1637%20Gazette%20Resolution%20ENGLISH_0.pdf"
+    retrieved_on: 2026-11-21
+    status: "verified"
+    reviewed_by: "Susmita (Domain Rules, Evidence & Evaluation Lead)"
+    clause: "Gazette No. 1637 dated 05.09.2024, Sections 1(e), 2(a), 3.1(c)–(e), 3.2, 5(a)(i), 5(a)(iii)"
+    supports_rule: true
+    notes: "Published Gazette resolution specifying scheme duration (§2(a)), single-holder DBT bank accounts (§1(e), §5(a)(iii)), age bracket 21 to <60 as on 01.07.2024 tied to Aadhaar DOB (§3.1(c)–(e)), exclusions (§3.2), and mandatory Aadhaar requirement (§5(a)(i))."
+
+  - id: "SRC-SUB-SOP-2024"
+    title: "Standard Operating Procedure (SOP) for Implementation of SUBHADRA Yojana (Letter No. 26139/WCD)"
+    issuing_body: "Women and Child Development Department, Government of Odisha"
+    url: "https://wcd.odisha.gov.in/sites/default/files/2025-07/26139%20Dt.%2011.11.2024%20SOP%20Subhadra%20English.pdf"
+    retrieved_on: 2026-11-21
+    status: "verified"
+    reviewed_by: "Susmita (Domain Rules, Evidence & Evaluation Lead)"
+    clause: "Document dated October 2024, forwarded via Letter No. 26139/WCD dated 11.11.2024, Sections 2, 4, 4.1, Annexure 3"
+    supports_rule: true
+    notes: "Standard operating procedure detailing physical application submission at Mo Seva Kendras (§2), Aadhaar e-KYC and DBT bank scrutiny (§4, §4.1), and Annexure 3 self-declaration form for family gross annual income."
+
+  - id: "SRC-SUB-INTAKE-WINDOW"
+    title: "Government Application Intake Period Status"
+    issuing_body: "Women and Child Development Department, Government of Odisha"
+    url: "https://subhadra.odisha.gov.in"
+    retrieved_on: 2026-11-21
+    status: "unverified"
+    reviewed_by: "Susmita (Domain Rules, Evidence & Evaluation Lead)"
+    clause: "Administrative Portal Reference"
+    supports_rule: false
+    notes: "Statutory Gazette No. 1637 Section 2(a) defines the multi-year scheme lifespan (FY 2024–25 to FY 2028–29) but does not enact a definitive application intake closing date. The portal URL is provided solely as a general administrative reference, not as proof of any specific application intake window or closing deadline. The status remains UNVERIFIED pending an authoritative, date-specific government notification. The historical demonstration snapshot window in DocuReady (2024-09-05 to 2025-03-31) represents an evaluation baseline and does not represent an actual government application closing date."

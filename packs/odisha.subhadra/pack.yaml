@@ -1,0 +1,116 @@
+# DocuReady Scheme Pack Manifest — odisha.subhadra
+# Task T3.3: First Real Scheme Pack (Demo Snapshot)
+# Grounded in official Government of Odisha Women & Child Development Department notifications
+
+pack_id: odisha.subhadra
+version: "2024.1"
+status: demo_snapshot
+effective:
+  from: 2024-09-05
+  to: 2025-03-31
+as_of_required: true
+
+parameters:
+  age_reference_date:
+    type: date
+    value: "2024-07-01"
+    description: "Statutory age reference date per Odisha Gazette No. 1637 Section 3.1(c)"
+  min_age:
+    type: int
+    value: 21
+    description: "Minimum age requirement in completed years as on reference date"
+  max_age:
+    type: int
+    value: 59
+    description: "Maximum completed age in years as on reference date (strictly below 60 years per Gazette Section 3.1(c))"
+
+doc_slots:
+  aadhaar_card:
+    ocr_langs: [eng, ori]
+    required: false
+  bank_passbook:
+    ocr_langs: [eng]
+    required: false
+  income_certificate:
+    ocr_langs: [eng, ori]
+    required: false
+  application_form:
+    ocr_langs: [eng, ori]
+    required: false
+  ration_card:
+    ocr_langs: [eng, ori]
+    required: false
+
+rules:
+  - id: RULE-SUB-DOC-01
+    primitive: require_document
+    inputs:
+      slot: aadhaar_card
+    params:
+      min_pages: 1
+    max_severity: REVIEW
+    citation:
+      source: SRC-SUB-GAZETTE-2024
+      clause: "Section 5(a)(i)"
+    remediation:
+      authority: "UIDAI / Mo Seva Kendra"
+      replacement_document: "aadhaar_card"
+      steps:
+        - "Aadhaar card/number in the applicant's own name is a statutory requirement under Odisha Gazette Section 5(a)(i)."
+        - "An Aadhaar digital scan is required solely for automated pre-submission checking in DocuReady; absence of a digital scan does not indicate a government rejection or legal ineligibility determination."
+        - "For assisted government application submission under Subhadra SOP Section 2, a digital scan upload is not mandatory: applicants may carry their physical Aadhaar card and Aadhaar-linked mobile phone directly to a Mo Seva Kendra or Common Service Centre for in-person biometric or OTP e-KYC."
+
+  - id: RULE-SUB-FLD-01
+    primitive: field_present
+    inputs:
+      field: applicant_name
+      docs:
+        - aadhaar_card
+    params: {}
+    max_severity: REVIEW
+    citation:
+      source: SRC-SUB-SOP-2024
+      clause: "Section 2, Section 4.1"
+    remediation:
+      authority: "UIDAI / Aadhaar Enrolment Centre"
+      steps:
+        - "Applicant legal name must be visible and legible on identity evidence to enable e-KYC demographic scrutiny under SOP Section 4.1."
+
+  - id: RULE-SUB-AGE-01
+    primitive: age_on
+    inputs:
+      field: dob
+      docs:
+        - aadhaar_card
+    params:
+      reference_date: $age_reference_date
+      min_age: $min_age
+      max_age: $max_age
+    max_severity: FAIL
+    citation:
+      source: SRC-SUB-GAZETTE-2024
+      clause: "Section 3.1(c)–(e)"
+    remediation:
+      authority: "Women and Child Development Department, Govt of Odisha"
+      steps:
+        - "Under Gazette Section 3.1(c)–(e), applicant must be at least 21 years of age and below 60 years of age as of 01.07.2024 (born between 02.07.1964 and 01.07.2003 as recorded in Aadhaar)."
+
+  - id: RULE-SUB-NAME-01
+    primitive: match_across
+    inputs:
+      fields:
+        - aadhaar_card.applicant_name
+        - bank_passbook.applicant_name
+    params:
+      grade: name
+    max_severity: REVIEW
+    citation:
+      source: SRC-SUB-GAZETTE-2024
+      clause: "Section 1(e), Section 5(a)(iii)"
+    remediation:
+      authority: "Bank Branch / Mo Seva Kendra"
+      steps:
+        - "Under Gazette Section 1(e) and Section 5(a)(iii), financial assistance is disbursed via DBT to a single-holder Aadhaar-enabled bank account."
+        - "Uploading an optional bank passbook and performing OCR name reconciliation is an internal DocuReady consistency heuristic and advisory check only."
+        - "This check does not verify Aadhaar DBT seeding or account eligibility, which must be validated directly with the bank or NPCI mapper."
+        - "A passbook absence or name discrepancy cannot generate a statutory FAIL; the rule is advisory and restricted to REVIEW."
