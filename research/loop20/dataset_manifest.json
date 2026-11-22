@@ -1,0 +1,815 @@
+{
+  "benchmark_name": "Loop 20 Generalization and Verification Reliability Benchmark",
+  "total_documents": 34,
+  "cohorts": {
+    "A_development": 8,
+    "B_validation": 8,
+    "C_blind_evaluation": 10,
+    "D_challenge_adversarial": 8
+  },
+  "documents": {
+    "DEV_01_ACCOUNTING_INVOICE": {
+      "cohort": "A_development",
+      "category": "Standard Tabular",
+      "sha256": "443526bedcf24fa6e143b74a483689fa8e9dfec893b338e79a37ed3027a5605c",
+      "critical_fields_count": 2,
+      "critical_fields": [
+        {
+          "name": "invoice_total",
+          "expected": "110000",
+          "row": 3,
+          "col": 5,
+          "type": "amount",
+          "target_pattern": "Grand Invoice Total"
+        },
+        {
+          "name": "pattachitra_subtotal",
+          "expected": "41000",
+          "row": 1,
+          "col": 5,
+          "type": "amount",
+          "target_pattern": "Pattachitra Silk Scroll"
+        }
+      ]
+    },
+    "DEV_02_ACADEMIC_MARKSHEET": {
+      "cohort": "A_development",
+      "category": "Standard Tabular",
+      "sha256": "cd2ac20974d6d72091a398064e79e055f581abb2f2f704c0921053fa6f9a712f",
+      "critical_fields_count": 2,
+      "critical_fields": [
+        {
+          "name": "maths_total",
+          "expected": "93",
+          "row": 2,
+          "col": 5,
+          "type": "marks",
+          "target_pattern": "Mathematics"
+        },
+        {
+          "name": "aggregate_total",
+          "expected": "343",
+          "row": 4,
+          "col": 5,
+          "type": "marks",
+          "target_pattern": "Aggregate Marks"
+        }
+      ]
+    },
+    "DEV_03_GOVT_PENSION_ORDER": {
+      "cohort": "A_development",
+      "category": "Standard Tabular",
+      "sha256": "4bd034c2e6181ca692fd7bbea1ba02558dd8e7da236964b7187c4cd31ccb19df",
+      "critical_fields_count": 2,
+      "critical_fields": [
+        {
+          "name": "mishra_net",
+          "expected": "49750",
+          "row": 0,
+          "col": 5,
+          "type": "amount",
+          "target_pattern": "Satyanarayan Mishra"
+        },
+        {
+          "name": "nayak_basic",
+          "expected": "35100",
+          "row": 2,
+          "col": 2,
+          "type": "amount",
+          "target_pattern": "Subhadra Nayak"
+        }
+      ]
+    },
+    "DEV_04_LAND_KHATAUNI_RECORD": {
+      "cohort": "A_development",
+      "category": "Standard Tabular",
+      "sha256": "5026fc3bf245bfd22853370810fdb8cdaac1207945080bd30cef696c8271061d",
+      "critical_fields_count": 2,
+      "critical_fields": [
+        {
+          "name": "agri_tax",
+          "expected": "1800",
+          "row": 1,
+          "col": 5,
+          "type": "amount",
+          "target_pattern": "Irrigated Agriculture"
+        },
+        {
+          "name": "orchard_area",
+          "expected": "0.60",
+          "row": 2,
+          "col": 3,
+          "type": "area",
+          "target_pattern": "Orchard Garden"
+        }
+      ]
+    },
+    "DEV_05_EMPLOYMENT_CERTIFICATE": {
+      "cohort": "A_development",
+      "category": "Standard Tabular",
+      "sha256": "7a9cb19481cea8da652b5a554a6aeb43af42e5e76d49a3b4ee4c5a9b576b6663",
+      "critical_fields_count": 2,
+      "critical_fields": [
+        {
+          "name": "planner_confirm_date",
+          "expected": "01/09/2021",
+          "row": 1,
+          "col": 3,
+          "type": "date",
+          "target_pattern": "Assistant Town Planner"
+        },
+        {
+          "name": "inspector_scale",
+          "expected": "Level 08",
+          "row": 2,
+          "col": 4,
+          "type": "id",
+          "target_pattern": "Sanitary Inspector"
+        }
+      ]
+    },
+    "DEV_06_RECEIPT_VOUCHER": {
+      "cohort": "A_development",
+      "category": "Standard Tabular",
+      "sha256": "4838cf9691e88b8749229f6c211d69a9757a7c8fb25157a479e77eac411c6f6c",
+      "critical_fields_count": 2,
+      "critical_fields": [
+        {
+          "name": "dev_charges_amount",
+          "expected": "185000",
+          "row": 1,
+          "col": 4,
+          "type": "amount",
+          "target_pattern": "External Dev Charges"
+        },
+        {
+          "name": "cleared_total",
+          "expected": "202900",
+          "row": 3,
+          "col": 4,
+          "type": "amount",
+          "target_pattern": "Three Items Cleared"
+        }
+      ]
+    },
+    "DEV_07_ADMINISTRATIVE_CIRCULAR": {
+      "cohort": "A_development",
+      "category": "Standard Tabular",
+      "sha256": "ba6f1b1d4d26df71691561bf937a05b0a5b84b1960311efec2a0e4b87c9764d0",
+      "critical_fields_count": 2,
+      "critical_fields": [
+        {
+          "name": "surveyor_total",
+          "expected": "120",
+          "row": 0,
+          "col": 2,
+          "type": "count",
+          "target_pattern": "Statistical Field Surveyor"
+        },
+        {
+          "name": "police_sebc",
+          "expected": "23",
+          "row": 1,
+          "col": 4,
+          "type": "count",
+          "target_pattern": "Sub-Inspector of Police"
+        }
+      ]
+    },
+    "DEV_08_MEDICAL_BILL": {
+      "cohort": "A_development",
+      "category": "Standard Tabular",
+      "sha256": "a3921d248c0740f6dd19fd750a298cc1bcf9c981772520ccf0331771b5622e49",
+      "critical_fields_count": 2,
+      "critical_fields": [
+        {
+          "name": "medicines_amount",
+          "expected": "12450",
+          "row": 2,
+          "col": 4,
+          "type": "amount",
+          "target_pattern": "Essential Medicines Formulary"
+        },
+        {
+          "name": "bill_total",
+          "expected": "33650",
+          "row": 4,
+          "col": 4,
+          "type": "amount",
+          "target_pattern": "Total Medical Bill Payable"
+        }
+      ]
+    },
+    "VAL_01_WRAPPED_LINE_ITEMS": {
+      "cohort": "B_validation",
+      "category": "Validation Stress",
+      "sha256": "ed28573b434d114e675e45f76c66dfbe1d700d025cf484919e0314d67afd0ec6",
+      "critical_fields_count": 2,
+      "critical_fields": [
+        {
+          "name": "tiles_budget",
+          "expected": "125000",
+          "row": 1,
+          "col": 3,
+          "type": "amount",
+          "target_pattern": "Concrete Paving Tiles"
+        },
+        {
+          "name": "pump_vendor",
+          "expected": "VND-401",
+          "row": 0,
+          "col": 2,
+          "type": "id",
+          "target_pattern": "Submersible Water Pump"
+        }
+      ]
+    },
+    "VAL_02_DENSE_LEDGER": {
+      "cohort": "B_validation",
+      "category": "Validation Stress",
+      "sha256": "795dbf46293182a6376c639a77b2c4e396723fe5d3e0383d81e70181e2c07329",
+      "critical_fields_count": 2,
+      "critical_fields": [
+        {
+          "name": "sahoo_closing",
+          "expected": "117000",
+          "row": 1,
+          "col": 5,
+          "type": "amount",
+          "target_pattern": "Mamata Manjari Sahoo"
+        },
+        {
+          "name": "das_credit",
+          "expected": "25000",
+          "row": 0,
+          "col": 4,
+          "type": "amount",
+          "target_pattern": "Pabitra Mohan Das"
+        }
+      ]
+    },
+    "VAL_03_BORDERLESS_PAYSLIP": {
+      "cohort": "B_validation",
+      "category": "Validation Stress",
+      "sha256": "5cf874bb9f0151d6b5367a5028f2a79569c163a756396d3a23d679321597d41a",
+      "critical_fields_count": 2,
+      "critical_fields": [
+        {
+          "name": "gross_earnings",
+          "expected": "92140",
+          "row": 3,
+          "col": 1,
+          "type": "amount",
+          "target_pattern": "Gross Earnings"
+        },
+        {
+          "name": "total_deductions",
+          "expected": "15150",
+          "row": 3,
+          "col": 3,
+          "type": "amount",
+          "target_pattern": "Total Deductions"
+        }
+      ]
+    },
+    "VAL_04_MIXED_SCRIPT_BILINGUAL": {
+      "cohort": "B_validation",
+      "category": "Validation Stress",
+      "sha256": "1f42c029d9d86db3be9113ef1c084ae40f25bbcb548e074032715875fb4413d8",
+      "critical_fields_count": 2,
+      "critical_fields": [
+        {
+          "name": "rasta_amount",
+          "expected": "142000",
+          "row": 1,
+          "col": 3,
+          "type": "amount",
+          "target_pattern": "Paka Rasta Nirmana"
+        },
+        {
+          "name": "deepa_amount",
+          "expected": "38000",
+          "row": 2,
+          "col": 3,
+          "type": "amount",
+          "target_pattern": "Bidyut Deepa Jojana"
+        }
+      ]
+    },
+    "VAL_05_MULTI_ROW_SUMMARY": {
+      "cohort": "B_validation",
+      "category": "Validation Stress",
+      "sha256": "f276048e0d25e49bf9808af0ebb0c953a196da101415baaeeba6c28d8cb5db0e",
+      "critical_fields_count": 2,
+      "critical_fields": [
+        {
+          "name": "drip_q2_actual",
+          "expected": "84500",
+          "row": 1,
+          "col": 4,
+          "type": "amount",
+          "target_pattern": "Drip Irrigation"
+        },
+        {
+          "name": "seed_q1_budget",
+          "expected": "40000",
+          "row": 0,
+          "col": 1,
+          "type": "amount",
+          "target_pattern": "Seed Subsidy"
+        }
+      ]
+    },
+    "VAL_06_PARTIALLY_FILLED_FORM": {
+      "cohort": "B_validation",
+      "category": "Validation Stress",
+      "sha256": "6c4f8e12feb646d25b044ab3a912b08e450420a3695ffd7da87a5ea1a2cac61d",
+      "critical_fields_count": 2,
+      "critical_fields": [
+        {
+          "name": "primary_bpl",
+          "expected": "BPL-ORI-99120",
+          "row": 2,
+          "col": 1,
+          "type": "id",
+          "target_pattern": "BPL Card No"
+        },
+        {
+          "name": "joint_name_empty",
+          "expected": "",
+          "row": 0,
+          "col": 2,
+          "type": "empty",
+          "target_pattern": "Full Name"
+        }
+      ]
+    },
+    "VAL_07_TAX_ASSESSMENT_SCHEDULE": {
+      "cohort": "B_validation",
+      "category": "Validation Stress",
+      "sha256": "0f5d9c1c8a751fafcdf8992f948cc988087256dca0b45b68c7f6c6761eba572a",
+      "critical_fields_count": 2,
+      "critical_fields": [
+        {
+          "name": "commercial_net_tax",
+          "expected": "28800",
+          "row": 1,
+          "col": 5,
+          "type": "amount",
+          "target_pattern": "Commercial Complex"
+        },
+        {
+          "name": "residence_rebate",
+          "expected": "6000",
+          "row": 0,
+          "col": 4,
+          "type": "amount",
+          "target_pattern": "Residential RCC"
+        }
+      ]
+    },
+    "VAL_08_SHADOW_NOISE_SCAN": {
+      "cohort": "B_validation",
+      "category": "Validation Stress",
+      "sha256": "a3c0a0008e8b7c8c45fb392a3404bc1e2afc37cadf33bd39f1a783ee80516a7d",
+      "critical_fields_count": 2,
+      "critical_fields": [
+        {
+          "name": "alok_amount",
+          "expected": "15000",
+          "row": 0,
+          "col": 3,
+          "type": "amount",
+          "target_pattern": "Alok Kumar Srichandan"
+        },
+        {
+          "name": "soumya_amount",
+          "expected": "12000",
+          "row": 2,
+          "col": 3,
+          "type": "amount",
+          "target_pattern": "Soumyaranjan Mohanty"
+        }
+      ]
+    },
+    "BLIND_01_SALARY_SLIP": {
+      "cohort": "C_blind_evaluation",
+      "category": "Blind Unseen Layout",
+      "sha256": "51a5f0cfec28007ba76defc85f7ade7dadcf869aca329bb6ee78b1c6a62807ea",
+      "critical_fields_count": 2,
+      "critical_fields": [
+        {
+          "name": "net_pay",
+          "expected": "107000",
+          "row": 3,
+          "col": 1,
+          "type": "amount",
+          "target_pattern": "Net Pay Disbursed"
+        },
+        {
+          "name": "pf_contrib",
+          "expected": "8160",
+          "row": 0,
+          "col": 3,
+          "type": "amount",
+          "target_pattern": "PF Contribution"
+        }
+      ]
+    },
+    "BLIND_02_CUSTOMS_DECLARATION": {
+      "cohort": "C_blind_evaluation",
+      "category": "Blind Unseen Layout",
+      "sha256": "4d0b8fc489178afbd5e1cdfba4425baff052502a3ef508c605e8f6a24fcd2987",
+      "critical_fields_count": 2,
+      "critical_fields": [
+        {
+          "name": "sensors_duty",
+          "expected": "31108",
+          "row": 2,
+          "col": 5,
+          "type": "amount",
+          "target_pattern": "Optical Inspection Sensors"
+        },
+        {
+          "name": "converters_cif",
+          "expected": "820000",
+          "row": 1,
+          "col": 3,
+          "type": "amount",
+          "target_pattern": "Static Converters 50KW"
+        }
+      ]
+    },
+    "BLIND_03_UTILITY_ELECTRICITY_BILL": {
+      "cohort": "C_blind_evaluation",
+      "category": "Blind Unseen Layout",
+      "sha256": "a0833ad954a793fae6302e12b63ec8237f60670c821d3f10e2bbcba453c3fc1d",
+      "critical_fields_count": 2,
+      "critical_fields": [
+        {
+          "name": "units_billed",
+          "expected": "640",
+          "row": 0,
+          "col": 3,
+          "type": "count",
+          "target_pattern": "MTR-88120"
+        },
+        {
+          "name": "total_bill_due",
+          "expected": "4830",
+          "row": 2,
+          "col": 5,
+          "type": "amount",
+          "target_pattern": "Total Payable"
+        }
+      ]
+    },
+    "BLIND_04_MUNICIPAL_HOLDING_TAX": {
+      "cohort": "C_blind_evaluation",
+      "category": "Blind Unseen Layout",
+      "sha256": "7eabeddd575c32b70a1f650156abe701c3c6ced41a70a99bb4b21fb3ae390482",
+      "critical_fields_count": 2,
+      "critical_fields": [
+        {
+          "name": "drainage_net",
+          "expected": "1480",
+          "row": 2,
+          "col": 5,
+          "type": "amount",
+          "target_pattern": "Drainage Cess"
+        },
+        {
+          "name": "grand_net_tax",
+          "expected": "6730",
+          "row": 3,
+          "col": 5,
+          "type": "amount",
+          "target_pattern": "Grand Total"
+        }
+      ]
+    },
+    "BLIND_05_BANK_ACCOUNT_STATEMENT": {
+      "cohort": "C_blind_evaluation",
+      "category": "Blind Unseen Layout",
+      "sha256": "066d93e9d6b6b701fc0187967cd9d80fa5c8ba8450217c03534a06833d619a72",
+      "critical_fields_count": 2,
+      "critical_fields": [
+        {
+          "name": "emi_debit",
+          "expected": "28400",
+          "row": 1,
+          "col": 3,
+          "type": "amount",
+          "target_pattern": "House Loan EMI"
+        },
+        {
+          "name": "dividend_credit",
+          "expected": "8500",
+          "row": 2,
+          "col": 4,
+          "type": "amount",
+          "target_pattern": "Dividend Mutual Fund"
+        }
+      ]
+    },
+    "BLIND_06_CLINICAL_LAB_REPORT": {
+      "cohort": "C_blind_evaluation",
+      "category": "Blind Unseen Layout",
+      "sha256": "bcb9589eb975a4ff9fae2c5ee7d4524178ddb271f22935058b37c7b9a7c5a8b8",
+      "critical_fields_count": 2,
+      "critical_fields": [
+        {
+          "name": "glucose_result",
+          "expected": "98",
+          "row": 0,
+          "col": 1,
+          "type": "count",
+          "target_pattern": "Fasting Blood Glucose"
+        },
+        {
+          "name": "hba1c_result",
+          "expected": "5.6",
+          "row": 3,
+          "col": 1,
+          "type": "count",
+          "target_pattern": "Glycated Hemoglobin"
+        }
+      ]
+    },
+    "BLIND_07_PUBLIC_DISTRIBUTION_RATION": {
+      "cohort": "C_blind_evaluation",
+      "category": "Blind Unseen Layout",
+      "sha256": "e1109aa36b16c94694cdc288e5035265329d184ac9c80a7af9736c121478c3fd",
+      "critical_fields_count": 2,
+      "critical_fields": [
+        {
+          "name": "sugar_rate",
+          "expected": "13.50",
+          "row": 2,
+          "col": 2,
+          "type": "amount",
+          "target_pattern": "Refined Sugar"
+        },
+        {
+          "name": "rice_quota",
+          "expected": "35 Kg",
+          "row": 0,
+          "col": 1,
+          "type": "weight",
+          "target_pattern": "Fortified Rice"
+        }
+      ]
+    },
+    "BLIND_08_UNIVERSITY_SEMESTER_TRANSCRIPT": {
+      "cohort": "C_blind_evaluation",
+      "category": "Blind Unseen Layout",
+      "sha256": "d415e4d8251a60951d912ee6ce655a62c7332eebec3363ca59283c2c01c21288",
+      "critical_fields_count": 2,
+      "critical_fields": [
+        {
+          "name": "networks_grade",
+          "expected": "O",
+          "row": 1,
+          "col": 3,
+          "type": "grade",
+          "target_pattern": "Computer Networks"
+        },
+        {
+          "name": "compiler_credits",
+          "expected": "4",
+          "row": 0,
+          "col": 2,
+          "type": "count",
+          "target_pattern": "Compiler Design"
+        }
+      ]
+    },
+    "BLIND_09_TRANSPORT_FREIGHT_MANIFEST": {
+      "cohort": "C_blind_evaluation",
+      "category": "Blind Unseen Layout",
+      "sha256": "be00f0761b381a2b20191a339149ede264c0c074b9a7b091ade6e2297a67a88d",
+      "critical_fields_count": 2,
+      "critical_fields": [
+        {
+          "name": "vedanta_freight",
+          "expected": "38000",
+          "row": 1,
+          "col": 4,
+          "type": "amount",
+          "target_pattern": "Vedanta Aluminium"
+        },
+        {
+          "name": "jindal_weight",
+          "expected": "18.5",
+          "row": 0,
+          "col": 3,
+          "type": "weight",
+          "target_pattern": "Jindal Steel Works"
+        }
+      ]
+    },
+    "BLIND_10_COURT_FEE_REGISTRY": {
+      "cohort": "C_blind_evaluation",
+      "category": "Blind Unseen Layout",
+      "sha256": "49e5bf6b9b7601855e593812e906db575be110636b9122ec3cc37637a07541e5",
+      "critical_fields_count": 2,
+      "critical_fields": [
+        {
+          "name": "panda_hearing",
+          "expected": "18/04/2026",
+          "row": 0,
+          "col": 4,
+          "type": "date",
+          "target_pattern": "Subrat Kumar Panda"
+        },
+        {
+          "name": "kalinga_fee",
+          "expected": "1000",
+          "row": 2,
+          "col": 3,
+          "type": "amount",
+          "target_pattern": "Kalinga Transporters"
+        }
+      ]
+    },
+    "CHALL_01_IDENTICAL_AMOUNT_DIFF_COLUMNS": {
+      "cohort": "D_challenge_adversarial",
+      "category": "Adversarial Trap",
+      "sha256": "66ae7c1a0bf3ee58a5d5d379c22932efd0615a66e4edfb372687cdebe7ba7bf1",
+      "critical_fields_count": 2,
+      "critical_fields": [
+        {
+          "name": "penalty_levy_881",
+          "expected": "25000",
+          "row": 0,
+          "col": 3,
+          "type": "amount",
+          "target_pattern": "VND-881",
+          "is_trap": true,
+          "trap_note": "Advance Paid is also 25000"
+        },
+        {
+          "name": "advance_paid_881",
+          "expected": "25000",
+          "row": 0,
+          "col": 1,
+          "type": "amount",
+          "target_pattern": "VND-881",
+          "is_trap": true,
+          "trap_note": "Penalty Levy is also 25000"
+        }
+      ]
+    },
+    "CHALL_02_WRONG_PERSON_ADJACENT_ROWS": {
+      "cohort": "D_challenge_adversarial",
+      "category": "Adversarial Trap",
+      "sha256": "c9a28890ba7e1c2f4d6f191019607f57ef98fe87f7ff8d323bbf43a9bcd3274a",
+      "critical_fields_count": 2,
+      "critical_fields": [
+        {
+          "name": "ramesh_kumar_score",
+          "expected": "92",
+          "row": 0,
+          "col": 2,
+          "type": "marks",
+          "target_pattern": "Ramesh Kumar Sahoo"
+        },
+        {
+          "name": "ramesh_chand_score",
+          "expected": "45",
+          "row": 1,
+          "col": 2,
+          "type": "marks",
+          "target_pattern": "Ramesh Chand Sahoo"
+        }
+      ]
+    },
+    "CHALL_03_FAINT_COLUMN_BLEED": {
+      "cohort": "D_challenge_adversarial",
+      "category": "Adversarial Trap",
+      "sha256": "5bba74838d4f912a6783b3b480a19653c341fc99a70d268a2543fad4e2a28de6",
+      "critical_fields_count": 2,
+      "critical_fields": [
+        {
+          "name": "r1_gross",
+          "expected": "4000",
+          "row": 0,
+          "col": 3,
+          "type": "amount",
+          "target_pattern": "R1"
+        },
+        {
+          "name": "r1_tax",
+          "expected": "720",
+          "row": 0,
+          "col": 4,
+          "type": "amount",
+          "target_pattern": "R1"
+        }
+      ]
+    },
+    "CHALL_04_REPEATED_ACCOUNT_NUMBERS": {
+      "cohort": "D_challenge_adversarial",
+      "category": "Adversarial Trap",
+      "sha256": "ce2a95ca05890ed9027b1206fb79215df699d29ccabc024e3843d309854ae938",
+      "critical_fields_count": 2,
+      "critical_fields": [
+        {
+          "name": "txn_002_amount",
+          "expected": "4000",
+          "row": 1,
+          "col": 3,
+          "type": "amount",
+          "target_pattern": "TXN-002"
+        },
+        {
+          "name": "txn_003_date",
+          "expected": "10/03/2026",
+          "row": 2,
+          "col": 4,
+          "type": "date",
+          "target_pattern": "TXN-003"
+        }
+      ]
+    },
+    "CHALL_05_EMPTY_AMOUNT_CELL": {
+      "cohort": "D_challenge_adversarial",
+      "category": "Adversarial Trap",
+      "sha256": "d7d2a18bd929af4f5920d05b1d5311077c5512ed5bd327b2042ac730285acd5e",
+      "critical_fields_count": 2,
+      "critical_fields": [
+        {
+          "name": "hold_401_arrears",
+          "expected": "",
+          "row": 0,
+          "col": 1,
+          "type": "empty",
+          "target_pattern": "HOLD-401",
+          "is_trap": true,
+          "trap_note": "Empty cell must not inherit 15000"
+        },
+        {
+          "name": "hold_401_current",
+          "expected": "15000",
+          "row": 0,
+          "col": 2,
+          "type": "amount",
+          "target_pattern": "HOLD-401"
+        }
+      ]
+    },
+    "CHALL_06_LABEL_AS_VALUE_TRAP": {
+      "cohort": "D_challenge_adversarial",
+      "category": "Adversarial Trap",
+      "sha256": "64a99479bf0ca9fbd6f4590f1764be027a7e3e1512ad60546e1fce4f8144f311",
+      "critical_fields_count": 1,
+      "critical_fields": [
+        {
+          "name": "app_901_verification_date",
+          "expected": "",
+          "row": 0,
+          "col": 2,
+          "type": "empty",
+          "target_pattern": "APP-901",
+          "is_trap": true,
+          "trap_note": "Blank cell under Verification Date must not return 'Verification Date'"
+        }
+      ]
+    },
+    "CHALL_07_CROSS_DOC_PAIR_A": {
+      "cohort": "D_challenge_adversarial",
+      "category": "Adversarial Trap",
+      "sha256": "afe0d04da7be5fa3f8b55d8dc4bad376c9c58b5a2ac93b3e9bc7322034df6ce7",
+      "critical_fields_count": 1,
+      "critical_fields": [
+        {
+          "name": "cement_sanction_a",
+          "expected": "75400",
+          "row": 0,
+          "col": 3,
+          "type": "amount",
+          "target_pattern": "Portland Slag Cement"
+        }
+      ]
+    },
+    "CHALL_08_CROSS_DOC_PAIR_B": {
+      "cohort": "D_challenge_adversarial",
+      "category": "Adversarial Trap",
+      "sha256": "b3c1891f779f2d1467a28b8570a984e910ee358b253b2183f58aa7038e250f20",
+      "critical_fields_count": 1,
+      "critical_fields": [
+        {
+          "name": "cement_claim_b",
+          "expected": "78400",
+          "row": 0,
+          "col": 3,
+          "type": "amount",
+          "target_pattern": "Portland Slag Cement",
+          "is_cross_conflict": true,
+          "pair_doc": "CHALL_07_CROSS_DOC_PAIR_A",
+          "pair_expected": "75400"
+        }
+      ]
+    }
+  }
+}

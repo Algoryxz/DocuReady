@@ -1,0 +1,10 @@
+[
+  {
+    "name": "cement_sanction_a",
+    "expected": "75400",
+    "row": 0,
+    "col": 3,
+    "type": "amount",
+    "target_pattern": "Portland Slag Cement"
+  }
+]

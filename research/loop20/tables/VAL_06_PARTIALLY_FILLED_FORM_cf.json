@@ -1,0 +1,18 @@
+[
+  {
+    "name": "primary_bpl",
+    "expected": "BPL-ORI-99120",
+    "row": 2,
+    "col": 1,
+    "type": "id",
+    "target_pattern": "BPL Card No"
+  },
+  {
+    "name": "joint_name_empty",
+    "expected": "",
+    "row": 0,
+    "col": 2,
+    "type": "empty",
+    "target_pattern": "Full Name"
+  }
+]

@@ -85,7 +85,8 @@ def extract_word_tokens(ocr_data: Dict[str, Any]) -> List[Dict[str, Any]]:
     for i in range(len(texts)):
         txt = str(texts[i]).strip()
         c = float(confs[i]) if i < len(confs) and confs[i] != "" else -1.0
-        if txt and c >= 0:
+        # Filter empty tokens and vertical grid line stroke artifacts (| or ¦)
+        if txt and c >= 0 and txt not in ["|", "¦"]:
             l = int(lefts[i])
             t = int(tops[i])
             w = int(widths[i])
@@ -313,7 +314,8 @@ def extract_cell_by_intersection(
     grid: TableGrid,
     field_name: str,
     row_pattern: str,
-    col_pattern: str,
+    col_pattern: Optional[str] = None,
+    col_idx: Optional[int] = None,
     doc_id: str = "doc",
     page_idx: int = 0,
 ) -> Optional[FieldEvidence]:
@@ -321,53 +323,96 @@ def extract_cell_by_intersection(
     Extracts the cell value at the intersection of a matched row and column header.
     """
     target_col = -1
-    for c_idx, h in enumerate(grid.col_headers):
-        if col_pattern.upper() in h.upper():
-            target_col = c_idx
-            break
+    if col_idx is not None and 0 <= col_idx < grid.num_cols:
+        target_col = col_idx
+    elif col_pattern:
+        for c_idx, h in enumerate(grid.col_headers):
+            if col_pattern.upper() in h.upper():
+                target_col = c_idx
+                break
     if target_col == -1:
         return None
 
+    norm_row_pattern = normalize_token_text(row_pattern).upper()
+    matching_rows = []
     for r_idx, row in enumerate(grid.rows):
         row_text = " ".join(c.text for c in row).upper()
-        if row_pattern.upper() in row_text:
-            cell = row[target_col]
-            clean_val = cell.text.strip()
-            clean_val = re.sub(r"^(Rs\.?|INR)\s*", "", clean_val, flags=re.IGNORECASE).strip()
-            return FieldEvidence(
-                field_name=field_name,
-                value=clean_val,
-                raw_text=cell.text,
-                bbox=cell.bbox,
-                row_idx=cell.row,
-                col_idx=cell.col,
-                col_header=grid.col_headers[target_col],
-                confidence=cell.conf,
-                is_ambiguous=cell.is_ambiguous,
-                provenance={
-                    "document_id": doc_id,
-                    "page_index": page_idx,
-                    "cell_bbox": cell.bbox,
-                    "token_count": len(cell.words),
-                    "raw_tokens": [w["text"] for w in cell.words],
-                    "query_mode": "row_col_intersection",
-                },
-            )
-    return None
+        if norm_row_pattern in row_text:
+            matching_rows.append((r_idx, row))
+
+    if not matching_rows:
+        return None
+
+    # Ambiguity check: multiple rows match the same row_pattern (e.g. repeated account number)
+    is_multi_row = (len(matching_rows) > 1)
+    r_idx, row = matching_rows[0]
+    cell = row[target_col]
+    clean_val = cell.text.strip()
+    clean_val = re.sub(r"^(Rs\.?|INR|₹)\s*", "", clean_val, flags=re.IGNORECASE).strip()
+
+    ambiguous = cell.is_ambiguous or is_multi_row
+
+    return FieldEvidence(
+        field_name=field_name,
+        value=clean_val,
+        raw_text=cell.text,
+        bbox=cell.bbox,
+        row_idx=cell.row,
+        col_idx=cell.col,
+        col_header=grid.col_headers[target_col] if target_col < len(grid.col_headers) else "",
+        confidence=cell.conf,
+        is_ambiguous=ambiguous,
+        provenance={
+            "document_id": doc_id,
+            "page_index": page_idx,
+            "cell_bbox": cell.bbox,
+            "token_count": len(cell.words),
+            "raw_tokens": [w["text"] for w in cell.words],
+            "query_mode": "row_col_intersection",
+            "multiple_row_matches": is_multi_row,
+        },
+    )
 
 
 def extract_field_by_spatial_association(
     grid: TableGrid,
     field_name: str,
     target_pattern: str,
+    col_pattern: Optional[str] = None,
+    col_idx: Optional[int] = None,
+    expected_type: Optional[str] = None,
     doc_id: str = "doc",
     page_idx: int = 0,
 ) -> Optional[FieldEvidence]:
     """
     Extracts a critical field value using spatial association:
-      - Searches for exact value tokens or label patterns within cells
-      - Binds value to its specific spatial cell, row index, and column index
+      - If col_pattern or col_idx is provided: performs strict row-and-column intersection
+      - If col_pattern is omitted: searches for label in cell and binds to adjacent or inline value
+      - Rejects label-echoes (where label is falsely returned as value)
+      - Detects and preserves empty cells without spurious adjacent value inheritance
+      - Gated by syntactic type checks for reliable evidence-based abstention
     """
+    # 1. If column context is provided, delegate to cell intersection
+    if col_pattern is not None or col_idx is not None:
+        ev = extract_cell_by_intersection(
+            grid=grid,
+            field_name=field_name,
+            row_pattern=target_pattern,
+            col_pattern=col_pattern or "",
+            col_idx=col_idx,
+            doc_id=doc_id,
+            page_idx=page_idx,
+        )
+        if ev:
+            # Validate syntax / label echo
+            if expected_type == "empty" and ev.value != "":
+                ev.is_ambiguous = True
+            elif expected_type == "amount" and ev.value and not re.search(r"\d", ev.value):
+                ev.is_ambiguous = True
+            elif expected_type == "date" and ev.value and not re.search(r"\d{1,2}[/-]\d{1,2}", ev.value):
+                ev.is_ambiguous = True
+            return ev
+
     norm_target = normalize_token_text(target_pattern).upper()
 
     for r_idx, row in enumerate(grid.rows):
@@ -375,40 +420,147 @@ def extract_field_by_spatial_association(
             norm_cell = normalize_token_text(cell.text).upper()
             if norm_target in norm_cell:
                 raw_text = cell.text
-                # Direct match within cell
+                target_cell = cell
+
+                # Case A: Direct exact match of token/value within cell
                 if norm_target == norm_cell:
                     clean_val = raw_text.strip()
+                    target_cell = cell
+                # Case B: Value is inline after colon
                 elif ":" in raw_text:
                     parts = raw_text.split(":", 1)
                     clean_val = parts[1].strip()
-                    clean_val = re.sub(r"^(Rs\.?|INR)\s*", "", clean_val, flags=re.IGNORECASE).strip()
-                elif c_idx + 1 < len(row) and norm_target in norm_cell:
-                    # Adjacent column cell in same row
+                    clean_val = re.sub(r"^(Rs\.?|INR|₹)\s*", "", clean_val, flags=re.IGNORECASE).strip()
+                # Case C: Value is in adjacent column to the right
+                elif c_idx + 1 < len(row):
                     val_cell = row[c_idx + 1]
                     clean_val = val_cell.text.strip()
-                    clean_val = re.sub(r"^(Rs\.?|INR)\s*", "", clean_val, flags=re.IGNORECASE).strip()
-                    cell = val_cell
+                    clean_val = re.sub(r"^(Rs\.?|INR|₹)\s*", "", clean_val, flags=re.IGNORECASE).strip()
+                    target_cell = val_cell
                 else:
                     clean_val = raw_text.strip()
+
+                # Label echo check: only flag if field was expected to be an amount, date, or empty
+                is_label_echo = False
+                if expected_type in ["amount", "date", "empty"] and clean_val.upper() == norm_target:
+                    is_label_echo = True
+                    clean_val = ""
+
+                ambiguous = target_cell.is_ambiguous or is_label_echo
+
+                # Type-specific validation
+                if expected_type == "empty" and clean_val != "":
+                    ambiguous = True
+                elif expected_type == "amount" and clean_val and not re.search(r"\d", clean_val):
+                    ambiguous = True
+                elif expected_type == "date" and clean_val and not re.search(r"\d{1,2}[/-]\d{1,2}", clean_val):
+                    ambiguous = True
 
                 return FieldEvidence(
                     field_name=field_name,
                     value=clean_val,
                     raw_text=raw_text,
-                    bbox=cell.bbox,
-                    row_idx=cell.row,
-                    col_idx=cell.col,
-                    col_header=grid.col_headers[cell.col] if cell.col < len(grid.col_headers) else "",
-                    confidence=cell.conf,
-                    is_ambiguous=cell.is_ambiguous,
+                    bbox=target_cell.bbox,
+                    row_idx=target_cell.row,
+                    col_idx=target_cell.col,
+                    col_header=grid.col_headers[target_cell.col] if target_cell.col < len(grid.col_headers) else "",
+                    confidence=target_cell.conf,
+                    is_ambiguous=ambiguous,
                     provenance={
                         "document_id": doc_id,
                         "page_index": page_idx,
-                        "cell_bbox": cell.bbox,
-                        "token_count": len(cell.words),
-                        "raw_tokens": [w["text"] for w in cell.words],
+                        "cell_bbox": target_cell.bbox,
+                        "token_count": len(target_cell.words),
+                        "raw_tokens": [w["text"] for w in target_cell.words],
                         "query_mode": "spatial_cell_binding",
+                        "label_echo_rejected": is_label_echo,
                     },
                 )
 
     return None
+
+
+def verify_cross_document_evidence(
+    ev1: Optional[FieldEvidence],
+    ev2: Optional[FieldEvidence],
+    field_type: str = "text",
+) -> Dict[str, Any]:
+    """
+    Verifies cross-document agreement between two pieces of spatial field evidence.
+    Returns discrete classification:
+      - AGREEMENT
+      - MISMATCH
+      - MISSING
+      - UNREADABLE
+      - AMBIGUOUS_ASSOCIATION
+      - INSUFFICIENT_EVIDENCE
+    """
+    if ev1 is None and ev2 is None:
+        return {
+            "status": "MISSING",
+            "is_verified": False,
+            "reason": "Field absent in both documents",
+            "ev1_value": None,
+            "ev2_value": None,
+        }
+
+    if ev1 is None or ev2 is None:
+        return {
+            "status": "MISSING",
+            "is_verified": False,
+            "reason": "Field present in one document but missing in the second document",
+            "ev1_value": ev1.value if ev1 else None,
+            "ev2_value": ev2.value if ev2 else None,
+        }
+
+    if ev1.value == "" or ev2.value == "":
+        return {
+            "status": "MISSING",
+            "is_verified": False,
+            "reason": "Field cell is empty in one or both documents",
+            "ev1_value": ev1.value,
+            "ev2_value": ev2.value,
+        }
+
+    if ev1.is_ambiguous or ev2.is_ambiguous:
+        return {
+            "status": "AMBIGUOUS_ASSOCIATION",
+            "is_verified": False,
+            "reason": "Cell evidence has ambiguous spatial boundaries or multiple candidate rows",
+            "ev1_value": ev1.value,
+            "ev2_value": ev2.value,
+        }
+
+    if ev1.confidence < 30.0 or ev2.confidence < 30.0:
+        return {
+            "status": "UNREADABLE",
+            "is_verified": False,
+            "reason": f"OCR confidence is below legible threshold (ev1: {ev1.confidence}%, ev2: {ev2.confidence}%)",
+            "ev1_value": ev1.value,
+            "ev2_value": ev2.value,
+        }
+
+    # Normalize values for fair semantic comparison
+    v1 = ev1.value.strip().replace("₹", "").replace("Rs.", "").replace("INR", "").replace(",", "").replace(" ", "").upper()
+    v2 = ev2.value.strip().replace("₹", "").replace("Rs.", "").replace("INR", "").replace(",", "").replace(" ", "").upper()
+
+    if v1 == v2:
+        return {
+            "status": "AGREEMENT",
+            "is_verified": True,
+            "reason": "Values match exactly with verifiable cell provenance in both documents",
+            "ev1_value": ev1.value,
+            "ev2_value": ev2.value,
+            "ev1_bbox": ev1.bbox,
+            "ev2_bbox": ev2.bbox,
+        }
+    else:
+        return {
+            "status": "MISMATCH",
+            "is_verified": False,
+            "reason": f"Evidence discrepancy: Document 1 has '{ev1.value}' while Document 2 has '{ev2.value}'",
+            "ev1_value": ev1.value,
+            "ev2_value": ev2.value,
+            "ev1_bbox": ev1.bbox,
+            "ev2_bbox": ev2.bbox,
+        }

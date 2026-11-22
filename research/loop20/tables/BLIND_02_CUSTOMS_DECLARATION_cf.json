@@ -1,0 +1,18 @@
+[
+  {
+    "name": "sensors_duty",
+    "expected": "31108",
+    "row": 2,
+    "col": 5,
+    "type": "amount",
+    "target_pattern": "Optical Inspection Sensors"
+  },
+  {
+    "name": "converters_cif",
+    "expected": "820000",
+    "row": 1,
+    "col": 3,
+    "type": "amount",
+    "target_pattern": "Static Converters 50KW"
+  }
+]

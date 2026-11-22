@@ -1,0 +1,18 @@
+[
+  {
+    "name": "net_pay",
+    "expected": "107000",
+    "row": 3,
+    "col": 1,
+    "type": "amount",
+    "target_pattern": "Net Pay Disbursed"
+  },
+  {
+    "name": "pf_contrib",
+    "expected": "8160",
+    "row": 0,
+    "col": 3,
+    "type": "amount",
+    "target_pattern": "PF Contribution"
+  }
+]

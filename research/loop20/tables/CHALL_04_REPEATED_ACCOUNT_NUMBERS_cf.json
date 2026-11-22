@@ -1,0 +1,18 @@
+[
+  {
+    "name": "txn_002_amount",
+    "expected": "4000",
+    "row": 1,
+    "col": 3,
+    "type": "amount",
+    "target_pattern": "TXN-002"
+  },
+  {
+    "name": "txn_003_date",
+    "expected": "10/03/2026",
+    "row": 2,
+    "col": 4,
+    "type": "date",
+    "target_pattern": "TXN-003"
+  }
+]

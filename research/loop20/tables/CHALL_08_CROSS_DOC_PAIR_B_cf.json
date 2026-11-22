@@ -1,0 +1,13 @@
+[
+  {
+    "name": "cement_claim_b",
+    "expected": "78400",
+    "row": 0,
+    "col": 3,
+    "type": "amount",
+    "target_pattern": "Portland Slag Cement",
+    "is_cross_conflict": true,
+    "pair_doc": "CHALL_07_CROSS_DOC_PAIR_A",
+    "pair_expected": "75400"
+  }
+]

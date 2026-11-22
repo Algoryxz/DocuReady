@@ -1,0 +1,18 @@
+[
+  {
+    "name": "alok_amount",
+    "expected": "15000",
+    "row": 0,
+    "col": 3,
+    "type": "amount",
+    "target_pattern": "Alok Kumar Srichandan"
+  },
+  {
+    "name": "soumya_amount",
+    "expected": "12000",
+    "row": 2,
+    "col": 3,
+    "type": "amount",
+    "target_pattern": "Soumyaranjan Mohanty"
+  }
+]
