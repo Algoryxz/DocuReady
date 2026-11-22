@@ -1,0 +1,9 @@
+{
+  "fixture_id": "TAB_02_BORDERLESS_TABLE",
+  "category": "Category B: Borderless Table",
+  "critical_fields": {
+    "admin_balance": "400000",
+    "survey_utilized": "890000",
+    "info_budget": "420000"
+  }
+}

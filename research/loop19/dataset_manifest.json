@@ -1,0 +1,141 @@
+{
+  "version": "1.0",
+  "loop": "19",
+  "benchmark": "Table-Aware Spatial Evidence Association",
+  "total_fixtures": 10,
+  "total_critical_fields": 32,
+  "fixtures": [
+    {
+      "fixture_id": "TAB_01_SIMPLE_GRID",
+      "category": "Category A: Simple Grid",
+      "file_name": "TAB_01_SIMPLE_GRID.png",
+      "sha256": "a4e8874f78cd4959ff355e6d304e35fbea0d130e7d54d53c9c77e6298eca5418",
+      "file_size_bytes": 35728,
+      "critical_field_count": 3,
+      "critical_fields": {
+        "item_01_amount": "45000",
+        "item_03_sanction": "RUR-2026-781",
+        "total_amount": "602500"
+      }
+    },
+    {
+      "fixture_id": "TAB_02_BORDERLESS_TABLE",
+      "category": "Category B: Borderless Table",
+      "file_name": "TAB_02_BORDERLESS_TABLE.png",
+      "sha256": "d0a086d2f96ce55bfbc3c5e32032ca248185290700f610f8b0a5c350dc063cc4",
+      "file_size_bytes": 31053,
+      "critical_field_count": 3,
+      "critical_fields": {
+        "admin_balance": "400000",
+        "survey_utilized": "890000",
+        "info_budget": "420000"
+      }
+    },
+    {
+      "fixture_id": "TAB_03_DENSE_NUMERIC_COLUMNS",
+      "category": "Category C: Dense Numeric",
+      "file_name": "TAB_03_DENSE_NUMERIC_COLUMNS.png",
+      "sha256": "b42637b733b2bc592fcc18d50cbb63006ecd13785171805890aa8bda3d75c533",
+      "file_size_bytes": 26402,
+      "critical_field_count": 3,
+      "critical_fields": {
+        "may_tax_inflow": "912400",
+        "jun_revenue_out": "290000",
+        "jul_net_surplus": "190900"
+      }
+    },
+    {
+      "fixture_id": "TAB_04_SIMILAR_ADJACENT_VALUES",
+      "category": "Category D: Similar Adjacent",
+      "file_name": "TAB_04_SIMILAR_ADJACENT_VALUES.png",
+      "sha256": "d767bf3a640d6ffa3e944251362545949728ff0c8f240be4afa062c3e9d42ebc",
+      "file_size_bytes": 19509,
+      "critical_field_count": 4,
+      "critical_fields": {
+        "tier_01_topup": "10000",
+        "tier_02_base": "10000",
+        "tier_03_beneficiaries": "1080",
+        "tier_04_beneficiaries": "1800"
+      }
+    },
+    {
+      "fixture_id": "TAB_05_WRAPPED_CELLS",
+      "category": "Category E: Wrapped Cells",
+      "file_name": "TAB_05_WRAPPED_CELLS.png",
+      "sha256": "86c7742a06370c17fd8ef3ce34ede730a4c515467f9706e786823b920853300e",
+      "file_size_bytes": 37168,
+      "critical_field_count": 3,
+      "critical_fields": {
+        "pr_110_value": "4200000",
+        "pr_114_vendor": "Netcom Infra",
+        "pr_118_value": "1450000"
+      }
+    },
+    {
+      "fixture_id": "TAB_06_MISSING_EMPTY_CELLS",
+      "category": "Category F: Empty Cells",
+      "file_name": "TAB_06_MISSING_EMPTY_CELLS.png",
+      "sha256": "a235e184aa9821120703f2c212e6bb2b2d13caa219e0b2deace4b8da9e2e8851",
+      "file_size_bytes": 30685,
+      "critical_field_count": 3,
+      "critical_fields": {
+        "ppo_9011_pension": "32400",
+        "ppo_9012_disability": "5000",
+        "ppo_9014_pension": "41000"
+      }
+    },
+    {
+      "fixture_id": "TAB_07_MERGED_HEADERS",
+      "category": "Category G: Merged Headers",
+      "file_name": "TAB_07_MERGED_HEADERS.png",
+      "sha256": "edafae3d7705d804e59506a275721a0bb0e770314edf048d5a4da9fe3c8571e1",
+      "file_size_bytes": 24980,
+      "critical_field_count": 3,
+      "critical_fields": {
+        "jatni_property_cess": "120000",
+        "bbsr_property_coll": "325000",
+        "balianta_water_coll": "26000"
+      }
+    },
+    {
+      "fixture_id": "TAB_08_IRREGULAR_LAYOUTS",
+      "category": "Category H: Irregular Layouts",
+      "file_name": "TAB_08_IRREGULAR_LAYOUTS.png",
+      "sha256": "c1c147328d626e93556640eaebd4cac2114b69b4b38c4a930cf320251a139aad",
+      "file_size_bytes": 37674,
+      "critical_field_count": 3,
+      "critical_fields": {
+        "rev_801_duty": "4850",
+        "rev_804_duty": "12500",
+        "rev_809_duty": "31200"
+      }
+    },
+    {
+      "fixture_id": "TAB_09_MULTICOLUMN_DOCUMENT",
+      "category": "Category I: Multi-column",
+      "file_name": "TAB_09_MULTICOLUMN_DOCUMENT.png",
+      "sha256": "8c2aade7d79a9266bf9822033ac71b6b31168b2191d25169d3dfa13dc7ef8506",
+      "file_size_bytes": 30772,
+      "critical_field_count": 4,
+      "critical_fields": {
+        "batch_a2_amount": "240000",
+        "batch_a3_voucher": "VOU-903",
+        "batch_b2_amount": "195000",
+        "batch_b3_voucher": "VOU-983"
+      }
+    },
+    {
+      "fixture_id": "TAB_10_ADVERSARIAL_GEOMETRY",
+      "category": "Category J: Adversarial Geometry",
+      "file_name": "TAB_10_ADVERSARIAL_GEOMETRY.png",
+      "sha256": "e7313d39d99e3b093b96cfc40b459ec398ee2cd81cb63e62af70f19b3c12d76a",
+      "file_size_bytes": 66357,
+      "critical_field_count": 3,
+      "critical_fields": {
+        "tk_801_amount": "85000",
+        "tk_802_date": "19/04/2026",
+        "tk_803_amount": "67000"
+      }
+    }
+  ]
+}

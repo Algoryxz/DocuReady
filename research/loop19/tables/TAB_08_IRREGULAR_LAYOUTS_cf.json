@@ -1,0 +1,9 @@
+{
+  "fixture_id": "TAB_08_IRREGULAR_LAYOUTS",
+  "category": "Category H: Irregular Layouts",
+  "critical_fields": {
+    "rev_801_duty": "4850",
+    "rev_804_duty": "12500",
+    "rev_809_duty": "31200"
+  }
+}

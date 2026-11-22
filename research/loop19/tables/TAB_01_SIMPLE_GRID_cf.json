@@ -1,0 +1,9 @@
+{
+  "fixture_id": "TAB_01_SIMPLE_GRID",
+  "category": "Category A: Simple Grid",
+  "critical_fields": {
+    "item_01_amount": "45000",
+    "item_03_sanction": "RUR-2026-781",
+    "total_amount": "602500"
+  }
+}

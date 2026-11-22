@@ -1,0 +1,9 @@
+{
+  "fixture_id": "TAB_05_WRAPPED_CELLS",
+  "category": "Category E: Wrapped Cells",
+  "critical_fields": {
+    "pr_110_value": "4200000",
+    "pr_114_vendor": "Netcom Infra",
+    "pr_118_value": "1450000"
+  }
+}

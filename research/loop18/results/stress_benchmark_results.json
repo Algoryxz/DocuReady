@@ -2,7 +2,7 @@
   "STRESS_01_SIMILAR_DIGIT_CONFUSION": {
     "strategy": "FAST_PATH_ENG",
     "language": "eng",
-    "latency_ms": 1203.31,
+    "latency_ms": 827.39,
     "invocations": 1,
     "cer": 0.2336,
     "critical_fields_eval": {
@@ -48,7 +48,7 @@
   "STRESS_02_FAINT_RUBBER_STAMP_OVERLAY": {
     "strategy": "FAST_PATH_ENG",
     "language": "eng",
-    "latency_ms": 1269.22,
+    "latency_ms": 817.77,
     "invocations": 1,
     "cer": 0.268,
     "critical_fields_eval": {
@@ -92,28 +92,28 @@
     ]
   },
   "STRESS_03_MULTICOLUMN_EMBEDDED_AMOUNTS": {
-    "strategy": "REGION_AWARE_ROUTING",
-    "language": "auto",
-    "latency_ms": 1571.04,
-    "invocations": 2,
-    "cer": 0.5437,
+    "strategy": "FAST_PATH_ENG",
+    "language": "eng",
+    "latency_ms": 1125.24,
+    "invocations": 1,
+    "cer": 0.1125,
     "critical_fields_eval": {
       "total_fields": 4,
-      "exact_matches": 2,
-      "match_rate": 0.5,
-      "numeric_matches": 2,
+      "exact_matches": 4,
+      "match_rate": 1.0,
+      "numeric_matches": 4,
       "field_details": {
         "ledger_id": {
           "expected": "REV-COL-101",
-          "exact_matched": false,
-          "numeric_matched": false,
-          "field_cer": 0.6364
+          "exact_matched": true,
+          "numeric_matched": true,
+          "field_cer": 0.0
         },
         "subtotal_a": {
           "expected": "221700",
-          "exact_matched": false,
-          "numeric_matched": false,
-          "field_cer": 0.3333
+          "exact_matched": true,
+          "numeric_matched": true,
+          "field_cer": 0.0
         },
         "voucher_no": {
           "expected": "DIS-VOU-909",
@@ -130,17 +130,17 @@
       }
     },
     "extracted_lines": [
-      "\u0939 (00\u0965\u0965\u096b 8: \u0967\u096c\u096a\u096c\u0964\u096a\u096d\u096c (3\u0965 0 \u0925\u0915 \u096a\u0965\u0966\u0965\u0965 LEDGER - DUAL COLUMN COLUMN B: DISBURSEMENTS",
-      "[\u20ac\u09675\u0936 |\u09650:7\u096c&\u096b\u096a-00-04",
-      "\u091b\u093e 0\u0917\u0902\u20ac: 2/03/2026",
-      "\u0936\u093f\u09207\u0936\u093e | \u0965\u0966\u096e \u0968\u096b 54000",
-      "\u096946 [6\u09365\u096f: \u0967\u096c 48200"
+      "DISTRICT AUDIT LEDGER - DUAL COLUMN",
+      "COLUMN A: REVENUE",
+      "Ledger ID: REV-COL-101",
+      "Entry Date: 12/03/2026",
+      "Property Tax: Rs 154000"
     ]
   },
   "STRESS_04_SKEW_LOW_CONTRAST": {
     "strategy": "FAST_PATH_ENG",
     "language": "eng",
-    "latency_ms": 978.42,
+    "latency_ms": 1640.07,
     "invocations": 1,
     "cer": 0.383,
     "critical_fields_eval": {

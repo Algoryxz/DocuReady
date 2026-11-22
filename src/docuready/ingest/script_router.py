@@ -34,6 +34,15 @@ def detect_unicode_script(text: str) -> Dict[str, Any]:
     dev_count = len(RE_DEVANAGARI.findall(text))
     odia_count = len(RE_ODIA.findall(text))
     latin_count = len(RE_LATIN.findall(text))
+
+    # Reject isolated punctuation / numeral noise if no true letters exist
+    dev_letters = len(re.findall(r"[\u0904-\u0939\u093D-\u094F]", text))
+    odia_letters = len(re.findall(r"[\u0B05-\u0B39\u0B3D-\u0B4F]", text))
+    if dev_letters < 2:
+        dev_count = 0
+    if odia_letters < 2:
+        odia_count = 0
+
     total_indic = dev_count + odia_count
     total_alpha = latin_count + total_indic
 

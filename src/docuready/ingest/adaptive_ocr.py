@@ -292,8 +292,11 @@ def execute_adaptive_ocr(
             right_crop = img.crop((sx, 0, w, h))
 
             c = profile.script_counts
-            has_dev = c.get("devanagari", 0) > 0
-            has_ori = c.get("odia", 0) > 0
+            total_alpha = max(1, c.get("total", 0))
+            dev_ratio = c.get("devanagari", 0) / total_alpha
+            ori_ratio = c.get("odia", 0) / total_alpha
+            has_dev = dev_ratio >= 0.15
+            has_ori = ori_ratio >= 0.15
             left_lang = "hin" if has_dev else ("ori" if has_ori else "eng")
             right_lang = "eng"  # Right column in Indian official gazettes is always English
 

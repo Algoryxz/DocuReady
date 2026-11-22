@@ -1,0 +1,10 @@
+{
+  "fixture_id": "TAB_09_MULTICOLUMN_DOCUMENT",
+  "category": "Category I: Multi-column",
+  "critical_fields": {
+    "batch_a2_amount": "240000",
+    "batch_a3_voucher": "VOU-903",
+    "batch_b2_amount": "195000",
+    "batch_b3_voucher": "VOU-983"
+  }
+}
