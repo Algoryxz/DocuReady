@@ -37,6 +37,16 @@ def detect_document_type(text: str) -> Optional[DocumentType]:
     return classification.candidate_type
 
 
+def _clean_field_value(v: Optional[str]) -> Optional[str]:
+    """Strips table borders (|) and extraneous outer whitespace from captured field values."""
+    if not v:
+        return v
+    s = str(v).strip()
+    if "|" in s:
+        s = s.strip(" |")
+    return s.strip()
+
+
 def _find_field_in_page_vector(page: pymupdf.Page, patterns: List[str]) -> Tuple[Optional[str], Optional[List[float]], str]:
     """
     Searches a PDF page with native vector text:
@@ -50,18 +60,21 @@ def _find_field_in_page_vector(page: pymupdf.Page, patterns: List[str]) -> Tuple
             match = re.search(pattern, line, re.IGNORECASE)
             if match:
                 if match.groups() and match.group(1) is not None:
-                    captured = match.group(1).strip()
-                    if captured and captured not in [":", "-", "=", ""]:
+                    captured = _clean_field_value(match.group(1))
+                    if captured and captured not in [":", "-", "=", "|", ""]:
                         val = captured
                     elif idx + 1 < len(lines):
-                        val = lines[idx + 1].strip()
+                        val = _clean_field_value(lines[idx + 1])
                     else:
-                        val = line
+                        val = _clean_field_value(line)
                 else:
                     if line.rstrip().endswith(":") or "IN FIGURES" in line.upper():
-                        val = lines[idx + 1].strip() if idx + 1 < len(lines) else line
+                        val = _clean_field_value(lines[idx + 1]) if idx + 1 < len(lines) else _clean_field_value(line)
                     else:
-                        val = line
+                        val = _clean_field_value(line)
+
+                if not val or val.upper() in [":", "-", "=", "|", "IN FIGURES", "RS.", "RUPEES", ""]:
+                    continue
 
                 rects = page.search_for(val) if val else page.search_for(line)
                 bbox = None
@@ -410,8 +423,8 @@ def _find_field_in_ocr_page(ocr_data: PageOCRData, patterns: List[str]) -> Tuple
     Searches an OCR page for matching patterns.
     Returns (value, bounding_box, snippet, confidence, label_detected, label_distance_pt, candidate_count)
     """
-    matches = []
-    seen_values = set()
+    line_best_matches = {}  # idx -> (score, (val, bbox, snippet, conf, lbl_det, lbl_dist))
+    seen_canonical_values = set()
 
     for pattern in patterns:
         for idx, line_obj in enumerate(ocr_data.lines):
@@ -422,40 +435,48 @@ def _find_field_in_ocr_page(ocr_data: PageOCRData, patterns: List[str]) -> Tuple
                 label_dist_pt = 0.0
 
                 if match.groups() and match.group(1) is not None:
-                    captured = match.group(1).strip()
-                    if captured and captured not in [":", "-", "=", ""]:
+                    captured = _clean_field_value(match.group(1))
+                    if captured and captured not in [":", "-", "=", "|", ""]:
                         val = captured
                     elif idx + 1 < len(ocr_data.lines):
-                        val = ocr_data.lines[idx + 1]["text"].strip()
+                        val = _clean_field_value(ocr_data.lines[idx + 1]["text"])
                         label_dist_pt = abs(ocr_data.lines[idx + 1]["bbox"][1] - line_obj["bbox"][1])
                     else:
-                        val = line
+                        val = _clean_field_value(line)
                 else:
                     if line.rstrip().endswith(":") or "IN FIGURES" in line.upper():
                         if idx + 1 < len(ocr_data.lines):
-                            val = ocr_data.lines[idx + 1]["text"].strip()
+                            val = _clean_field_value(ocr_data.lines[idx + 1]["text"])
                             label_dist_pt = abs(ocr_data.lines[idx + 1]["bbox"][1] - line_obj["bbox"][1])
                         else:
-                            val = line
+                            val = _clean_field_value(line)
                     else:
-                        val = line
+                        val = _clean_field_value(line)
 
                 # Reject bare label matches
-                if val.upper() in [":", "-", "=", "IN FIGURES", "RS.", "RUPEES", ""]:
+                if not val or val.upper() in [":", "-", "=", "|", "IN FIGURES", "RS.", "RUPEES", ""]:
                     continue
 
                 bbox = line_obj["bbox"]
-                snippet = f"{line}" + (f" -> {ocr_data.lines[idx+1]['text']}" if idx + 1 < len(ocr_data.lines) and val != line else "")
+                next_text = ocr_data.lines[idx + 1]["text"] if idx + 1 < len(ocr_data.lines) else ""
+                snippet = f"{line}" + (f" -> {next_text}" if idx + 1 < len(ocr_data.lines) and val != line else "")
                 conf = line_obj["confidence"]
-                matches.append((val, bbox, snippet, conf, label_detected, label_dist_pt))
-                seen_values.add(val.upper())
+                score = conf - (0.001 * label_dist_pt)
 
-    if not matches:
+                # Canonical representation for equivalence check
+                canon_val = re.sub(r'[\s\|\:\-\=/,.]', '', val.upper())
+                if canon_val:
+                    seen_canonical_values.add(canon_val)
+
+                # Keep best matching extraction on this line
+                if idx not in line_best_matches or score > line_best_matches[idx][0]:
+                    line_best_matches[idx] = (score, (val, bbox, snippet, conf, label_detected, label_dist_pt))
+
+    if not line_best_matches:
         return None, None, "", 0.0, False, 999.0, 0
 
-    candidate_count = len(seen_values)
-    # Pick the match with highest confidence and shortest label distance
-    best_match = max(matches, key=lambda m: (m[3] - (0.001 * m[5])))
+    candidate_count = len(seen_canonical_values)
+    best_match = max(line_best_matches.values(), key=lambda item: item[0])[1]
     val, bbox, snippet, conf, lbl_det, lbl_dist = best_match
     return val, bbox, snippet, conf, lbl_det, lbl_dist, candidate_count
 
@@ -820,33 +841,33 @@ class DocumentExtractor:
                 return None
 
         if doc_type == DocumentType.INCOME_CERT:
-            add_field_func("applicant_name", [r"certify\s+that\s+([^,]+),", r"Applicant\s*Name\s*[:\-]?(.*)", r"certify\s+that\s+([A-Za-z\s]+)"], normalize_name)
-            add_field_func("father_name", [r"Son/Daughter\s+of\s+([^,]+),", r"Father['\s]*s?\s*Name\s*[:\-]?(.*)"], normalize_name)
-            add_field_func("annual_income", [r"(?:Annual\s+)?(?:Family\s+)?Income\s*\(in\s+figures\)\s*[:\-]?(.*)", r"Annual\s+Family\s+Income\s*\(in\s+figures\)\s*[:\-]?(.*)", r"Annual\s+Family\s+Income[^\n:]*[:\-]?(.*)"], normalize_income)
-            add_field_func("issue_date", [r"Issue\s+Date\s*[:\-]?\s*(\d{2}/\d{2}/\d{4}|\d{4}-\d{2}-\d{2})", r"Date\s+of\s+Issue\s*[:\-]?\s*(\d{2}/\d{2}/\d{4}|\d{4}-\d{2}-\d{2})"], parse_dt)
-            add_field_func("certificate_no", [r"Certificate\s+No\s*[:\-]?\s*([A-Za-z0-9/\-]+)", r"Cert\s+No\s*[:\-]?\s*([A-Za-z0-9/\-]+)"], normalize_cert_number)
+            add_field_func("applicant_name", [r"certify\s+that\s+([^,]+),", r"Applicant\s*Name\s*[:\|\-]?(.*)", r"certify\s+that\s+([A-Za-z\s]+?)(?:,|\s+(?:Son|Daughter|Son/Daughter|S/o|D/o|W/o)\b|\s+resident|\s+residing|\s+R/o|$)", r"Name\s*[:\|\-]?(.*)"], normalize_name)
+            add_field_func("father_name", [r"Son/Daughter\s+of\s+([^,]+),", r"(?:Son/Daughter|Son|Daughter)\s+of\s+([A-Za-z\s]+?)(?:,|\s+resident|\s+residing|\s+R/o|$)", r"(?:S/o|D/o|W/o)\s*(?:of|/o)?\s*[:\|\-]?\s*([A-Za-z\s]+?)(?:,|\s+resident|\s+residing|\s+R/o|$)", r"Father['\s]*s?\s*Name\s*[:\|\-]?(.*)"], normalize_name)
+            add_field_func("annual_income", [r"(?:Annual\s+)?(?:Family\s+)?Income\s*\(in\s+figures\)\s*[:\-]?(.*)", r"Annual\s+Family\s+Income\s*\(in\s+figures\)\s*[:\-]?(.*)", r"(?:Total\s+Annual|Annual\s+Family|Total\s+Family|Total|Annual)\s+(?:Family\s+)?Income[^\n:|]*[:\|\-]\s*(.*)", r"Annual\s+Family\s+Income[^\n:]*[:\-]?(.*)", r"(?:Total|Annual)\s+Income\s*[:\|\-]\s*(.*)"], normalize_income)
+            add_field_func("issue_date", [r"Issue\s+Date\s*[:\-]?\s*(\d{2}/\d{2}/\d{4}|\d{4}-\d{2}-\d{2})", r"Date\s+of\s+Issue\s*[:\-]?\s*(\d{2}/\d{2}/\d{4}|\d{4}-\d{2}-\d{2})", r"(?:Issue\s+Date|Date\s+of\s+Issue|Date)\s*[:\|\-]?\s*([0-9]{1,4}[/\.\-\s]+[A-Za-z0-9]{1,9}[/\.\-\s]+[0-9]{2,4})"], parse_dt)
+            add_field_func("certificate_no", [r"Certificate\s+No\s*[:\-]?\s*([A-Za-z0-9/\-]+)", r"Cert\s+No\s*[:\-]?\s*([A-Za-z0-9/\-]+)", r"Certificate\s+(?:No|Number)\s*[:\|\-]?\s*([A-Za-z0-9/\-]+)"], normalize_cert_number)
             add_field_func("state", [r"GOVERNMENT\s+OF\s+([^\n]+)", r"State\s+of\s+([^,\n]+)"], lambda s: s.strip().upper() if s else None)
 
         elif doc_type == DocumentType.CASTE_CERT:
-            add_field_func("applicant_name", [r"Applicant\s*Name\s*[:\-]?(.*)", r"certify\s+that\s+([^,]+),", r"certify\s+that\s+([A-Za-z\s]+)"], normalize_name)
-            add_field_func("father_name", [r"Son/Daughter\s+of\s+([^,]+),", r"Father['\s]*s?\s*Name\s*[:\-]?(.*)"], normalize_name)
+            add_field_func("applicant_name", [r"Applicant\s*Name\s*[:\|\-]?(.*)", r"certify\s+that\s+([^,]+),", r"certify\s+that\s+([A-Za-z\s]+?)(?:,|\s+(?:Son|Daughter|Son/Daughter|S/o|D/o|W/o)\b|\s+resident|\s+residing|\s+R/o|$)", r"Name\s*[:\|\-]?(.*)"], normalize_name)
+            add_field_func("father_name", [r"Son/Daughter\s+of\s+([^,]+),", r"(?:Son/Daughter|Son|Daughter)\s+of\s+([A-Za-z\s]+?)(?:,|\s+resident|\s+residing|\s+R/o|$)", r"(?:S/o|D/o|W/o)\s*(?:of|/o)?\s*[:\|\-]?\s*([A-Za-z\s]+?)(?:,|\s+resident|\s+residing|\s+R/o|$)", r"Father['\s]*s?\s*Name\s*[:\|\-]?(.*)"], normalize_name)
             add_field_func("caste_category", [r"Recognized\s+Category\s*[:\-]?(.*)", r"recognized\s+as\s+a\s+([A-Z/ ]+)\s+under"], lambda s: s.strip().upper() if s else None)
             add_field_func("sub_caste", [r"Sub-Caste[^\n:]*[:\-]?(.*)", r"belongs\s+to\s+the\s+([^\n]+)\s+community"], lambda s: s.strip().upper() if s else None)
-            add_field_func("certificate_no", [r"Certificate\s+No\s*[:\-]?\s*([A-Za-z0-9/\-]+)", r"Cert\s+No\s*[:\-]?\s*([A-Za-z0-9/\-]+)"], normalize_cert_number)
-            add_field_func("issue_date", [r"Issue\s+Date\s*[:\-]?\s*(\d{2}/\d{2}/\d{4}|\d{4}-\d{2}-\d{2})"], parse_dt)
+            add_field_func("certificate_no", [r"Certificate\s+No\s*[:\-]?\s*([A-Za-z0-9/\-]+)", r"Cert\s+No\s*[:\-]?\s*([A-Za-z0-9/\-]+)", r"Certificate\s+(?:No|Number)\s*[:\|\-]?\s*([A-Za-z0-9/\-]+)"], normalize_cert_number)
+            add_field_func("issue_date", [r"Issue\s+Date\s*[:\-]?\s*(\d{2}/\d{2}/\d{4}|\d{4}-\d{2}-\d{2})", r"(?:Issue\s+Date|Date\s+of\s+Issue|Date)\s*[:\|\-]?\s*([0-9]{1,4}[/\.\-\s]+[A-Za-z0-9]{1,9}[/\.\-\s]+[0-9]{2,4})"], parse_dt)
             add_field_func("state", [r"GOVERNMENT\s+OF\s+([^\n]+)", r"State\s+of\s+([^,\n]+)"], lambda s: s.strip().upper() if s else None)
 
         elif doc_type == DocumentType.RESIDENCE_CERT:
-            add_field_func("applicant_name", [r"Applicant\s*Full\s*Name\s*[:\-]?(.*)", r"certify\s+that\s+([^,]+),", r"Applicant\s*Name\s*[:\-]?(.*)"], normalize_name)
-            add_field_func("father_name", [r"Father['\s]*s?\s*/\s*Guardian['\s]*s?\s*Name\s*[:\-]?(.*)", r"Son/Daughter\s+of\s+([^,]+),"], normalize_name)
-            add_field_func("state", [r"Domicile\s+State\s*[:\-]?(.*)", r"State\s+of\s+([A-Za-z]+)", r"State\s*[:\-]?(.*)"], lambda s: s.strip().upper() if s else None)
-            add_field_func("certificate_no", [r"Certificate\s+No\s*[:\-]?\s*([A-Za-z0-9/\-]+)", r"Cert\s+No\s*[:\-]?\s*([A-Za-z0-9/\-]+)"], normalize_cert_number)
-            add_field_func("issue_date", [r"Issue\s+Date\s*[:\-]?\s*(\d{2}/\d{2}/\d{4}|\d{4}-\d{2}-\d{2})"], parse_dt)
+            add_field_func("applicant_name", [r"Applicant\s*Full\s*Name\s*[:\|\-]?(.*)", r"certify\s+that\s+([^,]+),", r"Applicant\s*Name\s*[:\|\-]?(.*)", r"Name\s*[:\|\-]?(.*)"], normalize_name)
+            add_field_func("father_name", [r"Father['\s]*s?\s*/\s*Guardian['\s]*s?\s*Name\s*[:\|\-]?(.*)", r"Son/Daughter\s+of\s+([^,]+),", r"(?:Son/Daughter|Son|Daughter)\s+of\s+([A-Za-z\s]+?)(?:,|\s+resident|\s+residing|\s+R/o|$)", r"(?:S/o|D/o|W/o)\s*(?:of|/o)?\s*[:\|\-]?\s*([A-Za-z\s]+?)(?:,|\s+resident|\s+residing|\s+R/o|$)", r"Father['\s]*s?\s*Name\s*[:\|\-]?(.*)"], normalize_name)
+            add_field_func("state", [r"Domicile\s+State\s*[:\|\-]?(.*)", r"State\s+of\s+([A-Za-z]+)", r"State\s*[:\|\-]?(.*)"], lambda s: s.strip().upper() if s else None)
+            add_field_func("certificate_no", [r"Certificate\s+No\s*[:\-]?\s*([A-Za-z0-9/\-]+)", r"Cert\s+No\s*[:\-]?\s*([A-Za-z0-9/\-]+)", r"Certificate\s+(?:No|Number)\s*[:\|\-]?\s*([A-Za-z0-9/\-]+)"], normalize_cert_number)
+            add_field_func("issue_date", [r"Issue\s+Date\s*[:\-]?\s*(\d{2}/\d{2}/\d{4}|\d{4}-\d{2}-\d{2})", r"(?:Issue\s+Date|Date\s+of\s+Issue|Date)\s*[:\|\-]?\s*([0-9]{1,4}[/\.\-\s]+[A-Za-z0-9]{1,9}[/\.\-\s]+[0-9]{2,4})"], parse_dt)
 
         elif doc_type == DocumentType.MARKSHEET:
             add_field_func("applicant_name", [r"Candidate\s+Name\s*[:\-]?(.*)", r"Applicant\s*Name\s*[:\-]?(.*)", r"Name\s*[:\-]?(.*)"], normalize_name)
-            add_field_func("father_name", [r"Father['\s]*s?\s*Name\s*[:\-]?(.*)"], normalize_name)
-            add_field_func("dob", [r"Date\s+of\s+Birth\s*[:\-]?(.*)", r"DOB\s*[:\-]?(.*)"], parse_dt)
+            add_field_func("father_name", [r"Father['\s]*s?\s*Name\s*[:\-]?(.*)", r"(?:S/o|D/o|W/o)\s*[:\-]?\s*([A-Za-z\s]+)"], normalize_name)
+            add_field_func("dob", [r"Date\s+of\s+Birth\s*[:\-]?(.*)", r"DOB\s*[:\-]?(.*)", r"(?:Date\s+of\s+Birth|DOB)\s*[:\-]?\s*([0-9]{1,4}[/\.\-\s]+[A-Za-z0-9]{1,9}[/\.\-\s]+[0-9]{2,4})"], parse_dt)
             add_field_func("roll_no", [r"Roll\s+No\s*[:\-]?(.*)"], lambda s: s.strip() if s else None)
             add_field_func("percentage", [r"AGGREGATE\s+RESULT[^\(]*\(([\d.]+)%\)", r"([\d.]+)%"], parse_pct)
 
@@ -858,12 +879,19 @@ class DocumentExtractor:
 
         elif doc_type == DocumentType.APPLICATION_FORM:
             add_field_func("applicant_name", [r"Applicant\s+Full\s+Name\s*[:\-]?(.*)", r"Applicant\s*Name\s*[:\-]?(.*)", r"Name\s*[:\-]?(.*)"], normalize_name)
-            add_field_func("father_name", [r"Father['\s]*s?\s*/\s*Guardian['\s]*s?\s*Name\s*[:\-]?(.*)"], normalize_name)
-            add_field_func("dob", [r"Date\s+of\s+Birth\s*\(DOB\)\s*[:\-]?(.*)"], parse_dt)
+            add_field_func("father_name", [r"Father['\s]*s?\s*/\s*Guardian['\s]*s?\s*Name\s*[:\-]?(.*)", r"Father['\s]*s?\s*Name\s*[:\-]?(.*)", r"(?:S/o|D/o|W/o)\s*[:\-]?\s*([A-Za-z\s]+)"], normalize_name)
+            add_field_func("dob", [r"Date\s+of\s+Birth\s*\(DOB\)\s*[:\-]?(.*)", r"Date\s+of\s+Birth\s*[:\-]?(.*)", r"DOB\s*[:\-]?(.*)"], parse_dt)
             add_field_func("caste_category", [r"Social\s+Category\s*[:\-]?(.*)"], lambda s: s.strip().upper() if s else None)
-            add_field_func("annual_income", [r"Declared\s+Annual\s+Family\s+Income\s*[:\-]?(.*)"], normalize_income)
-            add_field_func("income_cert_no", [r"Income\s+Certificate\s+Reference\s+No\s*[:\-]?\s*([A-Za-z0-9/\-]+)"], normalize_cert_number)
+            add_field_func("annual_income", [r"Declared\s+Annual\s+Family\s+Income\s*[:\-]?(.*)", r"(?:Total\s+)?(?:Annual\s+)?(?:Family\s+)?Income\s*[:\|\-]\s*(.*)"], normalize_income)
+            add_field_func("income_cert_no", [r"Income\s+Certificate\s+Reference\s+No\s*[:\-]?\s*([A-Za-z0-9/\-]+)", r"(?:Income\s+)?Certificate\s+(?:Reference\s+)?(?:No|Number)\s*[:\|\-]?\s*([A-Za-z0-9/\-]+)"], normalize_cert_number)
             add_field_func("caste_cert_no", [r"Caste\s+Certificate\s+Reference\s+No\s*[:\-]?\s*([A-Za-z0-9/\-]+)"], normalize_cert_number)
             add_field_func("residence_cert_no", [r"Residence\s+Certificate\s+Reference\s+No\s*[:\-]?\s*([A-Za-z0-9/\-]+)"], normalize_cert_number)
-            add_field_func("account_no", [r"Bank\s+Account\s+Number\s*[:\-]?(.*)"], lambda s: s.strip() if s else None)
-            add_field_func("ifsc", [r"Bank\s+IFSC\s+Code\s*[:\-]?(.*)"], lambda s: s.strip().upper() if s else None)
+            add_field_func("account_no", [r"Bank\s+Account\s+Number\s*[:\-]?(.*)", r"Account\s+Number\s*[:\-]?(.*)"], lambda s: s.strip() if s else None)
+            add_field_func("ifsc", [r"Bank\s+IFSC\s+Code\s*[:\-]?(.*)", r"IFSC\s*[:\-]?(.*)"], lambda s: s.strip().upper() if s else None)
+
+        elif doc_type == DocumentType.AADHAAR:
+            add_field_func("applicant_name", [r"Government\s+of\s+India[^\n]*\n\s*([A-Za-z\s]+)", r"Name\s*[:\-]?\s*([A-Za-z\s]+)", r"To\s*[:\-]?\s*([A-Za-z\s]+)", r"([A-Z][a-z]+(?:\s+[A-Z][a-z]+)+)"], normalize_name)
+            add_field_func("dob", [r"(?:DOB|Date\s+of\s+Birth|Year\s+of\s+Birth)\s*[:\-]?\s*([0-9]{1,4}[/\.\-\s]+[A-Za-z0-9]{1,9}[/\.\-\s]+[0-9]{2,4})"], parse_dt)
+            add_field_func("gender", [r"\b(MALE|FEMALE|TRANSGENDER)\b"], lambda s: s.strip().upper() if s else None)
+            add_field_func("aadhaar_no", [r"([X\d]{4}\s+[X\d]{4}\s+\d{4})", r"(\d{4}\s+\d{4}\s+\d{4})"], lambda s: re.sub(r'\s+', '', s) if s else None)
+            add_field_func("aadhaar_no", [r"([X\d]{4}\s+[X\d]{4}\s+\d{4})", r"(\d{4}\s+\d{4}\s+\d{4})"], lambda s: re.sub(r'\s+', '', s) if s else None)
