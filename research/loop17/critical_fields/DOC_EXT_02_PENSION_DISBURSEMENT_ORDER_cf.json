@@ -1,0 +1,11 @@
+{
+  "document_id": "DOC_EXT_02_PENSION_DISBURSEMENT_ORDER",
+  "critical_fields": {
+    "ppo_number": "CPAO-2026-884910",
+    "pensioner_name": "RAMESH CHANDRA SHARMA",
+    "date_of_birth": "14/05/1963",
+    "net_payable_amount": "63750",
+    "account_number": "98124018491",
+    "status": "APPROVED FOR PAYMENT"
+  }
+}

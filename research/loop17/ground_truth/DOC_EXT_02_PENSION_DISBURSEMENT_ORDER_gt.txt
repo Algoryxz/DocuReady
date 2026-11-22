@@ -1,0 +1,13 @@
+CENTRAL PENSION ACCOUNTING OFFICE / केन्द्रीय पेंशन लेखा कार्यालय
+SPECIAL PENSION PAYMENT ORDER / विशेष पेंशन भुगतान आदेश
+PPO Number / पीपीओ संख्या: CPAO-2026-884910
+Pensioner Name / पेंशनभोगी का नाम: RAMESH CHANDRA SHARMA
+Date of Birth / जन्म तिथि: 14/05/1963
+Retirement Date / सेवानिवृत्ति तिथि: 31/05/2026
+Monthly Basic Pension / मूल मासिक पेंशन: INR 42500
+Dearness Relief (DR) / महंगाई राहत: INR 21250
+Net Payable Amount / शुद्ध देय राशि: INR 63750
+Disbursing Bank / संवितरक बैंक: State Bank of India (SBIN0001428)
+Account Number / खाता संख्या: 98124018491
+Disbursement Status: APPROVED FOR PAYMENT | सत्यापन स्थिति: स्वीकृत
+Authorised Signatory - Central Pension Processing Cell
