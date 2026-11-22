@@ -6,6 +6,7 @@ Extracts structured fields, bounding boxes, and provenance from PDFs and image s
 import os
 import re
 import io
+import math
 from typing import Dict, Optional, Tuple, List, Any
 import pymupdf
 import PIL.Image
@@ -24,6 +25,7 @@ from docuready.normalize.normalizer import (
 )
 from docuready.evidence.calibrator import ConfidenceCalibrator, validate_field_syntax
 from docuready.ingest.tesseract_discovery import configure_pytesseract
+from docuready.ingest.deskew import estimate_skew_angle, deskew_image, transform_bbox_inverse
 
 # Configure local Tesseract binary path dynamically
 configure_pytesseract()
@@ -74,9 +76,20 @@ def _find_field_in_page_vector(page: pymupdf.Page, patterns: List[str]) -> Tuple
 
 class PageOCRData:
     """Holds OCR results, token bounding boxes and line structures for an image page."""
-    def __init__(self, raw_data: Dict[str, List[Any]], dpi: int = 200, rotation_applied: int = 0):
+    def __init__(
+        self,
+        raw_data: Dict[str, List[Any]],
+        dpi: int = 200,
+        rotation_applied: int = 0,
+        skew_angle: float = 0.0,
+        orig_size: Optional[Tuple[int, int]] = None,
+        rot_size: Optional[Tuple[int, int]] = None
+    ):
         self.dpi = dpi
         self.rotation_applied = rotation_applied
+        self.skew_angle = skew_angle
+        self.orig_size = orig_size
+        self.rot_size = rot_size
         self.scale = 72.0 / float(dpi)
         self.lines: List[Dict[str, Any]] = []
         self._build_lines(raw_data)
@@ -84,22 +97,43 @@ class PageOCRData:
     def _build_lines(self, data: Dict[str, List[Any]]):
         words_meta = []
         n_boxes = len(data.get("text", []))
+        transform_angle = self.skew_angle
+        has_transform = abs(transform_angle) > 1e-4 and self.orig_size is not None and self.rot_size is not None
+
         for i in range(n_boxes):
             word = str(data["text"][i]).strip()
             conf = float(data["conf"][i])
             if not word or conf < 0:
                 continue
 
-            left = data["left"][i] * self.scale
-            top = data["top"][i] * self.scale
-            right = (data["left"][i] + data["width"][i]) * self.scale
-            bottom = (data["top"][i] + data["height"][i]) * self.scale
+            left_px = float(data["left"][i])
+            top_px = float(data["top"][i])
+            right_px = left_px + float(data["width"][i])
+            bottom_px = top_px + float(data["height"][i])
+
+            if has_transform:
+                orig_box = transform_bbox_inverse(
+                    [left_px, top_px, right_px, bottom_px],
+                    transform_angle,
+                    self.orig_size,
+                    self.rot_size,
+                    scale=self.scale
+                )
+            else:
+                orig_box = [
+                    round(left_px * self.scale, 1),
+                    round(top_px * self.scale, 1),
+                    round(right_px * self.scale, 1),
+                    round(bottom_px * self.scale, 1)
+                ]
+
             words_meta.append({
                 "word": word,
-                "box": [left, top, right, bottom],
+                "box": orig_box,
                 "conf": conf,
-                "x0": left,
-                "y0": top
+                # Cluster in the horizontal deskewed coordinate frame
+                "x0": left_px * self.scale,
+                "y0": top_px * self.scale
             })
 
         if not words_meta:
@@ -149,22 +183,36 @@ OSD_FAST_PATH_HIGH_CONF_THRESH = 60.0
 def _is_demonstrably_upright(data: Dict[str, List[Any]]) -> bool:
     """
     Evaluates whether token OCR results from an unrotated page demonstrably confirm upright orientation.
-    Requires substantive alphanumeric tokens, high mean confidence, and horizontal geometry invariant.
+    Requires substantive alphanumeric tokens, high mean confidence, horizontal aspect ratio,
+    and a strictly horizontal baseline slope (|median_slope| < 1.5°).
     """
     texts = data.get("text", [])
     confs = data.get("conf", [])
+    lefts = data.get("left", [])
+    tops = data.get("top", [])
     widths = data.get("width", [])
     heights = data.get("height", [])
+    line_nums = data.get("line_num", [])
+    block_nums = data.get("block_num", [])
 
     valid_tokens = []
     total_chars = 0
-    for text, conf, w, h in zip(texts, confs, widths, heights):
-        word = str(text).strip()
-        c = float(conf)
+    token_positions = []
+
+    for i in range(len(texts)):
+        word = str(texts[i]).strip()
+        c = float(confs[i])
         # Require non-empty token, valid confidence, and at least one alphanumeric character
         if word and c >= 0 and any(ch.isalnum() for ch in word):
-            valid_tokens.append((word, c, float(w), float(h)))
+            w = float(widths[i])
+            h = float(heights[i])
+            valid_tokens.append((word, c, w, h))
             total_chars += len(word)
+            b = block_nums[i] if i < len(block_nums) else 0
+            l = line_nums[i] if i < len(line_nums) else 0
+            x = float(lefts[i]) if i < len(lefts) else 0.0
+            y = float(tops[i]) if i < len(tops) else 0.0
+            token_positions.append((b, l, x, y, w, h))
 
     total_tokens = len(valid_tokens)
     if total_tokens < OSD_FAST_PATH_MIN_TOKENS or total_chars < OSD_FAST_PATH_MIN_CHARS:
@@ -183,11 +231,28 @@ def _is_demonstrably_upright(data: Dict[str, List[Any]]) -> bool:
     if (horizontal_count / total_tokens) < OSD_FAST_PATH_MIN_HORIZ_RATIO:
         return False
 
+    # Baseline slope invariant: on an upright page, adjacent words on a line must be horizontal
+    slopes = []
+    for i in range(len(token_positions) - 1):
+        b1, l1, x1, y1, w1, h1 = token_positions[i]
+        b2, l2, x2, y2, w2, h2 = token_positions[i + 1]
+        if b1 == b2 and l1 == l2 and x2 > x1 + (w1 * 0.3):
+            dx = x2 - x1
+            dy = y2 - y1
+            angle_deg = math.degrees(math.atan2(dy, dx))
+            slopes.append(angle_deg)
+
+    if len(slopes) >= 5:
+        slopes.sort()
+        med_slope = slopes[len(slopes) // 2]
+        if abs(med_slope) >= 1.5:
+            return False
+
     return True
 
 
 def _ocr_page(page: pymupdf.Page, dpi: int = 200) -> PageOCRData:
-    """Renders page to image with direct buffer decoding, fast-path upright verification, auto-orientation fallback, and timeouts."""
+    """Renders page to image with direct buffer decoding, fast-path upright verification, deskew recovery, auto-orientation fallback, and timeouts."""
     rect = page.rect
     # Security check: Page bomb protection against excessive dimensions
     if rect.width > MAX_PIXEL_DIMENSION or rect.height > MAX_PIXEL_DIMENSION:
@@ -205,6 +270,8 @@ def _ocr_page(page: pymupdf.Page, dpi: int = 200) -> PageOCRData:
         pix = None  # Free native C pixmap memory immediately
 
     rot_applied = 0
+    orig_size = (img.width, img.height)
+    rot_size = (img.width, img.height)
 
     # Step 1: Speculative token OCR on initial 0° image
     try:
@@ -213,17 +280,39 @@ def _ocr_page(page: pymupdf.Page, dpi: int = 200) -> PageOCRData:
         data = {"text": [], "conf": [], "left": [], "top": [], "width": [], "height": []}
 
     # Step 2: Conservative Fast-Path check
-    # If the page is demonstrably upright with high token confidence and horizontal geometry, skip OSD entirely!
+    # If the page is demonstrably upright with high token confidence and horizontal geometry, skip OSD and deskew!
     if _is_demonstrably_upright(data):
         return PageOCRData(data, dpi=dpi, rotation_applied=0)
 
-    # Step 3: Fast-path gate did not pass (tokens < 15, low confidence, or empty).
-    # If there are 0 tokens (e.g. blank scan), skip OSD to avoid 'Too few characters' error.
+    # Step 3: Fast-path gate did not pass (tokens < 15, low confidence, tilted baselines, or empty).
+    # If there are 0 valid tokens (e.g. blank scan), skip OSD to avoid 'Too few characters' error.
     valid_token_count = sum(1 for w, c in zip(data.get("text", []), data.get("conf", [])) if str(w).strip() and float(c) >= 0)
     if valid_token_count == 0:
         return PageOCRData(data, dpi=dpi, rotation_applied=0)
 
-    # Step 4: Fallback to OSD for orientation recovery on rotated/uncertain pages
+    # Step 4: Skew Analysis & Recovery for non-orthogonal rotations
+    try:
+        corr_angle, skew_conf = estimate_skew_angle(img, max_angle=45.0)
+        if abs(corr_angle) >= 1.0 and skew_conf >= 5.0:
+            deskewed_img, o_sz, r_sz = deskew_image(img, corr_angle)
+            deskew_data = pytesseract.image_to_data(
+                deskewed_img,
+                output_type=pytesseract.Output.DICT,
+                timeout=OCR_TIMEOUT_SECONDS
+            )
+            if _is_demonstrably_upright(deskew_data):
+                return PageOCRData(
+                    deskew_data,
+                    dpi=dpi,
+                    rotation_applied=0,
+                    skew_angle=corr_angle,
+                    orig_size=o_sz,
+                    rot_size=r_sz
+                )
+    except Exception:
+        pass
+
+    # Step 5: Fallback to OSD for orthogonal orientation recovery on 90°, 180°, 270° pages
     try:
         rot = None
         # Tier A: Fast downsampled OSD (0.60x) saves ~25-30% compute time on rotated scans
@@ -249,8 +338,10 @@ def _ocr_page(page: pymupdf.Page, dpi: int = 200) -> PageOCRData:
                     rot = r
 
         if rot in [90, 180, 270]:
-            rotated_img = img.rotate(360 - rot, expand=True)
+            rotated_img = img.rotate(360 - rot, expand=True, fillcolor=(255, 255, 255))
             rot_applied = rot
+            orig_size = (img.width, img.height)
+            rot_size = (rotated_img.width, rotated_img.height)
             # Re-run token OCR on the rotated upright image
             try:
                 data = pytesseract.image_to_data(rotated_img, output_type=pytesseract.Output.DICT, timeout=OCR_TIMEOUT_SECONDS)
@@ -259,7 +350,12 @@ def _ocr_page(page: pymupdf.Page, dpi: int = 200) -> PageOCRData:
     except Exception:
         pass  # Graceful fallback: retain initial token data if OSD fails or times out
 
-    return PageOCRData(data, dpi=dpi, rotation_applied=rot_applied)
+    return PageOCRData(
+        data,
+        dpi=dpi,
+        rotation_applied=rot_applied,
+        skew_angle=0.0
+    )
 
 
 def _find_field_in_ocr_page(ocr_data: PageOCRData, patterns: List[str]) -> Tuple[Optional[str], Optional[List[float]], str, float, bool, float, int]:
