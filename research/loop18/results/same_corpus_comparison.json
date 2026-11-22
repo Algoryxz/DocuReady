@@ -1,0 +1,213 @@
+{
+  "sample_count": 15,
+  "mean_latency_ms": {
+    "loop16": 3675.4,
+    "loop17": 1900.5,
+    "latency_reduction_pct": 48.29
+  },
+  "mean_invocations": {
+    "loop16": 1.27,
+    "loop17": 1.13
+  },
+  "mean_cer": {
+    "loop16": 92.3933,
+    "loop17": 85.6028
+  },
+  "per_document": {
+    "CHALLENGE_01_NATIVE_PDF_BILINGUAL": {
+      "loop16": {
+        "latency_ms": 1773.61,
+        "invocations": 2,
+        "cer": 0.0136
+      },
+      "loop17": {
+        "latency_ms": 765.67,
+        "invocations": 1,
+        "cer": 0.0136
+      },
+      "speedup_pct": 56.83
+    },
+    "CHALLENGE_02_ODIA_ENGLISH_GAZETTE_TWO_COL": {
+      "loop16": {
+        "latency_ms": 2367.11,
+        "invocations": 1,
+        "cer": 0.0649
+      },
+      "loop17": {
+        "latency_ms": 1521.65,
+        "invocations": 2,
+        "cer": 0.0831
+      },
+      "speedup_pct": 35.72
+    },
+    "CHALLENGE_03_HINDI_ENGLISH_MARKSHEET_ROW_GRID": {
+      "loop16": {
+        "latency_ms": 5637.95,
+        "invocations": 2,
+        "cer": 0.2306
+      },
+      "loop17": {
+        "latency_ms": 2130.83,
+        "invocations": 1,
+        "cer": 0.0843
+      },
+      "speedup_pct": 62.21
+    },
+    "CHALLENGE_04_LOW_CONTRAST_UNREADABLE_STRESS": {
+      "loop16": {
+        "latency_ms": 850.0,
+        "invocations": 1,
+        "cer": 98.0
+      },
+      "loop17": {
+        "latency_ms": 45.13,
+        "invocations": 0,
+        "cer": 0.0
+      },
+      "speedup_pct": 94.69
+    },
+    "DOC_CTRL_01_ENGLISH_CERTIFICATE": {
+      "loop16": {
+        "latency_ms": 1278.84,
+        "invocations": 1,
+        "cer": 0.0
+      },
+      "loop17": {
+        "latency_ms": 1164.41,
+        "invocations": 1,
+        "cer": 0.0
+      },
+      "speedup_pct": 8.95
+    },
+    "DOC_DEG_01_MULTI_SCRIPT_SKEWED": {
+      "loop16": {
+        "latency_ms": 4374.29,
+        "invocations": 1,
+        "cer": 0.4654
+      },
+      "loop17": {
+        "latency_ms": 4329.36,
+        "invocations": 1,
+        "cer": 0.4654
+      },
+      "speedup_pct": 1.03
+    },
+    "DOC_EXT_01_MOSPI_NADA_GUIDE": {
+      "loop16": {
+        "latency_ms": 6301.15,
+        "invocations": 1,
+        "cer": 1286.0
+      },
+      "loop17": {
+        "latency_ms": 1857.52,
+        "invocations": 1,
+        "cer": 1282.0
+      },
+      "speedup_pct": 70.52
+    },
+    "DOC_HIN_01_ADMIN_CIRCULAR": {
+      "loop16": {
+        "latency_ms": 3526.23,
+        "invocations": 1,
+        "cer": 0.2711
+      },
+      "loop17": {
+        "latency_ms": 1554.63,
+        "invocations": 1,
+        "cer": 0.2017
+      },
+      "speedup_pct": 55.91
+    },
+    "DOC_MIX_01_HIN_ENG_SCHOLARSHIP": {
+      "loop16": {
+        "latency_ms": 4016.59,
+        "invocations": 2,
+        "cer": 0.1543
+      },
+      "loop17": {
+        "latency_ms": 2137.77,
+        "invocations": 1,
+        "cer": 0.1571
+      },
+      "speedup_pct": 46.78
+    },
+    "DOC_MIX_02_ORI_ENG_SCHOLARSHIP": {
+      "loop16": {
+        "latency_ms": 1961.66,
+        "invocations": 1,
+        "cer": 0.0769
+      },
+      "loop17": {
+        "latency_ms": 1772.98,
+        "invocations": 1,
+        "cer": 0.107
+      },
+      "speedup_pct": 9.62
+    },
+    "DOC_MULTI_01_TRI_SCRIPT_GAZETTE": {
+      "loop16": {
+        "latency_ms": 4047.33,
+        "invocations": 1,
+        "cer": 0.2304
+      },
+      "loop17": {
+        "latency_ms": 3506.44,
+        "invocations": 1,
+        "cer": 0.2304
+      },
+      "speedup_pct": 13.36
+    },
+    "DOC_MULTI_02_BILINGUAL_COLUMNS_HIN_ENG": {
+      "loop16": {
+        "latency_ms": 3052.21,
+        "invocations": 1,
+        "cer": 0.0592
+      },
+      "loop17": {
+        "latency_ms": 2148.06,
+        "invocations": 2,
+        "cer": 0.1134
+      },
+      "speedup_pct": 29.62
+    },
+    "DOC_MULTI_03_BILINGUAL_COLUMNS_ORI_ENG": {
+      "loop16": {
+        "latency_ms": 3038.48,
+        "invocations": 1,
+        "cer": 0.1031
+      },
+      "loop17": {
+        "latency_ms": 2316.15,
+        "invocations": 2,
+        "cer": 0.4123
+      },
+      "speedup_pct": 23.77
+    },
+    "DOC_MULTI_04_MARKSHEET_INDIC_GRID": {
+      "loop16": {
+        "latency_ms": 10152.69,
+        "invocations": 2,
+        "cer": 0.146
+      },
+      "loop17": {
+        "latency_ms": 1596.92,
+        "invocations": 1,
+        "cer": 0.0892
+      },
+      "speedup_pct": 84.27
+    },
+    "DOC_ORI_01_ADMIN_CIRCULAR": {
+      "loop16": {
+        "latency_ms": 2752.78,
+        "invocations": 1,
+        "cer": 0.0846
+      },
+      "loop17": {
+        "latency_ms": 1659.96,
+        "invocations": 1,
+        "cer": 0.0846
+      },
+      "speedup_pct": 39.7
+    }
+  }
+}

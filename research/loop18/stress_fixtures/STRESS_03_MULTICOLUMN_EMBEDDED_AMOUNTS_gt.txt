@@ -1,0 +1,14 @@
+COLUMN A: REVENUE
+Ledger ID: REV-COL-101
+Entry Date: 12/03/2026
+Property Tax: Rs 154000
+Trade License: Rs 48200
+Water Cess: Rs 19500
+Subtotal A: Rs 221700
+COLUMN B: DISBURSEMENTS
+Voucher No: DIS-VOU-909
+Disbursed Date: 15/03/2026
+Civil Works: Rs 112000
+Sanitation: Rs 54300
+Administration: Rs 28000
+Subtotal B: Rs 194300

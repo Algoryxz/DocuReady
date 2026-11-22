@@ -1,0 +1,9 @@
+{
+  "document_id": "CHALLENGE_06_FAINT_SEAL_OVER_NUMERIC_ID",
+  "critical_fields": {
+    "certificate_no": "DL-REV-2026-9812",
+    "issue_date": "18/08/2026",
+    "applicant_name": "Rohit Verma",
+    "income_amount": "180000"
+  }
+}
