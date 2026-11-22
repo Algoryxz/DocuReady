@@ -144,11 +144,32 @@ function App(): React.JSX.Element {
     };
   }, [activeDocument, bytesCache]);
 
+  useEffect(() => {
+    // Keyboard listener for Escape to close modal
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && showDiagnosticsModal) {
+        setShowDiagnosticsModal(false);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [showDiagnosticsModal]);
+
   const handleSelectDocuments = async () => {
     try {
       setErrorMessage(null);
       const selected = await window.docureadyDesktop.selectDocuments();
       if (selected.length > 0) {
+        // If an audit was already run, invalidate old audit results since documents changed
+        if (auditResult) {
+          setAuditResult(null);
+          setCurrentPacket(null);
+          setAuditStatus("idle");
+          setProgress(null);
+          setSelectedRuleId(null);
+          setSelectedEvidenceId(null);
+        }
+
         setDocuments((prev) => {
           const existingIds = new Set(prev.map((d) => d.id));
           const additions = selected.filter((d) => !existingIds.has(d.id));
@@ -169,6 +190,10 @@ function App(): React.JSX.Element {
   };
 
   const handleRunAudit = async () => {
+    if (auditStatus === "running") {
+      return; // Concurrency guard against double-clicks
+    }
+
     if (documents.length === 0) {
       setErrorMessage("Please select at least one document to audit.");
       return;
@@ -203,7 +228,7 @@ function App(): React.JSX.Element {
         setAuditStatus("completed");
         setAuditResult(response.result);
         if (response.result.findings.length > 0) {
-          setSelectedRuleId(response.result.findings[0].rule_id);
+          handleSelectFinding(response.result.findings[0].rule_id);
         }
       } else if (response.status === "failed") {
         setAuditStatus("failed");
@@ -297,9 +322,45 @@ function App(): React.JSX.Element {
     }
   };
 
-  // Select finding callback (sync selection from Bounding Box or list)
+  // Select finding callback (sync selection from Bounding Box or list, auto-navigating to evidence)
   const handleSelectFinding = (ruleId: string) => {
     setSelectedRuleId(ruleId);
+
+    // Auto-navigate center viewer to the primary evidence item for this finding if present
+    const firstEv = normalizedData.evidenceItems.find(
+      (ev) => ev.ruleId === ruleId && ev.hasProvenance
+    );
+
+    if (firstEv) {
+      setSelectedEvidenceId(firstEv.id);
+      const matchingDoc = documents.find(
+        (d) =>
+          d.name === firstEv.fileName ||
+          d.name.toLowerCase().includes(firstEv.documentType.toLowerCase())
+      );
+      if (matchingDoc) {
+        setActiveDocumentId(matchingDoc.id);
+      }
+      if (firstEv.pageNumber > 0) {
+        setTargetPage(firstEv.pageNumber);
+      }
+    } else {
+      // If unlocated (missing doc or absent field), switch to the involved document if staged
+      const finding = normalizedData.findings.find((f) => f.rule_id === ruleId);
+      if (finding && finding.documents_involved && finding.documents_involved.length > 0) {
+        const docName = finding.documents_involved[0];
+        const matchingDoc = documents.find(
+          (d) =>
+            d.name === docName ||
+            d.name.toLowerCase().includes(docName.toLowerCase())
+        );
+        if (matchingDoc) {
+          setActiveDocumentId(matchingDoc.id);
+        }
+      }
+      setSelectedEvidenceId(null);
+    }
+
     const element = document.getElementById(`finding-${ruleId}`);
     if (element) {
       element.scrollIntoView({ behavior: "smooth", block: "nearest" });
@@ -475,6 +536,14 @@ function App(): React.JSX.Element {
             </button>
           </div>
         </header>
+
+        {/* Statutory Advisory Banner */}
+        <div className="disclaimer-strip" role="note">
+          <span className="disclaimer-icon">⚖️</span>
+          <span className="disclaimer-text">
+            <strong>Applicant Pre-Flight Verification:</strong> Offline clerical assistance only. Does not constitute official government certification or guaranteed portal acceptance.
+          </span>
+        </div>
 
         {/* Global Alerts / Messages */}
         {errorMessage && (

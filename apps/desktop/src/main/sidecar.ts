@@ -480,6 +480,20 @@ export class SidecarManager extends EventEmitter {
       };
     } catch (err) {
       this.currentAuditJobId = null;
+      const isCancelled =
+        err instanceof Error &&
+        (err.message.toLowerCase().includes("cancelled") ||
+          err.message.toLowerCase().includes("abort") ||
+          err.message.includes("SIGTERM"));
+
+      if (isCancelled) {
+        return {
+          jobId,
+          packetId,
+          status: "cancelled"
+        };
+      }
+
       return {
         jobId,
         packetId,

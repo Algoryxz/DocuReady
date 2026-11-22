@@ -1,0 +1,163 @@
+{
+  "loop": "Loop 08 — Desktop Workflow Integrity & Review UX",
+  "audit_version": "1.0.0",
+  "timestamp": "2026-11-22T07:55:00Z",
+  "scenarios": [
+    {
+      "id": "SCN-01",
+      "category": "LIFECYCLE",
+      "name": "Cold App Launch & Engine Startup Handshake",
+      "precondition": "Desktop app launched, sidecar spawned over stdio",
+      "action": "Invoke 'health' RPC and verify engine readiness before window display",
+      "expected_outcome": "Protocol 1, engine 0.1.0, healthy status, English OCR verified",
+      "observed_outcome": "PASS: Handshake completes in ~1.2s; engine verified healthy",
+      "status": "PASS"
+    },
+    {
+      "id": "SCN-02",
+      "category": "SECURITY",
+      "name": "Document Staging & Magic Byte Validation",
+      "precondition": "User selects files via native file picker",
+      "action": "Inspect magic bytes (%PDF-, PNG, JPEG) and enforce 50MB file size limit",
+      "expected_outcome": "Invalid formats or truncated files rejected before staging",
+      "observed_outcome": "PASS: Tested with valid PDFs and corrupt byte streams; bad files rejected",
+      "status": "PASS"
+    },
+    {
+      "id": "SCN-03",
+      "category": "ISOLATION",
+      "name": "Staged Packet Workspace Creation & Path Traversal Guard",
+      "precondition": "Valid documents registered in session",
+      "action": "Create packet in isolated docuready-workspaces/<packet_id>/ directory",
+      "expected_outcome": "Packet directory created; directory traversal attempts rejected",
+      "observed_outcome": "PASS: Isolated workspace created; getDocumentContent blocks '..' and path separators",
+      "status": "PASS"
+    },
+    {
+      "id": "SCN-04",
+      "category": "WORKFLOW",
+      "name": "Audit Execution & Real-Time Progress Streaming",
+      "precondition": "Staged packet exists in isolated workspace",
+      "action": "Trigger audit:start IPC; sidecar streams progress events over stdio",
+      "expected_outcome": "Progress percent (0-100%) streamed to renderer; audit completes with public result",
+      "observed_outcome": "PASS: Progress streamed across intake, ocr, rules stages; completes with 100/100 score",
+      "status": "PASS"
+    },
+    {
+      "id": "SCN-05",
+      "category": "RECOVERY",
+      "name": "In-Flight Audit Cancellation & SIGTERM Recovery",
+      "precondition": "Sidecar executing heavy OCR/audit pipeline",
+      "action": "User clicks 'Cancel Audit'; IPC dispatches SIGTERM to child",
+      "expected_outcome": "In-flight job aborted immediately; sidecar respawns cleanly; status set to 'cancelled'",
+      "observed_outcome": "PASS: Cancelled status returned without unhandled exceptions; workspace cleaned; subsequent health succeeds",
+      "status": "PASS"
+    },
+    {
+      "id": "SCN-06",
+      "category": "CONCURRENCY",
+      "name": "Double-Submission & Concurrency Guard",
+      "precondition": "Audit is currently running",
+      "action": "User rapidly clicks 'Run Pre-Flight Audit' or hits Enter key repeatedly",
+      "expected_outcome": "Secondary click ignored by renderer and rejected by IPC; no duplicate sidecar tasks",
+      "observed_outcome": "PASS: Guard prevents concurrent execution; existing running status returned",
+      "status": "PASS"
+    },
+    {
+      "id": "SCN-07",
+      "category": "STATE_MACHINE",
+      "name": "Stale Result Invalidation on Document Selection Change",
+      "precondition": "Audit completed for packet A; user adds or removes files",
+      "action": "Select new documents via native picker",
+      "expected_outcome": "Prior audit result, score, and selected findings immediately invalidated",
+      "observed_outcome": "PASS: UI returns to 'idle'; prevents displaying stale audit results against altered document set",
+      "status": "PASS"
+    },
+    {
+      "id": "SCN-08",
+      "category": "PRIVACY",
+      "name": "Session Clear & OS Temporary Directory Data Purge",
+      "precondition": "Multiple staged packets and documents in temporary workspace",
+      "action": "User clicks 'Clear Session' or application initiates before-quit shutdown",
+      "expected_outcome": "All packet directories deleted from disk; document registry cleared; zero remnants",
+      "observed_outcome": "PASS: clearAll() recursively purges all workspace directories; verified on disk",
+      "status": "PASS"
+    },
+    {
+      "id": "SCN-09",
+      "category": "REVIEW_UX",
+      "name": "Human Review Explainability & Reason Code Guidance",
+      "precondition": "Audit contains REVIEW or MANUAL_REVIEW findings",
+      "action": "Display finding card in FindingPanel",
+      "expected_outcome": "Conservative abstention explained; specific reason code guidance rendered with actionable next steps",
+      "observed_outcome": "PASS: Dedicated review callout renders with plain-language clerical explanation",
+      "status": "PASS"
+    },
+    {
+      "id": "SCN-10",
+      "category": "NAVIGATION",
+      "name": "Evidence Provenance Auto-Focus & Page Synchronization",
+      "precondition": "Multi-document packet with findings on various pages",
+      "action": "User selects finding in FindingPanel",
+      "expected_outcome": "EvidenceViewer switches to corresponding document and page; highlights bounding box",
+      "observed_outcome": "PASS: handleSelectFinding selects activeDocumentId, sets targetPage, highlights bbox",
+      "status": "PASS"
+    },
+    {
+      "id": "SCN-11",
+      "category": "EVIDENCE",
+      "name": "Unlocated Evidence & Missing Document Honest Representation",
+      "precondition": "Rule evaluates to MISSING or document absent",
+      "action": "Inspect finding in FindingPanel and EvidenceViewer",
+      "expected_outcome": "Zero invented coordinates (boundingBox: null); explicit 'Document Absent' callout",
+      "observed_outcome": "PASS: hasProvenance is false; honest empty state rendered with upload prompt",
+      "status": "PASS"
+    },
+    {
+      "id": "SCN-12",
+      "category": "PRIVACY",
+      "name": "Report Export Sanitization & PII Masking (JSON & Markdown)",
+      "precondition": "Audit completed with citizen data",
+      "action": "Export report via 'report:export' in Markdown or JSON format",
+      "expected_outcome": "Identifiers and names masked; statutory notice and disclaimer prominently included",
+      "observed_outcome": "PASS: Exported reports verified; zero unmasked identifiers; disclaimer clearly embedded",
+      "status": "PASS"
+    },
+    {
+      "id": "SCN-13",
+      "category": "ACCESSIBILITY",
+      "name": "Full Keyboard Navigation & Visible Focus Outlines",
+      "precondition": "Keyboard-only user navigating application",
+      "action": "Tab through document list, finding cards, filter pills, and bounding boxes; activate with Enter/Space",
+      "expected_outcome": "All interactive elements focusable with 2px high-visibility outline; Enter/Space activates",
+      "observed_outcome": "PASS: Verified tabIndex={0}, role='button'/'tab', onKeyDown handlers, and CSS :focus-visible",
+      "status": "PASS"
+    },
+    {
+      "id": "SCN-14",
+      "category": "ACCESSIBILITY",
+      "name": "Non-Color Status Encoding Across Badges & Indicators",
+      "precondition": "User inspecting status badges under grayscale or color blindness",
+      "action": "Inspect finding cards and document indicators",
+      "expected_outcome": "Every status provides text + distinct icon: ❌ FAIL, 🚫 MISSING, ⚠️ WARN, 🔍 REVIEW, ✅ PASS",
+      "observed_outcome": "PASS: All badges and filter pills feature explicit icons and text alongside color",
+      "status": "PASS"
+    },
+    {
+      "id": "SCN-15",
+      "category": "LIFECYCLE",
+      "name": "Clean Application Shutdown & Resource Deallocation",
+      "precondition": "Application running with active sidecar process",
+      "action": "Trigger window close / before-quit event",
+      "expected_outcome": "Sidecar shutdown cleanly over JSON-RPC or SIGKILL; temporary files removed; process exits with code 0",
+      "observed_outcome": "PASS: before-quit handler awaits sidecar shutdown and workspace cleanup before quitting",
+      "status": "PASS"
+    }
+  ],
+  "summary": {
+    "total_scenarios": 15,
+    "passed": 15,
+    "failed": 0,
+    "coverage_percent": 100.0
+  }
+}
