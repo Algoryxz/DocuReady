@@ -1,0 +1,82 @@
+[
+  {
+    "id": "PORTAL_A_DATA_GOV_IN",
+    "name": "Open Government Data (OGD) Platform India",
+    "base_url": "https://www.data.gov.in/",
+    "accessible": true,
+    "status_code": 200,
+    "latency_ms": 563.0,
+    "ssl_handshake": "SUCCESS",
+    "search_tested": true,
+    "queries_tested": [
+      {
+        "query": "scholarship",
+        "status": 200,
+        "url": "https://www.data.gov.in/search/site?keys=scholarship"
+      }
+    ],
+    "document_types_found": [],
+    "usefulness_assessment": "",
+    "detailed_observations": ""
+  },
+  {
+    "id": "PORTAL_B_NDAP",
+    "name": "National Data & Analytics Platform (NITI Aayog)",
+    "base_url": "https://ndap.niti.gov.in/",
+    "accessible": true,
+    "status_code": 200,
+    "latency_ms": 3448.3,
+    "ssl_handshake": "SUCCESS",
+    "search_tested": false,
+    "queries_tested": [
+      {
+        "query": "education",
+        "error": "HTTP Error 404: Not Found",
+        "url": "https://ndap.niti.gov.in/search?query=education"
+      }
+    ],
+    "document_types_found": [],
+    "usefulness_assessment": "",
+    "detailed_observations": ""
+  },
+  {
+    "id": "PORTAL_C_MICRODATA_NADA",
+    "name": "National Data Archive (NADA) / MoSPI Microdata",
+    "base_url": "https://microdata.gov.in/NADA/index.php/home",
+    "accessible": true,
+    "status_code": 200,
+    "latency_ms": 1128.8,
+    "ssl_handshake": "SUCCESS",
+    "search_tested": true,
+    "queries_tested": [
+      {
+        "query": "NSS",
+        "status": 200,
+        "url": "https://microdata.gov.in/NADA/index.php/catalog?query=NSS"
+      }
+    ],
+    "document_types_found": [],
+    "usefulness_assessment": "",
+    "detailed_observations": ""
+  },
+  {
+    "id": "PORTAL_D_INDIA_DATA_PORTAL",
+    "name": "India Data Portal (Bharti Institute / ISB)",
+    "base_url": "https://indiadataportal.com/",
+    "accessible": true,
+    "status_code": 200,
+    "latency_ms": 727.0,
+    "ssl_handshake": "SUCCESS",
+    "search_tested": true,
+    "queries_tested": [
+      {
+        "query": "agriculture",
+        "status": 200,
+        "url": "https://indiadataportal.com/search?keyword=agriculture"
+      }
+    ],
+    "document_types_found": [],
+    "usefulness_assessment": "",
+    "detailed_observations": ""
+  }
+]

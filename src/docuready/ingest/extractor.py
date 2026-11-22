@@ -152,6 +152,17 @@ class PageOCRData:
         if not words_meta:
             return
 
+        # Column-aware spatial reconstruction
+        from docuready.ingest.spatial_layout import cluster_and_order_words
+        column_groups = cluster_and_order_words(words_meta)
+        if column_groups is not None:
+            for group in column_groups:
+                words = [wm["word"] for wm in group]
+                boxes = [wm["box"] for wm in group]
+                confs = [wm["conf"] for wm in group]
+                self._commit_line(words, boxes, confs)
+            return
+
         from itertools import groupby
         words_meta.sort(key=lambda w: (round(w["y0"] / 12.0) * 12.0, w["x0"]))
         for _, group in groupby(words_meta, key=lambda w: round(w["y0"] / 12.0) * 12.0):

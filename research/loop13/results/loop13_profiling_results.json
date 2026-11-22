@@ -1,0 +1,8 @@
+{
+  "iterations": 500,
+  "page_size_words": 320,
+  "two_column_reconstruction_ms": 4.9271,
+  "single_column_bypass_ms": 2.1914,
+  "peak_memory_allocated_kb": 49.87,
+  "pipeline_budget_fraction_pct": 0.591
+}
