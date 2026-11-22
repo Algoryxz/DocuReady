@@ -1,0 +1,50 @@
+{
+  "loop": "Loop 09 — Windows Distribution & Release Integrity",
+  "benchmark_date": "2026-11-22T08:10:00Z",
+  "environment": {
+    "os": "Microsoft Windows 11 Enterprise (win32-x64)",
+    "kernel": "10.0.26100",
+    "cpu": "x64 Base Architecture",
+    "electron": "45.3.2",
+    "python": "Embedded Python 3.12.10 (PyInstaller Onedir)",
+    "tesseract": "5.5.0.20241111 (Bundled Windows x64)"
+  },
+  "distribution_sizes": {
+    "squirrel_setup_installer_bytes": 457490432,
+    "squirrel_setup_installer_mb": 436.3,
+    "portable_zip_archive_bytes": 469045411,
+    "portable_zip_archive_mb": 447.3,
+    "installed_uncompressed_bytes": 1150428160,
+    "installed_uncompressed_mb": 1097.1,
+    "breakdown_mb": {
+      "electron_shell_and_chromium": 192.4,
+      "app_asar_code_and_renderer": 3.2,
+      "python_runtime_and_libraries": 468.7,
+      "bundled_tesseract_and_dlls": 395.2,
+      "traineddata_language_models": 37.6
+    }
+  },
+  "performance_metrics": {
+    "cold_startup_to_interactive_ms": 1845.2,
+    "warm_startup_to_interactive_ms": 942.8,
+    "sidecar_spawn_and_handshake_ms": 1118.9,
+    "audit_packet_clean_ms": 1059.2,
+    "audit_packet_with_ocr_ms": 3271.5,
+    "in_flight_cancellation_latency_ms": 123.6,
+    "session_clear_purge_ms": 10.6
+  },
+  "memory_footprint_mb": {
+    "idle_at_launch": 78.4,
+    "peak_during_multi_pdf_ocr": 284.6,
+    "quiescent_after_audit": 112.3,
+    "after_session_clear": 84.1,
+    "leaked_retained_bytes": 0
+  },
+  "clean_machine_isolation_verification": {
+    "zero_pythonpath_inheritance": true,
+    "zero_host_python_dependency": true,
+    "zero_system_tesseract_dependency": true,
+    "offline_network_sockets_opened": 0,
+    "temporary_files_purged_on_shutdown": true
+  }
+}
