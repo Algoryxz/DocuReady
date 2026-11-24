@@ -22,6 +22,12 @@ from typing import Any, Dict, List, Optional, Tuple
 
 import numpy as np
 
+from docuready.ingest.identifier_validation import (
+    validate_identifier_syntax_and_ambiguity,
+    sanitize_identifier_token,
+)
+
+
 
 @dataclass
 class TableCell:
@@ -805,7 +811,7 @@ def extract_cell_by_intersection(
     if expected_type in ["amount", "percentage", "number", "weight"]:
         clean_val = re.sub(r",(\d{1,2})$", r".\1", clean_val)
 
-    is_pure_count = (expected_type in ["count", "id", "code", "integer"] and not any(k in field_name.lower() for k in ["hba1c", "a1c", "potency", "rate", "percent", "pct", "ratio", "vol", "weight"]))
+    is_pure_count = (expected_type in ["count", "id", "code", "integer", "date"] and not any(k in field_name.lower() for k in ["hba1c", "a1c", "potency", "rate", "percent", "pct", "ratio", "vol", "weight"]))
     if (
         image is not None
         and clean_val
@@ -853,19 +859,31 @@ def extract_cell_by_intersection(
         if re.search(r"[a-zA-Z]", clean_val):
             type_contradiction = True
 
+    # Identifier syntax & glyph ambiguity validation
+    id_valid, id_cleaned, id_dec, id_reason = validate_identifier_syntax_and_ambiguity(
+        clean_val, field_name, expected_type or "text", cell_conf
+    )
+    if not id_valid and id_dec == "ABSTAIN":
+        ambiguous = True
+    elif id_cleaned:
+        clean_val = id_cleaned
+
     # Integrity and risk-calibrated verification decisions
     effective_floor = 75.0 if row_recovery_method == "levenshtein_similarity" else 60.0
     is_low_conf = (cell_conf < effective_floor)
     is_multi_token = (len(clean_val.split()) > 1 and expected_type in ["amount", "code", "id", "weight", "percentage", "unit", "number", "count"])
     has_syntax_garble = bool(re.search(r"[{}\[\]~|`^§]", clean_val))
 
-    ambiguous = cell.is_ambiguous or is_multi_row or header_mismatch or type_contradiction or is_low_conf or is_multi_token or has_syntax_garble or compound_unresolved
+    ambiguous = cell.is_ambiguous or is_multi_row or header_mismatch or type_contradiction or is_low_conf or is_multi_token or has_syntax_garble or compound_unresolved or (not id_valid and id_dec == "ABSTAIN")
 
     verification_decision = "VERIFY"
     abstention_reason = None
     if not clean_val and expected_type != "empty":
         verification_decision = "ABSTAIN"
         abstention_reason = "Empty cell text / no value extracted"
+    elif not id_valid and id_dec == "ABSTAIN":
+        verification_decision = "ABSTAIN"
+        abstention_reason = id_reason
     elif is_low_conf:
         verification_decision = "ABSTAIN"
         abstention_reason = f"Low OCR confidence ({cell_conf:.1f} < {effective_floor:.1f})"
@@ -949,6 +967,17 @@ def extract_field_by_spatial_association(
             image=image,
         )
         if ev:
+            # Validate identifier syntax / glyph ambiguity
+            id_valid, id_cleaned, id_dec, id_reason = validate_identifier_syntax_and_ambiguity(
+                ev.value, field_name, expected_type or "text", ev.confidence
+            )
+            if not id_valid and id_dec == "ABSTAIN":
+                ev.is_ambiguous = True
+                ev.verification_decision = "ABSTAIN"
+                ev.abstention_reason = id_reason
+            elif id_cleaned:
+                ev.value = id_cleaned
+
             # Validate syntax / label echo
             if expected_type == "empty" and ev.value != "":
                 ev.is_ambiguous = True
@@ -973,25 +1002,26 @@ def extract_field_by_spatial_association(
                 raw_text = cell.text
                 target_cell = cell
 
-                # Case A: Value is inline after colon
-                if ":" in raw_text and raw_text.split(":", 1)[1].strip():
+                # Case A: Direct exact match of token/value within cell
+                if norm_target == norm_cell:
+                    clean_val = raw_text.strip()
+                    target_cell = cell
+                # Case B: Value is inline after colon
+                elif ":" in raw_text and raw_text.split(":", 1)[1].strip():
                     parts = raw_text.split(":", 1)
                     clean_val = parts[1].strip()
                     clean_val = re.sub(r"^(Rs\.?|INR|₹)\s*", "", clean_val, flags=re.IGNORECASE).strip()
-                # Case B: Value is in adjacent column to the right
+                # Case C: Value is in adjacent column to the right
                 elif c_idx + 1 < len(row):
                     val_cell = row[c_idx + 1]
                     clean_val = val_cell.text.strip()
                     clean_val = re.sub(r"^(Rs\.?|INR|₹)\s*", "", clean_val, flags=re.IGNORECASE).strip()
                     target_cell = val_cell
-                # Case C: Direct exact match of token/value within cell
-                elif norm_target == norm_cell:
-                    clean_val = raw_text.strip()
-                    target_cell = cell
                 else:
                     clean_val = raw_text.strip()
+                clean_val = re.sub(r"[,;:\s]+$", "", clean_val).strip()
 
-                is_pure_count = (expected_type in ["count", "id", "code", "integer"] and not any(k in field_name.lower() for k in ["hba1c", "a1c", "potency", "rate", "percent", "pct", "ratio", "vol", "weight"]))
+                is_pure_count = (expected_type in ["count", "id", "code", "integer", "date"] and not any(k in field_name.lower() for k in ["hba1c", "a1c", "potency", "rate", "percent", "pct", "ratio", "vol", "weight"]))
                 if (
                     image is not None
                     and clean_val
@@ -1046,7 +1076,16 @@ def extract_field_by_spatial_association(
                 is_multi_token = (len(clean_val.split()) > 1 and expected_type in ["amount", "code", "id", "weight", "percentage", "unit", "number", "count"])
                 has_syntax_garble = bool(re.search(r"[{}\[\]~|`^§]", clean_val))
 
-                ambiguous = target_cell.is_ambiguous or is_label_echo or is_low_conf or is_multi_token or has_syntax_garble or compound_unresolved or type_contradiction
+                # Identifier syntax & glyph ambiguity validation
+                id_valid, id_cleaned, id_dec, id_reason = validate_identifier_syntax_and_ambiguity(
+                    clean_val, field_name, expected_type or "text", target_conf
+                )
+                if not id_valid and id_dec == "ABSTAIN":
+                    ambiguous = True
+                elif id_cleaned:
+                    clean_val = id_cleaned
+
+                ambiguous = target_cell.is_ambiguous or is_label_echo or is_low_conf or is_multi_token or has_syntax_garble or compound_unresolved or type_contradiction or (not id_valid and id_dec == "ABSTAIN")
 
                 # Type-specific validation
                 if expected_type == "empty" and clean_val != "":
@@ -1061,6 +1100,9 @@ def extract_field_by_spatial_association(
                 if not clean_val and expected_type != "empty":
                     verification_decision = "ABSTAIN"
                     abstention_reason = "Empty cell text / no value extracted"
+                elif not id_valid and id_dec == "ABSTAIN":
+                    verification_decision = "ABSTAIN"
+                    abstention_reason = id_reason
                 elif is_low_conf:
                     verification_decision = "ABSTAIN"
                     abstention_reason = f"Low OCR confidence ({target_conf:.1f} < 60.0)"
