@@ -226,96 +226,212 @@ def detect_column_gutters_from_multi_rows(
 
 def refine_cell_decimal_point(cell_text: str, cell_crop: Any) -> str:
     """
-    Detects dropped baseline decimal points in low-resolution OCR crops using
-    fast pixel morphology (NumPy). When a 1-3px strictly isolated dot is detected in the
-    baseline zone between digits, re-inserts the decimal point into cell_text.
-    Strictly isolated: requires pure whitespace left, right, and above the dot to prevent
-    character strokes (e.g. crossbar of '4') from triggering false decimals.
+    Detects dropped baseline decimal points and micro-font digit confusions in
+    low-resolution OCR crops using fast pixel morphology (NumPy).
+    1. Isolated baseline decimal dot:
+       Requires active ink bounding box, zero upper ink, zero ink above the dot,
+       and strict whitespace flanking to avoid character strokes.
+       Enforces baseline contact (touching bottom or bottom - 1) to protect integers (e.g. 88, 48).
+    2. Micro-glyph 4 vs 8 disambiguation:
+       For sub-12px glyph heights where Tesseract LSTM confounds the triangular opening of 4 as 8,
+       verifies whether beneath the horizontal crossbar the lower-left quadrant is empty.
     Execution time: ~0.05ms per check (pure NumPy, zero subprocess overhead).
     """
-    if not cell_text or "." in cell_text or cell_crop is None:
+    if not cell_text or cell_crop is None:
         return cell_text
 
-    clean_digits = re.sub(r"^(Rs\.?|INR|₹)\s*", "", cell_text, flags=re.IGNORECASE).replace(",", "").strip()
-    if not clean_digits.isdigit() or not (2 <= len(clean_digits) <= 4):
-        return cell_text
+    text = cell_text
 
-    # Numbers with trailing zero >= 100 like 640, 4000, 3100, 4830 are standard integers
-    if len(clean_digits) >= 3 and clean_digits.endswith("0"):
-        return cell_text
+    # --- Part 1: Dropped Decimal Point Recovery ---
+    if "." not in text:
+        clean_digits = re.sub(r"^(Rs\.?|INR|₹)\s*", "", text, flags=re.IGNORECASE).replace(",", "").strip()
+        # Only evaluate numeric tokens of length 2 to 5 that don't end in two zeros (if >= 100)
+        if clean_digits.isdigit() and (2 <= len(clean_digits) <= 5):
+            if not (len(clean_digits) >= 3 and clean_digits.endswith("00")):
+                try:
+                    if hasattr(cell_crop, "convert"):
+                        arr = np.array(cell_crop.convert("L"))
+                    elif isinstance(cell_crop, np.ndarray):
+                        arr = cell_crop
+                    else:
+                        arr = None
 
-    try:
-        if hasattr(cell_crop, "convert"):
-            arr = np.array(cell_crop.convert("L"))
-        elif isinstance(cell_crop, np.ndarray):
-            arr = cell_crop
-        else:
-            return cell_text
+                    if arr is not None:
+                        h, w = arr.shape[:2]
+                        if h >= 6 and w >= 8:
+                            thresh = (int(arr.min()) + int(arr.max())) // 2
+                            binary = arr < thresh  # True for ink (dark)
 
-        h, w = arr.shape[:2]
-        if h < 8 or w < 10:
-            return cell_text
+                            row_ink = binary.sum(axis=1)
+                            col_ink = binary.sum(axis=0)
+                            active_rows = np.where(row_ink > 0)[0]
+                            active_cols = np.where(col_ink > 0)[0]
 
-        thresh = (int(arr.min()) + int(arr.max())) // 2
-        binary = arr < thresh  # True for ink (dark)
+                            if len(active_rows) > 0 and len(active_cols) > 0:
+                                top, bottom = active_rows.min(), active_rows.max()
+                                left, right = active_cols.min(), active_cols.max()
+                                char_h = bottom - top + 1
+                                char_w_span = right - left + 1
 
-        # A genuine decimal dot is strictly at the baseline (bottom 30% of character height)
-        baseline_zone_start = int(h * 0.70)
-        upper_ink = binary[:baseline_zone_start, :].sum(axis=0)
-        gap_cols = np.where(upper_ink == 0)[0]
-        if len(gap_cols) == 0:
-            return cell_text
+                                if char_h >= 6 and char_w_span >= 8:
+                                    baseline_start = top + int(char_h * 0.65)
+                                    upper_end = baseline_start
+                                    found_dot_x = None
 
-        gaps = []
-        curr = [gap_cols[0]]
-        for c in gap_cols[1:]:
-            if c == curr[-1] + 1:
-                curr.append(c)
+                                    for dw in [1, 2, 3]:
+                                        if found_dot_x is not None:
+                                            break
+                                        for c in range(left + 2, right - dw - 1):
+                                            cols = list(range(c, c + dw))
+                                            # Zero ink in upper zone
+                                            if binary[top:upper_end, cols].sum() > 0:
+                                                continue
+
+                                            base_sub = binary[baseline_start:bottom + 1, cols]
+                                            dot_ink_count = base_sub.sum()
+                                            if not (1 <= dot_ink_count <= 6):
+                                                continue
+
+                                            dot_r, dot_c = np.where(base_sub)
+                                            dot_h = dot_r.max() - dot_r.min() + 1
+                                            if dot_h > 3:
+                                                continue
+
+                                            abs_dot_rows = baseline_start + dot_r
+                                            min_r, max_r = abs_dot_rows.min(), abs_dot_rows.max()
+
+                                            # Baseline contact: must touch bottom or bottom - 1
+                                            if max_r < bottom - 1:
+                                                continue
+
+                                            # Left and right isolation
+                                            if binary[min_r:max_r + 1, c - 1].sum() > 0:
+                                                continue
+                                            if binary[min_r:max_r + 1, c + dw].sum() > 0:
+                                                continue
+
+                                            # Above isolation
+                                            above_check_top = max(top, min_r - 2)
+                                            if min_r > above_check_top and binary[above_check_top:min_r, cols].sum() > 0:
+                                                continue
+
+                                            found_dot_x = c + (dw - 1) / 2.0
+                                            break
+
+                                    if found_dot_x is not None:
+                                        num_chars = len(clean_digits)
+                                        rel_x = (found_dot_x - left) / float(char_w_span)
+                                        insert_idx = int(round(rel_x * num_chars))
+                                        insert_idx = max(1, min(insert_idx, num_chars - 1))
+                                        refined = clean_digits[:insert_idx] + "." + clean_digits[insert_idx:]
+                                        text = text.replace(clean_digits, refined)
+                except Exception:
+                    pass
+
+    # --- Part 2: Micro-Glyph 4 vs 8 Disambiguation ---
+    clean_num = re.sub(r"^(Rs\.?|INR|₹)\s*", "", text, flags=re.IGNORECASE).replace(",", "").strip()
+    if clean_num.isdigit() and "8" in clean_num:
+        try:
+            if hasattr(cell_crop, "convert"):
+                arr = np.array(cell_crop.convert("L"))
+            elif isinstance(cell_crop, np.ndarray):
+                arr = cell_crop
             else:
-                gaps.append(curr)
-                curr = [c]
-        gaps.append(curr)
+                arr = None
 
-        dot_x = None
-        for g in gaps:
-            # Must be an interior gap with blank columns on both sides (not edge of crop)
-            if g[0] >= 2 and g[-1] <= w - 3 and len(g) >= 2:
-                gap_sub = binary[baseline_zone_start:h, g]
-                dot_ink = gap_sub.sum()
-                if 1 <= dot_ink <= 6:
-                    dot_rows, dot_cols = np.where(gap_sub)
-                    dot_abs_rows = baseline_zone_start + dot_rows
-                    dot_abs_cols = g[0] + dot_cols
+            if arr is not None:
+                thresh = (int(arr.min()) + int(arr.max())) // 2
+                binary = arr < thresh
+                row_ink = binary.sum(axis=1)
+                active_r = np.where(row_ink > 0)[0]
+                if len(active_r) >= 6 and (active_r.max() - active_r.min() + 1) <= 12:
+                    col_ink = binary[active_r.min():active_r.max() + 1, :].sum(axis=0)
+                    active_c = np.where(col_ink > 0)[0]
+                    if len(active_c) > 0:
+                        c_left, c_right = active_c.min(), active_c.max()
+                        num_chars = len(clean_num)
+                        char_w = (c_right - c_left + 1) / float(num_chars)
 
-                    min_c = dot_abs_cols.min()
-                    max_c = dot_abs_cols.max()
+                        chars = list(clean_num)
+                        changed = False
+                        for idx, ch in enumerate(chars):
+                            if ch == "8":
+                                ch_c1 = int(c_left + idx * char_w)
+                                ch_c2 = int(c_left + (idx + 1) * char_w)
+                                ch_bin = binary[active_r.min():active_r.max() + 1, ch_c1:ch_c2]
+                                row_sums = ch_bin.sum(axis=1)
+                                if len(row_sums) >= 6:
+                                    bar_row = int(np.argmax(row_sums))
+                                    if 2 <= bar_row < len(ch_bin) - 1:
+                                        below_bar = ch_bin[bar_row + 1:, :]
+                                        mid_w = ch_bin.shape[1] // 2
+                                        left_below = below_bar[:, :mid_w].sum()
+                                        right_below = below_bar[:, mid_w:].sum()
+                                        if left_below == 0 and right_below > 0:
+                                            chars[idx] = "4"
+                                            changed = True
+                        if changed:
+                            new_num = "".join(chars)
+                            text = text.replace(clean_num, new_num)
+        except Exception:
+            pass
 
-                    # Dot must be strictly isolated: zero ink in adjacent columns across the dot rows
-                    left_ink = binary[dot_abs_rows, min_c - 1].sum() if min_c > 0 else 1
-                    right_ink = binary[dot_abs_rows, max_c + 1].sum() if max_c < w - 1 else 1
+    return text
 
-                    # Zero ink above the dot for at least 2 rows
-                    min_r = dot_abs_rows.min()
-                    above_ink = binary[max(0, min_r - 2):min_r, min_c:max_c + 1].sum()
 
-                    if left_ink == 0 and right_ink == 0 and above_ink == 0:
-                        dot_h = dot_rows.max() - dot_rows.min() + 1
-                        dot_w = dot_cols.max() - dot_cols.min() + 1
-                        if dot_h <= 3 and dot_w <= 3:
-                            dot_x = int(dot_abs_cols.mean())
-                            break
+def resolve_narrow_gutter_cell_token(
+    cell_words: List[Dict[str, Any]],
+    header_text: str,
+    col_pattern: Optional[str],
+    field_name: str,
+    clean_val: str,
+    image: Optional[Any] = None,
+) -> Tuple[str, bool, float, Optional[str]]:
+    """
+    Resolves multi-token narrow-gutter cell bleed via localized spatial association.
+    If a cell contains multiple tokens (e.g. '85000 8500') due to narrow gutter fusion,
+    checks if col_pattern or field_name matches a specific sub-column header.
+    Refines decimal points on the resolved sub-token crop when image is provided.
+    Returns: (resolved_value, is_resolved, sub_conf, reason)
+    """
+    tokens = clean_val.split()
+    if len(tokens) <= 1 or not cell_words or len(cell_words) < len(tokens):
+        return clean_val, False, 0.0, None
 
-        if dot_x is not None:
-            num_chars = len(clean_digits)
-            char_w = w / num_chars
-            insert_idx = int(dot_x / char_w) + 1
-            insert_idx = max(1, min(insert_idx, num_chars - 1))
-            refined = clean_digits[:insert_idx] + "." + clean_digits[insert_idx:]
-            return cell_text.replace(clean_digits, refined)
-    except Exception:
-        pass
+    sub_headers = [h.strip() for h in re.split(r"[_|/]|(?<=[)])\s+(?=[A-Z])", header_text) if h.strip()]
 
-    return cell_text
+    if len(sub_headers) >= 2 and len(tokens) == 2:
+        target = col_pattern or field_name
+        target_norm = target.lower().replace("_", " ")
+
+        match_idx = -1
+        for idx, sh in enumerate(sub_headers[:2]):
+            sh_norm = sh.lower()
+            if any(term in sh_norm for term in target_norm.split()):
+                match_idx = idx
+                break
+
+        if match_idx != -1 and match_idx < len(cell_words):
+            w1 = cell_words[0]
+            w2 = cell_words[1]
+            gap = w2["left"] - w1["right"]
+            if gap >= 8:
+                resolved_token = tokens[match_idx]
+                token_conf = cell_words[match_idx].get("conf", 75.0)
+
+                # Refine decimal points on the isolated sub-token crop if image is provided
+                if image is not None and ("." not in resolved_token):
+                    tw = cell_words[match_idx]
+                    tx1, ty1, tx2, ty2 = tw["left"], tw["top"], tw["right"], tw["bottom"]
+                    pad = 5
+                    pw = image.width if hasattr(image, "width") else tx2 + pad
+                    ph = image.height if hasattr(image, "height") else ty2 + pad
+                    crop = image.crop((max(0, tx1 - pad), max(0, ty1 - pad), min(pw, tx2 + pad), min(ph, ty2 + pad)))
+                    resolved_token = refine_cell_decimal_point(resolved_token, crop)
+
+                return resolved_token, True, max(token_conf, 70.0), None
+
+    return clean_val, False, 0.0, "Multiple whitespace-separated tokens detected in numeric cell (gutter bleed)"
 
 
 def build_table_grid(
@@ -584,27 +700,57 @@ def extract_cell_by_intersection(
             crop = image.crop((max(0, bx1 - pad), max(0, by1 - pad), min(pw, bx2 + pad), min(ph, by2 + pad)))
             clean_val = refine_cell_decimal_point(clean_val, crop)
 
+    # Check for multi-token narrow-gutter resolution
+    cell_conf = cell.conf
+    sub_headers = [h.strip() for h in re.split(r"[_|/]|(?<=[)])\s+(?=[A-Z])", header_text) if h.strip()]
+    was_resolved = False
+    if len(clean_val.split()) > 1 and expected_type in ["amount", "code", "id", "weight", "percentage", "unit", "number", "count"]:
+        resolved_tok, is_res, sub_conf, _ = resolve_narrow_gutter_cell_token(
+            cell_words=cell.words,
+            header_text=header_text,
+            col_pattern=col_pattern,
+            field_name=field_name,
+            clean_val=clean_val,
+            image=image,
+        )
+        if is_res:
+            clean_val = resolved_tok
+            cell_conf = max(cell_conf, sub_conf)
+            was_resolved = True
+
+    compound_unresolved = False
+    if len(sub_headers) >= 2 and col_pattern and not was_resolved:
+        if len(clean_val) >= 7 and clean_val.replace(".", "").isdigit():
+            compound_unresolved = True
+
+    if expected_type in ["amount", "number", "count", "percentage", "weight", "unit"]:
+        if re.search(r"[a-zA-Z]", clean_val):
+            type_contradiction = True
+
     # Integrity and risk-calibrated verification decisions
-    is_low_conf = (cell.conf < 60.0)
-    is_multi_token = (len(clean_val.split()) > 1 and expected_type in ["amount", "code", "id", "weight", "percentage", "unit"])
+    is_low_conf = (cell_conf < 60.0)
+    is_multi_token = (len(clean_val.split()) > 1 and expected_type in ["amount", "code", "id", "weight", "percentage", "unit", "number", "count"])
     has_syntax_garble = bool(re.search(r"[{}\[\]~|`^§]", clean_val))
 
-    ambiguous = cell.is_ambiguous or is_multi_row or header_mismatch or type_contradiction or is_low_conf or is_multi_token or has_syntax_garble
+    ambiguous = cell.is_ambiguous or is_multi_row or header_mismatch or type_contradiction or is_low_conf or is_multi_token or has_syntax_garble or compound_unresolved
 
     verification_decision = "VERIFY"
     abstention_reason = None
     if is_low_conf:
         verification_decision = "ABSTAIN"
-        abstention_reason = f"Low OCR confidence ({cell.conf:.1f} < 60.0)"
+        abstention_reason = f"Low OCR confidence ({cell_conf:.1f} < 60.0)"
     elif is_multi_token:
         verification_decision = "ABSTAIN"
         abstention_reason = "Multiple whitespace-separated tokens detected in numeric cell (gutter bleed)"
+    elif compound_unresolved:
+        verification_decision = "ABSTAIN"
+        abstention_reason = "Compound column header contains merged/unseparated tokens across sub-columns"
     elif has_syntax_garble:
         verification_decision = "ABSTAIN"
         abstention_reason = "Stray punctuation or non-alphanumeric syntax garble in extracted text"
     elif type_contradiction:
         verification_decision = "ABSTAIN"
-        abstention_reason = f"Column header '{header_text}' contradicts expected field semantic '{field_name}' ({expected_type})"
+        abstention_reason = f"Column header '{header_text}' or token text contradicts expected field semantic '{field_name}' ({expected_type})"
     elif header_mismatch:
         verification_decision = "ABSTAIN"
         abstention_reason = f"Column header '{header_text}' does not match required pattern '{col_pattern}'"
@@ -620,7 +766,7 @@ def extract_cell_by_intersection(
         row_idx=cell.row,
         col_idx=cell.col,
         col_header=header_text,
-        confidence=cell.conf,
+        confidence=cell_conf,
         is_ambiguous=ambiguous,
         provenance={
             "document_id": doc_id,
@@ -728,11 +874,40 @@ def extract_field_by_spatial_association(
                     is_label_echo = True
                     clean_val = ""
 
-                is_low_conf = (target_cell.conf < 60.0)
-                is_multi_token = (len(clean_val.split()) > 1 and expected_type in ["amount", "code", "id", "weight", "percentage", "unit"])
+                # Check for multi-token narrow-gutter resolution
+                target_conf = target_cell.conf
+                h_text = grid.col_headers[target_cell.col] if target_cell.col < len(grid.col_headers) else ""
+                sub_headers = [h.strip() for h in re.split(r"[_|/]|(?<=[)])\s+(?=[A-Z])", h_text) if h.strip()]
+                was_resolved = False
+                if len(clean_val.split()) > 1 and expected_type in ["amount", "code", "id", "weight", "percentage", "unit", "number", "count"]:
+                    resolved_tok, is_res, sub_conf, _ = resolve_narrow_gutter_cell_token(
+                        cell_words=target_cell.words,
+                        header_text=h_text,
+                        col_pattern=col_pattern,
+                        field_name=field_name,
+                        clean_val=clean_val,
+                        image=image,
+                    )
+                    if is_res:
+                        clean_val = resolved_tok
+                        target_conf = max(target_conf, sub_conf)
+                        was_resolved = True
+
+                compound_unresolved = False
+                if len(sub_headers) >= 2 and col_pattern and not was_resolved:
+                    if len(clean_val) >= 7 and clean_val.replace(".", "").isdigit():
+                        compound_unresolved = True
+
+                type_contradiction = False
+                if expected_type in ["amount", "number", "count", "percentage", "weight", "unit"]:
+                    if re.search(r"[a-zA-Z]", clean_val):
+                        type_contradiction = True
+
+                is_low_conf = (target_conf < 60.0)
+                is_multi_token = (len(clean_val.split()) > 1 and expected_type in ["amount", "code", "id", "weight", "percentage", "unit", "number", "count"])
                 has_syntax_garble = bool(re.search(r"[{}\[\]~|`^§]", clean_val))
 
-                ambiguous = target_cell.is_ambiguous or is_label_echo or is_low_conf or is_multi_token or has_syntax_garble
+                ambiguous = target_cell.is_ambiguous or is_label_echo or is_low_conf or is_multi_token or has_syntax_garble or compound_unresolved or type_contradiction
 
                 # Type-specific validation
                 if expected_type == "empty" and clean_val != "":
@@ -746,16 +921,22 @@ def extract_field_by_spatial_association(
                 abstention_reason = None
                 if is_low_conf:
                     verification_decision = "ABSTAIN"
-                    abstention_reason = f"Low OCR confidence ({target_cell.conf:.1f} < 60.0)"
+                    abstention_reason = f"Low OCR confidence ({target_conf:.1f} < 60.0)"
                 elif is_multi_token:
                     verification_decision = "ABSTAIN"
                     abstention_reason = "Multiple whitespace-separated tokens detected in numeric cell (gutter bleed)"
+                elif compound_unresolved:
+                    verification_decision = "ABSTAIN"
+                    abstention_reason = "Compound column header contains merged/unseparated tokens across sub-columns"
                 elif has_syntax_garble:
                     verification_decision = "ABSTAIN"
                     abstention_reason = "Stray punctuation or non-alphanumeric syntax garble in extracted text"
                 elif is_label_echo:
                     verification_decision = "ABSTAIN"
                     abstention_reason = "Label-echo rejected"
+                elif type_contradiction:
+                    verification_decision = "ABSTAIN"
+                    abstention_reason = f"Token text contradicts expected numeric field semantic '{field_name}' ({clean_val})"
                 elif ambiguous:
                     verification_decision = "ABSTAIN"
                     abstention_reason = "Ambiguous cell boundaries or candidate collision"
@@ -768,7 +949,7 @@ def extract_field_by_spatial_association(
                     row_idx=target_cell.row,
                     col_idx=target_cell.col,
                     col_header=grid.col_headers[target_cell.col] if target_cell.col < len(grid.col_headers) else "",
-                    confidence=target_cell.conf,
+                    confidence=target_conf,
                     is_ambiguous=ambiguous,
                     provenance={
                         "document_id": doc_id,
