@@ -1,0 +1,1160 @@
+{
+  "COHORT_I_DEV_01_INVOICE": {
+    "cohort": "I_development",
+    "category": "Commercial Invoice",
+    "condition": "clean",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop24\\tables\\COHORT_I_DEV_01_INVOICE.png",
+    "critical_fields": [
+      {
+        "name": "bearing_price",
+        "expected": "24.50",
+        "row": 0,
+        "col": 2,
+        "type": "amount",
+        "target_pattern": "SKU-9901",
+        "col_pattern": "Unit Price"
+      },
+      {
+        "name": "bearing_total",
+        "expected": "245.00",
+        "row": 0,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "SKU-9901",
+        "col_pattern": "Total"
+      },
+      {
+        "name": "belt_total",
+        "expected": "60.00",
+        "row": 1,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "SKU-8820",
+        "col_pattern": "Total"
+      },
+      {
+        "name": "coupling_price",
+        "expected": "45.80",
+        "row": 2,
+        "col": 2,
+        "type": "amount",
+        "target_pattern": "SKU-7734",
+        "col_pattern": "Unit Price"
+      }
+    ]
+  },
+  "COHORT_I_DEV_02_BANK_STATEMENT": {
+    "cohort": "I_development",
+    "category": "Bank Statement",
+    "condition": "clean",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop24\\tables\\COHORT_I_DEV_02_BANK_STATEMENT.png",
+    "critical_fields": [
+      {
+        "name": "salary_credit",
+        "expected": "85000",
+        "row": 0,
+        "col": 3,
+        "type": "amount",
+        "target_pattern": "SALARY CREDIT",
+        "col_pattern": "Credit"
+      },
+      {
+        "name": "atm_debit",
+        "expected": "5000",
+        "row": 1,
+        "col": 2,
+        "type": "amount",
+        "target_pattern": "ATM CASH",
+        "col_pattern": "Debit"
+      },
+      {
+        "name": "post_atm_balance",
+        "expected": "137500",
+        "row": 1,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "ATM CASH",
+        "col_pattern": "Balance"
+      },
+      {
+        "name": "elec_debit",
+        "expected": "2450",
+        "row": 2,
+        "col": 2,
+        "type": "amount",
+        "target_pattern": "ELECTRICITY BILL",
+        "col_pattern": "Debit"
+      }
+    ]
+  },
+  "COHORT_I_DEV_03_TAX_SCHEDULE": {
+    "cohort": "I_development",
+    "category": "Tax & Municipal Schedule",
+    "condition": "clean",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop24\\tables\\COHORT_I_DEV_03_TAX_SCHEDULE.png",
+    "critical_fields": [
+      {
+        "name": "h8821_tax",
+        "expected": "13000",
+        "row": 0,
+        "col": 3,
+        "type": "amount",
+        "target_pattern": "HOLD-8821",
+        "col_pattern": "Annual Tax"
+      },
+      {
+        "name": "h8821_cess",
+        "expected": "1300",
+        "row": 0,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "HOLD-8821",
+        "col_pattern": "Cess"
+      },
+      {
+        "name": "h8822_value",
+        "expected": "820000",
+        "row": 1,
+        "col": 2,
+        "type": "amount",
+        "target_pattern": "HOLD-8822",
+        "col_pattern": "Assessed Value"
+      },
+      {
+        "name": "h9104_tax",
+        "expected": "9000",
+        "row": 2,
+        "col": 3,
+        "type": "amount",
+        "target_pattern": "HOLD-9104",
+        "col_pattern": "Annual Tax"
+      }
+    ]
+  },
+  "COHORT_I_DEV_04_CLINICAL_PANEL": {
+    "cohort": "I_development",
+    "category": "Medical & Diagnostic Panel",
+    "condition": "scan",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop24\\tables\\COHORT_I_DEV_04_CLINICAL_PANEL.png",
+    "critical_fields": [
+      {
+        "name": "bili_val",
+        "expected": "0.9",
+        "row": 0,
+        "col": 1,
+        "type": "number",
+        "target_pattern": "Serum Bilirubin",
+        "col_pattern": "Observed Value"
+      },
+      {
+        "name": "creat_val",
+        "expected": "1.1",
+        "row": 1,
+        "col": 1,
+        "type": "number",
+        "target_pattern": "Serum Creatinine",
+        "col_pattern": "Observed Value"
+      },
+      {
+        "name": "bun_val",
+        "expected": "16",
+        "row": 2,
+        "col": 1,
+        "type": "count",
+        "target_pattern": "Blood Urea",
+        "col_pattern": "Observed Value"
+      },
+      {
+        "name": "fpg_val",
+        "expected": "94",
+        "row": 3,
+        "col": 1,
+        "type": "count",
+        "target_pattern": "Fasting Plasma",
+        "col_pattern": "Observed Value"
+      }
+    ]
+  },
+  "COHORT_I_DEV_05_PHARMA_ASSAY": {
+    "cohort": "I_development",
+    "category": "Pharmaceutical Quality Statement",
+    "condition": "clean",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop24\\tables\\COHORT_I_DEV_05_PHARMA_ASSAY.png",
+    "critical_fields": [
+      {
+        "name": "para_purity",
+        "expected": "99.4",
+        "row": 0,
+        "col": 2,
+        "type": "percentage",
+        "target_pattern": "Paracetamol Micronized",
+        "col_pattern": "Assay Purity"
+      },
+      {
+        "name": "para_moist",
+        "expected": "0.35",
+        "row": 0,
+        "col": 3,
+        "type": "number",
+        "target_pattern": "Paracetamol Micronized",
+        "col_pattern": "Moisture"
+      },
+      {
+        "name": "ibu_purity",
+        "expected": "98.9",
+        "row": 1,
+        "col": 2,
+        "type": "percentage",
+        "target_pattern": "Ibuprofen Powder",
+        "col_pattern": "Assay Purity"
+      }
+    ]
+  },
+  "COHORT_I_DEV_06_RETAIL_RECEIPT": {
+    "cohort": "I_development",
+    "category": "Retail Receipt",
+    "condition": "thermal",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop24\\tables\\COHORT_I_DEV_06_RETAIL_RECEIPT.png",
+    "critical_fields": [
+      {
+        "name": "flour_rate",
+        "expected": "210.00",
+        "row": 0,
+        "col": 1,
+        "type": "amount",
+        "target_pattern": "Whole Wheat Flour",
+        "col_pattern": "Rate"
+      },
+      {
+        "name": "flour_total",
+        "expected": "420.00",
+        "row": 0,
+        "col": 3,
+        "type": "amount",
+        "target_pattern": "Whole Wheat Flour",
+        "col_pattern": "Amount"
+      },
+      {
+        "name": "sugar_total",
+        "expected": "225.00",
+        "row": 1,
+        "col": 3,
+        "type": "amount",
+        "target_pattern": "Organic Brown Sugar",
+        "col_pattern": "Amount"
+      }
+    ]
+  },
+  "COHORT_I_DEV_07_CHALLAN_DELIVERY": {
+    "cohort": "I_development",
+    "category": "Delivery Challan",
+    "condition": "clean",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop24\\tables\\COHORT_I_DEV_07_CHALLAN_DELIVERY.png",
+    "critical_fields": [
+      {
+        "name": "cn81_packages",
+        "expected": "25",
+        "row": 0,
+        "col": 2,
+        "type": "count",
+        "target_pattern": "CN-2026-081",
+        "col_pattern": "Packages"
+      },
+      {
+        "name": "cn81_weight",
+        "expected": "1450.5",
+        "row": 0,
+        "col": 3,
+        "type": "weight",
+        "target_pattern": "CN-2026-081",
+        "col_pattern": "Gross Weight"
+      },
+      {
+        "name": "cn82_weight",
+        "expected": "620.0",
+        "row": 1,
+        "col": 3,
+        "type": "weight",
+        "target_pattern": "CN-2026-082",
+        "col_pattern": "Gross Weight"
+      }
+    ]
+  },
+  "COHORT_I_DEV_08_ENERGY_AUDIT": {
+    "cohort": "I_development",
+    "category": "Commercial Invoice",
+    "condition": "scan",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop24\\tables\\COHORT_I_DEV_08_ENERGY_AUDIT.png",
+    "critical_fields": [
+      {
+        "name": "mtr_a_units",
+        "expected": "1650",
+        "row": 0,
+        "col": 3,
+        "type": "count",
+        "target_pattern": "MTR-8812-A",
+        "col_pattern": "Units Billed"
+      },
+      {
+        "name": "mtr_b_units",
+        "expected": "2500",
+        "row": 1,
+        "col": 3,
+        "type": "count",
+        "target_pattern": "MTR-8812-B",
+        "col_pattern": "Units Billed"
+      },
+      {
+        "name": "mtr_c_prior",
+        "expected": "8900",
+        "row": 2,
+        "col": 1,
+        "type": "count",
+        "target_pattern": "MTR-8812-C",
+        "col_pattern": "Prior Reading"
+      }
+    ]
+  },
+  "COHORT_I_CAL_01_FREIGHT_INVOICE": {
+    "cohort": "I_calibration",
+    "category": "Commercial Invoice",
+    "condition": "clean",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop24\\tables\\COHORT_I_CAL_01_FREIGHT_INVOICE.png",
+    "critical_fields": [
+      {
+        "name": "cont_x_freight",
+        "expected": "3200",
+        "row": 0,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "CONT-9941-X",
+        "col_pattern": "Net Ocean Freight"
+      },
+      {
+        "name": "cont_x_handling",
+        "expected": "450",
+        "row": 0,
+        "col": 2,
+        "type": "amount",
+        "target_pattern": "CONT-9941-X",
+        "col_pattern": "Handling Fee"
+      },
+      {
+        "name": "cont_y_freight",
+        "expected": "2100",
+        "row": 1,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "CONT-7720-Y",
+        "col_pattern": "Net Ocean Freight"
+      },
+      {
+        "name": "cont_z_insurance",
+        "expected": "210",
+        "row": 2,
+        "col": 3,
+        "type": "amount",
+        "target_pattern": "CONT-5511-Z",
+        "col_pattern": "Insurance"
+      }
+    ]
+  },
+  "COHORT_I_CAL_02_ESCROW_STATEMENT": {
+    "cohort": "I_calibration",
+    "category": "Bank Statement",
+    "condition": "clean",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop24\\tables\\COHORT_I_CAL_02_ESCROW_STATEMENT.png",
+    "critical_fields": [
+      {
+        "name": "escrow_01_ret",
+        "expected": "25000",
+        "row": 0,
+        "col": 2,
+        "type": "amount",
+        "target_pattern": "SUB-ESCROW-01",
+        "col_pattern": "Retention"
+      },
+      {
+        "name": "escrow_01_bal",
+        "expected": "225000",
+        "row": 0,
+        "col": 3,
+        "type": "amount",
+        "target_pattern": "SUB-ESCROW-01",
+        "col_pattern": "Released Balance"
+      },
+      {
+        "name": "escrow_02_bal",
+        "expected": "162000",
+        "row": 1,
+        "col": 3,
+        "type": "amount",
+        "target_pattern": "SUB-ESCROW-02",
+        "col_pattern": "Released Balance"
+      },
+      {
+        "name": "escrow_03_disb",
+        "expected": "400000",
+        "row": 2,
+        "col": 1,
+        "type": "amount",
+        "target_pattern": "SUB-ESCROW-03",
+        "col_pattern": "Disbursement"
+      }
+    ]
+  },
+  "COHORT_I_CAL_03_CORPORATE_TAX": {
+    "cohort": "I_calibration",
+    "category": "Tax & Municipal Schedule",
+    "condition": "scan",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop24\\tables\\COHORT_I_CAL_03_CORPORATE_TAX.png",
+    "critical_fields": [
+      {
+        "name": "tax_jun_net",
+        "expected": "115000",
+        "row": 0,
+        "col": 3,
+        "type": "amount",
+        "target_pattern": "15-JUN-2026",
+        "col_pattern": "Net Payable"
+      },
+      {
+        "name": "tax_jun_tds",
+        "expected": "35000",
+        "row": 0,
+        "col": 2,
+        "type": "amount",
+        "target_pattern": "15-JUN-2026",
+        "col_pattern": "TDS Credit"
+      },
+      {
+        "name": "tax_sep_net",
+        "expected": "210000",
+        "row": 1,
+        "col": 3,
+        "type": "amount",
+        "target_pattern": "15-SEP-2026",
+        "col_pattern": "Net Payable"
+      }
+    ]
+  },
+  "COHORT_I_CAL_04_BLOOD_GAS": {
+    "cohort": "I_calibration",
+    "category": "Medical & Diagnostic Panel",
+    "condition": "clean",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop24\\tables\\COHORT_I_CAL_04_BLOOD_GAS.png",
+    "critical_fields": [
+      {
+        "name": "ph_val",
+        "expected": "7.42",
+        "row": 0,
+        "col": 1,
+        "type": "number",
+        "target_pattern": "Arterial pH",
+        "col_pattern": "Measured Value"
+      },
+      {
+        "name": "pco2_val",
+        "expected": "38.5",
+        "row": 1,
+        "col": 1,
+        "type": "number",
+        "target_pattern": "pCO2 Partial",
+        "col_pattern": "Measured Value"
+      },
+      {
+        "name": "po2_val",
+        "expected": "94.2",
+        "row": 2,
+        "col": 1,
+        "type": "number",
+        "target_pattern": "pO2 Oxygen",
+        "col_pattern": "Measured Value"
+      },
+      {
+        "name": "hco3_val",
+        "expected": "24.6",
+        "row": 3,
+        "col": 1,
+        "type": "number",
+        "target_pattern": "Bicarbonate HCO3",
+        "col_pattern": "Measured Value"
+      }
+    ]
+  },
+  "COHORT_I_CAL_05_DISSOLUTION_RATE": {
+    "cohort": "I_calibration",
+    "category": "Pharmaceutical Quality Statement",
+    "condition": "clean",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop24\\tables\\COHORT_I_CAL_05_DISSOLUTION_RATE.png",
+    "critical_fields": [
+      {
+        "name": "mean_15m",
+        "expected": "45.4",
+        "row": 0,
+        "col": 4,
+        "type": "percentage",
+        "target_pattern": "15 Minutes",
+        "col_pattern": "Mean Release"
+      },
+      {
+        "name": "mean_30m",
+        "expected": "78.5",
+        "row": 1,
+        "col": 4,
+        "type": "percentage",
+        "target_pattern": "30 Minutes",
+        "col_pattern": "Mean Release"
+      },
+      {
+        "name": "mean_45m",
+        "expected": "94.6",
+        "row": 2,
+        "col": 4,
+        "type": "percentage",
+        "target_pattern": "45 Minutes",
+        "col_pattern": "Mean Release"
+      }
+    ]
+  },
+  "COHORT_I_CAL_06_HARDWARE_POS": {
+    "cohort": "I_calibration",
+    "category": "Retail Receipt",
+    "condition": "thermal",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop24\\tables\\COHORT_I_CAL_06_HARDWARE_POS.png",
+    "critical_fields": [
+      {
+        "name": "bolt_total",
+        "expected": "225.00",
+        "row": 0,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "ART-4011",
+        "col_pattern": "Total"
+      },
+      {
+        "name": "nut_total",
+        "expected": "110.00",
+        "row": 1,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "ART-4012",
+        "col_pattern": "Total"
+      },
+      {
+        "name": "washer_qty",
+        "expected": "100",
+        "row": 2,
+        "col": 3,
+        "type": "count",
+        "target_pattern": "ART-8890",
+        "col_pattern": "Quantity"
+      }
+    ]
+  },
+  "COHORT_I_CAL_07_DISPATCH_MANIFEST": {
+    "cohort": "I_calibration",
+    "category": "Delivery Challan",
+    "condition": "scan",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop24\\tables\\COHORT_I_CAL_07_DISPATCH_MANIFEST.png",
+    "critical_fields": [
+      {
+        "name": "truck_9921_pallets",
+        "expected": "18",
+        "row": 0,
+        "col": 2,
+        "type": "count",
+        "target_pattern": "OD-02-AK-9921",
+        "col_pattern": "Pallets Loaded"
+      },
+      {
+        "name": "truck_9921_wt",
+        "expected": "14.2",
+        "row": 0,
+        "col": 3,
+        "type": "weight",
+        "target_pattern": "OD-02-AK-9921",
+        "col_pattern": "Gross Weight"
+      },
+      {
+        "name": "truck_4412_wt",
+        "expected": "18.5",
+        "row": 1,
+        "col": 3,
+        "type": "weight",
+        "target_pattern": "OD-05-BL-4412",
+        "col_pattern": "Gross Weight"
+      }
+    ]
+  },
+  "COHORT_I_CAL_08_COMMODITY_STATEMENT": {
+    "cohort": "I_calibration",
+    "category": "Commercial Invoice",
+    "condition": "clean",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop24\\tables\\COHORT_I_CAL_08_COMMODITY_STATEMENT.png",
+    "critical_fields": [
+      {
+        "name": "wheat_total",
+        "expected": "370000",
+        "row": 0,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "LOT-WHEAT-01",
+        "col_pattern": "Settlement Value"
+      },
+      {
+        "name": "paddy_total",
+        "expected": "497000",
+        "row": 1,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "LOT-PADDY-02",
+        "col_pattern": "Settlement Value"
+      },
+      {
+        "name": "maize_total",
+        "expected": "240000",
+        "row": 2,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "LOT-MAIZE-03",
+        "col_pattern": "Settlement Value"
+      }
+    ]
+  },
+  "COHORT_I_BLIND_01_SOLAR_TARIFF": {
+    "cohort": "I_blind_evaluation",
+    "category": "Commercial Invoice",
+    "condition": "clean",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop24\\tables\\COHORT_I_BLIND_01_SOLAR_TARIFF.png",
+    "critical_fields": [
+      {
+        "name": "sol1_net",
+        "expected": "1642500",
+        "row": 0,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "SOL-ORISSA-01",
+        "col_pattern": "Net Due"
+      },
+      {
+        "name": "sol1_tariff",
+        "expected": "3.15",
+        "row": 0,
+        "col": 2,
+        "type": "number",
+        "target_pattern": "SOL-ORISSA-01",
+        "col_pattern": "Base Tariff"
+      },
+      {
+        "name": "sol2_net",
+        "expected": "2263000",
+        "row": 1,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "SOL-ORISSA-02",
+        "col_pattern": "Net Due"
+      },
+      {
+        "name": "sol3_mwh",
+        "expected": "310",
+        "row": 2,
+        "col": 1,
+        "type": "count",
+        "target_pattern": "SOL-ORISSA-03",
+        "col_pattern": "Generation"
+      }
+    ]
+  },
+  "COHORT_I_BLIND_02_LOAN_AMORTIZATION": {
+    "cohort": "I_blind_evaluation",
+    "category": "Bank Statement",
+    "condition": "clean",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop24\\tables\\COHORT_I_BLIND_02_LOAN_AMORTIZATION.png",
+    "critical_fields": [
+      {
+        "name": "m01_emi",
+        "expected": "43000",
+        "row": 0,
+        "col": 3,
+        "type": "amount",
+        "target_pattern": "Month 01",
+        "col_pattern": "EMI Amount"
+      },
+      {
+        "name": "m01_closing",
+        "expected": "3485500",
+        "row": 0,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "Month 01",
+        "col_pattern": "Closing Principal"
+      },
+      {
+        "name": "m02_emi",
+        "expected": "43000",
+        "row": 1,
+        "col": 3,
+        "type": "amount",
+        "target_pattern": "Month 02",
+        "col_pattern": "EMI Amount"
+      },
+      {
+        "name": "m03_interest",
+        "expected": "28260",
+        "row": 2,
+        "col": 2,
+        "type": "amount",
+        "target_pattern": "Month 03",
+        "col_pattern": "Interest"
+      }
+    ]
+  },
+  "COHORT_I_BLIND_03_CUSTOMS_DUTY": {
+    "cohort": "I_blind_evaluation",
+    "category": "Tax & Municipal Schedule",
+    "condition": "scan",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop24\\tables\\COHORT_I_BLIND_03_CUSTOMS_DUTY.png",
+    "critical_fields": [
+      {
+        "name": "hsn_8471_duty",
+        "expected": "99000",
+        "row": 0,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "8471.30",
+        "col_pattern": "Total Duty"
+      },
+      {
+        "name": "hsn_8471_basic",
+        "expected": "90000",
+        "row": 0,
+        "col": 2,
+        "type": "amount",
+        "target_pattern": "8471.30",
+        "col_pattern": "Basic Duty"
+      },
+      {
+        "name": "hsn_8504_duty",
+        "expected": "53625",
+        "row": 1,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "8504.40",
+        "col_pattern": "Total Duty"
+      }
+    ]
+  },
+  "COHORT_I_BLIND_04_THYROID_PROFILE": {
+    "cohort": "I_blind_evaluation",
+    "category": "Medical & Diagnostic Panel",
+    "condition": "clean",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop24\\tables\\COHORT_I_BLIND_04_THYROID_PROFILE.png",
+    "critical_fields": [
+      {
+        "name": "ft3_val",
+        "expected": "3.2",
+        "row": 0,
+        "col": 1,
+        "type": "number",
+        "target_pattern": "Free Triiodothyronine",
+        "col_pattern": "Observed Concentration"
+      },
+      {
+        "name": "ft4_val",
+        "expected": "1.35",
+        "row": 1,
+        "col": 1,
+        "type": "number",
+        "target_pattern": "Free Thyroxine",
+        "col_pattern": "Observed Concentration"
+      },
+      {
+        "name": "tsh_val",
+        "expected": "2.45",
+        "row": 2,
+        "col": 1,
+        "type": "number",
+        "target_pattern": "Thyroid Stimulating",
+        "col_pattern": "Observed Concentration"
+      }
+    ]
+  },
+  "COHORT_I_BLIND_05_STERILITY_ASSAY": {
+    "cohort": "I_blind_evaluation",
+    "category": "Pharmaceutical Quality Statement",
+    "condition": "clean",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop24\\tables\\COHORT_I_BLIND_05_STERILITY_ASSAY.png",
+    "critical_fields": [
+      {
+        "name": "v91_vol",
+        "expected": "10.0",
+        "row": 0,
+        "col": 1,
+        "type": "number",
+        "target_pattern": "LOT-VIAL-091",
+        "col_pattern": "Fill Volume"
+      },
+      {
+        "name": "v91_endo",
+        "expected": "0.05",
+        "row": 0,
+        "col": 2,
+        "type": "number",
+        "target_pattern": "LOT-VIAL-091",
+        "col_pattern": "Endotoxin"
+      },
+      {
+        "name": "v92_endo",
+        "expected": "0.04",
+        "row": 1,
+        "col": 2,
+        "type": "number",
+        "target_pattern": "LOT-VIAL-092",
+        "col_pattern": "Endotoxin"
+      }
+    ]
+  },
+  "COHORT_I_BLIND_06_PHARMACY_RECEIPT": {
+    "cohort": "I_blind_evaluation",
+    "category": "Retail Receipt",
+    "condition": "thermal",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop24\\tables\\COHORT_I_BLIND_06_PHARMACY_RECEIPT.png",
+    "critical_fields": [
+      {
+        "name": "amox_net",
+        "expected": "130.00",
+        "row": 0,
+        "col": 3,
+        "type": "amount",
+        "target_pattern": "Amoxicillin 500mg",
+        "col_pattern": "Net Payable"
+      },
+      {
+        "name": "amox_mrp",
+        "expected": "145.00",
+        "row": 0,
+        "col": 1,
+        "type": "amount",
+        "target_pattern": "Amoxicillin 500mg",
+        "col_pattern": "Strip MRP"
+      },
+      {
+        "name": "panto_net",
+        "expected": "88.00",
+        "row": 2,
+        "col": 3,
+        "type": "amount",
+        "target_pattern": "Pantoprazole 40mg",
+        "col_pattern": "Net Payable"
+      }
+    ]
+  },
+  "COHORT_I_BLIND_07_RAIL_FREIGHT": {
+    "cohort": "I_blind_evaluation",
+    "category": "Delivery Challan",
+    "condition": "scan",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop24\\tables\\COHORT_I_BLIND_07_RAIL_FREIGHT.png",
+    "critical_fields": [
+      {
+        "name": "w10_cargo",
+        "expected": "61.7",
+        "row": 0,
+        "col": 4,
+        "type": "weight",
+        "target_pattern": "WAG-7710-EC",
+        "col_pattern": "Net Cargo"
+      },
+      {
+        "name": "w10_gross",
+        "expected": "84.2",
+        "row": 0,
+        "col": 3,
+        "type": "weight",
+        "target_pattern": "WAG-7710-EC",
+        "col_pattern": "Gross Weight"
+      },
+      {
+        "name": "w11_cargo",
+        "expected": "62.5",
+        "row": 1,
+        "col": 4,
+        "type": "weight",
+        "target_pattern": "WAG-7711-EC",
+        "col_pattern": "Net Cargo"
+      }
+    ]
+  },
+  "COHORT_I_BLIND_08_COMMERCIAL_LEASE": {
+    "cohort": "I_blind_evaluation",
+    "category": "Commercial Invoice",
+    "condition": "clean",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop24\\tables\\COHORT_I_BLIND_08_COMMERCIAL_LEASE.png",
+    "critical_fields": [
+      {
+        "name": "s401_due",
+        "expected": "138000",
+        "row": 0,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "SUITE-401",
+        "col_pattern": "Total Due"
+      },
+      {
+        "name": "s401_rent",
+        "expected": "120000",
+        "row": 0,
+        "col": 2,
+        "type": "amount",
+        "target_pattern": "SUITE-401",
+        "col_pattern": "Base Rent"
+      },
+      {
+        "name": "s402_due",
+        "expected": "103500",
+        "row": 1,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "SUITE-402",
+        "col_pattern": "Total Due"
+      },
+      {
+        "name": "s501_due",
+        "expected": "184000",
+        "row": 2,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "SUITE-501",
+        "col_pattern": "Total Due"
+      }
+    ]
+  },
+  "COHORT_I_BLIND_09_CREDIT_CARD": {
+    "cohort": "I_blind_evaluation",
+    "category": "Bank Statement",
+    "condition": "clean",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop24\\tables\\COHORT_I_BLIND_09_CREDIT_CARD.png",
+    "critical_fields": [
+      {
+        "name": "apr_total",
+        "expected": "48500",
+        "row": 0,
+        "col": 3,
+        "type": "amount",
+        "target_pattern": "05/04/2026",
+        "col_pattern": "Total Outstanding"
+      },
+      {
+        "name": "apr_min",
+        "expected": "2400",
+        "row": 0,
+        "col": 2,
+        "type": "amount",
+        "target_pattern": "05/04/2026",
+        "col_pattern": "Minimum Due"
+      },
+      {
+        "name": "may_total",
+        "expected": "62000",
+        "row": 1,
+        "col": 3,
+        "type": "amount",
+        "target_pattern": "05/05/2026",
+        "col_pattern": "Total Outstanding"
+      }
+    ]
+  },
+  "COHORT_I_BLIND_10_WATER_MUNICIPAL": {
+    "cohort": "I_blind_evaluation",
+    "category": "Tax & Municipal Schedule",
+    "condition": "clean",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop24\\tables\\COHORT_I_BLIND_10_WATER_MUNICIPAL.png",
+    "critical_fields": [
+      {
+        "name": "wat102_net",
+        "expected": "540",
+        "row": 0,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "WAT-CONN-102",
+        "col_pattern": "Net Payable"
+      },
+      {
+        "name": "wat103_net",
+        "expected": "1234",
+        "row": 1,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "WAT-CONN-103",
+        "col_pattern": "Net Payable"
+      },
+      {
+        "name": "wat103_arr",
+        "expected": "250",
+        "row": 1,
+        "col": 3,
+        "type": "amount",
+        "target_pattern": "WAT-CONN-103",
+        "col_pattern": "Arrears"
+      },
+      {
+        "name": "wat104_net",
+        "expected": "372",
+        "row": 2,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "WAT-CONN-104",
+        "col_pattern": "Net Payable"
+      }
+    ]
+  },
+  "COHORT_I_ADV_01_EMPTY_TRAP": {
+    "cohort": "I_challenge_adversarial",
+    "category": "Bank Statement",
+    "condition": "clean",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop24\\tables\\COHORT_I_ADV_01_EMPTY_TRAP.png",
+    "critical_fields": [
+      {
+        "name": "rec01_debit",
+        "expected": "",
+        "row": 0,
+        "col": 1,
+        "type": "empty",
+        "target_pattern": "AUD-REC-01",
+        "col_pattern": "Debit Amount"
+      },
+      {
+        "name": "rec01_credit",
+        "expected": "15000",
+        "row": 0,
+        "col": 2,
+        "type": "amount",
+        "target_pattern": "AUD-REC-01",
+        "col_pattern": "Credit Amount"
+      },
+      {
+        "name": "rec02_credit",
+        "expected": "",
+        "row": 1,
+        "col": 2,
+        "type": "empty",
+        "target_pattern": "AUD-REC-02",
+        "col_pattern": "Credit Amount"
+      }
+    ]
+  },
+  "COHORT_I_ADV_02_COLLISION_IDENTIFIERS": {
+    "cohort": "I_challenge_adversarial",
+    "category": "Commercial Invoice",
+    "condition": "clean",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop24\\tables\\COHORT_I_ADV_02_COLLISION_IDENTIFIERS.png",
+    "critical_fields": [
+      {
+        "name": "batch_100_qty",
+        "expected": "50",
+        "row": 0,
+        "col": 1,
+        "type": "count",
+        "target_pattern": "BATCH-AX-100",
+        "col_pattern": "Quantity"
+      },
+      {
+        "name": "batch_100_total",
+        "expected": "6000",
+        "row": 0,
+        "col": 3,
+        "type": "amount",
+        "target_pattern": "BATCH-AX-100",
+        "col_pattern": "Total Value"
+      },
+      {
+        "name": "batch_100a_total",
+        "expected": "9600",
+        "row": 1,
+        "col": 3,
+        "type": "amount",
+        "target_pattern": "BATCH-AX-100-A",
+        "col_pattern": "Total Value"
+      },
+      {
+        "name": "batch_100b_total",
+        "expected": "2400",
+        "row": 2,
+        "col": 3,
+        "type": "amount",
+        "target_pattern": "BATCH-AX-100-B",
+        "col_pattern": "Total Value"
+      }
+    ]
+  },
+  "COHORT_I_ADV_03_BORDERLESS_TIGHT_GUTTER": {
+    "cohort": "I_challenge_adversarial",
+    "category": "Tax & Municipal Schedule",
+    "condition": "clean",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop24\\tables\\COHORT_I_ADV_03_BORDERLESS_TIGHT_GUTTER.png",
+    "critical_fields": [
+      {
+        "name": "h4401_tax",
+        "expected": "12000",
+        "row": 0,
+        "col": 1,
+        "type": "amount",
+        "target_pattern": "HOLD-4401",
+        "col_pattern": "Base Tax"
+      },
+      {
+        "name": "h4401_sur",
+        "expected": "1200",
+        "row": 0,
+        "col": 1,
+        "type": "amount",
+        "target_pattern": "HOLD-4401",
+        "col_pattern": "Surcharge"
+      },
+      {
+        "name": "h4401_total",
+        "expected": "13200",
+        "row": 0,
+        "col": 2,
+        "type": "amount",
+        "target_pattern": "HOLD-4401",
+        "col_pattern": "Total Assessment"
+      }
+    ]
+  },
+  "COHORT_I_ADV_04_MICRO_DECIMAL_LOSS": {
+    "cohort": "I_challenge_adversarial",
+    "category": "Pharmaceutical Quality Statement",
+    "condition": "scan",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop24\\tables\\COHORT_I_ADV_04_MICRO_DECIMAL_LOSS.png",
+    "critical_fields": [
+      {
+        "name": "tube01_visc",
+        "expected": "4.8",
+        "row": 0,
+        "col": 2,
+        "type": "number",
+        "target_pattern": "TUBE-ALPHA-01",
+        "col_pattern": "Viscosity"
+      },
+      {
+        "name": "tube01_ph",
+        "expected": "6.8",
+        "row": 0,
+        "col": 3,
+        "type": "number",
+        "target_pattern": "TUBE-ALPHA-01",
+        "col_pattern": "pH Level"
+      },
+      {
+        "name": "tube02_visc",
+        "expected": "5.2",
+        "row": 1,
+        "col": 2,
+        "type": "number",
+        "target_pattern": "TUBE-ALPHA-02",
+        "col_pattern": "Viscosity"
+      }
+    ]
+  }
+}

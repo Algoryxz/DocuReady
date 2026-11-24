@@ -245,9 +245,9 @@ def refine_cell_decimal_point(cell_text: str, cell_crop: Any) -> str:
     # --- Part 1: Dropped Decimal Point Recovery ---
     if "." not in text:
         clean_digits = re.sub(r"^(Rs\.?|INR|₹)\s*", "", text, flags=re.IGNORECASE).replace(",", "").strip()
-        # Only evaluate numeric tokens of length 2 to 5 that don't end in two zeros (if >= 100)
+        # Only evaluate numeric tokens of length 2 to 5 that don't end in two zeros (if >= 1000)
         if clean_digits.isdigit() and (2 <= len(clean_digits) <= 5):
-            if not (len(clean_digits) >= 3 and clean_digits.endswith("00")):
+            if not (len(clean_digits) >= 4 and clean_digits.endswith("00")):
                 try:
                     if hasattr(cell_crop, "convert"):
                         arr = np.array(cell_crop.convert("L"))
@@ -505,15 +505,8 @@ def build_table_grid(
             else:
                 c_bbox = (c_left, r_top, c_right, r_bot)
 
-            # Refine dropped decimal point if image is provided
-            if image is not None and cell_text and ("." not in cell_text):
-                bx1, by1, bx2, by2 = c_bbox
-                if bx2 > bx1 and by2 > by1:
-                    pad = 5
-                    pw = image.width if hasattr(image, "width") else bx2 + pad
-                    ph = image.height if hasattr(image, "height") else by2 + pad
-                    crop = image.crop((max(0, bx1 - pad), max(0, by1 - pad), min(pw, bx2 + pad), min(ph, by2 + pad)))
-                    cell_text = refine_cell_decimal_point(cell_text, crop)
+            # Targeted decimal/glyph refinement is deferred to extraction time
+            # for the specific requested cells, avoiding eager O(R*C) PIL image crops.
 
             ambiguous = False
             for w in cell_words:
@@ -691,7 +684,12 @@ def extract_cell_by_intersection(
     clean_val = cell.text.strip()
     clean_val = re.sub(r"^(Rs\.?|INR|₹)\s*", "", clean_val, flags=re.IGNORECASE).strip()
 
-    if image is not None and clean_val and ("." not in clean_val):
+    if (
+        image is not None
+        and clean_val
+        and any(c.isdigit() for c in clean_val)
+        and (("." not in clean_val and len(re.sub(r"[^\d]", "", clean_val)) >= 2) or ("8" in clean_val))
+    ):
         bx1, by1, bx2, by2 = cell.bbox
         if bx2 > bx1 and by2 > by1:
             pad = 5
@@ -859,7 +857,12 @@ def extract_field_by_spatial_association(
                 else:
                     clean_val = raw_text.strip()
 
-                if image is not None and clean_val and ("." not in clean_val):
+                if (
+                    image is not None
+                    and clean_val
+                    and any(c.isdigit() for c in clean_val)
+                    and (("." not in clean_val and len(re.sub(r"[^\d]", "", clean_val)) >= 2) or ("8" in clean_val))
+                ):
                     bx1, by1, bx2, by2 = target_cell.bbox
                     if bx2 > bx1 and by2 > by1:
                         pad = 5
