@@ -1,0 +1,92 @@
+[
+  {
+    "packet_id": "PACKET-01-CONSISTENT-MATCH",
+    "description": "Matching Total Amount across Purchase Order and Tax Invoice",
+    "expected_status": "AGREEMENT",
+    "observed_status": "AGREEMENT",
+    "is_verified": true,
+    "reason": "Values match exactly with verifiable cell provenance in both documents",
+    "status": "PASS"
+  },
+  {
+    "packet_id": "PACKET-02-NUMERIC-MISMATCH",
+    "description": "Billed vs Cleared Amount Discrepancy",
+    "expected_status": "MISMATCH",
+    "observed_status": "MISMATCH",
+    "is_verified": false,
+    "reason": "Evidence discrepancy: Document 1 has '24500' while Document 2 has '24000'",
+    "status": "PASS"
+  },
+  {
+    "packet_id": "PACKET-03-ENTITY-LOOKALIKE",
+    "description": "Similar Entity Lookalike (Different middle initial / entity)",
+    "expected_status": "MISMATCH",
+    "observed_status": "MISMATCH",
+    "is_verified": false,
+    "reason": "Evidence discrepancy: Document 1 has 'AARAV SHARMA' while Document 2 has 'AARAV K SHARMA'",
+    "status": "PASS"
+  },
+  {
+    "packet_id": "PACKET-04-REPEATED-AMOUNTS",
+    "description": "Repeated amounts in unrelated records",
+    "expected_status": "AGREEMENT",
+    "observed_status": "AGREEMENT",
+    "is_verified": true,
+    "reason": "Values match exactly with verifiable cell provenance in both documents",
+    "status": "PASS"
+  },
+  {
+    "packet_id": "PACKET-05-DATE-MISMATCH",
+    "description": "Conflicting Transaction Dates",
+    "expected_status": "MISMATCH",
+    "observed_status": "MISMATCH",
+    "is_verified": false,
+    "reason": "Evidence discrepancy: Document 1 has '01/01/2026' while Document 2 has '15/01/2026'",
+    "status": "PASS"
+  },
+  {
+    "packet_id": "PACKET-06-MISSING-DOCUMENT",
+    "description": "Missing Supporting Document (Doc 2 Absent)",
+    "expected_status": "MISSING",
+    "observed_status": "MISSING",
+    "is_verified": false,
+    "reason": "Field present in one document but missing in the second document",
+    "status": "PASS"
+  },
+  {
+    "packet_id": "PACKET-07-CONFLICTING-PAGE-EVIDENCE",
+    "description": "Conflicting Multi-Page Table Evidence",
+    "expected_status": "MISMATCH",
+    "observed_status": "MISMATCH",
+    "is_verified": false,
+    "reason": "Evidence discrepancy: Document 1 has '554000' while Document 2 has '558000'",
+    "status": "PASS"
+  },
+  {
+    "packet_id": "PACKET-08-CURRENCY-UNIT-MISMATCH",
+    "description": "Unit and Currency Mismatch (USD 1500 vs EUR 1500)",
+    "expected_status": "MISMATCH",
+    "observed_status": "MISMATCH",
+    "is_verified": false,
+    "reason": "Evidence discrepancy: Document 1 has 'USD 1500' while Document 2 has 'EUR 1500'",
+    "status": "PASS"
+  },
+  {
+    "packet_id": "PACKET-09-UNREADABLE-OCR",
+    "description": "Low Resolution / Severely Degraded Optical Scan (< 30% OCR conf)",
+    "expected_status": "UNREADABLE",
+    "observed_status": "UNREADABLE",
+    "is_verified": false,
+    "reason": "OCR confidence is below legible threshold (ev1: 94.0%, ev2: 22.4%)",
+    "status": "PASS"
+  },
+  {
+    "packet_id": "PACKET-10-AMBIGUOUS-ASSOCIATION",
+    "description": "Ambiguous Spatial Association (Multi-row collision)",
+    "expected_status": "AMBIGUOUS_ASSOCIATION",
+    "observed_status": "AMBIGUOUS_ASSOCIATION",
+    "is_verified": false,
+    "reason": "Cell evidence has ambiguous spatial boundaries or multiple candidate rows",
+    "status": "PASS"
+  }
+]

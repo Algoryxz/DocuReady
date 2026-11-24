@@ -863,7 +863,10 @@ def extract_cell_by_intersection(
 
     verification_decision = "VERIFY"
     abstention_reason = None
-    if is_low_conf:
+    if not clean_val and expected_type != "empty":
+        verification_decision = "ABSTAIN"
+        abstention_reason = "Empty cell text / no value extracted"
+    elif is_low_conf:
         verification_decision = "ABSTAIN"
         abstention_reason = f"Low OCR confidence ({cell_conf:.1f} < {effective_floor:.1f})"
     elif is_multi_token:
@@ -970,21 +973,21 @@ def extract_field_by_spatial_association(
                 raw_text = cell.text
                 target_cell = cell
 
-                # Case A: Direct exact match of token/value within cell
-                if norm_target == norm_cell:
-                    clean_val = raw_text.strip()
-                    target_cell = cell
-                # Case B: Value is inline after colon
-                elif ":" in raw_text:
+                # Case A: Value is inline after colon
+                if ":" in raw_text and raw_text.split(":", 1)[1].strip():
                     parts = raw_text.split(":", 1)
                     clean_val = parts[1].strip()
                     clean_val = re.sub(r"^(Rs\.?|INR|₹)\s*", "", clean_val, flags=re.IGNORECASE).strip()
-                # Case C: Value is in adjacent column to the right
+                # Case B: Value is in adjacent column to the right
                 elif c_idx + 1 < len(row):
                     val_cell = row[c_idx + 1]
                     clean_val = val_cell.text.strip()
                     clean_val = re.sub(r"^(Rs\.?|INR|₹)\s*", "", clean_val, flags=re.IGNORECASE).strip()
                     target_cell = val_cell
+                # Case C: Direct exact match of token/value within cell
+                elif norm_target == norm_cell:
+                    clean_val = raw_text.strip()
+                    target_cell = cell
                 else:
                     clean_val = raw_text.strip()
 
@@ -1055,7 +1058,10 @@ def extract_field_by_spatial_association(
 
                 verification_decision = "VERIFY"
                 abstention_reason = None
-                if is_low_conf:
+                if not clean_val and expected_type != "empty":
+                    verification_decision = "ABSTAIN"
+                    abstention_reason = "Empty cell text / no value extracted"
+                elif is_low_conf:
                     verification_decision = "ABSTAIN"
                     abstention_reason = f"Low OCR confidence ({target_conf:.1f} < 60.0)"
                 elif is_multi_token:
