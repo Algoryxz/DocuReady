@@ -62,6 +62,8 @@ class FieldEvidence:
     confidence: float
     is_ambiguous: bool
     provenance: Dict[str, Any]
+    verification_decision: str = "VERIFY"
+    abstention_reason: Optional[str] = None
 
 
 def normalize_token_text(text: str) -> str:
@@ -225,9 +227,10 @@ def detect_column_gutters_from_multi_rows(
 def refine_cell_decimal_point(cell_text: str, cell_crop: Any) -> str:
     """
     Detects dropped baseline decimal points in low-resolution OCR crops using
-    fast pixel morphology (NumPy). When a 1-4px isolated dot is detected in the
+    fast pixel morphology (NumPy). When a 1-3px strictly isolated dot is detected in the
     baseline zone between digits, re-inserts the decimal point into cell_text.
-    Preserves genuine integers without false positives.
+    Strictly isolated: requires pure whitespace left, right, and above the dot to prevent
+    character strokes (e.g. crossbar of '4') from triggering false decimals.
     Execution time: ~0.05ms per check (pure NumPy, zero subprocess overhead).
     """
     if not cell_text or "." in cell_text or cell_crop is None:
@@ -235,6 +238,10 @@ def refine_cell_decimal_point(cell_text: str, cell_crop: Any) -> str:
 
     clean_digits = re.sub(r"^(Rs\.?|INR|₹)\s*", "", cell_text, flags=re.IGNORECASE).replace(",", "").strip()
     if not clean_digits.isdigit() or not (2 <= len(clean_digits) <= 4):
+        return cell_text
+
+    # Numbers with trailing zero >= 100 like 640, 4000, 3100, 4830 are standard integers
+    if len(clean_digits) >= 3 and clean_digits.endswith("0"):
         return cell_text
 
     try:
@@ -252,7 +259,8 @@ def refine_cell_decimal_point(cell_text: str, cell_crop: Any) -> str:
         thresh = (int(arr.min()) + int(arr.max())) // 2
         binary = arr < thresh  # True for ink (dark)
 
-        baseline_zone_start = int(h * 0.6)
+        # A genuine decimal dot is strictly at the baseline (bottom 30% of character height)
+        baseline_zone_start = int(h * 0.70)
         upper_ink = binary[:baseline_zone_start, :].sum(axis=0)
         gap_cols = np.where(upper_ink == 0)[0]
         if len(gap_cols) == 0:
@@ -271,16 +279,31 @@ def refine_cell_decimal_point(cell_text: str, cell_crop: Any) -> str:
         dot_x = None
         for g in gaps:
             # Must be an interior gap with blank columns on both sides (not edge of crop)
-            if g[0] >= 3 and g[-1] <= w - 4 and len(g) >= 2:
+            if g[0] >= 2 and g[-1] <= w - 3 and len(g) >= 2:
                 gap_sub = binary[baseline_zone_start:h, g]
                 dot_ink = gap_sub.sum()
-                if 1 <= dot_ink <= 12:
+                if 1 <= dot_ink <= 6:
                     dot_rows, dot_cols = np.where(gap_sub)
-                    dot_h = dot_rows.max() - dot_rows.min() + 1
-                    dot_w = dot_cols.max() - dot_cols.min() + 1
-                    if dot_h <= 4 and dot_w <= 4:
-                        dot_x = g[0] + int(dot_cols.mean())
-                        break
+                    dot_abs_rows = baseline_zone_start + dot_rows
+                    dot_abs_cols = g[0] + dot_cols
+
+                    min_c = dot_abs_cols.min()
+                    max_c = dot_abs_cols.max()
+
+                    # Dot must be strictly isolated: zero ink in adjacent columns across the dot rows
+                    left_ink = binary[dot_abs_rows, min_c - 1].sum() if min_c > 0 else 1
+                    right_ink = binary[dot_abs_rows, max_c + 1].sum() if max_c < w - 1 else 1
+
+                    # Zero ink above the dot for at least 2 rows
+                    min_r = dot_abs_rows.min()
+                    above_ink = binary[max(0, min_r - 2):min_r, min_c:max_c + 1].sum()
+
+                    if left_ink == 0 and right_ink == 0 and above_ink == 0:
+                        dot_h = dot_rows.max() - dot_rows.min() + 1
+                        dot_w = dot_cols.max() - dot_cols.min() + 1
+                        if dot_h <= 3 and dot_w <= 3:
+                            dot_x = int(dot_abs_cols.mean())
+                            break
 
         if dot_x is not None:
             num_chars = len(clean_digits)
@@ -497,12 +520,14 @@ def extract_cell_by_intersection(
     row_pattern: str,
     col_pattern: Optional[str] = None,
     col_idx: Optional[int] = None,
+    expected_type: Optional[str] = None,
     doc_id: str = "doc",
     page_idx: int = 0,
     image: Optional[Any] = None,
 ) -> Optional[FieldEvidence]:
     """
     Extracts the cell value at the intersection of a matched row and column header.
+    Validates column header compatibility and guards against multi-row collision.
     """
     target_col = -1
     if col_idx is not None and 0 <= col_idx < grid.num_cols:
@@ -514,6 +539,24 @@ def extract_cell_by_intersection(
                 break
     if target_col == -1:
         return None
+
+    header_text = grid.col_headers[target_col] if target_col < len(grid.col_headers) else ""
+    header_lower = header_text.lower()
+    fn_lower = field_name.lower().replace("_", " ")
+
+    # Header-pattern validation if col_pattern provided
+    header_mismatch = False
+    if col_pattern and col_pattern.strip():
+        if not re.search(re.escape(col_pattern.strip()), header_text, re.IGNORECASE):
+            if not any(t.lower() in header_lower for t in col_pattern.split() if len(t) >= 3):
+                header_mismatch = True
+
+    # Semantic type/category contradiction checks
+    type_contradiction = False
+    if expected_type == "weight" and any(k in header_lower for k in ["freight", "amount", "rs", "inr"]) and not any(k in header_lower for k in ["weight", "kg", "mt", "wt"]):
+        type_contradiction = True
+    elif "penalty" in fn_lower and "penalty" not in header_lower and any(k in header_lower for k in ["release", "cleared", "advance", "base"]):
+        type_contradiction = True
 
     norm_row_pattern = normalize_token_text(row_pattern).upper()
     matching_rows = []
@@ -541,7 +584,33 @@ def extract_cell_by_intersection(
             crop = image.crop((max(0, bx1 - pad), max(0, by1 - pad), min(pw, bx2 + pad), min(ph, by2 + pad)))
             clean_val = refine_cell_decimal_point(clean_val, crop)
 
-    ambiguous = cell.is_ambiguous or is_multi_row
+    # Integrity and risk-calibrated verification decisions
+    is_low_conf = (cell.conf < 60.0)
+    is_multi_token = (len(clean_val.split()) > 1 and expected_type in ["amount", "code", "id", "weight", "percentage", "unit"])
+    has_syntax_garble = bool(re.search(r"[{}\[\]~|`^§]", clean_val))
+
+    ambiguous = cell.is_ambiguous or is_multi_row or header_mismatch or type_contradiction or is_low_conf or is_multi_token or has_syntax_garble
+
+    verification_decision = "VERIFY"
+    abstention_reason = None
+    if is_low_conf:
+        verification_decision = "ABSTAIN"
+        abstention_reason = f"Low OCR confidence ({cell.conf:.1f} < 60.0)"
+    elif is_multi_token:
+        verification_decision = "ABSTAIN"
+        abstention_reason = "Multiple whitespace-separated tokens detected in numeric cell (gutter bleed)"
+    elif has_syntax_garble:
+        verification_decision = "ABSTAIN"
+        abstention_reason = "Stray punctuation or non-alphanumeric syntax garble in extracted text"
+    elif type_contradiction:
+        verification_decision = "ABSTAIN"
+        abstention_reason = f"Column header '{header_text}' contradicts expected field semantic '{field_name}' ({expected_type})"
+    elif header_mismatch:
+        verification_decision = "ABSTAIN"
+        abstention_reason = f"Column header '{header_text}' does not match required pattern '{col_pattern}'"
+    elif ambiguous:
+        verification_decision = "ABSTAIN"
+        abstention_reason = "Ambiguous cell boundaries, label-echo, or multi-row candidate collision"
 
     return FieldEvidence(
         field_name=field_name,
@@ -550,7 +619,7 @@ def extract_cell_by_intersection(
         bbox=cell.bbox,
         row_idx=cell.row,
         col_idx=cell.col,
-        col_header=grid.col_headers[target_col] if target_col < len(grid.col_headers) else "",
+        col_header=header_text,
         confidence=cell.conf,
         is_ambiguous=ambiguous,
         provenance={
@@ -561,7 +630,11 @@ def extract_cell_by_intersection(
             "raw_tokens": [w["text"] for w in cell.words],
             "query_mode": "row_col_intersection",
             "multiple_row_matches": is_multi_row,
+            "header_mismatch": header_mismatch,
+            "type_contradiction": type_contradiction,
         },
+        verification_decision=verification_decision,
+        abstention_reason=abstention_reason,
     )
 
 
@@ -592,6 +665,7 @@ def extract_field_by_spatial_association(
             row_pattern=target_pattern,
             col_pattern=col_pattern or "",
             col_idx=col_idx,
+            expected_type=expected_type,
             doc_id=doc_id,
             page_idx=page_idx,
             image=image,
@@ -600,10 +674,16 @@ def extract_field_by_spatial_association(
             # Validate syntax / label echo
             if expected_type == "empty" and ev.value != "":
                 ev.is_ambiguous = True
+                ev.verification_decision = "ABSTAIN"
+                ev.abstention_reason = "Spurious value in expected empty cell"
             elif expected_type == "amount" and ev.value and not re.search(r"\d", ev.value):
                 ev.is_ambiguous = True
+                ev.verification_decision = "ABSTAIN"
+                ev.abstention_reason = "Non-numeric value in expected amount field"
             elif expected_type == "date" and ev.value and not re.search(r"\d{1,2}[/-]\d{1,2}", ev.value):
                 ev.is_ambiguous = True
+                ev.verification_decision = "ABSTAIN"
+                ev.abstention_reason = "Invalid date format"
             return ev
 
     norm_target = normalize_token_text(target_pattern).upper()
@@ -648,7 +728,11 @@ def extract_field_by_spatial_association(
                     is_label_echo = True
                     clean_val = ""
 
-                ambiguous = target_cell.is_ambiguous or is_label_echo
+                is_low_conf = (target_cell.conf < 60.0)
+                is_multi_token = (len(clean_val.split()) > 1 and expected_type in ["amount", "code", "id", "weight", "percentage", "unit"])
+                has_syntax_garble = bool(re.search(r"[{}\[\]~|`^§]", clean_val))
+
+                ambiguous = target_cell.is_ambiguous or is_label_echo or is_low_conf or is_multi_token or has_syntax_garble
 
                 # Type-specific validation
                 if expected_type == "empty" and clean_val != "":
@@ -657,6 +741,24 @@ def extract_field_by_spatial_association(
                     ambiguous = True
                 elif expected_type == "date" and clean_val and not re.search(r"\d{1,2}[/-]\d{1,2}", clean_val):
                     ambiguous = True
+
+                verification_decision = "VERIFY"
+                abstention_reason = None
+                if is_low_conf:
+                    verification_decision = "ABSTAIN"
+                    abstention_reason = f"Low OCR confidence ({target_cell.conf:.1f} < 60.0)"
+                elif is_multi_token:
+                    verification_decision = "ABSTAIN"
+                    abstention_reason = "Multiple whitespace-separated tokens detected in numeric cell (gutter bleed)"
+                elif has_syntax_garble:
+                    verification_decision = "ABSTAIN"
+                    abstention_reason = "Stray punctuation or non-alphanumeric syntax garble in extracted text"
+                elif is_label_echo:
+                    verification_decision = "ABSTAIN"
+                    abstention_reason = "Label-echo rejected"
+                elif ambiguous:
+                    verification_decision = "ABSTAIN"
+                    abstention_reason = "Ambiguous cell boundaries or candidate collision"
 
                 return FieldEvidence(
                     field_name=field_name,
@@ -677,6 +779,8 @@ def extract_field_by_spatial_association(
                         "query_mode": "spatial_cell_binding",
                         "label_echo_rejected": is_label_echo,
                     },
+                    verification_decision=verification_decision,
+                    abstention_reason=abstention_reason,
                 )
 
     return None
