@@ -14,6 +14,7 @@ Provides robust, offline, geometry-driven table detection and field-to-cell asso
 
 from __future__ import annotations
 
+import difflib
 import re
 import unicodedata
 from dataclasses import dataclass, field
@@ -261,6 +262,19 @@ def refine_cell_decimal_point(cell_text: str, cell_crop: Any) -> str:
                         if h >= 6 and w >= 8:
                             thresh = (int(arr.min()) + int(arr.max())) // 2
                             binary = arr < thresh  # True for ink (dark)
+
+                            # Strip boundary grid line strokes touching edges separated by blank rows/cols
+                            for _ in range(2):
+                                r_ink = binary.sum(axis=1)
+                                if len(r_ink) > 2 and r_ink[0] >= w * 0.7 and r_ink[1] == 0:
+                                    binary[0, :] = False
+                                if len(r_ink) > 2 and r_ink[-1] >= w * 0.7 and r_ink[-2] == 0:
+                                    binary[-1, :] = False
+                                c_ink = binary.sum(axis=0)
+                                if len(c_ink) > 2 and c_ink[0] >= h * 0.7 and c_ink[1] == 0:
+                                    binary[:, 0] = False
+                                if len(c_ink) > 2 and c_ink[-1] >= h * 0.7 and c_ink[-2] == 0:
+                                    binary[:, -1] = False
 
                             row_ink = binary.sum(axis=1)
                             col_ink = binary.sum(axis=0)
@@ -623,6 +637,93 @@ def build_table_grid(
     )
 
 
+def canonical_ocr_key(s: str) -> str:
+    """Normalizes common OCR character confusions (O/0, I/1, S/5, B/8, Z/2) and strips punctuation."""
+    s = s.upper()
+    s = re.sub(r"[^A-Z0-9]", "", s)
+    trans = str.maketrans({
+        "O": "0",
+        "I": "1",
+        "L": "1",
+        "S": "5",
+        "B": "8",
+        "Z": "2",
+    })
+    return s.translate(trans)
+
+
+def find_matching_row_evidence_guided(
+    grid: TableGrid,
+    target_pattern: str,
+    expected_type: Optional[str],
+    target_col: int,
+) -> Tuple[Optional[int], Optional[List[TableCell]], float, Optional[str]]:
+    """
+    Recovers degraded row labels using multi-evidence agreement:
+    1. Canonical OCR equivalence mapping (substitutions of 0/O, 5/S, 8/B, 1/I/l, 2/Z).
+    2. High-confidence Levenshtein string similarity with strict margin guard (Delta >= 0.15).
+    3. Structural validation in the target column (target cell must satisfy expected syntactic type).
+    Returns: (row_idx, row_cells, recovery_score, recovery_method)
+    """
+    norm_pattern = normalize_token_text(target_pattern).upper()
+    canon_pattern = canonical_ocr_key(target_pattern)
+
+    # 1. Canonical OCR Equivalence match
+    candidates_canon: List[Tuple[int, List[TableCell]]] = []
+    for r_idx, row in enumerate(grid.rows):
+        if r_idx == 0 and len(grid.rows) > 1:
+            continue
+        row_canon = canonical_ocr_key(" ".join(c.text for c in row))
+        if canon_pattern and (canon_pattern in row_canon or (len(canon_pattern) >= 4 and row_canon in canon_pattern)):
+            if target_col < len(row):
+                cell_val = row[target_col].text.strip()
+                if expected_type in ["amount", "count", "weight", "number", "percentage"]:
+                    if any(c.isdigit() for c in cell_val):
+                        candidates_canon.append((r_idx, row))
+                else:
+                    candidates_canon.append((r_idx, row))
+
+    if len(candidates_canon) == 1:
+        return candidates_canon[0][0], candidates_canon[0][1], 0.95, "canonical_equivalence"
+    elif len(candidates_canon) > 1:
+        return None, None, 0.0, "canon_collision"
+
+    # 2. High-Confidence Levenshtein Similarity with Strict Margin Guard
+    best_ratio = 0.0
+    second_best = 0.0
+    best_row_info: Optional[Tuple[int, List[TableCell]]] = None
+
+    for r_idx, row in enumerate(grid.rows):
+        if r_idx == 0 and len(grid.rows) > 1:
+            continue
+        label_text = normalize_token_text(row[0].text if row else "").upper()
+        full_row_text = normalize_token_text(" ".join(c.text for c in row)).upper()
+
+        r1 = difflib.SequenceMatcher(None, norm_pattern, label_text).ratio()
+        r2 = difflib.SequenceMatcher(None, norm_pattern, full_row_text[: len(norm_pattern) + 5]).ratio()
+        r = max(r1, r2)
+
+        if r > best_ratio:
+            second_best = best_ratio
+            best_ratio = r
+            best_row_info = (r_idx, row)
+        elif r > second_best:
+            second_best = r
+
+    # Strict Safety Margin: ratio >= 0.85 and margin >= 0.15 to prevent prefix collisions
+    if best_ratio >= 0.85 and (best_ratio - second_best) >= 0.15 and best_row_info is not None:
+        r_idx, row = best_row_info
+        if target_col < len(row):
+            cell_val = row[target_col].text.strip()
+            if expected_type in ["amount", "count", "weight", "number", "percentage"]:
+                if any(c.isdigit() for c in cell_val):
+                    return r_idx, row, best_ratio, "levenshtein_similarity"
+            else:
+                return r_idx, row, best_ratio, "levenshtein_similarity"
+
+    return None, None, 0.0, None
+
+
 def extract_cell_by_intersection(
     grid: TableGrid,
     field_name: str,
@@ -674,6 +775,21 @@ def extract_cell_by_intersection(
         if norm_row_pattern in row_text:
             matching_rows.append((r_idx, row))
 
+    row_recovery_method = "exact_match"
+    row_recovery_score = 1.0
+
+    if not matching_rows:
+        r_rec, row_rec, s_rec, m_rec = find_matching_row_evidence_guided(
+            grid=grid,
+            target_pattern=row_pattern,
+            expected_type=expected_type,
+            target_col=target_col,
+        )
+        if r_rec is not None and row_rec is not None:
+            matching_rows.append((r_rec, row_rec))
+            row_recovery_method = m_rec or "evidence_guided"
+            row_recovery_score = s_rec
+
     if not matching_rows:
         return None
 
@@ -682,11 +798,18 @@ def extract_cell_by_intersection(
     r_idx, row = matching_rows[0]
     cell = row[target_col]
     clean_val = cell.text.strip()
+    clean_val = re.sub(r"^[‘'\"Rs\.INR₹\s]+", "", clean_val, flags=re.IGNORECASE).strip()
     clean_val = re.sub(r"^(Rs\.?|INR|₹)\s*", "", clean_val, flags=re.IGNORECASE).strip()
+    clean_val = re.sub(r"[,;:\s]+$", "", clean_val).strip()
 
+    if expected_type in ["amount", "percentage", "number", "weight"]:
+        clean_val = re.sub(r",(\d{1,2})$", r".\1", clean_val)
+
+    is_pure_count = (expected_type in ["count", "id", "code", "integer"] and not any(k in field_name.lower() for k in ["hba1c", "a1c", "potency", "rate", "percent", "pct", "ratio", "vol", "weight"]))
     if (
         image is not None
         and clean_val
+        and not is_pure_count
         and any(c.isdigit() for c in clean_val)
         and (("." not in clean_val and len(re.sub(r"[^\d]", "", clean_val)) >= 2) or ("8" in clean_val))
     ):
@@ -696,10 +819,15 @@ def extract_cell_by_intersection(
             pw = image.width if hasattr(image, "width") else bx2 + pad
             ph = image.height if hasattr(image, "height") else by2 + pad
             crop = image.crop((max(0, bx1 - pad), max(0, by1 - pad), min(pw, bx2 + pad), min(ph, by2 + pad)))
-            clean_val = refine_cell_decimal_point(clean_val, crop)
+            refined_val = refine_cell_decimal_point(clean_val, crop)
+            if expected_type == "amount" and "." in refined_val:
+                parts = refined_val.split(".")
+                if len(parts) == 2 and len(parts[1]) > 2:
+                    refined_val = clean_val
+            clean_val = refined_val
 
     # Check for multi-token narrow-gutter resolution
-    cell_conf = cell.conf
+    cell_conf = cell.conf * row_recovery_score
     sub_headers = [h.strip() for h in re.split(r"[_|/]|(?<=[)])\s+(?=[A-Z])", header_text) if h.strip()]
     was_resolved = False
     if len(clean_val.split()) > 1 and expected_type in ["amount", "code", "id", "weight", "percentage", "unit", "number", "count"]:
@@ -713,7 +841,7 @@ def extract_cell_by_intersection(
         )
         if is_res:
             clean_val = resolved_tok
-            cell_conf = max(cell_conf, sub_conf)
+            cell_conf = max(cell_conf, sub_conf * row_recovery_score)
             was_resolved = True
 
     compound_unresolved = False
@@ -726,7 +854,8 @@ def extract_cell_by_intersection(
             type_contradiction = True
 
     # Integrity and risk-calibrated verification decisions
-    is_low_conf = (cell_conf < 60.0)
+    effective_floor = 75.0 if row_recovery_method == "levenshtein_similarity" else 60.0
+    is_low_conf = (cell_conf < effective_floor)
     is_multi_token = (len(clean_val.split()) > 1 and expected_type in ["amount", "code", "id", "weight", "percentage", "unit", "number", "count"])
     has_syntax_garble = bool(re.search(r"[{}\[\]~|`^§]", clean_val))
 
@@ -736,7 +865,7 @@ def extract_cell_by_intersection(
     abstention_reason = None
     if is_low_conf:
         verification_decision = "ABSTAIN"
-        abstention_reason = f"Low OCR confidence ({cell_conf:.1f} < 60.0)"
+        abstention_reason = f"Low OCR confidence ({cell_conf:.1f} < {effective_floor:.1f})"
     elif is_multi_token:
         verification_decision = "ABSTAIN"
         abstention_reason = "Multiple whitespace-separated tokens detected in numeric cell (gutter bleed)"
@@ -776,6 +905,8 @@ def extract_cell_by_intersection(
             "multiple_row_matches": is_multi_row,
             "header_mismatch": header_mismatch,
             "type_contradiction": type_contradiction,
+            "row_recovery_method": row_recovery_method,
+            "row_recovery_score": round(row_recovery_score, 3),
         },
         verification_decision=verification_decision,
         abstention_reason=abstention_reason,
@@ -857,9 +988,11 @@ def extract_field_by_spatial_association(
                 else:
                     clean_val = raw_text.strip()
 
+                is_pure_count = (expected_type in ["count", "id", "code", "integer"] and not any(k in field_name.lower() for k in ["hba1c", "a1c", "potency", "rate", "percent", "pct", "ratio", "vol", "weight"]))
                 if (
                     image is not None
                     and clean_val
+                    and not is_pure_count
                     and any(c.isdigit() for c in clean_val)
                     and (("." not in clean_val and len(re.sub(r"[^\d]", "", clean_val)) >= 2) or ("8" in clean_val))
                 ):
