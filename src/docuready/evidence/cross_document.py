@@ -29,6 +29,9 @@ class VerificationOutcome(str, Enum):
     ENTITY_AMBIGUOUS = "ENTITY_AMBIGUOUS"
     MISSING_EVIDENCE = "MISSING_EVIDENCE"
     DUPLICATE_SOURCE = "DUPLICATE_UNCONFIRMED"
+    UNIT_OR_CURRENCY_MISMATCH = "UNIT_OR_CURRENCY_MISMATCH"
+    INCOMPARABLE_EVIDENCE = "INCOMPARABLE_EVIDENCE"
+    EQUIVALENT_NORMALIZED = "EQUIVALENT_AFTER_NORMALIZATION"
     ABSTAIN = "ABSTAIN"
 
 
@@ -131,9 +134,25 @@ def resolve_entity_match(
     n1 = normalize_entity_name(e1_name)
     n2 = normalize_entity_name(e2_name)
 
-    # 1. Check strong unique identifiers if present (PAN, Aadhaar, Account)
-    id1 = e1_hints.get("tax_id") or e1_hints.get("national_id") or e1_hints.get("account_number")
-    id2 = e2_hints.get("tax_id") or e2_hints.get("national_id") or e2_hints.get("account_number")
+    # 1. Check strong unique identifiers if present (PAN, Aadhaar, Account, IFSC)
+    id1 = (
+        e1_hints.get("tax_id")
+        or e1_hints.get("national_id")
+        or e1_hints.get("account_number")
+        or e1_hints.get("pan")
+        or e1_hints.get("ifsc")
+        or e1_hints.get("ifsc_or_pan")
+        or e1_hints.get("identifier")
+    )
+    id2 = (
+        e2_hints.get("tax_id")
+        or e2_hints.get("national_id")
+        or e2_hints.get("account_number")
+        or e2_hints.get("pan")
+        or e2_hints.get("ifsc")
+        or e2_hints.get("ifsc_or_pan")
+        or e2_hints.get("identifier")
+    )
     if id1 and id2:
         if str(id1).strip().upper() != str(id2).strip().upper():
             return False, f"Entity conflict: distinct identification numbers ('{id1}' vs '{id2}')"
@@ -180,22 +199,110 @@ def detect_document_independence(doc1: DocumentIdentity, doc2: DocumentIdentity)
     """
     Evaluates whether two documents provide genuine independent corroboration,
     or are duplicate scans, copies, or template clones.
+    Distinguishes generic filename collisions and shared government form templates
+    from true duplicate documents.
     """
     # 1. Exact identical content hash -> Duplicate document
     if doc1.content_hash and doc2.content_hash and doc1.content_hash == doc2.content_hash:
         return SourceIndependence.DUPLICATE
 
-    # 2. Same file name or rescan pattern
-    if doc1.file_name and doc2.file_name and doc1.file_name == doc2.file_name:
+    # 2. Identical raw text -> Duplicate document
+    if doc1.raw_text and doc2.raw_text and doc1.raw_text.strip() == doc2.raw_text.strip():
         return SourceIndependence.DUPLICATE
 
-    # 3. Check for high textual duplication (> 95% raw text match)
+    # 3. Same file name: Only duplicate if content hashes match or are omitted
+    if doc1.file_name and doc2.file_name and doc1.file_name == doc2.file_name:
+        if doc1.content_hash and doc2.content_hash and doc1.content_hash != doc2.content_hash:
+            # Different content hashes indicate generic filename collision (e.g. invoice.pdf), not duplicate
+            pass
+        else:
+            return SourceIndependence.DUPLICATE
+
+    # 4. Check for high textual duplication (> 96% raw text match)
     if doc1.raw_text and doc2.raw_text:
         sim = difflib.SequenceMatcher(None, doc1.raw_text, doc2.raw_text).ratio()
         if sim > 0.96 and doc1.doc_type == doc2.doc_type:
+            # If distinct content hashes are present, this is a shared government form template with distinct payload
+            if doc1.content_hash and doc2.content_hash and doc1.content_hash != doc2.content_hash:
+                return SourceIndependence.INDEPENDENT
             return SourceIndependence.DUPLICATE
 
     return SourceIndependence.INDEPENDENT
+
+
+def evaluate_semantic_claim_equivalence(
+    c1_val: str,
+    c1_type: str,
+    c2_val: str,
+    c2_type: str,
+) -> Tuple[bool, VerificationOutcome, str]:
+    """
+    Evaluates semantic equivalence and detects fine-grained contradiction categories:
+    - EQUIVALENT_AFTER_NORMALIZATION: Equivalent under metric conversion (e.g., 1 MT == 1000 KG)
+    - CONTRADICTION_DETECTED: Factual amount or date mismatch
+    - UNIT_OR_CURRENCY_MISMATCH: Distinct currencies (USD vs INR)
+    - INCOMPARABLE_EVIDENCE: Disparate dimensions (e.g. mass vs volume)
+    """
+    curr1 = extract_currency(c1_val)
+    curr2 = extract_currency(c2_val)
+
+    # 1. Currency Mismatch
+    if curr1 and curr2 and curr1 != curr2:
+        return False, VerificationOutcome.UNIT_OR_CURRENCY_MISMATCH, f"Currency mismatch ({curr1} vs {curr2}) without conversion context"
+
+    # 2. Unit Equivalence & Metric Normalization
+    u1 = extract_unit(c1_val)
+    u2 = extract_unit(c2_val)
+
+    if (u1 in ["MT", "KG"]) and (u2 in ["MT", "KG"]):
+        # Extract numeric values
+        try:
+            raw1 = re.sub(r"[^\d.]", "", c1_val)
+            raw2 = re.sub(r"[^\d.]", "", c2_val)
+            f1 = float(raw1)
+            f2 = float(raw2)
+            kg1 = f1 * 1000.0 if u1 == "MT" else f1
+            kg2 = f2 * 1000.0 if u2 == "MT" else f2
+
+            if abs(kg1 - kg2) < 1e-4:
+                return True, VerificationOutcome.EQUIVALENT_NORMALIZED, f"Values equivalent after metric unit normalization ({kg1:.2f} KG)"
+            else:
+                return False, VerificationOutcome.CONTRADICTION, f"Physical weight mismatch ({kg1:.2f} KG vs {kg2:.2f} KG)"
+        except ValueError:
+            pass
+
+    # 3. Numeric Amount Normalization
+    if c1_type in ["amount", "number"] or c2_type in ["amount", "number"]:
+        try:
+            num1 = re.sub(r"[^\d.]", "", c1_val)
+            num2 = re.sub(r"[^\d.]", "", c2_val)
+            if num1 and num2:
+                f1 = float(num1)
+                f2 = float(num2)
+                if abs(f1 - f2) < 1e-4:
+                    return True, VerificationOutcome.EQUIVALENT_NORMALIZED, f"Amounts equivalent ({f1:.2f})"
+                else:
+                    return False, VerificationOutcome.CONTRADICTION, f"Amount discrepancy ({f1:.2f} vs {f2:.2f})"
+        except ValueError:
+            pass
+
+    # 4. Date Normalization
+    if c1_type == "date" or c2_type == "date":
+        d1 = normalize_claim_value(c1_val, "date")
+        d2 = normalize_claim_value(c2_val, "date")
+        if d1 and d2:
+            if d1 == d2:
+                return True, VerificationOutcome.EQUIVALENT_NORMALIZED, f"Dates equivalent ({d1})"
+            else:
+                return False, VerificationOutcome.CONTRADICTION, f"Date mismatch ({d1} vs {d2})"
+
+    # 5. Fallback standard normalized equality
+    norm1 = normalize_claim_value(c1_val, c1_type)
+    norm2 = normalize_claim_value(c2_val, c2_type)
+    if norm1 == norm2:
+        return True, VerificationOutcome.EQUIVALENT_NORMALIZED, f"Values identical after normalization ('{norm1}')"
+
+    return False, VerificationOutcome.CONTRADICTION, f"Value mismatch ('{norm1}' vs '{norm2}')"
 
 
 def extract_currency(val: str) -> Optional[str]:

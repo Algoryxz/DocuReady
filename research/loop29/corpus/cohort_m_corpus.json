@@ -1,0 +1,1913 @@
+{
+  "manifest_version": "29.0.0",
+  "loop": 29,
+  "cohort_name": "Cohort M: Independent Real-World Cross-Document Generalization",
+  "total_packets": 30,
+  "total_claims": 103,
+  "family_distribution": {
+    "Trade & Customs": 5,
+    "Education & Admissions": 5,
+    "Clinical Diagnostics": 5,
+    "Banking & Underwriting": 5,
+    "Land Records & Governance": 5,
+    "Corporate Compliance": 5
+  },
+  "split_counts": {
+    "BLIND": 12,
+    "CHALL": 7,
+    "DEV": 6,
+    "CAL": 5
+  },
+  "packets": [
+    {
+      "packet_id": "PKT_M_01_TRADE_EXACT",
+      "split": "BLIND",
+      "family": "Trade & Customs",
+      "acquisition": "Digital PDF",
+      "condition": "Exact Agreement",
+      "target_entity": {
+        "entity_id": "ENT_M_01",
+        "canonical_name": "ODISHA MINING & MINERALS LTD",
+        "tax_id": "21AABCO1234F1Z5"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_INV",
+          "doc_type": "EXPORT_INVOICE",
+          "file_name": "export_inv_01.pdf",
+          "content_hash": "hash_m01_inv"
+        },
+        {
+          "doc_id": "DOC_BOL",
+          "doc_type": "BILL_OF_LADING",
+          "file_name": "bol_01.pdf",
+          "content_hash": "hash_m01_bol"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "fob_value",
+          "field_type": "amount",
+          "doc_id": "DOC_INV",
+          "claimed_value": "450000.00",
+          "confidence": 95.0,
+          "ground_truth": "450000.00",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "fob_value",
+          "field_type": "amount",
+          "doc_id": "DOC_BOL",
+          "claimed_value": "450,000.00",
+          "confidence": 94.0,
+          "ground_truth": "450000.00",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "gross_weight",
+          "field_type": "weight",
+          "doc_id": "DOC_INV",
+          "claimed_value": "12.50 MT",
+          "confidence": 92.0,
+          "ground_truth": "12.50",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "gross_weight",
+          "field_type": "weight",
+          "doc_id": "DOC_BOL",
+          "claimed_value": "12.50 MT",
+          "confidence": 93.0,
+          "ground_truth": "12.50",
+          "expected_outcome": "VERIFY"
+        }
+      ],
+      "required_doc_types": [
+        "EXPORT_INVOICE",
+        "BILL_OF_LADING"
+      ]
+    },
+    {
+      "packet_id": "PKT_M_02_TRADE_CURR_MISMATCH",
+      "split": "CHALL",
+      "family": "Trade & Customs",
+      "acquisition": "Mobile Scanner",
+      "condition": "Currency Conflict",
+      "target_entity": {
+        "entity_id": "ENT_M_02",
+        "canonical_name": "KALINGA PHARMA EXPORTS",
+        "tax_id": "21AAACK9988P1ZX"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_INV_USD",
+          "doc_type": "COMMERCIAL_INVOICE",
+          "file_name": "inv_usd.pdf",
+          "content_hash": "hash_m02_usd"
+        },
+        {
+          "doc_id": "DOC_ENTRY_INR",
+          "doc_type": "CUSTOMS_ENTRY",
+          "file_name": "customs_inr.pdf",
+          "content_hash": "hash_m02_inr"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "declared_total",
+          "field_type": "amount",
+          "doc_id": "DOC_INV_USD",
+          "claimed_value": "$ 75,000.00",
+          "confidence": 96.0,
+          "ground_truth": "CONTRADICTION",
+          "expected_outcome": "UNIT_OR_CURRENCY_MISMATCH"
+        },
+        {
+          "field_name": "declared_total",
+          "field_type": "amount",
+          "doc_id": "DOC_ENTRY_INR",
+          "claimed_value": "INR 75,000.00",
+          "confidence": 94.0,
+          "ground_truth": "CONTRADICTION",
+          "expected_outcome": "UNIT_OR_CURRENCY_MISMATCH"
+        },
+        {
+          "field_name": "shipping_bill_no",
+          "field_type": "id",
+          "doc_id": "DOC_ENTRY_INR",
+          "claimed_value": "SB-2026-90112",
+          "confidence": 93.0,
+          "ground_truth": "SB-2026-90112",
+          "expected_outcome": "VERIFY"
+        }
+      ],
+      "required_doc_types": [
+        "COMMERCIAL_INVOICE",
+        "CUSTOMS_ENTRY"
+      ]
+    },
+    {
+      "packet_id": "PKT_M_03_TRADE_UNIT_EQUIV",
+      "split": "BLIND",
+      "family": "Trade & Customs",
+      "acquisition": "Digital PDF",
+      "condition": "Unit Equivalence",
+      "target_entity": {
+        "entity_id": "ENT_M_03",
+        "canonical_name": "EASTERN AGRO CHEMICALS",
+        "tax_id": "21AAACE5544K1ZM"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_PACK",
+          "doc_type": "PACKING_LIST",
+          "file_name": "pack.pdf",
+          "content_hash": "hash_m03_pack"
+        },
+        {
+          "doc_id": "DOC_GATE",
+          "doc_type": "GATE_PASS",
+          "file_name": "gate.pdf",
+          "content_hash": "hash_m03_gate"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "net_consignment_weight",
+          "field_type": "weight",
+          "doc_id": "DOC_PACK",
+          "claimed_value": "1.50 MT",
+          "confidence": 94.0,
+          "ground_truth": "1.50 MT",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "net_consignment_weight",
+          "field_type": "weight",
+          "doc_id": "DOC_GATE",
+          "claimed_value": "1500 KG",
+          "confidence": 95.0,
+          "ground_truth": "1500 KG",
+          "expected_outcome": "VERIFY"
+        }
+      ],
+      "required_doc_types": [
+        "PACKING_LIST",
+        "GATE_PASS"
+      ]
+    },
+    {
+      "packet_id": "PKT_M_04_TRADE_VALUE_CONFLICT",
+      "split": "DEV",
+      "family": "Trade & Customs",
+      "acquisition": "Degraded Thermal/Fax",
+      "condition": "Amount Mismatch",
+      "target_entity": {
+        "entity_id": "ENT_M_04",
+        "canonical_name": "PARADEEP LOGISTICS CORP"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_PO",
+          "doc_type": "PURCHASE_ORDER",
+          "file_name": "po.pdf",
+          "content_hash": "hash_m04_po"
+        },
+        {
+          "doc_id": "DOC_INV",
+          "doc_type": "TAX_INVOICE",
+          "file_name": "inv.pdf",
+          "content_hash": "hash_m04_inv"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "subtotal_amount",
+          "field_type": "amount",
+          "doc_id": "DOC_PO",
+          "claimed_value": "320000.00",
+          "confidence": 91.0,
+          "ground_truth": "CONTRADICTION",
+          "expected_outcome": "CONTRADICTION_DETECTED"
+        },
+        {
+          "field_name": "subtotal_amount",
+          "field_type": "amount",
+          "doc_id": "DOC_INV",
+          "claimed_value": "345000.00",
+          "confidence": 93.0,
+          "ground_truth": "CONTRADICTION",
+          "expected_outcome": "CONTRADICTION_DETECTED"
+        }
+      ],
+      "required_doc_types": [
+        "PURCHASE_ORDER",
+        "TAX_INVOICE"
+      ]
+    },
+    {
+      "packet_id": "PKT_M_05_TRADE_ANACHRONISM",
+      "split": "CHALL",
+      "family": "Trade & Customs",
+      "acquisition": "Digital PDF",
+      "condition": "Chronology Violation",
+      "target_entity": {
+        "entity_id": "ENT_M_05",
+        "canonical_name": "UTKAL STEEL TRADERS"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_SO",
+          "doc_type": "SALES_ORDER",
+          "file_name": "so.pdf",
+          "content_hash": "hash_m05_so"
+        },
+        {
+          "doc_id": "DOC_CHALLAN",
+          "doc_type": "DELIVERY_CHALLAN",
+          "file_name": "challan.pdf",
+          "content_hash": "hash_m05_dc"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "order_date",
+          "field_type": "date",
+          "doc_id": "DOC_SO",
+          "claimed_value": "28/10/2026",
+          "confidence": 95.0,
+          "ground_truth": "28/10/2026",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "delivery_date",
+          "field_type": "date",
+          "doc_id": "DOC_CHALLAN",
+          "claimed_value": "14/10/2026",
+          "confidence": 94.0,
+          "ground_truth": "CONTRADICTION",
+          "expected_outcome": "CONTRADICTION_DETECTED"
+        }
+      ],
+      "required_doc_types": [
+        "SALES_ORDER",
+        "DELIVERY_CHALLAN"
+      ]
+    },
+    {
+      "packet_id": "PKT_M_06_EDU_EXACT",
+      "split": "CAL",
+      "family": "Education & Admissions",
+      "acquisition": "Digital PDF",
+      "condition": "Exact Agreement",
+      "target_entity": {
+        "entity_id": "ENT_M_06",
+        "canonical_name": "SNEHA PRADHAN",
+        "date_of_birth": "18/06/2003",
+        "father_name": "RABINDRA PRADHAN"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_DEGREE",
+          "doc_type": "DEGREE_CERTIFICATE",
+          "file_name": "degree.pdf",
+          "content_hash": "hash_m06_deg"
+        },
+        {
+          "doc_id": "DOC_MARKSHEET",
+          "doc_type": "MARKSHEET",
+          "file_name": "marks.pdf",
+          "content_hash": "hash_m06_mrk"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "cgpa_score",
+          "field_type": "number",
+          "doc_id": "DOC_DEGREE",
+          "claimed_value": "8.85",
+          "confidence": 96.0,
+          "ground_truth": "8.85",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "cgpa_score",
+          "field_type": "number",
+          "doc_id": "DOC_MARKSHEET",
+          "claimed_value": "8.85",
+          "confidence": 95.0,
+          "ground_truth": "8.85",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "enrollment_no",
+          "field_type": "id",
+          "doc_id": "DOC_DEGREE",
+          "claimed_value": "ENR-2022-7718",
+          "confidence": 94.0,
+          "ground_truth": "ENR-2022-7718",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "enrollment_no",
+          "field_type": "id",
+          "doc_id": "DOC_MARKSHEET",
+          "claimed_value": "ENR-2022-7718",
+          "confidence": 96.0,
+          "ground_truth": "ENR-2022-7718",
+          "expected_outcome": "VERIFY"
+        }
+      ],
+      "required_doc_types": [
+        "DEGREE_CERTIFICATE",
+        "MARKSHEET"
+      ]
+    },
+    {
+      "packet_id": "PKT_M_07_EDU_SIBLING",
+      "split": "BLIND",
+      "family": "Education & Admissions",
+      "acquisition": "Mobile Scanner",
+      "condition": "Distinct Entities Sharing Parent",
+      "target_entity": {
+        "entity_id": "ENT_M_07",
+        "canonical_name": "RAHUL MOHANTY",
+        "date_of_birth": "12/03/2002",
+        "father_name": "SUBRATA MOHANTY"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_RAHUL",
+          "doc_type": "TRANSCRIPT",
+          "file_name": "rahul_transcript.pdf",
+          "content_hash": "hash_m07_r"
+        },
+        {
+          "doc_id": "DOC_ROHIT",
+          "doc_type": "TRANSCRIPT",
+          "file_name": "rohit_transcript.pdf",
+          "content_hash": "hash_m07_ro"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "marks_percentage",
+          "field_type": "number",
+          "doc_id": "DOC_RAHUL",
+          "claimed_value": "82.50",
+          "confidence": 93.0,
+          "ground_truth": "82.50",
+          "expected_outcome": "VERIFY",
+          "entity_hints": {
+            "name": "RAHUL MOHANTY",
+            "date_of_birth": "12/03/2002"
+          }
+        },
+        {
+          "field_name": "marks_percentage",
+          "field_type": "number",
+          "doc_id": "DOC_ROHIT",
+          "claimed_value": "71.00",
+          "confidence": 91.0,
+          "ground_truth": "REJECT_ENTITY",
+          "expected_outcome": "ENTITY_AMBIGUOUS",
+          "entity_hints": {
+            "name": "ROHIT MOHANTY",
+            "date_of_birth": "05/11/2004"
+          }
+        }
+      ],
+      "required_doc_types": [
+        "TRANSCRIPT"
+      ]
+    },
+    {
+      "packet_id": "PKT_M_08_EDU_MISSING_ATTACH",
+      "split": "DEV",
+      "family": "Education & Admissions",
+      "acquisition": "Digital PDF",
+      "condition": "Missing Mandatory Attachment",
+      "target_entity": {
+        "entity_id": "ENT_M_08",
+        "canonical_name": "TAPASWINI ROUT"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_APP",
+          "doc_type": "ADMISSION_FORM",
+          "file_name": "app.pdf",
+          "content_hash": "hash_m08_app"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "board_migration_no",
+          "field_type": "id",
+          "doc_id": "DOC_APP",
+          "claimed_value": "MIG-2026-1188",
+          "confidence": 95.0,
+          "ground_truth": "MISSING_EVIDENCE",
+          "expected_outcome": "MISSING_EVIDENCE"
+        }
+      ],
+      "required_doc_types": [
+        "ADMISSION_FORM",
+        "MIGRATION_CERTIFICATE"
+      ]
+    },
+    {
+      "packet_id": "PKT_M_09_EDU_SPELLING_RESOLVED",
+      "split": "BLIND",
+      "family": "Education & Admissions",
+      "acquisition": "Mobile Scanner",
+      "condition": "Spelling Variation with Anchor",
+      "target_entity": {
+        "entity_id": "ENT_M_09",
+        "canonical_name": "CHINMAY PRUSTY",
+        "date_of_birth": "09/09/2001"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_APP",
+          "doc_type": "APPLICATION_FORM",
+          "file_name": "app.pdf",
+          "content_hash": "hash_m09_app"
+        },
+        {
+          "doc_id": "DOC_AADHAAR",
+          "doc_type": "AADHAAR_CARD",
+          "file_name": "aadhaar.pdf",
+          "content_hash": "hash_m09_aadh"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "scholarship_category",
+          "field_type": "text",
+          "doc_id": "DOC_APP",
+          "claimed_value": "MERIT SCHOLARSHIP",
+          "confidence": 94.0,
+          "ground_truth": "MERIT SCHOLARSHIP",
+          "expected_outcome": "VERIFY",
+          "entity_hints": {
+            "name": "CHINMAY PRUSTI",
+            "date_of_birth": "09/09/2001"
+          }
+        }
+      ],
+      "required_doc_types": [
+        "APPLICATION_FORM",
+        "AADHAAR_CARD"
+      ]
+    },
+    {
+      "packet_id": "PKT_M_10_EDU_DECIMAL_SHIFT",
+      "split": "CHALL",
+      "family": "Education & Admissions",
+      "acquisition": "Degraded Thermal/Fax",
+      "condition": "Decimal Point Loss",
+      "target_entity": {
+        "entity_id": "ENT_M_10",
+        "canonical_name": "ABHISEK TRIPATHY"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_PRIMARY",
+          "doc_type": "MARKSHEET",
+          "file_name": "marks.pdf",
+          "content_hash": "hash_m10_m1"
+        },
+        {
+          "doc_id": "DOC_TRANSCRIPT",
+          "doc_type": "CONSOLIDATED_TRANSCRIPT",
+          "file_name": "transcript.pdf",
+          "content_hash": "hash_m10_m2"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "semester_gpa",
+          "field_type": "number",
+          "doc_id": "DOC_PRIMARY",
+          "claimed_value": "7.80",
+          "confidence": 92.0,
+          "ground_truth": "CONTRADICTION",
+          "expected_outcome": "CONTRADICTION_DETECTED"
+        },
+        {
+          "field_name": "semester_gpa",
+          "field_type": "number",
+          "doc_id": "DOC_TRANSCRIPT",
+          "claimed_value": "78.00",
+          "confidence": 90.0,
+          "ground_truth": "CONTRADICTION",
+          "expected_outcome": "CONTRADICTION_DETECTED"
+        }
+      ],
+      "required_doc_types": [
+        "MARKSHEET",
+        "CONSOLIDATED_TRANSCRIPT"
+      ]
+    },
+    {
+      "packet_id": "PKT_M_11_HEALTHCARE",
+      "split": "BLIND",
+      "family": "Clinical Diagnostics",
+      "acquisition": "Digital PDF",
+      "condition": "Exact Agreement",
+      "target_entity": {
+        "entity_id": "ENT_M_11",
+        "canonical_name": "PATIENT 11 MISHRA",
+        "date_of_birth": "11/04/1980"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_LAB",
+          "doc_type": "BIOCHEM_PANEL",
+          "file_name": "lab_11.pdf",
+          "content_hash": "hash_lab_11"
+        },
+        {
+          "doc_id": "DOC_DISCHARGE",
+          "doc_type": "DISCHARGE_SUMMARY",
+          "file_name": "discharge_11.pdf",
+          "content_hash": "hash_dis_11"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "serum_creatinine",
+          "field_type": "number",
+          "doc_id": "DOC_LAB",
+          "claimed_value": "1.10",
+          "confidence": 94.0,
+          "ground_truth": "1.10",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "serum_creatinine",
+          "field_type": "number",
+          "doc_id": "DOC_DISCHARGE",
+          "claimed_value": "1.10",
+          "confidence": 92.0,
+          "ground_truth": "1.10",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "blood_sugar_fasting",
+          "field_type": "number",
+          "doc_id": "DOC_LAB",
+          "claimed_value": "98.00",
+          "confidence": 95.0,
+          "ground_truth": "98.00",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "doctor_reg_no",
+          "field_type": "id",
+          "doc_id": "DOC_LAB",
+          "claimed_value": "MCI-2018-9911",
+          "confidence": 96.0,
+          "ground_truth": "MCI-2018-9911",
+          "expected_outcome": "VERIFY"
+        }
+      ],
+      "required_doc_types": [
+        "BIOCHEM_PANEL",
+        "DISCHARGE_SUMMARY"
+      ]
+    },
+    {
+      "packet_id": "PKT_M_12_HEALTHCARE",
+      "split": "CAL",
+      "family": "Clinical Diagnostics",
+      "acquisition": "Mobile Scanner",
+      "condition": "Clinical Value Conflict",
+      "target_entity": {
+        "entity_id": "ENT_M_12",
+        "canonical_name": "PATIENT 12 MISHRA",
+        "date_of_birth": "12/04/1980"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_LAB",
+          "doc_type": "BIOCHEM_PANEL",
+          "file_name": "lab_12.pdf",
+          "content_hash": "hash_lab_12"
+        },
+        {
+          "doc_id": "DOC_DISCHARGE",
+          "doc_type": "DISCHARGE_SUMMARY",
+          "file_name": "discharge_12.pdf",
+          "content_hash": "hash_dis_12"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "serum_creatinine",
+          "field_type": "number",
+          "doc_id": "DOC_LAB",
+          "claimed_value": "1.10",
+          "confidence": 94.0,
+          "ground_truth": "CONTRADICTION",
+          "expected_outcome": "CONTRADICTION_DETECTED"
+        },
+        {
+          "field_name": "serum_creatinine",
+          "field_type": "number",
+          "doc_id": "DOC_DISCHARGE",
+          "claimed_value": "2.40",
+          "confidence": 92.0,
+          "ground_truth": "CONTRADICTION",
+          "expected_outcome": "CONTRADICTION_DETECTED"
+        },
+        {
+          "field_name": "blood_sugar_fasting",
+          "field_type": "number",
+          "doc_id": "DOC_LAB",
+          "claimed_value": "98.00",
+          "confidence": 95.0,
+          "ground_truth": "98.00",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "doctor_reg_no",
+          "field_type": "id",
+          "doc_id": "DOC_LAB",
+          "claimed_value": "MCI-2018-9912",
+          "confidence": 96.0,
+          "ground_truth": "MCI-2018-9912",
+          "expected_outcome": "VERIFY"
+        }
+      ],
+      "required_doc_types": [
+        "BIOCHEM_PANEL",
+        "DISCHARGE_SUMMARY"
+      ]
+    },
+    {
+      "packet_id": "PKT_M_13_HEALTHCARE",
+      "split": "BLIND",
+      "family": "Clinical Diagnostics",
+      "acquisition": "Digital PDF",
+      "condition": "Exact Agreement",
+      "target_entity": {
+        "entity_id": "ENT_M_13",
+        "canonical_name": "PATIENT 13 MISHRA",
+        "date_of_birth": "13/04/1980"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_LAB",
+          "doc_type": "BIOCHEM_PANEL",
+          "file_name": "lab_13.pdf",
+          "content_hash": "hash_lab_13"
+        },
+        {
+          "doc_id": "DOC_DISCHARGE",
+          "doc_type": "DISCHARGE_SUMMARY",
+          "file_name": "discharge_13.pdf",
+          "content_hash": "hash_dis_13"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "serum_creatinine",
+          "field_type": "number",
+          "doc_id": "DOC_LAB",
+          "claimed_value": "1.10",
+          "confidence": 94.0,
+          "ground_truth": "1.10",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "serum_creatinine",
+          "field_type": "number",
+          "doc_id": "DOC_DISCHARGE",
+          "claimed_value": "1.10",
+          "confidence": 92.0,
+          "ground_truth": "1.10",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "blood_sugar_fasting",
+          "field_type": "number",
+          "doc_id": "DOC_LAB",
+          "claimed_value": "98.00",
+          "confidence": 95.0,
+          "ground_truth": "98.00",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "doctor_reg_no",
+          "field_type": "id",
+          "doc_id": "DOC_LAB",
+          "claimed_value": "MCI-2018-9913",
+          "confidence": 96.0,
+          "ground_truth": "MCI-2018-9913",
+          "expected_outcome": "VERIFY"
+        }
+      ],
+      "required_doc_types": [
+        "BIOCHEM_PANEL",
+        "DISCHARGE_SUMMARY"
+      ]
+    },
+    {
+      "packet_id": "PKT_M_14_HEALTHCARE",
+      "split": "CAL",
+      "family": "Clinical Diagnostics",
+      "acquisition": "Mobile Scanner",
+      "condition": "Clinical Value Conflict",
+      "target_entity": {
+        "entity_id": "ENT_M_14",
+        "canonical_name": "PATIENT 14 MISHRA",
+        "date_of_birth": "14/04/1980"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_LAB",
+          "doc_type": "BIOCHEM_PANEL",
+          "file_name": "lab_14.pdf",
+          "content_hash": "hash_lab_14"
+        },
+        {
+          "doc_id": "DOC_DISCHARGE",
+          "doc_type": "DISCHARGE_SUMMARY",
+          "file_name": "discharge_14.pdf",
+          "content_hash": "hash_dis_14"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "serum_creatinine",
+          "field_type": "number",
+          "doc_id": "DOC_LAB",
+          "claimed_value": "1.10",
+          "confidence": 94.0,
+          "ground_truth": "CONTRADICTION",
+          "expected_outcome": "CONTRADICTION_DETECTED"
+        },
+        {
+          "field_name": "serum_creatinine",
+          "field_type": "number",
+          "doc_id": "DOC_DISCHARGE",
+          "claimed_value": "2.40",
+          "confidence": 92.0,
+          "ground_truth": "CONTRADICTION",
+          "expected_outcome": "CONTRADICTION_DETECTED"
+        },
+        {
+          "field_name": "blood_sugar_fasting",
+          "field_type": "number",
+          "doc_id": "DOC_LAB",
+          "claimed_value": "98.00",
+          "confidence": 95.0,
+          "ground_truth": "98.00",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "doctor_reg_no",
+          "field_type": "id",
+          "doc_id": "DOC_LAB",
+          "claimed_value": "MCI-2018-9914",
+          "confidence": 96.0,
+          "ground_truth": "MCI-2018-9914",
+          "expected_outcome": "VERIFY"
+        }
+      ],
+      "required_doc_types": [
+        "BIOCHEM_PANEL",
+        "DISCHARGE_SUMMARY"
+      ]
+    },
+    {
+      "packet_id": "PKT_M_15_HEALTHCARE",
+      "split": "CHALL",
+      "family": "Clinical Diagnostics",
+      "acquisition": "Digital PDF",
+      "condition": "Exact Agreement",
+      "target_entity": {
+        "entity_id": "ENT_M_15",
+        "canonical_name": "PATIENT 15 MISHRA",
+        "date_of_birth": "15/04/1980"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_LAB",
+          "doc_type": "BIOCHEM_PANEL",
+          "file_name": "lab_15.pdf",
+          "content_hash": "hash_lab_15"
+        },
+        {
+          "doc_id": "DOC_DISCHARGE",
+          "doc_type": "DISCHARGE_SUMMARY",
+          "file_name": "discharge_15.pdf",
+          "content_hash": "hash_dis_15"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "serum_creatinine",
+          "field_type": "number",
+          "doc_id": "DOC_LAB",
+          "claimed_value": "1.10",
+          "confidence": 94.0,
+          "ground_truth": "1.10",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "serum_creatinine",
+          "field_type": "number",
+          "doc_id": "DOC_DISCHARGE",
+          "claimed_value": "1.10",
+          "confidence": 92.0,
+          "ground_truth": "1.10",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "blood_sugar_fasting",
+          "field_type": "number",
+          "doc_id": "DOC_LAB",
+          "claimed_value": "98.00",
+          "confidence": 95.0,
+          "ground_truth": "98.00",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "doctor_reg_no",
+          "field_type": "id",
+          "doc_id": "DOC_LAB",
+          "claimed_value": "MCI-2018-9915",
+          "confidence": 96.0,
+          "ground_truth": "MCI-2018-9915",
+          "expected_outcome": "VERIFY"
+        }
+      ],
+      "required_doc_types": [
+        "BIOCHEM_PANEL",
+        "DISCHARGE_SUMMARY"
+      ]
+    },
+    {
+      "packet_id": "PKT_M_16_BANKING",
+      "split": "BLIND",
+      "family": "Banking & Underwriting",
+      "acquisition": "Digital PDF",
+      "condition": "Exact Agreement",
+      "target_entity": {
+        "entity_id": "ENT_M_16",
+        "canonical_name": "APPLICANT 16 SAHOO",
+        "tax_id": "BCDPK0016F",
+        "account_number": "908812340016"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_SLIP",
+          "doc_type": "SALARY_SLIP",
+          "file_name": "salary_16.pdf",
+          "content_hash": "hash_sal_16"
+        },
+        {
+          "doc_id": "DOC_BANK",
+          "doc_type": "BANK_STATEMENT",
+          "file_name": "bank_16.pdf",
+          "content_hash": "hash_bnk_16"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "net_monthly_salary",
+          "field_type": "amount",
+          "doc_id": "DOC_SLIP",
+          "claimed_value": "65000.00",
+          "confidence": 95.0,
+          "ground_truth": "65000.00",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "net_monthly_salary",
+          "field_type": "amount",
+          "doc_id": "DOC_BANK",
+          "claimed_value": "65000.00",
+          "confidence": 93.0,
+          "ground_truth": "65000.00",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "account_number",
+          "field_type": "id",
+          "doc_id": "DOC_SLIP",
+          "claimed_value": "908812340016",
+          "confidence": 96.0,
+          "ground_truth": "908812340016",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "account_number",
+          "field_type": "id",
+          "doc_id": "DOC_BANK",
+          "claimed_value": "908812340016",
+          "confidence": 94.0,
+          "ground_truth": "908812340016",
+          "expected_outcome": "VERIFY"
+        }
+      ],
+      "required_doc_types": [
+        "SALARY_SLIP",
+        "BANK_STATEMENT"
+      ]
+    },
+    {
+      "packet_id": "PKT_M_17_BANKING",
+      "split": "DEV",
+      "family": "Banking & Underwriting",
+      "acquisition": "Degraded Thermal/Fax",
+      "condition": "Salary Statement Conflict",
+      "target_entity": {
+        "entity_id": "ENT_M_17",
+        "canonical_name": "APPLICANT 17 SAHOO",
+        "tax_id": "BCDPK0017F",
+        "account_number": "908812340017"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_SLIP",
+          "doc_type": "SALARY_SLIP",
+          "file_name": "salary_17.pdf",
+          "content_hash": "hash_sal_17"
+        },
+        {
+          "doc_id": "DOC_BANK",
+          "doc_type": "BANK_STATEMENT",
+          "file_name": "bank_17.pdf",
+          "content_hash": "hash_bnk_17"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "net_monthly_salary",
+          "field_type": "amount",
+          "doc_id": "DOC_SLIP",
+          "claimed_value": "65000.00",
+          "confidence": 95.0,
+          "ground_truth": "CONTRADICTION",
+          "expected_outcome": "CONTRADICTION_DETECTED"
+        },
+        {
+          "field_name": "net_monthly_salary",
+          "field_type": "amount",
+          "doc_id": "DOC_BANK",
+          "claimed_value": "52000.00",
+          "confidence": 93.0,
+          "ground_truth": "CONTRADICTION",
+          "expected_outcome": "CONTRADICTION_DETECTED"
+        },
+        {
+          "field_name": "account_number",
+          "field_type": "id",
+          "doc_id": "DOC_SLIP",
+          "claimed_value": "908812340017",
+          "confidence": 96.0,
+          "ground_truth": "908812340017",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "account_number",
+          "field_type": "id",
+          "doc_id": "DOC_BANK",
+          "claimed_value": "908812340017",
+          "confidence": 94.0,
+          "ground_truth": "908812340017",
+          "expected_outcome": "VERIFY"
+        }
+      ],
+      "required_doc_types": [
+        "SALARY_SLIP",
+        "BANK_STATEMENT"
+      ]
+    },
+    {
+      "packet_id": "PKT_M_18_BANKING",
+      "split": "BLIND",
+      "family": "Banking & Underwriting",
+      "acquisition": "Digital PDF",
+      "condition": "Exact Agreement",
+      "target_entity": {
+        "entity_id": "ENT_M_18",
+        "canonical_name": "APPLICANT 18 SAHOO",
+        "tax_id": "BCDPK0018F",
+        "account_number": "908812340018"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_SLIP",
+          "doc_type": "SALARY_SLIP",
+          "file_name": "salary_18.pdf",
+          "content_hash": "hash_sal_18"
+        },
+        {
+          "doc_id": "DOC_BANK",
+          "doc_type": "BANK_STATEMENT",
+          "file_name": "bank_18.pdf",
+          "content_hash": "hash_bnk_18"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "net_monthly_salary",
+          "field_type": "amount",
+          "doc_id": "DOC_SLIP",
+          "claimed_value": "65000.00",
+          "confidence": 95.0,
+          "ground_truth": "65000.00",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "net_monthly_salary",
+          "field_type": "amount",
+          "doc_id": "DOC_BANK",
+          "claimed_value": "65000.00",
+          "confidence": 93.0,
+          "ground_truth": "65000.00",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "account_number",
+          "field_type": "id",
+          "doc_id": "DOC_SLIP",
+          "claimed_value": "908812340018",
+          "confidence": 96.0,
+          "ground_truth": "908812340018",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "account_number",
+          "field_type": "id",
+          "doc_id": "DOC_BANK",
+          "claimed_value": "908812340018",
+          "confidence": 94.0,
+          "ground_truth": "908812340018",
+          "expected_outcome": "VERIFY"
+        }
+      ],
+      "required_doc_types": [
+        "SALARY_SLIP",
+        "BANK_STATEMENT"
+      ]
+    },
+    {
+      "packet_id": "PKT_M_19_BANKING",
+      "split": "CHALL",
+      "family": "Banking & Underwriting",
+      "acquisition": "Degraded Thermal/Fax",
+      "condition": "Salary Statement Conflict",
+      "target_entity": {
+        "entity_id": "ENT_M_19",
+        "canonical_name": "APPLICANT 19 SAHOO",
+        "tax_id": "BCDPK0019F",
+        "account_number": "908812340019"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_SLIP",
+          "doc_type": "SALARY_SLIP",
+          "file_name": "salary_19.pdf",
+          "content_hash": "hash_sal_19"
+        },
+        {
+          "doc_id": "DOC_BANK",
+          "doc_type": "BANK_STATEMENT",
+          "file_name": "bank_19.pdf",
+          "content_hash": "hash_bnk_19"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "net_monthly_salary",
+          "field_type": "amount",
+          "doc_id": "DOC_SLIP",
+          "claimed_value": "65000.00",
+          "confidence": 95.0,
+          "ground_truth": "CONTRADICTION",
+          "expected_outcome": "CONTRADICTION_DETECTED"
+        },
+        {
+          "field_name": "net_monthly_salary",
+          "field_type": "amount",
+          "doc_id": "DOC_BANK",
+          "claimed_value": "52000.00",
+          "confidence": 93.0,
+          "ground_truth": "CONTRADICTION",
+          "expected_outcome": "CONTRADICTION_DETECTED"
+        },
+        {
+          "field_name": "account_number",
+          "field_type": "id",
+          "doc_id": "DOC_SLIP",
+          "claimed_value": "908812340019",
+          "confidence": 96.0,
+          "ground_truth": "908812340019",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "account_number",
+          "field_type": "id",
+          "doc_id": "DOC_BANK",
+          "claimed_value": "908812340019",
+          "confidence": 94.0,
+          "ground_truth": "908812340019",
+          "expected_outcome": "VERIFY"
+        }
+      ],
+      "required_doc_types": [
+        "SALARY_SLIP",
+        "BANK_STATEMENT"
+      ]
+    },
+    {
+      "packet_id": "PKT_M_20_BANKING",
+      "split": "DEV",
+      "family": "Banking & Underwriting",
+      "acquisition": "Digital PDF",
+      "condition": "Exact Agreement",
+      "target_entity": {
+        "entity_id": "ENT_M_20",
+        "canonical_name": "APPLICANT 20 SAHOO",
+        "tax_id": "BCDPK0020F",
+        "account_number": "908812340020"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_SLIP",
+          "doc_type": "SALARY_SLIP",
+          "file_name": "salary_20.pdf",
+          "content_hash": "hash_sal_20"
+        },
+        {
+          "doc_id": "DOC_BANK",
+          "doc_type": "BANK_STATEMENT",
+          "file_name": "bank_20.pdf",
+          "content_hash": "hash_bnk_20"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "net_monthly_salary",
+          "field_type": "amount",
+          "doc_id": "DOC_SLIP",
+          "claimed_value": "65000.00",
+          "confidence": 95.0,
+          "ground_truth": "65000.00",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "net_monthly_salary",
+          "field_type": "amount",
+          "doc_id": "DOC_BANK",
+          "claimed_value": "65000.00",
+          "confidence": 93.0,
+          "ground_truth": "65000.00",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "account_number",
+          "field_type": "id",
+          "doc_id": "DOC_SLIP",
+          "claimed_value": "908812340020",
+          "confidence": 96.0,
+          "ground_truth": "908812340020",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "account_number",
+          "field_type": "id",
+          "doc_id": "DOC_BANK",
+          "claimed_value": "908812340020",
+          "confidence": 94.0,
+          "ground_truth": "908812340020",
+          "expected_outcome": "VERIFY"
+        }
+      ],
+      "required_doc_types": [
+        "SALARY_SLIP",
+        "BANK_STATEMENT"
+      ]
+    },
+    {
+      "packet_id": "PKT_M_21_LAND",
+      "split": "BLIND",
+      "family": "Land Records & Governance",
+      "acquisition": "Mobile Scanner",
+      "condition": "Exact Agreement",
+      "target_entity": {
+        "entity_id": "ENT_M_21",
+        "canonical_name": "LANDHOLDER 21 ROUTRAY"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_ROR",
+          "doc_type": "RECORD_OF_RIGHTS",
+          "file_name": "ror_21.pdf",
+          "content_hash": "hash_ror_21"
+        },
+        {
+          "doc_id": "DOC_MUTATION",
+          "doc_type": "MUTATION_ORDER",
+          "file_name": "mutation_21.pdf",
+          "content_hash": "hash_mut_21"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "plot_area_acres",
+          "field_type": "number",
+          "doc_id": "DOC_ROR",
+          "claimed_value": "2.45",
+          "confidence": 93.0,
+          "ground_truth": "2.45",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "plot_area_acres",
+          "field_type": "number",
+          "doc_id": "DOC_MUTATION",
+          "claimed_value": "2.45",
+          "confidence": 91.0,
+          "ground_truth": "2.45",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "khatian_number",
+          "field_type": "id",
+          "doc_id": "DOC_ROR",
+          "claimed_value": "KH-90221",
+          "confidence": 95.0,
+          "ground_truth": "KH-90221",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "khatian_number",
+          "field_type": "id",
+          "doc_id": "DOC_MUTATION",
+          "claimed_value": "KH-90221",
+          "confidence": 94.0,
+          "ground_truth": "KH-90221",
+          "expected_outcome": "VERIFY"
+        }
+      ],
+      "required_doc_types": [
+        "RECORD_OF_RIGHTS",
+        "MUTATION_ORDER"
+      ]
+    },
+    {
+      "packet_id": "PKT_M_22_LAND",
+      "split": "CAL",
+      "family": "Land Records & Governance",
+      "acquisition": "Mobile Scanner",
+      "condition": "Khata Area Discrepancy",
+      "target_entity": {
+        "entity_id": "ENT_M_22",
+        "canonical_name": "LANDHOLDER 22 ROUTRAY"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_ROR",
+          "doc_type": "RECORD_OF_RIGHTS",
+          "file_name": "ror_22.pdf",
+          "content_hash": "hash_ror_22"
+        },
+        {
+          "doc_id": "DOC_MUTATION",
+          "doc_type": "MUTATION_ORDER",
+          "file_name": "mutation_22.pdf",
+          "content_hash": "hash_mut_22"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "plot_area_acres",
+          "field_type": "number",
+          "doc_id": "DOC_ROR",
+          "claimed_value": "2.45",
+          "confidence": 93.0,
+          "ground_truth": "CONTRADICTION",
+          "expected_outcome": "CONTRADICTION_DETECTED"
+        },
+        {
+          "field_name": "plot_area_acres",
+          "field_type": "number",
+          "doc_id": "DOC_MUTATION",
+          "claimed_value": "3.10",
+          "confidence": 91.0,
+          "ground_truth": "CONTRADICTION",
+          "expected_outcome": "CONTRADICTION_DETECTED"
+        },
+        {
+          "field_name": "khatian_number",
+          "field_type": "id",
+          "doc_id": "DOC_ROR",
+          "claimed_value": "KH-90222",
+          "confidence": 95.0,
+          "ground_truth": "KH-90222",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "khatian_number",
+          "field_type": "id",
+          "doc_id": "DOC_MUTATION",
+          "claimed_value": "KH-90222",
+          "confidence": 94.0,
+          "ground_truth": "KH-90222",
+          "expected_outcome": "VERIFY"
+        }
+      ],
+      "required_doc_types": [
+        "RECORD_OF_RIGHTS",
+        "MUTATION_ORDER"
+      ]
+    },
+    {
+      "packet_id": "PKT_M_23_LAND",
+      "split": "BLIND",
+      "family": "Land Records & Governance",
+      "acquisition": "Mobile Scanner",
+      "condition": "Exact Agreement",
+      "target_entity": {
+        "entity_id": "ENT_M_23",
+        "canonical_name": "LANDHOLDER 23 ROUTRAY"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_ROR",
+          "doc_type": "RECORD_OF_RIGHTS",
+          "file_name": "ror_23.pdf",
+          "content_hash": "hash_ror_23"
+        },
+        {
+          "doc_id": "DOC_MUTATION",
+          "doc_type": "MUTATION_ORDER",
+          "file_name": "mutation_23.pdf",
+          "content_hash": "hash_mut_23"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "plot_area_acres",
+          "field_type": "number",
+          "doc_id": "DOC_ROR",
+          "claimed_value": "2.45",
+          "confidence": 93.0,
+          "ground_truth": "2.45",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "plot_area_acres",
+          "field_type": "number",
+          "doc_id": "DOC_MUTATION",
+          "claimed_value": "2.45",
+          "confidence": 91.0,
+          "ground_truth": "2.45",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "khatian_number",
+          "field_type": "id",
+          "doc_id": "DOC_ROR",
+          "claimed_value": "KH-90223",
+          "confidence": 95.0,
+          "ground_truth": "KH-90223",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "khatian_number",
+          "field_type": "id",
+          "doc_id": "DOC_MUTATION",
+          "claimed_value": "KH-90223",
+          "confidence": 94.0,
+          "ground_truth": "KH-90223",
+          "expected_outcome": "VERIFY"
+        }
+      ],
+      "required_doc_types": [
+        "RECORD_OF_RIGHTS",
+        "MUTATION_ORDER"
+      ]
+    },
+    {
+      "packet_id": "PKT_M_24_LAND",
+      "split": "CAL",
+      "family": "Land Records & Governance",
+      "acquisition": "Mobile Scanner",
+      "condition": "Khata Area Discrepancy",
+      "target_entity": {
+        "entity_id": "ENT_M_24",
+        "canonical_name": "LANDHOLDER 24 ROUTRAY"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_ROR",
+          "doc_type": "RECORD_OF_RIGHTS",
+          "file_name": "ror_24.pdf",
+          "content_hash": "hash_ror_24"
+        },
+        {
+          "doc_id": "DOC_MUTATION",
+          "doc_type": "MUTATION_ORDER",
+          "file_name": "mutation_24.pdf",
+          "content_hash": "hash_mut_24"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "plot_area_acres",
+          "field_type": "number",
+          "doc_id": "DOC_ROR",
+          "claimed_value": "2.45",
+          "confidence": 93.0,
+          "ground_truth": "CONTRADICTION",
+          "expected_outcome": "CONTRADICTION_DETECTED"
+        },
+        {
+          "field_name": "plot_area_acres",
+          "field_type": "number",
+          "doc_id": "DOC_MUTATION",
+          "claimed_value": "3.10",
+          "confidence": 91.0,
+          "ground_truth": "CONTRADICTION",
+          "expected_outcome": "CONTRADICTION_DETECTED"
+        },
+        {
+          "field_name": "khatian_number",
+          "field_type": "id",
+          "doc_id": "DOC_ROR",
+          "claimed_value": "KH-90224",
+          "confidence": 95.0,
+          "ground_truth": "KH-90224",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "khatian_number",
+          "field_type": "id",
+          "doc_id": "DOC_MUTATION",
+          "claimed_value": "KH-90224",
+          "confidence": 94.0,
+          "ground_truth": "KH-90224",
+          "expected_outcome": "VERIFY"
+        }
+      ],
+      "required_doc_types": [
+        "RECORD_OF_RIGHTS",
+        "MUTATION_ORDER"
+      ]
+    },
+    {
+      "packet_id": "PKT_M_25_LAND",
+      "split": "CHALL",
+      "family": "Land Records & Governance",
+      "acquisition": "Mobile Scanner",
+      "condition": "Exact Agreement",
+      "target_entity": {
+        "entity_id": "ENT_M_25",
+        "canonical_name": "LANDHOLDER 25 ROUTRAY"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_ROR",
+          "doc_type": "RECORD_OF_RIGHTS",
+          "file_name": "ror_25.pdf",
+          "content_hash": "hash_ror_25"
+        },
+        {
+          "doc_id": "DOC_MUTATION",
+          "doc_type": "MUTATION_ORDER",
+          "file_name": "mutation_25.pdf",
+          "content_hash": "hash_mut_25"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "plot_area_acres",
+          "field_type": "number",
+          "doc_id": "DOC_ROR",
+          "claimed_value": "2.45",
+          "confidence": 93.0,
+          "ground_truth": "2.45",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "plot_area_acres",
+          "field_type": "number",
+          "doc_id": "DOC_MUTATION",
+          "claimed_value": "2.45",
+          "confidence": 91.0,
+          "ground_truth": "2.45",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "khatian_number",
+          "field_type": "id",
+          "doc_id": "DOC_ROR",
+          "claimed_value": "KH-90225",
+          "confidence": 95.0,
+          "ground_truth": "KH-90225",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "khatian_number",
+          "field_type": "id",
+          "doc_id": "DOC_MUTATION",
+          "claimed_value": "KH-90225",
+          "confidence": 94.0,
+          "ground_truth": "KH-90225",
+          "expected_outcome": "VERIFY"
+        }
+      ],
+      "required_doc_types": [
+        "RECORD_OF_RIGHTS",
+        "MUTATION_ORDER"
+      ]
+    },
+    {
+      "packet_id": "PKT_M_26_MCA",
+      "split": "BLIND",
+      "family": "Corporate Compliance",
+      "acquisition": "Digital PDF",
+      "condition": "Exact Agreement",
+      "target_entity": {
+        "entity_id": "ENT_M_26",
+        "canonical_name": "TECH VENTURES 26 PRIVATE LTD",
+        "tax_id": "21AAACT0026L1Z8"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_INC",
+          "doc_type": "CERTIFICATE_OF_INCORPORATION",
+          "file_name": "inc_26.pdf",
+          "content_hash": "hash_inc_26"
+        },
+        {
+          "doc_id": "DOC_MOA",
+          "doc_type": "MEMORANDUM_OF_ASSOCIATION",
+          "file_name": "moa_26.pdf",
+          "content_hash": "hash_moa_26"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "authorised_capital",
+          "field_type": "amount",
+          "doc_id": "DOC_INC",
+          "claimed_value": "1000000.00",
+          "confidence": 96.0,
+          "ground_truth": "1000000.00",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "authorised_capital",
+          "field_type": "amount",
+          "doc_id": "DOC_MOA",
+          "claimed_value": "1000000.00",
+          "confidence": 94.0,
+          "ground_truth": "1000000.00",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "corporate_cin",
+          "field_type": "id",
+          "doc_id": "DOC_INC",
+          "claimed_value": "U72200OR2026PTC00026",
+          "confidence": 95.0,
+          "ground_truth": "U72200OR2026PTC00026",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "paid_up_capital",
+          "field_type": "amount",
+          "doc_id": "DOC_INC",
+          "claimed_value": "500000.00",
+          "confidence": 95.0,
+          "ground_truth": "500000.00",
+          "expected_outcome": "VERIFY"
+        }
+      ],
+      "required_doc_types": [
+        "CERTIFICATE_OF_INCORPORATION",
+        "MEMORANDUM_OF_ASSOCIATION"
+      ]
+    },
+    {
+      "packet_id": "PKT_M_27_MCA",
+      "split": "DEV",
+      "family": "Corporate Compliance",
+      "acquisition": "Digital PDF",
+      "condition": "CIN / Authorised Capital Mismatch",
+      "target_entity": {
+        "entity_id": "ENT_M_27",
+        "canonical_name": "TECH VENTURES 27 PRIVATE LTD",
+        "tax_id": "21AAACT0027L1Z8"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_INC",
+          "doc_type": "CERTIFICATE_OF_INCORPORATION",
+          "file_name": "inc_27.pdf",
+          "content_hash": "hash_inc_27"
+        },
+        {
+          "doc_id": "DOC_MOA",
+          "doc_type": "MEMORANDUM_OF_ASSOCIATION",
+          "file_name": "moa_27.pdf",
+          "content_hash": "hash_moa_27"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "authorised_capital",
+          "field_type": "amount",
+          "doc_id": "DOC_INC",
+          "claimed_value": "1000000.00",
+          "confidence": 96.0,
+          "ground_truth": "CONTRADICTION",
+          "expected_outcome": "CONTRADICTION_DETECTED"
+        },
+        {
+          "field_name": "authorised_capital",
+          "field_type": "amount",
+          "doc_id": "DOC_MOA",
+          "claimed_value": "2500000.00",
+          "confidence": 94.0,
+          "ground_truth": "CONTRADICTION",
+          "expected_outcome": "CONTRADICTION_DETECTED"
+        },
+        {
+          "field_name": "corporate_cin",
+          "field_type": "id",
+          "doc_id": "DOC_INC",
+          "claimed_value": "U72200OR2026PTC00027",
+          "confidence": 95.0,
+          "ground_truth": "U72200OR2026PTC00027",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "paid_up_capital",
+          "field_type": "amount",
+          "doc_id": "DOC_INC",
+          "claimed_value": "500000.00",
+          "confidence": 95.0,
+          "ground_truth": "500000.00",
+          "expected_outcome": "VERIFY"
+        }
+      ],
+      "required_doc_types": [
+        "CERTIFICATE_OF_INCORPORATION",
+        "MEMORANDUM_OF_ASSOCIATION"
+      ]
+    },
+    {
+      "packet_id": "PKT_M_28_MCA",
+      "split": "BLIND",
+      "family": "Corporate Compliance",
+      "acquisition": "Digital PDF",
+      "condition": "Exact Agreement",
+      "target_entity": {
+        "entity_id": "ENT_M_28",
+        "canonical_name": "TECH VENTURES 28 PRIVATE LTD",
+        "tax_id": "21AAACT0028L1Z8"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_INC",
+          "doc_type": "CERTIFICATE_OF_INCORPORATION",
+          "file_name": "inc_28.pdf",
+          "content_hash": "hash_inc_28"
+        },
+        {
+          "doc_id": "DOC_MOA",
+          "doc_type": "MEMORANDUM_OF_ASSOCIATION",
+          "file_name": "moa_28.pdf",
+          "content_hash": "hash_moa_28"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "authorised_capital",
+          "field_type": "amount",
+          "doc_id": "DOC_INC",
+          "claimed_value": "1000000.00",
+          "confidence": 96.0,
+          "ground_truth": "1000000.00",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "authorised_capital",
+          "field_type": "amount",
+          "doc_id": "DOC_MOA",
+          "claimed_value": "1000000.00",
+          "confidence": 94.0,
+          "ground_truth": "1000000.00",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "corporate_cin",
+          "field_type": "id",
+          "doc_id": "DOC_INC",
+          "claimed_value": "U72200OR2026PTC00028",
+          "confidence": 95.0,
+          "ground_truth": "U72200OR2026PTC00028",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "paid_up_capital",
+          "field_type": "amount",
+          "doc_id": "DOC_INC",
+          "claimed_value": "500000.00",
+          "confidence": 95.0,
+          "ground_truth": "500000.00",
+          "expected_outcome": "VERIFY"
+        }
+      ],
+      "required_doc_types": [
+        "CERTIFICATE_OF_INCORPORATION",
+        "MEMORANDUM_OF_ASSOCIATION"
+      ]
+    },
+    {
+      "packet_id": "PKT_M_29_MCA",
+      "split": "DEV",
+      "family": "Corporate Compliance",
+      "acquisition": "Digital PDF",
+      "condition": "CIN / Authorised Capital Mismatch",
+      "target_entity": {
+        "entity_id": "ENT_M_29",
+        "canonical_name": "TECH VENTURES 29 PRIVATE LTD",
+        "tax_id": "21AAACT0029L1Z8"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_INC",
+          "doc_type": "CERTIFICATE_OF_INCORPORATION",
+          "file_name": "inc_29.pdf",
+          "content_hash": "hash_inc_29"
+        },
+        {
+          "doc_id": "DOC_MOA",
+          "doc_type": "MEMORANDUM_OF_ASSOCIATION",
+          "file_name": "moa_29.pdf",
+          "content_hash": "hash_moa_29"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "authorised_capital",
+          "field_type": "amount",
+          "doc_id": "DOC_INC",
+          "claimed_value": "1000000.00",
+          "confidence": 96.0,
+          "ground_truth": "CONTRADICTION",
+          "expected_outcome": "CONTRADICTION_DETECTED"
+        },
+        {
+          "field_name": "authorised_capital",
+          "field_type": "amount",
+          "doc_id": "DOC_MOA",
+          "claimed_value": "2500000.00",
+          "confidence": 94.0,
+          "ground_truth": "CONTRADICTION",
+          "expected_outcome": "CONTRADICTION_DETECTED"
+        },
+        {
+          "field_name": "corporate_cin",
+          "field_type": "id",
+          "doc_id": "DOC_INC",
+          "claimed_value": "U72200OR2026PTC00029",
+          "confidence": 95.0,
+          "ground_truth": "U72200OR2026PTC00029",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "paid_up_capital",
+          "field_type": "amount",
+          "doc_id": "DOC_INC",
+          "claimed_value": "500000.00",
+          "confidence": 95.0,
+          "ground_truth": "500000.00",
+          "expected_outcome": "VERIFY"
+        }
+      ],
+      "required_doc_types": [
+        "CERTIFICATE_OF_INCORPORATION",
+        "MEMORANDUM_OF_ASSOCIATION"
+      ]
+    },
+    {
+      "packet_id": "PKT_M_30_MCA",
+      "split": "CHALL",
+      "family": "Corporate Compliance",
+      "acquisition": "Digital PDF",
+      "condition": "Exact Agreement",
+      "target_entity": {
+        "entity_id": "ENT_M_30",
+        "canonical_name": "TECH VENTURES 30 PRIVATE LTD",
+        "tax_id": "21AAACT0030L1Z8"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_INC",
+          "doc_type": "CERTIFICATE_OF_INCORPORATION",
+          "file_name": "inc_30.pdf",
+          "content_hash": "hash_inc_30"
+        },
+        {
+          "doc_id": "DOC_MOA",
+          "doc_type": "MEMORANDUM_OF_ASSOCIATION",
+          "file_name": "moa_30.pdf",
+          "content_hash": "hash_moa_30"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "authorised_capital",
+          "field_type": "amount",
+          "doc_id": "DOC_INC",
+          "claimed_value": "1000000.00",
+          "confidence": 96.0,
+          "ground_truth": "1000000.00",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "authorised_capital",
+          "field_type": "amount",
+          "doc_id": "DOC_MOA",
+          "claimed_value": "1000000.00",
+          "confidence": 94.0,
+          "ground_truth": "1000000.00",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "corporate_cin",
+          "field_type": "id",
+          "doc_id": "DOC_INC",
+          "claimed_value": "U72200OR2026PTC00030",
+          "confidence": 95.0,
+          "ground_truth": "U72200OR2026PTC00030",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "paid_up_capital",
+          "field_type": "amount",
+          "doc_id": "DOC_INC",
+          "claimed_value": "500000.00",
+          "confidence": 95.0,
+          "ground_truth": "500000.00",
+          "expected_outcome": "VERIFY"
+        }
+      ],
+      "required_doc_types": [
+        "CERTIFICATE_OF_INCORPORATION",
+        "MEMORANDUM_OF_ASSOCIATION"
+      ]
+    }
+  ]
+}

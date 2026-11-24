@@ -1,0 +1,157 @@
+{
+  "DEV": {
+    "total_packets": 10,
+    "packets_with_verified_claim": 7,
+    "packets_with_false_verification": 0,
+    "packets_all_abstained": 3,
+    "packet_coverage_pct": 70.0,
+    "packet_false_verification_rate_pct": 0.0,
+    "packet_coverage_ci95_clustered": [
+      40.0,
+      100.0
+    ],
+    "packet_precision_ci95_clustered": [
+      100.0,
+      100.0
+    ],
+    "total_claims": 27,
+    "verified_claims": 14,
+    "exact_matches": 14,
+    "false_verifications": 0,
+    "abstentions": 13,
+    "claim_precision_pct": 100.0,
+    "claim_coverage_pct": 51.85,
+    "claim_precision_ci95_clustered": [
+      100.0,
+      100.0
+    ],
+    "claim_coverage_ci95_clustered": [
+      28.0,
+      72.73
+    ]
+  },
+  "CAL": {
+    "total_packets": 8,
+    "packets_with_verified_claim": 6,
+    "packets_with_false_verification": 0,
+    "packets_all_abstained": 2,
+    "packet_coverage_pct": 75.0,
+    "packet_false_verification_rate_pct": 0.0,
+    "packet_coverage_ci95_clustered": [
+      37.5,
+      100.0
+    ],
+    "packet_precision_ci95_clustered": [
+      100.0,
+      100.0
+    ],
+    "total_claims": 23,
+    "verified_claims": 13,
+    "exact_matches": 13,
+    "false_verifications": 0,
+    "abstentions": 10,
+    "claim_precision_pct": 100.0,
+    "claim_coverage_pct": 56.52,
+    "claim_precision_ci95_clustered": [
+      100.0,
+      100.0
+    ],
+    "claim_coverage_ci95_clustered": [
+      31.25,
+      78.26
+    ]
+  },
+  "BLIND": {
+    "total_packets": 12,
+    "packets_with_verified_claim": 7,
+    "packets_with_false_verification": 0,
+    "packets_all_abstained": 5,
+    "packet_coverage_pct": 58.33,
+    "packet_false_verification_rate_pct": 0.0,
+    "packet_coverage_ci95_clustered": [
+      33.33,
+      83.33
+    ],
+    "packet_precision_ci95_clustered": [
+      100.0,
+      100.0
+    ],
+    "total_claims": 31,
+    "verified_claims": 14,
+    "exact_matches": 14,
+    "false_verifications": 0,
+    "abstentions": 17,
+    "claim_precision_pct": 100.0,
+    "claim_coverage_pct": 45.16,
+    "claim_precision_ci95_clustered": [
+      100.0,
+      100.0
+    ],
+    "claim_coverage_ci95_clustered": [
+      20.83,
+      65.0
+    ]
+  },
+  "CHALL": {
+    "total_packets": 6,
+    "packets_with_verified_claim": 1,
+    "packets_with_false_verification": 0,
+    "packets_all_abstained": 5,
+    "packet_coverage_pct": 16.67,
+    "packet_false_verification_rate_pct": 0.0,
+    "packet_coverage_ci95_clustered": [
+      0.0,
+      50.0
+    ],
+    "packet_precision_ci95_clustered": [
+      100.0,
+      100.0
+    ],
+    "total_claims": 11,
+    "verified_claims": 1,
+    "exact_matches": 1,
+    "false_verifications": 0,
+    "abstentions": 10,
+    "claim_precision_pct": 100.0,
+    "claim_coverage_pct": 9.09,
+    "claim_precision_ci95_clustered": [
+      100.0,
+      100.0
+    ],
+    "claim_coverage_ci95_clustered": [
+      0.0,
+      27.27
+    ]
+  },
+  "AGGREGATE": {
+    "total_packets": 36,
+    "packets_with_verified_claim": 21,
+    "packets_with_false_verification": 0,
+    "packets_all_abstained": 15,
+    "packet_coverage_pct": 58.33,
+    "packet_false_verification_rate_pct": 0.0,
+    "packet_coverage_ci95_clustered": [
+      41.67,
+      75.0
+    ],
+    "packet_precision_ci95_clustered": [
+      100.0,
+      100.0
+    ],
+    "total_claims": 92,
+    "verified_claims": 42,
+    "exact_matches": 42,
+    "false_verifications": 0,
+    "abstentions": 50,
+    "claim_precision_pct": 100.0,
+    "claim_coverage_pct": 45.65,
+    "claim_precision_ci95_clustered": [
+      100.0,
+      100.0
+    ],
+    "claim_coverage_ci95_clustered": [
+      32.22,
+      57.52
+    ]
+  }
+}
