@@ -1,0 +1,14 @@
+{
+  "milestone": "Loop 33",
+  "branch": "loop-33-domain-rules-and-decision-policy-audit",
+  "base_commit": "12d6512e69eae55a6e8c6643a830becd8aa404c5",
+  "protected_competition_release": "bdc403a",
+  "operating_thresholds": {
+    "T_star": 70.0,
+    "T_fuzzy": 75.0
+  },
+  "verified_at": "2026-11-25T14:38:12+05:30",
+  "release_artifacts_bit_exact": true,
+  "local_branches_count": 40,
+  "remote_branches_count": 159
+}

@@ -1,0 +1,51 @@
+{
+  "defect_register_version": "1.0.0",
+  "milestone": "Loop 33",
+  "total_defects_cataloged": 4,
+  "defects": [
+    {
+      "id": "RULE-033-001",
+      "title": "Date Invariant Ambiguity Conservative Abstention on Identical Slash Strings",
+      "subsystem": "docuready.normalize.normalizer.compare_dates",
+      "severity": "Low (Behavioral Feature / Policy Intent)",
+      "classification": "By-Design Conservative Policy",
+      "description": "When comparing two identical ambiguous slash date strings (e.g. '05/06/2024' vs '05/06/2024'), compare_dates returns MatchGrade.AMBIGUOUS / Status.REVIEW. While string identity is exact, semantic calendar identity is ambiguous because different issuing authorities may follow differing regional date conventions (DD/MM/YYYY vs MM/DD/YYYY).",
+      "remediation": "Preserve current conservative abstention policy. Do not relax into false certainty without authority locale metadata.",
+      "reproduced": true,
+      "status": "Documented & Retained as Invariant"
+    },
+    {
+      "id": "RULE-033-002",
+      "title": "Hardcoded Procedural Citations vs Declarative Source Manifest Registry",
+      "subsystem": "docuready.rules.validator.DocuReadyValidator",
+      "severity": "Low (Technical Debt)",
+      "classification": "Architecture & Maintainability",
+      "description": "The procedural validator embeds statutory citation strings directly in code rather than resolving them dynamically from packs/generic.demo/sources.yaml.",
+      "remediation": "Long-term migration to pure declarative SchemePack primitives; retain backwards compatibility in MVP validator.",
+      "reproduced": true,
+      "status": "Documented Technical Debt"
+    },
+    {
+      "id": "RULE-033-003",
+      "title": "Odisha Post-Matric Specific Rules Hardcoded as Global Defaults in SchemeConfig",
+      "subsystem": "docuready.rules.validator.SchemeConfig",
+      "severity": "Low (Configuration Coupling)",
+      "classification": "Modular Architecture",
+      "description": "SchemeConfig defaults target_state to 'ODISHA' and scheme name to 'Odisha Post-Matric Scholarship', tightly coupling the default procedural engine to a single Indian state jurisdiction.",
+      "remediation": "Config parameter injection and declarative scheme pack loading decouple jurisdiction cleanly.",
+      "reproduced": true,
+      "status": "Documented Architecture Observation"
+    },
+    {
+      "id": "RULE-033-004",
+      "title": "Income Tolerance Match Grade Divergence Between V1 and V2 Truth Tables",
+      "subsystem": "docuready.normalize.normalizer.compare_amounts vs outcome.resolver",
+      "severity": "Medium (Semantic Divergence)",
+      "classification": "Engine Consistency",
+      "description": "When declared and certified income vary within positive non-zero tolerance, compare_amounts produces status 'REVIEW' with MatchGrade.COMPATIBLE under V2 truth table, whereas legacy validator emitted PASS with informational note.",
+      "remediation": "V2 conservative truth table is authoritative: variation within tolerance requires human review rather than silent unconditional clearance.",
+      "reproduced": true,
+      "status": "Standardized to V2 Conservative Truth Table"
+    }
+  ]
+}

@@ -1,0 +1,645 @@
+{
+  "total_mapped_rules": 64,
+  "mapping": [
+    {
+      "rule_id": "RULE-DOC-01",
+      "rule_name": "Mandatory Document Completeness",
+      "subsystem": "Declarative Scheme Pack (generic.demo)",
+      "family": "F",
+      "source_id": "SRC-DOC-01",
+      "source_title": "Centrally Sponsored Scheme of Post-Matric Scholarships to the Students Belonging to Scheduled Castes for Studies in India (2020-21 to 2025-26)",
+      "source_status": "verified",
+      "statutory_support": true
+    },
+    {
+      "rule_id": "RULE-DOC-02",
+      "rule_name": "Document Legibility & Evidence Integrity",
+      "subsystem": "Declarative Scheme Pack (generic.demo)",
+      "family": "F",
+      "source_id": "SRC-DOC-02",
+      "source_title": "NSP Operational Guidelines & Portal User Instructions",
+      "source_status": "unverified",
+      "statutory_support": false
+    },
+    {
+      "rule_id": "RULE-FLD-01",
+      "rule_name": "Mandatory Field Completeness",
+      "subsystem": "Declarative Scheme Pack (generic.demo)",
+      "family": "D",
+      "source_id": "SRC-FLD-01",
+      "source_title": "DBT Guidelines on Beneficiary Verification",
+      "source_status": "unverified",
+      "statutory_support": false
+    },
+    {
+      "rule_id": "RULE-NAME-01",
+      "rule_name": "Cross-Document Applicant Name Consistency",
+      "subsystem": "Declarative Scheme Pack (generic.demo)",
+      "family": "A",
+      "source_id": "SRC-NAME-01",
+      "source_title": "NSP Verification Manual & Operational Guidance",
+      "source_status": "unverified",
+      "statutory_support": false
+    },
+    {
+      "rule_id": "RULE-DOB-01",
+      "rule_name": "Cross-Document Date of Birth Consistency",
+      "subsystem": "Declarative Scheme Pack (generic.demo)",
+      "family": "B",
+      "source_id": "SRC-DOB-01",
+      "source_title": "CBSE Examination Bye-Laws (Notification CBSE/Coord/2021)",
+      "source_status": "verified",
+      "statutory_support": true
+    },
+    {
+      "rule_id": "RULE-INC-01",
+      "rule_name": "Statutory Income Ceiling Compliance",
+      "subsystem": "Declarative Scheme Pack (generic.demo)",
+      "family": "C",
+      "source_id": "SRC-INC-01",
+      "source_title": "Centrally Sponsored Scheme of Post-Matric Scholarships to the Students Belonging to Scheduled Castes for Studies in India (2020-21 to 2025-26)",
+      "source_status": "verified",
+      "statutory_support": true
+    },
+    {
+      "rule_id": "RULE-INC-02",
+      "rule_name": "Cross-Document Income Declaration Match",
+      "subsystem": "Declarative Scheme Pack (generic.demo)",
+      "family": "C",
+      "source_id": "SRC-INC-02",
+      "source_title": "NSP Guidelines for Institute Nodal Officers",
+      "source_status": "unverified",
+      "statutory_support": false
+    },
+    {
+      "rule_id": "RULE-EXP-01",
+      "rule_name": "Income Certificate Validity Period",
+      "subsystem": "Declarative Scheme Pack (generic.demo)",
+      "family": "B",
+      "source_id": "SRC-EXP-01",
+      "source_title": "State Revenue Miscellaneous Certificates Regulations & Executive Orders",
+      "source_status": "unverified",
+      "statutory_support": false
+    },
+    {
+      "rule_id": "RULE-REF-01",
+      "rule_name": "Certificate Reference Number Match",
+      "subsystem": "Declarative Scheme Pack (generic.demo)",
+      "family": "A",
+      "source_id": "SRC-REF-01",
+      "source_title": "e-District Mission Mode Project Technical Architecture",
+      "source_status": "unverified",
+      "statutory_support": false
+    },
+    {
+      "rule_id": "RULE-REF-02",
+      "rule_name": "RULE-REF-02",
+      "subsystem": "Declarative Scheme Pack (generic.demo)",
+      "family": "A",
+      "source_id": "SRC-REF-01",
+      "source_title": "e-District Mission Mode Project Technical Architecture",
+      "source_status": "unverified",
+      "statutory_support": false
+    },
+    {
+      "rule_id": "RULE-BNK-01",
+      "rule_name": "Bank IFSC Code Standard Format",
+      "subsystem": "Declarative Scheme Pack (generic.demo)",
+      "family": "A",
+      "source_id": "SRC-BNK-01",
+      "source_title": "RBI Master Direction on Electronic Payment Systems \u2014 NEFT System Procedural Guidelines",
+      "source_status": "verified",
+      "statutory_support": true
+    },
+    {
+      "rule_id": "RULE-BNK-02",
+      "rule_name": "Bank Account Number Consistency",
+      "subsystem": "Declarative Scheme Pack (generic.demo)",
+      "family": "A",
+      "source_id": "SRC-BNK-02",
+      "source_title": "PFMS Operational Guidelines for DBT Account Validation",
+      "source_status": "unverified",
+      "statutory_support": false
+    },
+    {
+      "rule_id": "RULE-DOM-01",
+      "rule_name": "State Domicile Requirement",
+      "subsystem": "Declarative Scheme Pack (generic.demo)",
+      "family": "F",
+      "source_id": "SRC-DOM-01",
+      "source_title": "State Scholarship Scheme Guidelines (e.g., e-Medhabruti / Odisha State Portal)",
+      "source_status": "unverified",
+      "statutory_support": false
+    },
+    {
+      "rule_id": "RULE-MRK-01",
+      "rule_name": "Academic Cutoff Compliance & Category Relaxations",
+      "subsystem": "Declarative Scheme Pack (generic.demo)",
+      "family": "C",
+      "source_id": "SRC-MRK-01",
+      "source_title": "Centrally Sponsored Scheme of Post-Matric Scholarships to the Students Belonging to Scheduled Castes for Studies in India (2020-21 to 2025-26)",
+      "source_status": "verified",
+      "statutory_support": true
+    },
+    {
+      "rule_id": "RULE-DOC-01_PROCEDURAL",
+      "rule_name": "Mandatory Document Completeness",
+      "subsystem": "Procedural Validator (DocuReadyValidator)",
+      "family": "F",
+      "source_id": "SRC-DOC-01",
+      "source_title": "Centrally Sponsored Scheme of Post-Matric Scholarships to the Students Belonging to Scheduled Castes for Studies in India (2020-21 to 2025-26)",
+      "source_status": "verified",
+      "statutory_support": true
+    },
+    {
+      "rule_id": "RULE-DOC-02_PROCEDURAL",
+      "rule_name": "Document Legibility & Evidence Integrity",
+      "subsystem": "Procedural Validator (DocuReadyValidator)",
+      "family": "F",
+      "source_id": "SRC-DOC-02",
+      "source_title": "NSP Operational Guidelines & Portal User Instructions",
+      "source_status": "unverified",
+      "statutory_support": false
+    },
+    {
+      "rule_id": "RULE-NAME-UNCERTAIN_PROCEDURAL",
+      "rule_name": "Cross-Document Name Verification (Uncertain OCR)",
+      "subsystem": "Procedural Validator (DocuReadyValidator)",
+      "family": "A",
+      "source_id": null,
+      "source_title": "Scheme Operational Guidelines",
+      "source_status": "unverified",
+      "statutory_support": false
+    },
+    {
+      "rule_id": "RULE-NAME-01_PROCEDURAL",
+      "rule_name": "Cross-Document Applicant Name Consistency",
+      "subsystem": "Procedural Validator (DocuReadyValidator)",
+      "family": "A",
+      "source_id": "SRC-NAME-01",
+      "source_title": "NSP Verification Manual & Operational Guidance",
+      "source_status": "unverified",
+      "statutory_support": false
+    },
+    {
+      "rule_id": "RULE-NAME-PASS_PROCEDURAL",
+      "rule_name": "Cross-Document Applicant Name Consistency",
+      "subsystem": "Procedural Validator (DocuReadyValidator)",
+      "family": "A",
+      "source_id": null,
+      "source_title": "Scheme Operational Guidelines",
+      "source_status": "unverified",
+      "statutory_support": false
+    },
+    {
+      "rule_id": "RULE-DOB-03_PROCEDURAL",
+      "rule_name": "Date of Birth Format Validity",
+      "subsystem": "Procedural Validator (DocuReadyValidator)",
+      "family": "B",
+      "source_id": null,
+      "source_title": "Scheme Operational Guidelines",
+      "source_status": "unverified",
+      "statutory_support": false
+    },
+    {
+      "rule_id": "RULE-DOB-02_PROCEDURAL",
+      "rule_name": "Date of Birth Ambiguity",
+      "subsystem": "Procedural Validator (DocuReadyValidator)",
+      "family": "B",
+      "source_id": null,
+      "source_title": "Scheme Operational Guidelines",
+      "source_status": "unverified",
+      "statutory_support": false
+    },
+    {
+      "rule_id": "RULE-DOB-UNCERTAIN_PROCEDURAL",
+      "rule_name": "Cross-Document Date of Birth (Uncertain OCR)",
+      "subsystem": "Procedural Validator (DocuReadyValidator)",
+      "family": "B",
+      "source_id": null,
+      "source_title": "Scheme Operational Guidelines",
+      "source_status": "unverified",
+      "statutory_support": false
+    },
+    {
+      "rule_id": "RULE-DOB-01_PROCEDURAL",
+      "rule_name": "Cross-Document Date of Birth Consistency",
+      "subsystem": "Procedural Validator (DocuReadyValidator)",
+      "family": "B",
+      "source_id": "SRC-DOB-01",
+      "source_title": "CBSE Examination Bye-Laws (Notification CBSE/Coord/2021)",
+      "source_status": "verified",
+      "statutory_support": true
+    },
+    {
+      "rule_id": "RULE-DOB-PASS_PROCEDURAL",
+      "rule_name": "Date of Birth Consistency",
+      "subsystem": "Procedural Validator (DocuReadyValidator)",
+      "family": "B",
+      "source_id": null,
+      "source_title": "Scheme Operational Guidelines",
+      "source_status": "unverified",
+      "statutory_support": false
+    },
+    {
+      "rule_id": "RULE-INC-03_PROCEDURAL",
+      "rule_name": "Income Extraction",
+      "subsystem": "Procedural Validator (DocuReadyValidator)",
+      "family": "C",
+      "source_id": null,
+      "source_title": "Scheme Operational Guidelines",
+      "source_status": "unverified",
+      "statutory_support": false
+    },
+    {
+      "rule_id": "RULE-INC-CEIL-UNCERTAIN_PROCEDURAL",
+      "rule_name": "Statutory Income Ceiling Compliance (Uncertain OCR)",
+      "subsystem": "Procedural Validator (DocuReadyValidator)",
+      "family": "C",
+      "source_id": null,
+      "source_title": "Scheme Operational Guidelines",
+      "source_status": "unverified",
+      "statutory_support": false
+    },
+    {
+      "rule_id": "RULE-INC-01_PROCEDURAL",
+      "rule_name": "Statutory Income Ceiling Compliance",
+      "subsystem": "Procedural Validator (DocuReadyValidator)",
+      "family": "C",
+      "source_id": "SRC-INC-01",
+      "source_title": "Centrally Sponsored Scheme of Post-Matric Scholarships to the Students Belonging to Scheduled Castes for Studies in India (2020-21 to 2025-26)",
+      "source_status": "verified",
+      "statutory_support": true
+    },
+    {
+      "rule_id": "RULE-INC-CEIL-PASS_PROCEDURAL",
+      "rule_name": "Statutory Income Ceiling Compliance",
+      "subsystem": "Procedural Validator (DocuReadyValidator)",
+      "family": "C",
+      "source_id": null,
+      "source_title": "Scheme Operational Guidelines",
+      "source_status": "unverified",
+      "statutory_support": false
+    },
+    {
+      "rule_id": "RULE-INC-MISMATCH-UNCERTAIN_PROCEDURAL",
+      "rule_name": "Income Consistency (Uncertain OCR)",
+      "subsystem": "Procedural Validator (DocuReadyValidator)",
+      "family": "C",
+      "source_id": null,
+      "source_title": "Scheme Operational Guidelines",
+      "source_status": "unverified",
+      "statutory_support": false
+    },
+    {
+      "rule_id": "RULE-INC-02_PROCEDURAL",
+      "rule_name": "Income Consistency (Declared vs Certified)",
+      "subsystem": "Procedural Validator (DocuReadyValidator)",
+      "family": "C",
+      "source_id": "SRC-INC-02",
+      "source_title": "NSP Guidelines for Institute Nodal Officers",
+      "source_status": "unverified",
+      "statutory_support": false
+    },
+    {
+      "rule_id": "RULE-INC-MATCH-PASS_PROCEDURAL",
+      "rule_name": "Income Consistency (Declared vs Certified)",
+      "subsystem": "Procedural Validator (DocuReadyValidator)",
+      "family": "C",
+      "source_id": null,
+      "source_title": "Scheme Operational Guidelines",
+      "source_status": "unverified",
+      "statutory_support": false
+    },
+    {
+      "rule_id": "RULE-EXP-02_PROCEDURAL",
+      "rule_name": "Certificate Date Parseability",
+      "subsystem": "Procedural Validator (DocuReadyValidator)",
+      "family": "B",
+      "source_id": null,
+      "source_title": "Scheme Operational Guidelines",
+      "source_status": "unverified",
+      "statutory_support": false
+    },
+    {
+      "rule_id": "RULE-EXP-01_PROCEDURAL",
+      "rule_name": "Income Certificate Statutory Validity Period",
+      "subsystem": "Procedural Validator (DocuReadyValidator)",
+      "family": "B",
+      "source_id": "SRC-EXP-01",
+      "source_title": "State Revenue Miscellaneous Certificates Regulations & Executive Orders",
+      "source_status": "unverified",
+      "statutory_support": false
+    },
+    {
+      "rule_id": "RULE-EXP-PASS_PROCEDURAL",
+      "rule_name": "Income Certificate Statutory Validity Period",
+      "subsystem": "Procedural Validator (DocuReadyValidator)",
+      "family": "B",
+      "source_id": null,
+      "source_title": "Scheme Operational Guidelines",
+      "source_status": "unverified",
+      "statutory_support": false
+    },
+    {
+      "rule_id": "RULE-REF-01_PROCEDURAL",
+      "rule_name": "Income Certificate Number Reference Match",
+      "subsystem": "Procedural Validator (DocuReadyValidator)",
+      "family": "A",
+      "source_id": "SRC-REF-01",
+      "source_title": "e-District Mission Mode Project Technical Architecture",
+      "source_status": "unverified",
+      "statutory_support": false
+    },
+    {
+      "rule_id": "RULE-REF-INC-PASS_PROCEDURAL",
+      "rule_name": "Income Certificate Number Reference Match",
+      "subsystem": "Procedural Validator (DocuReadyValidator)",
+      "family": "A",
+      "source_id": null,
+      "source_title": "Scheme Operational Guidelines",
+      "source_status": "unverified",
+      "statutory_support": false
+    },
+    {
+      "rule_id": "RULE-REF-02_PROCEDURAL",
+      "rule_name": "Caste Certificate Number Reference Match",
+      "subsystem": "Procedural Validator (DocuReadyValidator)",
+      "family": "A",
+      "source_id": null,
+      "source_title": "Scheme Operational Guidelines",
+      "source_status": "unverified",
+      "statutory_support": false
+    },
+    {
+      "rule_id": "RULE-REF-CST-PASS_PROCEDURAL",
+      "rule_name": "Caste Certificate Number Reference Match",
+      "subsystem": "Procedural Validator (DocuReadyValidator)",
+      "family": "A",
+      "source_id": null,
+      "source_title": "Scheme Operational Guidelines",
+      "source_status": "unverified",
+      "statutory_support": false
+    },
+    {
+      "rule_id": "RULE-BNK-01_PROCEDURAL",
+      "rule_name": "Bank IFSC Code Standard Format",
+      "subsystem": "Procedural Validator (DocuReadyValidator)",
+      "family": "A",
+      "source_id": "SRC-BNK-01",
+      "source_title": "RBI Master Direction on Electronic Payment Systems \u2014 NEFT System Procedural Guidelines",
+      "source_status": "verified",
+      "statutory_support": true
+    },
+    {
+      "rule_id": "RULE-BNK-IFSC-PASS_PROCEDURAL",
+      "rule_name": "Bank IFSC Code Format",
+      "subsystem": "Procedural Validator (DocuReadyValidator)",
+      "family": "A",
+      "source_id": null,
+      "source_title": "Scheme Operational Guidelines",
+      "source_status": "unverified",
+      "statutory_support": false
+    },
+    {
+      "rule_id": "RULE-BNK-02_PROCEDURAL",
+      "rule_name": "Bank Account Number Consistency",
+      "subsystem": "Procedural Validator (DocuReadyValidator)",
+      "family": "A",
+      "source_id": "SRC-BNK-02",
+      "source_title": "PFMS Operational Guidelines for DBT Account Validation",
+      "source_status": "unverified",
+      "statutory_support": false
+    },
+    {
+      "rule_id": "RULE-DOM-01_PROCEDURAL",
+      "rule_name": "State Domicile Requirement",
+      "subsystem": "Procedural Validator (DocuReadyValidator)",
+      "family": "F",
+      "source_id": "SRC-DOM-01",
+      "source_title": "State Scholarship Scheme Guidelines (e.g., e-Medhabruti / Odisha State Portal)",
+      "source_status": "unverified",
+      "statutory_support": false
+    },
+    {
+      "rule_id": "RULE-DOM-PASS_PROCEDURAL",
+      "rule_name": "State Domicile Requirement",
+      "subsystem": "Procedural Validator (DocuReadyValidator)",
+      "family": "F",
+      "source_id": null,
+      "source_title": "Scheme Operational Guidelines",
+      "source_status": "unverified",
+      "statutory_support": false
+    },
+    {
+      "rule_id": "RULE-MRK-RELAX-PASS_PROCEDURAL",
+      "rule_name": "Academic Eligibility Compliance (SC/ST Qualifying Pass)",
+      "subsystem": "Procedural Validator (DocuReadyValidator)",
+      "family": "C",
+      "source_id": null,
+      "source_title": "Scheme Operational Guidelines",
+      "source_status": "unverified",
+      "statutory_support": false
+    },
+    {
+      "rule_id": "RULE-MRK-01_PROCEDURAL",
+      "rule_name": "Academic Cutoff Compliance (SC/ST Relaxed)",
+      "subsystem": "Procedural Validator (DocuReadyValidator)",
+      "family": "C",
+      "source_id": "SRC-MRK-01",
+      "source_title": "Centrally Sponsored Scheme of Post-Matric Scholarships to the Students Belonging to Scheduled Castes for Studies in India (2020-21 to 2025-26)",
+      "source_status": "verified",
+      "statutory_support": true
+    },
+    {
+      "rule_id": "RULE-MRK-PASS_PROCEDURAL",
+      "rule_name": "Academic Cutoff Compliance",
+      "subsystem": "Procedural Validator (DocuReadyValidator)",
+      "family": "C",
+      "source_id": null,
+      "source_title": "Scheme Operational Guidelines",
+      "source_status": "unverified",
+      "statutory_support": false
+    },
+    {
+      "rule_id": "RULE-SLOT-01",
+      "rule_name": "Document Slot Classification & Semantic Match",
+      "subsystem": "Document Slot Validator",
+      "family": "D",
+      "source_id": "SRC-DOC-01",
+      "source_title": "Portal Document Categorization Guidelines",
+      "source_status": "verified",
+      "statutory_support": true
+    },
+    {
+      "rule_id": "RULE-ID-VERHOEFF",
+      "rule_name": "Aadhaar / National ID Dihedral D5 Checksum Verification",
+      "subsystem": "Identifier Integrity Engine",
+      "family": "A",
+      "source_id": "SRC-ID-AADHAAR",
+      "source_title": "UIDAI Specification for 12-Digit Verhoeff UID",
+      "source_status": "verified",
+      "statutory_support": true
+    },
+    {
+      "rule_id": "RULE-ID-PAN",
+      "rule_name": "Permanent Account Number (PAN) Strict Structure Validation",
+      "subsystem": "Identifier Integrity Engine",
+      "family": "A",
+      "source_id": "SRC-ID-PAN",
+      "source_title": "CBDT PAN Allotment Specifications",
+      "source_status": "verified",
+      "statutory_support": true
+    },
+    {
+      "rule_id": "RULE-ID-IFSC",
+      "rule_name": "Indian Financial System Code (IFSC) Strict Format Validation",
+      "subsystem": "Identifier Integrity Engine",
+      "family": "A",
+      "source_id": "SRC-BNK-01",
+      "source_title": "RBI Master Direction on Electronic Payment Systems \u2014 NEFT Procedural Guidelines",
+      "source_status": "verified",
+      "statutory_support": true
+    },
+    {
+      "rule_id": "RULE-ID-CONFUSABLE-GLYPH",
+      "rule_name": "Identifier OCR Confusable Character Ambiguity Abstention",
+      "subsystem": "Identifier Integrity Engine",
+      "family": "A",
+      "source_id": "SRC-ENG-ABSTAIN",
+      "source_title": "Evaluation Integrity and False-Verification Prevention Guidelines",
+      "source_status": "verified",
+      "statutory_support": true
+    },
+    {
+      "rule_id": "RULE-XDOC-ENTITY-RES",
+      "rule_name": "Multi-Attribute Applicant Entity Resolution",
+      "subsystem": "Cross-Document Engine",
+      "family": "E",
+      "source_id": "SRC-XDOC-01",
+      "source_title": "Cross-Document Entity Grounding Protocol",
+      "source_status": "verified",
+      "statutory_support": true
+    },
+    {
+      "rule_id": "RULE-XDOC-CONTRADICTION",
+      "rule_name": "Cross-Document Fact Contradiction Detection",
+      "subsystem": "Cross-Document Engine",
+      "family": "E",
+      "source_id": "SRC-XDOC-02",
+      "source_title": "Cross-Document Contradiction and Corroboration Framework",
+      "source_status": "verified",
+      "statutory_support": true
+    },
+    {
+      "rule_id": "RULE-XDOC-INDEPENDENCE",
+      "rule_name": "Document Provenance & OCR Pipeline Independence",
+      "subsystem": "Cross-Document Engine",
+      "family": "E",
+      "source_id": "SRC-XDOC-03",
+      "source_title": "Multi-Document Verification Reliability Manual",
+      "source_status": "verified",
+      "statutory_support": true
+    },
+    {
+      "rule_id": "RULE-SAFETY-INV-01",
+      "rule_name": "Decision Safety Invariant 1: No Unsupported Pass on Missing Evidence",
+      "subsystem": "Decision Safety Layer",
+      "family": "H",
+      "source_id": "SRC-SAFETY-01",
+      "source_title": "Decision Safety Layer Architectural Specifications",
+      "source_status": "verified",
+      "statutory_support": true
+    },
+    {
+      "rule_id": "RULE-SAFETY-INV-02",
+      "rule_name": "Decision Safety Invariant 2: No Unsupported Fail on Ambiguous Evidence",
+      "subsystem": "Decision Safety Layer",
+      "family": "H",
+      "source_id": "SRC-SAFETY-01",
+      "source_title": "Decision Safety Layer Architectural Specifications",
+      "source_status": "verified",
+      "statutory_support": true
+    },
+    {
+      "rule_id": "RULE-SAFETY-INV-03",
+      "rule_name": "Decision Safety Invariant 3: Date Ambiguity Expiration Invariant",
+      "subsystem": "Decision Safety Layer",
+      "family": "H",
+      "source_id": "SRC-SAFETY-01",
+      "source_title": "Decision Safety Layer Architectural Specifications",
+      "source_status": "verified",
+      "statutory_support": true
+    },
+    {
+      "rule_id": "RULE-SAFETY-INV-04",
+      "rule_name": "Decision Safety Invariant 4: Single Source Verification Bar",
+      "subsystem": "Decision Safety Layer",
+      "family": "H",
+      "source_id": "SRC-SAFETY-01",
+      "source_title": "Decision Safety Layer Architectural Specifications",
+      "source_status": "verified",
+      "statutory_support": true
+    },
+    {
+      "rule_id": "RULE-SAFETY-INV-05",
+      "rule_name": "Decision Safety Invariant 5: Traceable Provenance Mandate",
+      "subsystem": "Decision Safety Layer",
+      "family": "H",
+      "source_id": "SRC-SAFETY-01",
+      "source_title": "Decision Safety Layer Architectural Specifications",
+      "source_status": "verified",
+      "statutory_support": true
+    },
+    {
+      "rule_id": "RULE-SAFETY-INV-06",
+      "rule_name": "Decision Safety Invariant 6: Slot Mismatch Quarantine",
+      "subsystem": "Decision Safety Layer",
+      "family": "H",
+      "source_id": "SRC-SAFETY-01",
+      "source_title": "Decision Safety Layer Architectural Specifications",
+      "source_status": "verified",
+      "statutory_support": true
+    },
+    {
+      "rule_id": "RULE-SAFETY-INV-07",
+      "rule_name": "Decision Safety Invariant 7: Confidence Floor Enforcement",
+      "subsystem": "Decision Safety Layer",
+      "family": "H",
+      "source_id": "SRC-SAFETY-01",
+      "source_title": "Decision Safety Layer Architectural Specifications",
+      "source_status": "verified",
+      "statutory_support": true
+    },
+    {
+      "rule_id": "RULE-SAFETY-INV-08",
+      "rule_name": "Decision Safety Invariant 8: Category Exemption Preservation",
+      "subsystem": "Decision Safety Layer",
+      "family": "H",
+      "source_id": "SRC-SAFETY-01",
+      "source_title": "Decision Safety Layer Architectural Specifications",
+      "source_status": "verified",
+      "statutory_support": true
+    },
+    {
+      "rule_id": "RULE-SAFETY-INV-09",
+      "rule_name": "Decision Safety Invariant 9: Weakest-Evidence Outcome Propagation",
+      "subsystem": "Decision Safety Layer",
+      "family": "H",
+      "source_id": "SRC-SAFETY-01",
+      "source_title": "Decision Safety Layer Architectural Specifications",
+      "source_status": "verified",
+      "statutory_support": true
+    },
+    {
+      "rule_id": "RULE-SAFETY-INV-10",
+      "rule_name": "Decision Safety Invariant 10: Deterministic Clock Invariance",
+      "subsystem": "Decision Safety Layer",
+      "family": "H",
+      "source_id": "SRC-SAFETY-01",
+      "source_title": "Decision Safety Layer Architectural Specifications",
+      "source_status": "verified",
+      "statutory_support": true
+    }
+  ]
+}
