@@ -1,0 +1,214 @@
+{
+  "recent_commits": [
+    {
+      "sha": "a05954adcbdb706b98f401d2794b25e5e3aa2b85",
+      "author": "DocuReady Auditor",
+      "email": "auditor@hacknation.internal",
+      "date": "Wed Nov 25 10:55:30 2026 +0530",
+      "subject": "research(loop31): independently reproduce evaluation qualification"
+    },
+    {
+      "sha": "626ad3c367021456a2ac6fb73d121f5cfdf172fe",
+      "author": "DocuReady Auditor",
+      "email": "auditor@hacknation.internal",
+      "date": "Wed Nov 25 10:12:23 2026 +0530",
+      "subject": "research(loop30): reproduce and audit evaluation integrity"
+    },
+    {
+      "sha": "e5fafd5614ec0646beca37e943439da000116311",
+      "author": "DocuReady Auditor",
+      "email": "auditor@hacknation.internal",
+      "date": "Tue Nov 24 17:11:19 2026 +0530",
+      "subject": "research(loop29): reconcile calibration and cross-document reliability"
+    },
+    {
+      "sha": "ce0c9e77cdb8788dbbf08e58882183282995979b",
+      "author": "DocuReady Auditor",
+      "email": "auditor@hacknation.internal",
+      "date": "Tue Nov 24 16:29:18 2026 +0530",
+      "subject": "research(loop28): strengthen cross-document verification reliability"
+    },
+    {
+      "sha": "511ba824ecac000180489cd2e92f1cc634fe7098",
+      "author": "DocuReady Auditor",
+      "email": "auditor@hacknation.internal",
+      "date": "Tue Nov 24 15:39:21 2026 +0530",
+      "subject": "research(loop27): harden identifier integrity, character ambiguity guards and verification safety"
+    },
+    {
+      "sha": "9509017bc3860ac4f7e17a4087e27b574a21062b",
+      "author": "DocuReady Auditor",
+      "email": "auditor@hacknation.internal",
+      "date": "Tue Nov 24 15:04:48 2026 +0530",
+      "subject": "research(loop26): validate independent document generalization"
+    },
+    {
+      "sha": "5d9e84e2faec80216d6685a759058fb579d35d6e",
+      "author": "DocuReady Auditor",
+      "email": "auditor@hacknation.internal",
+      "date": "Tue Nov 24 14:20:22 2026 +0530",
+      "subject": "feat(loop25): evidence-guided row-label recovery, benchmark cohort J, and achieve 100% precision with 62.98% coverage"
+    },
+    {
+      "sha": "16237237ea36c100bfbc5b73a654e35b2613e420",
+      "author": "DocuReady Auditor",
+      "email": "auditor@hacknation.internal",
+      "date": "Tue Nov 24 10:16:07 2026 +0530",
+      "subject": "feat(loop24): improve independent generalization and selective verification"
+    },
+    {
+      "sha": "f668ba2f753c6c34922dd3887b5611203daa9393",
+      "author": "DocuReady Auditor",
+      "email": "auditor@hacknation.internal",
+      "date": "Tue Nov 24 09:30:51 2026 +0530",
+      "subject": "feat(loop23): improve microfont numeric integrity and narrow-gutter association"
+    },
+    {
+      "sha": "0b7629d926262d0f98d6ec3e4fc17363e02c10e3",
+      "author": "DocuReady Auditor",
+      "email": "auditor@hacknation.internal",
+      "date": "Tue Nov 24 08:34:58 2026 +0530",
+      "subject": "feat(loop22): improve evidence association reliability and selective verification"
+    },
+    {
+      "sha": "4a6a46ed7d40b9a5e6381e92551c7a7e9790cbdc",
+      "author": "DocuReady Auditor",
+      "email": "auditor@hacknation.internal",
+      "date": "Mon Nov 23 00:14:54 2026 +0530",
+      "subject": "feat(loop21): hierarchical header reconstruction and decimal integrity validation"
+    },
+    {
+      "sha": "1dcd69dd4c6531b4b13c3de69e13cbefd791bbe3",
+      "author": "DocuReady Auditor",
+      "email": "auditor@hacknation.internal",
+      "date": "Sun Nov 22 23:20:30 2026 +0530",
+      "subject": "feat(loop20): validate blind document generalization and verification reliability"
+    },
+    {
+      "sha": "2d7aab56d51937920a4c399780d2838cdd70ab0c",
+      "author": "DocuReady Auditor",
+      "email": "auditor@hacknation.internal",
+      "date": "Sun Nov 22 22:47:46 2026 +0530",
+      "subject": "feat(loop19): improve table-aware evidence association reliability"
+    },
+    {
+      "sha": "9360fd29bc4c594587c4c63c08a70487b5ae188f",
+      "author": "DocuReady Auditor",
+      "email": "auditor@hacknation.internal",
+      "date": "Sun Nov 22 21:42:46 2026 +0530",
+      "subject": "feat(loop18): validate OCR accuracy and critical-field reliability"
+    },
+    {
+      "sha": "69addb55f3acde2ea70fb369a96e4747ab7cf632",
+      "author": "DocuReady Auditor",
+      "email": "auditor@hacknation.internal",
+      "date": "Sun Nov 22 20:42:06 2026 +0530",
+      "subject": "feat(loop17): optimize adaptive OCR efficiency and critical-field reliability"
+    },
+    {
+      "sha": "de63549953ae7cb5c0cec246a03116c53e23e1d5",
+      "author": "DocuReady Auditor",
+      "email": "auditor@hacknation.internal",
+      "date": "Sun Nov 22 19:53:44 2026 +0530",
+      "subject": "feat(loop16): implement adaptive ocr strategy selector, accuracy optimization and latency reduction"
+    },
+    {
+      "sha": "39cde8832e8a5648591ebd47fe65fa459a0584cf",
+      "author": "DocuReady Auditor",
+      "email": "auditor@hacknation.internal",
+      "date": "Sun Nov 22 18:10:04 2026 +0530",
+      "subject": "feat(loop15): implement region-aware multilingual ocr and script-level routing"
+    },
+    {
+      "sha": "ba3e3065a34a01717357fdbd0d499068c95c2bef",
+      "author": "DocuReady Auditor",
+      "email": "auditor@hacknation.internal",
+      "date": "Sun Nov 22 17:31:28 2026 +0530",
+      "subject": "feat(loop14): implement script-aware multilingual ocr routing and india document corpus validation"
+    },
+    {
+      "sha": "e601d112b50acda972aa502e3f48ce1f30be6be1",
+      "author": "DocuReady Auditor",
+      "email": "auditor@hacknation.internal",
+      "date": "Sun Nov 22 16:34:34 2026 +0530",
+      "subject": "feat(loop13): implement column-aware spatial reading order and india dataset discovery"
+    },
+    {
+      "sha": "756062bafa07ffd43f1c5cfb08465ea17dbec381",
+      "author": "DocuReady Auditor",
+      "email": "auditor@hacknation.internal",
+      "date": "Sun Nov 22 15:39:25 2026 +0530",
+      "subject": "research(loop12): audit benchmark provenance and scoring integrity"
+    },
+    {
+      "sha": "e282e3b8ac11f6ba82b31c33832496433344cf01",
+      "author": "DocuReady Auditor",
+      "email": "auditor@hacknation.internal",
+      "date": "Sun Nov 22 14:58:03 2026 +0530",
+      "subject": "research(loop11): establish independent OCR dataset benchmark"
+    },
+    {
+      "sha": "bdc403a601f88008c43c0630f5e8c71ce22c9977",
+      "author": "DocuReady Auditor",
+      "email": "auditor@hacknation.internal",
+      "date": "Sun Nov 22 14:06:55 2026 +0530",
+      "subject": "test(demo): qualify competition workflow and freeze release scope (Loop 10)"
+    },
+    {
+      "sha": "9c2fb6de8171663bfa17a6e1e5af63e77dd3c687",
+      "author": "DocuReady Auditor",
+      "email": "auditor@hacknation.internal",
+      "date": "Sun Nov 22 13:44:26 2026 +0530",
+      "subject": "build(release): validate packaged Windows runtime and clean-machine deployment (Loop 09)"
+    },
+    {
+      "sha": "bea785682cd0b49c44ae6de6df05b92b2d9bda1f",
+      "author": "DocuReady Auditor",
+      "email": "auditor@hacknation.internal",
+      "date": "Sun Nov 22 13:29:20 2026 +0530",
+      "subject": "feat(desktop): harden audit workflow, recovery, and human review UX (Loop 08)"
+    },
+    {
+      "sha": "250093f6f8ff7b7eaa4305932d8d7084ba48e1f5",
+      "author": "DocuReady Auditor",
+      "email": "auditor@hacknation.internal",
+      "date": "Sun Nov 22 13:09:37 2026 +0530",
+      "subject": "test(audit): expand adversarial corpus and validate decision generalization (Loop 07)"
+    },
+    {
+      "sha": "d1f0f0e59586a60cdad003db956ec9e2cf819d2f",
+      "author": "DocuReady Auditor",
+      "email": "auditor@hacknation.internal",
+      "date": "Sun Nov 22 12:30:08 2026 +0530",
+      "subject": "feat(decision): calibrate audit decision engine, enforce 10 invariants, and harden explainability (Loop 06)"
+    },
+    {
+      "sha": "17c33eabd86c8a4ae4b177d4e164c41b41802cde",
+      "author": "DocuReady Auditor",
+      "email": "auditor@hacknation.internal",
+      "date": "Sun Nov 22 11:49:42 2026 +0530",
+      "subject": "feat(extract): improve field normalization, candidate ambiguity, and cross-document intelligence (Loop 05)"
+    },
+    {
+      "sha": "ee195c54f85570faaa4ce965cfc5de8a0b2890cc",
+      "author": "DocuReady Auditor",
+      "email": "auditor@hacknation.internal",
+      "date": "Sun Nov 22 10:53:28 2026 +0530",
+      "subject": "feat(ocr): harden deskew reliability, ambiguity resolution, and audit integrity"
+    },
+    {
+      "sha": "1e1c876d153d508cab57392f3f7791ba43721d31",
+      "author": "DocuReady Auditor",
+      "email": "auditor@hacknation.internal",
+      "date": "Sun Nov 22 09:40:03 2026 +0530",
+      "subject": "feat(ocr): add validated skew recovery and coordinate mapping"
+    },
+    {
+      "sha": "cdf6a5eb430aa9e4e041e0fa257864bc39f58f6e",
+      "author": "DocuReady Auditor",
+      "email": "auditor@hacknation.internal",
+      "date": "Sun Nov 22 01:55:39 2026 +0530",
+      "subject": "fix(ocr): harden orientation gate, implement two-tier OSD recovery, and eliminate raster memory leak"
+    }
+  ]
+}

@@ -181,6 +181,7 @@ export class WorkspaceManager {
     await fs.mkdir(packetDir, { recursive: true });
 
     let totalSize = 0;
+    const seenNames = new Set<string>();
     for (const docId of documentIds) {
       const doc = this.documents.get(docId);
       if (!doc) {
@@ -193,7 +194,15 @@ export class WorkspaceManager {
         throw new Error("Total packet size exceeds the 200MB limit.");
       }
 
-      const destPath = path.join(packetDir, doc.name);
+      let filename = doc.name;
+      if (seenNames.has(filename)) {
+        const ext = path.extname(doc.name);
+        const base = path.basename(doc.name, ext);
+        filename = `${base}_${doc.id}${ext}`;
+      }
+      seenNames.add(filename);
+
+      const destPath = path.join(packetDir, filename);
       // Validate directory traversal
       if (!destPath.startsWith(packetDir)) {
         throw new Error("Directory traversal detected in document filename.");

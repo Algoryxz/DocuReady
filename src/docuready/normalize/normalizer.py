@@ -10,29 +10,10 @@ from typing import Tuple, Optional, Any, Dict, List
 from docuready.domain.enums import MatchGrade
 
 # ----------------- VERHOEFF CHECKSUM (ISO/IEC 7064) -----------------
-D_TABLE = [
-    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-    [1, 2, 3, 4, 0, 6, 7, 8, 9, 5],
-    [2, 3, 4, 0, 1, 7, 8, 9, 5, 6],
-    [3, 4, 0, 1, 2, 8, 9, 5, 6, 7],
-    [4, 0, 1, 2, 3, 9, 5, 6, 7, 8],
-    [5, 6, 7, 8, 9, 0, 1, 2, 3, 4],
-    [6, 7, 8, 9, 5, 1, 2, 3, 4, 0],
-    [7, 8, 9, 5, 6, 2, 3, 4, 0, 1],
-    [8, 9, 5, 6, 7, 3, 4, 0, 1, 2],
-    [9, 5, 6, 7, 8, 4, 0, 1, 2, 3]
-]
+from docuready.ingest.identifier_validation import VERHOEFF_D, VERHOEFF_P
 
-P_TABLE = [
-    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-    [1, 5, 7, 6, 2, 8, 3, 0, 9, 4],
-    [5, 8, 0, 3, 7, 9, 6, 1, 4, 2],
-    [8, 9, 1, 6, 0, 4, 3, 5, 2, 7],
-    [9, 4, 5, 3, 1, 2, 6, 8, 0, 7],
-    [4, 2, 8, 6, 5, 7, 3, 9, 0, 1],
-    [2, 7, 9, 3, 8, 0, 6, 4, 1, 5],
-    [7, 0, 4, 6, 9, 1, 3, 2, 5, 8]
-]
+D_TABLE = VERHOEFF_D
+P_TABLE = VERHOEFF_P
 
 def validate_verhoeff(num_str: str) -> bool:
     """Validates 12-digit number against Verhoeff checksum algorithm."""

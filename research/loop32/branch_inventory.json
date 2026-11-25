@@ -1,0 +1,1035 @@
+{
+  "local_branches": [
+    {
+      "name": "feat/electron-desktop-foundation",
+      "current": false,
+      "commit": "d9323ea",
+      "subject": "[ahead 14] feat(loop4): product validation, real-world workflow testing & RC qualification"
+    },
+    {
+      "name": "feat/loop5-independent-validation-and-demo",
+      "current": false,
+      "commit": "22c75ef",
+      "subject": "[behind 60] feat(packaging): windows release hardening, bundled OCR runtime, packaging fixes & comprehensive README"
+    },
+    {
+      "name": "feat/loop6-release-integrity-and-reproducibility",
+      "current": false,
+      "commit": "360c3fb",
+      "subject": "fix(desktop): resolve Electron startup crash and verify clean Windows runtime"
+    },
+    {
+      "name": "fix/final-desktop-release-stabilization",
+      "current": false,
+      "commit": "acd991e",
+      "subject": "[ahead 2] fix(packaging): handle Squirrel Windows lifecycle hooks and tune qualification uninstaller polling"
+    },
+    {
+      "name": "loop-01-osd-performance-analysis",
+      "current": false,
+      "commit": "fd22194",
+      "subject": "feat(ocr): eliminate redundant OSD via conservative upright fast-path and direct buffer decoding"
+    },
+    {
+      "name": "loop-02-orientation-gate-assurance",
+      "current": false,
+      "commit": "cdf6a5e",
+      "subject": "fix(ocr): harden orientation gate, implement two-tier OSD recovery, and eliminate raster memory leak"
+    },
+    {
+      "name": "loop-03-skew-recovery-and-geometry",
+      "current": false,
+      "commit": "1e1c876",
+      "subject": "feat(ocr): add validated skew recovery and coordinate mapping"
+    },
+    {
+      "name": "loop-04-deskew-reliability-and-audit-integrity",
+      "current": false,
+      "commit": "ee195c5",
+      "subject": "feat(ocr): harden deskew reliability, ambiguity resolution, and audit integrity"
+    },
+    {
+      "name": "loop-05-extraction-normalization-and-cross-document-reliability",
+      "current": false,
+      "commit": "17c33ea",
+      "subject": "feat(extract): improve field normalization, candidate ambiguity, and cross-document intelligence (Loop 05)"
+    },
+    {
+      "name": "loop-06-audit-decision-integrity-and-calibration",
+      "current": false,
+      "commit": "d1f0f0e",
+      "subject": "feat(decision): calibrate audit decision engine, enforce 10 invariants, and harden explainability (Loop 06)"
+    },
+    {
+      "name": "loop-07-adversarial-corpus-and-decision-generalization",
+      "current": false,
+      "commit": "250093f",
+      "subject": "test(audit): expand adversarial corpus and validate decision generalization (Loop 07)"
+    },
+    {
+      "name": "loop-08-desktop-workflow-integrity-and-review-ux",
+      "current": false,
+      "commit": "bea7856",
+      "subject": "feat(desktop): harden audit workflow, recovery, and human review UX (Loop 08)"
+    },
+    {
+      "name": "loop-09-windows-release-integrity-and-deployment",
+      "current": false,
+      "commit": "9c2fb6d",
+      "subject": "build(release): validate packaged Windows runtime and clean-machine deployment (Loop 09)"
+    },
+    {
+      "name": "loop-10-competition-demo-reliability-and-final-readiness",
+      "current": false,
+      "commit": "bdc403a",
+      "subject": "test(demo): qualify competition workflow and freeze release scope (Loop 10)"
+    },
+    {
+      "name": "loop-11-independent-dataset-benchmark",
+      "current": false,
+      "commit": "e282e3b",
+      "subject": "research(loop11): establish independent OCR dataset benchmark"
+    },
+    {
+      "name": "loop-12-benchmark-integrity-audit",
+      "current": false,
+      "commit": "756062b",
+      "subject": "research(loop12): audit benchmark provenance and scoring integrity"
+    },
+    {
+      "name": "loop-13-column-aware-reading-order",
+      "current": false,
+      "commit": "e601d11",
+      "subject": "feat(loop13): implement column-aware spatial reading order and india dataset discovery"
+    },
+    {
+      "name": "loop-14-india-document-corpus-and-multilingual-ocr",
+      "current": false,
+      "commit": "ba3e306",
+      "subject": "feat(loop14): implement script-aware multilingual ocr routing and india document corpus validation"
+    },
+    {
+      "name": "loop-15-region-aware-multilingual-ocr",
+      "current": false,
+      "commit": "39cde88",
+      "subject": "feat(loop15): implement region-aware multilingual ocr and script-level routing"
+    },
+    {
+      "name": "loop-16-adaptive-ocr-strategy",
+      "current": false,
+      "commit": "de63549",
+      "subject": "feat(loop16): implement adaptive ocr strategy selector, accuracy optimization and latency reduction"
+    },
+    {
+      "name": "loop-17-adaptive-ocr-efficiency-and-reliability",
+      "current": false,
+      "commit": "69addb5",
+      "subject": "feat(loop17): optimize adaptive OCR efficiency and critical-field reliability"
+    },
+    {
+      "name": "loop-18-independent-accuracy-and-critical-field-validation",
+      "current": false,
+      "commit": "9360fd2",
+      "subject": "feat(loop18): validate OCR accuracy and critical-field reliability"
+    },
+    {
+      "name": "loop-19-table-aware-evidence-and-field-association",
+      "current": false,
+      "commit": "2d7aab5",
+      "subject": "feat(loop19): improve table-aware evidence association reliability"
+    },
+    {
+      "name": "loop-2-robustness",
+      "current": false,
+      "commit": "caec706",
+      "subject": "feat(loop-2): implement real-world robustness, offline local OCR, uncertainty safety, and statutory rule integrity"
+    },
+    {
+      "name": "loop-20-blind-generalization-and-verification-reliability",
+      "current": false,
+      "commit": "1dcd69d",
+      "subject": "feat(loop20): validate blind document generalization and verification reliability"
+    },
+    {
+      "name": "loop-21-header-fusion-and-decimal-integrity",
+      "current": false,
+      "commit": "4a6a46e",
+      "subject": "feat(loop21): hierarchical header reconstruction and decimal integrity validation"
+    },
+    {
+      "name": "loop-22-evidence-association-reliability",
+      "current": false,
+      "commit": "0b7629d",
+      "subject": "feat(loop22): improve evidence association reliability and selective verification"
+    },
+    {
+      "name": "loop-23-microfont-numeric-and-narrow-gutter",
+      "current": false,
+      "commit": "f668ba2",
+      "subject": "feat(loop23): improve microfont numeric integrity and narrow-gutter association"
+    },
+    {
+      "name": "loop-24-independent-generalization-calibration",
+      "current": false,
+      "commit": "1623723",
+      "subject": "feat(loop24): improve independent generalization and selective verification"
+    },
+    {
+      "name": "loop-25-row-label-recovery-and-coverage",
+      "current": false,
+      "commit": "5d9e84e",
+      "subject": "feat(loop25): evidence-guided row-label recovery, benchmark cohort J, and achieve 100% precision with 62.98% coverage"
+    },
+    {
+      "name": "loop-26-independent-real-world-generalization",
+      "current": false,
+      "commit": "9509017",
+      "subject": "research(loop26): validate independent document generalization"
+    },
+    {
+      "name": "loop-27-identifier-integrity-and-verification-safety",
+      "current": false,
+      "commit": "511ba82",
+      "subject": "research(loop27): harden identifier integrity, character ambiguity guards and verification safety"
+    },
+    {
+      "name": "loop-28-cross-document-verification-reliability",
+      "current": false,
+      "commit": "ce0c9e7",
+      "subject": "research(loop28): strengthen cross-document verification reliability"
+    },
+    {
+      "name": "loop-29-calibration-cohort-integrity-and-generalization",
+      "current": false,
+      "commit": "e5fafd5",
+      "subject": "research(loop29): reconcile calibration and cross-document reliability"
+    },
+    {
+      "name": "loop-3-evidence-calibration",
+      "current": false,
+      "commit": "73b4051",
+      "subject": "fix(loop-3-remediation): resolve odisha validity law, decouple scholarship rules, rename evidence quality score, and reconcile 100-sample benchmark"
+    },
+    {
+      "name": "loop-30-reproducibility-and-evaluation-integrity",
+      "current": false,
+      "commit": "626ad3c",
+      "subject": "research(loop30): reproduce and audit evaluation integrity"
+    },
+    {
+      "name": "loop-31-independent-qualification-audit",
+      "current": false,
+      "commit": "a05954a",
+      "subject": "research(loop31): independently reproduce evaluation qualification"
+    },
+    {
+      "name": "loop-32-repository-wide-bug-discovery",
+      "current": true,
+      "commit": "a05954a",
+      "subject": "research(loop31): independently reproduce evaluation qualification"
+    },
+    {
+      "name": "main",
+      "current": false,
+      "commit": "22377d5",
+      "subject": "baseline: DocuReady Loop 1 verified MVP state"
+    }
+  ],
+  "remote_branches": [
+    {
+      "name": "remotes/origin/HEAD",
+      "commit": "->",
+      "subject": "origin/main"
+    },
+    {
+      "name": "remotes/origin/branding/use-provided-logo",
+      "commit": "c0513c8",
+      "subject": "feat(site): add DocuReady logo and browser icon asset"
+    },
+    {
+      "name": "remotes/origin/docs/g0-formal-acceptance",
+      "commit": "75eb2ac",
+      "subject": "docs(governance): formally accept G0 and authorize G1"
+    },
+    {
+      "name": "remotes/origin/docs/g1-status-reconciliation-pr30",
+      "commit": "bc6c0b3",
+      "subject": "docs(governance): clarify PR #26 misattribution, audit T1.3/T1.4 evidence gaps, and correct task statuses"
+    },
+    {
+      "name": "remotes/origin/docs/post-g0-acceptance-reconciliation",
+      "commit": "cb60eab",
+      "subject": "docs(governance): consolidate post-G0 acceptance reconciliation, gap inventory, and PR tracker"
+    },
+    {
+      "name": "remotes/origin/docs/post-g0.1-main-status-reconciliation",
+      "commit": "30513bd",
+      "subject": "docs(status): record formal T0.1 acceptance by Deeptiman"
+    },
+    {
+      "name": "remotes/origin/docs/post-g2-merge-governance-accuracy",
+      "commit": "6f5ea68",
+      "subject": "docs(governance): post-G2 merge factual accuracy and governance reconciliation"
+    },
+    {
+      "name": "remotes/origin/docs/post-merge-g0-state-correction",
+      "commit": "b9acafa",
+      "subject": "docs: include Python 3.15 in G0 Option A proposal with provisional PyMuPDF qualifications"
+    },
+    {
+      "name": "remotes/origin/docs/post-merge-g1-governance-reconciliation",
+      "commit": "1ce4d9f",
+      "subject": "docs(governance): update PR #42 verified CI reference, align T2.1 prerequisites with G2 hold, and qualify sampling assumptions"
+    },
+    {
+      "name": "remotes/origin/docs/post-merge-t0-reconciliation",
+      "commit": "7b32ff7",
+      "subject": "docs: reconcile T0.2 and T0.3 post-merge governance and test count"
+    },
+    {
+      "name": "remotes/origin/docs/post-merge-t2.1-t2.2-governance-reconciliation",
+      "commit": "a31acbd",
+      "subject": "docs(governance): record T2.1 PO acceptance, PR #57 validator matrix merge, and correct PR #48 SHA"
+    },
+    {
+      "name": "remotes/origin/docs/post-pr53-governance-reconciliation",
+      "commit": "9b69d54",
+      "subject": "docs(status): record verified Vercel preview deployment on commit d28b2bd"
+    },
+    {
+      "name": "remotes/origin/docs/post-pr57-governance-reconciliation",
+      "commit": "d38cab8",
+      "subject": "docs(status): correct PR #59 and PR #60 tracker metadata"
+    },
+    {
+      "name": "remotes/origin/docs/post-pr6-status-reconciliation",
+      "commit": "e43d92f",
+      "subject": "docs: reconcile main status and CI evidence post-PR #6 merge"
+    },
+    {
+      "name": "remotes/origin/docs/post-pr61-governance-readme-sync",
+      "commit": "58e20b9",
+      "subject": "docs(governance): synchronize README test count and governance post-PR #61 and #63 merges"
+    },
+    {
+      "name": "remotes/origin/docs/post-pr62-governance-cleanup",
+      "commit": "f085770",
+      "subject": "docs(governance): record PR #62 merge, reconcile historical decisions, and complete T2.2 implementation checklist"
+    },
+    {
+      "name": "remotes/origin/docs/post-pr72-pr73-final-mainline-reconciliation",
+      "commit": "8dc1de2",
+      "subject": "docs(governance): correct PR head SHAs, qualify provenance and update G2 CI evidence"
+    },
+    {
+      "name": "remotes/origin/docs/post-t0.3-documentation-reconciliation",
+      "commit": "2d6fb26",
+      "subject": "docs(reconciliation): record T0.3 PR #17 merge, T0.2 PR #18 evidence, and gap inventory corrections"
+    },
+    {
+      "name": "remotes/origin/docs/post-t1.2-status-reconciliation",
+      "commit": "5272668",
+      "subject": "docs(reconciliation): record T1.2 implementation merge, CI evidence, and PR tracker updates"
+    },
+    {
+      "name": "remotes/origin/docs/post-t1.5-g1-reconciliation",
+      "commit": "d8d4fe0",
+      "subject": "docs(governance): synchronize STATUS and BACKLOG post-G1 corrective PRs and Mobile MVP"
+    },
+    {
+      "name": "remotes/origin/docs/readme-attribution-and-cleanup",
+      "commit": "14155f4",
+      "subject": "docs(readme): correct organisation attribution to Algoryxz and align test structure"
+    },
+    {
+      "name": "remotes/origin/docs/readme-branding-license-modernization",
+      "commit": "4619178",
+      "subject": "docs: integrate DocuReady repository logo"
+    },
+    {
+      "name": "remotes/origin/docs/t0-1-acceptance-t0-2-review-status",
+      "commit": "0ecf3ef",
+      "subject": "docs(status): record T0.1 acceptance and T0.2 review evidence"
+    },
+    {
+      "name": "remotes/origin/docs/t0.1-acceptance-status-reconciliation",
+      "commit": "e08a26e",
+      "subject": "Merge main into status reconciliation and resolve docs conflict"
+    },
+    {
+      "name": "remotes/origin/docs/t0.1-local-regression-evidence",
+      "commit": "6da1150",
+      "subject": "docs(audit): record local regression evidence for T0.1 under G0.1 contract"
+    },
+    {
+      "name": "remotes/origin/docs/t2.2-acceptance-t2.3-kickoff",
+      "commit": "5534897",
+      "subject": "docs(governance): record formal T2.2 acceptance and T2.3 kickoff authorization"
+    },
+    {
+      "name": "remotes/origin/docs/t3.2-acceptance-evidence-wording-followup",
+      "commit": "320cd77",
+      "subject": "docs(governance): clarify PO acceptance evidence as written communication"
+    },
+    {
+      "name": "remotes/origin/docs/t3.2-formal-acceptance-reconciliation",
+      "commit": "f5d8cd7",
+      "subject": "docs(governance): clarify PO acceptance evidence as written communication"
+    },
+    {
+      "name": "remotes/origin/docs/v2-architecture-team-ownership",
+      "commit": "51dee14",
+      "subject": "docs: finalize claims qualification and CI status"
+    },
+    {
+      "name": "remotes/origin/feat/electron-desktop-foundation",
+      "commit": "e400e31",
+      "subject": "fix(sidecar): require packet subdirectory within workspace"
+    },
+    {
+      "name": "remotes/origin/feat/g1-qualification-mobile-deploy-resolution",
+      "commit": "b75ef85",
+      "subject": "Merge pull request #40 from Algoryxz/feat/g1-qualification-mobile-deploy-resolution"
+    },
+    {
+      "name": "remotes/origin/feat/loop5-independent-validation-and-demo",
+      "commit": "a9806ae",
+      "subject": "fix(ocr): restore pytesseract tesseract_cmd on failure to prevent test session contamination"
+    },
+    {
+      "name": "remotes/origin/feat/loop6-release-integrity-and-reproducibility",
+      "commit": "360c3fb",
+      "subject": "fix(desktop): resolve Electron startup crash and verify clean Windows runtime"
+    },
+    {
+      "name": "remotes/origin/feature/g1-package-migration",
+      "commit": "31f2d4f",
+      "subject": "feat(g1): migrate DocuReady to installable package architecture"
+    },
+    {
+      "name": "remotes/origin/feature/mobile-web-mvp",
+      "commit": "7efebb9",
+      "subject": "feat(ui): deliver mobile web MVP with responsive styling, >=44px touch targets, and LAN guide (Track B)"
+    },
+    {
+      "name": "remotes/origin/feature/prototype-decision-safety",
+      "commit": "f78f0e6",
+      "subject": "feat(decision-safety): implement evidence-backed PASS verification and strengthen non-rejection axioms"
+    },
+    {
+      "name": "remotes/origin/feature/prototype-ui-privacy",
+      "commit": "c7bcbdc",
+      "subject": "feat(ui-privacy): ephemeral upload sandbox, report redaction, safe rendering, and demo runbook"
+    },
+    {
+      "name": "remotes/origin/fix/G0.1-post-merge-ci-hardening",
+      "commit": "d3684a3",
+      "subject": "docs(backlog): record verified green CI runs 43614550313 and 43615814990 for G0.1"
+    },
+    {
+      "name": "remotes/origin/fix/T2.1-consolidated-decision-invariance",
+      "commit": "4733207",
+      "subject": "fix(outcome): harden Readiness enum contract, remove legacy aliases, and reconcile governance docs"
+    },
+    {
+      "name": "remotes/origin/fix/T2.1-contract-hardening",
+      "commit": "efe9ad8",
+      "subject": "docs(governance): clarify G2 authorization, qualify T2.2 scope, and record PR #45 closure"
+    },
+    {
+      "name": "remotes/origin/fix/T2.1-evidence-provenance",
+      "commit": "d8663d2",
+      "subject": "fix(outcome): distinguish native-vector vs OCR extraction in expiration ambiguity resolution"
+    },
+    {
+      "name": "remotes/origin/fix/T2.1-mainline-outcome-repair",
+      "commit": "bac9f1b",
+      "subject": "fix(outcome): implement decision-invariant date expiration safety and reconcile PR #43/#44 governance"
+    },
+    {
+      "name": "remotes/origin/fix/T2.1-post-merge-stabilization",
+      "commit": "439bfd2",
+      "subject": "chore(merge): reconcile fix/T2.1-post-merge-stabilization with origin/main (PR #44)"
+    },
+    {
+      "name": "remotes/origin/fix/T2.3-acceptance-hardening-corrections",
+      "commit": "5e1684b",
+      "subject": "fix(T2.3): address review corrections and acceptance hardening for match grades and injected clock"
+    },
+    {
+      "name": "remotes/origin/fix/T2.3-final-acceptance-remediation",
+      "commit": "04f83d2",
+      "subject": "fix(T2.3): final acceptance remediation for match grades, clock injection, and golden test stability"
+    },
+    {
+      "name": "remotes/origin/fix/T2.4-classification-hardening",
+      "commit": "96d00fa",
+      "subject": "fix(T2.4): address review corrections for anchor specificity, context-aware titles, and integrated unreadable outcomes"
+    },
+    {
+      "name": "remotes/origin/fix/T2.4-post-merge-hardening",
+      "commit": "0ed1c74",
+      "subject": "fix(T2.4): reject narrative fragments and redact filename PII in exported evidence"
+    },
+    {
+      "name": "remotes/origin/fix/ci-reproducible-wheel-verification",
+      "commit": "9018f37",
+      "subject": "docs: record successful reproducible wheel CI evidence"
+    },
+    {
+      "name": "remotes/origin/fix/pyyaml-direct-dev-dependency",
+      "commit": "b75ef85",
+      "subject": "Merge pull request #40 from Algoryxz/feat/g1-qualification-mobile-deploy-resolution"
+    },
+    {
+      "name": "remotes/origin/fix/vercel-static-product-site",
+      "commit": "d419d2a",
+      "subject": "docs(adr): define Vercel static-site boundary alongside local audit runtime"
+    },
+    {
+      "name": "remotes/origin/fix/windows-exe-startup-and-ci",
+      "commit": "96b6b3f",
+      "subject": "fix(sidecar): await spawn and require bundled runtime in releases"
+    },
+    {
+      "name": "remotes/origin/fix/windows-release-qualification-post-pr81",
+      "commit": "70eb10e",
+      "subject": "fix(scripts): clean up uninstaller stub if left behind by Squirrel on Windows"
+    },
+    {
+      "name": "remotes/origin/main",
+      "commit": "392ce9a",
+      "subject": "Merge pull request #84 from Algoryxz/docs/t3.2-acceptance-evidence-wording-followup"
+    },
+    {
+      "name": "remotes/origin/pr/1",
+      "commit": "31f2d4f",
+      "subject": "feat(g1): migrate DocuReady to installable package architecture"
+    },
+    {
+      "name": "remotes/origin/pr/10",
+      "commit": "d3684a3",
+      "subject": "docs(backlog): record verified green CI runs 43614550313 and 43615814990 for G0.1"
+    },
+    {
+      "name": "remotes/origin/pr/11",
+      "commit": "c71a7e6",
+      "subject": "docs(status): align T0.1 acceptance criteria with canonical backlog"
+    },
+    {
+      "name": "remotes/origin/pr/12",
+      "commit": "4619178",
+      "subject": "docs: integrate DocuReady repository logo"
+    },
+    {
+      "name": "remotes/origin/pr/13",
+      "commit": "6da1150",
+      "subject": "docs(audit): record local regression evidence for T0.1 under G0.1 contract"
+    },
+    {
+      "name": "remotes/origin/pr/14",
+      "commit": "87ada00",
+      "subject": "feat(ci): exercise Tesseract OCR with multi-lingual language packs and pip caching"
+    },
+    {
+      "name": "remotes/origin/pr/15",
+      "commit": "0ecf3ef",
+      "subject": "docs(status): record T0.1 acceptance and T0.2 review evidence"
+    },
+    {
+      "name": "remotes/origin/pr/16",
+      "commit": "e08a26e",
+      "subject": "Merge main into status reconciliation and resolve docs conflict"
+    },
+    {
+      "name": "remotes/origin/pr/17",
+      "commit": "50ccf89",
+      "subject": "fix(test): correct pipeline class reference to AuditPipeline in package contract test"
+    },
+    {
+      "name": "remotes/origin/pr/18",
+      "commit": "53d494b",
+      "subject": "test(ocr): add genuine OCR integration proof, scoped warning filter, and status reconciliation"
+    },
+    {
+      "name": "remotes/origin/pr/19",
+      "commit": "30513bd",
+      "subject": "docs(status): record formal T0.1 acceptance by Deeptiman"
+    },
+    {
+      "name": "remotes/origin/pr/2",
+      "commit": "f78f0e6",
+      "subject": "feat(decision-safety): implement evidence-backed PASS verification and strengthen non-rejection axioms"
+    },
+    {
+      "name": "remotes/origin/pr/20",
+      "commit": "7b32ff7",
+      "subject": "docs: reconcile T0.2 and T0.3 post-merge governance and test count"
+    },
+    {
+      "name": "remotes/origin/pr/21",
+      "commit": "2d6fb26",
+      "subject": "docs(reconciliation): record T0.3 PR #17 merge, T0.2 PR #18 evidence, and gap inventory corrections"
+    },
+    {
+      "name": "remotes/origin/pr/22",
+      "commit": "75eb2ac",
+      "subject": "docs(governance): formally accept G0 and authorize G1"
+    },
+    {
+      "name": "remotes/origin/pr/23",
+      "commit": "cb60eab",
+      "subject": "docs(governance): consolidate post-G0 acceptance reconciliation, gap inventory, and PR tracker"
+    },
+    {
+      "name": "remotes/origin/pr/24",
+      "commit": "5f2cc42",
+      "subject": "feat(privacy): suppress Streamlit telemetry and enforce no-network contract (T1.2)"
+    },
+    {
+      "name": "remotes/origin/pr/25",
+      "commit": "79ac024",
+      "subject": "feat(privacy): suppress Streamlit telemetry and enforce no-network contract (T1.2)"
+    },
+    {
+      "name": "remotes/origin/pr/26",
+      "commit": "0e103fd",
+      "subject": "test(compliance): harden claims validation with reusable helper and non-silent existence assertions (T1.1)"
+    },
+    {
+      "name": "remotes/origin/pr/27",
+      "commit": "0919c8c",
+      "subject": "feat(ingest): introduce PDF backend abstraction, ADR-001 licensing decision, and NOTICE (T1.3)"
+    },
+    {
+      "name": "remotes/origin/pr/28",
+      "commit": "5272668",
+      "subject": "docs(reconciliation): record T1.2 implementation merge, CI evidence, and PR tracker updates"
+    },
+    {
+      "name": "remotes/origin/pr/29",
+      "commit": "fa966dd",
+      "subject": "feat(privacy): implement default redaction, safe logging, and 0700 temp upload isolation (T1.4)"
+    },
+    {
+      "name": "remotes/origin/pr/3",
+      "commit": "c7bcbdc",
+      "subject": "feat(ui-privacy): ephemeral upload sandbox, report redaction, safe rendering, and demo runbook"
+    },
+    {
+      "name": "remotes/origin/pr/30",
+      "commit": "8920519",
+      "subject": "docs(compliance): author citation audit and establish packs/generic.demo/sources.yaml (T1.5)"
+    },
+    {
+      "name": "remotes/origin/pr/31",
+      "commit": "bc6c0b3",
+      "subject": "docs(governance): clarify PR #26 misattribution, audit T1.3/T1.4 evidence gaps, and correct task statuses"
+    },
+    {
+      "name": "remotes/origin/pr/32",
+      "commit": "602b663",
+      "subject": "docs(compliance): correct statutory citations, map validator rule categories, and enforce PyYAML schema testing (T1.5)"
+    },
+    {
+      "name": "remotes/origin/pr/33",
+      "commit": "d625e5e",
+      "subject": "feat(privacy): harden safe logging with args clearing, field-aware redaction, and audited temp directory cleanup (T1.4)"
+    },
+    {
+      "name": "remotes/origin/pr/34",
+      "commit": "ddec213",
+      "subject": "docs(compliance): establish public claims register, qualify capabilities, and add contract test (T1.1)"
+    },
+    {
+      "name": "remotes/origin/pr/35",
+      "commit": "f237b77",
+      "subject": "feat(ingest): eliminate dummy coordinates in PDFium backend, unify extractor backend usage, and enhance ADR-001 and NOTICE (T1.3)"
+    },
+    {
+      "name": "remotes/origin/pr/36",
+      "commit": "7efebb9",
+      "subject": "feat(ui): deliver mobile web MVP with responsive styling, >=44px touch targets, and LAN guide (Track B)"
+    },
+    {
+      "name": "remotes/origin/pr/37",
+      "commit": "d8d4fe0",
+      "subject": "docs(governance): synchronize STATUS and BACKLOG post-G1 corrective PRs and Mobile MVP"
+    },
+    {
+      "name": "remotes/origin/pr/39",
+      "commit": "9cfb099",
+      "subject": "docs(governance): resolve merge conflicts and synchronize STATUS and BACKLOG with merged PRs #26, #35, #36, #37"
+    },
+    {
+      "name": "remotes/origin/pr/4",
+      "commit": "51dee14",
+      "subject": "docs: finalize claims qualification and CI status"
+    },
+    {
+      "name": "remotes/origin/pr/40",
+      "commit": "4b63c05",
+      "subject": "docs(governance): resolve merge conflicts and synchronize STATUS and BACKLOG with main"
+    },
+    {
+      "name": "remotes/origin/pr/41",
+      "commit": "49b9b36",
+      "subject": "packaging(deps): declare PyYAML directly in dev and all extras (fixes #38)"
+    },
+    {
+      "name": "remotes/origin/pr/42",
+      "commit": "e32825a",
+      "subject": "docs(governance): record premature T2.1 draft PR #43 on hold, repair beta sequencing, and calibrate false-pass metric"
+    },
+    {
+      "name": "remotes/origin/pr/43",
+      "commit": "a23c439",
+      "subject": "fix(ui): show complete V2 finding status breakdown"
+    },
+    {
+      "name": "remotes/origin/pr/44",
+      "commit": "e512e23",
+      "subject": "fix(outcome): repair T2.1 mainline CI failures, resolve clean packet, and reconcile G1/G2 governance"
+    },
+    {
+      "name": "remotes/origin/pr/45",
+      "commit": "1ce4d9f",
+      "subject": "docs(governance): update PR #42 verified CI reference, align T2.1 prerequisites with G2 hold, and qualify sampling assumptions"
+    },
+    {
+      "name": "remotes/origin/pr/46",
+      "commit": "439bfd2",
+      "subject": "chore(merge): reconcile fix/T2.1-post-merge-stabilization with origin/main (PR #44)"
+    },
+    {
+      "name": "remotes/origin/pr/47",
+      "commit": "d8663d2",
+      "subject": "fix(outcome): distinguish native-vector vs OCR extraction in expiration ambiguity resolution"
+    },
+    {
+      "name": "remotes/origin/pr/48",
+      "commit": "be24d2a",
+      "subject": "fix(outcome): consolidate decision-invariance safety, align 2-digit years, and verify T2.1 truth table"
+    },
+    {
+      "name": "remotes/origin/pr/49",
+      "commit": "5c4a504",
+      "subject": "test(rules): implement T2.2 per-rule test matrix across 10 canonical rule groups"
+    },
+    {
+      "name": "remotes/origin/pr/5",
+      "commit": "a6a4990",
+      "subject": "ci: disable fail-fast and output environment diagnostics"
+    },
+    {
+      "name": "remotes/origin/pr/50",
+      "commit": "6823bb0",
+      "subject": "feat(outcome): consolidate decision-invariance safety, two-candidate date ambiguity, and expanded resolver properties"
+    },
+    {
+      "name": "remotes/origin/pr/51",
+      "commit": "2f02062",
+      "subject": "Merge branch 'main' into task/T2.1-status-vocabulary-resolver"
+    },
+    {
+      "name": "remotes/origin/pr/52",
+      "commit": "bac9f1b",
+      "subject": "fix(outcome): implement decision-invariant date expiration safety and reconcile PR #43/#44 governance"
+    },
+    {
+      "name": "remotes/origin/pr/53",
+      "commit": "354d4c3",
+      "subject": "docs(governance): synchronize PR #53 reference in STATUS and BACKLOG"
+    },
+    {
+      "name": "remotes/origin/pr/54",
+      "commit": "d419d2a",
+      "subject": "docs(adr): define Vercel static-site boundary alongside local audit runtime"
+    },
+    {
+      "name": "remotes/origin/pr/55",
+      "commit": "9b69d54",
+      "subject": "docs(status): record verified Vercel preview deployment on commit d28b2bd"
+    },
+    {
+      "name": "remotes/origin/pr/56",
+      "commit": "a31acbd",
+      "subject": "docs(governance): record T2.1 PO acceptance, PR #57 validator matrix merge, and correct PR #48 SHA"
+    },
+    {
+      "name": "remotes/origin/pr/57",
+      "commit": "1705f6a",
+      "subject": "test(t2.2): add validator-level per-rule fixture matrix covering all 10 canonical groups"
+    },
+    {
+      "name": "remotes/origin/pr/58",
+      "commit": "d38cab8",
+      "subject": "docs(status): correct PR #59 and PR #60 tracker metadata"
+    },
+    {
+      "name": "remotes/origin/pr/59",
+      "commit": "c0513c8",
+      "subject": "feat(site): add DocuReady logo and browser icon asset"
+    },
+    {
+      "name": "remotes/origin/pr/6",
+      "commit": "b9acafa",
+      "subject": "docs: include Python 3.15 in G0 Option A proposal with provisional PyMuPDF qualifications"
+    },
+    {
+      "name": "remotes/origin/pr/60",
+      "commit": "c0513c8",
+      "subject": "feat(site): add DocuReady logo and browser icon asset"
+    },
+    {
+      "name": "remotes/origin/pr/61",
+      "commit": "793739c",
+      "subject": "test(t2.2): harden assertions on evidence provenance, reason codes, and severity in validator matrix"
+    },
+    {
+      "name": "remotes/origin/pr/62",
+      "commit": "58e20b9",
+      "subject": "docs(governance): synchronize README test count and governance post-PR #61 and #63 merges"
+    },
+    {
+      "name": "remotes/origin/pr/63",
+      "commit": "7a04ef3",
+      "subject": "test(t2.2): harden assertions on evidence provenance, reason codes, and severity in validator matrix"
+    },
+    {
+      "name": "remotes/origin/pr/64",
+      "commit": "f085770",
+      "subject": "docs(governance): record PR #62 merge, reconcile historical decisions, and complete T2.2 implementation checklist"
+    },
+    {
+      "name": "remotes/origin/pr/65",
+      "commit": "14155f4",
+      "subject": "docs(readme): correct organisation attribution to Algoryxz and align test structure"
+    },
+    {
+      "name": "remotes/origin/pr/66",
+      "commit": "5534897",
+      "subject": "docs(governance): record formal T2.2 acceptance and T2.3 kickoff authorization"
+    },
+    {
+      "name": "remotes/origin/pr/67",
+      "commit": "a7f670f",
+      "subject": "feat(T2.3): implement match grades and injected as_of clock"
+    },
+    {
+      "name": "remotes/origin/pr/68",
+      "commit": "5e1684b",
+      "subject": "fix(T2.3): address review corrections and acceptance hardening for match grades and injected clock"
+    },
+    {
+      "name": "remotes/origin/pr/69",
+      "commit": "00b99bd",
+      "subject": "feat(T2.4): implement scheme-aware document slot validation and anchor verification"
+    },
+    {
+      "name": "remotes/origin/pr/7",
+      "commit": "e43d92f",
+      "subject": "docs: reconcile main status and CI evidence post-PR #6 merge"
+    },
+    {
+      "name": "remotes/origin/pr/70",
+      "commit": "04f83d2",
+      "subject": "fix(T2.3): final acceptance remediation for match grades, clock injection, and golden test stability"
+    },
+    {
+      "name": "remotes/origin/pr/71",
+      "commit": "7f807f0",
+      "subject": "docs(governance): record formal T2.3 and T2.4 acceptance and Gate G2 closure"
+    },
+    {
+      "name": "remotes/origin/pr/72",
+      "commit": "96d00fa",
+      "subject": "fix(T2.4): address review corrections for anchor specificity, context-aware titles, and integrated unreadable outcomes"
+    },
+    {
+      "name": "remotes/origin/pr/73",
+      "commit": "6f5ea68",
+      "subject": "docs(governance): post-G2 merge factual accuracy and governance reconciliation"
+    },
+    {
+      "name": "remotes/origin/pr/74",
+      "commit": "8dc1de2",
+      "subject": "docs(governance): correct PR head SHAs, qualify provenance and update G2 CI evidence"
+    },
+    {
+      "name": "remotes/origin/pr/75",
+      "commit": "b5eecf9",
+      "subject": "feat(rules): implement scheme pack schema, safe loader, and lint CLI (T3.1)"
+    },
+    {
+      "name": "remotes/origin/pr/76",
+      "commit": "360c3fb",
+      "subject": "fix(desktop): resolve Electron startup crash and verify clean Windows runtime"
+    },
+    {
+      "name": "remotes/origin/pr/77",
+      "commit": "d6f9fd1",
+      "subject": "fix(T3.1): enforce strict string compatibility, list-member contracts, and architecture match grades"
+    },
+    {
+      "name": "remotes/origin/pr/78",
+      "commit": "db20885",
+      "subject": "feat(rules): implement closed primitive engine and generic.demo port (T3.2)"
+    },
+    {
+      "name": "remotes/origin/pr/79",
+      "commit": "97f98d5",
+      "subject": "fix(rules): remediate engine safety, lifecycle enforcement, and pack equivalence (T3.2.1)"
+    },
+    {
+      "name": "remotes/origin/pr/8",
+      "commit": "2907fae",
+      "subject": "fix(g0.1): defer Python 3.15, correct Packet 7 comparison, lock build backend, and consolidate lockfiles"
+    },
+    {
+      "name": "remotes/origin/pr/80",
+      "commit": "0ed1c74",
+      "subject": "fix(T2.4): reject narrative fragments and redact filename PII in exported evidence"
+    },
+    {
+      "name": "remotes/origin/pr/81",
+      "commit": "a9806ae",
+      "subject": "fix(ocr): restore pytesseract tesseract_cmd on failure to prevent test session contamination"
+    },
+    {
+      "name": "remotes/origin/pr/82",
+      "commit": "70eb10e",
+      "subject": "fix(scripts): clean up uninstaller stub if left behind by Squirrel on Windows"
+    },
+    {
+      "name": "remotes/origin/pr/83",
+      "commit": "607f0b9",
+      "subject": "docs(governance): record formal PO acceptance of T3.2 and T3.2.1 remediation"
+    },
+    {
+      "name": "remotes/origin/pr/9",
+      "commit": "9018f37",
+      "subject": "docs: record successful reproducible wheel CI evidence"
+    },
+    {
+      "name": "remotes/origin/task/G0.1-runtime-support-modernization",
+      "commit": "1505811",
+      "subject": "docs(backlog): record verified green CI runs 43614550313 and 43615814990 for G0.1"
+    },
+    {
+      "name": "remotes/origin/task/T0.1-characterise-current-behaviour",
+      "commit": "4678cdf",
+      "subject": "docs: finalize T0.1 audit corrections and status with completed CI matrix evidence"
+    },
+    {
+      "name": "remotes/origin/task/T0.2-ci-that-exercises-ocr",
+      "commit": "87ada00",
+      "subject": "feat(ci): exercise Tesseract OCR with multi-lingual language packs and pip caching"
+    },
+    {
+      "name": "remotes/origin/task/T0.2-ocr-success-proof",
+      "commit": "53d494b",
+      "subject": "test(ocr): add genuine OCR integration proof, scoped warning filter, and status reconciliation"
+    },
+    {
+      "name": "remotes/origin/task/T0.3-package-contract-verification",
+      "commit": "200eb17",
+      "subject": "docs(packaging): refine AuditPipeline reference, OCR dependency context, and outcome vocabulary in gap inventory"
+    },
+    {
+      "name": "remotes/origin/task/T1.1-claims-register",
+      "commit": "0e103fd",
+      "subject": "test(compliance): harden claims validation with reusable helper and non-silent existence assertions (T1.1)"
+    },
+    {
+      "name": "remotes/origin/task/T1.1-claims-register-corrective",
+      "commit": "ddec213",
+      "subject": "docs(compliance): establish public claims register, qualify capabilities, and add contract test (T1.1)"
+    },
+    {
+      "name": "remotes/origin/task/T1.2-no-network-contract",
+      "commit": "79ac024",
+      "subject": "feat(privacy): suppress Streamlit telemetry and enforce no-network contract (T1.2)"
+    },
+    {
+      "name": "remotes/origin/task/T1.2-telemetry-off-no-network",
+      "commit": "5f2cc42",
+      "subject": "feat(privacy): suppress Streamlit telemetry and enforce no-network contract (T1.2)"
+    },
+    {
+      "name": "remotes/origin/task/T1.3-pdf-backend-licensing",
+      "commit": "0919c8c",
+      "subject": "feat(ingest): introduce PDF backend abstraction, ADR-001 licensing decision, and NOTICE (T1.3)"
+    },
+    {
+      "name": "remotes/origin/task/T1.3-pdf-backend-licensing-corrective",
+      "commit": "f237b77",
+      "subject": "feat(ingest): eliminate dummy coordinates in PDFium backend, unify extractor backend usage, and enhance ADR-001 and NOTICE (T1.3)"
+    },
+    {
+      "name": "remotes/origin/task/T1.4-redaction-safe-logging",
+      "commit": "fa966dd",
+      "subject": "feat(privacy): implement default redaction, safe logging, and 0700 temp upload isolation (T1.4)"
+    },
+    {
+      "name": "remotes/origin/task/T1.4-redaction-safe-logging-corrective",
+      "commit": "d625e5e",
+      "subject": "feat(privacy): harden safe logging with args clearing, field-aware redaction, and audited temp directory cleanup (T1.4)"
+    },
+    {
+      "name": "remotes/origin/task/T1.5-citation-audit",
+      "commit": "8920519",
+      "subject": "docs(compliance): author citation audit and establish packs/generic.demo/sources.yaml (T1.5)"
+    },
+    {
+      "name": "remotes/origin/task/T1.5-citation-audit-corrective",
+      "commit": "602b663",
+      "subject": "docs(compliance): correct statutory citations, map validator rule categories, and enforce PyYAML schema testing (T1.5)"
+    },
+    {
+      "name": "remotes/origin/task/T2.1-status-vocabulary-resolver",
+      "commit": "2f02062",
+      "subject": "Merge branch 'main' into task/T2.1-status-vocabulary-resolver"
+    },
+    {
+      "name": "remotes/origin/task/T2.2-per-rule-test-matrix",
+      "commit": "5c4a504",
+      "subject": "test(rules): implement T2.2 per-rule test matrix across 10 canonical rule groups"
+    },
+    {
+      "name": "remotes/origin/task/T2.2-validator-fixture-matrix",
+      "commit": "7a04ef3",
+      "subject": "test(t2.2): harden assertions on evidence provenance, reason codes, and severity in validator matrix"
+    },
+    {
+      "name": "remotes/origin/task/T2.3-match-grades-injected-clock",
+      "commit": "78a8f72",
+      "subject": "fix(T2.3): address review corrections and acceptance hardening for match grades and injected clock"
+    },
+    {
+      "name": "remotes/origin/task/T2.4-slot-validation",
+      "commit": "1067f9b",
+      "subject": "fix(T2.4): address review corrections for anchor specificity, context-aware titles, and integrated unreadable outcomes"
+    },
+    {
+      "name": "remotes/origin/task/T3.1-pack-schema-loader-lint",
+      "commit": "d6f9fd1",
+      "subject": "fix(T3.1): enforce strict string compatibility, list-member contracts, and architecture match grades"
+    },
+    {
+      "name": "remotes/origin/task/T3.2-primitives-generic-demo-port",
+      "commit": "db20885",
+      "subject": "feat(rules): implement closed primitive engine and generic.demo port (T3.2)"
+    },
+    {
+      "name": "remotes/origin/task/T3.2.1-post-merge-safety-equivalence",
+      "commit": "97f98d5",
+      "subject": "fix(rules): remediate engine safety, lifecycle enforcement, and pack equivalence (T3.2.1)"
+    },
+    {
+      "name": "remotes/origin/test/T2.2-validator-matrix-assertion-hardening",
+      "commit": "793739c",
+      "subject": "test(t2.2): harden assertions on evidence provenance, reason codes, and severity in validator matrix"
+    }
+  ]
+}

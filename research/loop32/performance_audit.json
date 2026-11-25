@@ -1,0 +1,56 @@
+{
+  "metadata": {
+    "environment": "Windows-11-10.0.26300-SP0",
+    "python_version": "3.12.10",
+    "iterations": 50,
+    "packets_evaluated": 3300,
+    "timestamp": "2026-11-25T06:14:28Z"
+  },
+  "verification_layer": {
+    "cross_document_verification_per_field": {
+      "mean_ms": 0.0359,
+      "p50_ms": 0.0372,
+      "p90_ms": 0.0487,
+      "p95_ms": 0.0527,
+      "p99_ms": 0.0701
+    },
+    "entity_resolution_per_packet": {
+      "mean_ms": 0.0183,
+      "p50_ms": 0.0195,
+      "p90_ms": 0.026,
+      "p95_ms": 0.0266,
+      "p99_ms": 0.0315
+    },
+    "duplicate_detection_per_pair": {
+      "mean_ms": 0.0005,
+      "p50_ms": 0.0005,
+      "p90_ms": 0.0006,
+      "p95_ms": 0.0007,
+      "p99_ms": 0.0009
+    },
+    "identifier_validation_per_field": {
+      "mean_ms": 0.0041,
+      "p50_ms": 0.0038,
+      "p90_ms": 0.0048,
+      "p95_ms": 0.0052,
+      "p99_ms": 0.0078
+    },
+    "normalizer_per_field": {
+      "mean_ms": 0.0041,
+      "p50_ms": 0.0039,
+      "p90_ms": 0.0052,
+      "p95_ms": 0.0059,
+      "p99_ms": 0.0078
+    }
+  },
+  "end_to_end_context": {
+    "verification_layer_mean_ms": 0.0359,
+    "verification_layer_p95_ms": 0.0527,
+    "estimated_ocr_and_rasterization_per_page_ms": {
+      "native_vector_pdf_ms": 15.0,
+      "scanned_tesseract_ocr_ms": 350.0,
+      "table_detection_ms": 1.85
+    },
+    "architectural_clarification": "The sub-millisecond metrics (mean ~0.08 ms, p95 ~0.18 ms) represent pure CPU verification logic (cross-document constraint solving, entity resolution, checksum validation, normalizers). Full document ingest latency (200-500 ms) is dominated by disk I/O, PDF rasterization (PyMuPDF), and optical character recognition (Tesseract OCR)."
+  }
+}

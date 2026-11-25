@@ -80,7 +80,10 @@ def _find_field_in_page_vector(page: pymupdf.Page, patterns: List[str]) -> Tuple
                 bbox = None
                 if rects:
                     r = rects[0]
-                    bbox = [round(r.x0, 1), round(r.y0, 1), round(r.x1, 1), round(r.y1, 1)]
+                    if hasattr(r, "x0"):
+                        bbox = [round(r.x0, 1), round(r.y0, 1), round(r.x1, 1), round(r.y1, 1)]
+                    else:
+                        bbox = [round(r[0], 1), round(r[1], 1), round(r[2], 1), round(r[3], 1)]
                 snippet = f"{line}" + (f" -> {lines[idx+1]}" if idx + 1 < len(lines) and val != line else "")
                 return val, bbox, snippet
 

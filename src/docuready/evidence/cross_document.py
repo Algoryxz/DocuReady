@@ -354,6 +354,11 @@ def normalize_claim_value(val: str, field_type: str) -> str:
             if y < 100:
                 y += 2000
             clean = f"{d:02d}/{mon:02d}/{y:04d}"
+        else:
+            m_iso = re.match(r"^(\d{4})/(\d{1,2})/(\d{1,2})$", clean)
+            if m_iso:
+                y, mon, d = int(m_iso.group(1)), int(m_iso.group(2)), int(m_iso.group(3))
+                clean = f"{d:02d}/{mon:02d}/{y:04d}"
     else:
         clean = re.sub(r"\s+", " ", clean).strip().upper()
     return clean
