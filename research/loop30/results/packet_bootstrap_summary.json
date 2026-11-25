@@ -1,0 +1,59 @@
+{
+  "benchmark": "Loop 28 Cross-Document Reproduction",
+  "total_packets": 36,
+  "total_claims": 92,
+  "verified_claims": 42,
+  "exact_matches": 42,
+  "false_verifications": 0,
+  "candidate_calibration": {
+    "ece_pct": 46.93,
+    "mce_pct": 89.0,
+    "brier": 0.4603
+  },
+  "verified_calibration": {
+    "ece_pct": 5.93,
+    "mce_pct": 5.93,
+    "brier": 0.0037
+  },
+  "bootstrap_results": {
+    "precision_ci": [
+      100.0,
+      100.0
+    ],
+    "coverage_ci": [
+      32.18,
+      58.42
+    ],
+    "packet_coverage_ci": [
+      41.67,
+      75.0
+    ]
+  },
+  "complementary_uncertainty": {
+    "claims": {
+      "sample_size": 42,
+      "rule_of_three_upper_risk_pct": 7.14,
+      "wilson_ci95": [
+        91.62,
+        100.0
+      ],
+      "bootstrap_ci95": [
+        100.0,
+        100.0
+      ],
+      "audit_note": "Bootstrap interval [100.0%, 100.0%] is degenerate due to zero sample errors; Rule of Three (7.14%) and Wilson [91.62%, 100.0%] provide sound non-zero risk bounds."
+    },
+    "packets": {
+      "sample_size": 21,
+      "rule_of_three_upper_risk_pct": 14.29,
+      "wilson_ci95": [
+        84.54,
+        100.0
+      ],
+      "bootstrap_coverage_ci95": [
+        41.67,
+        75.0
+      ]
+    }
+  }
+}
