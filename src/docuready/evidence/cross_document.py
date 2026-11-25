@@ -13,6 +13,7 @@ from __future__ import annotations
 import difflib
 import hashlib
 import re
+from datetime import date, datetime
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Dict, List, Optional, Set, Tuple
@@ -265,7 +266,7 @@ def evaluate_semantic_claim_equivalence(
             kg2 = f2 * 1000.0 if u2 == "MT" else f2
 
             if abs(kg1 - kg2) < 1e-4:
-                return True, VerificationOutcome.EQUIVALENT_NORMALIZED, f"Values equivalent after metric unit normalization ({kg1:.2f} KG)"
+                return True, VerificationOutcome.EQUIVALENT_NORMALIZED, f"Values physically equivalent after metric unit conversion ({kg1:.2f} KG)"
             else:
                 return False, VerificationOutcome.CONTRADICTION, f"Physical weight mismatch ({kg1:.2f} KG vs {kg2:.2f} KG)"
         except ValueError:
@@ -290,6 +291,13 @@ def evaluate_semantic_claim_equivalence(
     if c1_type == "date" or c2_type == "date":
         d1 = normalize_claim_value(c1_val, "date")
         d2 = normalize_claim_value(c2_val, "date")
+        if d1 == "INVALID_DATE" or d2 == "INVALID_DATE":
+            return False, VerificationOutcome.ABSTAIN, f"Calendar date validation failed: invalid date ('{c1_val}' vs '{c2_val}')"
+
+        if is_ambiguous_date_representation(c1_val) or is_ambiguous_date_representation(c2_val):
+            if sanitize_identifier_token(c1_val) != sanitize_identifier_token(c2_val):
+                return False, VerificationOutcome.ABSTAIN, f"Ambiguous date format interpretation ('{c1_val}' vs '{c2_val}')"
+
         if d1 and d2:
             if d1 == d2:
                 return True, VerificationOutcome.EQUIVALENT_NORMALIZED, f"Dates equivalent ({d1})"
@@ -331,6 +339,24 @@ def extract_unit(val: str) -> Optional[str]:
     return None
 
 
+def is_ambiguous_date_representation(date_str: str) -> bool:
+    """Detects whether date format (DD/MM vs MM/DD) is ambiguous without format declaration."""
+    if not date_str:
+        return False
+    clean = re.sub(r'[\s]+', ' ', str(date_str).strip()).strip(' .,;:-|()[]{}')
+    parts = re.split(r'[/.\-]+', clean)
+    if len(parts) == 3:
+        if parts[0].isdigit() and parts[1].isdigit() and len(parts[2]) in [2, 4]:
+            p1, p2 = int(parts[0]), int(parts[1])
+            if 1 <= p1 <= 12 and 1 <= p2 <= 12 and p1 != p2:
+                return True
+        if len(parts[0]) in [2, 4] and parts[1].isdigit() and parts[2].isdigit():
+            p2, p3 = int(parts[1]), int(parts[2])
+            if 1 <= p2 <= 12 and 1 <= p3 <= 12 and p2 != p3:
+                return True
+    return False
+
+
 def normalize_claim_value(val: str, field_type: str) -> str:
     """Standardizes values for cross-document contradiction comparison."""
     if not val:
@@ -347,18 +373,30 @@ def normalize_claim_value(val: str, field_type: str) -> str:
         except ValueError:
             return num_str
     elif field_type == "date":
-        clean = clean.replace("-", "/")
-        m = re.match(r"^(\d{1,2})/(\d{1,2})/(\d{2,4})$", clean)
-        if m:
-            d, mon, y = int(m.group(1)), int(m.group(2)), int(m.group(3))
+        c_date = clean.replace("/", "-").replace(".", "-")
+        # 1. ISO format: YYYY-MM-DD
+        m_iso = re.match(r"^(\d{4})-(\d{1,2})-(\d{1,2})$", c_date)
+        if m_iso:
+            y, mon, d = int(m_iso.group(1)), int(m_iso.group(2)), int(m_iso.group(3))
+            try:
+                dt = date(y, mon, d)
+                return dt.isoformat()
+            except ValueError:
+                return "INVALID_DATE"
+
+        # 2. Commonwealth / Indian format: DD-MM-YYYY
+        m_dmy = re.match(r"^(\d{1,2})-(\d{1,2})-(\d{2,4})$", c_date)
+        if m_dmy:
+            d, mon, y = int(m_dmy.group(1)), int(m_dmy.group(2)), int(m_dmy.group(3))
             if y < 100:
                 y += 2000
-            clean = f"{d:02d}/{mon:02d}/{y:04d}"
-        else:
-            m_iso = re.match(r"^(\d{4})/(\d{1,2})/(\d{1,2})$", clean)
-            if m_iso:
-                y, mon, d = int(m_iso.group(1)), int(m_iso.group(2)), int(m_iso.group(3))
-                clean = f"{d:02d}/{mon:02d}/{y:04d}"
+            try:
+                dt = date(y, mon, d)
+                return dt.isoformat()
+            except ValueError:
+                return "INVALID_DATE"
+
+        return "INVALID_DATE"
     else:
         clean = re.sub(r"\s+", " ", clean).strip().upper()
     return clean
@@ -494,13 +532,18 @@ def verify_cross_document_packet_claim(
             norm_ord = normalize_claim_value(best_order.claimed_value, "date")
             for c in valid_claims:
                 norm_del = normalize_claim_value(c.claimed_value, "date")
-                m_ord = re.match(r"^(\d{2})/(\d{2})/(\d{4})$", norm_ord)
-                m_del = re.match(r"^(\d{2})/(\d{2})/(\d{4})$", norm_del)
-                if m_ord and m_del:
-                    t_ord = (int(m_ord.group(3)), int(m_ord.group(2)), int(m_ord.group(1)))
-                    t_del = (int(m_del.group(3)), int(m_del.group(2)), int(m_del.group(1)))
-                    if t_del < t_ord:
-                        return PacketVerificationResult(
+                d_ord = None
+                d_del = None
+                try:
+                    if norm_ord != "INVALID_DATE":
+                        d_ord = date.fromisoformat(norm_ord) if "-" in norm_ord else datetime.strptime(norm_ord, "%d/%m/%Y").date()
+                    if norm_del != "INVALID_DATE":
+                        d_del = date.fromisoformat(norm_del) if "-" in norm_del else datetime.strptime(norm_del, "%d/%m/%Y").date()
+                except ValueError:
+                    pass
+
+                if d_ord and d_del and d_del < d_ord:
+                    return PacketVerificationResult(
                             field_name=field_name,
                             target_entity_id=target_entity.entity_id,
                             outcome=VerificationOutcome.CONTRADICTION,
@@ -557,9 +600,9 @@ def verify_cross_document_packet_claim(
             verified_value=None,
             supporting_doc_ids=[],
             contradicting_doc_ids=[c.doc_id for c in valid_claims],
-            reason=f"Measurement unit contradiction across claims: {', '.join(sorted(units))}",
+            reason=f"Evidence policy conflict: disparate measurement units across claims ({', '.join(sorted(units))}) require explicit conversion schedule or manual verification under conservative compliance standards",
             evidence_independence=overall_independence,
-            provenance_trail=[{"error": "Conflicting units", "units": list(units)}],
+            provenance_trail=[{"policy_conflict": "Disparate measurement units across independent packet documents", "units": list(units)}],
         )
 
     normalized_values: Dict[str, List[FieldClaim]] = {}

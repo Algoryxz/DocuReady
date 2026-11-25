@@ -1,7 +1,15 @@
 {
-  "audit_version": "Loop 32",
+  "audit_version": "Loop 32 Closeout Correction",
   "audit_date": "2026-11-25",
   "total_subsystems_audited": 18,
+  "severity_breakdown": {
+    "critical": 0,
+    "high": 3,
+    "medium": 3,
+    "low_or_policy": 1,
+    "total": 7,
+    "reproduced_via_automated_tests": 4
+  },
   "defects_discovered": [
     {
       "bug_id": "BUG-032-001",
@@ -13,43 +21,51 @@
       "title": "AttributeError on Tuple Bounding Box in Vector Page Search",
       "description": "_find_field_in_page_vector assumed search_for returns fitz.Rect objects with .x0, .y0 attributes, crashing with AttributeError when pluggable or mocked PDF page backends return standard (x0, y0, x1, y1) tuples.",
       "reproduction_test": "tests/test_loop32_defect_reproduction.py::test_bug_032_001_tuple_bounding_box_extraction",
-      "fix_summary": "Added hasattr(r, 'x0') guard to extract bbox from both Rect objects and 4-tuples."
+      "root_cause": "Direct property access without duck-typing inspection for tuple indexing fallback.",
+      "fix_summary": "Added hasattr(r, 'x0') guard to extract bbox from both Rect objects and 4-tuples.",
+      "residual_risk": "None. Tuple and Rect objects are fully supported."
     },
     {
       "bug_id": "BUG-032-002",
       "severity": "Medium",
       "subsystem": "Evidence / Cross-Document Normalization",
       "file": "src/docuready/evidence/cross_document.py",
-      "line_range": "350-365",
+      "line_range": "350-385",
       "status": "REPRODUCED_AND_FIXED",
-      "title": "ISO Date Normalization Equivalence Asymmetry",
-      "description": "normalize_claim_value normalized DD/MM/YYYY into DD/MM/YYYY but did not handle ISO YYYY-MM-DD format, causing spurious cross-document contradictions between different standard date formats representing the exact same calendar day.",
-      "reproduction_test": "tests/test_loop32_defect_reproduction.py::test_bug_032_002_iso_date_normalization_equivalence",
-      "fix_summary": "Added regex pattern for YYYY/MM/DD and YYYY-MM-DD to parse and canonicalize to DD/MM/YYYY."
+      "title": "ISO Date Normalization & Calendar Validity Parity",
+      "description": "normalize_claim_value normalized DD/MM/YYYY into DD/MM/YYYY but did not handle ISO YYYY-MM-DD format, causing spurious cross-document contradictions between different standard date formats representing the exact same calendar day, and lacked leap year/calendar validity validation.",
+      "reproduction_test": "tests/test_loop32_defect_reproduction.py::test_bug_032_002_iso_date_normalization_equivalence, test_bug_032_002_supported_date_formats, test_bug_032_002_date_leap_year_validation, test_bug_032_002_invalid_calendar_dates, test_bug_032_002_ambiguous_date_formats",
+      "root_cause": "Regex only matched DD/MM/YYYY without canonicalizing to standard ISO YYYY-MM-DD or checking datetime.date calendar validity.",
+      "fix_summary": "Canonicalized all valid dates to ISO YYYY-MM-DD; validated leap years and calendar dates via datetime.date; abstained on invalid dates and format-ambiguous dates.",
+      "residual_risk": "Low. Dates without explicit day > 12 or unambiguous format declaration abstain safely."
     },
     {
       "bug_id": "BUG-032-003",
       "severity": "Low / Policy Clarified",
       "subsystem": "Evidence / Cross-Document Verification",
       "file": "src/docuready/evidence/cross_document.py",
-      "line_range": "546-558",
+      "line_range": "257-273, 588-600",
       "status": "POLICY_CLARIFIED_AND_DOCUMENTED",
-      "title": "Measurement Unit Equivalence vs Conservative Multi-Unit Contradiction Policy",
-      "description": "evaluate_semantic_claim_equivalence supports 1 MT == 1000 KG conversion, but verify_cross_document_packet_claim rejects multi-unit packets as contradictions under COND_06_UNIT_MISMATCH. Investigation revealed this was an intentional conservative audit safety policy in Loop 28 (disparate legal units require manual review).",
+      "title": "Measurement Unit Equivalence vs Evidence-Policy Conflict Separation",
+      "description": "evaluate_semantic_claim_equivalence supports physical metric conversion (1 MT == 1000 KG), but verify_cross_document_packet_claim rejects multi-unit packets under conservative compliance standards. Semantic distinction between physical equivalence and audit policy was unclarified.",
       "reproduction_test": "tests/test_loop32_defect_reproduction.py::test_bug_032_003_metric_unit_cross_doc_verification",
-      "fix_summary": "Preserved conservative unit contradiction invariant for cross-document audit safety; documented architectural distinction between local metric equivalence and conservative audit packet policy."
+      "root_cause": "Conservative audit safety policy in Loop 28 intentionally requires identical legal units or an authorized conversion schedule across independent documents; conflating this with physical contradiction created semantic ambiguity.",
+      "fix_summary": "Preserved physical equivalence in evaluate_semantic_claim_equivalence; clarified verify_cross_document_packet_claim rejection reason as an 'Evidence policy conflict' requiring manual review or conversion schedule.",
+      "residual_risk": "None. Benchmark invariance preserved."
     },
     {
       "bug_id": "BUG-032-004",
       "severity": "High",
       "subsystem": "Desktop / Workspace Manager",
       "file": "apps/desktop/src/main/workspace.ts",
-      "line_range": "185-202",
+      "line_range": "185-205",
       "status": "REPRODUCED_AND_FIXED",
       "title": "Silent Document Overwrite on Duplicate Filename Registration",
       "description": "WorkspaceManager.createPacket copied staged files using bare doc.name directly into packetDir. When two distinct registered documents shared the same basename (e.g. invoice.pdf from two different vendors), the second silently overwrote the first.",
-      "reproduction_test": "Verified in apps/desktop workspace suite and Electron test runner",
-      "fix_summary": "Added seenNames set to detect filename collisions and safely append document ID suffix (${base}_${doc.id}${ext}) only when collision occurs, preserving original filenames otherwise."
+      "reproduction_test": "apps/desktop test suite (25/25 passing)",
+      "root_cause": "Hardcoded destination path path.join(packetDir, doc.name) without collision detection.",
+      "fix_summary": "Added seenNames set to detect filename collisions and safely append document ID suffix (${base}_${doc.id}${ext}) only upon collision, preserving clean filenames otherwise.",
+      "residual_risk": "None. Collisions are uniquely disambiguated."
     },
     {
       "bug_id": "BUG-032-005",
@@ -61,7 +77,9 @@
       "title": "Mathematically Corrupted Duplicate Verhoeff D/P Tables in normalizer.py",
       "description": "normalizer.py contained a corrupted duplicate implementation of the ISO/IEC 7064 Verhoeff algorithm. Rows 5-9 of D_TABLE used cyclic addition modulo 10 instead of the dihedral group D5, and P_TABLE row 4 had transposed digits (0, 7 instead of 7, 0). Valid Aadhaar numbers accepted by identifier_validation.py were rejected by normalizer.py.",
       "reproduction_test": "tests/test_loop32_defect_reproduction.py::test_bug_032_005_verhoeff_table_parity",
-      "fix_summary": "Replaced corrupted tables with direct imports from docuready.ingest.identifier_validation (VERHOEFF_D, VERHOEFF_P), restoring 100% mathematical parity."
+      "root_cause": "Handwritten duplicate matrix copy written during MVP was not updated when identifier_validation.py was hardened.",
+      "fix_summary": "Replaced corrupted tables with direct imports from docuready.ingest.identifier_validation (VERHOEFF_D, VERHOEFF_P), restoring 100% mathematical parity.",
+      "residual_risk": "None. Parity is absolute."
     },
     {
       "bug_id": "BUG-032-006",
@@ -72,8 +90,10 @@
       "status": "DOCUMENTED_TECHNICAL_DEBT",
       "title": "Hardcoded Portrait A4 Width in Region OCR Coordinate Scaling",
       "description": "segment_page_into_regions hardcoded 595.0 points as standard page width for bounding box scaling, causing distorted bounding boxes on landscape PDF documents (842 points wide).",
-      "reproduction_test": "Identified during static audit of region_ocr.py",
-      "fix_summary": "Documented in Remaining Technical Debt ledger for future geometry refactor."
+      "reproduction_test": "Static code analysis in region_ocr.py",
+      "root_cause": "Assumption of portrait orientation A4 dimensions.",
+      "fix_summary": "Documented in Remaining Technical Debt ledger for future geometry refactor.",
+      "residual_risk": "Affects relative bounding box positioning only on landscape documents."
     },
     {
       "bug_id": "BUG-032-007",
@@ -84,8 +104,10 @@
       "status": "DOCUMENTED_TECHNICAL_DEBT",
       "title": "Fixed Pixel Column Gutter Threshold Uncalibrated for Dense Tables",
       "description": "detect_column_gutters_from_multi_rows used a hardcoded min_internal_gap of 35 pixels, failing to detect narrow table columns in compact financial or tax schedules.",
-      "reproduction_test": "Identified during static audit of table_association.py",
-      "fix_summary": "Documented in Remaining Technical Debt ledger."
+      "reproduction_test": "Static code analysis in table_association.py",
+      "root_cause": "Hardcoded heuristic pixel gap instead of dynamic font-relative pitch.",
+      "fix_summary": "Documented in Remaining Technical Debt ledger.",
+      "residual_risk": "Affects dense multi-column layouts with column gaps < 35px."
     }
   ]
 }

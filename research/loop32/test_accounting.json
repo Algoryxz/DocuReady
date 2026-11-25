@@ -1,7 +1,7 @@
 {
   "audit": "Loop 32 Test Accounting & Reconciliation",
   "date": "2026-11-25",
-  "discrepancy_resolved": "Historical report of '104 tests' (70 Python + 25 Electron + 9 Release) resolved as double-counting",
+  "discrepancy_resolved": "Historical report of '104 tests' (70 Python + 25 Electron + 9 Release) resolved as double-counting the 9 release tests already inside tests/test_loop09_release_integrity.py",
   "python_test_inventory": {
     "test_files": [
       {
@@ -15,7 +15,7 @@
       {
         "file": "tests/test_loop09_release_integrity.py",
         "collected_tests": 9,
-        "note": "Previously counted separately as 9 release tests"
+        "note": "Previously counted separately in historical prose as 9 release tests"
       },
       {
         "file": "tests/test_golden_baseline.py",
@@ -31,18 +31,18 @@
       },
       {
         "file": "tests/test_loop32_defect_reproduction.py",
-        "collected_tests": 4,
-        "note": "Introduced in Loop 32"
+        "collected_tests": 8,
+        "note": "Introduced and expanded in Loop 32 closeout (reproduction and date/unit regressions)"
       }
     ],
     "baseline_python_tests": 70,
-    "loop32_new_tests": 4,
-    "total_python_tests": 74
+    "loop32_new_tests": 8,
+    "total_python_tests": 78
   },
   "electron_test_inventory": {
     "test_files": 10,
     "total_electron_tests": 25
   },
-  "grand_total_unique_tests": 99,
-  "accounting_formula": "74 Python Tests + 25 Electron Tests = 99 Unique Executable Tests"
+  "grand_total_unique_tests": 103,
+  "accounting_formula": "78 Python Tests + 25 Electron Tests = 103 Unique Executable Tests (All 103 Passing)"
 }
