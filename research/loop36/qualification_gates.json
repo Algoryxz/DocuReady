@@ -1,0 +1,132 @@
+{
+  "A": {
+    "name": "Correct Loop35 baseline",
+    "status": "PASS",
+    "evidence": "Base commit 3a7e55f verified"
+  },
+  "B": {
+    "name": "Clean repository-state accounting",
+    "status": "PASS",
+    "evidence": "git status --short & branch counts recorded"
+  },
+  "C": {
+    "name": "Loop10 artifact integrity",
+    "status": "PASS",
+    "evidence": "release_hashes.json (5/5 bit-exact SHA-256)"
+  },
+  "D": {
+    "name": "Packaging configuration audit",
+    "status": "PASS",
+    "evidence": "forge.config.ts & package.json inspected"
+  },
+  "E": {
+    "name": "Sidecar dependency completeness",
+    "status": "PASS",
+    "evidence": "dependency_inventory.json (122 DLLs, vcruntime present)"
+  },
+  "F": {
+    "name": "OCR resource completeness",
+    "status": "PASS",
+    "evidence": "eng, hin, ori, osd traineddata + tesseract.exe verified"
+  },
+  "G": {
+    "name": "Native runtime dependency completeness",
+    "status": "PASS",
+    "evidence": "PyMuPDF + OpenCV + Tesseract DLLs bundled"
+  },
+  "H": {
+    "name": "Clean Windows installation",
+    "status": "BLOCKED",
+    "evidence": "No clean Windows 10/11 VM available"
+  },
+  "I": {
+    "name": "First launch",
+    "status": "PARTIAL",
+    "evidence": "Packaged sidecar & Electron tests pass; GUI desktop window launch not tested"
+  },
+  "J": {
+    "name": "Fresh workspace creation",
+    "status": "PASS",
+    "evidence": "WorkspaceManager Electron tests pass"
+  },
+  "K": {
+    "name": "Portable build qualification",
+    "status": "PASS",
+    "evidence": "DocuReady-win32-x64 portable sidecar & Unicode/spaces path verified"
+  },
+  "L": {
+    "name": "Upgrade safety",
+    "status": "BLOCKED",
+    "evidence": "No interactive clean VM for upgrade testing"
+  },
+  "M": {
+    "name": "Reinstall safety",
+    "status": "BLOCKED",
+    "evidence": "No interactive clean VM for reinstall testing"
+  },
+  "N": {
+    "name": "Uninstall safety",
+    "status": "BLOCKED",
+    "evidence": "No interactive clean VM for uninstall testing"
+  },
+  "O": {
+    "name": "User-data preservation",
+    "status": "PARTIAL",
+    "evidence": "Session purge & workspace isolation verified in tests; uninstall preservation BLOCKED"
+  },
+  "P": {
+    "name": "Offline processing",
+    "status": "PASS",
+    "evidence": "12 no-network tests + socket instrumentation + sidecar offline audit"
+  },
+  "Q": {
+    "name": "OS-level network audit",
+    "status": "PASS",
+    "evidence": "Get-NetTCPConnection verified 0 sidecar outbound connections"
+  },
+  "R": {
+    "name": "Sidecar health and recovery",
+    "status": "PASS",
+    "evidence": "30/30 health checks + SIGKILL crash recovery Electron test"
+  },
+  "S": {
+    "name": "Forced termination recovery",
+    "status": "PASS",
+    "evidence": "Stale workspace cleanup + SIGKILL recovery verified"
+  },
+  "T": {
+    "name": "Repeated launch/shutdown stability",
+    "status": "PASS",
+    "evidence": "30-rep sidecar launch/exit (0/30 failures)"
+  },
+  "U": {
+    "name": "Installer GUI qualification",
+    "status": "BLOCKED",
+    "evidence": "Headless environment; Squirrel GUI wizard not run"
+  },
+  "V": {
+    "name": "Code-signing assessment",
+    "status": "FAIL",
+    "evidence": "Get-AuthenticodeSignature returned NotSigned (BUG-036-001)"
+  },
+  "W": {
+    "name": "Historical performance regression",
+    "status": "FAIL",
+    "evidence": "Loop 17 (1129.65 ms) & Loop 18 (1582.11 ms) profiling tests still fail wall-clock bounds"
+  },
+  "X": {
+    "name": "Benchmark reproducibility",
+    "status": "PASS",
+    "evidence": "791 fields (344 exact, 0 false), Loop 28 (42 exact), Cohort M (76 exact)"
+  },
+  "Y": {
+    "name": "Dataset licensing carry-forward",
+    "status": "PASS",
+    "evidence": "FUNSD, CORD, SROIE, Gazette, Land Revenue status carried forward honestly"
+  },
+  "Z": {
+    "name": "Documentation and reproducibility",
+    "status": "PASS",
+    "evidence": "20 MD + 9 JSON artifacts authored"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "os_level_tcp_check": "Get-NetTCPConnection snapshot during sidecar execution",
+  "python_socket_instrumentation": "tests/test_loop35_e2e_workflow.py::test_zero_outbound_network_attempts_during_pipeline (0 attempts)",
+  "contract_tests": "tests/contract/test_no_network.py (12/12 passed)",
+  "unexpected_outbound_attempts": 0
+}
