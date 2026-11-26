@@ -1,0 +1,36 @@
+{
+  "milestone": "Loop 35",
+  "total_defects": 2,
+  "defects": [
+    {
+      "id": "WF-035-001",
+      "severity": "Low",
+      "classification": "Design Boundary / Supported Scope",
+      "source_path": "apps/desktop/src/main/workspace.ts:WorkspaceManager.initialize",
+      "description": "Concurrent multi-window access to the same workspace root triggers startup stale-directory cleanup; DocuReady supports single-instance workspace isolation only.",
+      "root_cause": "Single-user desktop temp workspace design without distributed file locking.",
+      "remediation": "Documented as explicit unsupported concurrent operation; single-session isolation enforced.",
+      "status": "Documented Design Boundary"
+    },
+    {
+      "id": "WF-035-002",
+      "severity": "Low",
+      "classification": "API Input Contract",
+      "source_path": "src/docuready/rules/validator.py:DocuReadyValidator.validate_packet",
+      "description": "Direct callers passing ExtractedField with unparsed string normalized_value for numeric fields raise TypeError on ceiling comparison; AuditPipeline/DocumentExtractor always normalizes before validation.",
+      "root_cause": "DocuReadyValidator assumes extractor normalization contract.",
+      "remediation": "Preserved internal contract; verified AuditPipeline normalizes all extracted fields.",
+      "status": "Verified Contract"
+    },
+    {
+      "id": "WF-035-003",
+      "severity": "Low",
+      "classification": "Environment / Wall-Clock Profiling Latency",
+      "source_path": "src/docuready/ingest/adaptive_ocr.py:profile_document",
+      "description": "Under Windows Tesseract 5.4.0, profile_document() took 1020.83–1129.65 ms on DOC_CTRL_01 (test target <850 ms) and 1582.11–1602.15 ms on DOC_EXT_07 (test target <1400 ms).",
+      "root_cause": "Subprocess Tesseract cold invocation overhead in adaptive profiling exceeds tight historical Loop 17/18 wall-clock thresholds on current host load.",
+      "remediation": "Recorded honestly without relaxing historical test assertions; functional accuracy and abstention unaffected.",
+      "status": "Observed Performance Miss"
+    }
+  ]
+}
