@@ -1,0 +1,35 @@
+{
+  "milestone": "Loop 38",
+  "bugs": [
+    {
+      "id": "BUG-036-001",
+      "severity": "Medium",
+      "status": "Open (Unsigned Windows EXEs)",
+      "description": "No Authenticode certificate available."
+    },
+    {
+      "id": "BUG-036-002",
+      "severity": "Low",
+      "status": "Qualified Safe to Exclude (-63.41 MB)",
+      "description": "Variant B (17 Tesseract training EXEs removed) passed full multilingual audit_packet parity (audit_ok=true)."
+    },
+    {
+      "id": "BUG-036-003",
+      "severity": "Low",
+      "status": "Reproduced (Environment Variance)",
+      "description": "Loop 17/18 profiling latency misses on Windows Tesseract 5.4.0."
+    },
+    {
+      "id": "BUG-038-001",
+      "severity": "Medium",
+      "status": "Confirmed Design Trade-off",
+      "description": "On single-column raster pages without native PDF text, adaptive_ocr.py runs profile_document() (eng+hin+ori) + execute_adaptive_ocr() (2nd Tesseract spawn), costing 2280.03 ms vs 1220.94 ms for single-pass eng+hin+ori."
+    },
+    {
+      "id": "BUG-038-002",
+      "severity": "High",
+      "status": "FIXED (timeout=2 -> timeout=8 in adaptive_ocr.py:139)",
+      "description": "profile_document() used timeout=2 for lang='eng+hin+ori', causing non-deterministic timeouts (~2.0-2.16s) on Windows Tesseract 5.4.0 that silently fell back to LATIN (FAST_PATH_ENG) on Hindi and bilingual documents. Fixed to timeout=8; Loop 15-17 suites now pass 26/26."
+    }
+  ]
+}

@@ -1,0 +1,132 @@
+{
+  "A": {
+    "name": "Correct Loop37 baseline",
+    "status": "PASS",
+    "evidence": "Base commit ea09c79 verified"
+  },
+  "B": {
+    "name": "Repository and branch preservation",
+    "status": "PASS",
+    "evidence": "Branches and untracked files preserved"
+  },
+  "C": {
+    "name": "Loop10 release integrity",
+    "status": "PASS",
+    "evidence": "5/5 SHA-256 bit-exact match"
+  },
+  "D": {
+    "name": "Original multilingual baseline reproduced",
+    "status": "PASS",
+    "evidence": "7 language combos benchmarked (ocr_performance_results.json)"
+  },
+  "E": {
+    "name": "Production routing path understood",
+    "status": "PASS",
+    "evidence": "adaptive_ocr.py, script_router.py, region_ocr.py inspected"
+  },
+  "F": {
+    "name": "Language/script detection audited",
+    "status": "PASS",
+    "evidence": "language_detection_results.json"
+  },
+  "G": {
+    "name": "Page-level routing evaluated",
+    "status": "PASS",
+    "evidence": "routing_strategies.json (5 docs)"
+  },
+  "H": {
+    "name": "Region-level routing evaluated",
+    "status": "PASS",
+    "evidence": "routing_strategies.json + test_loop15"
+  },
+  "I": {
+    "name": "Adaptive fallback evaluated",
+    "status": "PASS",
+    "evidence": "Stage 4 eng+hin+ori fallback audited"
+  },
+  "J": {
+    "name": "Mixed-script recognition preserved",
+    "status": "PASS",
+    "evidence": "DOC_MIX_01 (53 words) & DOC_MIX_02 (46 words) matched"
+  },
+  "K": {
+    "name": "English accuracy qualified",
+    "status": "PASS",
+    "evidence": "DOC_CTRL_01: 59/59 words matched across strategies"
+  },
+  "L": {
+    "name": "Hindi accuracy qualified",
+    "status": "PASS",
+    "evidence": "DOC_HIN_01: 73/73 words matched across strategies"
+  },
+  "M": {
+    "name": "Odia accuracy qualified",
+    "status": "PASS",
+    "evidence": "DOC_ORI_01: 62/62 words matched across strategies"
+  },
+  "N": {
+    "name": "Critical-field accuracy preserved",
+    "status": "PASS",
+    "evidence": "T*=70, T_fuzzy=75 preserved; 0 false verifications"
+  },
+  "O": {
+    "name": "Table/spatial association preserved",
+    "status": "PASS",
+    "evidence": "Loop 13 column order & spatial tests passed"
+  },
+  "P": {
+    "name": "Abstention and verification safety preserved",
+    "status": "PASS",
+    "evidence": "ABSTAIN_UNREADABLE & Loop 35 e2e tests passed"
+  },
+  "Q": {
+    "name": "Loop17/18 performance regression evaluated",
+    "status": "PARTIAL",
+    "evidence": "After timeout=8 fix (BUG-038-002), Loop 15-17 passed 26/26 including test_fast_profiling_performance; Loop 18 evaluated separately"
+  },
+  "R": {
+    "name": "End-to-end latency qualified",
+    "status": "PARTIAL",
+    "evidence": "Measured per-combo & per-strategy latencies; identified 2-pass probe overhead (BUG-038-001)"
+  },
+  "S": {
+    "name": "OCR subprocess and memory behavior evaluated",
+    "status": "PASS",
+    "evidence": "1 vs 2 vs N subprocess counts documented"
+  },
+  "T": {
+    "name": "Original/minimized package comparison completed",
+    "status": "PASS",
+    "evidence": "package_comparison.json (-66,485,066 bytes, both audit_ok=true)"
+  },
+  "U": {
+    "name": "Packaged English OCR verified",
+    "status": "PASS",
+    "evidence": "Variant A & B audit_packet passed on DOC_CTRL_01"
+  },
+  "V": {
+    "name": "Packaged Hindi/Odia OCR verified",
+    "status": "PASS",
+    "evidence": "Variant A & B audit_packet passed on DOC_HIN_01 & DOC_ORI_01"
+  },
+  "W": {
+    "name": "Packaged mixed-script OCR verified",
+    "status": "PASS",
+    "evidence": "Variant A & B audit_packet passed on DOC_MIX_01 & DOC_MIX_02"
+  },
+  "X": {
+    "name": "Packaged recovery and export verified",
+    "status": "PASS",
+    "evidence": "Electron 25/25 suite passed (SIGKILL recovery, export)"
+  },
+  "Y": {
+    "name": "Dataset provenance/licensing assessed",
+    "status": "PASS",
+    "evidence": "FUNSD/CORD/SROIE/Gazette/Land Revenue carried forward"
+  },
+  "Z": {
+    "name": "Documentation and reproducibility complete",
+    "status": "PASS",
+    "evidence": "20 MD + 11 JSON artifacts authored"
+  }
+}

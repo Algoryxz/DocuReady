@@ -136,7 +136,7 @@ def profile_document(
             thumb,
             lang="eng+hin+ori",
             config="--psm 6",
-            timeout=2
+            timeout=8
         )
         if sample_txt and len(sample_txt.strip()) >= 5:
             res = detect_unicode_script(sample_txt)

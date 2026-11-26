@@ -1,0 +1,20 @@
+{
+  "canonical_791_fields": {
+    "total": 791,
+    "exact": 344,
+    "false": 0,
+    "abstained": 447
+  },
+  "loop28_claims": {
+    "total": 92,
+    "exact": 42,
+    "false": 0,
+    "abstained": 50
+  },
+  "cohort_m_claims": {
+    "total": 103,
+    "exact": 76,
+    "false": 0,
+    "abstained": 27
+  }
+}
