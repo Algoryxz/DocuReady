@@ -46,6 +46,8 @@ class DocumentProfile:
     is_unreadable: bool = False
     estimated_skew: float = 0.0
     profiling_latency_ms: float = 0.0
+    probe_uncertain: bool = False
+    probe_error: Optional[str] = None
 
 
 @dataclass
@@ -144,11 +146,14 @@ def profile_document(
             profile.primary_script = res["primary_script"]
             profile.is_mixed_script = res["is_mixed"]
         else:
-            profile.primary_script = "LATIN"
+            profile.primary_script = "UNKNOWN"
             profile.is_mixed_script = False
-    except Exception:
-        profile.primary_script = "LATIN"
+            profile.probe_uncertain = True
+    except Exception as exc:
+        profile.primary_script = "UNKNOWN"
         profile.is_mixed_script = False
+        profile.probe_uncertain = True
+        profile.probe_error = f"{type(exc).__name__}: {exc}"
 
     profile.profiling_latency_ms = round((time.perf_counter() - t0) * 1000.0, 2)
     return profile
@@ -166,6 +171,17 @@ def select_ocr_strategy(profile: DocumentProfile) -> StrategyDecisionRecord:
             selection_reason="Document ink density is below legible threshold (< 0.003)",
             profile=profile,
             ocr_model_invocations=0,
+        )
+
+    # 1.5 Uncertain / Timed-Out Script Probe Safeguard
+    # Never silently route an uncertain or timed-out script probe to English-only FAST_PATH_ENG.
+    if profile.probe_uncertain:
+        return StrategyDecisionRecord(
+            selected_strategy="GLOBAL_MULTILINGUAL",
+            selected_lang="eng+hin+ori",
+            selection_reason=f"Script probe uncertain or failed ({profile.probe_error or 'insufficient text'}); routing safely to full multilingual 'eng+hin+ori'",
+            profile=profile,
+            ocr_model_invocations=1,
         )
 
     # 2. Multi-Column Bilingual / Multilingual Routing
