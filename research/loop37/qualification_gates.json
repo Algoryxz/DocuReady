@@ -1,0 +1,132 @@
+{
+  "A": {
+    "name": "Correct Loop36 baseline",
+    "status": "PASS",
+    "evidence": "Base commit 071e34a verified"
+  },
+  "B": {
+    "name": "Repository state and branch preservation",
+    "status": "PASS",
+    "evidence": "Branches and untracked files preserved"
+  },
+  "C": {
+    "name": "Loop10 release integrity",
+    "status": "PASS",
+    "evidence": "5/5 SHA-256 bit-exact match"
+  },
+  "D": {
+    "name": "Clean Windows environment evidence",
+    "status": "BLOCKED",
+    "evidence": "No clean Windows 10/11 VM available"
+  },
+  "E": {
+    "name": "Fresh installation",
+    "status": "BLOCKED",
+    "evidence": "No clean VM / interactive GUI"
+  },
+  "F": {
+    "name": "First launch after installation",
+    "status": "BLOCKED",
+    "evidence": "No clean VM / interactive GUI"
+  },
+  "G": {
+    "name": "Sidecar initialization",
+    "status": "PASS",
+    "evidence": "30/30 health checks + Electron tests pass"
+  },
+  "H": {
+    "name": "OCR resource functionality",
+    "status": "PASS",
+    "evidence": "eng, hin, ori, osd verified in bundled & minimized sidecar"
+  },
+  "I": {
+    "name": "Workspace and user-data preservation",
+    "status": "PARTIAL",
+    "evidence": "Session purge/isolation PASS; uninstall preservation BLOCKED"
+  },
+  "J": {
+    "name": "Upgrade lifecycle",
+    "status": "BLOCKED",
+    "evidence": "No prior release / clean VM"
+  },
+  "K": {
+    "name": "Reinstallation",
+    "status": "BLOCKED",
+    "evidence": "No clean VM"
+  },
+  "L": {
+    "name": "Uninstallation",
+    "status": "BLOCKED",
+    "evidence": "No clean VM"
+  },
+  "M": {
+    "name": "Installer GUI",
+    "status": "BLOCKED",
+    "evidence": "Headless environment"
+  },
+  "N": {
+    "name": "Performance failure reproduction",
+    "status": "PASS",
+    "evidence": "Reproduced Loop 17 (1317.63 ms) and Loop 18 (1625.94 ms)"
+  },
+  "O": {
+    "name": "Performance remediation or documented residual",
+    "status": "PARTIAL",
+    "evidence": "Root-caused to eng+hin+ori Tesseract subprocess load (1738.2 ms); thresholds preserved"
+  },
+  "P": {
+    "name": "Sidecar startup stability",
+    "status": "PASS",
+    "evidence": "Import breakdown measured; 30/30 launches succeeded"
+  },
+  "Q": {
+    "name": "Authenticode assessment",
+    "status": "FAIL",
+    "evidence": "NotSigned; 0 certs in Cert:\\CurrentUser\\My and LocalMachine\\My"
+  },
+  "R": {
+    "name": "Windows trust assessment",
+    "status": "BLOCKED",
+    "evidence": "SmartScreen requires clean VM + signed/unsigned GUI run"
+  },
+  "S": {
+    "name": "OS-level network audit",
+    "status": "PARTIAL",
+    "evidence": "Get-NetTCPConnection + socket guard PASS; full WFP/ETW driver unavailable"
+  },
+  "T": {
+    "name": "Package minimization",
+    "status": "PASS",
+    "evidence": "Isolated test removed 17 training EXEs, saved 63.41 MB, OCR langs intact"
+  },
+  "U": {
+    "name": "Native dependency integrity",
+    "status": "PASS",
+    "evidence": "122 DLLs + vcruntime verified"
+  },
+  "V": {
+    "name": "Offline processing",
+    "status": "PASS",
+    "evidence": "12 no-network tests + offline sidecar audit"
+  },
+  "W": {
+    "name": "Historical benchmark reproduction",
+    "status": "PASS",
+    "evidence": "791 fields (344 exact, 0 false), Loop 28 (42 exact), Cohort M (76 exact)"
+  },
+  "X": {
+    "name": "Full regression test accounting",
+    "status": "PASS",
+    "evidence": "Electron 25/25 PASS; Python 43/45 (2 known Loop 17/18 latency misses)"
+  },
+  "Y": {
+    "name": "Dataset licensing carry-forward",
+    "status": "PASS",
+    "evidence": "FUNSD/CORD/SROIE/Gazette/Land Revenue status preserved"
+  },
+  "Z": {
+    "name": "Final evidence and documentation integrity",
+    "status": "PASS",
+    "evidence": "21 MD + 11 JSON artifacts authored"
+  }
+}

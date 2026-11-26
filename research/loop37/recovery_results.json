@@ -1,0 +1,27 @@
+{
+  "adversarial_environment_tests": [
+    {
+      "test": "spaces_and_unicode_packet_path",
+      "status": "FAIL",
+      "returncode": 0,
+      "detail": "{\"protocol\":1,\"id\":\"adv-unicode-1\",\"ok\":false,\"error\":{\"code\":\"WORKSPACE_VIOLATION\",\"message\":\"The requested operation could not be completed.\"}}"
+    },
+    {
+      "test": "missing_tessdata_health_graceful",
+      "status": "PASS",
+      "returncode": 0,
+      "detail": "{\"protocol\":1,\"id\":\"adv-notess\",\"ok\":true,\"result\":{\"sidecar\":\"docuready-python\",\"protocol\":1,\"engine_version\":\"0.1.0\",\"python\":\"3.12.10\",\"pdf_backend\":\"pymupdf\",\"ocr_available\":true,\"ocr_languages\":[\"eng\"],\"ocr_source\":\"bundled_resource\",\"is_bundled"
+    },
+    {
+      "test": "missing_packet_dir_safe_handling",
+      "status": "PASS",
+      "returncode": 0,
+      "detail": "{\"protocol\":1,\"id\":\"adv-missing-dir\",\"ok\":false,\"error\":{\"code\":\"WORKSPACE_VIOLATION\",\"message\":\"The requested operation could not be completed.\"}}"
+    },
+    {
+      "test": "os_level_net_tcp_snapshot",
+      "status": "PASS",
+      "detail": "Captured active TCP table via Get-NetTCPConnection; zero sidecar/DocuReady outbound connections"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "original_sidecar_bytes": 759258903,
+  "minimized_sidecar_bytes": 692773837,
+  "saved_bytes": 66485066,
+  "saved_mb": 63.41,
+  "removed_extra_tesseract_exes": 17,
+  "minimized_health_rc": 0,
+  "minimized_tess_langs": [
+    "eng",
+    "hin",
+    "ori",
+    "osd"
+  ]
+}

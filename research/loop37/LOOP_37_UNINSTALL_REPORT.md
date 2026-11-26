@@ -1,0 +1,3 @@
+# DOCUREADY — LOOP 37 UNINSTALL REPORT
+
+**BLOCKED** — No clean VM available.

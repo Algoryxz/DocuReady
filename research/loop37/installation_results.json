@@ -1,0 +1,8 @@
+{
+  "clean_vm_fresh_install": "BLOCKED (no clean Windows 10/11 VM)",
+  "installer_gui_wizard": "BLOCKED (headless CLI environment)",
+  "upgrade_lifecycle": "BLOCKED (no prior version / clean VM)",
+  "reinstall_lifecycle": "BLOCKED (no clean VM)",
+  "uninstall_lifecycle": "BLOCKED (no clean VM)",
+  "portable_sidecar_execution": "PASS (30/30 health checks + minimized isolated copy verified)"
+}
