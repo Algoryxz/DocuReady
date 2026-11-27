@@ -185,3 +185,30 @@ def test_pack_slot_ocr_langs_propagation_via_pipeline(tmp_path: Path):
 
     assert spy_ext.call_count == 1
     assert spy_ext.call_args.kwargs["ocr_langs"] == ["eng", "ori"]
+
+
+def test_subhadra_slots_and_replacement_preserve_ocr_langs(tmp_path: Path):
+    """Verify SUBHADRA Aadhaar=eng+ori, bank_passbook=eng, and replace_document_and_reaudit preserves slot config."""
+    pack, _ = load_pack(_REPO_ROOT / "packs" / "odisha.subhadra")
+    aadhaar_pdf = _make_blank_raster_pdf(tmp_path, "aadhaar.pdf")
+    passbook_pdf = _make_blank_raster_pdf(tmp_path, "bank_passbook.pdf")
+
+    pipeline = AuditPipeline(pack=pack)
+    with patch("docuready.ingest.extractor.check_ocr_language_availability", return_value={
+        "available": True, "binary_available": True, "requested_lang": "eng+ori",
+        "requested_langs": ["eng", "ori"], "installed_langs": ["eng", "ori"], "missing_langs": [], "error": None,
+    }):
+        with patch("pytesseract.image_to_osd", side_effect=RuntimeError("no osd")):
+            with patch("pytesseract.image_to_data", return_value=_mock_ocr_payload()) as mock_tess:
+                _, docs = pipeline.load_and_audit_packet(str(tmp_path), packet_id="PKT_SLOTS")
+                called_langs = sorted(call.kwargs["lang"] for call in mock_tess.call_args_list)
+                assert called_langs == ["eng", "eng+ori"]
+
+                # Replacement re-audit must also preserve Aadhaar -> eng+ori
+                mock_tess.reset_mock()
+                _, replaced_docs = pipeline.replace_document_and_reaudit(
+                    docs, str(aadhaar_pdf), DocumentType.AADHAAR, packet_id="PKT_REPL"
+                )
+                assert mock_tess.call_count == 1
+                assert mock_tess.call_args.kwargs["lang"] == "eng+ori"
+                assert replaced_docs[DocumentType.AADHAAR].ocr_lang == "eng+ori"
