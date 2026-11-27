@@ -40,19 +40,22 @@ from docuready.ingest.tesseract_discovery import (
 )
 
 _ORIG_PYTESSERACT_IMAGE_TO_STRING = pytesseract.image_to_string
+_ORIG_PYTESSERACT_IMAGE_TO_DATA = pytesseract.image_to_data
 
 
 class _InProcessScriptProbe:
-    """Thread-safe cached TessBaseAPI instance for fast in-process script probing."""
+    """Thread-safe cached TessBaseAPI pool for fast in-process script probing and TSV OCR."""
 
     def __init__(self) -> None:
         self._lock = threading.Lock()
         self._lib: Any = None
         self._api: Any = None
+        self._apis: Dict[Tuple[str, int], Any] = {}
+        self._tessdata_dir: Optional[str] = None
         self._unavailable = False
 
-    def _ensure_init(self) -> bool:
-        if self._api is not None:
+    def _ensure_lib(self) -> bool:
+        if self._lib is not None:
             return True
         if self._unavailable:
             return False
@@ -66,7 +69,7 @@ class _InProcessScriptProbe:
             if not dll_path.exists():
                 self._unavailable = True
                 return False
-            tessdata_dir = get_unified_tessdata_dir(tess_bin)
+            self._tessdata_dir = str(get_unified_tessdata_dir(tess_bin))
             lib = ctypes.CDLL(str(dll_path))
             lib.TessBaseAPICreate.restype = ctypes.c_void_p
             lib.TessBaseAPIDelete.argtypes = [ctypes.c_void_p]
@@ -83,34 +86,55 @@ class _InProcessScriptProbe:
             ]
             lib.TessBaseAPIGetUTF8Text.argtypes = [ctypes.c_void_p]
             lib.TessBaseAPIGetUTF8Text.restype = ctypes.c_void_p
+            if hasattr(lib, "TessBaseAPIGetTsvText"):
+                lib.TessBaseAPIGetTsvText.argtypes = [ctypes.c_void_p, ctypes.c_int]
+                lib.TessBaseAPIGetTsvText.restype = ctypes.c_void_p
             lib.TessDeleteText.argtypes = [ctypes.c_void_p]
-
-            api = lib.TessBaseAPICreate()
-            if not api:
-                self._unavailable = True
-                return False
-            rc = lib.TessBaseAPIInit3(api, str(tessdata_dir).encode("utf-8"), b"eng+hin+ori")
-            if rc != 0:
-                lib.TessBaseAPIDelete(api)
-                self._unavailable = True
-                return False
-            lib.TessBaseAPISetPageSegMode(api, 6)  # PSM_SINGLE_BLOCK
             self._lib = lib
-            self._api = api
             return True
         except Exception:
             self._unavailable = True
             return False
 
+    def _get_api(self, lang: str = "eng+hin+ori", psm: int = 6) -> Any:
+        key = (lang, psm)
+        if key == ("eng+hin+ori", 6) and self._api is not None:
+            return self._api
+        if key in self._apis:
+            return self._apis[key]
+        if not self._ensure_lib():
+            return None
+        api = self._lib.TessBaseAPICreate()
+        if not api:
+            if key == ("eng+hin+ori", 6):
+                self._unavailable = True
+            return None
+        rc = self._lib.TessBaseAPIInit3(api, self._tessdata_dir.encode("utf-8"), lang.encode("utf-8"))
+        if rc != 0:
+            self._lib.TessBaseAPIDelete(api)
+            if key == ("eng+hin+ori", 6):
+                self._unavailable = True
+            return None
+        self._lib.TessBaseAPISetPageSegMode(api, psm)
+        if key == ("eng+hin+ori", 6):
+            self._api = api
+        else:
+            self._apis[key] = api
+        return api
+
+    def _ensure_init(self) -> bool:
+        return self._get_api("eng+hin+ori", 6) is not None
+
     def recognize_gray(self, thumb: Image.Image) -> Optional[str]:
         with self._lock:
-            if not self._ensure_init():
+            api = self._get_api("eng+hin+ori", 6)
+            if not api:
                 return None
             gray = thumb.convert("L") if thumb.mode != "L" else thumb
             arr = np.ascontiguousarray(np.asarray(gray, dtype=np.uint8))
             h, w = arr.shape
-            self._lib.TessBaseAPISetImage(self._api, arr.ctypes.data, w, h, 1, w)
-            ptr = self._lib.TessBaseAPIGetUTF8Text(self._api)
+            self._lib.TessBaseAPISetImage(api, arr.ctypes.data, w, h, 1, w)
+            ptr = self._lib.TessBaseAPIGetUTF8Text(api)
             if not ptr:
                 return ""
             try:
@@ -118,14 +142,47 @@ class _InProcessScriptProbe:
             finally:
                 self._lib.TessDeleteText(ptr)
 
+    def recognize_tsv(self, img: Image.Image, lang: str = "eng+hin+ori", psm: int = 3) -> Optional[Dict[str, List[Any]]]:
+        with self._lock:
+            api = self._get_api(lang, psm)
+            if not api or not hasattr(self._lib, "TessBaseAPIGetTsvText"):
+                return None
+            gray = img.convert("L") if img.mode != "L" else img
+            arr = np.ascontiguousarray(np.asarray(gray, dtype=np.uint8))
+            h, w = arr.shape
+            self._lib.TessBaseAPISetImage(api, arr.ctypes.data, w, h, 1, w)
+            ptr = self._lib.TessBaseAPIGetTsvText(api, 0)
+            if not ptr:
+                return {"text": [], "conf": [], "left": [], "top": [], "width": [], "height": []}
+            try:
+                tsv_str = ctypes.string_at(ptr).decode("utf-8", errors="replace")
+            finally:
+                self._lib.TessDeleteText(ptr)
+            out: Dict[str, List[Any]] = {"text": [], "conf": [], "left": [], "top": [], "width": [], "height": []}
+            for line in tsv_str.splitlines():
+                if not line:
+                    continue
+                parts = line.split("\t")
+                if len(parts) < 11 or parts[0] == "level":
+                    continue
+                out["left"].append(int(parts[6]))
+                out["top"].append(int(parts[7]))
+                out["width"].append(int(parts[8]))
+                out["height"].append(int(parts[9]))
+                out["conf"].append(float(parts[10]))
+                out["text"].append(parts[11] if len(parts) > 11 else "")
+            return out
+
     def close(self) -> None:
         with self._lock:
-            if self._api is not None and self._lib is not None:
-                try:
-                    self._lib.TessBaseAPIDelete(self._api)
-                except Exception:
-                    pass
-                self._api = None
+            if self._lib is not None:
+                for api in ([self._api] if self._api is not None else []) + list(self._apis.values()):
+                    try:
+                        self._lib.TessBaseAPIDelete(api)
+                    except Exception:
+                        pass
+            self._api = None
+            self._apis.clear()
 
 
 _PROBE_ENGINE = _InProcessScriptProbe()
@@ -386,18 +443,25 @@ def execute_adaptive_ocr(
     strategy = decision.selected_strategy
     lang = decision.selected_lang
 
+    def _run_image_to_data(target_img: Image.Image, target_lang: str) -> Dict[str, List[Any]]:
+        if pytesseract.image_to_data is _ORIG_PYTESSERACT_IMAGE_TO_DATA:
+            tsv_data = _PROBE_ENGINE.recognize_tsv(target_img, lang=target_lang, psm=3)
+            if tsv_data is not None:
+                return tsv_data
+        return pytesseract.image_to_data(
+            target_img,
+            lang=target_lang,
+            output_type=pytesseract.Output.DICT,
+            timeout=15,
+        )
+
     if strategy == "ABSTAIN_UNREADABLE":
         decision.total_latency_ms = round((time.perf_counter() - t_start) * 1000.0, 2)
         return data, decision
 
     elif strategy in ("FAST_PATH_ENG", "MONOLINGUAL_HIN", "MONOLINGUAL_ORI", "GLOBAL_MULTILINGUAL"):
         try:
-            data = pytesseract.image_to_data(
-                img,
-                lang=lang,
-                output_type=pytesseract.Output.DICT,
-                timeout=15,
-            )
+            data = _run_image_to_data(img, lang)
         except Exception:
             data = {"text": [], "conf": [], "left": [], "top": [], "width": [], "height": []}
 
@@ -419,12 +483,8 @@ def execute_adaptive_ocr(
             left_lang = "hin" if has_dev else ("ori" if has_ori else "eng")
             right_lang = "eng"  # Right column in Indian official gazettes is always English
 
-            d_left = pytesseract.image_to_data(
-                left_crop, lang=left_lang, output_type=pytesseract.Output.DICT, timeout=15
-            )
-            d_right = pytesseract.image_to_data(
-                right_crop, lang=right_lang, output_type=pytesseract.Output.DICT, timeout=15
-            )
+            d_left = _run_image_to_data(left_crop, left_lang)
+            d_right = _run_image_to_data(right_crop, right_lang)
 
             data = {
                 "text": [],
@@ -463,12 +523,7 @@ def execute_adaptive_ocr(
             decision.ocr_model_invocations += 1
             # Fallback to compound eng+hin+ori pass
             try:
-                fallback_data = pytesseract.image_to_data(
-                    img,
-                    lang="eng+hin+ori",
-                    output_type=pytesseract.Output.DICT,
-                    timeout=15,
-                )
+                fallback_data = _run_image_to_data(img, "eng+hin+ori")
                 fb_words = [
                     str(w).strip() for w, c in zip(fallback_data.get("text", []), fallback_data.get("conf", []))
                     if str(w).strip() and float(c) >= 0
