@@ -68,6 +68,14 @@ class EvidenceProvenance(BaseModel):
     extracted_field: str = ""
     extraction_method: str = "NATIVE_VECTOR"
     ocr_confidence: Optional[float] = None
+    ocr_lang: Optional[str] = None
+
+    @model_serializer(mode="wrap")
+    def _serialize_provenance(self, handler, info):
+        data = handler(self)
+        if isinstance(data, dict) and data.get("ocr_lang") is None:
+            data.pop("ocr_lang", None)
+        return data
 
 
 class ExtractedField(BaseModel):
@@ -101,6 +109,7 @@ class ExtractedDocument(BaseModel):
     expected_slot: Optional[DocumentType] = Field(default=None, exclude=True)
     detected_type: Optional[DocumentType] = Field(default=None, exclude=True)
     classification_details: Optional[Dict[str, Any]] = Field(default=None, exclude=True)
+    ocr_lang: Optional[str] = Field(default=None, exclude=True)
 
 
 class Finding(BaseModel):

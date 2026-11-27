@@ -9,7 +9,7 @@ import os
 import shutil
 import sys
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Tuple, Union
 
 _KNOWN_TESSERACT_WINDOWS_PATHS = [
     Path(r"C:\Program Files\Tesseract-OCR\tesseract.exe"),
@@ -205,4 +205,57 @@ def get_ocr_runtime_info() -> Dict[str, Any]:
         "source": source,
         "is_bundled": (source == "bundled_resource"),
         "error": None,
+    }
+
+
+def normalize_ocr_langs(
+    ocr_langs: Optional[Union[str, List[str], Tuple[str, ...]]]
+) -> str:
+    """Normalize a language specification into a deterministic Tesseract lang string (e.g. 'eng+ori')."""
+    if not ocr_langs:
+        return "eng"
+    if isinstance(ocr_langs, str):
+        raw_parts = [p.strip() for p in ocr_langs.replace(",", "+").replace(" ", "+").split("+")]
+    else:
+        raw_parts = [str(p).strip() for p in ocr_langs]
+    deduped: List[str] = []
+    for part in raw_parts:
+        if part and part not in deduped:
+            deduped.append(part)
+    return "+".join(deduped) if deduped else "eng"
+
+
+def check_ocr_language_availability(
+    requested_langs: Optional[Union[str, List[str], Tuple[str, ...]]] = None,
+) -> Dict[str, Any]:
+    """Verify Tesseract binary and requested traineddata language availability without silent fallback."""
+    lang_str = normalize_ocr_langs(requested_langs)
+    req_list = lang_str.split("+")
+    info = get_ocr_runtime_info()
+    if not info.get("available"):
+        return {
+            "available": False,
+            "binary_available": False,
+            "requested_lang": lang_str,
+            "requested_langs": req_list,
+            "installed_langs": [],
+            "missing_langs": req_list,
+            "error": info.get("error") or "Tesseract OCR binary not found.",
+        }
+
+    installed = set(info.get("languages") or [])
+    missing = [lang for lang in req_list if lang not in installed]
+    error_msg = (
+        f"Missing Tesseract traineddata for requested language(s): {', '.join(missing)}"
+        if missing
+        else None
+    )
+    return {
+        "available": len(missing) == 0,
+        "binary_available": True,
+        "requested_lang": lang_str,
+        "requested_langs": req_list,
+        "installed_langs": sorted(installed),
+        "missing_langs": missing,
+        "error": error_msg,
     }

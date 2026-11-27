@@ -6,7 +6,7 @@ Extracts structured fields, bounding boxes, and provenance from PDFs and image s
 import os
 import re
 import io
-from typing import Dict, Optional, Tuple, List, Any
+from typing import Dict, Optional, Tuple, List, Any, Union
 import pymupdf
 import PIL.Image
 import pytesseract
@@ -23,7 +23,11 @@ from docuready.normalize.normalizer import (
     validate_ifsc_code, normalize_cert_number
 )
 from docuready.evidence.calibrator import ConfidenceCalibrator, validate_field_syntax
-from docuready.ingest.tesseract_discovery import configure_pytesseract
+from docuready.ingest.tesseract_discovery import (
+    check_ocr_language_availability,
+    configure_pytesseract,
+    normalize_ocr_langs,
+)
 
 # Configure local Tesseract binary path dynamically
 configure_pytesseract()
@@ -74,9 +78,18 @@ def _find_field_in_page_vector(page: pymupdf.Page, patterns: List[str]) -> Tuple
 
 class PageOCRData:
     """Holds OCR results, token bounding boxes and line structures for an image page."""
-    def __init__(self, raw_data: Dict[str, List[Any]], dpi: int = 200, rotation_applied: int = 0):
+    def __init__(
+        self,
+        raw_data: Dict[str, List[Any]],
+        dpi: int = 200,
+        rotation_applied: int = 0,
+        ocr_lang: Optional[str] = None,
+        ocr_error: Optional[str] = None,
+    ):
         self.dpi = dpi
         self.rotation_applied = rotation_applied
+        self.ocr_lang = ocr_lang
+        self.ocr_error = ocr_error
         self.scale = 72.0 / float(dpi)
         self.lines: List[Dict[str, Any]] = []
         self._build_lines(raw_data)
@@ -136,8 +149,9 @@ MAX_PDF_PAGES = 50
 MAX_PIXEL_DIMENSION = 5000
 OCR_TIMEOUT_SECONDS = 15
 
-def _ocr_page(page: pymupdf.Page, dpi: int = 200) -> PageOCRData:
+def _ocr_page(page: pymupdf.Page, dpi: int = 200, lang: str = "eng") -> PageOCRData:
     """Renders page to image with decompression bomb limits, auto-orientation, and timeouts."""
+    lang_str = normalize_ocr_langs(lang)
     rect = page.rect
     # Security check: Page bomb protection against excessive dimensions
     if rect.width > MAX_PIXEL_DIMENSION or rect.height > MAX_PIXEL_DIMENSION:
@@ -160,12 +174,25 @@ def _ocr_page(page: pymupdf.Page, dpi: int = 200) -> PageOCRData:
     except Exception:
         pass
 
+    ocr_error: Optional[str] = None
     try:
-        data = pytesseract.image_to_data(img, output_type=pytesseract.Output.DICT, timeout=OCR_TIMEOUT_SECONDS)
-    except Exception:
+        data = pytesseract.image_to_data(
+            img,
+            lang=lang_str,
+            output_type=pytesseract.Output.DICT,
+            timeout=OCR_TIMEOUT_SECONDS,
+        )
+    except Exception as exc:
         data = {"text": [], "conf": [], "left": [], "top": [], "width": [], "height": []}
+        ocr_error = f"Local OCR execution failed for language '{lang_str}': {type(exc).__name__}"
 
-    return PageOCRData(data, dpi=dpi, rotation_applied=rot_applied)
+    return PageOCRData(
+        data,
+        dpi=dpi,
+        rotation_applied=rot_applied,
+        ocr_lang=lang_str,
+        ocr_error=ocr_error,
+    )
 
 
 def _find_field_in_ocr_page(ocr_data: PageOCRData, patterns: List[str]) -> Tuple[Optional[str], Optional[List[float]], str, float, bool, float, int]:
@@ -223,6 +250,22 @@ def _find_field_in_ocr_page(ocr_data: PageOCRData, patterns: List[str]) -> Tuple
     return val, bbox, snippet, conf, lbl_det, lbl_dist, candidate_count
 
 
+def get_slot_ocr_langs(
+    pack: Any,
+    expected_type: Optional[DocumentType],
+) -> Optional[List[str]]:
+    """Resolve configured ocr_langs for a document type from a loaded PackManifest."""
+    if pack is None or expected_type is None or not getattr(pack, "doc_slots", None):
+        return None
+    from docuready.rules.primitives import resolve_doc_type
+
+    for slot_name, slot_def in pack.doc_slots.items():
+        if resolve_doc_type(slot_name) == expected_type:
+            langs = getattr(slot_def, "ocr_langs", None)
+            return list(langs) if langs else None
+    return None
+
+
 class DocumentExtractor:
     """Extracts typed fields and provenance from supported document formats using native text and local OCR."""
 
@@ -239,7 +282,12 @@ class DocumentExtractor:
         self.operating_mode = operating_mode
         self.calibrator = ConfidenceCalibrator(tau_high=low_conf_threshold, tau_abstain=tau_abstain)
 
-    def extract_document(self, file_path: str, expected_type: Optional[DocumentType] = None) -> ExtractedDocument:
+    def extract_document(
+        self,
+        file_path: str,
+        expected_type: Optional[DocumentType] = None,
+        ocr_langs: Optional[Union[str, List[str]]] = None,
+    ) -> ExtractedDocument:
         file_name = os.path.basename(file_path)
         if not os.path.exists(file_path):
             return ExtractedDocument(
@@ -332,6 +380,7 @@ class DocumentExtractor:
             extraction_method = ExtractionMethod.NATIVE_VECTOR
             raw_text = native_text
             mean_ocr_conf = None
+            doc_ocr_lang = None
             classification = classify_document_content(raw_text)
             detected_type = classification.candidate_type
             doc_type = detected_type or expected_type or self._fallback_type(file_name)
@@ -339,25 +388,59 @@ class DocumentExtractor:
         else:
             # 2. Trigger Local OCR fallback
             extraction_method = ExtractionMethod.LOCAL_OCR
+            doc_ocr_lang = normalize_ocr_langs(ocr_langs) if ocr_langs is not None else "eng"
+
+            # Verify requested language pack availability when Tesseract binary is present
+            if ocr_langs is not None:
+                avail = check_ocr_language_availability(doc_ocr_lang)
+                if avail["binary_available"] and avail["missing_langs"]:
+                    return ExtractedDocument(
+                        doc_type=expected_type or self._fallback_type(file_name),
+                        file_path=file_path,
+                        status="UNREADABLE",
+                        raw_text="",
+                        page_count=page_count,
+                        extraction_method=extraction_method.value,
+                        mean_ocr_confidence=0.0,
+                        expected_slot=expected_type,
+                        ocr_lang=doc_ocr_lang,
+                        classification_details={
+                            "ocr_error": avail["error"],
+                            "missing_ocr_langs": avail["missing_langs"],
+                        },
+                    )
+
             ocr_pages: List[PageOCRData] = []
             ocr_text_accum = []
             all_confs = []
 
             for p in doc:
-                p_ocr = _ocr_page(p, dpi=self.dpi)
+                p_ocr = _ocr_page(p, dpi=self.dpi, lang=doc_ocr_lang)
                 ocr_pages.append(p_ocr)
                 for l in p_ocr.lines:
                     ocr_text_accum.append(l["text"])
                     all_confs.append(l["confidence"])
 
+            ocr_errors = [p_ocr.ocr_error for p_ocr in ocr_pages if p_ocr.ocr_error]
             raw_text = "\n".join(ocr_text_accum)
             mean_ocr_conf = round(sum(all_confs) / len(all_confs), 3) if all_confs else 0.0
 
             classification = classify_document_content(raw_text)
             detected_type = classification.candidate_type
 
-            if "ILLEGIBLE" in raw_text.upper() or "ILLEGIBLE" in native_text.upper() or len(raw_text.strip()) < 20 or not all_confs:
-                # Blank scan, unextractable raster, or explicit illegible marker
+            if ocr_errors or "ILLEGIBLE" in raw_text.upper() or "ILLEGIBLE" in native_text.upper() or len(raw_text.strip()) < 20 or not all_confs:
+                # Blank scan, unextractable raster, missing traineddata, or explicit illegible marker
+                cls_details = {
+                    "is_confident": classification.is_confident,
+                    "is_uncertain": classification.is_uncertain,
+                    "uncertainty_reason": classification.uncertainty_reason,
+                    "primary_anchors": classification.primary_anchors,
+                    "corroborating_terms": classification.corroborating_terms,
+                    "conflicting_types": [dt.value for dt in classification.conflicting_types],
+                    "source_lines": classification.source_lines,
+                }
+                if ocr_errors:
+                    cls_details["ocr_error"] = ocr_errors[0]
                 return ExtractedDocument(
                     doc_type=detected_type or expected_type or self._fallback_type(file_name),
                     file_path=file_path,
@@ -368,19 +451,12 @@ class DocumentExtractor:
                     mean_ocr_confidence=mean_ocr_conf,
                     expected_slot=expected_type,
                     detected_type=detected_type,
-                    classification_details={
-                        "is_confident": classification.is_confident,
-                        "is_uncertain": classification.is_uncertain,
-                        "uncertainty_reason": classification.uncertainty_reason,
-                        "primary_anchors": classification.primary_anchors,
-                        "corroborating_terms": classification.corroborating_terms,
-                        "conflicting_types": [dt.value for dt in classification.conflicting_types],
-                        "source_lines": classification.source_lines,
-                    },
+                    ocr_lang=doc_ocr_lang,
+                    classification_details=cls_details,
                 )
 
             doc_type = detected_type or expected_type or self._fallback_type(file_name)
-            fields = self._parse_fields_ocr(ocr_pages, doc_type, file_name)
+            fields = self._parse_fields_ocr(ocr_pages, doc_type, file_name, ocr_lang=doc_ocr_lang)
 
         return ExtractedDocument(
             doc_type=doc_type,
@@ -393,6 +469,7 @@ class DocumentExtractor:
             mean_ocr_confidence=mean_ocr_conf,
             expected_slot=expected_type,
             detected_type=detected_type,
+            ocr_lang=doc_ocr_lang,
             classification_details={
                 "is_confident": classification.is_confident,
                 "is_uncertain": classification.is_uncertain,
@@ -479,7 +556,13 @@ class DocumentExtractor:
         self._dispatch_type_patterns(doc_type, add_f)
         return fields
 
-    def _parse_fields_ocr(self, ocr_pages: List[PageOCRData], doc_type: DocumentType, file_name: str) -> Dict[str, ExtractedField]:
+    def _parse_fields_ocr(
+        self,
+        ocr_pages: List[PageOCRData],
+        doc_type: DocumentType,
+        file_name: str,
+        ocr_lang: str = "eng",
+    ) -> Dict[str, ExtractedField]:
         fields: Dict[str, ExtractedField] = {}
 
         def search_all_ocr_pages(patterns: List[str]):
@@ -528,7 +611,8 @@ class DocumentExtractor:
                     raw_snippet=snip,
                     extracted_field=field_name,
                     extraction_method=ExtractionMethod.LOCAL_OCR.value,
-                    ocr_confidence=conf
+                    ocr_confidence=conf,
+                    ocr_lang=ocr_lang,
                 )
                 fields[field_name] = ExtractedField(
                     field_name=field_name,
