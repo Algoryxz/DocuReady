@@ -194,8 +194,8 @@ def profile_document(
     ink_density = float(arr.mean())
     profile.ink_density = round(ink_density, 4)
 
-    # Check for blank or nearly empty page
-    if ink_density < 0.003:
+    # Check for blank, nearly empty, or degenerate tiny page
+    if ink_density < 0.003 or w < 10 or h < 10:
         profile.is_unreadable = True
         profile.profiling_latency_ms = round((time.perf_counter() - t0) * 1000.0, 2)
         return profile
