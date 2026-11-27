@@ -326,7 +326,7 @@ T1.x tasks are independent of each other and can run in parallel once G0 passes.
 
 #### T3.3 — First real pack: `odisha.subhadra` (demo snapshot)
 - **Behaviour:** Build from primary sources only (the scheme guidelines and official notices). Record the historical FY 2024–25 reference window, age reference date, exclusion conditions, and required documents with their URLs and retrieval dates. Mark `status: demo_snapshot` and set `effective` to the historical FY 2024–25 reference metadata (`2024-09-05` to `2025-03-31`, without claiming `2025-03-31` as an officially verified application closing date), so reports display the PO-approved historical demo disclaimer plainly. Reuse any structure from the earlier standalone bundle only after checking each rule against a source.
-- **Status note (27 November 2026):** PR #85 merged at `fb630d6`; governance PR #86 merged at `c1d6976`. On 27 November 2026, the Product Owner confirmed Akriti's agreement with the source matrix/Aadhaar-upload interpretation and authorized the shared `field_present` correction. `RULE-SUB-DOC-01` removal (`2024.1.1`), `eval_field_present()` correction, and cross-pack regression tests are integrated, awaiting PO review and formal T3.3 acceptance.
+- **Status note (28 November 2026):** PR #85 (`fb630d6`), governance PR #86 (`c1d6976`), safety correction PR #88 (`7ccf274`), and final T3.3/evaluation handover PR #90 (merged at `99e5f142df1a75c957879da9ad9be75ab5523b8c`, PR head `d7303cc`) are merged. The Product Owner confirmed Akriti's agreement with the parameter-level source matrix and Aadhaar-upload interpretation on 27 November 2026. The pack keeps Aadhaar optional, removes `RULE-SUB-DOC-01`, retains fail-closed REVIEW for incomplete required field evidence, and has three configured rules. The source matrix, AWW/AWH statutory clarification and synthetic packet matrix are included in the merged handover. All four task implementation criteria below are supported by the merged matrix, source registry, packet tests and disclaimer output; explicit Product Owner formal acceptance of T3.3 remains pending.
 - **Workflow Stages:**
   - Stage 1: Source Verification (Susmita prepares parameter-level evidence matrix)
   - Stage 2: Review Submission (Susmita shares matrix with Akriti)
@@ -334,10 +334,10 @@ T1.x tasks are independent of each other and can run in parallel once G0 passes.
   - Stage 4: Explicit Agreement (Formal written sign-off by Akriti)
   - Stage 5: Implementation Authorization (Coordinated implementation, synthetic testing, report integration)
 - **Acceptance:**
-  - [ ] Every parameter traces to a `sources.yaml` entry; anything unconfirmed is `UNVERIFIED` and excluded from FAIL-capable rules
-  - [ ] Complete parameter-level evidence matrix (`docs/04-VALIDATION/SUBHADRA_SOURCE_VERIFICATION_MATRIX.md`) reviewed and explicitly agreed to by Akriti
-  - [ ] Synthetic good/defective packets with expected findings are committed and tested
-  - [ ] Report output shows the PO-approved disclaimer (`DEMO SNAPSHOT — FY 2024–25 REFERENCE MATERIALS`: "This is a historical demonstration based on FY 2024–25 scheme materials. It does not represent live application-intake status or determine current eligibility. Application dates, availability and current requirements must be confirmed through the latest official Government notifications.") for this pack
+  - [x] Every parameter traces to a `sources.yaml` entry; anything unconfirmed is `UNVERIFIED` and excluded from FAIL-capable rules
+  - [x] Complete parameter-level evidence matrix (`docs/04-VALIDATION/SUBHADRA_SOURCE_VERIFICATION_MATRIX.md`) reviewed and explicitly agreed to by Akriti
+  - [x] Synthetic good/defective packets with expected findings are committed and tested
+  - [x] Report output shows the PO-approved disclaimer (`DEMO SNAPSHOT — FY 2024–25 REFERENCE MATERIALS`: "This is a historical demonstration based on FY 2024–25 scheme materials. It does not represent live application-intake status or determine current eligibility. Application dates, availability and current requirements must be confirmed through the latest official Government notifications.") for this pack
 - **Gate:** G4
 
 #### T3.4 — Report v2
@@ -352,12 +352,13 @@ T1.x tasks are independent of each other and can run in parallel once G0 passes.
 
 #### T4.1 — Evaluation harness v2
 - **Scope:** `eval/`.
+- **Status note (28 November 2026):** Implementation merged in PR #90 at main commit `99e5f142df1a75c957879da9ad9be75ab5523b8c`. `eval/harness.py`, `eval/baseline.json`, `eval/EVAL_CARD.md`, and the packet audit deliver independent dev/calib/test splits, nine-feature calibration fitted on `calib` only, held-out `test` metrics, leakage checks, 10-bin ECE and confidence intervals, perturbations, negative controls, and a false-pass regression gate exercised by the CI test suite. Synthetic test n=48: false-pass 0/24 and false-fail 0/24 (each 95% Wilson interval [0, 0.1380]); decision coverage 6/48 (12.5%) and abstention 42/48 (87.5%). These results are synthetic-only; the low coverage/high abstention are material limitations. Formal T4.1/G5 acceptance remains pending.
 - **Behaviour:** Implement §9: dev/calib/test splits with test layouts unseen in dev, headline metrics in the stated order, perturbation matrix, negative controls, bootstrap CIs, `baseline.json`, regression gate in CI, `EVAL_CARD.md` with limitations in plain language.
 - **Acceptance:**
-  - [ ] Calibrator fitted on `calib` only; reported numbers come from `test` only
-  - [ ] ECE reported with CI and bin counts
-  - [ ] False-pass rate is the first number in every summary
-  - [ ] CI fails when false-pass rate worsens beyond tolerance
+  - [x] Calibrator fitted on `calib` only; reported numbers come from `test` only
+  - [x] ECE reported with CI and bin counts
+  - [x] False-pass rate is the first number in every summary
+  - [x] CI fails when false-pass rate worsens beyond tolerance
 - **Gate:** G5
 
 #### T4.2 — Indic OCR and numerals
@@ -369,17 +370,19 @@ T1.x tasks are independent of each other and can run in parallel once G0 passes.
 - **Gate:** G5
 
 #### T4.3 — Generator v2 (realistic synthetic documents)
+- **Status note (28 November 2026):** Implementation merged in PR #90 at main commit `99e5f142df1a75c957879da9ad9be75ab5523b8c`. Generator v2 defines five distinct layouts, with three test-only layouts excluded from dev/calib, seeded deterministic output, ground-truth manifests, SHA-256 hashes, synthetic watermarks, bilingual/Indic material, controlled degradations and negative controls. Layout and deterministic-seed regression tests are included. Formal T4.3/G5 acceptance remains pending.
 - **Behaviour:** Bilingual layouts, stamps/seals overlapping text, signature blocks, varied fonts, scan artefacts. Use **new templates** for the `test` split. All output is watermarked or manifest-labelled synthetic.
 - **Acceptance:**
-  - [ ] ≥ 5 layouts, ≥ 3 reserved for `test`
-  - [ ] Ground-truth manifest per document; generator is seeded and deterministic
+  - [x] ≥ 5 layouts, ≥ 3 reserved for `test`
+  - [x] Ground-truth manifest per document; generator is seeded and deterministic
 - **Gate:** G5
 
 #### T4.4 — Real-sample protocol (document only)
+- **Status note (28 November 2026):** The document-only protocol merged in PR #90 at main commit `99e5f142df1a75c957879da9ad9be75ab5523b8c`. It specifies official-specimen-first acquisition, voluntary informed adult consent, redaction, restricted offline storage, retention/deletion, prohibited data practices and permitted claim boundaries. This does not mean real-sample evaluation has been performed. Formal T4.4/G5 acceptance remains pending.
 - **Behaviour:** Write `docs/REAL_SAMPLE_PROTOCOL.md`: start with official specimen/format certificates published by government portals, then voluntary, consented, redacted donations. Define consent text, redaction steps, storage (never in the public repo), and how results from real samples may be reported.
 - **Acceptance:**
-  - [ ] Protocol states what is forbidden (scraping, unconsented documents, committing real documents)
-  - [ ] Lists exactly which claims become allowed once real samples are evaluated
+  - [x] Protocol states what is forbidden (scraping, unconsented documents, committing real documents)
+  - [x] Lists exactly which claims become allowed once real samples are evaluated
 - **Gate:** G5
 
 ### WS5 — Packaging and delivery
