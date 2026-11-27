@@ -356,9 +356,9 @@ T1.x tasks are independent of each other and can run in parallel once G0 passes.
 #### T4.2 — Indic OCR and numerals
 - **Behaviour:** Per-slot `ocr_langs` from the pack (`eng+ori`, `eng+hin`). Normalise Odia (୦–୯) and Devanagari (०–९) digits in dates, amounts and IDs. Record language in provenance. Measure the effect on the synthetic bilingual set (T4.3) and report honestly.
 - **Acceptance:**
-  - [ ] Digit-normalisation unit tests for both scripts, incl. mixed scripts
+  - [x] Digit-normalisation unit tests for both scripts, incl. mixed scripts
   - [ ] Eval report with and without Indic languages
-  - [ ] Name matching across scripts returns `AMBIGUOUS`, not `CONFLICT` (documented limitation)
+  - [x] Name matching across scripts returns `AMBIGUOUS`, not `CONFLICT` (documented limitation)
 - **Gate:** G5
 
 #### T4.3 — Generator v2 (realistic synthetic documents)
