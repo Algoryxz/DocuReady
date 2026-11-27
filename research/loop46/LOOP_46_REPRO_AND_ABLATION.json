@@ -1,0 +1,367 @@
+{
+  "repro": {
+    "SYN_DEV_HDR_LAT_BODY": {
+      "file": "research\\loop45\\synthetic_cohort\\SYN_DEV_HDR_LAT_BODY.png",
+      "bands": {
+        "central": {
+          "strip_size": [
+            840,
+            320
+          ],
+          "thumb_size": [
+            350,
+            133
+          ],
+          "ink_density": 0.0992,
+          "dev_codepoints": 0,
+          "ori_codepoints": 0,
+          "latin_codepoints": 180,
+          "primary_script": "LATIN",
+          "is_mixed": false
+        },
+        "lower": {
+          "strip_size": [
+            840,
+            528
+          ],
+          "thumb_size": [
+            350,
+            220
+          ],
+          "ink_density": 0.0302,
+          "dev_codepoints": 0,
+          "ori_codepoints": 0,
+          "latin_codepoints": 90,
+          "primary_script": "LATIN",
+          "is_mixed": false
+        },
+        "upper": {
+          "strip_size": [
+            840,
+            272
+          ],
+          "thumb_size": [
+            500,
+            161
+          ],
+          "ink_density": 0.1129,
+          "dev_codepoints": 150,
+          "ori_codepoints": 8,
+          "latin_codepoints": 17,
+          "primary_script": "DEVANAGARI",
+          "is_mixed": false
+        }
+      },
+      "loop45_profile_script": "LATIN",
+      "loop45_is_mixed": false,
+      "loop45_strategy": "FAST_PATH_ENG",
+      "loop45_lang": "eng",
+      "loop45_reason": "Single-column monolingual Latin document; fast-path English achieves 0.00% CER at lowest latency"
+    },
+    "SYN_ORI_HDR_LAT_BODY": {
+      "file": "research\\loop45\\synthetic_cohort\\SYN_ORI_HDR_LAT_BODY.png",
+      "bands": {
+        "central": {
+          "strip_size": [
+            840,
+            320
+          ],
+          "thumb_size": [
+            350,
+            133
+          ],
+          "ink_density": 0.0992,
+          "dev_codepoints": 0,
+          "ori_codepoints": 0,
+          "latin_codepoints": 180,
+          "primary_script": "LATIN",
+          "is_mixed": false
+        },
+        "lower": {
+          "strip_size": [
+            840,
+            528
+          ],
+          "thumb_size": [
+            350,
+            220
+          ],
+          "ink_density": 0.0302,
+          "dev_codepoints": 0,
+          "ori_codepoints": 0,
+          "latin_codepoints": 90,
+          "primary_script": "LATIN",
+          "is_mixed": false
+        },
+        "upper": {
+          "strip_size": [
+            840,
+            272
+          ],
+          "thumb_size": [
+            500,
+            161
+          ],
+          "ink_density": 0.0449,
+          "dev_codepoints": 1,
+          "ori_codepoints": 25,
+          "latin_codepoints": 51,
+          "primary_script": "MIXED_ODIA_LATIN",
+          "is_mixed": true
+        }
+      },
+      "loop45_profile_script": "LATIN",
+      "loop45_is_mixed": false,
+      "loop45_strategy": "FAST_PATH_ENG",
+      "loop45_lang": "eng",
+      "loop45_reason": "Single-column monolingual Latin document; fast-path English achieves 0.00% CER at lowest latency"
+    }
+  },
+  "ablation": {
+    "A": {
+      "cal_pass": "5/7",
+      "l17_warm_mean_ms": 496.36,
+      "l17_warm_max_ms": 885.81,
+      "rows": [
+        {
+          "id": "DOC_CTRL_01",
+          "script": "LATIN",
+          "ms": 413.28,
+          "pass": true
+        },
+        {
+          "id": "DOC_EXT_06",
+          "script": "MIXED_ODIA_LATIN",
+          "ms": 484.64,
+          "pass": true
+        },
+        {
+          "id": "DOC_HIN_01",
+          "script": "DEVANAGARI",
+          "ms": 1060.02,
+          "pass": true
+        },
+        {
+          "id": "DOC_MIX_01",
+          "script": "MIXED_DEVANAGARI_LATIN",
+          "ms": 298.17,
+          "pass": true
+        },
+        {
+          "id": "DOC_MIX_02",
+          "script": "MIXED_ODIA_LATIN",
+          "ms": 668.54,
+          "pass": true
+        },
+        {
+          "id": "SYN_DEV_HDR_LAT_BODY",
+          "script": "LATIN",
+          "ms": 247.29,
+          "pass": false
+        },
+        {
+          "id": "SYN_ORI_HDR_LAT_BODY",
+          "script": "LATIN",
+          "ms": 257.97,
+          "pass": false
+        }
+      ]
+    },
+    "B": {
+      "cal_pass": "7/7",
+      "l17_warm_mean_ms": 758.69,
+      "l17_warm_max_ms": 910.61,
+      "rows": [
+        {
+          "id": "DOC_CTRL_01",
+          "script": "LATIN",
+          "ms": 743.61,
+          "pass": true
+        },
+        {
+          "id": "DOC_EXT_06",
+          "script": "MIXED_ODIA_LATIN",
+          "ms": 496.53,
+          "pass": true
+        },
+        {
+          "id": "DOC_HIN_01",
+          "script": "DEVANAGARI",
+          "ms": 1123.13,
+          "pass": true
+        },
+        {
+          "id": "DOC_MIX_01",
+          "script": "MIXED_DEVANAGARI_LATIN",
+          "ms": 415.49,
+          "pass": true
+        },
+        {
+          "id": "DOC_MIX_02",
+          "script": "MIXED_ODIA_LATIN",
+          "ms": 557.2,
+          "pass": true
+        },
+        {
+          "id": "SYN_DEV_HDR_LAT_BODY",
+          "script": "MIXED_DEVANAGARI_LATIN",
+          "ms": 1208.03,
+          "pass": true
+        },
+        {
+          "id": "SYN_ORI_HDR_LAT_BODY",
+          "script": "MIXED_ODIA_LATIN",
+          "ms": 836.88,
+          "pass": true
+        }
+      ]
+    },
+    "C": {
+      "cal_pass": "7/7",
+      "l17_warm_mean_ms": 794.58,
+      "l17_warm_max_ms": 869.06,
+      "rows": [
+        {
+          "id": "DOC_CTRL_01",
+          "script": "LATIN",
+          "ms": 790.75,
+          "pass": true
+        },
+        {
+          "id": "DOC_EXT_06",
+          "script": "MIXED_ODIA_LATIN",
+          "ms": 305.57,
+          "pass": true
+        },
+        {
+          "id": "DOC_HIN_01",
+          "script": "DEVANAGARI",
+          "ms": 1078.09,
+          "pass": true
+        },
+        {
+          "id": "DOC_MIX_01",
+          "script": "MIXED_DEVANAGARI_LATIN",
+          "ms": 289.5,
+          "pass": true
+        },
+        {
+          "id": "DOC_MIX_02",
+          "script": "MIXED_ODIA_LATIN",
+          "ms": 539.83,
+          "pass": true
+        },
+        {
+          "id": "SYN_DEV_HDR_LAT_BODY",
+          "script": "MIXED_DEVANAGARI_LATIN",
+          "ms": 1162.17,
+          "pass": true
+        },
+        {
+          "id": "SYN_ORI_HDR_LAT_BODY",
+          "script": "MIXED_ODIA_LATIN",
+          "ms": 848.96,
+          "pass": true
+        }
+      ]
+    },
+    "D": {
+      "cal_pass": "5/7",
+      "l17_warm_mean_ms": 791.66,
+      "l17_warm_max_ms": 877.74,
+      "rows": [
+        {
+          "id": "DOC_CTRL_01",
+          "script": "LATIN",
+          "ms": 806.19,
+          "pass": true
+        },
+        {
+          "id": "DOC_EXT_06",
+          "script": "MIXED_ODIA_LATIN",
+          "ms": 406.8,
+          "pass": true
+        },
+        {
+          "id": "DOC_HIN_01",
+          "script": "DEVANAGARI",
+          "ms": 1361.02,
+          "pass": true
+        },
+        {
+          "id": "DOC_MIX_01",
+          "script": "MIXED_DEVANAGARI_LATIN",
+          "ms": 386.33,
+          "pass": true
+        },
+        {
+          "id": "DOC_MIX_02",
+          "script": "MIXED_ODIA_LATIN",
+          "ms": 656.22,
+          "pass": true
+        },
+        {
+          "id": "SYN_DEV_HDR_LAT_BODY",
+          "script": "LATIN",
+          "ms": 234.22,
+          "pass": false
+        },
+        {
+          "id": "SYN_ORI_HDR_LAT_BODY",
+          "script": "LATIN",
+          "ms": 257.31,
+          "pass": false
+        }
+      ]
+    },
+    "E": {
+      "cal_pass": "7/7",
+      "l17_warm_mean_ms": 833.56,
+      "l17_warm_max_ms": 1052.63,
+      "rows": [
+        {
+          "id": "DOC_CTRL_01",
+          "script": "LATIN",
+          "ms": 937.48,
+          "pass": true
+        },
+        {
+          "id": "DOC_EXT_06",
+          "script": "MIXED_ODIA_LATIN",
+          "ms": 332.64,
+          "pass": true
+        },
+        {
+          "id": "DOC_HIN_01",
+          "script": "DEVANAGARI",
+          "ms": 1197.39,
+          "pass": true
+        },
+        {
+          "id": "DOC_MIX_01",
+          "script": "MIXED_DEVANAGARI_LATIN",
+          "ms": 344.56,
+          "pass": true
+        },
+        {
+          "id": "DOC_MIX_02",
+          "script": "MIXED_ODIA_LATIN",
+          "ms": 647.46,
+          "pass": true
+        },
+        {
+          "id": "SYN_DEV_HDR_LAT_BODY",
+          "script": "MIXED_DEVANAGARI_LATIN",
+          "ms": 1528.5,
+          "pass": true
+        },
+        {
+          "id": "SYN_ORI_HDR_LAT_BODY",
+          "script": "MIXED_ODIA_LATIN",
+          "ms": 928.72,
+          "pass": true
+        }
+      ]
+    }
+  }
+}

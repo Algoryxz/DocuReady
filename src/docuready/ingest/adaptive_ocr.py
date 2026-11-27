@@ -307,18 +307,19 @@ def profile_document(
     try:
         sample_txt = _probe_band(0.25, 0.45) or ""
         res = detect_unicode_script(sample_txt) if len(sample_txt.strip()) >= 5 else None
-        # Strategy C: If central strip looks monolingual LATIN, sample lower body so Latin headers cannot hide Indic bodies
+        # Strategy C/C+: If central strip looks monolingual LATIN, sample lower body so Latin headers cannot hide Indic bodies
         if res and res["primary_script"] == "LATIN" and not res["is_mixed"]:
             lower_txt = _probe_band(0.52, 0.85) or ""
             if lower_txt.strip():
                 sample_txt = (sample_txt + "\n" + lower_txt).strip()
                 res = detect_unicode_script(sample_txt)
-            else:
-                # Strategy D: Lower body is blank/inconclusive — probe upper band to catch
-                # Indic headers (e.g. Odia/Hindi heading at y < 0.25) that the central window misses.
-                # Guard: require >= 6 real Indic letter codepoints in the upper band to avoid
-                # false positives from logos, stamps, letterhead decorations.
-                # Use max_dim=500 so short header strips preserve Indic glyph height.
+            # Loop 46 (Strategy C): If combined central+lower still looks monolingual LATIN
+            # (whether lower was blank OR Latin-only), probe upper band when ink >= 0.003
+            # so Indic headers (e.g. Devanagari/Odia at y < 0.25) are not suppressed by Latin bodies.
+            # Guard: require >= 6 real Indic letter codepoints in the upper band to avoid
+            # false positives from logos, stamps, letterhead decorations.
+            # Use max_dim=500 so short header strips preserve Indic glyph height.
+            if res and res["primary_script"] == "LATIN" and not res["is_mixed"]:
                 upper_txt = _probe_band(0.05, 0.22, max_dim=500.0) or ""
                 if upper_txt.strip():
                     dev_count = len(RE_DEVANAGARI.findall(upper_txt))
