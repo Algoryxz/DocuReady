@@ -180,6 +180,7 @@ def get_ocr_runtime_info() -> Dict[str, Any]:
         }
 
     # Discover traineddata languages directly via tesseract --list-langs (uncached)
+    command_discovery_succeeded = False
     try:
         proc_env = os.environ.copy()
         tessdata_next_to_bin = bin_path.parent / "tessdata"
@@ -192,8 +193,9 @@ def get_ocr_runtime_info() -> Dict[str, Any]:
             timeout=10,
             env=proc_env,
         )
-        if proc.returncode == 0 and proc.stdout:
-            for line in proc.stdout.splitlines():
+        if proc.returncode == 0:
+            command_discovery_succeeded = True
+            for line in (proc.stdout or "").splitlines():
                 lang = line.strip()
                 if not lang or lang.lower().startswith("list of available languages"):
                     continue
@@ -202,17 +204,19 @@ def get_ocr_runtime_info() -> Dict[str, Any]:
     except Exception:
         pass
 
-    # Fallback: scan tessdata directory directly
-    if not languages:
-        tessdata_candidates: List[Path] = []
+    # Fallback: scan tessdata directory only when command discovery failed.
+    # If TESSDATA_PREFIX is explicitly set, restrict fallback strictly to that location.
+    if not command_discovery_succeeded:
         if "TESSDATA_PREFIX" in os.environ:
-            tessdata_candidates.append(Path(os.environ["TESSDATA_PREFIX"]))
-        tessdata_candidates.extend([
-            bin_path.parent / "tessdata",
-            Path("/usr/share/tesseract-ocr/5/tessdata"),
-            Path("/usr/share/tesseract-ocr/4.00/tessdata"),
-            Path("/usr/share/tessdata"),
-        ])
+            override = os.environ["TESSDATA_PREFIX"].strip()
+            tessdata_candidates = [Path(override)] if override else []
+        else:
+            tessdata_candidates = [
+                bin_path.parent / "tessdata",
+                Path("/usr/share/tesseract-ocr/5/tessdata"),
+                Path("/usr/share/tesseract-ocr/4.00/tessdata"),
+                Path("/usr/share/tessdata"),
+            ]
         for tessdata_dir in tessdata_candidates:
             if tessdata_dir.is_dir():
                 try:
@@ -224,9 +228,6 @@ def get_ocr_runtime_info() -> Dict[str, Any]:
                     pass
                 if languages:
                     break
-
-    if not languages:
-        languages = ["eng"]
 
     return {
         "available": True,

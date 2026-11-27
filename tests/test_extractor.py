@@ -349,3 +349,68 @@ def test_missing_language_diagnostics_distinct_from_unreadable_scan_in_reports(t
     unreadable_findings = [f for f in result_unreadable.to_public_dict()["findings"] if f["rule_id"] == "RULE-DOC-02"]
     assert len(unreadable_findings) == 1
     assert unreadable_findings[0]["field"] == "SCAN_QUALITY"
+
+
+def test_tessdata_isolation_and_no_false_english_fallback(tmp_path: Path, monkeypatch):
+    """Verify authoritative empty --list-langs, TESSDATA_PREFIX isolation, and no false eng fallback."""
+    from types import SimpleNamespace
+    from docuready.ingest.tesseract_discovery import get_ocr_runtime_info
+
+    # 1. Authoritative empty --list-langs result must not fall back to filesystem or invent 'eng'
+    fake_bin_dir = tmp_path / "bin"
+    fake_bin_dir.mkdir()
+    fake_bin = fake_bin_dir / "tesseract"
+    fake_bin.write_text("", encoding="utf-8")
+    (fake_bin_dir / "tessdata").mkdir()
+    (fake_bin_dir / "tessdata" / "eng.traineddata").write_text("dummy", encoding="utf-8")
+
+    empty_tessdata = tmp_path / "empty_tessdata"
+    empty_tessdata.mkdir()
+    monkeypatch.setenv("TESSDATA_PREFIX", str(empty_tessdata))
+
+    empty_list_res = SimpleNamespace(
+        returncode=0,
+        stdout="List of available languages in \"empty\" (0):\n",
+    )
+    with patch("docuready.ingest.tesseract_discovery.find_tesseract_binary_with_source", return_value=(fake_bin, "system_prerequisite")):
+        with patch("pytesseract.get_tesseract_version", return_value="5.3.0"):
+            with patch("docuready.ingest.tesseract_discovery.subprocess.run", return_value=empty_list_res):
+                info = get_ocr_runtime_info()
+                assert info["available"] is True
+                assert info["languages"] == []
+                avail_eng = check_ocr_language_availability("eng")
+                assert avail_eng["available"] is False
+                assert avail_eng["binary_available"] is True
+                assert avail_eng["missing_langs"] == ["eng"]
+
+    # 2. When command discovery fails with TESSDATA_PREFIX set to empty dir, do NOT scan unrelated dirs
+    with patch("docuready.ingest.tesseract_discovery.find_tesseract_binary_with_source", return_value=(fake_bin, "system_prerequisite")):
+        with patch("pytesseract.get_tesseract_version", return_value="5.3.0"):
+            with patch("docuready.ingest.tesseract_discovery.subprocess.run", side_effect=OSError("exec failed")):
+                info_override_empty = get_ocr_runtime_info()
+                assert info_override_empty["available"] is True
+                assert info_override_empty["languages"] == []
+                assert check_ocr_language_availability("eng")["available"] is False
+
+    # 3. When command discovery fails with TESSDATA_PREFIX pointing to populated dir, scan ONLY that dir
+    populated_override = tmp_path / "override_tessdata"
+    populated_override.mkdir()
+    (populated_override / "ori.traineddata").write_text("dummy", encoding="utf-8")
+    monkeypatch.setenv("TESSDATA_PREFIX", str(populated_override))
+
+    with patch("docuready.ingest.tesseract_discovery.find_tesseract_binary_with_source", return_value=(fake_bin, "system_prerequisite")):
+        with patch("pytesseract.get_tesseract_version", return_value="5.3.0"):
+            with patch("docuready.ingest.tesseract_discovery.subprocess.run", side_effect=OSError("exec failed")):
+                info_override_ori = get_ocr_runtime_info()
+                assert info_override_ori["languages"] == ["ori"]
+                assert check_ocr_language_availability("eng")["available"] is False
+                assert check_ocr_language_availability("ori")["available"] is True
+
+    # 4. When TESSDATA_PREFIX is unset and command discovery fails, default location discovery works
+    monkeypatch.delenv("TESSDATA_PREFIX", raising=False)
+    with patch("docuready.ingest.tesseract_discovery.find_tesseract_binary_with_source", return_value=(fake_bin, "system_prerequisite")):
+        with patch("pytesseract.get_tesseract_version", return_value="5.3.0"):
+            with patch("docuready.ingest.tesseract_discovery.subprocess.run", side_effect=OSError("exec failed")):
+                info_default = get_ocr_runtime_info()
+                assert info_default["languages"] == ["eng"]
+                assert check_ocr_language_availability("eng")["available"] is True
