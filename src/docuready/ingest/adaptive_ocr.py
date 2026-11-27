@@ -282,28 +282,49 @@ def profile_document(
     profile.has_column_gutter = has_gutter
     profile.split_x = split_x if has_gutter else None
 
-    # 4. Fast Targeted Script Probe (in-process TessBaseAPI, fallback to pytesseract)
-    strip = img.crop((int(w * 0.15), int(h * 0.25), int(w * 0.85), int(h * 0.45)))
-    scale = min(1.0, 350.0 / max(strip.size))
-    thumb_w, thumb_h = max(10, int(strip.width * scale)), max(10, int(strip.height * scale))
-    thumb = strip.resize((thumb_w, thumb_h), Image.Resampling.BILINEAR)
-
-    try:
-        sample_txt: Optional[str] = None
+    # 4. Adaptive Multi-Region Script Probe (in-process TessBaseAPI, fallback to pytesseract)
+    def _probe_band(y0_f: float, y1_f: float) -> Optional[str]:
+        strip = img.crop((int(w * 0.15), int(h * y0_f), int(w * 0.85), int(h * y1_f)))
+        if max(strip.size) <= 0:
+            return None
+        if float((np.asarray(strip.convert("L")) < 210).mean()) < 0.003:
+            return ""
+        scale = min(1.0, 350.0 / max(strip.size))
+        thumb_w, thumb_h = max(10, int(strip.width * scale)), max(10, int(strip.height * scale))
+        thumb = strip.resize((thumb_w, thumb_h), Image.Resampling.BILINEAR)
+        txt: Optional[str] = None
         if pytesseract.image_to_string is _ORIG_PYTESSERACT_IMAGE_TO_STRING:
-            sample_txt = _PROBE_ENGINE.recognize_gray(thumb)
-        if sample_txt is None:
-            sample_txt = pytesseract.image_to_string(
+            txt = _PROBE_ENGINE.recognize_gray(thumb)
+        if txt is None:
+            txt = pytesseract.image_to_string(
                 thumb,
                 lang="eng+hin+ori",
                 config="--psm 6",
-                timeout=8
+                timeout=8,
             )
-        if sample_txt and len(sample_txt.strip()) >= 5:
-            res = detect_unicode_script(sample_txt)
+        return txt
+
+    try:
+        sample_txt = _probe_band(0.25, 0.45) or ""
+        res = detect_unicode_script(sample_txt) if len(sample_txt.strip()) >= 5 else None
+        # If central strip looks monolingual LATIN, sample lower body so Latin headers cannot hide Indic bodies
+        if res and res["primary_script"] == "LATIN" and not res["is_mixed"]:
+            lower_txt = _probe_band(0.52, 0.85) or ""
+            if lower_txt.strip():
+                sample_txt = (sample_txt + "\n" + lower_txt).strip()
+                res = detect_unicode_script(sample_txt)
+        if res and len(sample_txt.strip()) >= 5:
             profile.script_counts = res["counts"]
             profile.primary_script = res["primary_script"]
             profile.is_mixed_script = res["is_mixed"]
+            # Safeguard: >= 4 real Indic characters anywhere prevents majority-Latin suppression
+            if profile.primary_script == "LATIN" and not profile.is_mixed_script:
+                if res["counts"].get("devanagari", 0) >= 4:
+                    profile.primary_script = "MIXED_DEVANAGARI_LATIN"
+                    profile.is_mixed_script = True
+                elif res["counts"].get("odia", 0) >= 4:
+                    profile.primary_script = "MIXED_ODIA_LATIN"
+                    profile.is_mixed_script = True
         else:
             profile.primary_script = "UNKNOWN"
             profile.is_mixed_script = False
