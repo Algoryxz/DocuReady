@@ -1,0 +1,6 @@
+{
+  "two_column_bilingual_gazettes": "Handled via REGION_AWARE_ROUTING (dual column split)",
+  "mixed_scripts": "Handled via GLOBAL_MULTILINGUAL (eng+hin, eng+ori, eng+hin+ori)",
+  "unreadable_low_ink": "Abstains via ABSTAIN_UNREADABLE (< 0.003 ink density)",
+  "low_confidence_fallback": "Triggers Stage 4 eng+hin+ori recovery when valid_words < 3 or mean_conf < 25.0"
+}

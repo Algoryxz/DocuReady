@@ -1,0 +1,35 @@
+{
+  "loop": 32,
+  "date": "2026-11-25",
+  "total_fixes": 4,
+  "fixes": [
+    {
+      "bug_id": "BUG-032-001",
+      "file": "src/docuready/ingest/extractor.py",
+      "lines_modified": "+5, -1",
+      "type": "Defensive Duck-Typing",
+      "verified_by": "tests/test_loop32_defect_reproduction.py::test_bug_032_001_tuple_bounding_box_extraction"
+    },
+    {
+      "bug_id": "BUG-032-002",
+      "file": "src/docuready/evidence/cross_document.py",
+      "lines_modified": "+6, -0",
+      "type": "Regex ISO Date Harmonization",
+      "verified_by": "tests/test_loop32_defect_reproduction.py::test_bug_032_002_iso_date_normalization_equivalence"
+    },
+    {
+      "bug_id": "BUG-032-004",
+      "file": "apps/desktop/src/main/workspace.ts",
+      "lines_modified": "+9, -1",
+      "type": "Basename Collision Disambiguation",
+      "verified_by": "apps/desktop test suite (25/25 passing)"
+    },
+    {
+      "bug_id": "BUG-032-005",
+      "file": "src/docuready/normalize/normalizer.py",
+      "lines_modified": "+4, -23",
+      "type": "Code Deduplication & D5 Dihedral Parity",
+      "verified_by": "tests/test_loop32_defect_reproduction.py::test_bug_032_005_verhoeff_table_parity"
+    }
+  ]
+}

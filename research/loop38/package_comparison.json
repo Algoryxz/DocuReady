@@ -1,0 +1,25 @@
+{
+  "variant_a": {
+    "variant": "Variant_A_Original",
+    "size_bytes": 759258903,
+    "health_rc": 0,
+    "health_ms": 2529.45,
+    "audit_rc": 0,
+    "audit_ok": true,
+    "audit_ms": 22428.3,
+    "readiness_score": null,
+    "finding_count": 0
+  },
+  "variant_b": {
+    "variant": "Variant_B_Minimized",
+    "size_bytes": 692773837,
+    "health_rc": 0,
+    "health_ms": 14066.95,
+    "audit_rc": 0,
+    "audit_ok": true,
+    "audit_ms": 27013.6,
+    "readiness_score": null,
+    "finding_count": 0
+  },
+  "size_saved_bytes": 66485066
+}

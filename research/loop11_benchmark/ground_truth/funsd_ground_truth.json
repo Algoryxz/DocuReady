@@ -1,0 +1,4002 @@
+[
+  {
+    "sample_id": "funsd_001",
+    "split": "DEV",
+    "pdf_path": "data\\funsd\\funsd_001.pdf",
+    "png_path": "data\\funsd\\funsd_001.png",
+    "fields": {
+      "Enrollment Roll Number": "DHE-2026-5541",
+      "Applicant Full Name": "ROHIT VERMA",
+      "Guardian Name": "SURESH VERMA",
+      "Birth Date": "05/09/2004",
+      "Domicile Status": "RESIDENT OF ODISHA",
+      "Family Income Ceiling": "INR 220000",
+      "Reservation Quota": "GENERAL (EWS)",
+      "State Bank IFSC": "BARB0BHUBAN",
+      "Academic Score": "76.40%"
+    },
+    "word_count": 53,
+    "words": [
+      {
+        "text": "DIRECTORATE",
+        "label": "header"
+      },
+      {
+        "text": "OF",
+        "label": "header"
+      },
+      {
+        "text": "HIGHER",
+        "label": "header"
+      },
+      {
+        "text": "EDUCATION",
+        "label": "header"
+      },
+      {
+        "text": "-",
+        "label": "header"
+      },
+      {
+        "text": "INTAKE",
+        "label": "header"
+      },
+      {
+        "text": "AUDIT",
+        "label": "header"
+      },
+      {
+        "text": "Enrollment",
+        "label": "question"
+      },
+      {
+        "text": "Roll",
+        "label": "question"
+      },
+      {
+        "text": "Number",
+        "label": "question"
+      },
+      {
+        "text": "DHE-2026-5541",
+        "label": "answer"
+      },
+      {
+        "text": "Applicant",
+        "label": "question"
+      },
+      {
+        "text": "Full",
+        "label": "question"
+      },
+      {
+        "text": "Name",
+        "label": "question"
+      },
+      {
+        "text": "ROHIT",
+        "label": "answer"
+      }
+    ]
+  },
+  {
+    "sample_id": "funsd_002",
+    "split": "DEV",
+    "pdf_path": "data\\funsd\\funsd_002.pdf",
+    "png_path": "data\\funsd\\funsd_002.png",
+    "fields": {
+      "Enrollment Roll Number": "DHE-2026-5541",
+      "Applicant Full Name": "ROHIT VERMA",
+      "Guardian Name": "SURESH VERMA",
+      "Birth Date": "05/09/2004",
+      "Domicile Status": "RESIDENT OF ODISHA",
+      "Family Income Ceiling": "INR 220000",
+      "Reservation Quota": "GENERAL (EWS)",
+      "State Bank IFSC": "BARB0BHUBAN",
+      "Academic Score": "76.40%"
+    },
+    "word_count": 53,
+    "words": [
+      {
+        "text": "DIRECTORATE",
+        "label": "header"
+      },
+      {
+        "text": "OF",
+        "label": "header"
+      },
+      {
+        "text": "HIGHER",
+        "label": "header"
+      },
+      {
+        "text": "EDUCATION",
+        "label": "header"
+      },
+      {
+        "text": "-",
+        "label": "header"
+      },
+      {
+        "text": "INTAKE",
+        "label": "header"
+      },
+      {
+        "text": "AUDIT",
+        "label": "header"
+      },
+      {
+        "text": "Enrollment",
+        "label": "question"
+      },
+      {
+        "text": "Roll",
+        "label": "question"
+      },
+      {
+        "text": "Number",
+        "label": "question"
+      },
+      {
+        "text": "DHE-2026-5541",
+        "label": "answer"
+      },
+      {
+        "text": "Applicant",
+        "label": "question"
+      },
+      {
+        "text": "Full",
+        "label": "question"
+      },
+      {
+        "text": "Name",
+        "label": "question"
+      },
+      {
+        "text": "ROHIT",
+        "label": "answer"
+      }
+    ]
+  },
+  {
+    "sample_id": "funsd_003",
+    "split": "DEV",
+    "pdf_path": "data\\funsd\\funsd_003.pdf",
+    "png_path": "data\\funsd\\funsd_003.png",
+    "fields": {
+      "Candidate Registration ID": "OD-2026-99214",
+      "Full Legal Name": "AARAV KUMAR PRADHAN",
+      "Father's / Guardian Name": "BIJAY KUMAR PRADHAN",
+      "Date of Birth (DD/MM/YYYY)": "14/05/2004",
+      "Permanent District": "KHORDHA",
+      "Annual Household Income": "INR 180000",
+      "Social Category / Quota": "OTHER BACKWARD CLASS (OBC)",
+      "Bank IFSC Branch Code": "SBIN0001234",
+      "Secondary Exam Percentage": "82.50%"
+    },
+    "word_count": 65,
+    "words": [
+      {
+        "text": "ANNUAL",
+        "label": "header"
+      },
+      {
+        "text": "SCHOLARSHIP",
+        "label": "header"
+      },
+      {
+        "text": "ELIGIBILITY",
+        "label": "header"
+      },
+      {
+        "text": "ASSESSMENT",
+        "label": "header"
+      },
+      {
+        "text": "FORM",
+        "label": "header"
+      },
+      {
+        "text": "Candidate",
+        "label": "question"
+      },
+      {
+        "text": "Registration",
+        "label": "question"
+      },
+      {
+        "text": "ID",
+        "label": "question"
+      },
+      {
+        "text": "OD-2026-99214",
+        "label": "answer"
+      },
+      {
+        "text": "Full",
+        "label": "question"
+      },
+      {
+        "text": "Legal",
+        "label": "question"
+      },
+      {
+        "text": "Name",
+        "label": "question"
+      },
+      {
+        "text": "AARAV",
+        "label": "answer"
+      },
+      {
+        "text": "KUMAR",
+        "label": "answer"
+      },
+      {
+        "text": "PRADHAN",
+        "label": "answer"
+      }
+    ]
+  },
+  {
+    "sample_id": "funsd_004",
+    "split": "DEV",
+    "pdf_path": "data\\funsd\\funsd_004.pdf",
+    "png_path": "data\\funsd\\funsd_004.png",
+    "fields": {
+      "Enrollment Roll Number": "DHE-2026-5541",
+      "Applicant Full Name": "CANDIDATE 03 SAMPLE",
+      "Guardian Name": "CANDIDATE 03 SAMPLE",
+      "Birth Date": "05/09/2004",
+      "Domicile Status": "RESIDENT OF ODISHA",
+      "Family Income Ceiling": "INR 127500",
+      "Reservation Quota": "GENERAL (EWS)",
+      "State Bank IFSC": "BARB0BHUBAN",
+      "Academic Score": "76.40%"
+    },
+    "word_count": 55,
+    "words": [
+      {
+        "text": "DIRECTORATE",
+        "label": "header"
+      },
+      {
+        "text": "OF",
+        "label": "header"
+      },
+      {
+        "text": "HIGHER",
+        "label": "header"
+      },
+      {
+        "text": "EDUCATION",
+        "label": "header"
+      },
+      {
+        "text": "-",
+        "label": "header"
+      },
+      {
+        "text": "INTAKE",
+        "label": "header"
+      },
+      {
+        "text": "AUDIT",
+        "label": "header"
+      },
+      {
+        "text": "Enrollment",
+        "label": "question"
+      },
+      {
+        "text": "Roll",
+        "label": "question"
+      },
+      {
+        "text": "Number",
+        "label": "question"
+      },
+      {
+        "text": "DHE-2026-5541",
+        "label": "answer"
+      },
+      {
+        "text": "Applicant",
+        "label": "question"
+      },
+      {
+        "text": "Full",
+        "label": "question"
+      },
+      {
+        "text": "Name",
+        "label": "question"
+      },
+      {
+        "text": "CANDIDATE",
+        "label": "answer"
+      }
+    ]
+  },
+  {
+    "sample_id": "funsd_005",
+    "split": "DEV",
+    "pdf_path": "data\\funsd\\funsd_005.pdf",
+    "png_path": "data\\funsd\\funsd_005.png",
+    "fields": {
+      "Application Index": "APP/OSSP/88310",
+      "Student Full Name": "CANDIDATE 04 SAMPLE",
+      "Parent Name": "CANDIDATE 04 SAMPLE",
+      "Date of Birth": "22/11/2003",
+      "Domicile State": "ODISHA",
+      "Gross Annual Income": "INR 130000",
+      "Caste Community": "SCHEDULED TRIBE (ST)",
+      "Bank Account Number": "910283746512",
+      "Bank IFSC Code": "CNRB0002410"
+    },
+    "word_count": 56,
+    "words": [
+      {
+        "text": "GOVERNMENT",
+        "label": "header"
+      },
+      {
+        "text": "OF",
+        "label": "header"
+      },
+      {
+        "text": "ODISHA",
+        "label": "header"
+      },
+      {
+        "text": "-",
+        "label": "header"
+      },
+      {
+        "text": "WELFARE",
+        "label": "header"
+      },
+      {
+        "text": "SCHOLARSHIP",
+        "label": "header"
+      },
+      {
+        "text": "VERIFICATION",
+        "label": "header"
+      },
+      {
+        "text": "Application",
+        "label": "question"
+      },
+      {
+        "text": "Index",
+        "label": "question"
+      },
+      {
+        "text": "APP/OSSP/88310",
+        "label": "answer"
+      },
+      {
+        "text": "Student",
+        "label": "question"
+      },
+      {
+        "text": "Full",
+        "label": "question"
+      },
+      {
+        "text": "Name",
+        "label": "question"
+      },
+      {
+        "text": "CANDIDATE",
+        "label": "answer"
+      },
+      {
+        "text": "04",
+        "label": "answer"
+      }
+    ]
+  },
+  {
+    "sample_id": "funsd_006",
+    "split": "DEV",
+    "pdf_path": "data\\funsd\\funsd_006.pdf",
+    "png_path": "data\\funsd\\funsd_006.png",
+    "fields": {
+      "Enrollment Roll Number": "DHE-2026-5541",
+      "Applicant Full Name": "CANDIDATE 05 SAMPLE",
+      "Guardian Name": "CANDIDATE 05 SAMPLE",
+      "Birth Date": "05/09/2004",
+      "Domicile Status": "RESIDENT OF ODISHA",
+      "Family Income Ceiling": "INR 132500",
+      "Reservation Quota": "GENERAL (EWS)",
+      "State Bank IFSC": "BARB0BHUBAN",
+      "Academic Score": "76.40%"
+    },
+    "word_count": 55,
+    "words": [
+      {
+        "text": "DIRECTORATE",
+        "label": "header"
+      },
+      {
+        "text": "OF",
+        "label": "header"
+      },
+      {
+        "text": "HIGHER",
+        "label": "header"
+      },
+      {
+        "text": "EDUCATION",
+        "label": "header"
+      },
+      {
+        "text": "-",
+        "label": "header"
+      },
+      {
+        "text": "INTAKE",
+        "label": "header"
+      },
+      {
+        "text": "AUDIT",
+        "label": "header"
+      },
+      {
+        "text": "Enrollment",
+        "label": "question"
+      },
+      {
+        "text": "Roll",
+        "label": "question"
+      },
+      {
+        "text": "Number",
+        "label": "question"
+      },
+      {
+        "text": "DHE-2026-5541",
+        "label": "answer"
+      },
+      {
+        "text": "Applicant",
+        "label": "question"
+      },
+      {
+        "text": "Full",
+        "label": "question"
+      },
+      {
+        "text": "Name",
+        "label": "question"
+      },
+      {
+        "text": "CANDIDATE",
+        "label": "answer"
+      }
+    ]
+  },
+  {
+    "sample_id": "funsd_007",
+    "split": "DEV",
+    "pdf_path": "data\\funsd\\funsd_007.pdf",
+    "png_path": "data\\funsd\\funsd_007.png",
+    "fields": {
+      "Enrollment Roll Number": "DHE-2026-5541",
+      "Applicant Full Name": "CANDIDATE 06 SAMPLE",
+      "Guardian Name": "CANDIDATE 06 SAMPLE",
+      "Birth Date": "05/09/2004",
+      "Domicile Status": "RESIDENT OF ODISHA",
+      "Family Income Ceiling": "INR 135000",
+      "Reservation Quota": "GENERAL (EWS)",
+      "State Bank IFSC": "BARB0BHUBAN",
+      "Academic Score": "76.40%"
+    },
+    "word_count": 55,
+    "words": [
+      {
+        "text": "DIRECTORATE",
+        "label": "header"
+      },
+      {
+        "text": "OF",
+        "label": "header"
+      },
+      {
+        "text": "HIGHER",
+        "label": "header"
+      },
+      {
+        "text": "EDUCATION",
+        "label": "header"
+      },
+      {
+        "text": "-",
+        "label": "header"
+      },
+      {
+        "text": "INTAKE",
+        "label": "header"
+      },
+      {
+        "text": "AUDIT",
+        "label": "header"
+      },
+      {
+        "text": "Enrollment",
+        "label": "question"
+      },
+      {
+        "text": "Roll",
+        "label": "question"
+      },
+      {
+        "text": "Number",
+        "label": "question"
+      },
+      {
+        "text": "DHE-2026-5541",
+        "label": "answer"
+      },
+      {
+        "text": "Applicant",
+        "label": "question"
+      },
+      {
+        "text": "Full",
+        "label": "question"
+      },
+      {
+        "text": "Name",
+        "label": "question"
+      },
+      {
+        "text": "CANDIDATE",
+        "label": "answer"
+      }
+    ]
+  },
+  {
+    "sample_id": "funsd_008",
+    "split": "DEV",
+    "pdf_path": "data\\funsd\\funsd_008.pdf",
+    "png_path": "data\\funsd\\funsd_008.png",
+    "fields": {
+      "Candidate Registration ID": "OD-2026-99214",
+      "Full Legal Name": "CANDIDATE 07 SAMPLE",
+      "Father's / Guardian Name": "CANDIDATE 07 SAMPLE",
+      "Date of Birth (DD/MM/YYYY)": "14/05/2004",
+      "Permanent District": "KHORDHA",
+      "Annual Household Income": "INR 137500",
+      "Social Category / Quota": "OTHER BACKWARD CLASS (OBC)",
+      "Bank IFSC Branch Code": "SBIN0001234",
+      "Secondary Exam Percentage": "82.50%"
+    },
+    "word_count": 65,
+    "words": [
+      {
+        "text": "ANNUAL",
+        "label": "header"
+      },
+      {
+        "text": "SCHOLARSHIP",
+        "label": "header"
+      },
+      {
+        "text": "ELIGIBILITY",
+        "label": "header"
+      },
+      {
+        "text": "ASSESSMENT",
+        "label": "header"
+      },
+      {
+        "text": "FORM",
+        "label": "header"
+      },
+      {
+        "text": "Candidate",
+        "label": "question"
+      },
+      {
+        "text": "Registration",
+        "label": "question"
+      },
+      {
+        "text": "ID",
+        "label": "question"
+      },
+      {
+        "text": "OD-2026-99214",
+        "label": "answer"
+      },
+      {
+        "text": "Full",
+        "label": "question"
+      },
+      {
+        "text": "Legal",
+        "label": "question"
+      },
+      {
+        "text": "Name",
+        "label": "question"
+      },
+      {
+        "text": "CANDIDATE",
+        "label": "answer"
+      },
+      {
+        "text": "07",
+        "label": "answer"
+      },
+      {
+        "text": "SAMPLE",
+        "label": "answer"
+      }
+    ]
+  },
+  {
+    "sample_id": "funsd_009",
+    "split": "DEV",
+    "pdf_path": "data\\funsd\\funsd_009.pdf",
+    "png_path": "data\\funsd\\funsd_009.png",
+    "fields": {
+      "Candidate Registration ID": "OD-2026-99214",
+      "Full Legal Name": "CANDIDATE 08 SAMPLE",
+      "Father's / Guardian Name": "CANDIDATE 08 SAMPLE",
+      "Date of Birth (DD/MM/YYYY)": "14/05/2004",
+      "Permanent District": "KHORDHA",
+      "Annual Household Income": "INR 140000",
+      "Social Category / Quota": "OTHER BACKWARD CLASS (OBC)",
+      "Bank IFSC Branch Code": "SBIN0001234",
+      "Secondary Exam Percentage": "82.50%"
+    },
+    "word_count": 65,
+    "words": [
+      {
+        "text": "ANNUAL",
+        "label": "header"
+      },
+      {
+        "text": "SCHOLARSHIP",
+        "label": "header"
+      },
+      {
+        "text": "ELIGIBILITY",
+        "label": "header"
+      },
+      {
+        "text": "ASSESSMENT",
+        "label": "header"
+      },
+      {
+        "text": "FORM",
+        "label": "header"
+      },
+      {
+        "text": "Candidate",
+        "label": "question"
+      },
+      {
+        "text": "Registration",
+        "label": "question"
+      },
+      {
+        "text": "ID",
+        "label": "question"
+      },
+      {
+        "text": "OD-2026-99214",
+        "label": "answer"
+      },
+      {
+        "text": "Full",
+        "label": "question"
+      },
+      {
+        "text": "Legal",
+        "label": "question"
+      },
+      {
+        "text": "Name",
+        "label": "question"
+      },
+      {
+        "text": "CANDIDATE",
+        "label": "answer"
+      },
+      {
+        "text": "08",
+        "label": "answer"
+      },
+      {
+        "text": "SAMPLE",
+        "label": "answer"
+      }
+    ]
+  },
+  {
+    "sample_id": "funsd_010",
+    "split": "DEV",
+    "pdf_path": "data\\funsd\\funsd_010.pdf",
+    "png_path": "data\\funsd\\funsd_010.png",
+    "fields": {
+      "Enrollment Roll Number": "DHE-2026-5541",
+      "Applicant Full Name": "CANDIDATE 09 SAMPLE",
+      "Guardian Name": "CANDIDATE 09 SAMPLE",
+      "Birth Date": "05/09/2004",
+      "Domicile Status": "RESIDENT OF ODISHA",
+      "Family Income Ceiling": "INR 142500",
+      "Reservation Quota": "GENERAL (EWS)",
+      "State Bank IFSC": "BARB0BHUBAN",
+      "Academic Score": "76.40%"
+    },
+    "word_count": 55,
+    "words": [
+      {
+        "text": "DIRECTORATE",
+        "label": "header"
+      },
+      {
+        "text": "OF",
+        "label": "header"
+      },
+      {
+        "text": "HIGHER",
+        "label": "header"
+      },
+      {
+        "text": "EDUCATION",
+        "label": "header"
+      },
+      {
+        "text": "-",
+        "label": "header"
+      },
+      {
+        "text": "INTAKE",
+        "label": "header"
+      },
+      {
+        "text": "AUDIT",
+        "label": "header"
+      },
+      {
+        "text": "Enrollment",
+        "label": "question"
+      },
+      {
+        "text": "Roll",
+        "label": "question"
+      },
+      {
+        "text": "Number",
+        "label": "question"
+      },
+      {
+        "text": "DHE-2026-5541",
+        "label": "answer"
+      },
+      {
+        "text": "Applicant",
+        "label": "question"
+      },
+      {
+        "text": "Full",
+        "label": "question"
+      },
+      {
+        "text": "Name",
+        "label": "question"
+      },
+      {
+        "text": "CANDIDATE",
+        "label": "answer"
+      }
+    ]
+  },
+  {
+    "sample_id": "funsd_011",
+    "split": "DEV",
+    "pdf_path": "data\\funsd\\funsd_011.pdf",
+    "png_path": "data\\funsd\\funsd_011.png",
+    "fields": {
+      "Application Index": "APP/OSSP/88310",
+      "Student Full Name": "CANDIDATE 10 SAMPLE",
+      "Parent Name": "CANDIDATE 10 SAMPLE",
+      "Date of Birth": "22/11/2003",
+      "Domicile State": "ODISHA",
+      "Gross Annual Income": "INR 145000",
+      "Caste Community": "SCHEDULED TRIBE (ST)",
+      "Bank Account Number": "910283746512",
+      "Bank IFSC Code": "CNRB0002410"
+    },
+    "word_count": 56,
+    "words": [
+      {
+        "text": "GOVERNMENT",
+        "label": "header"
+      },
+      {
+        "text": "OF",
+        "label": "header"
+      },
+      {
+        "text": "ODISHA",
+        "label": "header"
+      },
+      {
+        "text": "-",
+        "label": "header"
+      },
+      {
+        "text": "WELFARE",
+        "label": "header"
+      },
+      {
+        "text": "SCHOLARSHIP",
+        "label": "header"
+      },
+      {
+        "text": "VERIFICATION",
+        "label": "header"
+      },
+      {
+        "text": "Application",
+        "label": "question"
+      },
+      {
+        "text": "Index",
+        "label": "question"
+      },
+      {
+        "text": "APP/OSSP/88310",
+        "label": "answer"
+      },
+      {
+        "text": "Student",
+        "label": "question"
+      },
+      {
+        "text": "Full",
+        "label": "question"
+      },
+      {
+        "text": "Name",
+        "label": "question"
+      },
+      {
+        "text": "CANDIDATE",
+        "label": "answer"
+      },
+      {
+        "text": "10",
+        "label": "answer"
+      }
+    ]
+  },
+  {
+    "sample_id": "funsd_012",
+    "split": "DEV",
+    "pdf_path": "data\\funsd\\funsd_012.pdf",
+    "png_path": "data\\funsd\\funsd_012.png",
+    "fields": {
+      "Candidate Registration ID": "OD-2026-99214",
+      "Full Legal Name": "CANDIDATE 11 SAMPLE",
+      "Father's / Guardian Name": "CANDIDATE 11 SAMPLE",
+      "Date of Birth (DD/MM/YYYY)": "14/05/2004",
+      "Permanent District": "KHORDHA",
+      "Annual Household Income": "INR 147500",
+      "Social Category / Quota": "OTHER BACKWARD CLASS (OBC)",
+      "Bank IFSC Branch Code": "SBIN0001234",
+      "Secondary Exam Percentage": "82.50%"
+    },
+    "word_count": 65,
+    "words": [
+      {
+        "text": "ANNUAL",
+        "label": "header"
+      },
+      {
+        "text": "SCHOLARSHIP",
+        "label": "header"
+      },
+      {
+        "text": "ELIGIBILITY",
+        "label": "header"
+      },
+      {
+        "text": "ASSESSMENT",
+        "label": "header"
+      },
+      {
+        "text": "FORM",
+        "label": "header"
+      },
+      {
+        "text": "Candidate",
+        "label": "question"
+      },
+      {
+        "text": "Registration",
+        "label": "question"
+      },
+      {
+        "text": "ID",
+        "label": "question"
+      },
+      {
+        "text": "OD-2026-99214",
+        "label": "answer"
+      },
+      {
+        "text": "Full",
+        "label": "question"
+      },
+      {
+        "text": "Legal",
+        "label": "question"
+      },
+      {
+        "text": "Name",
+        "label": "question"
+      },
+      {
+        "text": "CANDIDATE",
+        "label": "answer"
+      },
+      {
+        "text": "11",
+        "label": "answer"
+      },
+      {
+        "text": "SAMPLE",
+        "label": "answer"
+      }
+    ]
+  },
+  {
+    "sample_id": "funsd_013",
+    "split": "DEV",
+    "pdf_path": "data\\funsd\\funsd_013.pdf",
+    "png_path": "data\\funsd\\funsd_013.png",
+    "fields": {
+      "Candidate Registration ID": "OD-2026-99214",
+      "Full Legal Name": "CANDIDATE 12 SAMPLE",
+      "Father's / Guardian Name": "CANDIDATE 12 SAMPLE",
+      "Date of Birth (DD/MM/YYYY)": "14/05/2004",
+      "Permanent District": "KHORDHA",
+      "Annual Household Income": "INR 150000",
+      "Social Category / Quota": "OTHER BACKWARD CLASS (OBC)",
+      "Bank IFSC Branch Code": "SBIN0001234",
+      "Secondary Exam Percentage": "82.50%"
+    },
+    "word_count": 65,
+    "words": [
+      {
+        "text": "ANNUAL",
+        "label": "header"
+      },
+      {
+        "text": "SCHOLARSHIP",
+        "label": "header"
+      },
+      {
+        "text": "ELIGIBILITY",
+        "label": "header"
+      },
+      {
+        "text": "ASSESSMENT",
+        "label": "header"
+      },
+      {
+        "text": "FORM",
+        "label": "header"
+      },
+      {
+        "text": "Candidate",
+        "label": "question"
+      },
+      {
+        "text": "Registration",
+        "label": "question"
+      },
+      {
+        "text": "ID",
+        "label": "question"
+      },
+      {
+        "text": "OD-2026-99214",
+        "label": "answer"
+      },
+      {
+        "text": "Full",
+        "label": "question"
+      },
+      {
+        "text": "Legal",
+        "label": "question"
+      },
+      {
+        "text": "Name",
+        "label": "question"
+      },
+      {
+        "text": "CANDIDATE",
+        "label": "answer"
+      },
+      {
+        "text": "12",
+        "label": "answer"
+      },
+      {
+        "text": "SAMPLE",
+        "label": "answer"
+      }
+    ]
+  },
+  {
+    "sample_id": "funsd_014",
+    "split": "DEV",
+    "pdf_path": "data\\funsd\\funsd_014.pdf",
+    "png_path": "data\\funsd\\funsd_014.png",
+    "fields": {
+      "Application Index": "APP/OSSP/88310",
+      "Student Full Name": "CANDIDATE 13 SAMPLE",
+      "Parent Name": "CANDIDATE 13 SAMPLE",
+      "Date of Birth": "22/11/2003",
+      "Domicile State": "ODISHA",
+      "Gross Annual Income": "INR 152500",
+      "Caste Community": "SCHEDULED TRIBE (ST)",
+      "Bank Account Number": "910283746512",
+      "Bank IFSC Code": "CNRB0002410"
+    },
+    "word_count": 56,
+    "words": [
+      {
+        "text": "GOVERNMENT",
+        "label": "header"
+      },
+      {
+        "text": "OF",
+        "label": "header"
+      },
+      {
+        "text": "ODISHA",
+        "label": "header"
+      },
+      {
+        "text": "-",
+        "label": "header"
+      },
+      {
+        "text": "WELFARE",
+        "label": "header"
+      },
+      {
+        "text": "SCHOLARSHIP",
+        "label": "header"
+      },
+      {
+        "text": "VERIFICATION",
+        "label": "header"
+      },
+      {
+        "text": "Application",
+        "label": "question"
+      },
+      {
+        "text": "Index",
+        "label": "question"
+      },
+      {
+        "text": "APP/OSSP/88310",
+        "label": "answer"
+      },
+      {
+        "text": "Student",
+        "label": "question"
+      },
+      {
+        "text": "Full",
+        "label": "question"
+      },
+      {
+        "text": "Name",
+        "label": "question"
+      },
+      {
+        "text": "CANDIDATE",
+        "label": "answer"
+      },
+      {
+        "text": "13",
+        "label": "answer"
+      }
+    ]
+  },
+  {
+    "sample_id": "funsd_015",
+    "split": "DEV",
+    "pdf_path": "data\\funsd\\funsd_015.pdf",
+    "png_path": "data\\funsd\\funsd_015.png",
+    "fields": {
+      "Application Index": "APP/OSSP/88310",
+      "Student Full Name": "CANDIDATE 14 SAMPLE",
+      "Parent Name": "CANDIDATE 14 SAMPLE",
+      "Date of Birth": "22/11/2003",
+      "Domicile State": "ODISHA",
+      "Gross Annual Income": "INR 155000",
+      "Caste Community": "SCHEDULED TRIBE (ST)",
+      "Bank Account Number": "910283746512",
+      "Bank IFSC Code": "CNRB0002410"
+    },
+    "word_count": 56,
+    "words": [
+      {
+        "text": "GOVERNMENT",
+        "label": "header"
+      },
+      {
+        "text": "OF",
+        "label": "header"
+      },
+      {
+        "text": "ODISHA",
+        "label": "header"
+      },
+      {
+        "text": "-",
+        "label": "header"
+      },
+      {
+        "text": "WELFARE",
+        "label": "header"
+      },
+      {
+        "text": "SCHOLARSHIP",
+        "label": "header"
+      },
+      {
+        "text": "VERIFICATION",
+        "label": "header"
+      },
+      {
+        "text": "Application",
+        "label": "question"
+      },
+      {
+        "text": "Index",
+        "label": "question"
+      },
+      {
+        "text": "APP/OSSP/88310",
+        "label": "answer"
+      },
+      {
+        "text": "Student",
+        "label": "question"
+      },
+      {
+        "text": "Full",
+        "label": "question"
+      },
+      {
+        "text": "Name",
+        "label": "question"
+      },
+      {
+        "text": "CANDIDATE",
+        "label": "answer"
+      },
+      {
+        "text": "14",
+        "label": "answer"
+      }
+    ]
+  },
+  {
+    "sample_id": "funsd_016",
+    "split": "DEV",
+    "pdf_path": "data\\funsd\\funsd_016.pdf",
+    "png_path": "data\\funsd\\funsd_016.png",
+    "fields": {
+      "Enrollment Roll Number": "DHE-2026-5541",
+      "Applicant Full Name": "CANDIDATE 15 SAMPLE",
+      "Guardian Name": "CANDIDATE 15 SAMPLE",
+      "Birth Date": "05/09/2004",
+      "Domicile Status": "RESIDENT OF ODISHA",
+      "Family Income Ceiling": "INR 157500",
+      "Reservation Quota": "GENERAL (EWS)",
+      "State Bank IFSC": "BARB0BHUBAN",
+      "Academic Score": "76.40%"
+    },
+    "word_count": 55,
+    "words": [
+      {
+        "text": "DIRECTORATE",
+        "label": "header"
+      },
+      {
+        "text": "OF",
+        "label": "header"
+      },
+      {
+        "text": "HIGHER",
+        "label": "header"
+      },
+      {
+        "text": "EDUCATION",
+        "label": "header"
+      },
+      {
+        "text": "-",
+        "label": "header"
+      },
+      {
+        "text": "INTAKE",
+        "label": "header"
+      },
+      {
+        "text": "AUDIT",
+        "label": "header"
+      },
+      {
+        "text": "Enrollment",
+        "label": "question"
+      },
+      {
+        "text": "Roll",
+        "label": "question"
+      },
+      {
+        "text": "Number",
+        "label": "question"
+      },
+      {
+        "text": "DHE-2026-5541",
+        "label": "answer"
+      },
+      {
+        "text": "Applicant",
+        "label": "question"
+      },
+      {
+        "text": "Full",
+        "label": "question"
+      },
+      {
+        "text": "Name",
+        "label": "question"
+      },
+      {
+        "text": "CANDIDATE",
+        "label": "answer"
+      }
+    ]
+  },
+  {
+    "sample_id": "funsd_017",
+    "split": "DEV",
+    "pdf_path": "data\\funsd\\funsd_017.pdf",
+    "png_path": "data\\funsd\\funsd_017.png",
+    "fields": {
+      "Application Index": "APP/OSSP/88310",
+      "Student Full Name": "CANDIDATE 16 SAMPLE",
+      "Parent Name": "CANDIDATE 16 SAMPLE",
+      "Date of Birth": "22/11/2003",
+      "Domicile State": "ODISHA",
+      "Gross Annual Income": "INR 160000",
+      "Caste Community": "SCHEDULED TRIBE (ST)",
+      "Bank Account Number": "910283746512",
+      "Bank IFSC Code": "CNRB0002410"
+    },
+    "word_count": 56,
+    "words": [
+      {
+        "text": "GOVERNMENT",
+        "label": "header"
+      },
+      {
+        "text": "OF",
+        "label": "header"
+      },
+      {
+        "text": "ODISHA",
+        "label": "header"
+      },
+      {
+        "text": "-",
+        "label": "header"
+      },
+      {
+        "text": "WELFARE",
+        "label": "header"
+      },
+      {
+        "text": "SCHOLARSHIP",
+        "label": "header"
+      },
+      {
+        "text": "VERIFICATION",
+        "label": "header"
+      },
+      {
+        "text": "Application",
+        "label": "question"
+      },
+      {
+        "text": "Index",
+        "label": "question"
+      },
+      {
+        "text": "APP/OSSP/88310",
+        "label": "answer"
+      },
+      {
+        "text": "Student",
+        "label": "question"
+      },
+      {
+        "text": "Full",
+        "label": "question"
+      },
+      {
+        "text": "Name",
+        "label": "question"
+      },
+      {
+        "text": "CANDIDATE",
+        "label": "answer"
+      },
+      {
+        "text": "16",
+        "label": "answer"
+      }
+    ]
+  },
+  {
+    "sample_id": "funsd_018",
+    "split": "DEV",
+    "pdf_path": "data\\funsd\\funsd_018.pdf",
+    "png_path": "data\\funsd\\funsd_018.png",
+    "fields": {
+      "Candidate Registration ID": "OD-2026-99214",
+      "Full Legal Name": "CANDIDATE 17 SAMPLE",
+      "Father's / Guardian Name": "CANDIDATE 17 SAMPLE",
+      "Date of Birth (DD/MM/YYYY)": "14/05/2004",
+      "Permanent District": "KHORDHA",
+      "Annual Household Income": "INR 162500",
+      "Social Category / Quota": "OTHER BACKWARD CLASS (OBC)",
+      "Bank IFSC Branch Code": "SBIN0001234",
+      "Secondary Exam Percentage": "82.50%"
+    },
+    "word_count": 65,
+    "words": [
+      {
+        "text": "ANNUAL",
+        "label": "header"
+      },
+      {
+        "text": "SCHOLARSHIP",
+        "label": "header"
+      },
+      {
+        "text": "ELIGIBILITY",
+        "label": "header"
+      },
+      {
+        "text": "ASSESSMENT",
+        "label": "header"
+      },
+      {
+        "text": "FORM",
+        "label": "header"
+      },
+      {
+        "text": "Candidate",
+        "label": "question"
+      },
+      {
+        "text": "Registration",
+        "label": "question"
+      },
+      {
+        "text": "ID",
+        "label": "question"
+      },
+      {
+        "text": "OD-2026-99214",
+        "label": "answer"
+      },
+      {
+        "text": "Full",
+        "label": "question"
+      },
+      {
+        "text": "Legal",
+        "label": "question"
+      },
+      {
+        "text": "Name",
+        "label": "question"
+      },
+      {
+        "text": "CANDIDATE",
+        "label": "answer"
+      },
+      {
+        "text": "17",
+        "label": "answer"
+      },
+      {
+        "text": "SAMPLE",
+        "label": "answer"
+      }
+    ]
+  },
+  {
+    "sample_id": "funsd_019",
+    "split": "DEV",
+    "pdf_path": "data\\funsd\\funsd_019.pdf",
+    "png_path": "data\\funsd\\funsd_019.png",
+    "fields": {
+      "Enrollment Roll Number": "DHE-2026-5541",
+      "Applicant Full Name": "CANDIDATE 18 SAMPLE",
+      "Guardian Name": "CANDIDATE 18 SAMPLE",
+      "Birth Date": "05/09/2004",
+      "Domicile Status": "RESIDENT OF ODISHA",
+      "Family Income Ceiling": "INR 165000",
+      "Reservation Quota": "GENERAL (EWS)",
+      "State Bank IFSC": "BARB0BHUBAN",
+      "Academic Score": "76.40%"
+    },
+    "word_count": 55,
+    "words": [
+      {
+        "text": "DIRECTORATE",
+        "label": "header"
+      },
+      {
+        "text": "OF",
+        "label": "header"
+      },
+      {
+        "text": "HIGHER",
+        "label": "header"
+      },
+      {
+        "text": "EDUCATION",
+        "label": "header"
+      },
+      {
+        "text": "-",
+        "label": "header"
+      },
+      {
+        "text": "INTAKE",
+        "label": "header"
+      },
+      {
+        "text": "AUDIT",
+        "label": "header"
+      },
+      {
+        "text": "Enrollment",
+        "label": "question"
+      },
+      {
+        "text": "Roll",
+        "label": "question"
+      },
+      {
+        "text": "Number",
+        "label": "question"
+      },
+      {
+        "text": "DHE-2026-5541",
+        "label": "answer"
+      },
+      {
+        "text": "Applicant",
+        "label": "question"
+      },
+      {
+        "text": "Full",
+        "label": "question"
+      },
+      {
+        "text": "Name",
+        "label": "question"
+      },
+      {
+        "text": "CANDIDATE",
+        "label": "answer"
+      }
+    ]
+  },
+  {
+    "sample_id": "funsd_020",
+    "split": "DEV",
+    "pdf_path": "data\\funsd\\funsd_020.pdf",
+    "png_path": "data\\funsd\\funsd_020.png",
+    "fields": {
+      "Application Index": "APP/OSSP/88310",
+      "Student Full Name": "CANDIDATE 19 SAMPLE",
+      "Parent Name": "CANDIDATE 19 SAMPLE",
+      "Date of Birth": "22/11/2003",
+      "Domicile State": "ODISHA",
+      "Gross Annual Income": "INR 167500",
+      "Caste Community": "SCHEDULED TRIBE (ST)",
+      "Bank Account Number": "910283746512",
+      "Bank IFSC Code": "CNRB0002410"
+    },
+    "word_count": 56,
+    "words": [
+      {
+        "text": "GOVERNMENT",
+        "label": "header"
+      },
+      {
+        "text": "OF",
+        "label": "header"
+      },
+      {
+        "text": "ODISHA",
+        "label": "header"
+      },
+      {
+        "text": "-",
+        "label": "header"
+      },
+      {
+        "text": "WELFARE",
+        "label": "header"
+      },
+      {
+        "text": "SCHOLARSHIP",
+        "label": "header"
+      },
+      {
+        "text": "VERIFICATION",
+        "label": "header"
+      },
+      {
+        "text": "Application",
+        "label": "question"
+      },
+      {
+        "text": "Index",
+        "label": "question"
+      },
+      {
+        "text": "APP/OSSP/88310",
+        "label": "answer"
+      },
+      {
+        "text": "Student",
+        "label": "question"
+      },
+      {
+        "text": "Full",
+        "label": "question"
+      },
+      {
+        "text": "Name",
+        "label": "question"
+      },
+      {
+        "text": "CANDIDATE",
+        "label": "answer"
+      },
+      {
+        "text": "19",
+        "label": "answer"
+      }
+    ]
+  },
+  {
+    "sample_id": "funsd_021",
+    "split": "VAL",
+    "pdf_path": "data\\funsd\\funsd_021.pdf",
+    "png_path": "data\\funsd\\funsd_021.png",
+    "fields": {
+      "Application Index": "APP/OSSP/88310",
+      "Student Full Name": "CANDIDATE 20 SAMPLE",
+      "Parent Name": "CANDIDATE 20 SAMPLE",
+      "Date of Birth": "22/11/2003",
+      "Domicile State": "ODISHA",
+      "Gross Annual Income": "INR 170000",
+      "Caste Community": "SCHEDULED TRIBE (ST)",
+      "Bank Account Number": "910283746512",
+      "Bank IFSC Code": "CNRB0002410"
+    },
+    "word_count": 56,
+    "words": [
+      {
+        "text": "GOVERNMENT",
+        "label": "header"
+      },
+      {
+        "text": "OF",
+        "label": "header"
+      },
+      {
+        "text": "ODISHA",
+        "label": "header"
+      },
+      {
+        "text": "-",
+        "label": "header"
+      },
+      {
+        "text": "WELFARE",
+        "label": "header"
+      },
+      {
+        "text": "SCHOLARSHIP",
+        "label": "header"
+      },
+      {
+        "text": "VERIFICATION",
+        "label": "header"
+      },
+      {
+        "text": "Application",
+        "label": "question"
+      },
+      {
+        "text": "Index",
+        "label": "question"
+      },
+      {
+        "text": "APP/OSSP/88310",
+        "label": "answer"
+      },
+      {
+        "text": "Student",
+        "label": "question"
+      },
+      {
+        "text": "Full",
+        "label": "question"
+      },
+      {
+        "text": "Name",
+        "label": "question"
+      },
+      {
+        "text": "CANDIDATE",
+        "label": "answer"
+      },
+      {
+        "text": "20",
+        "label": "answer"
+      }
+    ]
+  },
+  {
+    "sample_id": "funsd_022",
+    "split": "VAL",
+    "pdf_path": "data\\funsd\\funsd_022.pdf",
+    "png_path": "data\\funsd\\funsd_022.png",
+    "fields": {
+      "Application Index": "APP/OSSP/88310",
+      "Student Full Name": "CANDIDATE 21 SAMPLE",
+      "Parent Name": "CANDIDATE 21 SAMPLE",
+      "Date of Birth": "22/11/2003",
+      "Domicile State": "ODISHA",
+      "Gross Annual Income": "INR 172500",
+      "Caste Community": "SCHEDULED TRIBE (ST)",
+      "Bank Account Number": "910283746512",
+      "Bank IFSC Code": "CNRB0002410"
+    },
+    "word_count": 56,
+    "words": [
+      {
+        "text": "GOVERNMENT",
+        "label": "header"
+      },
+      {
+        "text": "OF",
+        "label": "header"
+      },
+      {
+        "text": "ODISHA",
+        "label": "header"
+      },
+      {
+        "text": "-",
+        "label": "header"
+      },
+      {
+        "text": "WELFARE",
+        "label": "header"
+      },
+      {
+        "text": "SCHOLARSHIP",
+        "label": "header"
+      },
+      {
+        "text": "VERIFICATION",
+        "label": "header"
+      },
+      {
+        "text": "Application",
+        "label": "question"
+      },
+      {
+        "text": "Index",
+        "label": "question"
+      },
+      {
+        "text": "APP/OSSP/88310",
+        "label": "answer"
+      },
+      {
+        "text": "Student",
+        "label": "question"
+      },
+      {
+        "text": "Full",
+        "label": "question"
+      },
+      {
+        "text": "Name",
+        "label": "question"
+      },
+      {
+        "text": "CANDIDATE",
+        "label": "answer"
+      },
+      {
+        "text": "21",
+        "label": "answer"
+      }
+    ]
+  },
+  {
+    "sample_id": "funsd_023",
+    "split": "VAL",
+    "pdf_path": "data\\funsd\\funsd_023.pdf",
+    "png_path": "data\\funsd\\funsd_023.png",
+    "fields": {
+      "Enrollment Roll Number": "DHE-2026-5541",
+      "Applicant Full Name": "CANDIDATE 22 SAMPLE",
+      "Guardian Name": "CANDIDATE 22 SAMPLE",
+      "Birth Date": "05/09/2004",
+      "Domicile Status": "RESIDENT OF ODISHA",
+      "Family Income Ceiling": "INR 175000",
+      "Reservation Quota": "GENERAL (EWS)",
+      "State Bank IFSC": "BARB0BHUBAN",
+      "Academic Score": "76.40%"
+    },
+    "word_count": 55,
+    "words": [
+      {
+        "text": "DIRECTORATE",
+        "label": "header"
+      },
+      {
+        "text": "OF",
+        "label": "header"
+      },
+      {
+        "text": "HIGHER",
+        "label": "header"
+      },
+      {
+        "text": "EDUCATION",
+        "label": "header"
+      },
+      {
+        "text": "-",
+        "label": "header"
+      },
+      {
+        "text": "INTAKE",
+        "label": "header"
+      },
+      {
+        "text": "AUDIT",
+        "label": "header"
+      },
+      {
+        "text": "Enrollment",
+        "label": "question"
+      },
+      {
+        "text": "Roll",
+        "label": "question"
+      },
+      {
+        "text": "Number",
+        "label": "question"
+      },
+      {
+        "text": "DHE-2026-5541",
+        "label": "answer"
+      },
+      {
+        "text": "Applicant",
+        "label": "question"
+      },
+      {
+        "text": "Full",
+        "label": "question"
+      },
+      {
+        "text": "Name",
+        "label": "question"
+      },
+      {
+        "text": "CANDIDATE",
+        "label": "answer"
+      }
+    ]
+  },
+  {
+    "sample_id": "funsd_024",
+    "split": "VAL",
+    "pdf_path": "data\\funsd\\funsd_024.pdf",
+    "png_path": "data\\funsd\\funsd_024.png",
+    "fields": {
+      "Application Index": "APP/OSSP/88310",
+      "Student Full Name": "CANDIDATE 23 SAMPLE",
+      "Parent Name": "CANDIDATE 23 SAMPLE",
+      "Date of Birth": "22/11/2003",
+      "Domicile State": "ODISHA",
+      "Gross Annual Income": "INR 177500",
+      "Caste Community": "SCHEDULED TRIBE (ST)",
+      "Bank Account Number": "910283746512",
+      "Bank IFSC Code": "CNRB0002410"
+    },
+    "word_count": 56,
+    "words": [
+      {
+        "text": "GOVERNMENT",
+        "label": "header"
+      },
+      {
+        "text": "OF",
+        "label": "header"
+      },
+      {
+        "text": "ODISHA",
+        "label": "header"
+      },
+      {
+        "text": "-",
+        "label": "header"
+      },
+      {
+        "text": "WELFARE",
+        "label": "header"
+      },
+      {
+        "text": "SCHOLARSHIP",
+        "label": "header"
+      },
+      {
+        "text": "VERIFICATION",
+        "label": "header"
+      },
+      {
+        "text": "Application",
+        "label": "question"
+      },
+      {
+        "text": "Index",
+        "label": "question"
+      },
+      {
+        "text": "APP/OSSP/88310",
+        "label": "answer"
+      },
+      {
+        "text": "Student",
+        "label": "question"
+      },
+      {
+        "text": "Full",
+        "label": "question"
+      },
+      {
+        "text": "Name",
+        "label": "question"
+      },
+      {
+        "text": "CANDIDATE",
+        "label": "answer"
+      },
+      {
+        "text": "23",
+        "label": "answer"
+      }
+    ]
+  },
+  {
+    "sample_id": "funsd_025",
+    "split": "VAL",
+    "pdf_path": "data\\funsd\\funsd_025.pdf",
+    "png_path": "data\\funsd\\funsd_025.png",
+    "fields": {
+      "Enrollment Roll Number": "DHE-2026-5541",
+      "Applicant Full Name": "CANDIDATE 24 SAMPLE",
+      "Guardian Name": "CANDIDATE 24 SAMPLE",
+      "Birth Date": "05/09/2004",
+      "Domicile Status": "RESIDENT OF ODISHA",
+      "Family Income Ceiling": "INR 180000",
+      "Reservation Quota": "GENERAL (EWS)",
+      "State Bank IFSC": "BARB0BHUBAN",
+      "Academic Score": "76.40%"
+    },
+    "word_count": 55,
+    "words": [
+      {
+        "text": "DIRECTORATE",
+        "label": "header"
+      },
+      {
+        "text": "OF",
+        "label": "header"
+      },
+      {
+        "text": "HIGHER",
+        "label": "header"
+      },
+      {
+        "text": "EDUCATION",
+        "label": "header"
+      },
+      {
+        "text": "-",
+        "label": "header"
+      },
+      {
+        "text": "INTAKE",
+        "label": "header"
+      },
+      {
+        "text": "AUDIT",
+        "label": "header"
+      },
+      {
+        "text": "Enrollment",
+        "label": "question"
+      },
+      {
+        "text": "Roll",
+        "label": "question"
+      },
+      {
+        "text": "Number",
+        "label": "question"
+      },
+      {
+        "text": "DHE-2026-5541",
+        "label": "answer"
+      },
+      {
+        "text": "Applicant",
+        "label": "question"
+      },
+      {
+        "text": "Full",
+        "label": "question"
+      },
+      {
+        "text": "Name",
+        "label": "question"
+      },
+      {
+        "text": "CANDIDATE",
+        "label": "answer"
+      }
+    ]
+  },
+  {
+    "sample_id": "funsd_026",
+    "split": "VAL",
+    "pdf_path": "data\\funsd\\funsd_026.pdf",
+    "png_path": "data\\funsd\\funsd_026.png",
+    "fields": {
+      "Enrollment Roll Number": "DHE-2026-5541",
+      "Applicant Full Name": "CANDIDATE 25 SAMPLE",
+      "Guardian Name": "CANDIDATE 25 SAMPLE",
+      "Birth Date": "05/09/2004",
+      "Domicile Status": "RESIDENT OF ODISHA",
+      "Family Income Ceiling": "INR 182500",
+      "Reservation Quota": "GENERAL (EWS)",
+      "State Bank IFSC": "BARB0BHUBAN",
+      "Academic Score": "76.40%"
+    },
+    "word_count": 55,
+    "words": [
+      {
+        "text": "DIRECTORATE",
+        "label": "header"
+      },
+      {
+        "text": "OF",
+        "label": "header"
+      },
+      {
+        "text": "HIGHER",
+        "label": "header"
+      },
+      {
+        "text": "EDUCATION",
+        "label": "header"
+      },
+      {
+        "text": "-",
+        "label": "header"
+      },
+      {
+        "text": "INTAKE",
+        "label": "header"
+      },
+      {
+        "text": "AUDIT",
+        "label": "header"
+      },
+      {
+        "text": "Enrollment",
+        "label": "question"
+      },
+      {
+        "text": "Roll",
+        "label": "question"
+      },
+      {
+        "text": "Number",
+        "label": "question"
+      },
+      {
+        "text": "DHE-2026-5541",
+        "label": "answer"
+      },
+      {
+        "text": "Applicant",
+        "label": "question"
+      },
+      {
+        "text": "Full",
+        "label": "question"
+      },
+      {
+        "text": "Name",
+        "label": "question"
+      },
+      {
+        "text": "CANDIDATE",
+        "label": "answer"
+      }
+    ]
+  },
+  {
+    "sample_id": "funsd_027",
+    "split": "VAL",
+    "pdf_path": "data\\funsd\\funsd_027.pdf",
+    "png_path": "data\\funsd\\funsd_027.png",
+    "fields": {
+      "Enrollment Roll Number": "DHE-2026-5541",
+      "Applicant Full Name": "CANDIDATE 26 SAMPLE",
+      "Guardian Name": "CANDIDATE 26 SAMPLE",
+      "Birth Date": "05/09/2004",
+      "Domicile Status": "RESIDENT OF ODISHA",
+      "Family Income Ceiling": "INR 185000",
+      "Reservation Quota": "GENERAL (EWS)",
+      "State Bank IFSC": "BARB0BHUBAN",
+      "Academic Score": "76.40%"
+    },
+    "word_count": 55,
+    "words": [
+      {
+        "text": "DIRECTORATE",
+        "label": "header"
+      },
+      {
+        "text": "OF",
+        "label": "header"
+      },
+      {
+        "text": "HIGHER",
+        "label": "header"
+      },
+      {
+        "text": "EDUCATION",
+        "label": "header"
+      },
+      {
+        "text": "-",
+        "label": "header"
+      },
+      {
+        "text": "INTAKE",
+        "label": "header"
+      },
+      {
+        "text": "AUDIT",
+        "label": "header"
+      },
+      {
+        "text": "Enrollment",
+        "label": "question"
+      },
+      {
+        "text": "Roll",
+        "label": "question"
+      },
+      {
+        "text": "Number",
+        "label": "question"
+      },
+      {
+        "text": "DHE-2026-5541",
+        "label": "answer"
+      },
+      {
+        "text": "Applicant",
+        "label": "question"
+      },
+      {
+        "text": "Full",
+        "label": "question"
+      },
+      {
+        "text": "Name",
+        "label": "question"
+      },
+      {
+        "text": "CANDIDATE",
+        "label": "answer"
+      }
+    ]
+  },
+  {
+    "sample_id": "funsd_028",
+    "split": "VAL",
+    "pdf_path": "data\\funsd\\funsd_028.pdf",
+    "png_path": "data\\funsd\\funsd_028.png",
+    "fields": {
+      "Application Index": "APP/OSSP/88310",
+      "Student Full Name": "CANDIDATE 27 SAMPLE",
+      "Parent Name": "CANDIDATE 27 SAMPLE",
+      "Date of Birth": "22/11/2003",
+      "Domicile State": "ODISHA",
+      "Gross Annual Income": "INR 187500",
+      "Caste Community": "SCHEDULED TRIBE (ST)",
+      "Bank Account Number": "910283746512",
+      "Bank IFSC Code": "CNRB0002410"
+    },
+    "word_count": 56,
+    "words": [
+      {
+        "text": "GOVERNMENT",
+        "label": "header"
+      },
+      {
+        "text": "OF",
+        "label": "header"
+      },
+      {
+        "text": "ODISHA",
+        "label": "header"
+      },
+      {
+        "text": "-",
+        "label": "header"
+      },
+      {
+        "text": "WELFARE",
+        "label": "header"
+      },
+      {
+        "text": "SCHOLARSHIP",
+        "label": "header"
+      },
+      {
+        "text": "VERIFICATION",
+        "label": "header"
+      },
+      {
+        "text": "Application",
+        "label": "question"
+      },
+      {
+        "text": "Index",
+        "label": "question"
+      },
+      {
+        "text": "APP/OSSP/88310",
+        "label": "answer"
+      },
+      {
+        "text": "Student",
+        "label": "question"
+      },
+      {
+        "text": "Full",
+        "label": "question"
+      },
+      {
+        "text": "Name",
+        "label": "question"
+      },
+      {
+        "text": "CANDIDATE",
+        "label": "answer"
+      },
+      {
+        "text": "27",
+        "label": "answer"
+      }
+    ]
+  },
+  {
+    "sample_id": "funsd_029",
+    "split": "VAL",
+    "pdf_path": "data\\funsd\\funsd_029.pdf",
+    "png_path": "data\\funsd\\funsd_029.png",
+    "fields": {
+      "Application Index": "APP/OSSP/88310",
+      "Student Full Name": "CANDIDATE 28 SAMPLE",
+      "Parent Name": "CANDIDATE 28 SAMPLE",
+      "Date of Birth": "22/11/2003",
+      "Domicile State": "ODISHA",
+      "Gross Annual Income": "INR 190000",
+      "Caste Community": "SCHEDULED TRIBE (ST)",
+      "Bank Account Number": "910283746512",
+      "Bank IFSC Code": "CNRB0002410"
+    },
+    "word_count": 56,
+    "words": [
+      {
+        "text": "GOVERNMENT",
+        "label": "header"
+      },
+      {
+        "text": "OF",
+        "label": "header"
+      },
+      {
+        "text": "ODISHA",
+        "label": "header"
+      },
+      {
+        "text": "-",
+        "label": "header"
+      },
+      {
+        "text": "WELFARE",
+        "label": "header"
+      },
+      {
+        "text": "SCHOLARSHIP",
+        "label": "header"
+      },
+      {
+        "text": "VERIFICATION",
+        "label": "header"
+      },
+      {
+        "text": "Application",
+        "label": "question"
+      },
+      {
+        "text": "Index",
+        "label": "question"
+      },
+      {
+        "text": "APP/OSSP/88310",
+        "label": "answer"
+      },
+      {
+        "text": "Student",
+        "label": "question"
+      },
+      {
+        "text": "Full",
+        "label": "question"
+      },
+      {
+        "text": "Name",
+        "label": "question"
+      },
+      {
+        "text": "CANDIDATE",
+        "label": "answer"
+      },
+      {
+        "text": "28",
+        "label": "answer"
+      }
+    ]
+  },
+  {
+    "sample_id": "funsd_030",
+    "split": "VAL",
+    "pdf_path": "data\\funsd\\funsd_030.pdf",
+    "png_path": "data\\funsd\\funsd_030.png",
+    "fields": {
+      "Application Index": "APP/OSSP/88310",
+      "Student Full Name": "CANDIDATE 29 SAMPLE",
+      "Parent Name": "CANDIDATE 29 SAMPLE",
+      "Date of Birth": "22/11/2003",
+      "Domicile State": "ODISHA",
+      "Gross Annual Income": "INR 192500",
+      "Caste Community": "SCHEDULED TRIBE (ST)",
+      "Bank Account Number": "910283746512",
+      "Bank IFSC Code": "CNRB0002410"
+    },
+    "word_count": 56,
+    "words": [
+      {
+        "text": "GOVERNMENT",
+        "label": "header"
+      },
+      {
+        "text": "OF",
+        "label": "header"
+      },
+      {
+        "text": "ODISHA",
+        "label": "header"
+      },
+      {
+        "text": "-",
+        "label": "header"
+      },
+      {
+        "text": "WELFARE",
+        "label": "header"
+      },
+      {
+        "text": "SCHOLARSHIP",
+        "label": "header"
+      },
+      {
+        "text": "VERIFICATION",
+        "label": "header"
+      },
+      {
+        "text": "Application",
+        "label": "question"
+      },
+      {
+        "text": "Index",
+        "label": "question"
+      },
+      {
+        "text": "APP/OSSP/88310",
+        "label": "answer"
+      },
+      {
+        "text": "Student",
+        "label": "question"
+      },
+      {
+        "text": "Full",
+        "label": "question"
+      },
+      {
+        "text": "Name",
+        "label": "question"
+      },
+      {
+        "text": "CANDIDATE",
+        "label": "answer"
+      },
+      {
+        "text": "29",
+        "label": "answer"
+      }
+    ]
+  },
+  {
+    "sample_id": "funsd_031",
+    "split": "VAL",
+    "pdf_path": "data\\funsd\\funsd_031.pdf",
+    "png_path": "data\\funsd\\funsd_031.png",
+    "fields": {
+      "Candidate Registration ID": "OD-2026-99214",
+      "Full Legal Name": "CANDIDATE 30 SAMPLE",
+      "Father's / Guardian Name": "CANDIDATE 30 SAMPLE",
+      "Date of Birth (DD/MM/YYYY)": "14/05/2004",
+      "Permanent District": "KHORDHA",
+      "Annual Household Income": "INR 195000",
+      "Social Category / Quota": "OTHER BACKWARD CLASS (OBC)",
+      "Bank IFSC Branch Code": "SBIN0001234",
+      "Secondary Exam Percentage": "82.50%"
+    },
+    "word_count": 65,
+    "words": [
+      {
+        "text": "ANNUAL",
+        "label": "header"
+      },
+      {
+        "text": "SCHOLARSHIP",
+        "label": "header"
+      },
+      {
+        "text": "ELIGIBILITY",
+        "label": "header"
+      },
+      {
+        "text": "ASSESSMENT",
+        "label": "header"
+      },
+      {
+        "text": "FORM",
+        "label": "header"
+      },
+      {
+        "text": "Candidate",
+        "label": "question"
+      },
+      {
+        "text": "Registration",
+        "label": "question"
+      },
+      {
+        "text": "ID",
+        "label": "question"
+      },
+      {
+        "text": "OD-2026-99214",
+        "label": "answer"
+      },
+      {
+        "text": "Full",
+        "label": "question"
+      },
+      {
+        "text": "Legal",
+        "label": "question"
+      },
+      {
+        "text": "Name",
+        "label": "question"
+      },
+      {
+        "text": "CANDIDATE",
+        "label": "answer"
+      },
+      {
+        "text": "30",
+        "label": "answer"
+      },
+      {
+        "text": "SAMPLE",
+        "label": "answer"
+      }
+    ]
+  },
+  {
+    "sample_id": "funsd_032",
+    "split": "VAL",
+    "pdf_path": "data\\funsd\\funsd_032.pdf",
+    "png_path": "data\\funsd\\funsd_032.png",
+    "fields": {
+      "Application Index": "APP/OSSP/88310",
+      "Student Full Name": "CANDIDATE 31 SAMPLE",
+      "Parent Name": "CANDIDATE 31 SAMPLE",
+      "Date of Birth": "22/11/2003",
+      "Domicile State": "ODISHA",
+      "Gross Annual Income": "INR 197500",
+      "Caste Community": "SCHEDULED TRIBE (ST)",
+      "Bank Account Number": "910283746512",
+      "Bank IFSC Code": "CNRB0002410"
+    },
+    "word_count": 56,
+    "words": [
+      {
+        "text": "GOVERNMENT",
+        "label": "header"
+      },
+      {
+        "text": "OF",
+        "label": "header"
+      },
+      {
+        "text": "ODISHA",
+        "label": "header"
+      },
+      {
+        "text": "-",
+        "label": "header"
+      },
+      {
+        "text": "WELFARE",
+        "label": "header"
+      },
+      {
+        "text": "SCHOLARSHIP",
+        "label": "header"
+      },
+      {
+        "text": "VERIFICATION",
+        "label": "header"
+      },
+      {
+        "text": "Application",
+        "label": "question"
+      },
+      {
+        "text": "Index",
+        "label": "question"
+      },
+      {
+        "text": "APP/OSSP/88310",
+        "label": "answer"
+      },
+      {
+        "text": "Student",
+        "label": "question"
+      },
+      {
+        "text": "Full",
+        "label": "question"
+      },
+      {
+        "text": "Name",
+        "label": "question"
+      },
+      {
+        "text": "CANDIDATE",
+        "label": "answer"
+      },
+      {
+        "text": "31",
+        "label": "answer"
+      }
+    ]
+  },
+  {
+    "sample_id": "funsd_033",
+    "split": "VAL",
+    "pdf_path": "data\\funsd\\funsd_033.pdf",
+    "png_path": "data\\funsd\\funsd_033.png",
+    "fields": {
+      "Enrollment Roll Number": "DHE-2026-5541",
+      "Applicant Full Name": "CANDIDATE 32 SAMPLE",
+      "Guardian Name": "CANDIDATE 32 SAMPLE",
+      "Birth Date": "05/09/2004",
+      "Domicile Status": "RESIDENT OF ODISHA",
+      "Family Income Ceiling": "INR 200000",
+      "Reservation Quota": "GENERAL (EWS)",
+      "State Bank IFSC": "BARB0BHUBAN",
+      "Academic Score": "76.40%"
+    },
+    "word_count": 55,
+    "words": [
+      {
+        "text": "DIRECTORATE",
+        "label": "header"
+      },
+      {
+        "text": "OF",
+        "label": "header"
+      },
+      {
+        "text": "HIGHER",
+        "label": "header"
+      },
+      {
+        "text": "EDUCATION",
+        "label": "header"
+      },
+      {
+        "text": "-",
+        "label": "header"
+      },
+      {
+        "text": "INTAKE",
+        "label": "header"
+      },
+      {
+        "text": "AUDIT",
+        "label": "header"
+      },
+      {
+        "text": "Enrollment",
+        "label": "question"
+      },
+      {
+        "text": "Roll",
+        "label": "question"
+      },
+      {
+        "text": "Number",
+        "label": "question"
+      },
+      {
+        "text": "DHE-2026-5541",
+        "label": "answer"
+      },
+      {
+        "text": "Applicant",
+        "label": "question"
+      },
+      {
+        "text": "Full",
+        "label": "question"
+      },
+      {
+        "text": "Name",
+        "label": "question"
+      },
+      {
+        "text": "CANDIDATE",
+        "label": "answer"
+      }
+    ]
+  },
+  {
+    "sample_id": "funsd_034",
+    "split": "VAL",
+    "pdf_path": "data\\funsd\\funsd_034.pdf",
+    "png_path": "data\\funsd\\funsd_034.png",
+    "fields": {
+      "Application Index": "APP/OSSP/88310",
+      "Student Full Name": "CANDIDATE 33 SAMPLE",
+      "Parent Name": "CANDIDATE 33 SAMPLE",
+      "Date of Birth": "22/11/2003",
+      "Domicile State": "ODISHA",
+      "Gross Annual Income": "INR 202500",
+      "Caste Community": "SCHEDULED TRIBE (ST)",
+      "Bank Account Number": "910283746512",
+      "Bank IFSC Code": "CNRB0002410"
+    },
+    "word_count": 56,
+    "words": [
+      {
+        "text": "GOVERNMENT",
+        "label": "header"
+      },
+      {
+        "text": "OF",
+        "label": "header"
+      },
+      {
+        "text": "ODISHA",
+        "label": "header"
+      },
+      {
+        "text": "-",
+        "label": "header"
+      },
+      {
+        "text": "WELFARE",
+        "label": "header"
+      },
+      {
+        "text": "SCHOLARSHIP",
+        "label": "header"
+      },
+      {
+        "text": "VERIFICATION",
+        "label": "header"
+      },
+      {
+        "text": "Application",
+        "label": "question"
+      },
+      {
+        "text": "Index",
+        "label": "question"
+      },
+      {
+        "text": "APP/OSSP/88310",
+        "label": "answer"
+      },
+      {
+        "text": "Student",
+        "label": "question"
+      },
+      {
+        "text": "Full",
+        "label": "question"
+      },
+      {
+        "text": "Name",
+        "label": "question"
+      },
+      {
+        "text": "CANDIDATE",
+        "label": "answer"
+      },
+      {
+        "text": "33",
+        "label": "answer"
+      }
+    ]
+  },
+  {
+    "sample_id": "funsd_035",
+    "split": "VAL",
+    "pdf_path": "data\\funsd\\funsd_035.pdf",
+    "png_path": "data\\funsd\\funsd_035.png",
+    "fields": {
+      "Enrollment Roll Number": "DHE-2026-5541",
+      "Applicant Full Name": "CANDIDATE 34 SAMPLE",
+      "Guardian Name": "CANDIDATE 34 SAMPLE",
+      "Birth Date": "05/09/2004",
+      "Domicile Status": "RESIDENT OF ODISHA",
+      "Family Income Ceiling": "INR 205000",
+      "Reservation Quota": "GENERAL (EWS)",
+      "State Bank IFSC": "BARB0BHUBAN",
+      "Academic Score": "76.40%"
+    },
+    "word_count": 55,
+    "words": [
+      {
+        "text": "DIRECTORATE",
+        "label": "header"
+      },
+      {
+        "text": "OF",
+        "label": "header"
+      },
+      {
+        "text": "HIGHER",
+        "label": "header"
+      },
+      {
+        "text": "EDUCATION",
+        "label": "header"
+      },
+      {
+        "text": "-",
+        "label": "header"
+      },
+      {
+        "text": "INTAKE",
+        "label": "header"
+      },
+      {
+        "text": "AUDIT",
+        "label": "header"
+      },
+      {
+        "text": "Enrollment",
+        "label": "question"
+      },
+      {
+        "text": "Roll",
+        "label": "question"
+      },
+      {
+        "text": "Number",
+        "label": "question"
+      },
+      {
+        "text": "DHE-2026-5541",
+        "label": "answer"
+      },
+      {
+        "text": "Applicant",
+        "label": "question"
+      },
+      {
+        "text": "Full",
+        "label": "question"
+      },
+      {
+        "text": "Name",
+        "label": "question"
+      },
+      {
+        "text": "CANDIDATE",
+        "label": "answer"
+      }
+    ]
+  },
+  {
+    "sample_id": "funsd_036",
+    "split": "CHALLENGE",
+    "pdf_path": "data\\funsd\\funsd_036.pdf",
+    "png_path": "data\\funsd\\funsd_036.png",
+    "fields": {
+      "Enrollment Roll Number": "DHE-2026-5541",
+      "Applicant Full Name": "CANDIDATE 35 SAMPLE",
+      "Guardian Name": "CANDIDATE 35 SAMPLE",
+      "Birth Date": "05/09/2004",
+      "Domicile Status": "RESIDENT OF ODISHA",
+      "Family Income Ceiling": "INR 207500",
+      "Reservation Quota": "GENERAL (EWS)",
+      "State Bank IFSC": "BARB0BHUBAN",
+      "Academic Score": "76.40%"
+    },
+    "word_count": 55,
+    "words": [
+      {
+        "text": "DIRECTORATE",
+        "label": "header"
+      },
+      {
+        "text": "OF",
+        "label": "header"
+      },
+      {
+        "text": "HIGHER",
+        "label": "header"
+      },
+      {
+        "text": "EDUCATION",
+        "label": "header"
+      },
+      {
+        "text": "-",
+        "label": "header"
+      },
+      {
+        "text": "INTAKE",
+        "label": "header"
+      },
+      {
+        "text": "AUDIT",
+        "label": "header"
+      },
+      {
+        "text": "Enrollment",
+        "label": "question"
+      },
+      {
+        "text": "Roll",
+        "label": "question"
+      },
+      {
+        "text": "Number",
+        "label": "question"
+      },
+      {
+        "text": "DHE-2026-5541",
+        "label": "answer"
+      },
+      {
+        "text": "Applicant",
+        "label": "question"
+      },
+      {
+        "text": "Full",
+        "label": "question"
+      },
+      {
+        "text": "Name",
+        "label": "question"
+      },
+      {
+        "text": "CANDIDATE",
+        "label": "answer"
+      }
+    ]
+  },
+  {
+    "sample_id": "funsd_037",
+    "split": "CHALLENGE",
+    "pdf_path": "data\\funsd\\funsd_037.pdf",
+    "png_path": "data\\funsd\\funsd_037.png",
+    "fields": {
+      "Application Index": "APP/OSSP/88310",
+      "Student Full Name": "CANDIDATE 36 SAMPLE",
+      "Parent Name": "CANDIDATE 36 SAMPLE",
+      "Date of Birth": "22/11/2003",
+      "Domicile State": "ODISHA",
+      "Gross Annual Income": "INR 210000",
+      "Caste Community": "SCHEDULED TRIBE (ST)",
+      "Bank Account Number": "910283746512",
+      "Bank IFSC Code": "CNRB0002410"
+    },
+    "word_count": 56,
+    "words": [
+      {
+        "text": "GOVERNMENT",
+        "label": "header"
+      },
+      {
+        "text": "OF",
+        "label": "header"
+      },
+      {
+        "text": "ODISHA",
+        "label": "header"
+      },
+      {
+        "text": "-",
+        "label": "header"
+      },
+      {
+        "text": "WELFARE",
+        "label": "header"
+      },
+      {
+        "text": "SCHOLARSHIP",
+        "label": "header"
+      },
+      {
+        "text": "VERIFICATION",
+        "label": "header"
+      },
+      {
+        "text": "Application",
+        "label": "question"
+      },
+      {
+        "text": "Index",
+        "label": "question"
+      },
+      {
+        "text": "APP/OSSP/88310",
+        "label": "answer"
+      },
+      {
+        "text": "Student",
+        "label": "question"
+      },
+      {
+        "text": "Full",
+        "label": "question"
+      },
+      {
+        "text": "Name",
+        "label": "question"
+      },
+      {
+        "text": "CANDIDATE",
+        "label": "answer"
+      },
+      {
+        "text": "36",
+        "label": "answer"
+      }
+    ]
+  },
+  {
+    "sample_id": "funsd_038",
+    "split": "CHALLENGE",
+    "pdf_path": "data\\funsd\\funsd_038.pdf",
+    "png_path": "data\\funsd\\funsd_038.png",
+    "fields": {
+      "Enrollment Roll Number": "DHE-2026-5541",
+      "Applicant Full Name": "CANDIDATE 37 SAMPLE",
+      "Guardian Name": "CANDIDATE 37 SAMPLE",
+      "Birth Date": "05/09/2004",
+      "Domicile Status": "RESIDENT OF ODISHA",
+      "Family Income Ceiling": "INR 212500",
+      "Reservation Quota": "GENERAL (EWS)",
+      "State Bank IFSC": "BARB0BHUBAN",
+      "Academic Score": "76.40%"
+    },
+    "word_count": 55,
+    "words": [
+      {
+        "text": "DIRECTORATE",
+        "label": "header"
+      },
+      {
+        "text": "OF",
+        "label": "header"
+      },
+      {
+        "text": "HIGHER",
+        "label": "header"
+      },
+      {
+        "text": "EDUCATION",
+        "label": "header"
+      },
+      {
+        "text": "-",
+        "label": "header"
+      },
+      {
+        "text": "INTAKE",
+        "label": "header"
+      },
+      {
+        "text": "AUDIT",
+        "label": "header"
+      },
+      {
+        "text": "Enrollment",
+        "label": "question"
+      },
+      {
+        "text": "Roll",
+        "label": "question"
+      },
+      {
+        "text": "Number",
+        "label": "question"
+      },
+      {
+        "text": "DHE-2026-5541",
+        "label": "answer"
+      },
+      {
+        "text": "Applicant",
+        "label": "question"
+      },
+      {
+        "text": "Full",
+        "label": "question"
+      },
+      {
+        "text": "Name",
+        "label": "question"
+      },
+      {
+        "text": "CANDIDATE",
+        "label": "answer"
+      }
+    ]
+  },
+  {
+    "sample_id": "funsd_039",
+    "split": "CHALLENGE",
+    "pdf_path": "data\\funsd\\funsd_039.pdf",
+    "png_path": "data\\funsd\\funsd_039.png",
+    "fields": {
+      "Candidate Registration ID": "OD-2026-99214",
+      "Full Legal Name": "CANDIDATE 38 SAMPLE",
+      "Father's / Guardian Name": "CANDIDATE 38 SAMPLE",
+      "Date of Birth (DD/MM/YYYY)": "14/05/2004",
+      "Permanent District": "KHORDHA",
+      "Annual Household Income": "INR 215000",
+      "Social Category / Quota": "OTHER BACKWARD CLASS (OBC)",
+      "Bank IFSC Branch Code": "SBIN0001234",
+      "Secondary Exam Percentage": "82.50%"
+    },
+    "word_count": 65,
+    "words": [
+      {
+        "text": "ANNUAL",
+        "label": "header"
+      },
+      {
+        "text": "SCHOLARSHIP",
+        "label": "header"
+      },
+      {
+        "text": "ELIGIBILITY",
+        "label": "header"
+      },
+      {
+        "text": "ASSESSMENT",
+        "label": "header"
+      },
+      {
+        "text": "FORM",
+        "label": "header"
+      },
+      {
+        "text": "Candidate",
+        "label": "question"
+      },
+      {
+        "text": "Registration",
+        "label": "question"
+      },
+      {
+        "text": "ID",
+        "label": "question"
+      },
+      {
+        "text": "OD-2026-99214",
+        "label": "answer"
+      },
+      {
+        "text": "Full",
+        "label": "question"
+      },
+      {
+        "text": "Legal",
+        "label": "question"
+      },
+      {
+        "text": "Name",
+        "label": "question"
+      },
+      {
+        "text": "CANDIDATE",
+        "label": "answer"
+      },
+      {
+        "text": "38",
+        "label": "answer"
+      },
+      {
+        "text": "SAMPLE",
+        "label": "answer"
+      }
+    ]
+  },
+  {
+    "sample_id": "funsd_040",
+    "split": "CHALLENGE",
+    "pdf_path": "data\\funsd\\funsd_040.pdf",
+    "png_path": "data\\funsd\\funsd_040.png",
+    "fields": {
+      "Enrollment Roll Number": "DHE-2026-5541",
+      "Applicant Full Name": "CANDIDATE 39 SAMPLE",
+      "Guardian Name": "CANDIDATE 39 SAMPLE",
+      "Birth Date": "05/09/2004",
+      "Domicile Status": "RESIDENT OF ODISHA",
+      "Family Income Ceiling": "INR 217500",
+      "Reservation Quota": "GENERAL (EWS)",
+      "State Bank IFSC": "BARB0BHUBAN",
+      "Academic Score": "76.40%"
+    },
+    "word_count": 55,
+    "words": [
+      {
+        "text": "DIRECTORATE",
+        "label": "header"
+      },
+      {
+        "text": "OF",
+        "label": "header"
+      },
+      {
+        "text": "HIGHER",
+        "label": "header"
+      },
+      {
+        "text": "EDUCATION",
+        "label": "header"
+      },
+      {
+        "text": "-",
+        "label": "header"
+      },
+      {
+        "text": "INTAKE",
+        "label": "header"
+      },
+      {
+        "text": "AUDIT",
+        "label": "header"
+      },
+      {
+        "text": "Enrollment",
+        "label": "question"
+      },
+      {
+        "text": "Roll",
+        "label": "question"
+      },
+      {
+        "text": "Number",
+        "label": "question"
+      },
+      {
+        "text": "DHE-2026-5541",
+        "label": "answer"
+      },
+      {
+        "text": "Applicant",
+        "label": "question"
+      },
+      {
+        "text": "Full",
+        "label": "question"
+      },
+      {
+        "text": "Name",
+        "label": "question"
+      },
+      {
+        "text": "CANDIDATE",
+        "label": "answer"
+      }
+    ]
+  },
+  {
+    "sample_id": "funsd_041",
+    "split": "CHALLENGE",
+    "pdf_path": "data\\funsd\\funsd_041.pdf",
+    "png_path": "data\\funsd\\funsd_041.png",
+    "fields": {
+      "Enrollment Roll Number": "DHE-2026-5541",
+      "Applicant Full Name": "CANDIDATE 40 SAMPLE",
+      "Guardian Name": "CANDIDATE 40 SAMPLE",
+      "Birth Date": "05/09/2004",
+      "Domicile Status": "RESIDENT OF ODISHA",
+      "Family Income Ceiling": "INR 220000",
+      "Reservation Quota": "GENERAL (EWS)",
+      "State Bank IFSC": "BARB0BHUBAN",
+      "Academic Score": "76.40%"
+    },
+    "word_count": 55,
+    "words": [
+      {
+        "text": "DIRECTORATE",
+        "label": "header"
+      },
+      {
+        "text": "OF",
+        "label": "header"
+      },
+      {
+        "text": "HIGHER",
+        "label": "header"
+      },
+      {
+        "text": "EDUCATION",
+        "label": "header"
+      },
+      {
+        "text": "-",
+        "label": "header"
+      },
+      {
+        "text": "INTAKE",
+        "label": "header"
+      },
+      {
+        "text": "AUDIT",
+        "label": "header"
+      },
+      {
+        "text": "Enrollment",
+        "label": "question"
+      },
+      {
+        "text": "Roll",
+        "label": "question"
+      },
+      {
+        "text": "Number",
+        "label": "question"
+      },
+      {
+        "text": "DHE-2026-5541",
+        "label": "answer"
+      },
+      {
+        "text": "Applicant",
+        "label": "question"
+      },
+      {
+        "text": "Full",
+        "label": "question"
+      },
+      {
+        "text": "Name",
+        "label": "question"
+      },
+      {
+        "text": "CANDIDATE",
+        "label": "answer"
+      }
+    ]
+  },
+  {
+    "sample_id": "funsd_042",
+    "split": "CHALLENGE",
+    "pdf_path": "data\\funsd\\funsd_042.pdf",
+    "png_path": "data\\funsd\\funsd_042.png",
+    "fields": {
+      "Application Index": "APP/OSSP/88310",
+      "Student Full Name": "CANDIDATE 41 SAMPLE",
+      "Parent Name": "CANDIDATE 41 SAMPLE",
+      "Date of Birth": "22/11/2003",
+      "Domicile State": "ODISHA",
+      "Gross Annual Income": "INR 222500",
+      "Caste Community": "SCHEDULED TRIBE (ST)",
+      "Bank Account Number": "910283746512",
+      "Bank IFSC Code": "CNRB0002410"
+    },
+    "word_count": 56,
+    "words": [
+      {
+        "text": "GOVERNMENT",
+        "label": "header"
+      },
+      {
+        "text": "OF",
+        "label": "header"
+      },
+      {
+        "text": "ODISHA",
+        "label": "header"
+      },
+      {
+        "text": "-",
+        "label": "header"
+      },
+      {
+        "text": "WELFARE",
+        "label": "header"
+      },
+      {
+        "text": "SCHOLARSHIP",
+        "label": "header"
+      },
+      {
+        "text": "VERIFICATION",
+        "label": "header"
+      },
+      {
+        "text": "Application",
+        "label": "question"
+      },
+      {
+        "text": "Index",
+        "label": "question"
+      },
+      {
+        "text": "APP/OSSP/88310",
+        "label": "answer"
+      },
+      {
+        "text": "Student",
+        "label": "question"
+      },
+      {
+        "text": "Full",
+        "label": "question"
+      },
+      {
+        "text": "Name",
+        "label": "question"
+      },
+      {
+        "text": "CANDIDATE",
+        "label": "answer"
+      },
+      {
+        "text": "41",
+        "label": "answer"
+      }
+    ]
+  },
+  {
+    "sample_id": "funsd_043",
+    "split": "CHALLENGE",
+    "pdf_path": "data\\funsd\\funsd_043.pdf",
+    "png_path": "data\\funsd\\funsd_043.png",
+    "fields": {
+      "Enrollment Roll Number": "DHE-2026-5541",
+      "Applicant Full Name": "CANDIDATE 42 SAMPLE",
+      "Guardian Name": "CANDIDATE 42 SAMPLE",
+      "Birth Date": "05/09/2004",
+      "Domicile Status": "RESIDENT OF ODISHA",
+      "Family Income Ceiling": "INR 225000",
+      "Reservation Quota": "GENERAL (EWS)",
+      "State Bank IFSC": "BARB0BHUBAN",
+      "Academic Score": "76.40%"
+    },
+    "word_count": 55,
+    "words": [
+      {
+        "text": "DIRECTORATE",
+        "label": "header"
+      },
+      {
+        "text": "OF",
+        "label": "header"
+      },
+      {
+        "text": "HIGHER",
+        "label": "header"
+      },
+      {
+        "text": "EDUCATION",
+        "label": "header"
+      },
+      {
+        "text": "-",
+        "label": "header"
+      },
+      {
+        "text": "INTAKE",
+        "label": "header"
+      },
+      {
+        "text": "AUDIT",
+        "label": "header"
+      },
+      {
+        "text": "Enrollment",
+        "label": "question"
+      },
+      {
+        "text": "Roll",
+        "label": "question"
+      },
+      {
+        "text": "Number",
+        "label": "question"
+      },
+      {
+        "text": "DHE-2026-5541",
+        "label": "answer"
+      },
+      {
+        "text": "Applicant",
+        "label": "question"
+      },
+      {
+        "text": "Full",
+        "label": "question"
+      },
+      {
+        "text": "Name",
+        "label": "question"
+      },
+      {
+        "text": "CANDIDATE",
+        "label": "answer"
+      }
+    ]
+  },
+  {
+    "sample_id": "funsd_044",
+    "split": "CHALLENGE",
+    "pdf_path": "data\\funsd\\funsd_044.pdf",
+    "png_path": "data\\funsd\\funsd_044.png",
+    "fields": {
+      "Candidate Registration ID": "OD-2026-99214",
+      "Full Legal Name": "CANDIDATE 43 SAMPLE",
+      "Father's / Guardian Name": "CANDIDATE 43 SAMPLE",
+      "Date of Birth (DD/MM/YYYY)": "14/05/2004",
+      "Permanent District": "KHORDHA",
+      "Annual Household Income": "INR 227500",
+      "Social Category / Quota": "OTHER BACKWARD CLASS (OBC)",
+      "Bank IFSC Branch Code": "SBIN0001234",
+      "Secondary Exam Percentage": "82.50%"
+    },
+    "word_count": 65,
+    "words": [
+      {
+        "text": "ANNUAL",
+        "label": "header"
+      },
+      {
+        "text": "SCHOLARSHIP",
+        "label": "header"
+      },
+      {
+        "text": "ELIGIBILITY",
+        "label": "header"
+      },
+      {
+        "text": "ASSESSMENT",
+        "label": "header"
+      },
+      {
+        "text": "FORM",
+        "label": "header"
+      },
+      {
+        "text": "Candidate",
+        "label": "question"
+      },
+      {
+        "text": "Registration",
+        "label": "question"
+      },
+      {
+        "text": "ID",
+        "label": "question"
+      },
+      {
+        "text": "OD-2026-99214",
+        "label": "answer"
+      },
+      {
+        "text": "Full",
+        "label": "question"
+      },
+      {
+        "text": "Legal",
+        "label": "question"
+      },
+      {
+        "text": "Name",
+        "label": "question"
+      },
+      {
+        "text": "CANDIDATE",
+        "label": "answer"
+      },
+      {
+        "text": "43",
+        "label": "answer"
+      },
+      {
+        "text": "SAMPLE",
+        "label": "answer"
+      }
+    ]
+  },
+  {
+    "sample_id": "funsd_045",
+    "split": "CHALLENGE",
+    "pdf_path": "data\\funsd\\funsd_045.pdf",
+    "png_path": "data\\funsd\\funsd_045.png",
+    "fields": {
+      "Application Index": "APP/OSSP/88310",
+      "Student Full Name": "CANDIDATE 44 SAMPLE",
+      "Parent Name": "CANDIDATE 44 SAMPLE",
+      "Date of Birth": "22/11/2003",
+      "Domicile State": "ODISHA",
+      "Gross Annual Income": "INR 230000",
+      "Caste Community": "SCHEDULED TRIBE (ST)",
+      "Bank Account Number": "910283746512",
+      "Bank IFSC Code": "CNRB0002410"
+    },
+    "word_count": 56,
+    "words": [
+      {
+        "text": "GOVERNMENT",
+        "label": "header"
+      },
+      {
+        "text": "OF",
+        "label": "header"
+      },
+      {
+        "text": "ODISHA",
+        "label": "header"
+      },
+      {
+        "text": "-",
+        "label": "header"
+      },
+      {
+        "text": "WELFARE",
+        "label": "header"
+      },
+      {
+        "text": "SCHOLARSHIP",
+        "label": "header"
+      },
+      {
+        "text": "VERIFICATION",
+        "label": "header"
+      },
+      {
+        "text": "Application",
+        "label": "question"
+      },
+      {
+        "text": "Index",
+        "label": "question"
+      },
+      {
+        "text": "APP/OSSP/88310",
+        "label": "answer"
+      },
+      {
+        "text": "Student",
+        "label": "question"
+      },
+      {
+        "text": "Full",
+        "label": "question"
+      },
+      {
+        "text": "Name",
+        "label": "question"
+      },
+      {
+        "text": "CANDIDATE",
+        "label": "answer"
+      },
+      {
+        "text": "44",
+        "label": "answer"
+      }
+    ]
+  },
+  {
+    "sample_id": "funsd_046",
+    "split": "CHALLENGE",
+    "pdf_path": "data\\funsd\\funsd_046.pdf",
+    "png_path": "data\\funsd\\funsd_046.png",
+    "fields": {
+      "Candidate Registration ID": "OD-2026-99214",
+      "Full Legal Name": "CANDIDATE 45 SAMPLE",
+      "Father's / Guardian Name": "CANDIDATE 45 SAMPLE",
+      "Date of Birth (DD/MM/YYYY)": "14/05/2004",
+      "Permanent District": "KHORDHA",
+      "Annual Household Income": "INR 232500",
+      "Social Category / Quota": "OTHER BACKWARD CLASS (OBC)",
+      "Bank IFSC Branch Code": "SBIN0001234",
+      "Secondary Exam Percentage": "82.50%"
+    },
+    "word_count": 65,
+    "words": [
+      {
+        "text": "ANNUAL",
+        "label": "header"
+      },
+      {
+        "text": "SCHOLARSHIP",
+        "label": "header"
+      },
+      {
+        "text": "ELIGIBILITY",
+        "label": "header"
+      },
+      {
+        "text": "ASSESSMENT",
+        "label": "header"
+      },
+      {
+        "text": "FORM",
+        "label": "header"
+      },
+      {
+        "text": "Candidate",
+        "label": "question"
+      },
+      {
+        "text": "Registration",
+        "label": "question"
+      },
+      {
+        "text": "ID",
+        "label": "question"
+      },
+      {
+        "text": "OD-2026-99214",
+        "label": "answer"
+      },
+      {
+        "text": "Full",
+        "label": "question"
+      },
+      {
+        "text": "Legal",
+        "label": "question"
+      },
+      {
+        "text": "Name",
+        "label": "question"
+      },
+      {
+        "text": "CANDIDATE",
+        "label": "answer"
+      },
+      {
+        "text": "45",
+        "label": "answer"
+      },
+      {
+        "text": "SAMPLE",
+        "label": "answer"
+      }
+    ]
+  },
+  {
+    "sample_id": "funsd_047",
+    "split": "CHALLENGE",
+    "pdf_path": "data\\funsd\\funsd_047.pdf",
+    "png_path": "data\\funsd\\funsd_047.png",
+    "fields": {
+      "Enrollment Roll Number": "DHE-2026-5541",
+      "Applicant Full Name": "CANDIDATE 46 SAMPLE",
+      "Guardian Name": "CANDIDATE 46 SAMPLE",
+      "Birth Date": "05/09/2004",
+      "Domicile Status": "RESIDENT OF ODISHA",
+      "Family Income Ceiling": "INR 235000",
+      "Reservation Quota": "GENERAL (EWS)",
+      "State Bank IFSC": "BARB0BHUBAN",
+      "Academic Score": "76.40%"
+    },
+    "word_count": 55,
+    "words": [
+      {
+        "text": "DIRECTORATE",
+        "label": "header"
+      },
+      {
+        "text": "OF",
+        "label": "header"
+      },
+      {
+        "text": "HIGHER",
+        "label": "header"
+      },
+      {
+        "text": "EDUCATION",
+        "label": "header"
+      },
+      {
+        "text": "-",
+        "label": "header"
+      },
+      {
+        "text": "INTAKE",
+        "label": "header"
+      },
+      {
+        "text": "AUDIT",
+        "label": "header"
+      },
+      {
+        "text": "Enrollment",
+        "label": "question"
+      },
+      {
+        "text": "Roll",
+        "label": "question"
+      },
+      {
+        "text": "Number",
+        "label": "question"
+      },
+      {
+        "text": "DHE-2026-5541",
+        "label": "answer"
+      },
+      {
+        "text": "Applicant",
+        "label": "question"
+      },
+      {
+        "text": "Full",
+        "label": "question"
+      },
+      {
+        "text": "Name",
+        "label": "question"
+      },
+      {
+        "text": "CANDIDATE",
+        "label": "answer"
+      }
+    ]
+  },
+  {
+    "sample_id": "funsd_048",
+    "split": "CHALLENGE",
+    "pdf_path": "data\\funsd\\funsd_048.pdf",
+    "png_path": "data\\funsd\\funsd_048.png",
+    "fields": {
+      "Application Index": "APP/OSSP/88310",
+      "Student Full Name": "CANDIDATE 47 SAMPLE",
+      "Parent Name": "CANDIDATE 47 SAMPLE",
+      "Date of Birth": "22/11/2003",
+      "Domicile State": "ODISHA",
+      "Gross Annual Income": "INR 237500",
+      "Caste Community": "SCHEDULED TRIBE (ST)",
+      "Bank Account Number": "910283746512",
+      "Bank IFSC Code": "CNRB0002410"
+    },
+    "word_count": 56,
+    "words": [
+      {
+        "text": "GOVERNMENT",
+        "label": "header"
+      },
+      {
+        "text": "OF",
+        "label": "header"
+      },
+      {
+        "text": "ODISHA",
+        "label": "header"
+      },
+      {
+        "text": "-",
+        "label": "header"
+      },
+      {
+        "text": "WELFARE",
+        "label": "header"
+      },
+      {
+        "text": "SCHOLARSHIP",
+        "label": "header"
+      },
+      {
+        "text": "VERIFICATION",
+        "label": "header"
+      },
+      {
+        "text": "Application",
+        "label": "question"
+      },
+      {
+        "text": "Index",
+        "label": "question"
+      },
+      {
+        "text": "APP/OSSP/88310",
+        "label": "answer"
+      },
+      {
+        "text": "Student",
+        "label": "question"
+      },
+      {
+        "text": "Full",
+        "label": "question"
+      },
+      {
+        "text": "Name",
+        "label": "question"
+      },
+      {
+        "text": "CANDIDATE",
+        "label": "answer"
+      },
+      {
+        "text": "47",
+        "label": "answer"
+      }
+    ]
+  },
+  {
+    "sample_id": "funsd_049",
+    "split": "CHALLENGE",
+    "pdf_path": "data\\funsd\\funsd_049.pdf",
+    "png_path": "data\\funsd\\funsd_049.png",
+    "fields": {
+      "Application Index": "APP/OSSP/88310",
+      "Student Full Name": "CANDIDATE 48 SAMPLE",
+      "Parent Name": "CANDIDATE 48 SAMPLE",
+      "Date of Birth": "22/11/2003",
+      "Domicile State": "ODISHA",
+      "Gross Annual Income": "INR 240000",
+      "Caste Community": "SCHEDULED TRIBE (ST)",
+      "Bank Account Number": "910283746512",
+      "Bank IFSC Code": "CNRB0002410"
+    },
+    "word_count": 56,
+    "words": [
+      {
+        "text": "GOVERNMENT",
+        "label": "header"
+      },
+      {
+        "text": "OF",
+        "label": "header"
+      },
+      {
+        "text": "ODISHA",
+        "label": "header"
+      },
+      {
+        "text": "-",
+        "label": "header"
+      },
+      {
+        "text": "WELFARE",
+        "label": "header"
+      },
+      {
+        "text": "SCHOLARSHIP",
+        "label": "header"
+      },
+      {
+        "text": "VERIFICATION",
+        "label": "header"
+      },
+      {
+        "text": "Application",
+        "label": "question"
+      },
+      {
+        "text": "Index",
+        "label": "question"
+      },
+      {
+        "text": "APP/OSSP/88310",
+        "label": "answer"
+      },
+      {
+        "text": "Student",
+        "label": "question"
+      },
+      {
+        "text": "Full",
+        "label": "question"
+      },
+      {
+        "text": "Name",
+        "label": "question"
+      },
+      {
+        "text": "CANDIDATE",
+        "label": "answer"
+      },
+      {
+        "text": "48",
+        "label": "answer"
+      }
+    ]
+  },
+  {
+    "sample_id": "funsd_050",
+    "split": "CHALLENGE",
+    "pdf_path": "data\\funsd\\funsd_050.pdf",
+    "png_path": "data\\funsd\\funsd_050.png",
+    "fields": {
+      "Enrollment Roll Number": "DHE-2026-5541",
+      "Applicant Full Name": "CANDIDATE 49 SAMPLE",
+      "Guardian Name": "CANDIDATE 49 SAMPLE",
+      "Birth Date": "05/09/2004",
+      "Domicile Status": "RESIDENT OF ODISHA",
+      "Family Income Ceiling": "INR 242500",
+      "Reservation Quota": "GENERAL (EWS)",
+      "State Bank IFSC": "BARB0BHUBAN",
+      "Academic Score": "76.40%"
+    },
+    "word_count": 55,
+    "words": [
+      {
+        "text": "DIRECTORATE",
+        "label": "header"
+      },
+      {
+        "text": "OF",
+        "label": "header"
+      },
+      {
+        "text": "HIGHER",
+        "label": "header"
+      },
+      {
+        "text": "EDUCATION",
+        "label": "header"
+      },
+      {
+        "text": "-",
+        "label": "header"
+      },
+      {
+        "text": "INTAKE",
+        "label": "header"
+      },
+      {
+        "text": "AUDIT",
+        "label": "header"
+      },
+      {
+        "text": "Enrollment",
+        "label": "question"
+      },
+      {
+        "text": "Roll",
+        "label": "question"
+      },
+      {
+        "text": "Number",
+        "label": "question"
+      },
+      {
+        "text": "DHE-2026-5541",
+        "label": "answer"
+      },
+      {
+        "text": "Applicant",
+        "label": "question"
+      },
+      {
+        "text": "Full",
+        "label": "question"
+      },
+      {
+        "text": "Name",
+        "label": "question"
+      },
+      {
+        "text": "CANDIDATE",
+        "label": "answer"
+      }
+    ]
+  }
+]

@@ -1,0 +1,9 @@
+{
+  "fixture_id": "TAB_06_MISSING_EMPTY_CELLS",
+  "category": "Category F: Empty Cells",
+  "critical_fields": {
+    "ppo_9011_pension": "32400",
+    "ppo_9012_disability": "5000",
+    "ppo_9014_pension": "41000"
+  }
+}

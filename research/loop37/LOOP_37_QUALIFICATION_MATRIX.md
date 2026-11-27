@@ -1,0 +1,28 @@
+# DOCUREADY — LOOP 37 QUALIFICATION MATRIX (GATES A–Z)
+
+- **Gate A (Correct Loop36 baseline):** **PASS** — Base commit 071e34a verified
+- **Gate B (Repository state and branch preservation):** **PASS** — Branches and untracked files preserved
+- **Gate C (Loop10 release integrity):** **PASS** — 5/5 SHA-256 bit-exact match
+- **Gate D (Clean Windows environment evidence):** **BLOCKED** — No clean Windows 10/11 VM available
+- **Gate E (Fresh installation):** **BLOCKED** — No clean VM / interactive GUI
+- **Gate F (First launch after installation):** **BLOCKED** — No clean VM / interactive GUI
+- **Gate G (Sidecar initialization):** **PASS** — 30/30 health checks + Electron tests pass
+- **Gate H (OCR resource functionality):** **PASS** — eng, hin, ori, osd verified in bundled & minimized sidecar
+- **Gate I (Workspace and user-data preservation):** **PARTIAL** — Session purge/isolation PASS; uninstall preservation BLOCKED
+- **Gate J (Upgrade lifecycle):** **BLOCKED** — No prior release / clean VM
+- **Gate K (Reinstallation):** **BLOCKED** — No clean VM
+- **Gate L (Uninstallation):** **BLOCKED** — No clean VM
+- **Gate M (Installer GUI):** **BLOCKED** — Headless environment
+- **Gate N (Performance failure reproduction):** **PASS** — Reproduced Loop 17 (1317.63 ms) and Loop 18 (1625.94 ms)
+- **Gate O (Performance remediation or documented residual):** **PARTIAL** — Root-caused to eng+hin+ori Tesseract subprocess load (1738.2 ms); thresholds preserved
+- **Gate P (Sidecar startup stability):** **PASS** — Import breakdown measured; 30/30 launches succeeded
+- **Gate Q (Authenticode assessment):** **FAIL** — NotSigned; 0 certs in Cert:\CurrentUser\My and LocalMachine\My
+- **Gate R (Windows trust assessment):** **BLOCKED** — SmartScreen requires clean VM + signed/unsigned GUI run
+- **Gate S (OS-level network audit):** **PARTIAL** — Get-NetTCPConnection + socket guard PASS; full WFP/ETW driver unavailable
+- **Gate T (Package minimization):** **PASS** — Isolated test removed 17 training EXEs, saved 63.41 MB, OCR langs intact
+- **Gate U (Native dependency integrity):** **PASS** — 122 DLLs + vcruntime verified
+- **Gate V (Offline processing):** **PASS** — 12 no-network tests + offline sidecar audit
+- **Gate W (Historical benchmark reproduction):** **PASS** — 791 fields (344 exact, 0 false), Loop 28 (42 exact), Cohort M (76 exact)
+- **Gate X (Full regression test accounting):** **PASS** — Electron 25/25 PASS; Python 43/45 (2 known Loop 17/18 latency misses)
+- **Gate Y (Dataset licensing carry-forward):** **PASS** — FUNSD/CORD/SROIE/Gazette/Land Revenue status preserved
+- **Gate Z (Final evidence and documentation integrity):** **PASS** — 21 MD + 11 JSON artifacts authored

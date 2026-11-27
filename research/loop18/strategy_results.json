@@ -1,0 +1,2543 @@
+{
+  "benchmark_metadata": {
+    "loop": "18",
+    "date": "2026-11-22",
+    "sample_count": 25,
+    "primary_count": 19,
+    "challenge_count": 6,
+    "total_critical_fields": 67
+  },
+  "summary": {
+    "overall": {
+      "STRATEGY_GLOBAL_MULTILINGUAL": {
+        "mean_cer_macro": 4.3494,
+        "corpus_cer_micro": 0.2378,
+        "mean_wer_macro": 1.1272,
+        "corpus_wer_micro": 0.3695,
+        "mean_inversion_rate": 6.64,
+        "mean_latency_ms": 1763.36,
+        "mean_ocr_invocations": 1.0,
+        "critical_field_exact_matches": 67,
+        "critical_field_total_count": 67,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0
+      },
+      "STRATEGY_PAGE_ROUTING": {
+        "mean_cer_macro": 4.5355,
+        "corpus_cer_micro": 0.4416,
+        "mean_wer_macro": 1.2866,
+        "corpus_wer_micro": 0.5464,
+        "mean_inversion_rate": 9.26,
+        "mean_latency_ms": 2247.35,
+        "mean_ocr_invocations": 1.92,
+        "critical_field_exact_matches": 63,
+        "critical_field_total_count": 67,
+        "critical_field_match_rate": 0.9403,
+        "mean_field_cer": 0.0322
+      },
+      "STRATEGY_REGION_AWARE": {
+        "mean_cer_macro": 4.3868,
+        "corpus_cer_micro": 0.286,
+        "mean_wer_macro": 1.1748,
+        "corpus_wer_micro": 0.4252,
+        "mean_inversion_rate": 7.02,
+        "mean_latency_ms": 4916.7,
+        "mean_ocr_invocations": 1.16,
+        "critical_field_exact_matches": 67,
+        "critical_field_total_count": 67,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0
+      },
+      "STRATEGY_ADAPTIVE": {
+        "mean_cer_macro": 0.4422,
+        "corpus_cer_micro": 0.2444,
+        "mean_wer_macro": 0.623,
+        "corpus_wer_micro": 0.3803,
+        "mean_inversion_rate": 7.05,
+        "mean_latency_ms": 2475.54,
+        "mean_ocr_invocations": 1.12,
+        "critical_field_exact_matches": 67,
+        "critical_field_total_count": 67,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0
+      }
+    },
+    "primary_validation": {
+      "STRATEGY_GLOBAL_MULTILINGUAL": {
+        "mean_cer_macro": 0.5453,
+        "corpus_cer_micro": 0.2591,
+        "mean_wer_macro": 0.751,
+        "corpus_wer_micro": 0.3947,
+        "mean_inversion_rate": 6.91,
+        "mean_latency_ms": 1903.24,
+        "mean_ocr_invocations": 1.0,
+        "critical_field_exact_matches": 58,
+        "critical_field_total_count": 58,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0
+      },
+      "STRATEGY_PAGE_ROUTING": {
+        "mean_cer_macro": 0.7564,
+        "corpus_cer_micro": 0.4748,
+        "mean_wer_macro": 0.9359,
+        "corpus_wer_micro": 0.5855,
+        "mean_inversion_rate": 8.68,
+        "mean_latency_ms": 2384.31,
+        "mean_ocr_invocations": 1.95,
+        "critical_field_exact_matches": 55,
+        "critical_field_total_count": 58,
+        "critical_field_match_rate": 0.9483,
+        "mean_field_cer": 0.0214
+      },
+      "STRATEGY_REGION_AWARE": {
+        "mean_cer_macro": 0.5818,
+        "corpus_cer_micro": 0.3076,
+        "mean_wer_macro": 0.7857,
+        "corpus_wer_micro": 0.438,
+        "mean_inversion_rate": 7.54,
+        "mean_latency_ms": 5514.38,
+        "mean_ocr_invocations": 1.21,
+        "critical_field_exact_matches": 58,
+        "critical_field_total_count": 58,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0
+      },
+      "STRATEGY_ADAPTIVE": {
+        "mean_cer_macro": 0.5609,
+        "corpus_cer_micro": 0.2755,
+        "mean_wer_macro": 0.768,
+        "corpus_wer_micro": 0.4126,
+        "mean_inversion_rate": 7.58,
+        "mean_latency_ms": 2680.43,
+        "mean_ocr_invocations": 1.11,
+        "critical_field_exact_matches": 58,
+        "critical_field_total_count": 58,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0
+      }
+    },
+    "sealed_challenge": {
+      "STRATEGY_GLOBAL_MULTILINGUAL": {
+        "mean_cer_macro": 16.396,
+        "corpus_cer_micro": 0.1304,
+        "mean_wer_macro": 2.3186,
+        "corpus_wer_micro": 0.2438,
+        "mean_inversion_rate": 5.78,
+        "mean_latency_ms": 1320.4,
+        "mean_ocr_invocations": 1.0,
+        "critical_field_exact_matches": 9,
+        "critical_field_total_count": 9,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0
+      },
+      "STRATEGY_PAGE_ROUTING": {
+        "mean_cer_macro": 16.5025,
+        "corpus_cer_micro": 0.2736,
+        "mean_wer_macro": 2.397,
+        "corpus_wer_micro": 0.3519,
+        "mean_inversion_rate": 11.07,
+        "mean_latency_ms": 1813.63,
+        "mean_ocr_invocations": 1.83,
+        "critical_field_exact_matches": 8,
+        "critical_field_total_count": 9,
+        "critical_field_match_rate": 0.8889,
+        "mean_field_cer": 0.0916
+      },
+      "STRATEGY_REGION_AWARE": {
+        "mean_cer_macro": 16.436,
+        "corpus_cer_micro": 0.1767,
+        "mean_wer_macro": 2.407,
+        "corpus_wer_micro": 0.3611,
+        "mean_inversion_rate": 5.4,
+        "mean_latency_ms": 3024.05,
+        "mean_ocr_invocations": 1.0,
+        "critical_field_exact_matches": 9,
+        "critical_field_total_count": 9,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0
+      },
+      "STRATEGY_ADAPTIVE": {
+        "mean_cer_macro": 0.0663,
+        "corpus_cer_micro": 0.087,
+        "mean_wer_macro": 0.1637,
+        "corpus_wer_micro": 0.2191,
+        "mean_inversion_rate": 5.37,
+        "mean_latency_ms": 1826.7,
+        "mean_ocr_invocations": 1.17,
+        "critical_field_exact_matches": 9,
+        "critical_field_total_count": 9,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0
+      }
+    }
+  },
+  "per_sample": {
+    "CHALLENGE_01_NATIVE_PDF_BILINGUAL": {
+      "STRATEGY_GLOBAL_MULTILINGUAL": {
+        "cer": 0.0136,
+        "wer": 0.0526,
+        "c_dist": 4,
+        "c_total": 294,
+        "w_dist": 2,
+        "w_total": 38,
+        "inversion_rate": 10.71,
+        "latency_ms": 1065.48,
+        "peak_ram_mb": 1.91,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 0,
+        "cf_total": 0
+      },
+      "STRATEGY_PAGE_ROUTING": {
+        "cer": 0.0136,
+        "wer": 0.0526,
+        "c_dist": 4,
+        "c_total": 294,
+        "w_dist": 2,
+        "w_total": 38,
+        "inversion_rate": 10.71,
+        "latency_ms": 883.82,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 0,
+        "cf_total": 0
+      },
+      "STRATEGY_REGION_AWARE": {
+        "cer": 0.0136,
+        "wer": 0.0526,
+        "c_dist": 4,
+        "c_total": 294,
+        "w_dist": 2,
+        "w_total": 38,
+        "inversion_rate": 10.71,
+        "latency_ms": 1045.87,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 0,
+        "cf_total": 0
+      },
+      "STRATEGY_ADAPTIVE": {
+        "cer": 0.0136,
+        "wer": 0.0526,
+        "c_dist": 4,
+        "c_total": 294,
+        "w_dist": 2,
+        "w_total": 38,
+        "inversion_rate": 10.71,
+        "latency_ms": 1080.67,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 0,
+        "cf_total": 0
+      }
+    },
+    "CHALLENGE_02_ODIA_ENGLISH_GAZETTE_TWO_COL": {
+      "STRATEGY_GLOBAL_MULTILINGUAL": {
+        "cer": 0.0649,
+        "wer": 0.1935,
+        "c_dist": 25,
+        "c_total": 385,
+        "w_dist": 12,
+        "w_total": 62,
+        "inversion_rate": 1.52,
+        "latency_ms": 1690.13,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 0,
+        "cf_total": 0
+      },
+      "STRATEGY_PAGE_ROUTING": {
+        "cer": 0.2701,
+        "wer": 0.4032,
+        "c_dist": 104,
+        "c_total": 385,
+        "w_dist": 25,
+        "w_total": 62,
+        "inversion_rate": 21.43,
+        "latency_ms": 2231.88,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 2,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 0,
+        "cf_total": 0
+      },
+      "STRATEGY_REGION_AWARE": {
+        "cer": 0.1636,
+        "wer": 0.2581,
+        "c_dist": 63,
+        "c_total": 385,
+        "w_dist": 16,
+        "w_total": 62,
+        "inversion_rate": 1.82,
+        "latency_ms": 2912.38,
+        "peak_ram_mb": 1.43,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 0,
+        "cf_total": 0
+      },
+      "STRATEGY_ADAPTIVE": {
+        "cer": 0.0831,
+        "wer": 0.2419,
+        "c_dist": 32,
+        "c_total": 385,
+        "w_dist": 15,
+        "w_total": 62,
+        "inversion_rate": 1.52,
+        "latency_ms": 2179.71,
+        "peak_ram_mb": 1.93,
+        "ocr_invocations": 2,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 0,
+        "cf_total": 0
+      }
+    },
+    "CHALLENGE_03_HINDI_ENGLISH_MARKSHEET_ROW_GRID": {
+      "STRATEGY_GLOBAL_MULTILINGUAL": {
+        "cer": 0.0843,
+        "wer": 0.2055,
+        "c_dist": 38,
+        "c_total": 451,
+        "w_dist": 15,
+        "w_total": 73,
+        "inversion_rate": 16.36,
+        "latency_ms": 1195.11,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 5,
+        "cf_total": 5
+      },
+      "STRATEGY_PAGE_ROUTING": {
+        "cer": 0.2949,
+        "wer": 0.3014,
+        "c_dist": 133,
+        "c_total": 451,
+        "w_dist": 22,
+        "w_total": 73,
+        "inversion_rate": 7.27,
+        "latency_ms": 1996.4,
+        "peak_ram_mb": 1.22,
+        "ocr_invocations": 2,
+        "critical_field_match_rate": 0.8,
+        "mean_field_cer": 0.1833,
+        "cf_exact": 4,
+        "cf_total": 5
+      },
+      "STRATEGY_REGION_AWARE": {
+        "cer": 0.2306,
+        "wer": 0.6712,
+        "c_dist": 104,
+        "c_total": 451,
+        "w_dist": 49,
+        "w_total": 73,
+        "inversion_rate": 12.09,
+        "latency_ms": 6711.7,
+        "peak_ram_mb": 1.43,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 5,
+        "cf_total": 5
+      },
+      "STRATEGY_ADAPTIVE": {
+        "cer": 0.0843,
+        "wer": 0.2055,
+        "c_dist": 38,
+        "c_total": 451,
+        "w_dist": 15,
+        "w_total": 73,
+        "inversion_rate": 16.36,
+        "latency_ms": 2994.34,
+        "peak_ram_mb": 1.93,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 5,
+        "cf_total": 5
+      }
+    },
+    "CHALLENGE_04_LOW_CONTRAST_UNREADABLE_STRESS": {
+      "STRATEGY_GLOBAL_MULTILINGUAL": {
+        "cer": 98.0,
+        "wer": 13.0,
+        "c_dist": 98,
+        "c_total": 1,
+        "w_dist": 13,
+        "w_total": 1,
+        "inversion_rate": 0.0,
+        "latency_ms": 882.89,
+        "peak_ram_mb": 1.2,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 0,
+        "cf_total": 0
+      },
+      "STRATEGY_PAGE_ROUTING": {
+        "cer": 98.0,
+        "wer": 13.0,
+        "c_dist": 98,
+        "c_total": 1,
+        "w_dist": 13,
+        "w_total": 1,
+        "inversion_rate": 0.0,
+        "latency_ms": 1281.43,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 2,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 0,
+        "cf_total": 0
+      },
+      "STRATEGY_REGION_AWARE": {
+        "cer": 98.0,
+        "wer": 13.0,
+        "c_dist": 98,
+        "c_total": 1,
+        "w_dist": 13,
+        "w_total": 1,
+        "inversion_rate": 0.0,
+        "latency_ms": 844.26,
+        "peak_ram_mb": 1.43,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 0,
+        "cf_total": 0
+      },
+      "STRATEGY_ADAPTIVE": {
+        "cer": 0.0,
+        "wer": 0.0,
+        "c_dist": 0,
+        "c_total": 1,
+        "w_dist": 0,
+        "w_total": 1,
+        "inversion_rate": 0.0,
+        "latency_ms": 80.95,
+        "peak_ram_mb": 1.43,
+        "ocr_invocations": 0,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 0,
+        "cf_total": 0
+      }
+    },
+    "CHALLENGE_05_ROTATED_SKEW_GAZETTE": {
+      "STRATEGY_GLOBAL_MULTILINGUAL": {
+        "cer": 0.1371,
+        "wer": 0.3077,
+        "c_dist": 81,
+        "c_total": 591,
+        "w_dist": 28,
+        "w_total": 91,
+        "inversion_rate": 3.33,
+        "latency_ms": 1799.21,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 0,
+        "cf_total": 0
+      },
+      "STRATEGY_PAGE_ROUTING": {
+        "cer": 0.3452,
+        "wer": 0.4725,
+        "c_dist": 204,
+        "c_total": 591,
+        "w_dist": 43,
+        "w_total": 91,
+        "inversion_rate": 24.24,
+        "latency_ms": 2467.98,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 2,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 0,
+        "cf_total": 0
+      },
+      "STRATEGY_REGION_AWARE": {
+        "cer": 0.1168,
+        "wer": 0.3077,
+        "c_dist": 69,
+        "c_total": 591,
+        "w_dist": 28,
+        "w_total": 91,
+        "inversion_rate": 5.0,
+        "latency_ms": 4203.5,
+        "peak_ram_mb": 1.43,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 0,
+        "cf_total": 0
+      },
+      "STRATEGY_ADAPTIVE": {
+        "cer": 0.1252,
+        "wer": 0.3297,
+        "c_dist": 74,
+        "c_total": 591,
+        "w_dist": 30,
+        "w_total": 91,
+        "inversion_rate": 0.83,
+        "latency_ms": 2689.59,
+        "peak_ram_mb": 1.93,
+        "ocr_invocations": 2,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 0,
+        "cf_total": 0
+      }
+    },
+    "CHALLENGE_06_FAINT_SEAL_OVER_NUMERIC_ID": {
+      "STRATEGY_GLOBAL_MULTILINGUAL": {
+        "cer": 0.0761,
+        "wer": 0.1525,
+        "c_dist": 30,
+        "c_total": 394,
+        "w_dist": 9,
+        "w_total": 59,
+        "inversion_rate": 2.78,
+        "latency_ms": 1289.6,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 4,
+        "cf_total": 4
+      },
+      "STRATEGY_PAGE_ROUTING": {
+        "cer": 0.0914,
+        "wer": 0.1525,
+        "c_dist": 36,
+        "c_total": 394,
+        "w_dist": 9,
+        "w_total": 59,
+        "inversion_rate": 2.78,
+        "latency_ms": 2020.27,
+        "peak_ram_mb": 1.22,
+        "ocr_invocations": 2,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 4,
+        "cf_total": 4
+      },
+      "STRATEGY_REGION_AWARE": {
+        "cer": 0.0914,
+        "wer": 0.1525,
+        "c_dist": 36,
+        "c_total": 394,
+        "w_dist": 9,
+        "w_total": 59,
+        "inversion_rate": 2.78,
+        "latency_ms": 2426.62,
+        "peak_ram_mb": 1.43,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 4,
+        "cf_total": 4
+      },
+      "STRATEGY_ADAPTIVE": {
+        "cer": 0.0914,
+        "wer": 0.1525,
+        "c_dist": 36,
+        "c_total": 394,
+        "w_dist": 9,
+        "w_total": 59,
+        "inversion_rate": 2.78,
+        "latency_ms": 1934.94,
+        "peak_ram_mb": 1.93,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 4,
+        "cf_total": 4
+      }
+    },
+    "DOC_CTRL_01_ENGLISH_CERTIFICATE": {
+      "STRATEGY_GLOBAL_MULTILINGUAL": {
+        "cer": 0.0,
+        "wer": 0.0,
+        "c_dist": 0,
+        "c_total": 394,
+        "w_dist": 0,
+        "w_total": 59,
+        "inversion_rate": 0.0,
+        "latency_ms": 1002.09,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 4,
+        "cf_total": 4
+      },
+      "STRATEGY_PAGE_ROUTING": {
+        "cer": 0.0,
+        "wer": 0.0,
+        "c_dist": 0,
+        "c_total": 394,
+        "w_dist": 0,
+        "w_total": 59,
+        "inversion_rate": 0.0,
+        "latency_ms": 2335.01,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 2,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 4,
+        "cf_total": 4
+      },
+      "STRATEGY_REGION_AWARE": {
+        "cer": 0.0,
+        "wer": 0.0,
+        "c_dist": 0,
+        "c_total": 394,
+        "w_dist": 0,
+        "w_total": 59,
+        "inversion_rate": 0.0,
+        "latency_ms": 2722.04,
+        "peak_ram_mb": 1.43,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 4,
+        "cf_total": 4
+      },
+      "STRATEGY_ADAPTIVE": {
+        "cer": 0.0,
+        "wer": 0.0,
+        "c_dist": 0,
+        "c_total": 394,
+        "w_dist": 0,
+        "w_total": 59,
+        "inversion_rate": 0.0,
+        "latency_ms": 2405.24,
+        "peak_ram_mb": 1.93,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 4,
+        "cf_total": 4
+      }
+    },
+    "DOC_DEG_01_MULTI_SCRIPT_SKEWED": {
+      "STRATEGY_GLOBAL_MULTILINGUAL": {
+        "cer": 0.4654,
+        "wer": 0.6328,
+        "c_dist": 410,
+        "c_total": 881,
+        "w_dist": 81,
+        "w_total": 128,
+        "inversion_rate": 2.11,
+        "latency_ms": 2310.82,
+        "peak_ram_mb": 1.22,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 0,
+        "cf_total": 0
+      },
+      "STRATEGY_PAGE_ROUTING": {
+        "cer": 0.6481,
+        "wer": 0.7578,
+        "c_dist": 571,
+        "c_total": 881,
+        "w_dist": 97,
+        "w_total": 128,
+        "inversion_rate": 9.09,
+        "latency_ms": 2180.23,
+        "peak_ram_mb": 1.23,
+        "ocr_invocations": 2,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 0,
+        "cf_total": 0
+      },
+      "STRATEGY_REGION_AWARE": {
+        "cer": 0.6481,
+        "wer": 0.7578,
+        "c_dist": 571,
+        "c_total": 881,
+        "w_dist": 97,
+        "w_total": 128,
+        "inversion_rate": 9.09,
+        "latency_ms": 1337.43,
+        "peak_ram_mb": 2.29,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 0,
+        "cf_total": 0
+      },
+      "STRATEGY_ADAPTIVE": {
+        "cer": 0.4654,
+        "wer": 0.6328,
+        "c_dist": 410,
+        "c_total": 881,
+        "w_dist": 81,
+        "w_total": 128,
+        "inversion_rate": 2.11,
+        "latency_ms": 3772.58,
+        "peak_ram_mb": 2.36,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 0,
+        "cf_total": 0
+      }
+    },
+    "DOC_EXT_01_MOSPI_NADA_GUIDE": {
+      "STRATEGY_GLOBAL_MULTILINGUAL": {
+        "cer": 7.869,
+        "wer": 9.5714,
+        "c_dist": 1141,
+        "c_total": 145,
+        "w_dist": 201,
+        "w_total": 21,
+        "inversion_rate": 33.33,
+        "latency_ms": 5325.38,
+        "peak_ram_mb": 1.23,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 0,
+        "cf_total": 0
+      },
+      "STRATEGY_PAGE_ROUTING": {
+        "cer": 7.8414,
+        "wer": 9.5238,
+        "c_dist": 1137,
+        "c_total": 145,
+        "w_dist": 200,
+        "w_total": 21,
+        "inversion_rate": 25.0,
+        "latency_ms": 1805.2,
+        "peak_ram_mb": 1.23,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 0,
+        "cf_total": 0
+      },
+      "STRATEGY_REGION_AWARE": {
+        "cer": 7.8414,
+        "wer": 9.5238,
+        "c_dist": 1137,
+        "c_total": 145,
+        "w_dist": 200,
+        "w_total": 21,
+        "inversion_rate": 25.0,
+        "latency_ms": 2009.57,
+        "peak_ram_mb": 1.23,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 0,
+        "cf_total": 0
+      },
+      "STRATEGY_ADAPTIVE": {
+        "cer": 7.8414,
+        "wer": 9.5238,
+        "c_dist": 1137,
+        "c_total": 145,
+        "w_dist": 200,
+        "w_total": 21,
+        "inversion_rate": 25.0,
+        "latency_ms": 2018.48,
+        "peak_ram_mb": 1.23,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 0,
+        "cf_total": 0
+      }
+    },
+    "DOC_EXT_02_PENSION_DISBURSEMENT_ORDER": {
+      "STRATEGY_GLOBAL_MULTILINGUAL": {
+        "cer": 0.2372,
+        "wer": 0.3077,
+        "c_dist": 162,
+        "c_total": 683,
+        "w_dist": 32,
+        "w_total": 104,
+        "inversion_rate": 12.42,
+        "latency_ms": 1716.51,
+        "peak_ram_mb": 1.22,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 6,
+        "cf_total": 6
+      },
+      "STRATEGY_PAGE_ROUTING": {
+        "cer": 0.3821,
+        "wer": 0.4615,
+        "c_dist": 261,
+        "c_total": 683,
+        "w_dist": 48,
+        "w_total": 104,
+        "inversion_rate": 15.03,
+        "latency_ms": 2075.82,
+        "peak_ram_mb": 1.22,
+        "ocr_invocations": 2,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 6,
+        "cf_total": 6
+      },
+      "STRATEGY_REGION_AWARE": {
+        "cer": 0.2152,
+        "wer": 0.3077,
+        "c_dist": 147,
+        "c_total": 683,
+        "w_dist": 32,
+        "w_total": 104,
+        "inversion_rate": 13.07,
+        "latency_ms": 6633.93,
+        "peak_ram_mb": 2.48,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 6,
+        "cf_total": 6
+      },
+      "STRATEGY_ADAPTIVE": {
+        "cer": 0.2474,
+        "wer": 0.3173,
+        "c_dist": 169,
+        "c_total": 683,
+        "w_dist": 33,
+        "w_total": 104,
+        "inversion_rate": 12.42,
+        "latency_ms": 2491.15,
+        "peak_ram_mb": 2.48,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 6,
+        "cf_total": 6
+      }
+    },
+    "DOC_EXT_03_UNIVERSITY_CONVOCATION_DEGREE": {
+      "STRATEGY_GLOBAL_MULTILINGUAL": {
+        "cer": 0.0269,
+        "wer": 0.0833,
+        "c_dist": 16,
+        "c_total": 595,
+        "w_dist": 7,
+        "w_total": 84,
+        "inversion_rate": 15.15,
+        "latency_ms": 1669.77,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 6,
+        "cf_total": 6
+      },
+      "STRATEGY_PAGE_ROUTING": {
+        "cer": 0.2689,
+        "wer": 0.3095,
+        "c_dist": 160,
+        "c_total": 595,
+        "w_dist": 26,
+        "w_total": 84,
+        "inversion_rate": 15.15,
+        "latency_ms": 2161.08,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 2,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 6,
+        "cf_total": 6
+      },
+      "STRATEGY_REGION_AWARE": {
+        "cer": 0.0655,
+        "wer": 0.119,
+        "c_dist": 39,
+        "c_total": 595,
+        "w_dist": 10,
+        "w_total": 84,
+        "inversion_rate": 18.18,
+        "latency_ms": 21487.36,
+        "peak_ram_mb": 2.71,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 6,
+        "cf_total": 6
+      },
+      "STRATEGY_ADAPTIVE": {
+        "cer": 0.0269,
+        "wer": 0.0833,
+        "c_dist": 16,
+        "c_total": 595,
+        "w_dist": 7,
+        "w_total": 84,
+        "inversion_rate": 15.15,
+        "latency_ms": 2634.09,
+        "peak_ram_mb": 2.71,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 6,
+        "cf_total": 6
+      }
+    },
+    "DOC_EXT_04_LAND_REVENUE_KHATAUNI_RECORD": {
+      "STRATEGY_GLOBAL_MULTILINGUAL": {
+        "cer": 0.1053,
+        "wer": 0.2125,
+        "c_dist": 56,
+        "c_total": 532,
+        "w_dist": 17,
+        "w_total": 80,
+        "inversion_rate": 1.28,
+        "latency_ms": 1678.07,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 7,
+        "cf_total": 7
+      },
+      "STRATEGY_PAGE_ROUTING": {
+        "cer": 0.4944,
+        "wer": 0.6625,
+        "c_dist": 263,
+        "c_total": 532,
+        "w_dist": 53,
+        "w_total": 80,
+        "inversion_rate": 0.0,
+        "latency_ms": 1817.03,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 2,
+        "critical_field_match_rate": 0.7143,
+        "mean_field_cer": 0.1707,
+        "cf_exact": 5,
+        "cf_total": 7
+      },
+      "STRATEGY_REGION_AWARE": {
+        "cer": 0.0865,
+        "wer": 0.1875,
+        "c_dist": 46,
+        "c_total": 532,
+        "w_dist": 15,
+        "w_total": 80,
+        "inversion_rate": 1.1,
+        "latency_ms": 6096.9,
+        "peak_ram_mb": 2.48,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 7,
+        "cf_total": 7
+      },
+      "STRATEGY_ADAPTIVE": {
+        "cer": 0.1053,
+        "wer": 0.2125,
+        "c_dist": 56,
+        "c_total": 532,
+        "w_dist": 17,
+        "w_total": 80,
+        "inversion_rate": 1.28,
+        "latency_ms": 2628.46,
+        "peak_ram_mb": 2.48,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 7,
+        "cf_total": 7
+      }
+    },
+    "DOC_EXT_05_PUBLIC_HEALTH_CIRCULAR": {
+      "STRATEGY_GLOBAL_MULTILINGUAL": {
+        "cer": 0.1618,
+        "wer": 0.2478,
+        "c_dist": 122,
+        "c_total": 754,
+        "w_dist": 28,
+        "w_total": 113,
+        "inversion_rate": 6.67,
+        "latency_ms": 1944.48,
+        "peak_ram_mb": 1.22,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 4,
+        "cf_total": 4
+      },
+      "STRATEGY_PAGE_ROUTING": {
+        "cer": 0.2997,
+        "wer": 0.3717,
+        "c_dist": 226,
+        "c_total": 754,
+        "w_dist": 42,
+        "w_total": 113,
+        "inversion_rate": 3.85,
+        "latency_ms": 2423.96,
+        "peak_ram_mb": 1.22,
+        "ocr_invocations": 2,
+        "critical_field_match_rate": 0.75,
+        "mean_field_cer": 0.025,
+        "cf_exact": 3,
+        "cf_total": 4
+      },
+      "STRATEGY_REGION_AWARE": {
+        "cer": 0.1578,
+        "wer": 0.2389,
+        "c_dist": 119,
+        "c_total": 754,
+        "w_dist": 27,
+        "w_total": 113,
+        "inversion_rate": 6.67,
+        "latency_ms": 4426.24,
+        "peak_ram_mb": 2.48,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 4,
+        "cf_total": 4
+      },
+      "STRATEGY_ADAPTIVE": {
+        "cer": 0.1592,
+        "wer": 0.2389,
+        "c_dist": 120,
+        "c_total": 754,
+        "w_dist": 27,
+        "w_total": 113,
+        "inversion_rate": 6.67,
+        "latency_ms": 2484.11,
+        "peak_ram_mb": 2.48,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 4,
+        "cf_total": 4
+      }
+    },
+    "DOC_EXT_06_ODIA_REVENUE_NOTICE": {
+      "STRATEGY_GLOBAL_MULTILINGUAL": {
+        "cer": 0.0723,
+        "wer": 0.1466,
+        "c_dist": 48,
+        "c_total": 664,
+        "w_dist": 17,
+        "w_total": 116,
+        "inversion_rate": 6.67,
+        "latency_ms": 1960.51,
+        "peak_ram_mb": 1.22,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 6,
+        "cf_total": 6
+      },
+      "STRATEGY_PAGE_ROUTING": {
+        "cer": 0.3087,
+        "wer": 0.3793,
+        "c_dist": 205,
+        "c_total": 664,
+        "w_dist": 44,
+        "w_total": 116,
+        "inversion_rate": 3.81,
+        "latency_ms": 2657.14,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 2,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 6,
+        "cf_total": 6
+      },
+      "STRATEGY_REGION_AWARE": {
+        "cer": 0.0693,
+        "wer": 0.1466,
+        "c_dist": 46,
+        "c_total": 664,
+        "w_dist": 17,
+        "w_total": 116,
+        "inversion_rate": 6.67,
+        "latency_ms": 5830.06,
+        "peak_ram_mb": 2.48,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 6,
+        "cf_total": 6
+      },
+      "STRATEGY_ADAPTIVE": {
+        "cer": 0.0693,
+        "wer": 0.1466,
+        "c_dist": 46,
+        "c_total": 664,
+        "w_dist": 17,
+        "w_total": 116,
+        "inversion_rate": 6.67,
+        "latency_ms": 2737.62,
+        "peak_ram_mb": 2.48,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 6,
+        "cf_total": 6
+      }
+    },
+    "DOC_EXT_07_TECHNICAL_EDUCATION_DIPLOMA": {
+      "STRATEGY_GLOBAL_MULTILINGUAL": {
+        "cer": 0.0976,
+        "wer": 0.1978,
+        "c_dist": 61,
+        "c_total": 625,
+        "w_dist": 18,
+        "w_total": 91,
+        "inversion_rate": 5.13,
+        "latency_ms": 1741.78,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 6,
+        "cf_total": 6
+      },
+      "STRATEGY_PAGE_ROUTING": {
+        "cer": 0.3072,
+        "wer": 0.3736,
+        "c_dist": 192,
+        "c_total": 625,
+        "w_dist": 34,
+        "w_total": 91,
+        "inversion_rate": 7.27,
+        "latency_ms": 2284.99,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 2,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 6,
+        "cf_total": 6
+      },
+      "STRATEGY_REGION_AWARE": {
+        "cer": 0.3072,
+        "wer": 0.3736,
+        "c_dist": 192,
+        "c_total": 625,
+        "w_dist": 34,
+        "w_total": 91,
+        "inversion_rate": 7.27,
+        "latency_ms": 1116.27,
+        "peak_ram_mb": 2.48,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 6,
+        "cf_total": 6
+      },
+      "STRATEGY_ADAPTIVE": {
+        "cer": 0.0976,
+        "wer": 0.1978,
+        "c_dist": 61,
+        "c_total": 625,
+        "w_dist": 18,
+        "w_total": 91,
+        "inversion_rate": 5.13,
+        "latency_ms": 2808.89,
+        "peak_ram_mb": 2.48,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 6,
+        "cf_total": 6
+      }
+    },
+    "DOC_EXT_08_PENSION_LIFE_CERTIFICATE_RECEIPT": {
+      "STRATEGY_GLOBAL_MULTILINGUAL": {
+        "cer": 0.1077,
+        "wer": 0.2299,
+        "c_dist": 66,
+        "c_total": 613,
+        "w_dist": 20,
+        "w_total": 87,
+        "inversion_rate": 6.59,
+        "latency_ms": 1609.47,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 5,
+        "cf_total": 5
+      },
+      "STRATEGY_PAGE_ROUTING": {
+        "cer": 0.3834,
+        "wer": 0.4713,
+        "c_dist": 235,
+        "c_total": 613,
+        "w_dist": 41,
+        "w_total": 87,
+        "inversion_rate": 6.06,
+        "latency_ms": 2749.38,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 2,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.04,
+        "cf_exact": 5,
+        "cf_total": 5
+      },
+      "STRATEGY_REGION_AWARE": {
+        "cer": 0.1077,
+        "wer": 0.2299,
+        "c_dist": 66,
+        "c_total": 613,
+        "w_dist": 20,
+        "w_total": 87,
+        "inversion_rate": 6.59,
+        "latency_ms": 5260.75,
+        "peak_ram_mb": 2.48,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 5,
+        "cf_total": 5
+      },
+      "STRATEGY_ADAPTIVE": {
+        "cer": 0.1077,
+        "wer": 0.2299,
+        "c_dist": 66,
+        "c_total": 613,
+        "w_dist": 20,
+        "w_total": 87,
+        "inversion_rate": 6.59,
+        "latency_ms": 2960.04,
+        "peak_ram_mb": 2.48,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 5,
+        "cf_total": 5
+      }
+    },
+    "DOC_EXT_09_RTI_APPEAL_DISPOSAL_ORDER": {
+      "STRATEGY_GLOBAL_MULTILINGUAL": {
+        "cer": 0.1451,
+        "wer": 0.2377,
+        "c_dist": 113,
+        "c_total": 779,
+        "w_dist": 29,
+        "w_total": 122,
+        "inversion_rate": 10.29,
+        "latency_ms": 2600.75,
+        "peak_ram_mb": 1.22,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 4,
+        "cf_total": 4
+      },
+      "STRATEGY_PAGE_ROUTING": {
+        "cer": 0.3184,
+        "wer": 0.3934,
+        "c_dist": 248,
+        "c_total": 779,
+        "w_dist": 48,
+        "w_total": 122,
+        "inversion_rate": 10.48,
+        "latency_ms": 2870.73,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 2,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 4,
+        "cf_total": 4
+      },
+      "STRATEGY_REGION_AWARE": {
+        "cer": 0.1476,
+        "wer": 0.2459,
+        "c_dist": 115,
+        "c_total": 779,
+        "w_dist": 30,
+        "w_total": 122,
+        "inversion_rate": 10.29,
+        "latency_ms": 6099.29,
+        "peak_ram_mb": 2.48,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 4,
+        "cf_total": 4
+      },
+      "STRATEGY_ADAPTIVE": {
+        "cer": 0.1412,
+        "wer": 0.2377,
+        "c_dist": 110,
+        "c_total": 779,
+        "w_dist": 29,
+        "w_total": 122,
+        "inversion_rate": 10.29,
+        "latency_ms": 3214.35,
+        "peak_ram_mb": 2.48,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 4,
+        "cf_total": 4
+      }
+    },
+    "DOC_HIN_01_ADMIN_CIRCULAR": {
+      "STRATEGY_GLOBAL_MULTILINGUAL": {
+        "cer": 0.2711,
+        "wer": 0.5342,
+        "c_dist": 125,
+        "c_total": 461,
+        "w_dist": 39,
+        "w_total": 73,
+        "inversion_rate": 0.0,
+        "latency_ms": 1760.68,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 0,
+        "cf_total": 0
+      },
+      "STRATEGY_PAGE_ROUTING": {
+        "cer": 0.2017,
+        "wer": 0.4795,
+        "c_dist": 93,
+        "c_total": 461,
+        "w_dist": 35,
+        "w_total": 73,
+        "inversion_rate": 0.0,
+        "latency_ms": 1654.77,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 2,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 0,
+        "cf_total": 0
+      },
+      "STRATEGY_REGION_AWARE": {
+        "cer": 0.2017,
+        "wer": 0.4795,
+        "c_dist": 93,
+        "c_total": 461,
+        "w_dist": 35,
+        "w_total": 73,
+        "inversion_rate": 0.0,
+        "latency_ms": 3504.5,
+        "peak_ram_mb": 1.43,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 0,
+        "cf_total": 0
+      },
+      "STRATEGY_ADAPTIVE": {
+        "cer": 0.2017,
+        "wer": 0.4795,
+        "c_dist": 93,
+        "c_total": 461,
+        "w_dist": 35,
+        "w_total": 73,
+        "inversion_rate": 0.0,
+        "latency_ms": 2068.13,
+        "peak_ram_mb": 1.93,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 0,
+        "cf_total": 0
+      }
+    },
+    "DOC_MIX_01_HIN_ENG_SCHOLARSHIP": {
+      "STRATEGY_GLOBAL_MULTILINGUAL": {
+        "cer": 0.1571,
+        "wer": 0.2264,
+        "c_dist": 55,
+        "c_total": 350,
+        "w_dist": 12,
+        "w_total": 53,
+        "inversion_rate": 4.76,
+        "latency_ms": 1503.41,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 5,
+        "cf_total": 5
+      },
+      "STRATEGY_PAGE_ROUTING": {
+        "cer": 0.3486,
+        "wer": 0.3962,
+        "c_dist": 122,
+        "c_total": 350,
+        "w_dist": 21,
+        "w_total": 53,
+        "inversion_rate": 0.0,
+        "latency_ms": 1894.79,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 2,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 5,
+        "cf_total": 5
+      },
+      "STRATEGY_REGION_AWARE": {
+        "cer": 0.1543,
+        "wer": 0.2264,
+        "c_dist": 54,
+        "c_total": 350,
+        "w_dist": 12,
+        "w_total": 53,
+        "inversion_rate": 4.76,
+        "latency_ms": 3604.25,
+        "peak_ram_mb": 1.43,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 5,
+        "cf_total": 5
+      },
+      "STRATEGY_ADAPTIVE": {
+        "cer": 0.1571,
+        "wer": 0.2264,
+        "c_dist": 55,
+        "c_total": 350,
+        "w_dist": 12,
+        "w_total": 53,
+        "inversion_rate": 4.76,
+        "latency_ms": 2343.13,
+        "peak_ram_mb": 1.93,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 5,
+        "cf_total": 5
+      }
+    },
+    "DOC_MIX_02_ORI_ENG_SCHOLARSHIP": {
+      "STRATEGY_GLOBAL_MULTILINGUAL": {
+        "cer": 0.0769,
+        "wer": 0.2174,
+        "c_dist": 23,
+        "c_total": 299,
+        "w_dist": 10,
+        "w_total": 46,
+        "inversion_rate": 14.29,
+        "latency_ms": 1129.22,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 0,
+        "cf_total": 0
+      },
+      "STRATEGY_PAGE_ROUTING": {
+        "cer": 0.3612,
+        "wer": 0.3913,
+        "c_dist": 108,
+        "c_total": 299,
+        "w_dist": 18,
+        "w_total": 46,
+        "inversion_rate": 21.43,
+        "latency_ms": 2223.65,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 2,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 0,
+        "cf_total": 0
+      },
+      "STRATEGY_REGION_AWARE": {
+        "cer": 0.1204,
+        "wer": 0.2826,
+        "c_dist": 36,
+        "c_total": 299,
+        "w_dist": 13,
+        "w_total": 46,
+        "inversion_rate": 21.43,
+        "latency_ms": 3516.1,
+        "peak_ram_mb": 1.43,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 0,
+        "cf_total": 0
+      },
+      "STRATEGY_ADAPTIVE": {
+        "cer": 0.107,
+        "wer": 0.2609,
+        "c_dist": 32,
+        "c_total": 299,
+        "w_dist": 12,
+        "w_total": 46,
+        "inversion_rate": 21.43,
+        "latency_ms": 2093.22,
+        "peak_ram_mb": 1.93,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 0,
+        "cf_total": 0
+      }
+    },
+    "DOC_MULTI_01_TRI_SCRIPT_GAZETTE": {
+      "STRATEGY_GLOBAL_MULTILINGUAL": {
+        "cer": 0.2304,
+        "wer": 0.3906,
+        "c_dist": 203,
+        "c_total": 881,
+        "w_dist": 50,
+        "w_total": 128,
+        "inversion_rate": 2.21,
+        "latency_ms": 2212.72,
+        "peak_ram_mb": 1.22,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 0,
+        "cf_total": 0
+      },
+      "STRATEGY_PAGE_ROUTING": {
+        "cer": 0.4949,
+        "wer": 0.6406,
+        "c_dist": 436,
+        "c_total": 881,
+        "w_dist": 82,
+        "w_total": 128,
+        "inversion_rate": 6.67,
+        "latency_ms": 3035.98,
+        "peak_ram_mb": 1.22,
+        "ocr_invocations": 2,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 0,
+        "cf_total": 0
+      },
+      "STRATEGY_REGION_AWARE": {
+        "cer": 0.412,
+        "wer": 0.5547,
+        "c_dist": 363,
+        "c_total": 881,
+        "w_dist": 71,
+        "w_total": 128,
+        "inversion_rate": 3.85,
+        "latency_ms": 5155.94,
+        "peak_ram_mb": 2.29,
+        "ocr_invocations": 2,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 0,
+        "cf_total": 0
+      },
+      "STRATEGY_ADAPTIVE": {
+        "cer": 0.2304,
+        "wer": 0.3906,
+        "c_dist": 203,
+        "c_total": 881,
+        "w_dist": 50,
+        "w_total": 128,
+        "inversion_rate": 2.21,
+        "latency_ms": 3998.59,
+        "peak_ram_mb": 2.36,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 0,
+        "cf_total": 0
+      }
+    },
+    "DOC_MULTI_02_BILINGUAL_COLUMNS_HIN_ENG": {
+      "STRATEGY_GLOBAL_MULTILINGUAL": {
+        "cer": 0.0592,
+        "wer": 0.1868,
+        "c_dist": 35,
+        "c_total": 591,
+        "w_dist": 17,
+        "w_total": 91,
+        "inversion_rate": 2.5,
+        "latency_ms": 1779.1,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 0,
+        "cf_total": 0
+      },
+      "STRATEGY_PAGE_ROUTING": {
+        "cer": 0.3333,
+        "wer": 0.4505,
+        "c_dist": 197,
+        "c_total": 591,
+        "w_dist": 41,
+        "w_total": 91,
+        "inversion_rate": 18.18,
+        "latency_ms": 2491.04,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 2,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 0,
+        "cf_total": 0
+      },
+      "STRATEGY_REGION_AWARE": {
+        "cer": 0.1337,
+        "wer": 0.2637,
+        "c_dist": 79,
+        "c_total": 591,
+        "w_dist": 24,
+        "w_total": 91,
+        "inversion_rate": 0.95,
+        "latency_ms": 4071.36,
+        "peak_ram_mb": 1.43,
+        "ocr_invocations": 2,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 0,
+        "cf_total": 0
+      },
+      "STRATEGY_ADAPTIVE": {
+        "cer": 0.1134,
+        "wer": 0.2967,
+        "c_dist": 67,
+        "c_total": 591,
+        "w_dist": 27,
+        "w_total": 91,
+        "inversion_rate": 0.83,
+        "latency_ms": 2827.24,
+        "peak_ram_mb": 1.93,
+        "ocr_invocations": 2,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 0,
+        "cf_total": 0
+      }
+    },
+    "DOC_MULTI_03_BILINGUAL_COLUMNS_ORI_ENG": {
+      "STRATEGY_GLOBAL_MULTILINGUAL": {
+        "cer": 0.1031,
+        "wer": 0.2346,
+        "c_dist": 57,
+        "c_total": 553,
+        "w_dist": 19,
+        "w_total": 81,
+        "inversion_rate": 6.59,
+        "latency_ms": 1509.96,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 0,
+        "cf_total": 0
+      },
+      "STRATEGY_PAGE_ROUTING": {
+        "cer": 0.3454,
+        "wer": 0.4198,
+        "c_dist": 191,
+        "c_total": 553,
+        "w_dist": 34,
+        "w_total": 81,
+        "inversion_rate": 21.43,
+        "latency_ms": 3096.17,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 2,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 0,
+        "cf_total": 0
+      },
+      "STRATEGY_REGION_AWARE": {
+        "cer": 0.1248,
+        "wer": 0.2346,
+        "c_dist": 69,
+        "c_total": 553,
+        "w_dist": 19,
+        "w_total": 81,
+        "inversion_rate": 2.56,
+        "latency_ms": 3708.13,
+        "peak_ram_mb": 1.43,
+        "ocr_invocations": 2,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 0,
+        "cf_total": 0
+      },
+      "STRATEGY_ADAPTIVE": {
+        "cer": 0.4123,
+        "wer": 0.5062,
+        "c_dist": 228,
+        "c_total": 553,
+        "w_dist": 41,
+        "w_total": 81,
+        "inversion_rate": 22.22,
+        "latency_ms": 2696.32,
+        "peak_ram_mb": 1.93,
+        "ocr_invocations": 2,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 0,
+        "cf_total": 0
+      }
+    },
+    "DOC_MULTI_04_MARKSHEET_INDIC_GRID": {
+      "STRATEGY_GLOBAL_MULTILINGUAL": {
+        "cer": 0.0892,
+        "wer": 0.2152,
+        "c_dist": 44,
+        "c_total": 493,
+        "w_dist": 17,
+        "w_total": 79,
+        "inversion_rate": 1.28,
+        "latency_ms": 1195.66,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 5,
+        "cf_total": 5
+      },
+      "STRATEGY_PAGE_ROUTING": {
+        "cer": 0.1907,
+        "wer": 0.2658,
+        "c_dist": 94,
+        "c_total": 493,
+        "w_dist": 21,
+        "w_total": 79,
+        "inversion_rate": 1.52,
+        "latency_ms": 2505.35,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 2,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 5,
+        "cf_total": 5
+      },
+      "STRATEGY_REGION_AWARE": {
+        "cer": 0.146,
+        "wer": 0.3418,
+        "c_dist": 72,
+        "c_total": 493,
+        "w_dist": 27,
+        "w_total": 79,
+        "inversion_rate": 5.71,
+        "latency_ms": 14978.06,
+        "peak_ram_mb": 1.43,
+        "ocr_invocations": 2,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 5,
+        "cf_total": 5
+      },
+      "STRATEGY_ADAPTIVE": {
+        "cer": 0.0892,
+        "wer": 0.2152,
+        "c_dist": 44,
+        "c_total": 493,
+        "w_dist": 17,
+        "w_total": 79,
+        "inversion_rate": 1.28,
+        "latency_ms": 2637.48,
+        "peak_ram_mb": 1.93,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 5,
+        "cf_total": 5
+      }
+    },
+    "DOC_ORI_01_ADMIN_CIRCULAR": {
+      "STRATEGY_GLOBAL_MULTILINGUAL": {
+        "cer": 0.0846,
+        "wer": 0.3966,
+        "c_dist": 34,
+        "c_total": 402,
+        "w_dist": 23,
+        "w_total": 58,
+        "inversion_rate": 0.0,
+        "latency_ms": 1511.15,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 0,
+        "cf_total": 0
+      },
+      "STRATEGY_PAGE_ROUTING": {
+        "cer": 0.8433,
+        "wer": 1.0345,
+        "c_dist": 339,
+        "c_total": 402,
+        "w_dist": 60,
+        "w_total": 58,
+        "inversion_rate": 0.0,
+        "latency_ms": 3039.61,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 2,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 0,
+        "cf_total": 0
+      },
+      "STRATEGY_REGION_AWARE": {
+        "cer": 0.1144,
+        "wer": 0.4138,
+        "c_dist": 46,
+        "c_total": 402,
+        "w_dist": 24,
+        "w_total": 58,
+        "inversion_rate": 0.0,
+        "latency_ms": 3215.07,
+        "peak_ram_mb": 1.43,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 0,
+        "cf_total": 0
+      },
+      "STRATEGY_ADAPTIVE": {
+        "cer": 0.0846,
+        "wer": 0.3966,
+        "c_dist": 34,
+        "c_total": 402,
+        "w_dist": 23,
+        "w_total": 58,
+        "inversion_rate": 0.0,
+        "latency_ms": 2109.11,
+        "peak_ram_mb": 1.93,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0,
+        "mean_field_cer": 0.0,
+        "cf_exact": 0,
+        "cf_total": 0
+      }
+    }
+  },
+  "critical_field_evaluations": {
+    "CHALLENGE_03_HINDI_ENGLISH_MARKSHEET_ROW_GRID": {
+      "total_fields": 5,
+      "exact_matches": 5,
+      "match_rate": 1.0,
+      "numeric_matches": 3,
+      "date_matches": 0,
+      "field_cers": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "mean_field_cer": 0.0,
+      "field_details": {
+        "candidate_name": {
+          "expected": "ROHIT VERMA",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": null,
+          "date_matched": null
+        },
+        "roll_code": {
+          "expected": "11024",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": true,
+          "date_matched": null
+        },
+        "roll_no": {
+          "expected": "2600142",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": true,
+          "date_matched": null
+        },
+        "total_marks": {
+          "expected": "446",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": true,
+          "date_matched": null
+        },
+        "result": {
+          "expected": "\u092a\u094d\u0930\u0925\u092e \u0936\u094d\u0930\u0947\u0923\u0940",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": null,
+          "date_matched": null
+        }
+      }
+    },
+    "CHALLENGE_06_FAINT_SEAL_OVER_NUMERIC_ID": {
+      "total_fields": 4,
+      "exact_matches": 4,
+      "match_rate": 1.0,
+      "numeric_matches": 3,
+      "date_matches": 1,
+      "field_cers": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "mean_field_cer": 0.0,
+      "field_details": {
+        "certificate_no": {
+          "expected": "DL-REV-2026-9812",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": true,
+          "date_matched": null
+        },
+        "issue_date": {
+          "expected": "18/08/2026",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": true,
+          "date_matched": true
+        },
+        "applicant_name": {
+          "expected": "Rohit Verma",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": null,
+          "date_matched": null
+        },
+        "income_amount": {
+          "expected": "180000",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": true,
+          "date_matched": null
+        }
+      }
+    },
+    "DOC_CTRL_01_ENGLISH_CERTIFICATE": {
+      "total_fields": 4,
+      "exact_matches": 4,
+      "match_rate": 1.0,
+      "numeric_matches": 3,
+      "date_matches": 1,
+      "field_cers": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "mean_field_cer": 0.0,
+      "field_details": {
+        "certificate_no": {
+          "expected": "DL-REV-2026-9812",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": true,
+          "date_matched": null
+        },
+        "issue_date": {
+          "expected": "18/08/2026",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": true,
+          "date_matched": true
+        },
+        "applicant_name": {
+          "expected": "Rohit Verma",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": null,
+          "date_matched": null
+        },
+        "income_amount": {
+          "expected": "180000",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": true,
+          "date_matched": null
+        }
+      }
+    },
+    "DOC_EXT_02_PENSION_DISBURSEMENT_ORDER": {
+      "total_fields": 6,
+      "exact_matches": 6,
+      "match_rate": 1.0,
+      "numeric_matches": 4,
+      "date_matches": 1,
+      "field_cers": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "mean_field_cer": 0.0,
+      "field_details": {
+        "ppo_number": {
+          "expected": "CPAO-2026-884910",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": true,
+          "date_matched": null
+        },
+        "pensioner_name": {
+          "expected": "RAMESH CHANDRA SHARMA",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": null,
+          "date_matched": null
+        },
+        "date_of_birth": {
+          "expected": "14/05/1963",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": true,
+          "date_matched": true
+        },
+        "net_payable_amount": {
+          "expected": "63750",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": true,
+          "date_matched": null
+        },
+        "account_number": {
+          "expected": "98124018491",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": true,
+          "date_matched": null
+        },
+        "status": {
+          "expected": "APPROVED FOR PAYMENT",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": null,
+          "date_matched": null
+        }
+      }
+    },
+    "DOC_EXT_03_UNIVERSITY_CONVOCATION_DEGREE": {
+      "total_fields": 6,
+      "exact_matches": 6,
+      "match_rate": 1.0,
+      "numeric_matches": 4,
+      "date_matches": 1,
+      "field_cers": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "mean_field_cer": 0.0,
+      "field_details": {
+        "registration_number": {
+          "expected": "UU-2026-55194",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": true,
+          "date_matched": null
+        },
+        "candidate_name": {
+          "expected": "PRIYANKA MISHRA",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": null,
+          "date_matched": null
+        },
+        "date_of_convocation": {
+          "expected": "22/02/2026",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": true,
+          "date_matched": true
+        },
+        "cgpa": {
+          "expected": "9.14",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": true,
+          "date_matched": null
+        },
+        "certificate_serial_no": {
+          "expected": "CERT-OD-2026-78192",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": true,
+          "date_matched": null
+        },
+        "class_awarded": {
+          "expected": "FIRST CLASS HONOURS",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": null,
+          "date_matched": null
+        }
+      }
+    },
+    "DOC_EXT_04_LAND_REVENUE_KHATAUNI_RECORD": {
+      "total_fields": 7,
+      "exact_matches": 7,
+      "match_rate": 1.0,
+      "numeric_matches": 6,
+      "date_matches": 1,
+      "field_cers": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "mean_field_cer": 0.0,
+      "field_details": {
+        "khata_number": {
+          "expected": "00248",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": true,
+          "date_matched": null
+        },
+        "landholder_name": {
+          "expected": "\u0930\u093e\u091c\u0947\u0936 \u0915\u0941\u092e\u093e\u0930",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": null,
+          "date_matched": null
+        },
+        "khasra_number": {
+          "expected": "142/1 \u0915",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": true,
+          "date_matched": null
+        },
+        "area_hectare": {
+          "expected": "0.8540",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": true,
+          "date_matched": null
+        },
+        "revenue_amount": {
+          "expected": "450",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": true,
+          "date_matched": null
+        },
+        "verification_id": {
+          "expected": "UP-BHL-2026-99214",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": true,
+          "date_matched": null
+        },
+        "issue_date": {
+          "expected": "15/09/2026",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": true,
+          "date_matched": true
+        }
+      }
+    },
+    "DOC_EXT_05_PUBLIC_HEALTH_CIRCULAR": {
+      "total_fields": 4,
+      "exact_matches": 4,
+      "match_rate": 1.0,
+      "numeric_matches": 3,
+      "date_matches": 2,
+      "field_cers": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "mean_field_cer": 0.0,
+      "field_details": {
+        "notification_no": {
+          "expected": "MOHFW-DIS-2026-8841",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": true,
+          "date_matched": null
+        },
+        "issue_date": {
+          "expected": "14/09/2026",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": true,
+          "date_matched": true
+        },
+        "target_district": {
+          "expected": "Khordha",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": null,
+          "date_matched": null
+        },
+        "action_deadline": {
+          "expected": "30/10/2026",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": true,
+          "date_matched": true
+        }
+      }
+    },
+    "DOC_EXT_06_ODIA_REVENUE_NOTICE": {
+      "total_fields": 6,
+      "exact_matches": 6,
+      "match_rate": 1.0,
+      "numeric_matches": 6,
+      "date_matches": 2,
+      "field_cers": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "mean_field_cer": 0.0,
+      "field_details": {
+        "demand_notice_no": {
+          "expected": "REV-OD-2026-4491",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": true,
+          "date_matched": null
+        },
+        "issue_date": {
+          "expected": "22/07/2026",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": true,
+          "date_matched": true
+        },
+        "khata_no": {
+          "expected": "184/52",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": true,
+          "date_matched": null
+        },
+        "plot_no": {
+          "expected": "928",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": true,
+          "date_matched": null
+        },
+        "cess_amount": {
+          "expected": "4250",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": true,
+          "date_matched": null
+        },
+        "payment_due_date": {
+          "expected": "15/09/2026",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": true,
+          "date_matched": true
+        }
+      }
+    },
+    "DOC_EXT_07_TECHNICAL_EDUCATION_DIPLOMA": {
+      "total_fields": 6,
+      "exact_matches": 6,
+      "match_rate": 1.0,
+      "numeric_matches": 4,
+      "date_matches": 1,
+      "field_cers": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "mean_field_cer": 0.0,
+      "field_details": {
+        "diploma_serial_no": {
+          "expected": "DIP-ENG-2026-7819",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": true,
+          "date_matched": null
+        },
+        "registration_no": {
+          "expected": "REG-2023-88219",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": true,
+          "date_matched": null
+        },
+        "roll_no": {
+          "expected": "26041098",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": true,
+          "date_matched": null
+        },
+        "student_name": {
+          "expected": "Amit Sharma",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": null,
+          "date_matched": null
+        },
+        "division": {
+          "expected": "First Division",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": null,
+          "date_matched": null
+        },
+        "conferment_date": {
+          "expected": "25/08/2026",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": true,
+          "date_matched": true
+        }
+      }
+    },
+    "DOC_EXT_08_PENSION_LIFE_CERTIFICATE_RECEIPT": {
+      "total_fields": 5,
+      "exact_matches": 5,
+      "match_rate": 1.0,
+      "numeric_matches": 5,
+      "date_matches": 2,
+      "field_cers": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "mean_field_cer": 0.0,
+      "field_details": {
+        "pramaan_id": {
+          "expected": "9812-7410-6325",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": true,
+          "date_matched": null
+        },
+        "ppo_number": {
+          "expected": "PPO-DEF-2019-94812",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": true,
+          "date_matched": null
+        },
+        "submission_date": {
+          "expected": "04/11/2026",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": true,
+          "date_matched": true
+        },
+        "validity_until": {
+          "expected": "30/11/2027",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": true,
+          "date_matched": true
+        },
+        "account_number": {
+          "expected": "30198471205",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": true,
+          "date_matched": null
+        }
+      }
+    },
+    "DOC_EXT_09_RTI_APPEAL_DISPOSAL_ORDER": {
+      "total_fields": 4,
+      "exact_matches": 4,
+      "match_rate": 1.0,
+      "numeric_matches": 3,
+      "date_matches": 2,
+      "field_cers": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "mean_field_cer": 0.0,
+      "field_details": {
+        "appeal_case_no": {
+          "expected": "RTI-FAA-2026-1092",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": true,
+          "date_matched": null
+        },
+        "original_rti_date": {
+          "expected": "05/06/2026",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": true,
+          "date_matched": true
+        },
+        "order_date": {
+          "expected": "19/08/2026",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": true,
+          "date_matched": true
+        },
+        "decision_status": {
+          "expected": "Appeal Disposed",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": null,
+          "date_matched": null
+        }
+      }
+    },
+    "DOC_MIX_01_HIN_ENG_SCHOLARSHIP": {
+      "total_fields": 5,
+      "exact_matches": 5,
+      "match_rate": 1.0,
+      "numeric_matches": 2,
+      "date_matches": 0,
+      "field_cers": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "mean_field_cer": 0.0,
+      "field_details": {
+        "application_id": {
+          "expected": "DHE-2026-9951",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": true,
+          "date_matched": null
+        },
+        "applicant_name": {
+          "expected": "ROHIT VERMA",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": null,
+          "date_matched": null
+        },
+        "income_amount": {
+          "expected": "180000",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": true,
+          "date_matched": null
+        },
+        "category": {
+          "expected": "Scheduled Caste (SC)",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": null,
+          "date_matched": null
+        },
+        "status": {
+          "expected": "VERIFIED",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": null,
+          "date_matched": null
+        }
+      }
+    },
+    "DOC_MULTI_04_MARKSHEET_INDIC_GRID": {
+      "total_fields": 5,
+      "exact_matches": 5,
+      "match_rate": 1.0,
+      "numeric_matches": 3,
+      "date_matches": 0,
+      "field_cers": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "mean_field_cer": 0.0,
+      "field_details": {
+        "candidate_name": {
+          "expected": "ROHIT VERMA",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": null,
+          "date_matched": null
+        },
+        "roll_no": {
+          "expected": "2026-9912",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": true,
+          "date_matched": null
+        },
+        "total_marks": {
+          "expected": "460",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": true,
+          "date_matched": null
+        },
+        "percentage": {
+          "expected": "92.0%",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": true,
+          "date_matched": null
+        },
+        "result": {
+          "expected": "PASS",
+          "matched": true,
+          "field_cer": 0.0,
+          "num_matched": null,
+          "date_matched": null
+        }
+      }
+    }
+  },
+  "failures": [
+    {
+      "sample_id": "DOC_DEG_01_MULTI_SCRIPT_SKEWED",
+      "split": "PRIMARY_VALIDATION",
+      "cer": 0.4654,
+      "wer": 0.6328,
+      "reason": "Elevated CER on challenging/unconstrained layout"
+    },
+    {
+      "sample_id": "DOC_EXT_01_MOSPI_NADA_GUIDE",
+      "split": "PRIMARY_VALIDATION",
+      "cer": 7.8414,
+      "wer": 9.5238,
+      "reason": "Elevated CER on challenging/unconstrained layout"
+    },
+    {
+      "sample_id": "DOC_MULTI_03_BILINGUAL_COLUMNS_ORI_ENG",
+      "split": "PRIMARY_VALIDATION",
+      "cer": 0.4123,
+      "wer": 0.5062,
+      "reason": "Elevated CER on challenging/unconstrained layout"
+    }
+  ]
+}

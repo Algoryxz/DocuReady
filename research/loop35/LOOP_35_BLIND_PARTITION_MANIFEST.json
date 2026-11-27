@@ -1,0 +1,18 @@
+{
+  "milestone": "Loop 35",
+  "freeze_date": "2026-11-26",
+  "partitions": {
+    "DEV": {
+      "packet_count": 4,
+      "sha256": "f23827d818fa34fb3f6df182f23dc1cfe1829f1b31e9fc1feef3750932706102"
+    },
+    "CAL": {
+      "packet_count": 4,
+      "sha256": "9cb532093866d3416c639f5558c32619f9054afc6f95a3a6c488ffd4f0f21a28"
+    },
+    "BLIND": {
+      "packet_count": 4,
+      "sha256": "291045ea2c8d21c203302ddf59ffd9ba508e507fe00c59d2dfe927b7f8b13978"
+    }
+  }
+}

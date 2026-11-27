@@ -1,0 +1,22 @@
+[
+  {
+    "name": "penalty_levy_881",
+    "expected": "25000",
+    "row": 0,
+    "col": 3,
+    "type": "amount",
+    "target_pattern": "VND-881",
+    "is_trap": true,
+    "trap_note": "Advance Paid is also 25000"
+  },
+  {
+    "name": "advance_paid_881",
+    "expected": "25000",
+    "row": 0,
+    "col": 1,
+    "type": "amount",
+    "target_pattern": "VND-881",
+    "is_trap": true,
+    "trap_note": "Penalty Levy is also 25000"
+  }
+]

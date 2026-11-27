@@ -578,9 +578,7 @@ class DocuReadyValidator:
                 ))
                 score -= 20
             else:
-                age_days = (effective_as_of - p_date).days
-                age_years = age_days / 365.25
-                if age_years > self.scheme.income_cert_validity_years:
+                if p_date > effective_as_of:
                     findings.append(Finding(
                         rule_id="RULE-EXP-01",
                         rule_name="Income Certificate Statutory Validity Period",
@@ -589,26 +587,44 @@ class DocuReadyValidator:
                         penalty=25,
                         field="CERTIFICATE_EXPIRY",
                         documents_involved=[DocumentType.INCOME_CERT.value],
-                        message=f"Income Certificate expired: issued on {p_date} ({age_years:.1f} years ago; maximum validity is {self.scheme.income_cert_validity_years} years).",
+                        message=f"Income Certificate has an invalid future issue date ({p_date}); audit reference date is {effective_as_of}.",
                         evidence=ev_date,
-                        remediation="Apply for a renewed Income Certificate at the nearest Tahsil Office or e-District portal.",
+                        remediation="Upload a valid certificate with a correct past issuance date.",
                         statutory_reference="Odisha Misc Cert Rules 2019, Rule 8(2)",
                     ))
                     score -= 25
                 else:
-                    findings.append(Finding(
-                        rule_id="RULE-EXP-PASS",
-                        rule_name="Income Certificate Statutory Validity Period",
-                        status=FindingStatus.PASS,
-                        severity=Severity.INFO,
-                        penalty=0,
-                        field="CERTIFICATE_VALIDITY",
-                        documents_involved=[DocumentType.INCOME_CERT.value],
-                        message=f"Income Certificate is valid (issued {p_date}, age {age_years:.1f} years <= {self.scheme.income_cert_validity_years} years).",
-                        evidence=ev_date,
-                        remediation="No action required.",
-                        statutory_reference="Odisha Misc Cert Rules 2019, Rule 8(2)",
-                    ))
+                    age_days = (effective_as_of - p_date).days
+                    age_years = age_days / 365.25
+                    if age_years > self.scheme.income_cert_validity_years:
+                        findings.append(Finding(
+                            rule_id="RULE-EXP-01",
+                            rule_name="Income Certificate Statutory Validity Period",
+                            status=FindingStatus.FAIL,
+                            severity=Severity.CRITICAL,
+                            penalty=25,
+                            field="CERTIFICATE_EXPIRY",
+                            documents_involved=[DocumentType.INCOME_CERT.value],
+                            message=f"Income Certificate expired: issued on {p_date} ({age_years:.1f} years ago; maximum validity is {self.scheme.income_cert_validity_years} years).",
+                            evidence=ev_date,
+                            remediation="Apply for a renewed Income Certificate at the nearest Tahsil Office or e-District portal.",
+                            statutory_reference="Odisha Misc Cert Rules 2019, Rule 8(2)",
+                        ))
+                        score -= 25
+                    else:
+                        findings.append(Finding(
+                            rule_id="RULE-EXP-PASS",
+                            rule_name="Income Certificate Statutory Validity Period",
+                            status=FindingStatus.PASS,
+                            severity=Severity.INFO,
+                            penalty=0,
+                            field="CERTIFICATE_VALIDITY",
+                            documents_involved=[DocumentType.INCOME_CERT.value],
+                            message=f"Income Certificate is valid (issued {p_date}, age {age_years:.1f} years <= {self.scheme.income_cert_validity_years} years).",
+                            evidence=ev_date,
+                            remediation="No action required.",
+                            statutory_reference="Odisha Misc Cert Rules 2019, Rule 8(2)",
+                        ))
 
         # ----------------- 8. CERTIFICATE NUMBER INCONSISTENCIES -----------------
         # Income cert no
@@ -956,6 +972,16 @@ class DocuReadyValidator:
         findings = self.safety_layer.audit_findings(
             findings, documents, self.scheme.name, scheme_config=self.scheme, audit_date=effective_as_of
         )
+
+        # Deduplicate findings if identical rule, documents, field, and status occur
+        deduped_findings: List[Finding] = []
+        seen_finding_keys = set()
+        for f in findings:
+            f_key = (f.rule_id, tuple(sorted(f.documents_involved)), f.field, f.resolved_status)
+            if f_key not in seen_finding_keys:
+                seen_finding_keys.add(f_key)
+                deduped_findings.append(f)
+        findings = deduped_findings
 
         # ----------------- OVERALL STATUS & SCORE DETERMINATION -----------------
         score = 100 - sum(f.penalty for f in findings)

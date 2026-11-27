@@ -1,0 +1,66 @@
+{
+  "trials": [
+    {
+      "trial": 1,
+      "variant": "A",
+      "rc": 0,
+      "ok": true,
+      "latency_ms": 34795.89
+    },
+    {
+      "trial": 1,
+      "variant": "B",
+      "rc": 0,
+      "ok": true,
+      "latency_ms": 34945.55
+    },
+    {
+      "trial": 2,
+      "variant": "A",
+      "rc": 0,
+      "ok": true,
+      "latency_ms": 23595.81
+    },
+    {
+      "trial": 2,
+      "variant": "B",
+      "rc": 0,
+      "ok": true,
+      "latency_ms": 24649.1
+    },
+    {
+      "trial": 3,
+      "variant": "A",
+      "rc": 0,
+      "ok": true,
+      "latency_ms": 23473.09
+    },
+    {
+      "trial": 3,
+      "variant": "B",
+      "rc": 0,
+      "ok": true,
+      "latency_ms": 22746.77
+    }
+  ],
+  "variant_a_summary": {
+    "n": 3,
+    "mean_ms": 27288.26,
+    "median_ms": 23595.81,
+    "p90_ms": 34795.89,
+    "p95_ms": 34795.89,
+    "stdev_ms": 6502.08,
+    "min_ms": 23473.09,
+    "max_ms": 34795.89
+  },
+  "variant_b_summary": {
+    "n": 3,
+    "mean_ms": 27447.14,
+    "median_ms": 24649.1,
+    "p90_ms": 34945.55,
+    "p95_ms": 34945.55,
+    "stdev_ms": 6563.1,
+    "min_ms": 22746.77,
+    "max_ms": 34945.55
+  }
+}

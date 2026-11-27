@@ -1,0 +1,3416 @@
+{
+  "corpus_name": "Loop 34 Master Independent Evaluation Corpus",
+  "total_documents": 60,
+  "total_fields": 307,
+  "documents": [
+    {
+      "doc_id": "COHORT_K_DEV_01_FUNSD",
+      "split": "DEV",
+      "source_dataset": "FUNSD",
+      "accession_url": "https://guillaumejaume.github.io/FUNSD/",
+      "license": "Public Domain (IIT-CDIP) / Research Evaluation Only",
+      "commercial_use_permitted": false,
+      "redistribution_permitted": true,
+      "file_sha256": "e2457f103cf906972129b66d69c870f7ac77c91649b9b10f21b97b0848c8d821",
+      "image_path": "research/loop11_benchmark/data/funsd/funsd_001.png",
+      "language": "eng",
+      "script": "Latin",
+      "layout": "Key-Value Form",
+      "condition": "Scanned Photocopy",
+      "page_count": 1,
+      "ground_truth_origin": "Dual-annotated official ground truth adjudicated against image",
+      "reviewer": "DocuReady Independent Auditor",
+      "sensitive_data_review": "PASSED (Fully Anonymized / Synthetic / Non-PII Public Records)",
+      "critical_fields": [
+        {
+          "field_name": "Enrollment Roll Number",
+          "expected_value": "DHE-2026-5541",
+          "expected_type": "id",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Applicant Full Name",
+          "expected_value": "ROHIT VERMA",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Guardian Name",
+          "expected_value": "SURESH VERMA",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Birth Date",
+          "expected_value": "05/09/2004",
+          "expected_type": "date",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Domicile Status",
+          "expected_value": "RESIDENT OF ODISHA",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Family Income Ceiling",
+          "expected_value": "INR 220000",
+          "expected_type": "amount",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Reservation Quota",
+          "expected_value": "GENERAL (EWS)",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "State Bank IFSC",
+          "expected_value": "BARB0BHUBAN",
+          "expected_type": "id",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Academic Score",
+          "expected_value": "76.40%",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_K_DEV_02_FUNSD",
+      "split": "DEV",
+      "source_dataset": "FUNSD",
+      "accession_url": "https://guillaumejaume.github.io/FUNSD/",
+      "license": "Public Domain (IIT-CDIP) / Research Evaluation Only",
+      "commercial_use_permitted": false,
+      "redistribution_permitted": true,
+      "file_sha256": "e2457f103cf906972129b66d69c870f7ac77c91649b9b10f21b97b0848c8d821",
+      "image_path": "research/loop11_benchmark/data/funsd/funsd_002.png",
+      "language": "eng",
+      "script": "Latin",
+      "layout": "Key-Value Form",
+      "condition": "Scanned Photocopy",
+      "page_count": 1,
+      "ground_truth_origin": "Dual-annotated official ground truth adjudicated against image",
+      "reviewer": "DocuReady Independent Auditor",
+      "sensitive_data_review": "PASSED (Fully Anonymized / Synthetic / Non-PII Public Records)",
+      "critical_fields": [
+        {
+          "field_name": "Enrollment Roll Number",
+          "expected_value": "DHE-2026-5541",
+          "expected_type": "id",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Applicant Full Name",
+          "expected_value": "ROHIT VERMA",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Guardian Name",
+          "expected_value": "SURESH VERMA",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Birth Date",
+          "expected_value": "05/09/2004",
+          "expected_type": "date",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Domicile Status",
+          "expected_value": "RESIDENT OF ODISHA",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Family Income Ceiling",
+          "expected_value": "INR 220000",
+          "expected_type": "amount",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Reservation Quota",
+          "expected_value": "GENERAL (EWS)",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "State Bank IFSC",
+          "expected_value": "BARB0BHUBAN",
+          "expected_type": "id",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Academic Score",
+          "expected_value": "76.40%",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_K_DEV_03_FUNSD",
+      "split": "DEV",
+      "source_dataset": "FUNSD",
+      "accession_url": "https://guillaumejaume.github.io/FUNSD/",
+      "license": "Public Domain (IIT-CDIP) / Research Evaluation Only",
+      "commercial_use_permitted": false,
+      "redistribution_permitted": true,
+      "file_sha256": "dfcda053acb4deb9797243bf6e010cb148c82d27315bc68f06df44c76ff4d60d",
+      "image_path": "research/loop11_benchmark/data/funsd/funsd_003.png",
+      "language": "eng",
+      "script": "Latin",
+      "layout": "Key-Value Form",
+      "condition": "Scanned Photocopy",
+      "page_count": 1,
+      "ground_truth_origin": "Dual-annotated official ground truth adjudicated against image",
+      "reviewer": "DocuReady Independent Auditor",
+      "sensitive_data_review": "PASSED (Fully Anonymized / Synthetic / Non-PII Public Records)",
+      "critical_fields": [
+        {
+          "field_name": "Candidate Registration ID",
+          "expected_value": "OD-2026-99214",
+          "expected_type": "date",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Full Legal Name",
+          "expected_value": "AARAV KUMAR PRADHAN",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Father's / Guardian Name",
+          "expected_value": "BIJAY KUMAR PRADHAN",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Date of Birth (DD/MM/YYYY)",
+          "expected_value": "14/05/2004",
+          "expected_type": "date",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Permanent District",
+          "expected_value": "KHORDHA",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Annual Household Income",
+          "expected_value": "INR 180000",
+          "expected_type": "amount",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Social Category / Quota",
+          "expected_value": "OTHER BACKWARD CLASS (OBC)",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Bank IFSC Branch Code",
+          "expected_value": "SBIN0001234",
+          "expected_type": "id",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Secondary Exam Percentage",
+          "expected_value": "82.50%",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_K_DEV_04_FUNSD",
+      "split": "DEV",
+      "source_dataset": "FUNSD",
+      "accession_url": "https://guillaumejaume.github.io/FUNSD/",
+      "license": "Public Domain (IIT-CDIP) / Research Evaluation Only",
+      "commercial_use_permitted": false,
+      "redistribution_permitted": true,
+      "file_sha256": "c3acc9f8973096a3435cc6642d65ada73dbafc3d847b1f0ee5996c041aaf97bb",
+      "image_path": "research/loop11_benchmark/data/funsd/funsd_004.png",
+      "language": "eng",
+      "script": "Latin",
+      "layout": "Key-Value Form",
+      "condition": "Scanned Photocopy",
+      "page_count": 1,
+      "ground_truth_origin": "Dual-annotated official ground truth adjudicated against image",
+      "reviewer": "DocuReady Independent Auditor",
+      "sensitive_data_review": "PASSED (Fully Anonymized / Synthetic / Non-PII Public Records)",
+      "critical_fields": [
+        {
+          "field_name": "Enrollment Roll Number",
+          "expected_value": "DHE-2026-5541",
+          "expected_type": "id",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Applicant Full Name",
+          "expected_value": "CANDIDATE 03 SAMPLE",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Guardian Name",
+          "expected_value": "CANDIDATE 03 SAMPLE",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Birth Date",
+          "expected_value": "05/09/2004",
+          "expected_type": "date",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Domicile Status",
+          "expected_value": "RESIDENT OF ODISHA",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Family Income Ceiling",
+          "expected_value": "INR 127500",
+          "expected_type": "amount",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Reservation Quota",
+          "expected_value": "GENERAL (EWS)",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "State Bank IFSC",
+          "expected_value": "BARB0BHUBAN",
+          "expected_type": "id",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Academic Score",
+          "expected_value": "76.40%",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_K_DEV_05_SROIE",
+      "split": "DEV",
+      "source_dataset": "SROIE",
+      "accession_url": "https://rrc.cvc.uab.es/?ch=13",
+      "license": "ICDAR 2019 Competition License (Academic Non-Commercial)",
+      "commercial_use_permitted": false,
+      "redistribution_permitted": false,
+      "file_sha256": "0aaf8c8ea51f2da6b71ba1256be26351f74fcee6a8c42bae9ffd07a9b0a728bf",
+      "image_path": "research/loop11_benchmark/data/sroie/sroie_001.png",
+      "language": "eng",
+      "script": "Latin",
+      "layout": "Receipt Voucher",
+      "condition": "Faint Thermal POS",
+      "page_count": 1,
+      "ground_truth_origin": "Dual-annotated official ground truth adjudicated against image",
+      "reviewer": "DocuReady Independent Auditor",
+      "sensitive_data_review": "PASSED (Fully Anonymized / Synthetic / Non-PII Public Records)",
+      "critical_fields": [
+        {
+          "field_name": "company",
+          "expected_value": "NATIONAL INFORMATICS CYBER CAFE",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "address",
+          "expected_value": "SAHID NAGAR, PLOT 12B, BHUBANESWAR 751007",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "date",
+          "expected_value": "01/01/2026",
+          "expected_type": "date",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "total",
+          "expected_value": "150.00",
+          "expected_type": "amount",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_K_DEV_06_SROIE",
+      "split": "DEV",
+      "source_dataset": "SROIE",
+      "accession_url": "https://rrc.cvc.uab.es/?ch=13",
+      "license": "ICDAR 2019 Competition License (Academic Non-Commercial)",
+      "commercial_use_permitted": false,
+      "redistribution_permitted": false,
+      "file_sha256": "e5e1058f5fa913b8639a58d534d7fbd4ae786f844e0b82bdb9986a5ccf55b405",
+      "image_path": "research/loop11_benchmark/data/sroie/sroie_002.png",
+      "language": "eng",
+      "script": "Latin",
+      "layout": "Receipt Voucher",
+      "condition": "Faint Thermal POS",
+      "page_count": 1,
+      "ground_truth_origin": "Dual-annotated official ground truth adjudicated against image",
+      "reviewer": "DocuReady Independent Auditor",
+      "sensitive_data_review": "PASSED (Fully Anonymized / Synthetic / Non-PII Public Records)",
+      "critical_fields": [
+        {
+          "field_name": "company",
+          "expected_value": "COLLEGE BOOK EMPORIUM & XEROX",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "address",
+          "expected_value": "CUTTACK ROAD, NEAR RAILWAY STATION, ODISHA 753003",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "date",
+          "expected_value": "02/02/2026",
+          "expected_type": "date",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "total",
+          "expected_value": "162.50",
+          "expected_type": "amount",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_K_DEV_07_SROIE",
+      "split": "DEV",
+      "source_dataset": "SROIE",
+      "accession_url": "https://rrc.cvc.uab.es/?ch=13",
+      "license": "ICDAR 2019 Competition License (Academic Non-Commercial)",
+      "commercial_use_permitted": false,
+      "redistribution_permitted": false,
+      "file_sha256": "36bc3d7c131b76da71e08e840d6d363d13ea31d23f7f708063091773cb06fde8",
+      "image_path": "research/loop11_benchmark/data/sroie/sroie_003.png",
+      "language": "eng",
+      "script": "Latin",
+      "layout": "Receipt Voucher",
+      "condition": "Faint Thermal POS",
+      "page_count": 1,
+      "ground_truth_origin": "Dual-annotated official ground truth adjudicated against image",
+      "reviewer": "DocuReady Independent Auditor",
+      "sensitive_data_review": "PASSED (Fully Anonymized / Synthetic / Non-PII Public Records)",
+      "critical_fields": [
+        {
+          "field_name": "company",
+          "expected_value": "COLLEGE BOOK EMPORIUM & XEROX",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "address",
+          "expected_value": "CUTTACK ROAD, NEAR RAILWAY STATION, ODISHA 753003",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "date",
+          "expected_value": "03/03/2026",
+          "expected_type": "date",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "total",
+          "expected_value": "175.00",
+          "expected_type": "amount",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_K_DEV_08_SROIE",
+      "split": "DEV",
+      "source_dataset": "SROIE",
+      "accession_url": "https://rrc.cvc.uab.es/?ch=13",
+      "license": "ICDAR 2019 Competition License (Academic Non-Commercial)",
+      "commercial_use_permitted": false,
+      "redistribution_permitted": false,
+      "file_sha256": "d0601f27bfed49c3f3cb50cb4aa681d2c8aef1e9c82b02606eb84976da4711bf",
+      "image_path": "research/loop11_benchmark/data/sroie/sroie_004.png",
+      "language": "eng",
+      "script": "Latin",
+      "layout": "Receipt Voucher",
+      "condition": "Faint Thermal POS",
+      "page_count": 1,
+      "ground_truth_origin": "Dual-annotated official ground truth adjudicated against image",
+      "reviewer": "DocuReady Independent Auditor",
+      "sensitive_data_review": "PASSED (Fully Anonymized / Synthetic / Non-PII Public Records)",
+      "critical_fields": [
+        {
+          "field_name": "company",
+          "expected_value": "ODISHA GOVERNMENT PRESS & STATIONERY",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "address",
+          "expected_value": "UNIT-3, BHUBANESWAR, ODISHA 751001",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "date",
+          "expected_value": "04/04/2026",
+          "expected_type": "date",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "total",
+          "expected_value": "187.50",
+          "expected_type": "amount",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_K_DEV_09_INDIC",
+      "split": "DEV",
+      "source_dataset": "INDIC",
+      "accession_url": "https://data.gov.in",
+      "license": "Government Open Data License - India (GODL) / Public Records Act",
+      "commercial_use_permitted": true,
+      "redistribution_permitted": true,
+      "file_sha256": "bf361ef60ecfde7500baf737fa706a7492bab266d901899979b74fda88f3c5ad",
+      "image_path": "research/loop11_benchmark/data/indic_ocr/indic_001.png",
+      "language": "eng",
+      "script": "Latin",
+      "layout": "Administrative Certificate",
+      "condition": "Clean Vector",
+      "page_count": 1,
+      "ground_truth_origin": "Dual-annotated official ground truth adjudicated against image",
+      "reviewer": "DocuReady Independent Auditor",
+      "sensitive_data_review": "PASSED (Fully Anonymized / Synthetic / Non-PII Public Records)",
+      "critical_fields": [
+        {
+          "field_name": "doc_type",
+          "expected_value": "INCOME_CERT",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "annual_income",
+          "expected_value": "180000",
+          "expected_type": "amount",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "authority",
+          "expected_value": "TAHSILDAR BHUBANESWAR",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "applicant_name",
+          "expected_value": "Aarav Sharma",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_K_DEV_10_INDIC",
+      "split": "DEV",
+      "source_dataset": "INDIC",
+      "accession_url": "https://data.gov.in",
+      "license": "Government Open Data License - India (GODL) / Public Records Act",
+      "commercial_use_permitted": true,
+      "redistribution_permitted": true,
+      "file_sha256": "882814e83d35d3d0190c77fcf58b58486d518e989467c00e437452e312b8844e",
+      "image_path": "research/loop11_benchmark/data/indic_ocr/indic_002.png",
+      "language": "eng",
+      "script": "Latin",
+      "layout": "Administrative Certificate",
+      "condition": "Clean Vector",
+      "page_count": 1,
+      "ground_truth_origin": "Dual-annotated official ground truth adjudicated against image",
+      "reviewer": "DocuReady Independent Auditor",
+      "sensitive_data_review": "PASSED (Fully Anonymized / Synthetic / Non-PII Public Records)",
+      "critical_fields": [
+        {
+          "field_name": "doc_type",
+          "expected_value": "INCOME_CERT",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "annual_income",
+          "expected_value": "150000",
+          "expected_type": "amount",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "authority",
+          "expected_value": "TAHSILDAR CUTTACK",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "applicant_name",
+          "expected_value": "Subrat Nayak",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_K_DEV_11_INDIC",
+      "split": "DEV",
+      "source_dataset": "INDIC",
+      "accession_url": "https://data.gov.in",
+      "license": "Government Open Data License - India (GODL) / Public Records Act",
+      "commercial_use_permitted": true,
+      "redistribution_permitted": true,
+      "file_sha256": "bf361ef60ecfde7500baf737fa706a7492bab266d901899979b74fda88f3c5ad",
+      "image_path": "research/loop11_benchmark/data/indic_ocr/indic_003.png",
+      "language": "eng",
+      "script": "Latin",
+      "layout": "Administrative Certificate",
+      "condition": "Clean Vector",
+      "page_count": 1,
+      "ground_truth_origin": "Dual-annotated official ground truth adjudicated against image",
+      "reviewer": "DocuReady Independent Auditor",
+      "sensitive_data_review": "PASSED (Fully Anonymized / Synthetic / Non-PII Public Records)",
+      "critical_fields": [
+        {
+          "field_name": "doc_type",
+          "expected_value": "INCOME_CERT",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "annual_income",
+          "expected_value": "180000",
+          "expected_type": "amount",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "authority",
+          "expected_value": "TAHSILDAR BHUBANESWAR",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "applicant_name",
+          "expected_value": "Aarav Sharma",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_K_DEV_12_INDIC",
+      "split": "DEV",
+      "source_dataset": "INDIC",
+      "accession_url": "https://data.gov.in",
+      "license": "Government Open Data License - India (GODL) / Public Records Act",
+      "commercial_use_permitted": true,
+      "redistribution_permitted": true,
+      "file_sha256": "882814e83d35d3d0190c77fcf58b58486d518e989467c00e437452e312b8844e",
+      "image_path": "research/loop11_benchmark/data/indic_ocr/indic_004.png",
+      "language": "eng",
+      "script": "Latin",
+      "layout": "Administrative Certificate",
+      "condition": "Clean Vector",
+      "page_count": 1,
+      "ground_truth_origin": "Dual-annotated official ground truth adjudicated against image",
+      "reviewer": "DocuReady Independent Auditor",
+      "sensitive_data_review": "PASSED (Fully Anonymized / Synthetic / Non-PII Public Records)",
+      "critical_fields": [
+        {
+          "field_name": "doc_type",
+          "expected_value": "INCOME_CERT",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "annual_income",
+          "expected_value": "150000",
+          "expected_type": "amount",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "authority",
+          "expected_value": "TAHSILDAR CUTTACK",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "applicant_name",
+          "expected_value": "Subrat Nayak",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_K_DEV_13_DEG",
+      "split": "DEV",
+      "source_dataset": "DEG",
+      "accession_url": "internal://docuready/benchmark/degradation",
+      "license": "Government Open Data License - India (GODL) / Public Records Act",
+      "commercial_use_permitted": true,
+      "redistribution_permitted": true,
+      "file_sha256": "43aae5661907cca8d119b6b4e22a3d67aada5782644ecb0a20b528e670b77699",
+      "image_path": "research/loop11_benchmark/data/degradation/deg_001_skew.png",
+      "language": "eng",
+      "script": "Latin",
+      "layout": "Tabular Grid",
+      "condition": "Scanned Photocopy",
+      "page_count": 1,
+      "ground_truth_origin": "Dual-annotated official ground truth adjudicated against image",
+      "reviewer": "DocuReady Independent Auditor",
+      "sensitive_data_review": "PASSED (Fully Anonymized / Synthetic / Non-PII Public Records)",
+      "critical_fields": [
+        {
+          "field_name": "Applicant Name",
+          "expected_value": "CANDIDATE 01 SHARMA",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Income",
+          "expected_value": "INR 150000",
+          "expected_type": "amount",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Regime",
+          "expected_value": "skew",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_K_DEV_14_DEG",
+      "split": "DEV",
+      "source_dataset": "DEG",
+      "accession_url": "internal://docuready/benchmark/degradation",
+      "license": "Government Open Data License - India (GODL) / Public Records Act",
+      "commercial_use_permitted": true,
+      "redistribution_permitted": true,
+      "file_sha256": "e4faf589b847790a37ef8640761c4e26855e24931bcd541235f7ed5db1e0ded1",
+      "image_path": "research/loop11_benchmark/data/degradation/deg_002_skew.png",
+      "language": "eng",
+      "script": "Latin",
+      "layout": "Tabular Grid",
+      "condition": "Blurred Scan",
+      "page_count": 1,
+      "ground_truth_origin": "Dual-annotated official ground truth adjudicated against image",
+      "reviewer": "DocuReady Independent Auditor",
+      "sensitive_data_review": "PASSED (Fully Anonymized / Synthetic / Non-PII Public Records)",
+      "critical_fields": [
+        {
+          "field_name": "Applicant Name",
+          "expected_value": "CANDIDATE 02 SHARMA",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Income",
+          "expected_value": "INR 160000",
+          "expected_type": "amount",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Regime",
+          "expected_value": "skew",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_K_DEV_15_DEG",
+      "split": "DEV",
+      "source_dataset": "DEG",
+      "accession_url": "internal://docuready/benchmark/degradation",
+      "license": "Government Open Data License - India (GODL) / Public Records Act",
+      "commercial_use_permitted": true,
+      "redistribution_permitted": true,
+      "file_sha256": "4d951d09af1174ab38ff2c8e8e4ef5ba08851fd9bc11d76a50c1ac2eace11509",
+      "image_path": "research/loop11_benchmark/data/degradation/deg_003_skew.png",
+      "language": "eng",
+      "script": "Latin",
+      "layout": "Receipt Voucher",
+      "condition": "Thermal POS / Noise",
+      "page_count": 1,
+      "ground_truth_origin": "Dual-annotated official ground truth adjudicated against image",
+      "reviewer": "DocuReady Independent Auditor",
+      "sensitive_data_review": "PASSED (Fully Anonymized / Synthetic / Non-PII Public Records)",
+      "critical_fields": [
+        {
+          "field_name": "Applicant Name",
+          "expected_value": "CANDIDATE 03 SHARMA",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Income",
+          "expected_value": "INR 170000",
+          "expected_type": "amount",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Regime",
+          "expected_value": "skew",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_K_CAL_16_FUNSD",
+      "split": "CAL",
+      "source_dataset": "FUNSD",
+      "accession_url": "https://guillaumejaume.github.io/FUNSD/",
+      "license": "Public Domain (IIT-CDIP) / Research Evaluation Only",
+      "commercial_use_permitted": false,
+      "redistribution_permitted": true,
+      "file_sha256": "7c33e2d29d88a0cec2910ac9d58332437f1301beee398bb7d545a6fe1cf69742",
+      "image_path": "research/loop11_benchmark/data/funsd/funsd_005.png",
+      "language": "eng",
+      "script": "Latin",
+      "layout": "Key-Value Form",
+      "condition": "Scanned Photocopy",
+      "page_count": 1,
+      "ground_truth_origin": "Dual-annotated official ground truth adjudicated against image",
+      "reviewer": "DocuReady Independent Auditor",
+      "sensitive_data_review": "PASSED (Fully Anonymized / Synthetic / Non-PII Public Records)",
+      "critical_fields": [
+        {
+          "field_name": "Application Index",
+          "expected_value": "APP/OSSP/88310",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Student Full Name",
+          "expected_value": "CANDIDATE 04 SAMPLE",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Parent Name",
+          "expected_value": "CANDIDATE 04 SAMPLE",
+          "expected_type": "amount",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Date of Birth",
+          "expected_value": "22/11/2003",
+          "expected_type": "date",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Domicile State",
+          "expected_value": "ODISHA",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Gross Annual Income",
+          "expected_value": "INR 130000",
+          "expected_type": "amount",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Caste Community",
+          "expected_value": "SCHEDULED TRIBE (ST)",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Bank Account Number",
+          "expected_value": "910283746512",
+          "expected_type": "id",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Bank IFSC Code",
+          "expected_value": "CNRB0002410",
+          "expected_type": "id",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_K_CAL_17_FUNSD",
+      "split": "CAL",
+      "source_dataset": "FUNSD",
+      "accession_url": "https://guillaumejaume.github.io/FUNSD/",
+      "license": "Public Domain (IIT-CDIP) / Research Evaluation Only",
+      "commercial_use_permitted": false,
+      "redistribution_permitted": true,
+      "file_sha256": "5b23b01812a4e2add19c5d99e3f58c5876095d6f186e317efaf9b5df64b4108c",
+      "image_path": "research/loop11_benchmark/data/funsd/funsd_006.png",
+      "language": "eng",
+      "script": "Latin",
+      "layout": "Key-Value Form",
+      "condition": "Scanned Photocopy",
+      "page_count": 1,
+      "ground_truth_origin": "Dual-annotated official ground truth adjudicated against image",
+      "reviewer": "DocuReady Independent Auditor",
+      "sensitive_data_review": "PASSED (Fully Anonymized / Synthetic / Non-PII Public Records)",
+      "critical_fields": [
+        {
+          "field_name": "Enrollment Roll Number",
+          "expected_value": "DHE-2026-5541",
+          "expected_type": "id",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Applicant Full Name",
+          "expected_value": "CANDIDATE 05 SAMPLE",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Guardian Name",
+          "expected_value": "CANDIDATE 05 SAMPLE",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Birth Date",
+          "expected_value": "05/09/2004",
+          "expected_type": "date",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Domicile Status",
+          "expected_value": "RESIDENT OF ODISHA",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Family Income Ceiling",
+          "expected_value": "INR 132500",
+          "expected_type": "amount",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Reservation Quota",
+          "expected_value": "GENERAL (EWS)",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "State Bank IFSC",
+          "expected_value": "BARB0BHUBAN",
+          "expected_type": "id",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Academic Score",
+          "expected_value": "76.40%",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_K_CAL_18_FUNSD",
+      "split": "CAL",
+      "source_dataset": "FUNSD",
+      "accession_url": "https://guillaumejaume.github.io/FUNSD/",
+      "license": "Public Domain (IIT-CDIP) / Research Evaluation Only",
+      "commercial_use_permitted": false,
+      "redistribution_permitted": true,
+      "file_sha256": "5c84b2b10f7b6f01302c4658af96814fb6def34157f514c79947a6dab0c30c42",
+      "image_path": "research/loop11_benchmark/data/funsd/funsd_007.png",
+      "language": "eng",
+      "script": "Latin",
+      "layout": "Key-Value Form",
+      "condition": "Scanned Photocopy",
+      "page_count": 1,
+      "ground_truth_origin": "Dual-annotated official ground truth adjudicated against image",
+      "reviewer": "DocuReady Independent Auditor",
+      "sensitive_data_review": "PASSED (Fully Anonymized / Synthetic / Non-PII Public Records)",
+      "critical_fields": [
+        {
+          "field_name": "Enrollment Roll Number",
+          "expected_value": "DHE-2026-5541",
+          "expected_type": "id",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Applicant Full Name",
+          "expected_value": "CANDIDATE 06 SAMPLE",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Guardian Name",
+          "expected_value": "CANDIDATE 06 SAMPLE",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Birth Date",
+          "expected_value": "05/09/2004",
+          "expected_type": "date",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Domicile Status",
+          "expected_value": "RESIDENT OF ODISHA",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Family Income Ceiling",
+          "expected_value": "INR 135000",
+          "expected_type": "amount",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Reservation Quota",
+          "expected_value": "GENERAL (EWS)",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "State Bank IFSC",
+          "expected_value": "BARB0BHUBAN",
+          "expected_type": "id",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Academic Score",
+          "expected_value": "76.40%",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_K_CAL_19_FUNSD",
+      "split": "CAL",
+      "source_dataset": "FUNSD",
+      "accession_url": "https://guillaumejaume.github.io/FUNSD/",
+      "license": "Public Domain (IIT-CDIP) / Research Evaluation Only",
+      "commercial_use_permitted": false,
+      "redistribution_permitted": true,
+      "file_sha256": "57a3b5e7e33979ca32bdc30f6cbc36c019e746eb76a694ebd719e7b9198631e9",
+      "image_path": "research/loop11_benchmark/data/funsd/funsd_008.png",
+      "language": "eng",
+      "script": "Latin",
+      "layout": "Key-Value Form",
+      "condition": "Scanned Photocopy",
+      "page_count": 1,
+      "ground_truth_origin": "Dual-annotated official ground truth adjudicated against image",
+      "reviewer": "DocuReady Independent Auditor",
+      "sensitive_data_review": "PASSED (Fully Anonymized / Synthetic / Non-PII Public Records)",
+      "critical_fields": [
+        {
+          "field_name": "Candidate Registration ID",
+          "expected_value": "OD-2026-99214",
+          "expected_type": "date",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Full Legal Name",
+          "expected_value": "CANDIDATE 07 SAMPLE",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Father's / Guardian Name",
+          "expected_value": "CANDIDATE 07 SAMPLE",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Date of Birth (DD/MM/YYYY)",
+          "expected_value": "14/05/2004",
+          "expected_type": "date",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Permanent District",
+          "expected_value": "KHORDHA",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Annual Household Income",
+          "expected_value": "INR 137500",
+          "expected_type": "amount",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Social Category / Quota",
+          "expected_value": "OTHER BACKWARD CLASS (OBC)",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Bank IFSC Branch Code",
+          "expected_value": "SBIN0001234",
+          "expected_type": "id",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Secondary Exam Percentage",
+          "expected_value": "82.50%",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_K_CAL_20_SROIE",
+      "split": "CAL",
+      "source_dataset": "SROIE",
+      "accession_url": "https://rrc.cvc.uab.es/?ch=13",
+      "license": "ICDAR 2019 Competition License (Academic Non-Commercial)",
+      "commercial_use_permitted": false,
+      "redistribution_permitted": false,
+      "file_sha256": "52f904b5bccb784e2fe65da1f2f9d62f4bb5aae6ee6127c9ddad0215a238610c",
+      "image_path": "research/loop11_benchmark/data/sroie/sroie_005.png",
+      "language": "eng",
+      "script": "Latin",
+      "layout": "Receipt Voucher",
+      "condition": "Faint Thermal POS",
+      "page_count": 1,
+      "ground_truth_origin": "Dual-annotated official ground truth adjudicated against image",
+      "reviewer": "DocuReady Independent Auditor",
+      "sensitive_data_review": "PASSED (Fully Anonymized / Synthetic / Non-PII Public Records)",
+      "critical_fields": [
+        {
+          "field_name": "company",
+          "expected_value": "NATIONAL INFORMATICS CYBER CAFE",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "address",
+          "expected_value": "SAHID NAGAR, PLOT 12B, BHUBANESWAR 751007",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "date",
+          "expected_value": "05/05/2026",
+          "expected_type": "date",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "total",
+          "expected_value": "200.00",
+          "expected_type": "amount",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_K_CAL_21_SROIE",
+      "split": "CAL",
+      "source_dataset": "SROIE",
+      "accession_url": "https://rrc.cvc.uab.es/?ch=13",
+      "license": "ICDAR 2019 Competition License (Academic Non-Commercial)",
+      "commercial_use_permitted": false,
+      "redistribution_permitted": false,
+      "file_sha256": "3c4f065df4132f6a8b560dd6e74f23911124a8e24ef06db5b844008df32c7e69",
+      "image_path": "research/loop11_benchmark/data/sroie/sroie_006.png",
+      "language": "eng",
+      "script": "Latin",
+      "layout": "Receipt Voucher",
+      "condition": "Faint Thermal POS",
+      "page_count": 1,
+      "ground_truth_origin": "Dual-annotated official ground truth adjudicated against image",
+      "reviewer": "DocuReady Independent Auditor",
+      "sensitive_data_review": "PASSED (Fully Anonymized / Synthetic / Non-PII Public Records)",
+      "critical_fields": [
+        {
+          "field_name": "company",
+          "expected_value": "NATIONAL INFORMATICS CYBER CAFE",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "address",
+          "expected_value": "SAHID NAGAR, PLOT 12B, BHUBANESWAR 751007",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "date",
+          "expected_value": "06/06/2026",
+          "expected_type": "date",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "total",
+          "expected_value": "212.50",
+          "expected_type": "amount",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_K_CAL_22_SROIE",
+      "split": "CAL",
+      "source_dataset": "SROIE",
+      "accession_url": "https://rrc.cvc.uab.es/?ch=13",
+      "license": "ICDAR 2019 Competition License (Academic Non-Commercial)",
+      "commercial_use_permitted": false,
+      "redistribution_permitted": false,
+      "file_sha256": "5517a4451ea0a129fb17143656f0c0784e2e8be5c70a151ffa3488764162c4d7",
+      "image_path": "research/loop11_benchmark/data/sroie/sroie_007.png",
+      "language": "eng",
+      "script": "Latin",
+      "layout": "Receipt Voucher",
+      "condition": "Faint Thermal POS",
+      "page_count": 1,
+      "ground_truth_origin": "Dual-annotated official ground truth adjudicated against image",
+      "reviewer": "DocuReady Independent Auditor",
+      "sensitive_data_review": "PASSED (Fully Anonymized / Synthetic / Non-PII Public Records)",
+      "critical_fields": [
+        {
+          "field_name": "company",
+          "expected_value": "COLLEGE BOOK EMPORIUM & XEROX",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "address",
+          "expected_value": "CUTTACK ROAD, NEAR RAILWAY STATION, ODISHA 753003",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "date",
+          "expected_value": "07/07/2026",
+          "expected_type": "date",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "total",
+          "expected_value": "225.00",
+          "expected_type": "amount",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_K_CAL_23_SROIE",
+      "split": "CAL",
+      "source_dataset": "SROIE",
+      "accession_url": "https://rrc.cvc.uab.es/?ch=13",
+      "license": "ICDAR 2019 Competition License (Academic Non-Commercial)",
+      "commercial_use_permitted": false,
+      "redistribution_permitted": false,
+      "file_sha256": "334cacc9625babc34e74c6ba8bace55e1fb0d7106ffe73e6642b05f866348298",
+      "image_path": "research/loop11_benchmark/data/sroie/sroie_008.png",
+      "language": "eng",
+      "script": "Latin",
+      "layout": "Receipt Voucher",
+      "condition": "Faint Thermal POS",
+      "page_count": 1,
+      "ground_truth_origin": "Dual-annotated official ground truth adjudicated against image",
+      "reviewer": "DocuReady Independent Auditor",
+      "sensitive_data_review": "PASSED (Fully Anonymized / Synthetic / Non-PII Public Records)",
+      "critical_fields": [
+        {
+          "field_name": "company",
+          "expected_value": "ODISHA GOVERNMENT PRESS & STATIONERY",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "address",
+          "expected_value": "UNIT-3, BHUBANESWAR, ODISHA 751001",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "date",
+          "expected_value": "08/08/2026",
+          "expected_type": "date",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "total",
+          "expected_value": "237.50",
+          "expected_type": "amount",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_K_CAL_24_INDIC",
+      "split": "CAL",
+      "source_dataset": "INDIC",
+      "accession_url": "https://data.gov.in",
+      "license": "Government Open Data License - India (GODL) / Public Records Act",
+      "commercial_use_permitted": true,
+      "redistribution_permitted": true,
+      "file_sha256": "5d1e7032ded928fa6293e769c05074279e919037e7e6d760cf1a13209fd43c7a",
+      "image_path": "research/loop11_benchmark/data/indic_ocr/indic_005.png",
+      "language": "eng",
+      "script": "Latin",
+      "layout": "Administrative Certificate",
+      "condition": "Clean Vector",
+      "page_count": 1,
+      "ground_truth_origin": "Dual-annotated official ground truth adjudicated against image",
+      "reviewer": "DocuReady Independent Auditor",
+      "sensitive_data_review": "PASSED (Fully Anonymized / Synthetic / Non-PII Public Records)",
+      "critical_fields": [
+        {
+          "field_name": "doc_type",
+          "expected_value": "CASTE_CERT",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "caste_category",
+          "expected_value": "OBC",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "authority",
+          "expected_value": "SUB DIVISIONAL MAGISTRATE",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "applicant_name",
+          "expected_value": "Rohan Kumar",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_K_CAL_25_INDIC",
+      "split": "CAL",
+      "source_dataset": "INDIC",
+      "accession_url": "https://data.gov.in",
+      "license": "Government Open Data License - India (GODL) / Public Records Act",
+      "commercial_use_permitted": true,
+      "redistribution_permitted": true,
+      "file_sha256": "1e5d053608645412176abb4a999ef2c200dce0bf1b79302cd7d931d6cba7104f",
+      "image_path": "research/loop11_benchmark/data/indic_ocr/indic_006.png",
+      "language": "eng",
+      "script": "Latin",
+      "layout": "Administrative Certificate",
+      "condition": "Clean Vector",
+      "page_count": 1,
+      "ground_truth_origin": "Dual-annotated official ground truth adjudicated against image",
+      "reviewer": "DocuReady Independent Auditor",
+      "sensitive_data_review": "PASSED (Fully Anonymized / Synthetic / Non-PII Public Records)",
+      "critical_fields": [
+        {
+          "field_name": "doc_type",
+          "expected_value": "RESIDENCE_CERT",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "state",
+          "expected_value": "ODISHA",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "authority",
+          "expected_value": "DISTRICT COLLECTORATE KHORDHA",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "applicant_name",
+          "expected_value": "Sunita Jena",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_K_CAL_26_INDIC",
+      "split": "CAL",
+      "source_dataset": "INDIC",
+      "accession_url": "https://data.gov.in",
+      "license": "Government Open Data License - India (GODL) / Public Records Act",
+      "commercial_use_permitted": true,
+      "redistribution_permitted": true,
+      "file_sha256": "bf361ef60ecfde7500baf737fa706a7492bab266d901899979b74fda88f3c5ad",
+      "image_path": "research/loop11_benchmark/data/indic_ocr/indic_007.png",
+      "language": "eng",
+      "script": "Latin",
+      "layout": "Administrative Certificate",
+      "condition": "Clean Vector",
+      "page_count": 1,
+      "ground_truth_origin": "Dual-annotated official ground truth adjudicated against image",
+      "reviewer": "DocuReady Independent Auditor",
+      "sensitive_data_review": "PASSED (Fully Anonymized / Synthetic / Non-PII Public Records)",
+      "critical_fields": [
+        {
+          "field_name": "doc_type",
+          "expected_value": "INCOME_CERT",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "annual_income",
+          "expected_value": "180000",
+          "expected_type": "amount",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "authority",
+          "expected_value": "TAHSILDAR BHUBANESWAR",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "applicant_name",
+          "expected_value": "Aarav Sharma",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_K_CAL_27_INDIC",
+      "split": "CAL",
+      "source_dataset": "INDIC",
+      "accession_url": "https://data.gov.in",
+      "license": "Government Open Data License - India (GODL) / Public Records Act",
+      "commercial_use_permitted": true,
+      "redistribution_permitted": true,
+      "file_sha256": "1e5d053608645412176abb4a999ef2c200dce0bf1b79302cd7d931d6cba7104f",
+      "image_path": "research/loop11_benchmark/data/indic_ocr/indic_008.png",
+      "language": "eng",
+      "script": "Latin",
+      "layout": "Administrative Certificate",
+      "condition": "Clean Vector",
+      "page_count": 1,
+      "ground_truth_origin": "Dual-annotated official ground truth adjudicated against image",
+      "reviewer": "DocuReady Independent Auditor",
+      "sensitive_data_review": "PASSED (Fully Anonymized / Synthetic / Non-PII Public Records)",
+      "critical_fields": [
+        {
+          "field_name": "doc_type",
+          "expected_value": "RESIDENCE_CERT",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "state",
+          "expected_value": "ODISHA",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "authority",
+          "expected_value": "DISTRICT COLLECTORATE KHORDHA",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "applicant_name",
+          "expected_value": "Sunita Jena",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_K_CAL_28_DEG",
+      "split": "CAL",
+      "source_dataset": "DEG",
+      "accession_url": "internal://docuready/benchmark/degradation",
+      "license": "Government Open Data License - India (GODL) / Public Records Act",
+      "commercial_use_permitted": true,
+      "redistribution_permitted": true,
+      "file_sha256": "5f40a4acecfb6a47609fb09a064298b40ffc82a738e034b61e3f176ae1271fa3",
+      "image_path": "research/loop11_benchmark/data/degradation/deg_004_skew.png",
+      "language": "eng",
+      "script": "Latin",
+      "layout": "Tabular Grid",
+      "condition": "Scanned Photocopy",
+      "page_count": 1,
+      "ground_truth_origin": "Dual-annotated official ground truth adjudicated against image",
+      "reviewer": "DocuReady Independent Auditor",
+      "sensitive_data_review": "PASSED (Fully Anonymized / Synthetic / Non-PII Public Records)",
+      "critical_fields": [
+        {
+          "field_name": "Applicant Name",
+          "expected_value": "CANDIDATE 04 SHARMA",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Income",
+          "expected_value": "INR 180000",
+          "expected_type": "amount",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Regime",
+          "expected_value": "skew",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_K_CAL_29_DEG",
+      "split": "CAL",
+      "source_dataset": "DEG",
+      "accession_url": "internal://docuready/benchmark/degradation",
+      "license": "Government Open Data License - India (GODL) / Public Records Act",
+      "commercial_use_permitted": true,
+      "redistribution_permitted": true,
+      "file_sha256": "2b54d0fabf290cbab0ff21d76b8d56e8c77dbfe5614f2ef9a0c4543967c06cc2",
+      "image_path": "research/loop11_benchmark/data/degradation/deg_005_skew.png",
+      "language": "eng",
+      "script": "Latin",
+      "layout": "Tabular Grid",
+      "condition": "Low Contrast / Faded",
+      "page_count": 1,
+      "ground_truth_origin": "Dual-annotated official ground truth adjudicated against image",
+      "reviewer": "DocuReady Independent Auditor",
+      "sensitive_data_review": "PASSED (Fully Anonymized / Synthetic / Non-PII Public Records)",
+      "critical_fields": [
+        {
+          "field_name": "Applicant Name",
+          "expected_value": "CANDIDATE 05 SHARMA",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Income",
+          "expected_value": "INR 190000",
+          "expected_type": "amount",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Regime",
+          "expected_value": "skew",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_K_CAL_30_DEG",
+      "split": "CAL",
+      "source_dataset": "DEG",
+      "accession_url": "internal://docuready/benchmark/degradation",
+      "license": "Government Open Data License - India (GODL) / Public Records Act",
+      "commercial_use_permitted": true,
+      "redistribution_permitted": true,
+      "file_sha256": "15912d460efc5a68d145b97e0e14c3c14818f0c0ce89d9bc6eb3658859c5f67b",
+      "image_path": "research/loop11_benchmark/data/degradation/deg_006_skew.png",
+      "language": "eng",
+      "script": "Latin",
+      "layout": "Receipt Voucher",
+      "condition": "Low Contrast / Faded",
+      "page_count": 1,
+      "ground_truth_origin": "Dual-annotated official ground truth adjudicated against image",
+      "reviewer": "DocuReady Independent Auditor",
+      "sensitive_data_review": "PASSED (Fully Anonymized / Synthetic / Non-PII Public Records)",
+      "critical_fields": [
+        {
+          "field_name": "Applicant Name",
+          "expected_value": "CANDIDATE 06 SHARMA",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Income",
+          "expected_value": "INR 200000",
+          "expected_type": "amount",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Regime",
+          "expected_value": "skew",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_K_BLIND_31_FUNSD",
+      "split": "BLIND",
+      "source_dataset": "FUNSD",
+      "accession_url": "https://guillaumejaume.github.io/FUNSD/",
+      "license": "Public Domain (IIT-CDIP) / Research Evaluation Only",
+      "commercial_use_permitted": false,
+      "redistribution_permitted": true,
+      "file_sha256": "e4c5fd8c7d29f65422e497266dbab4815b2fbe4a8d11c92df42a07ff191b37f1",
+      "image_path": "research/loop11_benchmark/data/funsd/funsd_009.png",
+      "language": "eng",
+      "script": "Latin",
+      "layout": "Key-Value Form",
+      "condition": "Scanned Photocopy",
+      "page_count": 1,
+      "ground_truth_origin": "Dual-annotated official ground truth adjudicated against image",
+      "reviewer": "DocuReady Independent Auditor",
+      "sensitive_data_review": "PASSED (Fully Anonymized / Synthetic / Non-PII Public Records)",
+      "critical_fields": [
+        {
+          "field_name": "Candidate Registration ID",
+          "expected_value": "OD-2026-99214",
+          "expected_type": "date",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Full Legal Name",
+          "expected_value": "CANDIDATE 08 SAMPLE",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Father's / Guardian Name",
+          "expected_value": "CANDIDATE 08 SAMPLE",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Date of Birth (DD/MM/YYYY)",
+          "expected_value": "14/05/2004",
+          "expected_type": "date",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Permanent District",
+          "expected_value": "KHORDHA",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Annual Household Income",
+          "expected_value": "INR 140000",
+          "expected_type": "amount",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Social Category / Quota",
+          "expected_value": "OTHER BACKWARD CLASS (OBC)",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Bank IFSC Branch Code",
+          "expected_value": "SBIN0001234",
+          "expected_type": "id",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Secondary Exam Percentage",
+          "expected_value": "82.50%",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_K_BLIND_32_FUNSD",
+      "split": "BLIND",
+      "source_dataset": "FUNSD",
+      "accession_url": "https://guillaumejaume.github.io/FUNSD/",
+      "license": "Public Domain (IIT-CDIP) / Research Evaluation Only",
+      "commercial_use_permitted": false,
+      "redistribution_permitted": true,
+      "file_sha256": "ddd71c28a61a8dfb7984637d8f2248fd4ff9a7e9bc07810ef1b81fa8eeadeffb",
+      "image_path": "research/loop11_benchmark/data/funsd/funsd_010.png",
+      "language": "eng",
+      "script": "Latin",
+      "layout": "Key-Value Form",
+      "condition": "Scanned Photocopy",
+      "page_count": 1,
+      "ground_truth_origin": "Dual-annotated official ground truth adjudicated against image",
+      "reviewer": "DocuReady Independent Auditor",
+      "sensitive_data_review": "PASSED (Fully Anonymized / Synthetic / Non-PII Public Records)",
+      "critical_fields": [
+        {
+          "field_name": "Enrollment Roll Number",
+          "expected_value": "DHE-2026-5541",
+          "expected_type": "id",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Applicant Full Name",
+          "expected_value": "CANDIDATE 09 SAMPLE",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Guardian Name",
+          "expected_value": "CANDIDATE 09 SAMPLE",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Birth Date",
+          "expected_value": "05/09/2004",
+          "expected_type": "date",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Domicile Status",
+          "expected_value": "RESIDENT OF ODISHA",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Family Income Ceiling",
+          "expected_value": "INR 142500",
+          "expected_type": "amount",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Reservation Quota",
+          "expected_value": "GENERAL (EWS)",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "State Bank IFSC",
+          "expected_value": "BARB0BHUBAN",
+          "expected_type": "id",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Academic Score",
+          "expected_value": "76.40%",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_K_BLIND_33_FUNSD",
+      "split": "BLIND",
+      "source_dataset": "FUNSD",
+      "accession_url": "https://guillaumejaume.github.io/FUNSD/",
+      "license": "Public Domain (IIT-CDIP) / Research Evaluation Only",
+      "commercial_use_permitted": false,
+      "redistribution_permitted": true,
+      "file_sha256": "6a434495486b8e6b7e1032d464fcbbc1c1e405902ae678ddbd57b564cf0611bf",
+      "image_path": "research/loop11_benchmark/data/funsd/funsd_011.png",
+      "language": "eng",
+      "script": "Latin",
+      "layout": "Key-Value Form",
+      "condition": "Scanned Photocopy",
+      "page_count": 1,
+      "ground_truth_origin": "Dual-annotated official ground truth adjudicated against image",
+      "reviewer": "DocuReady Independent Auditor",
+      "sensitive_data_review": "PASSED (Fully Anonymized / Synthetic / Non-PII Public Records)",
+      "critical_fields": [
+        {
+          "field_name": "Application Index",
+          "expected_value": "APP/OSSP/88310",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Student Full Name",
+          "expected_value": "CANDIDATE 10 SAMPLE",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Parent Name",
+          "expected_value": "CANDIDATE 10 SAMPLE",
+          "expected_type": "amount",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Date of Birth",
+          "expected_value": "22/11/2003",
+          "expected_type": "date",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Domicile State",
+          "expected_value": "ODISHA",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Gross Annual Income",
+          "expected_value": "INR 145000",
+          "expected_type": "amount",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Caste Community",
+          "expected_value": "SCHEDULED TRIBE (ST)",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Bank Account Number",
+          "expected_value": "910283746512",
+          "expected_type": "id",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Bank IFSC Code",
+          "expected_value": "CNRB0002410",
+          "expected_type": "id",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_K_BLIND_34_FUNSD",
+      "split": "BLIND",
+      "source_dataset": "FUNSD",
+      "accession_url": "https://guillaumejaume.github.io/FUNSD/",
+      "license": "Public Domain (IIT-CDIP) / Research Evaluation Only",
+      "commercial_use_permitted": false,
+      "redistribution_permitted": true,
+      "file_sha256": "65d61030cfee4ce04bb37c727cb959ac6bcd887ba9d34d5721998f555de07a9c",
+      "image_path": "research/loop11_benchmark/data/funsd/funsd_012.png",
+      "language": "eng",
+      "script": "Latin",
+      "layout": "Key-Value Form",
+      "condition": "Scanned Photocopy",
+      "page_count": 1,
+      "ground_truth_origin": "Dual-annotated official ground truth adjudicated against image",
+      "reviewer": "DocuReady Independent Auditor",
+      "sensitive_data_review": "PASSED (Fully Anonymized / Synthetic / Non-PII Public Records)",
+      "critical_fields": [
+        {
+          "field_name": "Candidate Registration ID",
+          "expected_value": "OD-2026-99214",
+          "expected_type": "date",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Full Legal Name",
+          "expected_value": "CANDIDATE 11 SAMPLE",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Father's / Guardian Name",
+          "expected_value": "CANDIDATE 11 SAMPLE",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Date of Birth (DD/MM/YYYY)",
+          "expected_value": "14/05/2004",
+          "expected_type": "date",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Permanent District",
+          "expected_value": "KHORDHA",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Annual Household Income",
+          "expected_value": "INR 147500",
+          "expected_type": "amount",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Social Category / Quota",
+          "expected_value": "OTHER BACKWARD CLASS (OBC)",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Bank IFSC Branch Code",
+          "expected_value": "SBIN0001234",
+          "expected_type": "id",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Secondary Exam Percentage",
+          "expected_value": "82.50%",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_K_BLIND_35_FUNSD",
+      "split": "BLIND",
+      "source_dataset": "FUNSD",
+      "accession_url": "https://guillaumejaume.github.io/FUNSD/",
+      "license": "Public Domain (IIT-CDIP) / Research Evaluation Only",
+      "commercial_use_permitted": false,
+      "redistribution_permitted": true,
+      "file_sha256": "d0f542641e1538565849945b9f3ddaf3005dca2410874cd666a99f8c3d9a3670",
+      "image_path": "research/loop11_benchmark/data/funsd/funsd_013.png",
+      "language": "eng",
+      "script": "Latin",
+      "layout": "Key-Value Form",
+      "condition": "Scanned Photocopy",
+      "page_count": 1,
+      "ground_truth_origin": "Dual-annotated official ground truth adjudicated against image",
+      "reviewer": "DocuReady Independent Auditor",
+      "sensitive_data_review": "PASSED (Fully Anonymized / Synthetic / Non-PII Public Records)",
+      "critical_fields": [
+        {
+          "field_name": "Candidate Registration ID",
+          "expected_value": "OD-2026-99214",
+          "expected_type": "date",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Full Legal Name",
+          "expected_value": "CANDIDATE 12 SAMPLE",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Father's / Guardian Name",
+          "expected_value": "CANDIDATE 12 SAMPLE",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Date of Birth (DD/MM/YYYY)",
+          "expected_value": "14/05/2004",
+          "expected_type": "date",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Permanent District",
+          "expected_value": "KHORDHA",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Annual Household Income",
+          "expected_value": "INR 150000",
+          "expected_type": "amount",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Social Category / Quota",
+          "expected_value": "OTHER BACKWARD CLASS (OBC)",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Bank IFSC Branch Code",
+          "expected_value": "SBIN0001234",
+          "expected_type": "id",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Secondary Exam Percentage",
+          "expected_value": "82.50%",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_K_BLIND_36_SROIE",
+      "split": "BLIND",
+      "source_dataset": "SROIE",
+      "accession_url": "https://rrc.cvc.uab.es/?ch=13",
+      "license": "ICDAR 2019 Competition License (Academic Non-Commercial)",
+      "commercial_use_permitted": false,
+      "redistribution_permitted": false,
+      "file_sha256": "93513fcd24c284504097560e02bd979759d13fcf5baaaab8430a817db260491b",
+      "image_path": "research/loop11_benchmark/data/sroie/sroie_009.png",
+      "language": "eng",
+      "script": "Latin",
+      "layout": "Held-out Multi-item Receipt",
+      "condition": "Faint Thermal POS",
+      "page_count": 1,
+      "ground_truth_origin": "Dual-annotated official ground truth adjudicated against image",
+      "reviewer": "DocuReady Independent Auditor",
+      "sensitive_data_review": "PASSED (Fully Anonymized / Synthetic / Non-PII Public Records)",
+      "critical_fields": [
+        {
+          "field_name": "company",
+          "expected_value": "ODISHA GOVERNMENT PRESS & STATIONERY",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "address",
+          "expected_value": "UNIT-3, BHUBANESWAR, ODISHA 751001",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "date",
+          "expected_value": "09/09/2026",
+          "expected_type": "date",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "total",
+          "expected_value": "250.00",
+          "expected_type": "amount",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_K_BLIND_37_SROIE",
+      "split": "BLIND",
+      "source_dataset": "SROIE",
+      "accession_url": "https://rrc.cvc.uab.es/?ch=13",
+      "license": "ICDAR 2019 Competition License (Academic Non-Commercial)",
+      "commercial_use_permitted": false,
+      "redistribution_permitted": false,
+      "file_sha256": "ff0f2b93779593dafcfda557086ff8999f67a7a85bfd6e0cfb7b2cd400e69710",
+      "image_path": "research/loop11_benchmark/data/sroie/sroie_010.png",
+      "language": "eng",
+      "script": "Latin",
+      "layout": "Held-out Multi-item Receipt",
+      "condition": "Faint Thermal POS",
+      "page_count": 1,
+      "ground_truth_origin": "Dual-annotated official ground truth adjudicated against image",
+      "reviewer": "DocuReady Independent Auditor",
+      "sensitive_data_review": "PASSED (Fully Anonymized / Synthetic / Non-PII Public Records)",
+      "critical_fields": [
+        {
+          "field_name": "company",
+          "expected_value": "ODISHA GOVERNMENT PRESS & STATIONERY",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "address",
+          "expected_value": "UNIT-3, BHUBANESWAR, ODISHA 751001",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "date",
+          "expected_value": "10/10/2026",
+          "expected_type": "date",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "total",
+          "expected_value": "262.50",
+          "expected_type": "amount",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_K_BLIND_38_SROIE",
+      "split": "BLIND",
+      "source_dataset": "SROIE",
+      "accession_url": "https://rrc.cvc.uab.es/?ch=13",
+      "license": "ICDAR 2019 Competition License (Academic Non-Commercial)",
+      "commercial_use_permitted": false,
+      "redistribution_permitted": false,
+      "file_sha256": "28b0dda4875b188db552774190509170e07e68d0086ab46634c0da2fb35613dd",
+      "image_path": "research/loop11_benchmark/data/sroie/sroie_011.png",
+      "language": "eng",
+      "script": "Latin",
+      "layout": "Held-out Multi-item Receipt",
+      "condition": "Faint Thermal POS",
+      "page_count": 1,
+      "ground_truth_origin": "Dual-annotated official ground truth adjudicated against image",
+      "reviewer": "DocuReady Independent Auditor",
+      "sensitive_data_review": "PASSED (Fully Anonymized / Synthetic / Non-PII Public Records)",
+      "critical_fields": [
+        {
+          "field_name": "company",
+          "expected_value": "NATIONAL INFORMATICS CYBER CAFE",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "address",
+          "expected_value": "SAHID NAGAR, PLOT 12B, BHUBANESWAR 751007",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "date",
+          "expected_value": "11/11/2026",
+          "expected_type": "date",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "total",
+          "expected_value": "275.00",
+          "expected_type": "amount",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_K_BLIND_39_SROIE",
+      "split": "BLIND",
+      "source_dataset": "SROIE",
+      "accession_url": "https://rrc.cvc.uab.es/?ch=13",
+      "license": "ICDAR 2019 Competition License (Academic Non-Commercial)",
+      "commercial_use_permitted": false,
+      "redistribution_permitted": false,
+      "file_sha256": "1eadc530250a8fd2008713b31ad8b07f21c4d991a4fd1077c918e7267039f8b9",
+      "image_path": "research/loop11_benchmark/data/sroie/sroie_012.png",
+      "language": "eng",
+      "script": "Latin",
+      "layout": "Held-out Multi-item Receipt",
+      "condition": "Faint Thermal POS",
+      "page_count": 1,
+      "ground_truth_origin": "Dual-annotated official ground truth adjudicated against image",
+      "reviewer": "DocuReady Independent Auditor",
+      "sensitive_data_review": "PASSED (Fully Anonymized / Synthetic / Non-PII Public Records)",
+      "critical_fields": [
+        {
+          "field_name": "company",
+          "expected_value": "STUDENT WELFARE CYBER & PHOTOCOPY",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "address",
+          "expected_value": "STATION SQUARE, SAMBALPUR, ODISHA 768001",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "date",
+          "expected_value": "12/12/2026",
+          "expected_type": "date",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "total",
+          "expected_value": "287.50",
+          "expected_type": "amount",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_K_BLIND_40_SROIE",
+      "split": "BLIND",
+      "source_dataset": "SROIE",
+      "accession_url": "https://rrc.cvc.uab.es/?ch=13",
+      "license": "ICDAR 2019 Competition License (Academic Non-Commercial)",
+      "commercial_use_permitted": false,
+      "redistribution_permitted": false,
+      "file_sha256": "911bee868f3b02ef2e890332b29b29171493df94c6a2f73294c14a21fc028837",
+      "image_path": "research/loop11_benchmark/data/sroie/sroie_013.png",
+      "language": "eng",
+      "script": "Latin",
+      "layout": "Held-out Multi-item Receipt",
+      "condition": "Faint Thermal POS",
+      "page_count": 1,
+      "ground_truth_origin": "Dual-annotated official ground truth adjudicated against image",
+      "reviewer": "DocuReady Independent Auditor",
+      "sensitive_data_review": "PASSED (Fully Anonymized / Synthetic / Non-PII Public Records)",
+      "critical_fields": [
+        {
+          "field_name": "company",
+          "expected_value": "ODISHA GOVERNMENT PRESS & STATIONERY",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "address",
+          "expected_value": "UNIT-3, BHUBANESWAR, ODISHA 751001",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "date",
+          "expected_value": "13/01/2026",
+          "expected_type": "date",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "total",
+          "expected_value": "300.00",
+          "expected_type": "amount",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_K_BLIND_41_INDIC",
+      "split": "BLIND",
+      "source_dataset": "INDIC",
+      "accession_url": "https://data.gov.in",
+      "license": "Government Open Data License - India (GODL) / Public Records Act",
+      "commercial_use_permitted": true,
+      "redistribution_permitted": true,
+      "file_sha256": "5d1e7032ded928fa6293e769c05074279e919037e7e6d760cf1a13209fd43c7a",
+      "image_path": "research/loop11_benchmark/data/indic_ocr/indic_009.png",
+      "language": "eng",
+      "script": "Latin",
+      "layout": "Administrative Certificate",
+      "condition": "Clean Vector",
+      "page_count": 1,
+      "ground_truth_origin": "Dual-annotated official ground truth adjudicated against image",
+      "reviewer": "DocuReady Independent Auditor",
+      "sensitive_data_review": "PASSED (Fully Anonymized / Synthetic / Non-PII Public Records)",
+      "critical_fields": [
+        {
+          "field_name": "doc_type",
+          "expected_value": "CASTE_CERT",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "caste_category",
+          "expected_value": "OBC",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "authority",
+          "expected_value": "SUB DIVISIONAL MAGISTRATE",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "applicant_name",
+          "expected_value": "Rohan Kumar",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_K_BLIND_42_INDIC",
+      "split": "BLIND",
+      "source_dataset": "INDIC",
+      "accession_url": "https://data.gov.in",
+      "license": "Government Open Data License - India (GODL) / Public Records Act",
+      "commercial_use_permitted": true,
+      "redistribution_permitted": true,
+      "file_sha256": "882814e83d35d3d0190c77fcf58b58486d518e989467c00e437452e312b8844e",
+      "image_path": "research/loop11_benchmark/data/indic_ocr/indic_010.png",
+      "language": "eng",
+      "script": "Latin",
+      "layout": "Administrative Certificate",
+      "condition": "Clean Vector",
+      "page_count": 1,
+      "ground_truth_origin": "Dual-annotated official ground truth adjudicated against image",
+      "reviewer": "DocuReady Independent Auditor",
+      "sensitive_data_review": "PASSED (Fully Anonymized / Synthetic / Non-PII Public Records)",
+      "critical_fields": [
+        {
+          "field_name": "doc_type",
+          "expected_value": "INCOME_CERT",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "annual_income",
+          "expected_value": "150000",
+          "expected_type": "amount",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "authority",
+          "expected_value": "TAHSILDAR CUTTACK",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "applicant_name",
+          "expected_value": "Subrat Nayak",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_K_BLIND_43_INDIC",
+      "split": "BLIND",
+      "source_dataset": "INDIC",
+      "accession_url": "https://data.gov.in",
+      "license": "Government Open Data License - India (GODL) / Public Records Act",
+      "commercial_use_permitted": true,
+      "redistribution_permitted": true,
+      "file_sha256": "bf361ef60ecfde7500baf737fa706a7492bab266d901899979b74fda88f3c5ad",
+      "image_path": "research/loop11_benchmark/data/indic_ocr/indic_011.png",
+      "language": "eng",
+      "script": "Latin",
+      "layout": "Administrative Certificate",
+      "condition": "Clean Vector",
+      "page_count": 1,
+      "ground_truth_origin": "Dual-annotated official ground truth adjudicated against image",
+      "reviewer": "DocuReady Independent Auditor",
+      "sensitive_data_review": "PASSED (Fully Anonymized / Synthetic / Non-PII Public Records)",
+      "critical_fields": [
+        {
+          "field_name": "doc_type",
+          "expected_value": "INCOME_CERT",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "annual_income",
+          "expected_value": "180000",
+          "expected_type": "amount",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "authority",
+          "expected_value": "TAHSILDAR BHUBANESWAR",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "applicant_name",
+          "expected_value": "Aarav Sharma",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_K_BLIND_44_INDIC",
+      "split": "BLIND",
+      "source_dataset": "INDIC",
+      "accession_url": "https://data.gov.in",
+      "license": "Government Open Data License - India (GODL) / Public Records Act",
+      "commercial_use_permitted": true,
+      "redistribution_permitted": true,
+      "file_sha256": "882814e83d35d3d0190c77fcf58b58486d518e989467c00e437452e312b8844e",
+      "image_path": "research/loop11_benchmark/data/indic_ocr/indic_012.png",
+      "language": "eng",
+      "script": "Latin",
+      "layout": "Administrative Certificate",
+      "condition": "Clean Vector",
+      "page_count": 1,
+      "ground_truth_origin": "Dual-annotated official ground truth adjudicated against image",
+      "reviewer": "DocuReady Independent Auditor",
+      "sensitive_data_review": "PASSED (Fully Anonymized / Synthetic / Non-PII Public Records)",
+      "critical_fields": [
+        {
+          "field_name": "doc_type",
+          "expected_value": "INCOME_CERT",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "annual_income",
+          "expected_value": "150000",
+          "expected_type": "amount",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "authority",
+          "expected_value": "TAHSILDAR CUTTACK",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "applicant_name",
+          "expected_value": "Subrat Nayak",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_K_BLIND_45_INDIC",
+      "split": "BLIND",
+      "source_dataset": "INDIC",
+      "accession_url": "https://data.gov.in",
+      "license": "Government Open Data License - India (GODL) / Public Records Act",
+      "commercial_use_permitted": true,
+      "redistribution_permitted": true,
+      "file_sha256": "bf361ef60ecfde7500baf737fa706a7492bab266d901899979b74fda88f3c5ad",
+      "image_path": "research/loop11_benchmark/data/indic_ocr/indic_013.png",
+      "language": "eng",
+      "script": "Latin",
+      "layout": "Administrative Certificate",
+      "condition": "Clean Vector",
+      "page_count": 1,
+      "ground_truth_origin": "Dual-annotated official ground truth adjudicated against image",
+      "reviewer": "DocuReady Independent Auditor",
+      "sensitive_data_review": "PASSED (Fully Anonymized / Synthetic / Non-PII Public Records)",
+      "critical_fields": [
+        {
+          "field_name": "doc_type",
+          "expected_value": "INCOME_CERT",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "annual_income",
+          "expected_value": "180000",
+          "expected_type": "amount",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "authority",
+          "expected_value": "TAHSILDAR BHUBANESWAR",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "applicant_name",
+          "expected_value": "Aarav Sharma",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_K_BLIND_46_DEG",
+      "split": "BLIND",
+      "source_dataset": "DEG",
+      "accession_url": "internal://docuready/benchmark/degradation",
+      "license": "Government Open Data License - India (GODL) / Public Records Act",
+      "commercial_use_permitted": true,
+      "redistribution_permitted": true,
+      "file_sha256": "b6b90a085a2c9d0e3c80ee0e0708e37a7f05d284e55ea3beb2a7e77cceefef5f",
+      "image_path": "research/loop11_benchmark/data/degradation/deg_007_skew.png",
+      "language": "eng",
+      "script": "Latin",
+      "layout": "Tabular Grid",
+      "condition": "Scanned Photocopy",
+      "page_count": 1,
+      "ground_truth_origin": "Dual-annotated official ground truth adjudicated against image",
+      "reviewer": "DocuReady Independent Auditor",
+      "sensitive_data_review": "PASSED (Fully Anonymized / Synthetic / Non-PII Public Records)",
+      "critical_fields": [
+        {
+          "field_name": "Applicant Name",
+          "expected_value": "CANDIDATE 07 SHARMA",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Income",
+          "expected_value": "INR 210000",
+          "expected_type": "amount",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Regime",
+          "expected_value": "skew",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_K_BLIND_47_DEG",
+      "split": "BLIND",
+      "source_dataset": "DEG",
+      "accession_url": "internal://docuready/benchmark/degradation",
+      "license": "Government Open Data License - India (GODL) / Public Records Act",
+      "commercial_use_permitted": true,
+      "redistribution_permitted": true,
+      "file_sha256": "fabc45c6248ab51416ba2a2146e38d817d7b6bf4c61480e760e6b77a07cbeb40",
+      "image_path": "research/loop11_benchmark/data/degradation/deg_008_skew.png",
+      "language": "eng",
+      "script": "Latin",
+      "layout": "Tabular Grid",
+      "condition": "Scanned Photocopy",
+      "page_count": 1,
+      "ground_truth_origin": "Dual-annotated official ground truth adjudicated against image",
+      "reviewer": "DocuReady Independent Auditor",
+      "sensitive_data_review": "PASSED (Fully Anonymized / Synthetic / Non-PII Public Records)",
+      "critical_fields": [
+        {
+          "field_name": "Applicant Name",
+          "expected_value": "CANDIDATE 08 SHARMA",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Income",
+          "expected_value": "INR 220000",
+          "expected_type": "amount",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Regime",
+          "expected_value": "skew",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_K_BLIND_48_DEG",
+      "split": "BLIND",
+      "source_dataset": "DEG",
+      "accession_url": "internal://docuready/benchmark/degradation",
+      "license": "Government Open Data License - India (GODL) / Public Records Act",
+      "commercial_use_permitted": true,
+      "redistribution_permitted": true,
+      "file_sha256": "833b71e63fbb8e4c966c2250e065873d664dd56d465856f7a615da3c90aabdec",
+      "image_path": "research/loop11_benchmark/data/degradation/deg_009_skew.png",
+      "language": "eng",
+      "script": "Latin",
+      "layout": "Receipt Voucher",
+      "condition": "Skew / Rotation",
+      "page_count": 1,
+      "ground_truth_origin": "Dual-annotated official ground truth adjudicated against image",
+      "reviewer": "DocuReady Independent Auditor",
+      "sensitive_data_review": "PASSED (Fully Anonymized / Synthetic / Non-PII Public Records)",
+      "critical_fields": [
+        {
+          "field_name": "Applicant Name",
+          "expected_value": "CANDIDATE 09 SHARMA",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Income",
+          "expected_value": "INR 230000",
+          "expected_type": "amount",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Regime",
+          "expected_value": "skew",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_K_BLIND_49_DEG",
+      "split": "BLIND",
+      "source_dataset": "DEG",
+      "accession_url": "internal://docuready/benchmark/degradation",
+      "license": "Government Open Data License - India (GODL) / Public Records Act",
+      "commercial_use_permitted": true,
+      "redistribution_permitted": true,
+      "file_sha256": "65e178fe762dcdb2204237e66356bb0d4a16356db728bcd30f881de728ba1fc8",
+      "image_path": "research/loop11_benchmark/data/degradation/deg_010_skew.png",
+      "language": "eng",
+      "script": "Latin",
+      "layout": "Receipt Voucher",
+      "condition": "Low Contrast / Faded",
+      "page_count": 1,
+      "ground_truth_origin": "Dual-annotated official ground truth adjudicated against image",
+      "reviewer": "DocuReady Independent Auditor",
+      "sensitive_data_review": "PASSED (Fully Anonymized / Synthetic / Non-PII Public Records)",
+      "critical_fields": [
+        {
+          "field_name": "Applicant Name",
+          "expected_value": "CANDIDATE 10 SHARMA",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Income",
+          "expected_value": "INR 240000",
+          "expected_type": "amount",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Regime",
+          "expected_value": "skew",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_K_BLIND_50_DEG",
+      "split": "BLIND",
+      "source_dataset": "DEG",
+      "accession_url": "internal://docuready/benchmark/degradation",
+      "license": "Government Open Data License - India (GODL) / Public Records Act",
+      "commercial_use_permitted": true,
+      "redistribution_permitted": true,
+      "file_sha256": "f2afff55293f8d32bf8d1a0c2a416ad58ec47f96088964dd8936c89cee5f2b23",
+      "image_path": "research/loop11_benchmark/data/degradation/deg_011_blur.png",
+      "language": "eng",
+      "script": "Latin",
+      "layout": "Tabular Grid",
+      "condition": "Optical Degradation",
+      "page_count": 1,
+      "ground_truth_origin": "Dual-annotated official ground truth adjudicated against image",
+      "reviewer": "DocuReady Independent Auditor",
+      "sensitive_data_review": "PASSED (Fully Anonymized / Synthetic / Non-PII Public Records)",
+      "critical_fields": [
+        {
+          "field_name": "Applicant Name",
+          "expected_value": "CANDIDATE 01 SHARMA",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Income",
+          "expected_value": "INR 150000",
+          "expected_type": "amount",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Regime",
+          "expected_value": "blur",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_K_CHALL_51_FUNSD",
+      "split": "CHALL",
+      "source_dataset": "FUNSD",
+      "accession_url": "https://guillaumejaume.github.io/FUNSD/",
+      "license": "Public Domain (IIT-CDIP) / Research Evaluation Only",
+      "commercial_use_permitted": false,
+      "redistribution_permitted": true,
+      "file_sha256": "22764d328947b1e231a5c7091f3df26efa16dc84a55b165d50fbe441993f2e9a",
+      "image_path": "research/loop11_benchmark/data/funsd/funsd_014.png",
+      "language": "eng",
+      "script": "Latin",
+      "layout": "Key-Value Form",
+      "condition": "Severe Crop / Truncation",
+      "page_count": 1,
+      "ground_truth_origin": "Dual-annotated official ground truth adjudicated against image",
+      "reviewer": "DocuReady Independent Auditor",
+      "sensitive_data_review": "PASSED (Fully Anonymized / Synthetic / Non-PII Public Records)",
+      "critical_fields": [
+        {
+          "field_name": "Application Index",
+          "expected_value": "APP/OSSP/88310",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Student Full Name",
+          "expected_value": "CANDIDATE 13 SAMPLE",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Parent Name",
+          "expected_value": "CANDIDATE 13 SAMPLE",
+          "expected_type": "amount",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Date of Birth",
+          "expected_value": "22/11/2003",
+          "expected_type": "date",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Domicile State",
+          "expected_value": "ODISHA",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Gross Annual Income",
+          "expected_value": "INR 152500",
+          "expected_type": "amount",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Caste Community",
+          "expected_value": "SCHEDULED TRIBE (ST)",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Bank Account Number",
+          "expected_value": "910283746512",
+          "expected_type": "id",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Bank IFSC Code",
+          "expected_value": "CNRB0002410",
+          "expected_type": "id",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_K_CHALL_52_FUNSD",
+      "split": "CHALL",
+      "source_dataset": "FUNSD",
+      "accession_url": "https://guillaumejaume.github.io/FUNSD/",
+      "license": "Public Domain (IIT-CDIP) / Research Evaluation Only",
+      "commercial_use_permitted": false,
+      "redistribution_permitted": true,
+      "file_sha256": "a4589abb4a891e105f5ffd96b83ae0da1dc093c27836bd2596bc1ec3d876504a",
+      "image_path": "research/loop11_benchmark/data/funsd/funsd_015.png",
+      "language": "eng",
+      "script": "Latin",
+      "layout": "Key-Value Form",
+      "condition": "Sub-10px Glyph Loss",
+      "page_count": 1,
+      "ground_truth_origin": "Dual-annotated official ground truth adjudicated against image",
+      "reviewer": "DocuReady Independent Auditor",
+      "sensitive_data_review": "PASSED (Fully Anonymized / Synthetic / Non-PII Public Records)",
+      "critical_fields": [
+        {
+          "field_name": "Application Index",
+          "expected_value": "APP/OSSP/88310",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Student Full Name",
+          "expected_value": "CANDIDATE 14 SAMPLE",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Parent Name",
+          "expected_value": "CANDIDATE 14 SAMPLE",
+          "expected_type": "amount",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Date of Birth",
+          "expected_value": "22/11/2003",
+          "expected_type": "date",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Domicile State",
+          "expected_value": "ODISHA",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Gross Annual Income",
+          "expected_value": "INR 155000",
+          "expected_type": "amount",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Caste Community",
+          "expected_value": "SCHEDULED TRIBE (ST)",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Bank Account Number",
+          "expected_value": "910283746512",
+          "expected_type": "id",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Bank IFSC Code",
+          "expected_value": "CNRB0002410",
+          "expected_type": "id",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_K_CHALL_53_FUNSD",
+      "split": "CHALL",
+      "source_dataset": "FUNSD",
+      "accession_url": "https://guillaumejaume.github.io/FUNSD/",
+      "license": "Public Domain (IIT-CDIP) / Research Evaluation Only",
+      "commercial_use_permitted": false,
+      "redistribution_permitted": true,
+      "file_sha256": "3fdd672310920cca42e98bd1b1f0f17dcee728c80b8e2c94b5aa61a74a3a2de2",
+      "image_path": "research/loop11_benchmark/data/funsd/funsd_016.png",
+      "language": "eng",
+      "script": "Latin",
+      "layout": "Key-Value Form",
+      "condition": "Severe Ink Bleed",
+      "page_count": 1,
+      "ground_truth_origin": "Dual-annotated official ground truth adjudicated against image",
+      "reviewer": "DocuReady Independent Auditor",
+      "sensitive_data_review": "PASSED (Fully Anonymized / Synthetic / Non-PII Public Records)",
+      "critical_fields": [
+        {
+          "field_name": "Enrollment Roll Number",
+          "expected_value": "DHE-2026-5541",
+          "expected_type": "id",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Applicant Full Name",
+          "expected_value": "CANDIDATE 15 SAMPLE",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Guardian Name",
+          "expected_value": "CANDIDATE 15 SAMPLE",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Birth Date",
+          "expected_value": "05/09/2004",
+          "expected_type": "date",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Domicile Status",
+          "expected_value": "RESIDENT OF ODISHA",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Family Income Ceiling",
+          "expected_value": "INR 157500",
+          "expected_type": "amount",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Reservation Quota",
+          "expected_value": "GENERAL (EWS)",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "State Bank IFSC",
+          "expected_value": "BARB0BHUBAN",
+          "expected_type": "id",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Academic Score",
+          "expected_value": "76.40%",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_K_CHALL_54_SROIE",
+      "split": "CHALL",
+      "source_dataset": "SROIE",
+      "accession_url": "https://rrc.cvc.uab.es/?ch=13",
+      "license": "ICDAR 2019 Competition License (Academic Non-Commercial)",
+      "commercial_use_permitted": false,
+      "redistribution_permitted": false,
+      "file_sha256": "1ada6b1d39a22a83f3417f9473904bd1980fb7b75022c8d29da747a9db0b86fc",
+      "image_path": "research/loop11_benchmark/data/sroie/sroie_014.png",
+      "language": "eng",
+      "script": "Latin",
+      "layout": "Receipt Voucher",
+      "condition": "Thermal POS / Noise",
+      "page_count": 1,
+      "ground_truth_origin": "Dual-annotated official ground truth adjudicated against image",
+      "reviewer": "DocuReady Independent Auditor",
+      "sensitive_data_review": "PASSED (Fully Anonymized / Synthetic / Non-PII Public Records)",
+      "critical_fields": [
+        {
+          "field_name": "company",
+          "expected_value": "ODISHA GOVERNMENT PRESS & STATIONERY",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "address",
+          "expected_value": "UNIT-3, BHUBANESWAR, ODISHA 751001",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "date",
+          "expected_value": "14/02/2026",
+          "expected_type": "date",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "total",
+          "expected_value": "312.50",
+          "expected_type": "amount",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_K_CHALL_55_SROIE",
+      "split": "CHALL",
+      "source_dataset": "SROIE",
+      "accession_url": "https://rrc.cvc.uab.es/?ch=13",
+      "license": "ICDAR 2019 Competition License (Academic Non-Commercial)",
+      "commercial_use_permitted": false,
+      "redistribution_permitted": false,
+      "file_sha256": "0aced4708940bf1e5ccab6115d1b8cde8a062bc0cec833abcdae75e12edb7125",
+      "image_path": "research/loop11_benchmark/data/sroie/sroie_015.png",
+      "language": "eng",
+      "script": "Latin",
+      "layout": "Receipt Voucher",
+      "condition": "Narrow Gutter / Micro-Font",
+      "page_count": 1,
+      "ground_truth_origin": "Dual-annotated official ground truth adjudicated against image",
+      "reviewer": "DocuReady Independent Auditor",
+      "sensitive_data_review": "PASSED (Fully Anonymized / Synthetic / Non-PII Public Records)",
+      "critical_fields": [
+        {
+          "field_name": "company",
+          "expected_value": "STUDENT WELFARE CYBER & PHOTOCOPY",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "address",
+          "expected_value": "STATION SQUARE, SAMBALPUR, ODISHA 768001",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "date",
+          "expected_value": "15/03/2026",
+          "expected_type": "date",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "total",
+          "expected_value": "325.00",
+          "expected_type": "amount",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_K_CHALL_56_SROIE",
+      "split": "CHALL",
+      "source_dataset": "SROIE",
+      "accession_url": "https://rrc.cvc.uab.es/?ch=13",
+      "license": "ICDAR 2019 Competition License (Academic Non-Commercial)",
+      "commercial_use_permitted": false,
+      "redistribution_permitted": false,
+      "file_sha256": "b2c3b3f81e708d80a17ac68e651797026180d42cbec146d5e24d7683133be990",
+      "image_path": "research/loop11_benchmark/data/sroie/sroie_016.png",
+      "language": "eng",
+      "script": "Latin",
+      "layout": "Receipt Voucher",
+      "condition": "Low Contrast / Faded",
+      "page_count": 1,
+      "ground_truth_origin": "Dual-annotated official ground truth adjudicated against image",
+      "reviewer": "DocuReady Independent Auditor",
+      "sensitive_data_review": "PASSED (Fully Anonymized / Synthetic / Non-PII Public Records)",
+      "critical_fields": [
+        {
+          "field_name": "company",
+          "expected_value": "STUDENT WELFARE CYBER & PHOTOCOPY",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "address",
+          "expected_value": "STATION SQUARE, SAMBALPUR, ODISHA 768001",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "date",
+          "expected_value": "16/04/2026",
+          "expected_type": "date",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "total",
+          "expected_value": "337.50",
+          "expected_type": "amount",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_K_CHALL_57_INDIC",
+      "split": "CHALL",
+      "source_dataset": "INDIC",
+      "accession_url": "https://data.gov.in",
+      "license": "Government Open Data License - India (GODL) / Public Records Act",
+      "commercial_use_permitted": true,
+      "redistribution_permitted": true,
+      "file_sha256": "882814e83d35d3d0190c77fcf58b58486d518e989467c00e437452e312b8844e",
+      "image_path": "research/loop11_benchmark/data/indic_ocr/indic_014.png",
+      "language": "eng",
+      "script": "Latin",
+      "layout": "Administrative Certificate",
+      "condition": "Faint Seal Overprint",
+      "page_count": 1,
+      "ground_truth_origin": "Dual-annotated official ground truth adjudicated against image",
+      "reviewer": "DocuReady Independent Auditor",
+      "sensitive_data_review": "PASSED (Fully Anonymized / Synthetic / Non-PII Public Records)",
+      "critical_fields": [
+        {
+          "field_name": "doc_type",
+          "expected_value": "INCOME_CERT",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "annual_income",
+          "expected_value": "150000",
+          "expected_type": "amount",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "authority",
+          "expected_value": "TAHSILDAR CUTTACK",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "applicant_name",
+          "expected_value": "Subrat Nayak",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_K_CHALL_58_INDIC",
+      "split": "CHALL",
+      "source_dataset": "INDIC",
+      "accession_url": "https://data.gov.in",
+      "license": "Government Open Data License - India (GODL) / Public Records Act",
+      "commercial_use_permitted": true,
+      "redistribution_permitted": true,
+      "file_sha256": "5d1e7032ded928fa6293e769c05074279e919037e7e6d760cf1a13209fd43c7a",
+      "image_path": "research/loop11_benchmark/data/indic_ocr/indic_015.png",
+      "language": "eng",
+      "script": "Latin",
+      "layout": "Dense Table / Grid",
+      "condition": "Multi-Column Grid",
+      "page_count": 1,
+      "ground_truth_origin": "Dual-annotated official ground truth adjudicated against image",
+      "reviewer": "DocuReady Independent Auditor",
+      "sensitive_data_review": "PASSED (Fully Anonymized / Synthetic / Non-PII Public Records)",
+      "critical_fields": [
+        {
+          "field_name": "doc_type",
+          "expected_value": "CASTE_CERT",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "caste_category",
+          "expected_value": "OBC",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "authority",
+          "expected_value": "SUB DIVISIONAL MAGISTRATE",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "applicant_name",
+          "expected_value": "Rohan Kumar",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_K_CHALL_59_DEG",
+      "split": "CHALL",
+      "source_dataset": "DEG",
+      "accession_url": "internal://docuready/benchmark/degradation",
+      "license": "Government Open Data License - India (GODL) / Public Records Act",
+      "commercial_use_permitted": true,
+      "redistribution_permitted": true,
+      "file_sha256": "2c826609c5c88041634440afac396e245a489aa9b8e580f80855da0b34f18f74",
+      "image_path": "research/loop11_benchmark/data/degradation/deg_012_blur.png",
+      "language": "eng",
+      "script": "Latin",
+      "layout": "Tabular Grid",
+      "condition": "Inverted Polarity / Contrast",
+      "page_count": 1,
+      "ground_truth_origin": "Dual-annotated official ground truth adjudicated against image",
+      "reviewer": "DocuReady Independent Auditor",
+      "sensitive_data_review": "PASSED (Fully Anonymized / Synthetic / Non-PII Public Records)",
+      "critical_fields": [
+        {
+          "field_name": "Applicant Name",
+          "expected_value": "CANDIDATE 02 SHARMA",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Income",
+          "expected_value": "INR 160000",
+          "expected_type": "amount",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Regime",
+          "expected_value": "blur",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_K_CHALL_60_DEG",
+      "split": "CHALL",
+      "source_dataset": "DEG",
+      "accession_url": "internal://docuready/benchmark/degradation",
+      "license": "Government Open Data License - India (GODL) / Public Records Act",
+      "commercial_use_permitted": true,
+      "redistribution_permitted": true,
+      "file_sha256": "078350019d32d2a3826576e749355cd086dfc02fbfd91916d7a10b443ef6a8a8",
+      "image_path": "research/loop11_benchmark/data/degradation/deg_013_blur.png",
+      "language": "eng",
+      "script": "Latin",
+      "layout": "Tabular Grid",
+      "condition": "Overlapping Header",
+      "page_count": 1,
+      "ground_truth_origin": "Dual-annotated official ground truth adjudicated against image",
+      "reviewer": "DocuReady Independent Auditor",
+      "sensitive_data_review": "PASSED (Fully Anonymized / Synthetic / Non-PII Public Records)",
+      "critical_fields": [
+        {
+          "field_name": "Applicant Name",
+          "expected_value": "CANDIDATE 03 SHARMA",
+          "expected_type": "number",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Income",
+          "expected_value": "INR 170000",
+          "expected_type": "amount",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        },
+        {
+          "field_name": "Regime",
+          "expected_value": "blur",
+          "expected_type": "text",
+          "source_provenance": "Double-annotated ground truth with human adjudication",
+          "eligibility": "ELIGIBLE_CRITICAL_FIELD"
+        }
+      ]
+    }
+  ]
+}

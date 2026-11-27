@@ -1,0 +1,196 @@
+{
+  "benchmark_name": "Loop 23 Cohort H (Micro-Font & Narrow-Gutter Integrity)",
+  "total_documents": 6,
+  "cohorts": [
+    "H_microfont_narrow_gutter"
+  ],
+  "documents": {
+    "COHORT_H_01_MICRO_CLINICAL_PANEL": {
+      "cohort": "H_microfont_narrow_gutter",
+      "category": "Micro-Font Clinical",
+      "critical_fields": [
+        {
+          "name": "hba1c_result",
+          "expected": "5.8",
+          "row": 0,
+          "col": 1,
+          "type": "number",
+          "target_pattern": "Hemoglobin A1c"
+        },
+        {
+          "name": "platelet_count",
+          "expected": "240",
+          "row": 1,
+          "col": 1,
+          "type": "count",
+          "target_pattern": "Platelet Count"
+        },
+        {
+          "name": "potassium_result",
+          "expected": "4.1",
+          "row": 2,
+          "col": 1,
+          "type": "number",
+          "target_pattern": "Serum Potassium"
+        },
+        {
+          "name": "sodium_result",
+          "expected": "138",
+          "row": 3,
+          "col": 1,
+          "type": "number",
+          "target_pattern": "Serum Sodium"
+        }
+      ]
+    },
+    "COHORT_H_02_MICRO_DOSAGE_AUDIT": {
+      "cohort": "H_microfont_narrow_gutter",
+      "category": "Micro-Font Dosage",
+      "critical_fields": [
+        {
+          "name": "lora_strength",
+          "expected": "0.75",
+          "row": 0,
+          "col": 1,
+          "type": "number",
+          "target_pattern": "TAB-LORA-01"
+        },
+        {
+          "name": "lora_purity",
+          "expected": "99.2",
+          "row": 0,
+          "col": 2,
+          "type": "percentage",
+          "target_pattern": "TAB-LORA-01"
+        },
+        {
+          "name": "diaz_strength",
+          "expected": "2.4",
+          "row": 1,
+          "col": 1,
+          "type": "number",
+          "target_pattern": "TAB-DIAZ-02"
+        },
+        {
+          "name": "omep_strength",
+          "expected": "20",
+          "row": 2,
+          "col": 1,
+          "type": "number",
+          "target_pattern": "CAP-OMEP-03"
+        }
+      ]
+    },
+    "COHORT_H_03_NARROW_GUTTER_LEDGER": {
+      "cohort": "H_microfont_narrow_gutter",
+      "category": "Narrow-Gutter Financial",
+      "critical_fields": [
+        {
+          "name": "alpha_debit",
+          "expected": "12500",
+          "row": 0,
+          "col": 1,
+          "type": "amount",
+          "target_pattern": "ACC-101",
+          "col_pattern": "Debit"
+        },
+        {
+          "name": "alpha_credit",
+          "expected": "1250",
+          "row": 0,
+          "col": 1,
+          "type": "amount",
+          "target_pattern": "ACC-101",
+          "col_pattern": "Credit"
+        },
+        {
+          "name": "beta_closing",
+          "expected": "30600",
+          "row": 1,
+          "col": 2,
+          "type": "amount",
+          "target_pattern": "ACC-102"
+        }
+      ]
+    },
+    "COHORT_H_04_NARROW_GUTTER_INVOICE": {
+      "cohort": "H_microfont_narrow_gutter",
+      "category": "Narrow-Gutter Commercial",
+      "critical_fields": [
+        {
+          "name": "flour_rate",
+          "expected": "45.50",
+          "row": 0,
+          "col": 1,
+          "type": "amount",
+          "target_pattern": "Wheat Flour",
+          "col_pattern": "Rate"
+        },
+        {
+          "name": "flour_tax",
+          "expected": "2.25",
+          "row": 0,
+          "col": 1,
+          "type": "amount",
+          "target_pattern": "Wheat Flour",
+          "col_pattern": "Tax"
+        },
+        {
+          "name": "sugar_rate",
+          "expected": "38.20",
+          "row": 2,
+          "col": 1,
+          "type": "amount",
+          "target_pattern": "Sugar Crystal",
+          "col_pattern": "Rate"
+        }
+      ]
+    },
+    "COHORT_H_05_ADVERSARIAL_NARROW_EMPTY_TRAP": {
+      "cohort": "H_microfont_narrow_gutter",
+      "category": "Adversarial Trap",
+      "critical_fields": [
+        {
+          "name": "narayan_penal_empty",
+          "expected": "",
+          "row": 0,
+          "col": 1,
+          "type": "empty",
+          "target_pattern": "REC-701",
+          "is_trap": true
+        },
+        {
+          "name": "narayan_current_demand",
+          "expected": "28000",
+          "row": 0,
+          "col": 2,
+          "type": "amount",
+          "target_pattern": "REC-701"
+        }
+      ]
+    },
+    "COHORT_H_06_ADVERSARIAL_MICRO_COLLISION": {
+      "cohort": "H_microfont_narrow_gutter",
+      "category": "Adversarial Trap",
+      "critical_fields": [
+        {
+          "name": "acc_901_ambiguous_vol",
+          "expected": "",
+          "row": 0,
+          "col": 2,
+          "type": "empty",
+          "target_pattern": "ACC-901",
+          "is_trap": true
+        },
+        {
+          "name": "acc_902_puri_vol",
+          "expected": "19200",
+          "row": 2,
+          "col": 2,
+          "type": "amount",
+          "target_pattern": "ACC-902"
+        }
+      ]
+    }
+  }
+}

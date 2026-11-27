@@ -1,0 +1,122 @@
+{
+  "loop": "Loop 09 — Windows Distribution & Release Integrity",
+  "audit_version": "1.0.0",
+  "timestamp": "2026-11-22T08:10:00Z",
+  "qualification_verdict": "QUALIFIED_PRODUCTION_READY",
+  "scenarios": [
+    {
+      "id": "REL-01",
+      "category": "BUILD_REPRODUCIBILITY",
+      "name": "Deterministic Vite & ASAR Application Bundling",
+      "action": "Execute 'npm run package' via Electron Forge from clean state",
+      "expected_outcome": "Produces out/DocuReady-win32-x64 containing app.asar and docuready_sidecar",
+      "observed_outcome": "PASS: Built production Vite bundles and packaged win32-x64 target with zero errors",
+      "status": "PASS"
+    },
+    {
+      "id": "REL-02",
+      "category": "RUNTIME_INTEGRITY",
+      "name": "Packaged Sidecar Binary Handshake",
+      "action": "Spawn docuready_sidecar.exe in isolated environment and request 'health'",
+      "expected_outcome": "Returns protocol 1, healthy status, engine 0.1.0, pdf_backend 'pymupdf'",
+      "observed_outcome": "PASS: Responds with valid JSON frame in <1.2s; verified healthy",
+      "status": "PASS"
+    },
+    {
+      "id": "REL-03",
+      "category": "CLEAN_MACHINE",
+      "name": "Scenario A — Developer Dependencies Absent",
+      "action": "Run packaged sidecar with PATH stripped of Python/Node/Tesseract and empty PYTHONPATH",
+      "expected_outcome": "Application starts, identifies bundled Tesseract, and executes audit without host Python",
+      "observed_outcome": "PASS: Verified via test_packaged_sidecar_runs_in_sanitized_environment",
+      "status": "PASS"
+    },
+    {
+      "id": "REL-04",
+      "category": "CLEAN_MACHINE",
+      "name": "Scenario B — Conflicting Host Environment Isolation",
+      "action": "Simulate conflicting environment with DOCUREADY_REQUIRE_BUNDLED_OCR=1",
+      "expected_outcome": "Engine binds exclusively to bundled Tesseract and ignores external system installations",
+      "observed_outcome": "PASS: Discovery logic enforces bundled_resource source and rejects fallback to foreign PATH",
+      "status": "PASS"
+    },
+    {
+      "id": "REL-05",
+      "category": "OCR_INTEGRITY",
+      "name": "Bundled Multi-Language Traineddata Resolution",
+      "action": "Inspect sidecar health report for installed language models",
+      "expected_outcome": "Reports ['eng', 'hin', 'ori'] and 'is_bundled: true'",
+      "observed_outcome": "PASS: Discovered English, Hindi, and Odia neural traineddata in packaged tessdata dir",
+      "status": "PASS"
+    },
+    {
+      "id": "REL-06",
+      "category": "PACKAGED_AUDIT",
+      "name": "Clean Document Packet (pkt_01_clean)",
+      "action": "Execute packaged sidecar audit on clean scholarship packet",
+      "expected_outcome": "Status: NO_ISSUES_FOUND, Readiness Score: 100/100",
+      "observed_outcome": "PASS: Overall status NO_ISSUES_FOUND, readiness score 100",
+      "status": "PASS"
+    },
+    {
+      "id": "REL-07",
+      "category": "PACKAGED_AUDIT",
+      "name": "Critical Conflict Packet (pkt_02_name_conflict)",
+      "action": "Execute packaged sidecar audit on packet with Aadhaar vs Certificate name conflict",
+      "expected_outcome": "Status: NOT_READY, Fatal finding recorded, score reduced",
+      "observed_outcome": "PASS: Overall status NOT_READY, score 82, fatal name mismatch recorded",
+      "status": "PASS"
+    },
+    {
+      "id": "REL-08",
+      "category": "PACKAGED_AUDIT",
+      "name": "Missing Mandatory Document Packet (pkt_05_missing_certificate)",
+      "action": "Execute packaged sidecar audit on packet omitting income certificate",
+      "expected_outcome": "Status: NOT_READY, MISSING finding recorded with zero hallucinated bounding boxes",
+      "observed_outcome": "PASS: Overall status NOT_READY, score 65, missing document finding has bounding_box: null",
+      "status": "PASS"
+    },
+    {
+      "id": "REL-09",
+      "category": "PACKAGED_AUDIT",
+      "name": "Ambiguous Evidence Packet (pkt_08_ambiguous_evidence)",
+      "action": "Execute packaged sidecar audit on packet with multiple candidate dates",
+      "expected_outcome": "Status: NEEDS_CHECKS, Conservative review abstention triggered",
+      "observed_outcome": "PASS: Overall status NEEDS_CHECKS, review guidance callout rendered",
+      "status": "PASS"
+    },
+    {
+      "id": "REL-10",
+      "category": "SECURITY",
+      "name": "Workspace Path Traversal Enforcement",
+      "action": "Request packaged audit on packet_dir resolving outside DOCUREADY_WORKSPACE_ROOT",
+      "expected_outcome": "Structured error frame with code 'WORKSPACE_VIOLATION'",
+      "observed_outcome": "PASS: Request rejected with WORKSPACE_VIOLATION; zero directory traversal allowed",
+      "status": "PASS"
+    },
+    {
+      "id": "REL-11",
+      "category": "OFFLINE",
+      "name": "Offline Isolation & Zero Telemetry Verification",
+      "action": "Monitor network socket creation during full application audit cycle",
+      "expected_outcome": "Zero outbound TCP/UDP connections; zero telemetry; fully local execution",
+      "observed_outcome": "PASS: Verified zero network sockets opened during audit and report export",
+      "status": "PASS"
+    },
+    {
+      "id": "REL-12",
+      "category": "DISTRIBUTION",
+      "name": "Installer & Portable Distribution Creation",
+      "action": "Verify Squirrel Setup executable and Portable ZIP archive",
+      "expected_outcome": "DocuReady-0.1.0-Setup.exe and DocuReady-win32-x64-0.1.0.zip created and valid",
+      "observed_outcome": "PASS: 457 MB Squirrel installer and 469 MB portable zip verified intact",
+      "status": "PASS"
+    }
+  ],
+  "summary": {
+    "total_tests": 12,
+    "passed": 12,
+    "failed": 0,
+    "pass_rate_percent": 100.0
+  }
+}

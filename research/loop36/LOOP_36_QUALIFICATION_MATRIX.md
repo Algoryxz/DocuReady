@@ -1,0 +1,28 @@
+# DOCUREADY — LOOP 36 QUALIFICATION MATRIX (GATES A–Z)
+
+- **Gate A (Correct Loop35 baseline):** **PASS** — Base commit 3a7e55f verified
+- **Gate B (Clean repository-state accounting):** **PASS** — git status --short & branch counts recorded
+- **Gate C (Loop10 artifact integrity):** **PASS** — release_hashes.json (5/5 bit-exact SHA-256)
+- **Gate D (Packaging configuration audit):** **PASS** — forge.config.ts & package.json inspected
+- **Gate E (Sidecar dependency completeness):** **PASS** — dependency_inventory.json (122 DLLs, vcruntime present)
+- **Gate F (OCR resource completeness):** **PASS** — eng, hin, ori, osd traineddata + tesseract.exe verified
+- **Gate G (Native runtime dependency completeness):** **PASS** — PyMuPDF + OpenCV + Tesseract DLLs bundled
+- **Gate H (Clean Windows installation):** **BLOCKED** — No clean Windows 10/11 VM available
+- **Gate I (First launch):** **PARTIAL** — Packaged sidecar & Electron tests pass; GUI desktop window launch not tested
+- **Gate J (Fresh workspace creation):** **PASS** — WorkspaceManager Electron tests pass
+- **Gate K (Portable build qualification):** **PASS** — DocuReady-win32-x64 portable sidecar & Unicode/spaces path verified
+- **Gate L (Upgrade safety):** **BLOCKED** — No interactive clean VM for upgrade testing
+- **Gate M (Reinstall safety):** **BLOCKED** — No interactive clean VM for reinstall testing
+- **Gate N (Uninstall safety):** **BLOCKED** — No interactive clean VM for uninstall testing
+- **Gate O (User-data preservation):** **PARTIAL** — Session purge & workspace isolation verified in tests; uninstall preservation BLOCKED
+- **Gate P (Offline processing):** **PASS** — 12 no-network tests + socket instrumentation + sidecar offline audit
+- **Gate Q (OS-level network audit):** **PASS** — Get-NetTCPConnection verified 0 sidecar outbound connections
+- **Gate R (Sidecar health and recovery):** **PASS** — 30/30 health checks + SIGKILL crash recovery Electron test
+- **Gate S (Forced termination recovery):** **PASS** — Stale workspace cleanup + SIGKILL recovery verified
+- **Gate T (Repeated launch/shutdown stability):** **PASS** — 30-rep sidecar launch/exit (0/30 failures)
+- **Gate U (Installer GUI qualification):** **BLOCKED** — Headless environment; Squirrel GUI wizard not run
+- **Gate V (Code-signing assessment):** **FAIL** — Get-AuthenticodeSignature returned NotSigned (BUG-036-001)
+- **Gate W (Historical performance regression):** **FAIL** — Loop 17 (1129.65 ms) & Loop 18 (1582.11 ms) profiling tests still fail wall-clock bounds
+- **Gate X (Benchmark reproducibility):** **PASS** — 791 fields (344 exact, 0 false), Loop 28 (42 exact), Cohort M (76 exact)
+- **Gate Y (Dataset licensing carry-forward):** **PASS** — FUNSD, CORD, SROIE, Gazette, Land Revenue status carried forward honestly
+- **Gate Z (Documentation and reproducibility):** **PASS** — 20 MD + 9 JSON artifacts authored

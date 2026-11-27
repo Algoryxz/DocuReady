@@ -1,0 +1,232 @@
+{
+  "sample_count": 20,
+  "has_indic_models": true,
+  "control_mean_cer": 1.0,
+  "treatment_mean_cer": 1.0,
+  "control_mean_latency_ms": 626.7,
+  "treatment_mean_latency_ms": 778.4,
+  "mean_cer_improvement": 0.0,
+  "latency_overhead_ratio": 1.24,
+  "paired_results": [
+    {
+      "sample_id": "indic_001",
+      "lang": "hin",
+      "control_lang": "eng",
+      "treatment_lang": "eng+hin",
+      "control_cer": 1.0,
+      "treatment_cer": 1.0,
+      "control_ms": 871.7,
+      "treatment_ms": 779.7,
+      "cer_improvement": 0.0
+    },
+    {
+      "sample_id": "indic_003",
+      "lang": "hin",
+      "control_lang": "eng",
+      "treatment_lang": "eng+hin",
+      "control_cer": 1.0,
+      "treatment_cer": 1.0,
+      "control_ms": 649.8,
+      "treatment_ms": 737.6,
+      "cer_improvement": 0.0
+    },
+    {
+      "sample_id": "indic_005",
+      "lang": "hin",
+      "control_lang": "eng",
+      "treatment_lang": "eng+hin",
+      "control_cer": 1.0,
+      "treatment_cer": 1.0,
+      "control_ms": 652.5,
+      "treatment_ms": 823.1,
+      "cer_improvement": 0.0
+    },
+    {
+      "sample_id": "indic_007",
+      "lang": "hin",
+      "control_lang": "eng",
+      "treatment_lang": "eng+hin",
+      "control_cer": 1.0,
+      "treatment_cer": 1.0,
+      "control_ms": 539.1,
+      "treatment_ms": 838.7,
+      "cer_improvement": 0.0
+    },
+    {
+      "sample_id": "indic_009",
+      "lang": "hin",
+      "control_lang": "eng",
+      "treatment_lang": "eng+hin",
+      "control_cer": 1.0,
+      "treatment_cer": 1.0,
+      "control_ms": 601.1,
+      "treatment_ms": 794.7,
+      "cer_improvement": 0.0
+    },
+    {
+      "sample_id": "indic_011",
+      "lang": "hin",
+      "control_lang": "eng",
+      "treatment_lang": "eng+hin",
+      "control_cer": 1.0,
+      "treatment_cer": 1.0,
+      "control_ms": 599.6,
+      "treatment_ms": 764.6,
+      "cer_improvement": 0.0
+    },
+    {
+      "sample_id": "indic_013",
+      "lang": "hin",
+      "control_lang": "eng",
+      "treatment_lang": "eng+hin",
+      "control_cer": 1.0,
+      "treatment_cer": 1.0,
+      "control_ms": 574.0,
+      "treatment_ms": 796.0,
+      "cer_improvement": 0.0
+    },
+    {
+      "sample_id": "indic_015",
+      "lang": "hin",
+      "control_lang": "eng",
+      "treatment_lang": "eng+hin",
+      "control_cer": 1.0,
+      "treatment_cer": 1.0,
+      "control_ms": 500.0,
+      "treatment_ms": 779.1,
+      "cer_improvement": 0.0
+    },
+    {
+      "sample_id": "indic_017",
+      "lang": "hin",
+      "control_lang": "eng",
+      "treatment_lang": "eng+hin",
+      "control_cer": 1.0,
+      "treatment_cer": 1.0,
+      "control_ms": 554.2,
+      "treatment_ms": 737.1,
+      "cer_improvement": 0.0
+    },
+    {
+      "sample_id": "indic_019",
+      "lang": "hin",
+      "control_lang": "eng",
+      "treatment_lang": "eng+hin",
+      "control_cer": 1.0,
+      "treatment_cer": 1.0,
+      "control_ms": 687.5,
+      "treatment_ms": 741.6,
+      "cer_improvement": 0.0
+    },
+    {
+      "sample_id": "indic_002",
+      "lang": "ori",
+      "control_lang": "eng",
+      "treatment_lang": "eng+ori",
+      "control_cer": 1.0,
+      "treatment_cer": 1.0,
+      "control_ms": 605.0,
+      "treatment_ms": 768.4,
+      "cer_improvement": 0.0
+    },
+    {
+      "sample_id": "indic_004",
+      "lang": "ori",
+      "control_lang": "eng",
+      "treatment_lang": "eng+ori",
+      "control_cer": 1.0,
+      "treatment_cer": 1.0,
+      "control_ms": 537.9,
+      "treatment_ms": 674.4,
+      "cer_improvement": 0.0
+    },
+    {
+      "sample_id": "indic_006",
+      "lang": "ori",
+      "control_lang": "eng",
+      "treatment_lang": "eng+ori",
+      "control_cer": 1.0,
+      "treatment_cer": 1.0,
+      "control_ms": 673.2,
+      "treatment_ms": 817.1,
+      "cer_improvement": 0.0
+    },
+    {
+      "sample_id": "indic_008",
+      "lang": "ori",
+      "control_lang": "eng",
+      "treatment_lang": "eng+ori",
+      "control_cer": 1.0,
+      "treatment_cer": 1.0,
+      "control_ms": 739.4,
+      "treatment_ms": 684.1,
+      "cer_improvement": 0.0
+    },
+    {
+      "sample_id": "indic_010",
+      "lang": "ori",
+      "control_lang": "eng",
+      "treatment_lang": "eng+ori",
+      "control_cer": 1.0,
+      "treatment_cer": 1.0,
+      "control_ms": 570.1,
+      "treatment_ms": 747.8,
+      "cer_improvement": 0.0
+    },
+    {
+      "sample_id": "indic_012",
+      "lang": "ori",
+      "control_lang": "eng",
+      "treatment_lang": "eng+ori",
+      "control_cer": 1.0,
+      "treatment_cer": 1.0,
+      "control_ms": 585.4,
+      "treatment_ms": 851.7,
+      "cer_improvement": 0.0
+    },
+    {
+      "sample_id": "indic_014",
+      "lang": "ori",
+      "control_lang": "eng",
+      "treatment_lang": "eng+ori",
+      "control_cer": 1.0,
+      "treatment_cer": 1.0,
+      "control_ms": 581.7,
+      "treatment_ms": 820.9,
+      "cer_improvement": 0.0
+    },
+    {
+      "sample_id": "indic_016",
+      "lang": "ori",
+      "control_lang": "eng",
+      "treatment_lang": "eng+ori",
+      "control_cer": 1.0,
+      "treatment_cer": 1.0,
+      "control_ms": 705.9,
+      "treatment_ms": 761.2,
+      "cer_improvement": 0.0
+    },
+    {
+      "sample_id": "indic_018",
+      "lang": "ori",
+      "control_lang": "eng",
+      "treatment_lang": "eng+ori",
+      "control_cer": 1.0,
+      "treatment_cer": 1.0,
+      "control_ms": 700.1,
+      "treatment_ms": 885.5,
+      "cer_improvement": 0.0
+    },
+    {
+      "sample_id": "indic_020",
+      "lang": "ori",
+      "control_lang": "eng",
+      "treatment_lang": "eng+ori",
+      "control_cer": 1.0,
+      "treatment_cer": 1.0,
+      "control_ms": 605.1,
+      "treatment_ms": 764.2,
+      "cer_improvement": 0.0
+    }
+  ]
+}

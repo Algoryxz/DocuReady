@@ -32,29 +32,10 @@ def normalize_indic_digits(value: Any) -> str:
 
 
 # ----------------- VERHOEFF CHECKSUM (ISO/IEC 7064) -----------------
-D_TABLE = [
-    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-    [1, 2, 3, 4, 0, 6, 7, 8, 9, 5],
-    [2, 3, 4, 0, 1, 7, 8, 9, 5, 6],
-    [3, 4, 0, 1, 2, 8, 9, 5, 6, 7],
-    [4, 0, 1, 2, 3, 9, 5, 6, 7, 8],
-    [5, 6, 7, 8, 9, 0, 1, 2, 3, 4],
-    [6, 7, 8, 9, 5, 1, 2, 3, 4, 0],
-    [7, 8, 9, 5, 6, 2, 3, 4, 0, 1],
-    [8, 9, 5, 6, 7, 3, 4, 0, 1, 2],
-    [9, 5, 6, 7, 8, 4, 0, 1, 2, 3]
-]
+from docuready.ingest.identifier_validation import VERHOEFF_D, VERHOEFF_P
 
-P_TABLE = [
-    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-    [1, 5, 7, 6, 2, 8, 3, 0, 9, 4],
-    [5, 8, 0, 3, 7, 9, 6, 1, 4, 2],
-    [8, 9, 1, 6, 0, 4, 3, 5, 2, 7],
-    [9, 4, 5, 3, 1, 2, 6, 8, 0, 7],
-    [4, 2, 8, 6, 5, 7, 3, 9, 0, 1],
-    [2, 7, 9, 3, 8, 0, 6, 4, 1, 5],
-    [7, 0, 4, 6, 9, 1, 3, 2, 5, 8]
-]
+D_TABLE = VERHOEFF_D
+P_TABLE = VERHOEFF_P
 
 def validate_verhoeff(num_str: str) -> bool:
     """Validates 12-digit number against Verhoeff checksum algorithm."""
@@ -80,7 +61,7 @@ def generate_verhoeff_12(prefix_11: str) -> str:
 
 
 # ----------------- NAME NORMALIZATION & COMPARISON -----------------
-HONORIFICS_PATTERN = r'\b(MR|MS|MRS|SHRI|SMT|DR|KUMAR|KUMARI|MISS|MD|MOHD|SRI|SMTI)\b'
+HONORIFICS_PATTERN = r'\b(MR|MS|MRS|SHRI|SMT|DR|MISS|MD|MOHD|SRI|SMTI)\b'
 
 def normalize_name(s: Optional[str]) -> str:
     """Normalizes a personal name: strips salutations, symbols, extra spaces, diacritics, returns uppercase."""
@@ -92,6 +73,13 @@ def normalize_name(s: Optional[str]) -> str:
     cleaned = re.sub(HONORIFICS_PATTERN, ' ', cleaned)
     cleaned = re.sub(r'[^A-Z\s]', ' ', cleaned)
     tokens = cleaned.split()
+    # Handle KUMAR / KUMARI when used as intermediate honorific/affix in multi-token names (> 2 tokens):
+    # E.g. "Rajesh Kumar Patel" -> "RAJESH PATEL" (parity with legacy V0 golden baseline),
+    # while preserving given name in "Kumar Gaurav" (2 tokens) and avoiding single-token name degradation.
+    if len(tokens) > 2 and "KUMAR" in tokens:
+        tokens = [t for t in tokens if t != "KUMAR"]
+    if len(tokens) > 2 and "KUMARI" in tokens:
+        tokens = [t for t in tokens if t != "KUMARI"]
     return " ".join(tokens)
 
 def levenshtein_distance(s1: str, s2: str) -> int:
@@ -115,8 +103,8 @@ def compare_names(n1: str, n2: str) -> Dict[str, Any]:
     """
     Compares two names deterministically according to ARCHITECTURE_V2 §4.2:
     - EXACT: identical after case/space/diacritics
-    - COMPATIBLE: initial expansion, token reorder, minor spelling/phonetic variant
-    - CONFLICT: different surname/given-name tokens
+    - COMPATIBLE: initial expansion, token reorder, middle-name subset, minor spelling/phonetic variant
+    - CONFLICT: different surname or distinct given-name tokens (e.g. sibling rhyme pairs)
     - AMBIGUOUS: one side unreadable or single token
     """
     s1 = normalize_name(n1)
@@ -170,6 +158,22 @@ def compare_names(n1: str, n2: str) -> Dict[str, Any]:
             "notes": "Names contain the exact same tokens in differing order"
         }
 
+    # Middle name variation check (e.g. 'SMRUTI NAYAK' vs 'SMRUTI RANJAN NAYAK')
+    # If the tokens of the shorter name are a proper subset of the longer name,
+    # and first (given) and last (family) names match exactly:
+    if (t1 < t2 or t2 < t1) and len(toks1) > 1 and len(toks2) > 1:
+        short_toks = toks1 if len(toks1) < len(toks2) else toks2
+        long_toks = toks2 if len(toks1) < len(toks2) else toks1
+        if short_toks[0] == long_toks[0] and short_toks[-1] == long_toks[-1]:
+            return {
+                "grade": MatchGrade.COMPATIBLE,
+                "match_grade": MatchGrade.COMPATIBLE,
+                "status": "REVIEW",
+                "type": "MIDDLE_NAME_VARIATION",
+                "similarity": 0.88,
+                "notes": f"Name variation with omitted middle name ('{s1}' vs '{s2}')"
+            }
+
     # Initials expansion check (e.g., 'S R NAYAK' vs 'SMRUTI RANJAN NAYAK', 'A. SHARMA' vs 'AARAV SHARMA')
     if len(toks1) == len(toks2) and len(toks1) > 1:
         initials_match = True
@@ -196,6 +200,23 @@ def compare_names(n1: str, n2: str) -> Dict[str, Any]:
     dist = levenshtein_distance(s1, s2)
     max_len = max(len(s1), len(s2))
     sim = 1.0 - (dist / max_len)
+
+    # Distinct given name / Sibling differentiator check
+    # E.g. 'RAMESH NAYAK' vs 'SURESH NAYAK', 'ANITA DAS' vs 'SUNITA DAS'
+    # When surnames match but first/given names have different starting letters,
+    # they represent distinct individuals despite phonetic similarity or short edit distance.
+    if len(toks1) > 1 and len(toks2) > 1:
+        given1, given2 = toks1[0], toks2[0]
+        sur1, sur2 = toks1[-1], toks2[-1]
+        if sur1 == sur2 and given1 != given2 and given1[0] != given2[0]:
+            return {
+                "grade": MatchGrade.CONFLICT,
+                "match_grade": MatchGrade.CONFLICT,
+                "status": "FAIL",
+                "type": "DISTINCT_GIVEN_NAMES",
+                "similarity": round(sim, 3),
+                "notes": f"Distinct given names with shared surname ('{s1}' vs '{s2}')"
+            }
 
     if dist <= 2 and sim >= 0.82:
         return {
@@ -229,8 +250,10 @@ def compare_names(n1: str, n2: str) -> Dict[str, Any]:
 # ----------------- DATE NORMALIZATION & PARSING -----------------
 DATE_FORMATS = [
     "%d/%m/%Y", "%Y-%m-%d", "%d-%m-%Y",
+    "%d.%m.%Y", "%Y.%m.%d", "%d.%m.%y",
     "%d/%m/%y", "%d-%m-%y",
     "%d-%b-%Y", "%d %b %Y", "%d %B %Y",
+    "%d.%b.%Y", "%d-%B-%Y",
     "%Y/%m/%d"
 ]
 
@@ -252,11 +275,16 @@ def parse_and_normalize_date(date_str: Any) -> Tuple[Optional[date], str, bool]:
     if '?' in s or 'X' in s.upper():
         return None, "UNREADABLE", False
 
+    # Clean surrounding punctuation
+    s = s.strip(" .,;:-|()[]{}")
+    # Normalize internal multi-spaces
+    s = re.sub(r'\s+', ' ', s)
+
     for fmt in DATE_FORMATS:
         try:
             dt = datetime.strptime(s, fmt).date()
             # Check ambiguity: day <= 12 and month <= 12
-            parts = re.split(r'[/.-]', s)
+            parts = re.split(r'[/.\-\s]+', s)
             ambiguous = False
             if len(parts) >= 2 and parts[0].isdigit() and parts[1].isdigit():
                 p1, p2 = int(parts[0]), int(parts[1])
@@ -288,7 +316,7 @@ def get_date_ambiguity_candidates(date_str: Any) -> List[date]:
     if not s or '?' in s or 'X' in s.upper():
         return []
 
-    parts = re.split(r'[/.-]', s)
+    parts = re.split(r'[/.\-\s]+', s)
     if len(parts) == 3:
         # Case A: P1/P2/P3 where P1 and P2 are day/month or month/day and P3 is year
         if parts[0].isdigit() and parts[1].isdigit() and parts[2].isdigit():
@@ -351,32 +379,64 @@ def get_date_ambiguity_candidates(date_str: Any) -> List[date]:
 def normalize_income(val: Any) -> Optional[float]:
     """
     Parses currency or income expressions into float value in Indian Rupees (INR).
-    Handles '₹ 1,80,000/-', '1.8 LPA', '2.5 Lakh', '180000', etc.
+    Handles:
+    - '₹ 1,80,000/-' -> 180000.0
+    - '1.8 LPA' -> 180000.0
+    - '2.5 Lakh' -> 250000.0
+    - '180000' -> 180000.0
+    - 'Rs. 1,80,000/- (Rupees One Lakh Eighty Thousand only)' -> 180000.0
+    Does NOT erroneously multiply amounts already >= 1,000 by 100,000 when descriptive text mentions 'Lakh'.
     """
     if val is None:
         return None
     if isinstance(val, (int, float)):
         return float(val)
 
-    s = normalize_indic_digits(val).upper().replace(",", "").replace("/-", "").replace("RS.", "").replace("₹", "").strip()
-    if not s:
+    orig_str = normalize_indic_digits(val).strip()
+    if not orig_str:
         return None
 
-    if "LPA" in s or "LAKH" in s or "LAC" in s:
-        match = re.search(r"[\d.]+", s)
-        if match:
-            try:
-                return round(float(match.group(0)) * 100000.0, 2)
-            except ValueError:
-                return None
-
-    # Standard integer/float extract
-    match = re.search(r"\d+(\.\d+)?", s)
-    if match:
+    # Step 1: Look for explicit Indian currency format with commas: e.g. 1,80,000 or 1,80,000/-
+    comma_match = re.search(r'(?:RS\.?|₹)?\s*(\d{1,3}(?:,\d{2,3})+(?:\.\d{1,2})?)', orig_str, re.IGNORECASE)
+    if comma_match:
         try:
-            return round(float(match.group(0)), 2)
+            num_str = comma_match.group(1).replace(",", "")
+            return round(float(num_str), 2)
         except ValueError:
-            return None
+            pass
+
+    # Step 2: Look for abbreviated LPA / Lakh / Lac multiplier with small number (< 1000)
+    # E.g. "1.8 LPA", "2.5 Lakh", "3.0 Lacs"
+    lpa_match = re.search(r'(\d+(?:\.\d+)?)\s*(?:LPA|LAKH|LAC|LACS|LAKHS)\b', orig_str, re.IGNORECASE)
+    if lpa_match:
+        try:
+            num = float(lpa_match.group(1))
+            if num < 1000.0:
+                return round(num * 100000.0, 2)
+            else:
+                return round(num, 2)
+        except ValueError:
+            pass
+
+    # Step 3: Generic numeric extraction
+    s = orig_str.upper().replace(",", "").replace("/-", "").replace("RS.", "").replace("₹", "").strip()
+    num_matches = re.findall(r'\b\d+(?:\.\d+)?\b', s)
+    if num_matches:
+        try:
+            # If multiple numbers exist, check if one looks like a full annual income (>= 1000)
+            for nm in num_matches:
+                val_f = float(nm)
+                if val_f >= 1000.0:
+                    return round(val_f, 2)
+
+            first_num = float(num_matches[0])
+            # If only small number and "LPA" or "LAKH" appears anywhere in text:
+            if ("LPA" in s or "LAKH" in s or "LAC" in s) and first_num < 1000.0:
+                return round(first_num * 100000.0, 2)
+            return round(first_num, 2)
+        except ValueError:
+            pass
+
     return None
 
 
@@ -390,10 +450,26 @@ def validate_ifsc_code(ifsc: Optional[str]) -> bool:
 
 # ----------------- CERTIFICATE NUMBER NORMALIZATION -----------------
 def normalize_cert_number(cert_no: Optional[str]) -> str:
-    """Normalizes certificate/registration number: converts Indic digits, strips whitespace, converts to uppercase."""
+    """
+    Normalizes certificate/registration number: converts Indic digits, strips whitespace, converts to uppercase.
+    Performs OCR error correction for digit 0 confused with letter O in 4-digit year slots (e.g., 2O25 -> 2025)
+    and in subsequent numeric sequence slots (e.g., /2025/1O4928 -> /2025/104928).
+    """
     if not cert_no or not isinstance(cert_no, str):
         return ""
-    return re.sub(r'[\s\-_]', '', normalize_indic_digits(cert_no).strip().upper())
+    cleaned = re.sub(r'[\s\-_]', '', normalize_indic_digits(cert_no).strip().upper())
+    # Correct letter 'O' in 4-digit year pattern (e.g. 2O24 -> 2024, 2O25 -> 2025)
+    cleaned = re.sub(r'/(2)O(2\d)/', r'/\g<1>0\g<2>/', cleaned)
+    cleaned = re.sub(r'^([A-Z]+/)2O(2\d/)', r'\g<1>20\2', cleaned)
+    cleaned = re.sub(r'/(2)O(2\d)$', r'/\g<1>0\g<2>', cleaned)
+
+    # Correct letter 'O' in numeric sequence after year slash (e.g. /2025/1O4928 -> /2025/104928)
+    m = re.search(r'/(20\d{2})/([0-9O]+)$', cleaned)
+    if m:
+        seq = m.group(2).replace('O', '0')
+        cleaned = cleaned[:m.start(2)] + seq
+
+    return cleaned
 
 
 # ----------------- V2 MATCH GRADE COMPARISON FUNCTIONS -----------------

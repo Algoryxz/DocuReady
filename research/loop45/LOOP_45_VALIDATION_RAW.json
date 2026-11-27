@@ -1,0 +1,893 @@
+{
+  "real_corpus": [
+    {
+      "primary_script": "LATIN",
+      "is_mixed": false,
+      "has_gutter": false,
+      "probe_uncertain": false,
+      "script_counts": {
+        "latin": 49,
+        "devanagari": 0,
+        "odia": 0,
+        "total": 49
+      },
+      "strategy": "FAST_PATH_ENG",
+      "lang": "eng",
+      "profile_ms": 395.6,
+      "pass": true,
+      "id": "DOC_CTRL_01",
+      "path": "research/loop18/corpus/DOC_CTRL_01_ENGLISH_CERTIFICATE.png",
+      "sha256": "2d1593af0562920e39cda860919a8e3d90790cb059d0e4c3e1dcb3e1e6c3a655",
+      "partition": "CAL",
+      "expected_group": "FAST_PATH_ENG",
+      "cohort": "REAL_CORPUS"
+    },
+    {
+      "primary_script": "MIXED_ODIA_LATIN",
+      "is_mixed": true,
+      "has_gutter": false,
+      "probe_uncertain": false,
+      "script_counts": {
+        "latin": 29,
+        "devanagari": 0,
+        "odia": 26,
+        "total": 55
+      },
+      "strategy": "GLOBAL_MULTILINGUAL",
+      "lang": "eng+hin+ori",
+      "profile_ms": 154.9,
+      "pass": true,
+      "id": "DOC_EXT_06",
+      "path": "research/loop18/corpus/DOC_EXT_06_ODIA_REVENUE_NOTICE.png",
+      "sha256": "1a1beb61608bd44d80aff1dbe665c418c02dc0c78af9ae9cfd0d0b8fe45ed07f",
+      "partition": "CAL",
+      "expected_group": "INDIC_OR_MULTI",
+      "cohort": "REAL_CORPUS"
+    },
+    {
+      "primary_script": "DEVANAGARI",
+      "is_mixed": false,
+      "has_gutter": false,
+      "probe_uncertain": false,
+      "script_counts": {
+        "latin": 13,
+        "devanagari": 137,
+        "odia": 0,
+        "total": 150
+      },
+      "strategy": "MONOLINGUAL_HIN",
+      "lang": "hin",
+      "profile_ms": 624.4,
+      "pass": true,
+      "id": "DOC_HIN_01",
+      "path": "research/loop14/corpus/DOC_HIN_01_ADMIN_CIRCULAR.png",
+      "sha256": "a48b0bf31a9df2be21f686525d81732b2aefb9578b7a1f73e2517972dec89341",
+      "partition": "CAL",
+      "expected_group": "INDIC_OR_MULTI",
+      "cohort": "REAL_CORPUS"
+    },
+    {
+      "primary_script": "MIXED_DEVANAGARI_LATIN",
+      "is_mixed": true,
+      "has_gutter": false,
+      "probe_uncertain": false,
+      "script_counts": {
+        "latin": 42,
+        "devanagari": 23,
+        "odia": 7,
+        "total": 72
+      },
+      "strategy": "GLOBAL_MULTILINGUAL",
+      "lang": "eng+hin+ori",
+      "profile_ms": 358.46,
+      "pass": true,
+      "id": "DOC_MIX_01",
+      "path": "research/loop14/corpus/DOC_MIX_01_HIN_ENG_SCHOLARSHIP.png",
+      "sha256": "cff4c86a71b9d70401705c9e33a048c208a26be88bcd79b140c5446610a36862",
+      "partition": "CAL",
+      "expected_group": "INDIC_OR_MULTI",
+      "cohort": "REAL_CORPUS"
+    },
+    {
+      "primary_script": "MIXED_ODIA_LATIN",
+      "is_mixed": true,
+      "has_gutter": false,
+      "probe_uncertain": false,
+      "script_counts": {
+        "latin": 22,
+        "devanagari": 0,
+        "odia": 23,
+        "total": 45
+      },
+      "strategy": "GLOBAL_MULTILINGUAL",
+      "lang": "eng+hin+ori",
+      "profile_ms": 688.73,
+      "pass": true,
+      "id": "DOC_MIX_02",
+      "path": "research/loop14/corpus/DOC_MIX_02_ORI_ENG_SCHOLARSHIP.png",
+      "sha256": "551083ad6e960ea9222ddf0be91d72d4b58ecf5b24392864f21598d46cfb50ab",
+      "partition": "CAL",
+      "expected_group": "INDIC_OR_MULTI",
+      "cohort": "REAL_CORPUS"
+    },
+    {
+      "primary_script": "UNKNOWN",
+      "is_mixed": false,
+      "has_gutter": false,
+      "probe_uncertain": true,
+      "script_counts": {},
+      "strategy": "GLOBAL_MULTILINGUAL",
+      "lang": "eng+hin+ori",
+      "profile_ms": 39.41,
+      "pass": false,
+      "id": "doclaynet_001",
+      "path": "research/loop11_benchmark/data/doclaynet/doclaynet_001.png",
+      "sha256": "a286b4a8c8bb4be9405741e37f1753de485d710b14b12ab8f13602c9c03e438a",
+      "partition": "BLIND",
+      "expected_group": "FAST_PATH_ENG",
+      "cohort": "REAL_CORPUS"
+    },
+    {
+      "primary_script": "UNKNOWN",
+      "is_mixed": false,
+      "has_gutter": false,
+      "probe_uncertain": true,
+      "script_counts": {},
+      "strategy": "GLOBAL_MULTILINGUAL",
+      "lang": "eng+hin+ori",
+      "profile_ms": 38.38,
+      "pass": false,
+      "id": "doclaynet_002",
+      "path": "research/loop11_benchmark/data/doclaynet/doclaynet_002.png",
+      "sha256": "eccd44a9ae0d26e64348b4e3df3213d49213868edc4a1fcc223c32812bae60e0",
+      "partition": "BLIND",
+      "expected_group": "FAST_PATH_ENG",
+      "cohort": "REAL_CORPUS"
+    },
+    {
+      "primary_script": "UNKNOWN",
+      "is_mixed": false,
+      "has_gutter": false,
+      "probe_uncertain": true,
+      "script_counts": {},
+      "strategy": "GLOBAL_MULTILINGUAL",
+      "lang": "eng+hin+ori",
+      "profile_ms": 44.01,
+      "pass": false,
+      "id": "doclaynet_003",
+      "path": "research/loop11_benchmark/data/doclaynet/doclaynet_003.png",
+      "sha256": "fc7d7748b4c967f712ea244ebb474847febf94671025a9be0f4b1d4f588b348f",
+      "partition": "BLIND",
+      "expected_group": "FAST_PATH_ENG",
+      "cohort": "REAL_CORPUS"
+    },
+    {
+      "primary_script": "UNKNOWN",
+      "is_mixed": false,
+      "has_gutter": false,
+      "probe_uncertain": true,
+      "script_counts": {},
+      "strategy": "GLOBAL_MULTILINGUAL",
+      "lang": "eng+hin+ori",
+      "profile_ms": 72.13,
+      "pass": false,
+      "id": "doclaynet_004",
+      "path": "research/loop11_benchmark/data/doclaynet/doclaynet_004.png",
+      "sha256": "f1258f8a9a3807ae11335813f41bd544a1be38a8853c475362ed90a971abec03",
+      "partition": "BLIND",
+      "expected_group": "FAST_PATH_ENG",
+      "cohort": "REAL_CORPUS"
+    },
+    {
+      "primary_script": "UNKNOWN",
+      "is_mixed": false,
+      "has_gutter": false,
+      "probe_uncertain": true,
+      "script_counts": {},
+      "strategy": "GLOBAL_MULTILINGUAL",
+      "lang": "eng+hin+ori",
+      "profile_ms": 41.0,
+      "pass": false,
+      "id": "doclaynet_005",
+      "path": "research/loop11_benchmark/data/doclaynet/doclaynet_005.png",
+      "sha256": "f85bdf81aafe1230da3b0e1c439d4ce7512a189bb4e9effbd289d30b79cd2d72",
+      "partition": "BLIND",
+      "expected_group": "FAST_PATH_ENG",
+      "cohort": "REAL_CORPUS"
+    },
+    {
+      "primary_script": "MIXED_ODIA_LATIN",
+      "is_mixed": true,
+      "has_gutter": true,
+      "probe_uncertain": false,
+      "script_counts": {
+        "latin": 54,
+        "devanagari": 0,
+        "odia": 23,
+        "total": 77
+      },
+      "strategy": "REGION_AWARE_ROUTING",
+      "lang": "auto",
+      "profile_ms": 868.71,
+      "pass": true,
+      "id": "CHALLENGE_02_ORI_ENG_2COL",
+      "path": "research/loop18/corpus/CHALLENGE_02_ODIA_ENGLISH_GAZETTE_TWO_COL.png",
+      "sha256": "348263e0996f9846584c19526dd7ec89d0cd7879cea0e7e14270521a699ad615",
+      "partition": "BLIND",
+      "expected_group": "INDIC_OR_MULTI",
+      "cohort": "REAL_CORPUS"
+    },
+    {
+      "primary_script": "MIXED_DEVANAGARI_LATIN",
+      "is_mixed": true,
+      "has_gutter": false,
+      "probe_uncertain": false,
+      "script_counts": {
+        "latin": 21,
+        "devanagari": 25,
+        "odia": 7,
+        "total": 53
+      },
+      "strategy": "GLOBAL_MULTILINGUAL",
+      "lang": "eng+hin+ori",
+      "profile_ms": 1131.35,
+      "pass": true,
+      "id": "CHALLENGE_03_HIN_ENG_GRID",
+      "path": "research/loop18/corpus/CHALLENGE_03_HINDI_ENGLISH_MARKSHEET_ROW_GRID.png",
+      "sha256": "0456db8b21aca6403047e7e137a7de58967110fd1793c6ec5f58bca1796d5489",
+      "partition": "BLIND",
+      "expected_group": "INDIC_OR_MULTI",
+      "cohort": "REAL_CORPUS"
+    },
+    {
+      "primary_script": "LATIN",
+      "is_mixed": false,
+      "has_gutter": false,
+      "probe_uncertain": false,
+      "script_counts": {
+        "latin": 41,
+        "devanagari": 0,
+        "odia": 0,
+        "total": 41
+      },
+      "strategy": "FAST_PATH_ENG",
+      "lang": "eng",
+      "profile_ms": 606.58,
+      "pass": true,
+      "id": "CHALLENGE_06_FAINT_SEAL",
+      "path": "research/loop18/corpus/CHALLENGE_06_FAINT_SEAL_OVER_NUMERIC_ID.png",
+      "sha256": "5559716ac267c696546b1267cb8a56517c75e86db3a3ed343afe47728405af1c",
+      "partition": "BLIND",
+      "expected_group": "FAST_PATH_ENG",
+      "cohort": "REAL_CORPUS"
+    },
+    {
+      "primary_script": "MIXED_DEVANAGARI_LATIN",
+      "is_mixed": true,
+      "has_gutter": false,
+      "probe_uncertain": false,
+      "script_counts": {
+        "latin": 29,
+        "devanagari": 29,
+        "odia": 15,
+        "total": 73
+      },
+      "strategy": "GLOBAL_MULTILINGUAL",
+      "lang": "eng+hin+ori",
+      "profile_ms": 550.55,
+      "pass": true,
+      "id": "DOC_EXT_02_PENSION",
+      "path": "research/loop18/corpus/DOC_EXT_02_PENSION_DISBURSEMENT_ORDER.png",
+      "sha256": "ee184de542057334ea6897f4d567b4279eedd6226b5f7bb244ed2f304ba9829a",
+      "partition": "BLIND",
+      "expected_group": "INDIC_OR_MULTI",
+      "cohort": "REAL_CORPUS"
+    },
+    {
+      "primary_script": "MIXED_ODIA_LATIN",
+      "is_mixed": true,
+      "has_gutter": false,
+      "probe_uncertain": false,
+      "script_counts": {
+        "latin": 55,
+        "devanagari": 0,
+        "odia": 18,
+        "total": 73
+      },
+      "strategy": "GLOBAL_MULTILINGUAL",
+      "lang": "eng+hin+ori",
+      "profile_ms": 352.15,
+      "pass": true,
+      "id": "DOC_EXT_03_DEGREE",
+      "path": "research/loop18/corpus/DOC_EXT_03_UNIVERSITY_CONVOCATION_DEGREE.png",
+      "sha256": "06252b6ad0fb0a647bdb3eb97b8f387d9101a6ca9f4d44a7e4e03bb96b968d03",
+      "partition": "BLIND",
+      "expected_group": "INDIC_OR_MULTI",
+      "cohort": "REAL_CORPUS"
+    },
+    {
+      "primary_script": "MIXED_DEVANAGARI_LATIN",
+      "is_mixed": true,
+      "has_gutter": false,
+      "probe_uncertain": false,
+      "script_counts": {
+        "latin": 25,
+        "devanagari": 38,
+        "odia": 0,
+        "total": 63
+      },
+      "strategy": "GLOBAL_MULTILINGUAL",
+      "lang": "eng+hin",
+      "profile_ms": 614.27,
+      "pass": true,
+      "id": "DOC_EXT_04_KHATAUNI",
+      "path": "research/loop18/corpus/DOC_EXT_04_LAND_REVENUE_KHATAUNI_RECORD.png",
+      "sha256": "bfb9904e19aa78e8d112a3de5404be7033eda351886db94345f1b10db0e89238",
+      "partition": "BLIND",
+      "expected_group": "INDIC_OR_MULTI",
+      "cohort": "REAL_CORPUS"
+    },
+    {
+      "primary_script": "MIXED_DEVANAGARI_LATIN",
+      "is_mixed": true,
+      "has_gutter": false,
+      "probe_uncertain": false,
+      "script_counts": {
+        "latin": 82,
+        "devanagari": 26,
+        "odia": 0,
+        "total": 108
+      },
+      "strategy": "GLOBAL_MULTILINGUAL",
+      "lang": "eng+hin",
+      "profile_ms": 551.74,
+      "pass": true,
+      "id": "DOC_EXT_05_HEALTH",
+      "path": "research/loop18/corpus/DOC_EXT_05_PUBLIC_HEALTH_CIRCULAR.png",
+      "sha256": "c8ef0919a6c5a631e6449a681ef2c4b3a6fe450b47d053f897106825dd1b3f18",
+      "partition": "BLIND",
+      "expected_group": "INDIC_OR_MULTI",
+      "cohort": "REAL_CORPUS"
+    },
+    {
+      "primary_script": "LATIN",
+      "is_mixed": false,
+      "has_gutter": true,
+      "probe_uncertain": false,
+      "script_counts": {
+        "latin": 23,
+        "devanagari": 2,
+        "odia": 0,
+        "total": 25
+      },
+      "strategy": "FAST_PATH_ENG",
+      "lang": "eng",
+      "profile_ms": 792.48,
+      "pass": true,
+      "id": "STRESS_02_STAMP",
+      "path": "research/loop18/stress_fixtures/STRESS_02_FAINT_RUBBER_STAMP_OVERLAY.png",
+      "sha256": "4161defad20f843e1a35879dc93ada9cf8896157535d483acd91003c847b6e7d",
+      "partition": "BLIND",
+      "expected_group": "FAST_PATH_ENG",
+      "cohort": "REAL_CORPUS"
+    }
+  ],
+  "synthetic_and_negative": [
+    {
+      "primary_script": "MIXED_DEVANAGARI_LATIN",
+      "is_mixed": true,
+      "has_gutter": false,
+      "probe_uncertain": false,
+      "script_counts": {
+        "latin": 69,
+        "devanagari": 150,
+        "odia": 0,
+        "total": 219
+      },
+      "strategy": "GLOBAL_MULTILINGUAL",
+      "lang": "eng+hin",
+      "profile_ms": 1071.8,
+      "pass": true,
+      "id": "SYN_DEV_HDR_LAT_ID",
+      "path": "research\\loop45\\synthetic_cohort\\SYN_DEV_HDR_LAT_ID.png",
+      "sha256": "2da8d62558abf12abcb0d7d88dbd84235d9550a1b573a5eb4dd3972517ffbfec",
+      "cohort": "SYNTHETIC_COMPOSITED",
+      "partition": "BLIND",
+      "expected_group": "INDIC_OR_MULTI",
+      "script_distribution": "Devanagari upper + Latin middle",
+      "layout": "upper_header_blank_lower",
+      "regions": "devanagari@0.05-0.21; latin@0.28-0.42"
+    },
+    {
+      "primary_script": "MIXED_ODIA_LATIN",
+      "is_mixed": true,
+      "has_gutter": false,
+      "probe_uncertain": false,
+      "script_counts": {
+        "latin": 102,
+        "devanagari": 0,
+        "odia": 25,
+        "total": 127
+      },
+      "strategy": "GLOBAL_MULTILINGUAL",
+      "lang": "eng+hin+ori",
+      "profile_ms": 655.81,
+      "pass": true,
+      "id": "SYN_ORI_HDR_LAT_ID",
+      "path": "research\\loop45\\synthetic_cohort\\SYN_ORI_HDR_LAT_ID.png",
+      "sha256": "f2a218ae74e27c688278cb724306b9156dbb41164bfc08157c1c4a333a47f8c0",
+      "cohort": "SYNTHETIC_COMPOSITED",
+      "partition": "BLIND",
+      "expected_group": "INDIC_OR_MULTI",
+      "script_distribution": "Odia upper + Latin middle",
+      "layout": "upper_header_blank_lower",
+      "regions": "odia@0.05-0.21; latin@0.28-0.42"
+    },
+    {
+      "primary_script": "LATIN",
+      "is_mixed": false,
+      "has_gutter": false,
+      "probe_uncertain": false,
+      "script_counts": {
+        "latin": 270,
+        "devanagari": 0,
+        "odia": 0,
+        "total": 270
+      },
+      "strategy": "FAST_PATH_ENG",
+      "lang": "eng",
+      "profile_ms": 282.76,
+      "pass": false,
+      "id": "SYN_DEV_HDR_LAT_BODY",
+      "path": "research\\loop45\\synthetic_cohort\\SYN_DEV_HDR_LAT_BODY.png",
+      "sha256": "74a3b8950760e056edaf57481e5a523fbb7b5c1faff1c3432582c3e34f7d5719",
+      "cohort": "SYNTHETIC_COMPOSITED",
+      "partition": "BLIND",
+      "expected_group": "INDIC_OR_MULTI",
+      "script_distribution": "Devanagari upper + Latin full body",
+      "layout": "upper_header_latin_body",
+      "regions": "devanagari@0.05-0.21; latin@0.28-0.80"
+    },
+    {
+      "primary_script": "LATIN",
+      "is_mixed": false,
+      "has_gutter": false,
+      "probe_uncertain": false,
+      "script_counts": {
+        "latin": 270,
+        "devanagari": 0,
+        "odia": 0,
+        "total": 270
+      },
+      "strategy": "FAST_PATH_ENG",
+      "lang": "eng",
+      "profile_ms": 239.92,
+      "pass": false,
+      "id": "SYN_ORI_HDR_LAT_BODY",
+      "path": "research\\loop45\\synthetic_cohort\\SYN_ORI_HDR_LAT_BODY.png",
+      "sha256": "907340f41d3991b000a10a3ee96543a8f76b95117a073736cb80cb9ecfbfd0c0",
+      "cohort": "SYNTHETIC_COMPOSITED",
+      "partition": "BLIND",
+      "expected_group": "INDIC_OR_MULTI",
+      "script_distribution": "Odia upper + Latin full body",
+      "layout": "upper_header_latin_body",
+      "regions": "odia@0.05-0.21; latin@0.28-0.80"
+    },
+    {
+      "primary_script": "MIXED_DEVANAGARI_LATIN",
+      "is_mixed": true,
+      "has_gutter": false,
+      "probe_uncertain": false,
+      "script_counts": {
+        "latin": 39,
+        "devanagari": 78,
+        "odia": 0,
+        "total": 117
+      },
+      "strategy": "GLOBAL_MULTILINGUAL",
+      "lang": "eng+hin",
+      "profile_ms": 689.88,
+      "pass": true,
+      "id": "SYN_LAT_HDR_DEV_BODY",
+      "path": "research\\loop45\\synthetic_cohort\\SYN_LAT_HDR_DEV_BODY.png",
+      "sha256": "666541b894032f34f690b6c653e83315a7f3090fd320fd5b14ece77a5e627246",
+      "cohort": "SYNTHETIC_COMPOSITED",
+      "partition": "BLIND",
+      "expected_group": "INDIC_OR_MULTI",
+      "script_distribution": "Latin upper/central + Devanagari lower",
+      "layout": "latin_header_indic_body",
+      "regions": "latin@0.25-0.42; devanagari@0.54-0.84"
+    },
+    {
+      "primary_script": "MIXED_ODIA_LATIN",
+      "is_mixed": true,
+      "has_gutter": false,
+      "probe_uncertain": false,
+      "script_counts": {
+        "latin": 141,
+        "devanagari": 0,
+        "odia": 47,
+        "total": 188
+      },
+      "strategy": "GLOBAL_MULTILINGUAL",
+      "lang": "eng+hin+ori",
+      "profile_ms": 1112.93,
+      "pass": true,
+      "id": "SYN_LAT_HDR_ORI_BODY",
+      "path": "research\\loop45\\synthetic_cohort\\SYN_LAT_HDR_ORI_BODY.png",
+      "sha256": "745e669515e9d9769bbb3022cb26bf7b0a7575ee047da1df8ba37a5741f7ff02",
+      "cohort": "SYNTHETIC_COMPOSITED",
+      "partition": "BLIND",
+      "expected_group": "INDIC_OR_MULTI",
+      "script_distribution": "Latin upper/central + Odia lower",
+      "layout": "latin_header_indic_body",
+      "regions": "latin@0.25-0.42; odia@0.54-0.84"
+    },
+    {
+      "primary_script": "UNKNOWN",
+      "is_mixed": false,
+      "has_gutter": false,
+      "probe_uncertain": true,
+      "script_counts": {},
+      "strategy": "GLOBAL_MULTILINGUAL",
+      "lang": "eng+hin+ori",
+      "profile_ms": 47.74,
+      "pass": true,
+      "id": "SYN_SHORT_UPPER_DEV",
+      "path": "research\\loop45\\synthetic_cohort\\SYN_SHORT_UPPER_DEV.png",
+      "sha256": "359de8d3bb114bb06801a24bb88e980ebbeb271bff6155d3739477bc58f0c423",
+      "cohort": "SYNTHETIC_COMPOSITED",
+      "partition": "BLIND",
+      "expected_group": "INDIC_OR_MULTI",
+      "script_distribution": "Short Devanagari upper-only",
+      "layout": "short_upper_only",
+      "regions": "devanagari@0.05-0.22; blank@0.25-1.0"
+    },
+    {
+      "primary_script": "UNKNOWN",
+      "is_mixed": false,
+      "has_gutter": false,
+      "probe_uncertain": true,
+      "script_counts": {},
+      "strategy": "GLOBAL_MULTILINGUAL",
+      "lang": "eng+hin+ori",
+      "profile_ms": 45.97,
+      "pass": true,
+      "id": "SYN_SHORT_UPPER_ORI",
+      "path": "research\\loop45\\synthetic_cohort\\SYN_SHORT_UPPER_ORI.png",
+      "sha256": "8b6e1bb8cc91fdb86f8e173dafbee88e55c8f24b86d2c49a99fa796ec4931a5d",
+      "cohort": "SYNTHETIC_COMPOSITED",
+      "partition": "BLIND",
+      "expected_group": "INDIC_OR_MULTI",
+      "script_distribution": "Short Odia upper-only",
+      "layout": "short_upper_only",
+      "regions": "odia@0.05-0.22; blank@0.25-1.0"
+    },
+    {
+      "primary_script": "LATIN",
+      "is_mixed": false,
+      "has_gutter": false,
+      "probe_uncertain": false,
+      "script_counts": {
+        "latin": 40,
+        "devanagari": 0,
+        "odia": 0,
+        "total": 40
+      },
+      "strategy": "FAST_PATH_ENG",
+      "lang": "eng",
+      "profile_ms": 200.07,
+      "pass": true,
+      "id": "NEG_ENG_CIRCULAR_SEAL",
+      "path": "research\\loop45\\synthetic_cohort\\NEG_ENG_CIRCULAR_SEAL.png",
+      "sha256": "b36c85572bb38238743df7cdea0578d7ea8e479391b26654e4a53ecc805178dc",
+      "cohort": "SYNTHETIC_COMPOSITED",
+      "partition": "BLIND",
+      "expected_group": "FAST_PATH_ENG",
+      "script_distribution": "English + circular seal in upper band",
+      "layout": "negative_control",
+      "regions": "seal+latin@0.06-0.20; latin@0.28-0.45"
+    },
+    {
+      "primary_script": "LATIN",
+      "is_mixed": false,
+      "has_gutter": false,
+      "probe_uncertain": false,
+      "script_counts": {
+        "latin": 49,
+        "devanagari": 0,
+        "odia": 0,
+        "total": 49
+      },
+      "strategy": "FAST_PATH_ENG",
+      "lang": "eng",
+      "profile_ms": 181.73,
+      "pass": true,
+      "id": "NEG_ENG_DECORATIVE_CREST",
+      "path": "research\\loop45\\synthetic_cohort\\NEG_ENG_DECORATIVE_CREST.png",
+      "sha256": "a5029faf2cea9263a46b5fd8f98016af120b0391bd51b85a1d66e07068eb3af3",
+      "cohort": "SYNTHETIC_COMPOSITED",
+      "partition": "BLIND",
+      "expected_group": "FAST_PATH_ENG",
+      "script_distribution": "English + decorative cross-hatched crest",
+      "layout": "negative_control",
+      "regions": "crest+latin@0.06-0.20; latin@0.28-0.45"
+    },
+    {
+      "primary_script": "LATIN",
+      "is_mixed": false,
+      "has_gutter": false,
+      "probe_uncertain": false,
+      "script_counts": {
+        "latin": 33,
+        "devanagari": 0,
+        "odia": 0,
+        "total": 33
+      },
+      "strategy": "FAST_PATH_ENG",
+      "lang": "eng",
+      "profile_ms": 90.05,
+      "pass": true,
+      "id": "NEG_ENG_UPPER_NOISE",
+      "path": "research\\loop45\\synthetic_cohort\\NEG_ENG_UPPER_NOISE.png",
+      "sha256": "d577094756865af17a17eeffde3b58b59c38d45b4b693cfcd315f65c59c0956d",
+      "cohort": "SYNTHETIC_COMPOSITED",
+      "partition": "BLIND",
+      "expected_group": "FAST_PATH_ENG",
+      "script_distribution": "English + 1.5% salt-pepper noise in upper band",
+      "layout": "negative_control",
+      "regions": "noise@0.05-0.25; latin@0.28-0.45"
+    },
+    {
+      "primary_script": "LATIN",
+      "is_mixed": false,
+      "has_gutter": false,
+      "probe_uncertain": false,
+      "script_counts": {
+        "latin": 36,
+        "devanagari": 0,
+        "odia": 0,
+        "total": 36
+      },
+      "strategy": "FAST_PATH_ENG",
+      "lang": "eng",
+      "profile_ms": 171.73,
+      "pass": true,
+      "id": "NEG_ENG_DIAGONAL_MARKS",
+      "path": "research\\loop45\\synthetic_cohort\\NEG_ENG_DIAGONAL_MARKS.png",
+      "sha256": "9dfaf9daa99c1b352639b62a0dea4230d34479fd00739d2caf2e4dc97e8edc4d",
+      "cohort": "SYNTHETIC_COMPOSITED",
+      "partition": "BLIND",
+      "expected_group": "FAST_PATH_ENG",
+      "script_distribution": "English + diagonal watermark lines",
+      "layout": "negative_control",
+      "regions": "lines+latin@0.06-0.20; latin@0.28-0.45"
+    }
+  ],
+  "threshold_audit": {
+    "devanagari_text": [
+      {
+        "n_chars": 1,
+        "detected_dev": 0,
+        "primary": "LATIN",
+        "is_mixed": false
+      },
+      {
+        "n_chars": 2,
+        "detected_dev": 2,
+        "primary": "LATIN",
+        "is_mixed": false
+      },
+      {
+        "n_chars": 3,
+        "detected_dev": 3,
+        "primary": "LATIN",
+        "is_mixed": false
+      },
+      {
+        "n_chars": 4,
+        "detected_dev": 4,
+        "primary": "LATIN",
+        "is_mixed": false
+      },
+      {
+        "n_chars": 5,
+        "detected_dev": 5,
+        "primary": "MIXED_DEVANAGARI_LATIN",
+        "is_mixed": true
+      },
+      {
+        "n_chars": 6,
+        "detected_dev": 6,
+        "primary": "MIXED_DEVANAGARI_LATIN",
+        "is_mixed": true
+      },
+      {
+        "n_chars": 8,
+        "detected_dev": 8,
+        "primary": "MIXED_DEVANAGARI_LATIN",
+        "is_mixed": true
+      },
+      {
+        "n_chars": 10,
+        "detected_dev": 10,
+        "primary": "MIXED_DEVANAGARI_LATIN",
+        "is_mixed": true
+      },
+      {
+        "n_chars": 20,
+        "detected_dev": 20,
+        "primary": "MIXED_DEVANAGARI_LATIN",
+        "is_mixed": true
+      }
+    ],
+    "odia_text": [
+      {
+        "n_chars": 1,
+        "detected_ori": 0,
+        "primary": "LATIN",
+        "is_mixed": false
+      },
+      {
+        "n_chars": 2,
+        "detected_ori": 2,
+        "primary": "LATIN",
+        "is_mixed": false
+      },
+      {
+        "n_chars": 3,
+        "detected_ori": 3,
+        "primary": "LATIN",
+        "is_mixed": false
+      },
+      {
+        "n_chars": 4,
+        "detected_ori": 4,
+        "primary": "LATIN",
+        "is_mixed": false
+      },
+      {
+        "n_chars": 5,
+        "detected_ori": 5,
+        "primary": "MIXED_ODIA_LATIN",
+        "is_mixed": true
+      },
+      {
+        "n_chars": 6,
+        "detected_ori": 6,
+        "primary": "MIXED_ODIA_LATIN",
+        "is_mixed": true
+      },
+      {
+        "n_chars": 8,
+        "detected_ori": 8,
+        "primary": "MIXED_ODIA_LATIN",
+        "is_mixed": true
+      },
+      {
+        "n_chars": 10,
+        "detected_ori": 10,
+        "primary": "MIXED_ODIA_LATIN",
+        "is_mixed": true
+      },
+      {
+        "n_chars": 20,
+        "detected_ori": 20,
+        "primary": "MIXED_ODIA_LATIN",
+        "is_mixed": true
+      }
+    ],
+    "upper_band_resolution": [
+      {
+        "script": "devanagari_upper",
+        "max_dim": 350,
+        "thumb_size": [
+          350,
+          113
+        ],
+        "dev_chars": 115,
+        "ori_chars": 14,
+        "passes_6_guard": true,
+        "ms": 924.15
+      },
+      {
+        "script": "devanagari_upper",
+        "max_dim": 500,
+        "thumb_size": [
+          500,
+          161
+        ],
+        "dev_chars": 150,
+        "ori_chars": 8,
+        "passes_6_guard": true,
+        "ms": 960.38
+      },
+      {
+        "script": "devanagari_upper",
+        "max_dim": 650,
+        "thumb_size": [
+          650,
+          210
+        ],
+        "dev_chars": 127,
+        "ori_chars": 10,
+        "passes_6_guard": true,
+        "ms": 1187.09
+      },
+      {
+        "script": "odia_upper",
+        "max_dim": 350,
+        "thumb_size": [
+          350,
+          113
+        ],
+        "dev_chars": 6,
+        "ori_chars": 5,
+        "passes_6_guard": true,
+        "ms": 441.53
+      },
+      {
+        "script": "odia_upper",
+        "max_dim": 500,
+        "thumb_size": [
+          500,
+          161
+        ],
+        "dev_chars": 1,
+        "ori_chars": 25,
+        "passes_6_guard": true,
+        "ms": 651.12
+      },
+      {
+        "script": "odia_upper",
+        "max_dim": 650,
+        "thumb_size": [
+          650,
+          210
+        ],
+        "dev_chars": 0,
+        "ori_chars": 26,
+        "passes_6_guard": true,
+        "ms": 592.86
+      }
+    ]
+  },
+  "evidence_checks": {
+    "DOC_CTRL_01": {
+      "strategy": "FAST_PATH_ENG",
+      "total_boxes": 59,
+      "oob": 0,
+      "img_size": [
+        1000,
+        750
+      ]
+    },
+    "DOC_EXT_06": {
+      "strategy": "GLOBAL_MULTILINGUAL",
+      "total_boxes": 117,
+      "oob": 0,
+      "img_size": [
+        1000,
+        1300
+      ]
+    },
+    "CHALLENGE_02_2COL": {
+      "strategy": "REGION_AWARE_ROUTING",
+      "total_boxes": 64,
+      "oob": 0,
+      "img_size": [
+        1000,
+        750
+      ]
+    },
+    "SYN_ORI_HDR_LAT_ID": {
+      "strategy": "GLOBAL_MULTILINGUAL",
+      "total_boxes": 46,
+      "oob": 0,
+      "img_size": [
+        1200,
+        1600
+      ]
+    }
+  }
+}

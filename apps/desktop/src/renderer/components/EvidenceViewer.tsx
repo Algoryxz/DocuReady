@@ -374,6 +374,9 @@ export const EvidenceViewer: React.FC<EvidenceViewerProps> = ({
                   <div
                     key={ev.id}
                     className={`evidence-bbox ${statusClass} ${isSelected ? "selected" : ""}`}
+                    role="button"
+                    tabIndex={0}
+                    aria-label={`Evidence for ${ev.field}: ${ev.ruleStatus}`}
                     style={{
                       left: `${box.left}px`,
                       top: `${box.top}px`,
@@ -384,6 +387,14 @@ export const EvidenceViewer: React.FC<EvidenceViewerProps> = ({
                       e.stopPropagation();
                       onSelectEvidence(ev);
                       onSelectFinding(ev.ruleId);
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        onSelectEvidence(ev);
+                        onSelectFinding(ev.ruleId);
+                      }
                     }}
                     title={`${ev.field} (${ev.ruleId}): ${ev.ruleStatus} [${ev.extractionMethod}]`}
                   >

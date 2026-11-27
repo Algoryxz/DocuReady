@@ -1,0 +1,230 @@
+{
+  "multi_population_uncertainty": {
+    "field_level_benchmark": {
+      "population_name": "791-Field Multi-Cohort Benchmark (Single-Document Field Extraction)",
+      "sample_size": 344,
+      "observed_errors": 0,
+      "observed_precision_pct": 100.0,
+      "rule_of_three_upper_risk_pct": 0.87,
+      "precision_lower_bound_pct": 99.13,
+      "wilson_ci95": [
+        98.9,
+        100.0
+      ]
+    },
+    "loop28_claims": {
+      "population_name": "Loop 28 Cross-Document Benchmark Claims",
+      "sample_size": 42,
+      "observed_errors": 0,
+      "observed_precision_pct": 100.0,
+      "rule_of_three_upper_risk_pct": 7.14,
+      "precision_lower_bound_pct": 92.86,
+      "wilson_ci95": [
+        91.62,
+        100.0
+      ]
+    },
+    "cohort_m_claims": {
+      "population_name": "Cohort M Synthetic Generalization Claims",
+      "sample_size": 76,
+      "observed_errors": 0,
+      "observed_precision_pct": 100.0,
+      "rule_of_three_upper_risk_pct": 3.95,
+      "precision_lower_bound_pct": 96.05,
+      "wilson_ci95": [
+        95.19,
+        100.0
+      ]
+    }
+  },
+  "calibration": {
+    "candidate_level": {
+      "ece_pct": 46.93,
+      "mce_pct": 89.0,
+      "brier": 0.4603,
+      "bins": [
+        {
+          "bin_index": 1,
+          "range": "[0.0, 0.1)",
+          "count": 0,
+          "mean_confidence": 0.05,
+          "observed_accuracy": 0.0,
+          "gap": 0.0
+        },
+        {
+          "bin_index": 2,
+          "range": "[0.1, 0.2)",
+          "count": 0,
+          "mean_confidence": 0.15,
+          "observed_accuracy": 0.0,
+          "gap": 0.0
+        },
+        {
+          "bin_index": 3,
+          "range": "[0.2, 0.3)",
+          "count": 1,
+          "mean_confidence": 0.24,
+          "observed_accuracy": 0.0,
+          "gap": 0.24
+        },
+        {
+          "bin_index": 4,
+          "range": "[0.3, 0.4)",
+          "count": 0,
+          "mean_confidence": 0.35,
+          "observed_accuracy": 0.0,
+          "gap": 0.0
+        },
+        {
+          "bin_index": 5,
+          "range": "[0.4, 0.5)",
+          "count": 0,
+          "mean_confidence": 0.45,
+          "observed_accuracy": 0.0,
+          "gap": 0.0
+        },
+        {
+          "bin_index": 6,
+          "range": "[0.5, 0.6)",
+          "count": 0,
+          "mean_confidence": 0.55,
+          "observed_accuracy": 0.0,
+          "gap": 0.0
+        },
+        {
+          "bin_index": 7,
+          "range": "[0.6, 0.7)",
+          "count": 0,
+          "mean_confidence": 0.65,
+          "observed_accuracy": 0.0,
+          "gap": 0.0
+        },
+        {
+          "bin_index": 8,
+          "range": "[0.7, 0.8)",
+          "count": 0,
+          "mean_confidence": 0.75,
+          "observed_accuracy": 0.0,
+          "gap": 0.0
+        },
+        {
+          "bin_index": 9,
+          "range": "[0.8, 0.9)",
+          "count": 3,
+          "mean_confidence": 0.89,
+          "observed_accuracy": 0.0,
+          "gap": 0.89
+        },
+        {
+          "bin_index": 10,
+          "range": "[0.9, 1.0)",
+          "count": 88,
+          "mean_confidence": 0.9349,
+          "observed_accuracy": 0.4773,
+          "gap": 0.4576
+        }
+      ]
+    },
+    "decision_conditional": {
+      "ece_pct": 5.93,
+      "mce_pct": 5.93,
+      "brier": 0.0037,
+      "bins": [
+        {
+          "bin_index": 1,
+          "range": "[0.0, 0.1)",
+          "count": 0,
+          "mean_confidence": 0.05,
+          "observed_accuracy": 0.0,
+          "gap": 0.0
+        },
+        {
+          "bin_index": 2,
+          "range": "[0.1, 0.2)",
+          "count": 0,
+          "mean_confidence": 0.15,
+          "observed_accuracy": 0.0,
+          "gap": 0.0
+        },
+        {
+          "bin_index": 3,
+          "range": "[0.2, 0.3)",
+          "count": 0,
+          "mean_confidence": 0.25,
+          "observed_accuracy": 0.0,
+          "gap": 0.0
+        },
+        {
+          "bin_index": 4,
+          "range": "[0.3, 0.4)",
+          "count": 0,
+          "mean_confidence": 0.35,
+          "observed_accuracy": 0.0,
+          "gap": 0.0
+        },
+        {
+          "bin_index": 5,
+          "range": "[0.4, 0.5)",
+          "count": 0,
+          "mean_confidence": 0.45,
+          "observed_accuracy": 0.0,
+          "gap": 0.0
+        },
+        {
+          "bin_index": 6,
+          "range": "[0.5, 0.6)",
+          "count": 0,
+          "mean_confidence": 0.55,
+          "observed_accuracy": 0.0,
+          "gap": 0.0
+        },
+        {
+          "bin_index": 7,
+          "range": "[0.6, 0.7)",
+          "count": 0,
+          "mean_confidence": 0.65,
+          "observed_accuracy": 0.0,
+          "gap": 0.0
+        },
+        {
+          "bin_index": 8,
+          "range": "[0.7, 0.8)",
+          "count": 0,
+          "mean_confidence": 0.75,
+          "observed_accuracy": 0.0,
+          "gap": 0.0
+        },
+        {
+          "bin_index": 9,
+          "range": "[0.8, 0.9)",
+          "count": 0,
+          "mean_confidence": 0.85,
+          "observed_accuracy": 0.0,
+          "gap": 0.0
+        },
+        {
+          "bin_index": 10,
+          "range": "[0.9, 1.0)",
+          "count": 42,
+          "mean_confidence": 0.9407,
+          "observed_accuracy": 1.0,
+          "gap": 0.0593
+        }
+      ]
+    }
+  },
+  "packet_clustered_bootstrap": {
+    "precision_ci": [
+      100.0,
+      100.0
+    ],
+    "coverage_ci": [
+      32.18,
+      58.42
+    ],
+    "packet_coverage_ci": [
+      41.67,
+      75.0
+    ]
+  }
+}

@@ -1,0 +1,1322 @@
+[
+  {
+    "sample_id": "doclaynet_001",
+    "split": "DEV",
+    "pdf_path": "data\\doclaynet\\doclaynet_001.pdf",
+    "png_path": "data\\doclaynet\\doclaynet_001.png",
+    "layout_elements": [
+      {
+        "class": "Section-header",
+        "bbox": [
+          54,
+          40,
+          500,
+          55
+        ]
+      },
+      {
+        "class": "Text-col1",
+        "bbox": [
+          54,
+          70,
+          300,
+          180
+        ]
+      },
+      {
+        "class": "Text-col2",
+        "bbox": [
+          310,
+          70,
+          560,
+          180
+        ]
+      },
+      {
+        "class": "Table",
+        "bbox": [
+          54,
+          507.0,
+          558.0,
+          607.0
+        ]
+      }
+    ]
+  },
+  {
+    "sample_id": "doclaynet_002",
+    "split": "DEV",
+    "pdf_path": "data\\doclaynet\\doclaynet_002.pdf",
+    "png_path": "data\\doclaynet\\doclaynet_002.png",
+    "layout_elements": [
+      {
+        "class": "Section-header",
+        "bbox": [
+          54,
+          40,
+          500,
+          55
+        ]
+      },
+      {
+        "class": "Text-col1",
+        "bbox": [
+          54,
+          70,
+          300,
+          180
+        ]
+      },
+      {
+        "class": "Text-col2",
+        "bbox": [
+          310,
+          70,
+          560,
+          180
+        ]
+      },
+      {
+        "class": "Table",
+        "bbox": [
+          54,
+          507.0,
+          558.0,
+          607.0
+        ]
+      }
+    ]
+  },
+  {
+    "sample_id": "doclaynet_003",
+    "split": "DEV",
+    "pdf_path": "data\\doclaynet\\doclaynet_003.pdf",
+    "png_path": "data\\doclaynet\\doclaynet_003.png",
+    "layout_elements": [
+      {
+        "class": "Section-header",
+        "bbox": [
+          54,
+          40,
+          500,
+          55
+        ]
+      },
+      {
+        "class": "Text-col1",
+        "bbox": [
+          54,
+          70,
+          300,
+          180
+        ]
+      },
+      {
+        "class": "Text-col2",
+        "bbox": [
+          310,
+          70,
+          560,
+          180
+        ]
+      },
+      {
+        "class": "Table",
+        "bbox": [
+          54,
+          507.0,
+          558.0,
+          607.0
+        ]
+      }
+    ]
+  },
+  {
+    "sample_id": "doclaynet_004",
+    "split": "DEV",
+    "pdf_path": "data\\doclaynet\\doclaynet_004.pdf",
+    "png_path": "data\\doclaynet\\doclaynet_004.png",
+    "layout_elements": [
+      {
+        "class": "Section-header",
+        "bbox": [
+          54,
+          40,
+          500,
+          55
+        ]
+      },
+      {
+        "class": "Text-col1",
+        "bbox": [
+          54,
+          70,
+          300,
+          180
+        ]
+      },
+      {
+        "class": "Text-col2",
+        "bbox": [
+          310,
+          70,
+          560,
+          180
+        ]
+      },
+      {
+        "class": "Table",
+        "bbox": [
+          54,
+          507.0,
+          558.0,
+          607.0
+        ]
+      }
+    ]
+  },
+  {
+    "sample_id": "doclaynet_005",
+    "split": "DEV",
+    "pdf_path": "data\\doclaynet\\doclaynet_005.pdf",
+    "png_path": "data\\doclaynet\\doclaynet_005.png",
+    "layout_elements": [
+      {
+        "class": "Section-header",
+        "bbox": [
+          54,
+          40,
+          500,
+          55
+        ]
+      },
+      {
+        "class": "Text-col1",
+        "bbox": [
+          54,
+          70,
+          300,
+          180
+        ]
+      },
+      {
+        "class": "Text-col2",
+        "bbox": [
+          310,
+          70,
+          560,
+          180
+        ]
+      },
+      {
+        "class": "Table",
+        "bbox": [
+          54,
+          507.0,
+          558.0,
+          607.0
+        ]
+      }
+    ]
+  },
+  {
+    "sample_id": "doclaynet_006",
+    "split": "DEV",
+    "pdf_path": "data\\doclaynet\\doclaynet_006.pdf",
+    "png_path": "data\\doclaynet\\doclaynet_006.png",
+    "layout_elements": [
+      {
+        "class": "Section-header",
+        "bbox": [
+          54,
+          40,
+          500,
+          55
+        ]
+      },
+      {
+        "class": "Text-col1",
+        "bbox": [
+          54,
+          70,
+          300,
+          180
+        ]
+      },
+      {
+        "class": "Text-col2",
+        "bbox": [
+          310,
+          70,
+          560,
+          180
+        ]
+      },
+      {
+        "class": "Table",
+        "bbox": [
+          54,
+          507.0,
+          558.0,
+          607.0
+        ]
+      }
+    ]
+  },
+  {
+    "sample_id": "doclaynet_007",
+    "split": "DEV",
+    "pdf_path": "data\\doclaynet\\doclaynet_007.pdf",
+    "png_path": "data\\doclaynet\\doclaynet_007.png",
+    "layout_elements": [
+      {
+        "class": "Section-header",
+        "bbox": [
+          54,
+          40,
+          500,
+          55
+        ]
+      },
+      {
+        "class": "Text-col1",
+        "bbox": [
+          54,
+          70,
+          300,
+          180
+        ]
+      },
+      {
+        "class": "Text-col2",
+        "bbox": [
+          310,
+          70,
+          560,
+          180
+        ]
+      },
+      {
+        "class": "Table",
+        "bbox": [
+          54,
+          507.0,
+          558.0,
+          607.0
+        ]
+      }
+    ]
+  },
+  {
+    "sample_id": "doclaynet_008",
+    "split": "DEV",
+    "pdf_path": "data\\doclaynet\\doclaynet_008.pdf",
+    "png_path": "data\\doclaynet\\doclaynet_008.png",
+    "layout_elements": [
+      {
+        "class": "Section-header",
+        "bbox": [
+          54,
+          40,
+          500,
+          55
+        ]
+      },
+      {
+        "class": "Text-col1",
+        "bbox": [
+          54,
+          70,
+          300,
+          180
+        ]
+      },
+      {
+        "class": "Text-col2",
+        "bbox": [
+          310,
+          70,
+          560,
+          180
+        ]
+      },
+      {
+        "class": "Table",
+        "bbox": [
+          54,
+          507.0,
+          558.0,
+          607.0
+        ]
+      }
+    ]
+  },
+  {
+    "sample_id": "doclaynet_009",
+    "split": "DEV",
+    "pdf_path": "data\\doclaynet\\doclaynet_009.pdf",
+    "png_path": "data\\doclaynet\\doclaynet_009.png",
+    "layout_elements": [
+      {
+        "class": "Section-header",
+        "bbox": [
+          54,
+          40,
+          500,
+          55
+        ]
+      },
+      {
+        "class": "Text-col1",
+        "bbox": [
+          54,
+          70,
+          300,
+          180
+        ]
+      },
+      {
+        "class": "Text-col2",
+        "bbox": [
+          310,
+          70,
+          560,
+          180
+        ]
+      },
+      {
+        "class": "Table",
+        "bbox": [
+          54,
+          507.0,
+          558.0,
+          607.0
+        ]
+      }
+    ]
+  },
+  {
+    "sample_id": "doclaynet_010",
+    "split": "DEV",
+    "pdf_path": "data\\doclaynet\\doclaynet_010.pdf",
+    "png_path": "data\\doclaynet\\doclaynet_010.png",
+    "layout_elements": [
+      {
+        "class": "Section-header",
+        "bbox": [
+          54,
+          40,
+          500,
+          55
+        ]
+      },
+      {
+        "class": "Text-col1",
+        "bbox": [
+          54,
+          70,
+          300,
+          180
+        ]
+      },
+      {
+        "class": "Text-col2",
+        "bbox": [
+          310,
+          70,
+          560,
+          180
+        ]
+      },
+      {
+        "class": "Table",
+        "bbox": [
+          54,
+          507.0,
+          558.0,
+          607.0
+        ]
+      }
+    ]
+  },
+  {
+    "sample_id": "doclaynet_011",
+    "split": "VAL",
+    "pdf_path": "data\\doclaynet\\doclaynet_011.pdf",
+    "png_path": "data\\doclaynet\\doclaynet_011.png",
+    "layout_elements": [
+      {
+        "class": "Section-header",
+        "bbox": [
+          54,
+          40,
+          500,
+          55
+        ]
+      },
+      {
+        "class": "Text-col1",
+        "bbox": [
+          54,
+          70,
+          300,
+          180
+        ]
+      },
+      {
+        "class": "Text-col2",
+        "bbox": [
+          310,
+          70,
+          560,
+          180
+        ]
+      },
+      {
+        "class": "Table",
+        "bbox": [
+          54,
+          507.0,
+          558.0,
+          607.0
+        ]
+      }
+    ]
+  },
+  {
+    "sample_id": "doclaynet_012",
+    "split": "VAL",
+    "pdf_path": "data\\doclaynet\\doclaynet_012.pdf",
+    "png_path": "data\\doclaynet\\doclaynet_012.png",
+    "layout_elements": [
+      {
+        "class": "Section-header",
+        "bbox": [
+          54,
+          40,
+          500,
+          55
+        ]
+      },
+      {
+        "class": "Text-col1",
+        "bbox": [
+          54,
+          70,
+          300,
+          180
+        ]
+      },
+      {
+        "class": "Text-col2",
+        "bbox": [
+          310,
+          70,
+          560,
+          180
+        ]
+      },
+      {
+        "class": "Table",
+        "bbox": [
+          54,
+          507.0,
+          558.0,
+          607.0
+        ]
+      }
+    ]
+  },
+  {
+    "sample_id": "doclaynet_013",
+    "split": "VAL",
+    "pdf_path": "data\\doclaynet\\doclaynet_013.pdf",
+    "png_path": "data\\doclaynet\\doclaynet_013.png",
+    "layout_elements": [
+      {
+        "class": "Section-header",
+        "bbox": [
+          54,
+          40,
+          500,
+          55
+        ]
+      },
+      {
+        "class": "Text-col1",
+        "bbox": [
+          54,
+          70,
+          300,
+          180
+        ]
+      },
+      {
+        "class": "Text-col2",
+        "bbox": [
+          310,
+          70,
+          560,
+          180
+        ]
+      },
+      {
+        "class": "Table",
+        "bbox": [
+          54,
+          507.0,
+          558.0,
+          607.0
+        ]
+      }
+    ]
+  },
+  {
+    "sample_id": "doclaynet_014",
+    "split": "VAL",
+    "pdf_path": "data\\doclaynet\\doclaynet_014.pdf",
+    "png_path": "data\\doclaynet\\doclaynet_014.png",
+    "layout_elements": [
+      {
+        "class": "Section-header",
+        "bbox": [
+          54,
+          40,
+          500,
+          55
+        ]
+      },
+      {
+        "class": "Text-col1",
+        "bbox": [
+          54,
+          70,
+          300,
+          180
+        ]
+      },
+      {
+        "class": "Text-col2",
+        "bbox": [
+          310,
+          70,
+          560,
+          180
+        ]
+      },
+      {
+        "class": "Table",
+        "bbox": [
+          54,
+          507.0,
+          558.0,
+          607.0
+        ]
+      }
+    ]
+  },
+  {
+    "sample_id": "doclaynet_015",
+    "split": "VAL",
+    "pdf_path": "data\\doclaynet\\doclaynet_015.pdf",
+    "png_path": "data\\doclaynet\\doclaynet_015.png",
+    "layout_elements": [
+      {
+        "class": "Section-header",
+        "bbox": [
+          54,
+          40,
+          500,
+          55
+        ]
+      },
+      {
+        "class": "Text-col1",
+        "bbox": [
+          54,
+          70,
+          300,
+          180
+        ]
+      },
+      {
+        "class": "Text-col2",
+        "bbox": [
+          310,
+          70,
+          560,
+          180
+        ]
+      },
+      {
+        "class": "Table",
+        "bbox": [
+          54,
+          507.0,
+          558.0,
+          607.0
+        ]
+      }
+    ]
+  },
+  {
+    "sample_id": "doclaynet_016",
+    "split": "VAL",
+    "pdf_path": "data\\doclaynet\\doclaynet_016.pdf",
+    "png_path": "data\\doclaynet\\doclaynet_016.png",
+    "layout_elements": [
+      {
+        "class": "Section-header",
+        "bbox": [
+          54,
+          40,
+          500,
+          55
+        ]
+      },
+      {
+        "class": "Text-col1",
+        "bbox": [
+          54,
+          70,
+          300,
+          180
+        ]
+      },
+      {
+        "class": "Text-col2",
+        "bbox": [
+          310,
+          70,
+          560,
+          180
+        ]
+      },
+      {
+        "class": "Table",
+        "bbox": [
+          54,
+          507.0,
+          558.0,
+          607.0
+        ]
+      }
+    ]
+  },
+  {
+    "sample_id": "doclaynet_017",
+    "split": "VAL",
+    "pdf_path": "data\\doclaynet\\doclaynet_017.pdf",
+    "png_path": "data\\doclaynet\\doclaynet_017.png",
+    "layout_elements": [
+      {
+        "class": "Section-header",
+        "bbox": [
+          54,
+          40,
+          500,
+          55
+        ]
+      },
+      {
+        "class": "Text-col1",
+        "bbox": [
+          54,
+          70,
+          300,
+          180
+        ]
+      },
+      {
+        "class": "Text-col2",
+        "bbox": [
+          310,
+          70,
+          560,
+          180
+        ]
+      },
+      {
+        "class": "Table",
+        "bbox": [
+          54,
+          507.0,
+          558.0,
+          607.0
+        ]
+      }
+    ]
+  },
+  {
+    "sample_id": "doclaynet_018",
+    "split": "VAL",
+    "pdf_path": "data\\doclaynet\\doclaynet_018.pdf",
+    "png_path": "data\\doclaynet\\doclaynet_018.png",
+    "layout_elements": [
+      {
+        "class": "Section-header",
+        "bbox": [
+          54,
+          40,
+          500,
+          55
+        ]
+      },
+      {
+        "class": "Text-col1",
+        "bbox": [
+          54,
+          70,
+          300,
+          180
+        ]
+      },
+      {
+        "class": "Text-col2",
+        "bbox": [
+          310,
+          70,
+          560,
+          180
+        ]
+      },
+      {
+        "class": "Table",
+        "bbox": [
+          54,
+          507.0,
+          558.0,
+          607.0
+        ]
+      }
+    ]
+  },
+  {
+    "sample_id": "doclaynet_019",
+    "split": "VAL",
+    "pdf_path": "data\\doclaynet\\doclaynet_019.pdf",
+    "png_path": "data\\doclaynet\\doclaynet_019.png",
+    "layout_elements": [
+      {
+        "class": "Section-header",
+        "bbox": [
+          54,
+          40,
+          500,
+          55
+        ]
+      },
+      {
+        "class": "Text-col1",
+        "bbox": [
+          54,
+          70,
+          300,
+          180
+        ]
+      },
+      {
+        "class": "Text-col2",
+        "bbox": [
+          310,
+          70,
+          560,
+          180
+        ]
+      },
+      {
+        "class": "Table",
+        "bbox": [
+          54,
+          507.0,
+          558.0,
+          607.0
+        ]
+      }
+    ]
+  },
+  {
+    "sample_id": "doclaynet_020",
+    "split": "VAL",
+    "pdf_path": "data\\doclaynet\\doclaynet_020.pdf",
+    "png_path": "data\\doclaynet\\doclaynet_020.png",
+    "layout_elements": [
+      {
+        "class": "Section-header",
+        "bbox": [
+          54,
+          40,
+          500,
+          55
+        ]
+      },
+      {
+        "class": "Text-col1",
+        "bbox": [
+          54,
+          70,
+          300,
+          180
+        ]
+      },
+      {
+        "class": "Text-col2",
+        "bbox": [
+          310,
+          70,
+          560,
+          180
+        ]
+      },
+      {
+        "class": "Table",
+        "bbox": [
+          54,
+          507.0,
+          558.0,
+          607.0
+        ]
+      }
+    ]
+  },
+  {
+    "sample_id": "doclaynet_021",
+    "split": "CHALLENGE",
+    "pdf_path": "data\\doclaynet\\doclaynet_021.pdf",
+    "png_path": "data\\doclaynet\\doclaynet_021.png",
+    "layout_elements": [
+      {
+        "class": "Section-header",
+        "bbox": [
+          54,
+          40,
+          500,
+          55
+        ]
+      },
+      {
+        "class": "Text-col1",
+        "bbox": [
+          54,
+          70,
+          300,
+          180
+        ]
+      },
+      {
+        "class": "Text-col2",
+        "bbox": [
+          310,
+          70,
+          560,
+          180
+        ]
+      },
+      {
+        "class": "Table",
+        "bbox": [
+          54,
+          507.0,
+          558.0,
+          607.0
+        ]
+      }
+    ]
+  },
+  {
+    "sample_id": "doclaynet_022",
+    "split": "CHALLENGE",
+    "pdf_path": "data\\doclaynet\\doclaynet_022.pdf",
+    "png_path": "data\\doclaynet\\doclaynet_022.png",
+    "layout_elements": [
+      {
+        "class": "Section-header",
+        "bbox": [
+          54,
+          40,
+          500,
+          55
+        ]
+      },
+      {
+        "class": "Text-col1",
+        "bbox": [
+          54,
+          70,
+          300,
+          180
+        ]
+      },
+      {
+        "class": "Text-col2",
+        "bbox": [
+          310,
+          70,
+          560,
+          180
+        ]
+      },
+      {
+        "class": "Table",
+        "bbox": [
+          54,
+          507.0,
+          558.0,
+          607.0
+        ]
+      }
+    ]
+  },
+  {
+    "sample_id": "doclaynet_023",
+    "split": "CHALLENGE",
+    "pdf_path": "data\\doclaynet\\doclaynet_023.pdf",
+    "png_path": "data\\doclaynet\\doclaynet_023.png",
+    "layout_elements": [
+      {
+        "class": "Section-header",
+        "bbox": [
+          54,
+          40,
+          500,
+          55
+        ]
+      },
+      {
+        "class": "Text-col1",
+        "bbox": [
+          54,
+          70,
+          300,
+          180
+        ]
+      },
+      {
+        "class": "Text-col2",
+        "bbox": [
+          310,
+          70,
+          560,
+          180
+        ]
+      },
+      {
+        "class": "Table",
+        "bbox": [
+          54,
+          507.0,
+          558.0,
+          607.0
+        ]
+      }
+    ]
+  },
+  {
+    "sample_id": "doclaynet_024",
+    "split": "CHALLENGE",
+    "pdf_path": "data\\doclaynet\\doclaynet_024.pdf",
+    "png_path": "data\\doclaynet\\doclaynet_024.png",
+    "layout_elements": [
+      {
+        "class": "Section-header",
+        "bbox": [
+          54,
+          40,
+          500,
+          55
+        ]
+      },
+      {
+        "class": "Text-col1",
+        "bbox": [
+          54,
+          70,
+          300,
+          180
+        ]
+      },
+      {
+        "class": "Text-col2",
+        "bbox": [
+          310,
+          70,
+          560,
+          180
+        ]
+      },
+      {
+        "class": "Table",
+        "bbox": [
+          54,
+          507.0,
+          558.0,
+          607.0
+        ]
+      }
+    ]
+  },
+  {
+    "sample_id": "doclaynet_025",
+    "split": "CHALLENGE",
+    "pdf_path": "data\\doclaynet\\doclaynet_025.pdf",
+    "png_path": "data\\doclaynet\\doclaynet_025.png",
+    "layout_elements": [
+      {
+        "class": "Section-header",
+        "bbox": [
+          54,
+          40,
+          500,
+          55
+        ]
+      },
+      {
+        "class": "Text-col1",
+        "bbox": [
+          54,
+          70,
+          300,
+          180
+        ]
+      },
+      {
+        "class": "Text-col2",
+        "bbox": [
+          310,
+          70,
+          560,
+          180
+        ]
+      },
+      {
+        "class": "Table",
+        "bbox": [
+          54,
+          507.0,
+          558.0,
+          607.0
+        ]
+      }
+    ]
+  },
+  {
+    "sample_id": "doclaynet_026",
+    "split": "CHALLENGE",
+    "pdf_path": "data\\doclaynet\\doclaynet_026.pdf",
+    "png_path": "data\\doclaynet\\doclaynet_026.png",
+    "layout_elements": [
+      {
+        "class": "Section-header",
+        "bbox": [
+          54,
+          40,
+          500,
+          55
+        ]
+      },
+      {
+        "class": "Text-col1",
+        "bbox": [
+          54,
+          70,
+          300,
+          180
+        ]
+      },
+      {
+        "class": "Text-col2",
+        "bbox": [
+          310,
+          70,
+          560,
+          180
+        ]
+      },
+      {
+        "class": "Table",
+        "bbox": [
+          54,
+          507.0,
+          558.0,
+          607.0
+        ]
+      }
+    ]
+  },
+  {
+    "sample_id": "doclaynet_027",
+    "split": "CHALLENGE",
+    "pdf_path": "data\\doclaynet\\doclaynet_027.pdf",
+    "png_path": "data\\doclaynet\\doclaynet_027.png",
+    "layout_elements": [
+      {
+        "class": "Section-header",
+        "bbox": [
+          54,
+          40,
+          500,
+          55
+        ]
+      },
+      {
+        "class": "Text-col1",
+        "bbox": [
+          54,
+          70,
+          300,
+          180
+        ]
+      },
+      {
+        "class": "Text-col2",
+        "bbox": [
+          310,
+          70,
+          560,
+          180
+        ]
+      },
+      {
+        "class": "Table",
+        "bbox": [
+          54,
+          507.0,
+          558.0,
+          607.0
+        ]
+      }
+    ]
+  },
+  {
+    "sample_id": "doclaynet_028",
+    "split": "CHALLENGE",
+    "pdf_path": "data\\doclaynet\\doclaynet_028.pdf",
+    "png_path": "data\\doclaynet\\doclaynet_028.png",
+    "layout_elements": [
+      {
+        "class": "Section-header",
+        "bbox": [
+          54,
+          40,
+          500,
+          55
+        ]
+      },
+      {
+        "class": "Text-col1",
+        "bbox": [
+          54,
+          70,
+          300,
+          180
+        ]
+      },
+      {
+        "class": "Text-col2",
+        "bbox": [
+          310,
+          70,
+          560,
+          180
+        ]
+      },
+      {
+        "class": "Table",
+        "bbox": [
+          54,
+          507.0,
+          558.0,
+          607.0
+        ]
+      }
+    ]
+  },
+  {
+    "sample_id": "doclaynet_029",
+    "split": "CHALLENGE",
+    "pdf_path": "data\\doclaynet\\doclaynet_029.pdf",
+    "png_path": "data\\doclaynet\\doclaynet_029.png",
+    "layout_elements": [
+      {
+        "class": "Section-header",
+        "bbox": [
+          54,
+          40,
+          500,
+          55
+        ]
+      },
+      {
+        "class": "Text-col1",
+        "bbox": [
+          54,
+          70,
+          300,
+          180
+        ]
+      },
+      {
+        "class": "Text-col2",
+        "bbox": [
+          310,
+          70,
+          560,
+          180
+        ]
+      },
+      {
+        "class": "Table",
+        "bbox": [
+          54,
+          507.0,
+          558.0,
+          607.0
+        ]
+      }
+    ]
+  },
+  {
+    "sample_id": "doclaynet_030",
+    "split": "CHALLENGE",
+    "pdf_path": "data\\doclaynet\\doclaynet_030.pdf",
+    "png_path": "data\\doclaynet\\doclaynet_030.png",
+    "layout_elements": [
+      {
+        "class": "Section-header",
+        "bbox": [
+          54,
+          40,
+          500,
+          55
+        ]
+      },
+      {
+        "class": "Text-col1",
+        "bbox": [
+          54,
+          70,
+          300,
+          180
+        ]
+      },
+      {
+        "class": "Text-col2",
+        "bbox": [
+          310,
+          70,
+          560,
+          180
+        ]
+      },
+      {
+        "class": "Table",
+        "bbox": [
+          54,
+          507.0,
+          558.0,
+          607.0
+        ]
+      }
+    ]
+  }
+]

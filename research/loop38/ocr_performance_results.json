@@ -1,0 +1,65 @@
+{
+  "eng": {
+    "n": 30,
+    "mean_ms": 1069.38,
+    "median_ms": 1019.29,
+    "p95_ms": 1569.26,
+    "stdev_ms": 193.12,
+    "min_ms": 857.63,
+    "max_ms": 1747.07
+  },
+  "hin": {
+    "n": 10,
+    "mean_ms": 1256.04,
+    "median_ms": 1125.88,
+    "p95_ms": 1994.95,
+    "stdev_ms": 308.53,
+    "min_ms": 1068.11,
+    "max_ms": 1994.95
+  },
+  "ori": {
+    "n": 10,
+    "mean_ms": 1647.26,
+    "median_ms": 1271.57,
+    "p95_ms": 2823.6,
+    "stdev_ms": 673.13,
+    "min_ms": 1047.33,
+    "max_ms": 2823.6
+  },
+  "eng+hin": {
+    "n": 10,
+    "mean_ms": 1043.69,
+    "median_ms": 1017.7,
+    "p95_ms": 1567.2,
+    "stdev_ms": 206.78,
+    "min_ms": 838.69,
+    "max_ms": 1567.2
+  },
+  "eng+ori": {
+    "n": 10,
+    "mean_ms": 916.94,
+    "median_ms": 900.24,
+    "p95_ms": 1080.2,
+    "stdev_ms": 82.82,
+    "min_ms": 835.3,
+    "max_ms": 1080.2
+  },
+  "hin+ori": {
+    "n": 10,
+    "mean_ms": 2057.61,
+    "median_ms": 1949.82,
+    "p95_ms": 2665.98,
+    "stdev_ms": 305.9,
+    "min_ms": 1723.02,
+    "max_ms": 2665.98
+  },
+  "eng+hin+ori": {
+    "n": 30,
+    "mean_ms": 1163.7,
+    "median_ms": 1050.12,
+    "p95_ms": 2096.12,
+    "stdev_ms": 316.8,
+    "min_ms": 900.69,
+    "max_ms": 2310.78
+  }
+}

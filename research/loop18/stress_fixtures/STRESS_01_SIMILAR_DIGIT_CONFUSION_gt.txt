@@ -1,0 +1,7 @@
+Voucher Identifier: B801-O08B-1Il5S
+PAN Verification Code: AABCP0815S
+Serial AlphaNum: 0O0OO-8B8BB-1I1II-5S5SS
+Meter Reading 01: 808015
+Meter Reading 02: BOBOLS
+Date Stamp: 08/01/2026
+Secondary Code: SB01-85OS-1100

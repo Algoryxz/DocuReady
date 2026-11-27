@@ -1,0 +1,49 @@
+{
+  "sample_count": 20,
+  "peak_rss_mb": 130.82,
+  "stages_ms": {
+    "rasterization": {
+      "mean": 47.99,
+      "min": 12.17,
+      "max": 178.38,
+      "pct_of_total": 6.4
+    },
+    "initial_ocr": {
+      "mean": 544.78,
+      "min": 409.27,
+      "max": 712.87,
+      "pct_of_total": 73.0
+    },
+    "upright_gate": {
+      "mean": 0.14,
+      "min": 0.01,
+      "max": 0.29,
+      "pct_of_total": 0.0
+    },
+    "skew_estimation": {
+      "mean": 98.12,
+      "min": 0.0,
+      "max": 217.13,
+      "pct_of_total": 13.1
+    },
+    "deskew_rotation": {
+      "mean": 54.72,
+      "min": 0.0,
+      "max": 213.96,
+      "pct_of_total": 7.3
+    },
+    "line_clustering": {
+      "mean": 0.4,
+      "min": 0.02,
+      "max": 0.9,
+      "pct_of_total": 0.1
+    }
+  },
+  "total_page_time_ms": {
+    "mean": 746.17,
+    "median": 736.11,
+    "p95": 990.19,
+    "min": 568.83,
+    "max": 990.19
+  }
+}

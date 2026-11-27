@@ -1,0 +1,9 @@
+{
+  "fixture_id": "TAB_07_MERGED_HEADERS",
+  "category": "Category G: Merged Headers",
+  "critical_fields": {
+    "jatni_property_cess": "120000",
+    "bbsr_property_coll": "325000",
+    "balianta_water_coll": "26000"
+  }
+}

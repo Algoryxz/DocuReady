@@ -1,0 +1,79 @@
+{
+  "multilingual_results": [
+    {
+      "doc_id": "DOC_CTRL_01_ENGLISH_CERTIFICATE",
+      "language": "English",
+      "has_gt": false,
+      "gt_chars": 0,
+      "global_ms": 1555.2,
+      "global_cer_pct": null,
+      "global_wer_pct": null,
+      "adaptive_strategy": "FAST_PATH_ENG",
+      "adaptive_lang": "eng",
+      "adaptive_ms": 3262.03,
+      "adaptive_cer_pct": null,
+      "adaptive_wer_pct": null,
+      "ocr_invocations": 2
+    },
+    {
+      "doc_id": "DOC_HIN_01_ADMIN_CIRCULAR",
+      "language": "Hindi",
+      "has_gt": true,
+      "gt_chars": 461,
+      "global_ms": 4202.38,
+      "global_cer_pct": 18.66,
+      "global_wer_pct": 45.21,
+      "adaptive_strategy": "MONOLINGUAL_HIN",
+      "adaptive_lang": "hin",
+      "adaptive_ms": 4095.55,
+      "adaptive_cer_pct": 11.71,
+      "adaptive_wer_pct": 39.73,
+      "ocr_invocations": 2
+    },
+    {
+      "doc_id": "DOC_ORI_01_ADMIN_CIRCULAR",
+      "language": "Odia",
+      "has_gt": true,
+      "gt_chars": 402,
+      "global_ms": 3590.56,
+      "global_cer_pct": 8.21,
+      "global_wer_pct": 39.66,
+      "adaptive_strategy": "MONOLINGUAL_ORI",
+      "adaptive_lang": "ori",
+      "adaptive_ms": 4139.34,
+      "adaptive_cer_pct": 8.21,
+      "adaptive_wer_pct": 39.66,
+      "ocr_invocations": 2
+    },
+    {
+      "doc_id": "DOC_MIX_01_HIN_ENG_SCHOLARSHIP",
+      "language": "Mixed_Eng_Hin",
+      "has_gt": true,
+      "gt_chars": 350,
+      "global_ms": 3080.5,
+      "global_cer_pct": 8.57,
+      "global_wer_pct": 18.87,
+      "adaptive_strategy": "GLOBAL_MULTILINGUAL",
+      "adaptive_lang": "eng+hin+ori",
+      "adaptive_ms": 4670.52,
+      "adaptive_cer_pct": 8.57,
+      "adaptive_wer_pct": 18.87,
+      "ocr_invocations": 2
+    },
+    {
+      "doc_id": "DOC_MIX_02_ORI_ENG_SCHOLARSHIP",
+      "language": "Mixed_Eng_Ori",
+      "has_gt": true,
+      "gt_chars": 299,
+      "global_ms": 3390.04,
+      "global_cer_pct": 6.35,
+      "global_wer_pct": 17.39,
+      "adaptive_strategy": "GLOBAL_MULTILINGUAL",
+      "adaptive_lang": "eng+ori",
+      "adaptive_ms": 5191.57,
+      "adaptive_cer_pct": 9.36,
+      "adaptive_wer_pct": 21.74,
+      "ocr_invocations": 2
+    }
+  ]
+}

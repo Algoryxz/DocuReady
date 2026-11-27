@@ -1,0 +1,721 @@
+{
+  "configurations": {
+    "CONFIG_A_ENG": "Tesseract eng only",
+    "CONFIG_B_HIN": "Tesseract hin only",
+    "CONFIG_C_ORI": "Tesseract ori only",
+    "CONFIG_D_ENG_HIN": "Tesseract eng+hin",
+    "CONFIG_E_ENG_ORI": "Tesseract eng+ori",
+    "CONFIG_F_ENG_HIN_ORI": "Tesseract eng+hin+ori",
+    "CONFIG_G_PAGE_ROUTING": "Loop 14 Whole-Page Script Routing",
+    "CONFIG_H_REGION_ROUTING": "Loop 15 Region-Aware Routing",
+    "CONFIG_I_REGION_FALLBACK": "Loop 15 Region Routing + Fallback"
+  },
+  "results_by_doc": {
+    "DOC_MULTI_01_TRI_SCRIPT_GAZETTE": {
+      "CONFIG_A_ENG": {
+        "cer": 0.4938,
+        "wer": 0.6406,
+        "inversion_rate": 6.67,
+        "latency_ms": 721.97,
+        "line_count": 17
+      },
+      "CONFIG_B_HIN": {
+        "cer": 0.7264,
+        "wer": 0.875,
+        "inversion_rate": 9.09,
+        "latency_ms": 935.49,
+        "line_count": 17
+      },
+      "CONFIG_C_ORI": {
+        "cer": 0.6027,
+        "wer": 0.9609,
+        "inversion_rate": 0.0,
+        "latency_ms": 1030.77,
+        "line_count": 17
+      },
+      "CONFIG_D_ENG_HIN": {
+        "cer": 0.4098,
+        "wer": 0.5469,
+        "inversion_rate": 3.85,
+        "latency_ms": 1366.97,
+        "line_count": 17
+      },
+      "CONFIG_E_ENG_ORI": {
+        "cer": 0.3019,
+        "wer": 0.5,
+        "inversion_rate": 7.69,
+        "latency_ms": 1180.5,
+        "line_count": 17
+      },
+      "CONFIG_F_ENG_HIN_ORI": {
+        "cer": 0.2247,
+        "wer": 0.3672,
+        "inversion_rate": 2.21,
+        "latency_ms": 1890.6,
+        "line_count": 17
+      },
+      "CONFIG_G_PAGE_ROUTING": {
+        "cer": 0.4938,
+        "wer": 0.6406,
+        "inversion_rate": 6.67,
+        "latency_ms": 2556.86,
+        "line_count": 17
+      },
+      "CONFIG_H_REGION_ROUTING": {
+        "cer": 0.4098,
+        "wer": 0.5469,
+        "inversion_rate": 3.85,
+        "latency_ms": 3951.36,
+        "line_count": 17
+      },
+      "CONFIG_I_REGION_FALLBACK": {
+        "cer": 0.4098,
+        "wer": 0.5469,
+        "inversion_rate": 3.85,
+        "latency_ms": 3402.73,
+        "line_count": 17
+      }
+    },
+    "DOC_MULTI_02_BILINGUAL_COLUMNS_HIN_ENG": {
+      "CONFIG_A_ENG": {
+        "cer": 0.3333,
+        "wer": 0.4505,
+        "inversion_rate": 18.18,
+        "latency_ms": 594.93,
+        "line_count": 16
+      },
+      "CONFIG_B_HIN": {
+        "cer": 0.5482,
+        "wer": 0.6813,
+        "inversion_rate": 4.44,
+        "latency_ms": 717.2,
+        "line_count": 16
+      },
+      "CONFIG_C_ORI": {
+        "cer": 0.8629,
+        "wer": 1.0549,
+        "inversion_rate": 28.57,
+        "latency_ms": 676.75,
+        "line_count": 16
+      },
+      "CONFIG_D_ENG_HIN": {
+        "cer": 0.0541,
+        "wer": 0.1648,
+        "inversion_rate": 2.5,
+        "latency_ms": 893.54,
+        "line_count": 16
+      },
+      "CONFIG_E_ENG_ORI": {
+        "cer": 0.3333,
+        "wer": 0.4725,
+        "inversion_rate": 18.18,
+        "latency_ms": 819.06,
+        "line_count": 16
+      },
+      "CONFIG_F_ENG_HIN_ORI": {
+        "cer": 0.0541,
+        "wer": 0.1648,
+        "inversion_rate": 2.5,
+        "latency_ms": 1070.05,
+        "line_count": 16
+      },
+      "CONFIG_G_PAGE_ROUTING": {
+        "cer": 0.3333,
+        "wer": 0.4505,
+        "inversion_rate": 18.18,
+        "latency_ms": 2333.63,
+        "line_count": 16
+      },
+      "CONFIG_H_REGION_ROUTING": {
+        "cer": 0.1286,
+        "wer": 0.2418,
+        "inversion_rate": 0.95,
+        "latency_ms": 3214.88,
+        "line_count": 15
+      },
+      "CONFIG_I_REGION_FALLBACK": {
+        "cer": 0.1286,
+        "wer": 0.2418,
+        "inversion_rate": 0.95,
+        "latency_ms": 2959.6,
+        "line_count": 15
+      }
+    },
+    "DOC_MULTI_03_BILINGUAL_COLUMNS_ORI_ENG": {
+      "CONFIG_A_ENG": {
+        "cer": 0.3454,
+        "wer": 0.4198,
+        "inversion_rate": 21.43,
+        "latency_ms": 863.72,
+        "line_count": 14
+      },
+      "CONFIG_B_HIN": {
+        "cer": 0.8318,
+        "wer": 0.9753,
+        "inversion_rate": 33.33,
+        "latency_ms": 804.0,
+        "line_count": 14
+      },
+      "CONFIG_C_ORI": {
+        "cer": 0.5642,
+        "wer": 0.7778,
+        "inversion_rate": 1.82,
+        "latency_ms": 812.27,
+        "line_count": 14
+      },
+      "CONFIG_D_ENG_HIN": {
+        "cer": 0.3454,
+        "wer": 0.4198,
+        "inversion_rate": 21.43,
+        "latency_ms": 839.73,
+        "line_count": 14
+      },
+      "CONFIG_E_ENG_ORI": {
+        "cer": 0.0922,
+        "wer": 0.2222,
+        "inversion_rate": 6.59,
+        "latency_ms": 969.55,
+        "line_count": 14
+      },
+      "CONFIG_F_ENG_HIN_ORI": {
+        "cer": 0.0995,
+        "wer": 0.2346,
+        "inversion_rate": 6.59,
+        "latency_ms": 1195.24,
+        "line_count": 14
+      },
+      "CONFIG_G_PAGE_ROUTING": {
+        "cer": 0.3454,
+        "wer": 0.4198,
+        "inversion_rate": 21.43,
+        "latency_ms": 1745.6,
+        "line_count": 14
+      },
+      "CONFIG_H_REGION_ROUTING": {
+        "cer": 0.1212,
+        "wer": 0.2346,
+        "inversion_rate": 2.56,
+        "latency_ms": 1985.18,
+        "line_count": 13
+      },
+      "CONFIG_I_REGION_FALLBACK": {
+        "cer": 0.1212,
+        "wer": 0.2346,
+        "inversion_rate": 2.56,
+        "latency_ms": 1963.25,
+        "line_count": 13
+      }
+    },
+    "DOC_MULTI_04_MARKSHEET_INDIC_GRID": {
+      "CONFIG_A_ENG": {
+        "cer": 0.1886,
+        "wer": 0.2658,
+        "inversion_rate": 1.52,
+        "latency_ms": 479.87,
+        "line_count": 15
+      },
+      "CONFIG_B_HIN": {
+        "cer": 0.6085,
+        "wer": 0.7848,
+        "inversion_rate": 11.11,
+        "latency_ms": 637.84,
+        "line_count": 13
+      },
+      "CONFIG_C_ORI": {
+        "cer": 0.7769,
+        "wer": 0.962,
+        "inversion_rate": 14.29,
+        "latency_ms": 625.19,
+        "line_count": 15
+      },
+      "CONFIG_D_ENG_HIN": {
+        "cer": 0.0892,
+        "wer": 0.2152,
+        "inversion_rate": 1.28,
+        "latency_ms": 656.06,
+        "line_count": 14
+      },
+      "CONFIG_E_ENG_ORI": {
+        "cer": 0.1947,
+        "wer": 0.2785,
+        "inversion_rate": 1.52,
+        "latency_ms": 648.37,
+        "line_count": 15
+      },
+      "CONFIG_F_ENG_HIN_ORI": {
+        "cer": 0.0892,
+        "wer": 0.2152,
+        "inversion_rate": 1.28,
+        "latency_ms": 822.71,
+        "line_count": 14
+      },
+      "CONFIG_G_PAGE_ROUTING": {
+        "cer": 0.1886,
+        "wer": 0.2658,
+        "inversion_rate": 1.52,
+        "latency_ms": 1511.71,
+        "line_count": 15
+      },
+      "CONFIG_H_REGION_ROUTING": {
+        "cer": 0.146,
+        "wer": 0.3418,
+        "inversion_rate": 5.71,
+        "latency_ms": 5697.23,
+        "line_count": 15
+      },
+      "CONFIG_I_REGION_FALLBACK": {
+        "cer": 0.146,
+        "wer": 0.3418,
+        "inversion_rate": 5.71,
+        "latency_ms": 5535.19,
+        "line_count": 15
+      }
+    },
+    "DOC_MIX_01_HIN_ENG_SCHOLARSHIP": {
+      "CONFIG_A_ENG": {
+        "cer": 0.3486,
+        "wer": 0.3962,
+        "inversion_rate": 0.0,
+        "latency_ms": 485.45,
+        "line_count": 8
+      },
+      "CONFIG_B_HIN": {
+        "cer": 0.5714,
+        "wer": 0.6604,
+        "inversion_rate": 38.1,
+        "latency_ms": 371.72,
+        "line_count": 8
+      },
+      "CONFIG_C_ORI": {
+        "cer": 0.8571,
+        "wer": 0.9623,
+        "inversion_rate": 9.52,
+        "latency_ms": 390.87,
+        "line_count": 8
+      },
+      "CONFIG_D_ENG_HIN": {
+        "cer": 0.1457,
+        "wer": 0.2075,
+        "inversion_rate": 4.76,
+        "latency_ms": 748.26,
+        "line_count": 8
+      },
+      "CONFIG_E_ENG_ORI": {
+        "cer": 0.3514,
+        "wer": 0.4151,
+        "inversion_rate": 0.0,
+        "latency_ms": 627.13,
+        "line_count": 8
+      },
+      "CONFIG_F_ENG_HIN_ORI": {
+        "cer": 0.1457,
+        "wer": 0.2075,
+        "inversion_rate": 4.76,
+        "latency_ms": 842.74,
+        "line_count": 8
+      },
+      "CONFIG_G_PAGE_ROUTING": {
+        "cer": 0.3486,
+        "wer": 0.3962,
+        "inversion_rate": 0.0,
+        "latency_ms": 974.46,
+        "line_count": 8
+      },
+      "CONFIG_H_REGION_ROUTING": {
+        "cer": 0.1486,
+        "wer": 0.2264,
+        "inversion_rate": 4.76,
+        "latency_ms": 1706.9,
+        "line_count": 8
+      },
+      "CONFIG_I_REGION_FALLBACK": {
+        "cer": 0.1486,
+        "wer": 0.2264,
+        "inversion_rate": 4.76,
+        "latency_ms": 1771.15,
+        "line_count": 8
+      }
+    },
+    "DOC_MIX_02_ORI_ENG_SCHOLARSHIP": {
+      "CONFIG_A_ENG": {
+        "cer": 0.3612,
+        "wer": 0.3913,
+        "inversion_rate": 21.43,
+        "latency_ms": 365.87,
+        "line_count": 8
+      },
+      "CONFIG_B_HIN": {
+        "cer": 0.7926,
+        "wer": 0.8478,
+        "inversion_rate": 0.0,
+        "latency_ms": 378.41,
+        "line_count": 8
+      },
+      "CONFIG_C_ORI": {
+        "cer": 0.5452,
+        "wer": 0.6522,
+        "inversion_rate": 21.43,
+        "latency_ms": 402.03,
+        "line_count": 8
+      },
+      "CONFIG_D_ENG_HIN": {
+        "cer": 0.3645,
+        "wer": 0.3913,
+        "inversion_rate": 21.43,
+        "latency_ms": 681.37,
+        "line_count": 8
+      },
+      "CONFIG_E_ENG_ORI": {
+        "cer": 0.1003,
+        "wer": 0.2391,
+        "inversion_rate": 21.43,
+        "latency_ms": 659.59,
+        "line_count": 8
+      },
+      "CONFIG_F_ENG_HIN_ORI": {
+        "cer": 0.0702,
+        "wer": 0.1957,
+        "inversion_rate": 14.29,
+        "latency_ms": 890.75,
+        "line_count": 8
+      },
+      "CONFIG_G_PAGE_ROUTING": {
+        "cer": 0.3612,
+        "wer": 0.3913,
+        "inversion_rate": 21.43,
+        "latency_ms": 1144.27,
+        "line_count": 8
+      },
+      "CONFIG_H_REGION_ROUTING": {
+        "cer": 0.1137,
+        "wer": 0.2609,
+        "inversion_rate": 21.43,
+        "latency_ms": 1761.92,
+        "line_count": 8
+      },
+      "CONFIG_I_REGION_FALLBACK": {
+        "cer": 0.1137,
+        "wer": 0.2609,
+        "inversion_rate": 21.43,
+        "latency_ms": 1827.14,
+        "line_count": 8
+      }
+    },
+    "DOC_HIN_01_ADMIN_CIRCULAR": {
+      "CONFIG_A_ENG": {
+        "cer": 0.8265,
+        "wer": 1.0274,
+        "inversion_rate": 0.0,
+        "latency_ms": 560.31,
+        "line_count": 9
+      },
+      "CONFIG_B_HIN": {
+        "cer": 0.1974,
+        "wer": 0.4658,
+        "inversion_rate": 0.0,
+        "latency_ms": 479.39,
+        "line_count": 8
+      },
+      "CONFIG_C_ORI": {
+        "cer": 0.8547,
+        "wer": 1.0959,
+        "inversion_rate": 0.0,
+        "latency_ms": 601.79,
+        "line_count": 9
+      },
+      "CONFIG_D_ENG_HIN": {
+        "cer": 0.2646,
+        "wer": 0.5068,
+        "inversion_rate": 0.0,
+        "latency_ms": 795.04,
+        "line_count": 8
+      },
+      "CONFIG_E_ENG_ORI": {
+        "cer": 0.8286,
+        "wer": 1.0548,
+        "inversion_rate": 0.0,
+        "latency_ms": 936.37,
+        "line_count": 9
+      },
+      "CONFIG_F_ENG_HIN_ORI": {
+        "cer": 0.2668,
+        "wer": 0.5205,
+        "inversion_rate": 0.0,
+        "latency_ms": 1145.42,
+        "line_count": 8
+      },
+      "CONFIG_G_PAGE_ROUTING": {
+        "cer": 0.1974,
+        "wer": 0.4658,
+        "inversion_rate": 0.0,
+        "latency_ms": 987.03,
+        "line_count": 8
+      },
+      "CONFIG_H_REGION_ROUTING": {
+        "cer": 0.1974,
+        "wer": 0.4658,
+        "inversion_rate": 0.0,
+        "latency_ms": 2202.63,
+        "line_count": 8
+      },
+      "CONFIG_I_REGION_FALLBACK": {
+        "cer": 0.1974,
+        "wer": 0.4658,
+        "inversion_rate": 0.0,
+        "latency_ms": 2256.81,
+        "line_count": 8
+      }
+    },
+    "DOC_ORI_01_ADMIN_CIRCULAR": {
+      "CONFIG_A_ENG": {
+        "cer": 0.8433,
+        "wer": 1.0345,
+        "inversion_rate": 0.0,
+        "latency_ms": 600.8,
+        "line_count": 8
+      },
+      "CONFIG_B_HIN": {
+        "cer": 0.8209,
+        "wer": 1.0,
+        "inversion_rate": 0.0,
+        "latency_ms": 617.77,
+        "line_count": 7
+      },
+      "CONFIG_C_ORI": {
+        "cer": 0.0746,
+        "wer": 0.3793,
+        "inversion_rate": 0.0,
+        "latency_ms": 522.14,
+        "line_count": 8
+      },
+      "CONFIG_D_ENG_HIN": {
+        "cer": 0.8358,
+        "wer": 1.0172,
+        "inversion_rate": 0.0,
+        "latency_ms": 1269.94,
+        "line_count": 8
+      },
+      "CONFIG_E_ENG_ORI": {
+        "cer": 0.0771,
+        "wer": 0.3966,
+        "inversion_rate": 0.0,
+        "latency_ms": 878.68,
+        "line_count": 8
+      },
+      "CONFIG_F_ENG_HIN_ORI": {
+        "cer": 0.0746,
+        "wer": 0.3793,
+        "inversion_rate": 0.0,
+        "latency_ms": 1245.63,
+        "line_count": 8
+      },
+      "CONFIG_G_PAGE_ROUTING": {
+        "cer": 0.8433,
+        "wer": 1.0345,
+        "inversion_rate": 0.0,
+        "latency_ms": 2049.97,
+        "line_count": 8
+      },
+      "CONFIG_H_REGION_ROUTING": {
+        "cer": 0.102,
+        "wer": 0.3966,
+        "inversion_rate": 0.0,
+        "latency_ms": 2715.22,
+        "line_count": 8
+      },
+      "CONFIG_I_REGION_FALLBACK": {
+        "cer": 0.102,
+        "wer": 0.3966,
+        "inversion_rate": 0.0,
+        "latency_ms": 2621.3,
+        "line_count": 8
+      }
+    },
+    "DOC_CTRL_01_ENGLISH_CERTIFICATE": {
+      "CONFIG_A_ENG": {
+        "cer": 0.0,
+        "wer": 0.0,
+        "inversion_rate": 0.0,
+        "latency_ms": 571.33,
+        "line_count": 9
+      },
+      "CONFIG_B_HIN": {
+        "cer": 0.8274,
+        "wer": 1.0,
+        "inversion_rate": 0.0,
+        "latency_ms": 706.39,
+        "line_count": 10
+      },
+      "CONFIG_C_ORI": {
+        "cer": 0.8934,
+        "wer": 1.1695,
+        "inversion_rate": 0.0,
+        "latency_ms": 597.74,
+        "line_count": 10
+      },
+      "CONFIG_D_ENG_HIN": {
+        "cer": 0.0,
+        "wer": 0.0,
+        "inversion_rate": 0.0,
+        "latency_ms": 579.51,
+        "line_count": 9
+      },
+      "CONFIG_E_ENG_ORI": {
+        "cer": 0.0,
+        "wer": 0.0,
+        "inversion_rate": 0.0,
+        "latency_ms": 603.69,
+        "line_count": 9
+      },
+      "CONFIG_F_ENG_HIN_ORI": {
+        "cer": 0.0,
+        "wer": 0.0,
+        "inversion_rate": 0.0,
+        "latency_ms": 588.71,
+        "line_count": 9
+      },
+      "CONFIG_G_PAGE_ROUTING": {
+        "cer": 0.0,
+        "wer": 0.0,
+        "inversion_rate": 0.0,
+        "latency_ms": 1745.32,
+        "line_count": 9
+      },
+      "CONFIG_H_REGION_ROUTING": {
+        "cer": 0.0,
+        "wer": 0.0,
+        "inversion_rate": 0.0,
+        "latency_ms": 2015.05,
+        "line_count": 9
+      },
+      "CONFIG_I_REGION_FALLBACK": {
+        "cer": 0.0,
+        "wer": 0.0,
+        "inversion_rate": 0.0,
+        "latency_ms": 1671.65,
+        "line_count": 9
+      }
+    },
+    "DOC_DEG_01_MULTI_SCRIPT_SKEWED": {
+      "CONFIG_A_ENG": {
+        "cer": 0.6459,
+        "wer": 0.7578,
+        "inversion_rate": 9.09,
+        "latency_ms": 773.63,
+        "line_count": 16
+      },
+      "CONFIG_B_HIN": {
+        "cer": 0.7514,
+        "wer": 0.8906,
+        "inversion_rate": 0.0,
+        "latency_ms": 1781.65,
+        "line_count": 20
+      },
+      "CONFIG_C_ORI": {
+        "cer": 0.79,
+        "wer": 0.9219,
+        "inversion_rate": 0.0,
+        "latency_ms": 955.71,
+        "line_count": 16
+      },
+      "CONFIG_D_ENG_HIN": {
+        "cer": 0.5403,
+        "wer": 0.6953,
+        "inversion_rate": 4.76,
+        "latency_ms": 1779.1,
+        "line_count": 20
+      },
+      "CONFIG_E_ENG_ORI": {
+        "cer": 0.5562,
+        "wer": 0.6797,
+        "inversion_rate": 4.17,
+        "latency_ms": 1201.95,
+        "line_count": 16
+      },
+      "CONFIG_F_ENG_HIN_ORI": {
+        "cer": 0.4586,
+        "wer": 0.6328,
+        "inversion_rate": 2.11,
+        "latency_ms": 2246.5,
+        "line_count": 20
+      },
+      "CONFIG_G_PAGE_ROUTING": {
+        "cer": 0.6459,
+        "wer": 0.7578,
+        "inversion_rate": 9.09,
+        "latency_ms": 2146.75,
+        "line_count": 16
+      },
+      "CONFIG_H_REGION_ROUTING": {
+        "cer": 0.6459,
+        "wer": 0.7578,
+        "inversion_rate": 9.09,
+        "latency_ms": 820.49,
+        "line_count": 16
+      },
+      "CONFIG_I_REGION_FALLBACK": {
+        "cer": 0.6459,
+        "wer": 0.7578,
+        "inversion_rate": 9.09,
+        "latency_ms": 847.65,
+        "line_count": 16
+      }
+    }
+  },
+  "summary": {
+    "CONFIG_A_ENG": {
+      "mean_cer": 0.4387,
+      "mean_wer": 0.5384,
+      "mean_inversion_rate": 7.83,
+      "mean_latency_ms": 601.79
+    },
+    "CONFIG_B_HIN": {
+      "mean_cer": 0.6676,
+      "mean_wer": 0.8181,
+      "mean_inversion_rate": 9.61,
+      "mean_latency_ms": 742.99
+    },
+    "CONFIG_C_ORI": {
+      "mean_cer": 0.6822,
+      "mean_wer": 0.8937,
+      "mean_inversion_rate": 7.56,
+      "mean_latency_ms": 661.53
+    },
+    "CONFIG_D_ENG_HIN": {
+      "mean_cer": 0.3049,
+      "mean_wer": 0.4165,
+      "mean_inversion_rate": 6.0,
+      "mean_latency_ms": 960.95
+    },
+    "CONFIG_E_ENG_ORI": {
+      "mean_cer": 0.2836,
+      "mean_wer": 0.4258,
+      "mean_inversion_rate": 5.96,
+      "mean_latency_ms": 852.49
+    },
+    "CONFIG_F_ENG_HIN_ORI": {
+      "mean_cer": 0.1483,
+      "mean_wer": 0.2918,
+      "mean_inversion_rate": 3.37,
+      "mean_latency_ms": 1193.84
+    },
+    "CONFIG_G_PAGE_ROUTING": {
+      "mean_cer": 0.3758,
+      "mean_wer": 0.4822,
+      "mean_inversion_rate": 7.83,
+      "mean_latency_ms": 1719.56
+    },
+    "CONFIG_H_REGION_ROUTING": {
+      "mean_cer": 0.2013,
+      "mean_wer": 0.3473,
+      "mean_inversion_rate": 4.83,
+      "mean_latency_ms": 2607.09
+    },
+    "CONFIG_I_REGION_FALLBACK": {
+      "mean_cer": 0.2013,
+      "mean_wer": 0.3473,
+      "mean_inversion_rate": 4.83,
+      "mean_latency_ms": 2485.65
+    }
+  }
+}

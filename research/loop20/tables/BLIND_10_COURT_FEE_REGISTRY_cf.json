@@ -1,0 +1,18 @@
+[
+  {
+    "name": "panda_hearing",
+    "expected": "18/04/2026",
+    "row": 0,
+    "col": 4,
+    "type": "date",
+    "target_pattern": "Subrat Kumar Panda"
+  },
+  {
+    "name": "kalinga_fee",
+    "expected": "1000",
+    "row": 2,
+    "col": 3,
+    "type": "amount",
+    "target_pattern": "Kalinga Transporters"
+  }
+]

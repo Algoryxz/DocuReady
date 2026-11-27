@@ -170,6 +170,21 @@ test("filterFindings filters by status, search term, and sorts properly", () => 
   assert.strictEqual(warns.length, 1);
   assert.strictEqual(warns[0].rule_id, "RULE-NAME-WARN");
 
+  // Filter REVIEW / MANUAL_REVIEW
+  const reviewFindings: RedactedFinding[] = [
+    {
+      rule_id: "RULE-NAME-UNCERTAIN",
+      rule_name: "Name Uncertain OCR",
+      status: "REVIEW",
+      severity: "REVIEW",
+      penalty: 10,
+      field: "APPLICANT_NAME_UNCERTAIN",
+      documents_involved: ["APPLICATION_FORM", "INCOME_CERT"]
+    }
+  ];
+  assert.strictEqual(filterFindings(reviewFindings, { status: "REVIEW" }).length, 1);
+  assert.strictEqual(filterFindings(reviewFindings, { status: "MANUAL_REVIEW" }).length, 1);
+
   // Search by field "DOB"
   const dobSearch = filterFindings(sampleFindings, { searchQuery: "dob" });
   assert.strictEqual(dobSearch.length, 1);

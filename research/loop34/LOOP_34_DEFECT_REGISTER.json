@@ -1,0 +1,39 @@
+{
+  "milestone": "Loop 34",
+  "total_defects": 3,
+  "defects": [
+    {
+      "id": "OCR-034-001",
+      "title": "Character Segmentation Failure in Low-Resolution Odia Ligatures",
+      "subsystem": "docuready.ingest.script_router & Tesseract ori engine",
+      "severity": "Medium (Language Specific)",
+      "classification": "Recognition Error",
+      "description": "In scans below 200 DPI, complex Odia conjoined glyphs (e.g. ksha, tra) fuse horizontally, causing Tesseract to emit fragmented character tokens.",
+      "remediation": "Adaptive 300 DPI upscaling applied via adaptive_ocr pre-processing for Odia scripts.",
+      "reproduced": true,
+      "status": "Documented & Mitigated via Adaptive Pre-scaling"
+    },
+    {
+      "id": "OCR-034-002",
+      "title": "Narrow Gutter Label-Value Bleed in Complex Multi-Column Gazettes",
+      "subsystem": "docuready.ingest.spatial_layout.detect_columns",
+      "severity": "Low (Layout Specific)",
+      "classification": "Layout Segmentation Error",
+      "description": "When multi-column gutters are narrower than 8 pixels, column boundary detection occasionally merges adjacent column tokens.",
+      "remediation": "Spatial layout engine enforces 5-pixel minimum vertical gutter thresholds with whitespace projection profiling.",
+      "reproduced": true,
+      "status": "Documented & Contained"
+    },
+    {
+      "id": "OCR-034-003",
+      "title": "Confusable Glyphs in Micro-Font Bank IFSC Branches",
+      "subsystem": "docuready.ingest.identifier_validation",
+      "severity": "Low (Conservative Abstention)",
+      "classification": "Character Ambiguity",
+      "description": "Micro-font (sub-10px) scans of passbooks frequently confuse O and 0 at index 4.",
+      "remediation": "Loop 27/33 confusable glyph validation strictly forces ABSTAIN (REVIEW), preventing false verifications.",
+      "reproduced": true,
+      "status": "By-Design Conservative Invariant"
+    }
+  ]
+}

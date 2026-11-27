@@ -1,0 +1,1370 @@
+{
+  "corpus_version": "2.0.0",
+  "engineering_loop": "Loop 07 \u2014 Adversarial Corpus Expansion & Decision Generalization",
+  "total_scenarios": 133,
+  "as_of_reference": "2026-11-16",
+  "splits": {
+    "development_count": 53,
+    "validation_count": 43,
+    "challenge_count": 37
+  },
+  "scenarios": {
+    "SCN_A01_CLEAN_BASELINE_ODISHA": {
+      "index": 1,
+      "family": "CLEAN_CONTROLS",
+      "description": "Standard perfect Odisha applicant",
+      "split": "development",
+      "expected_status": "NO_ISSUES_FOUND",
+      "expected_score": 100,
+      "expected_defects": []
+    },
+    "SCN_A02_CLEAN_TWO_TOKEN_NAME": {
+      "index": 2,
+      "family": "CLEAN_CONTROLS",
+      "description": "Clean applicant with 2-token name 'Amit Kumar'",
+      "split": "development",
+      "expected_status": "NO_ISSUES_FOUND",
+      "expected_score": 100,
+      "expected_defects": []
+    },
+    "SCN_A03_CLEAN_THREE_TOKEN_NAME": {
+      "index": 3,
+      "family": "CLEAN_CONTROLS",
+      "description": "Clean applicant with 3-token name 'Pooja Rani Sahu'",
+      "split": "development",
+      "expected_status": "NO_ISSUES_FOUND",
+      "expected_score": 100,
+      "expected_defects": []
+    },
+    "SCN_A04_CLEAN_GENERAL_CATEGORY": {
+      "index": 4,
+      "family": "CLEAN_CONTROLS",
+      "description": "General category candidate with 65% merit marks",
+      "split": "validation",
+      "expected_status": "NO_ISSUES_FOUND",
+      "expected_score": 100,
+      "expected_defects": []
+    },
+    "SCN_A05_CLEAN_HIGH_MERIT": {
+      "index": 5,
+      "family": "CLEAN_CONTROLS",
+      "description": "High merit 95% candidate",
+      "split": "validation",
+      "expected_status": "NO_ISSUES_FOUND",
+      "expected_score": 100,
+      "expected_defects": []
+    },
+    "SCN_A06_CLEAN_LOW_INCOME": {
+      "index": 6,
+      "family": "CLEAN_CONTROLS",
+      "description": "Low annual income candidate (\u20b945,000/yr)",
+      "split": "challenge",
+      "expected_status": "NO_ISSUES_FOUND",
+      "expected_score": 100,
+      "expected_defects": []
+    },
+    "SCN_A07_CLEAN_RECENT_CERTIFICATE": {
+      "index": 7,
+      "family": "CLEAN_CONTROLS",
+      "description": "Recent certificate issued on 15/10/2026",
+      "split": "challenge",
+      "expected_status": "NO_ISSUES_FOUND",
+      "expected_score": 100,
+      "expected_defects": []
+    },
+    "SCN_A08_CLEAN_DIFFERENT_DISTRICT": {
+      "index": 8,
+      "family": "CLEAN_CONTROLS",
+      "description": "District Cuttack instead of Khordha within Odisha",
+      "split": "development",
+      "expected_status": "NO_ISSUES_FOUND",
+      "expected_score": 100,
+      "expected_defects": []
+    },
+    "SCN_A09_CLEAN_DIFFERENT_BANK": {
+      "index": 9,
+      "family": "CLEAN_CONTROLS",
+      "description": "Punjab National Bank with PUNB0123400 IFSC",
+      "split": "validation",
+      "expected_status": "NO_ISSUES_FOUND",
+      "expected_score": 100,
+      "expected_defects": []
+    },
+    "SCN_A10_CLEAN_A4_STANDARD_FONTS": {
+      "index": 10,
+      "family": "CLEAN_CONTROLS",
+      "description": "A4 standard styling clean control",
+      "split": "challenge",
+      "expected_status": "NO_ISSUES_FOUND",
+      "expected_score": 100,
+      "expected_defects": []
+    },
+    "SCN_B01_MISSING_INCOME_CERT": {
+      "index": 11,
+      "family": "DOCUMENT_COMPLETENESS",
+      "description": "Missing mandatory Income Certificate",
+      "split": "development",
+      "expected_status": "NOT_READY",
+      "expected_score": 65,
+      "expected_defects": [
+        "RULE-DOC-01"
+      ]
+    },
+    "SCN_B02_MISSING_CASTE_CERT": {
+      "index": 12,
+      "family": "DOCUMENT_COMPLETENESS",
+      "description": "Missing mandatory Caste Certificate",
+      "split": "development",
+      "expected_status": "NOT_READY",
+      "expected_score": 65,
+      "expected_defects": [
+        "RULE-DOC-01"
+      ]
+    },
+    "SCN_B03_MISSING_RESIDENCE_CERT": {
+      "index": 13,
+      "family": "DOCUMENT_COMPLETENESS",
+      "description": "Missing mandatory Residence Certificate",
+      "split": "development",
+      "expected_status": "NOT_READY",
+      "expected_score": 65,
+      "expected_defects": [
+        "RULE-DOC-01"
+      ]
+    },
+    "SCN_B04_MISSING_MARKSHEET": {
+      "index": 14,
+      "family": "DOCUMENT_COMPLETENESS",
+      "description": "Missing mandatory Academic Marksheet",
+      "split": "validation",
+      "expected_status": "NOT_READY",
+      "expected_score": 65,
+      "expected_defects": [
+        "RULE-DOC-01"
+      ]
+    },
+    "SCN_B05_MISSING_BANK_PASSBOOK": {
+      "index": 15,
+      "family": "DOCUMENT_COMPLETENESS",
+      "description": "Missing mandatory Bank Passbook",
+      "split": "validation",
+      "expected_status": "NOT_READY",
+      "expected_score": 65,
+      "expected_defects": [
+        "RULE-DOC-01"
+      ]
+    },
+    "SCN_B06_MISSING_APPLICATION_FORM": {
+      "index": 16,
+      "family": "DOCUMENT_COMPLETENESS",
+      "description": "Missing mandatory Application Form",
+      "split": "validation",
+      "expected_status": "NOT_READY",
+      "expected_score": 65,
+      "expected_defects": [
+        "RULE-DOC-01"
+      ]
+    },
+    "SCN_B07_MISSING_MULTIPLE_DOCS": {
+      "index": 17,
+      "family": "DOCUMENT_COMPLETENESS",
+      "description": "Missing both Income and Residence Certificates",
+      "split": "challenge",
+      "expected_status": "NOT_READY",
+      "expected_score": 30,
+      "expected_defects": [
+        "RULE-DOC-01"
+      ]
+    },
+    "SCN_B08_EMPTY_PACKET_DIR": {
+      "index": 18,
+      "family": "DOCUMENT_COMPLETENESS",
+      "description": "Empty packet directory with zero uploaded documents",
+      "split": "challenge",
+      "expected_status": "NOT_READY",
+      "expected_score": 0,
+      "expected_defects": [
+        "RULE-DOC-01"
+      ]
+    },
+    "SCN_B09_ZERO_BYTE_FILE": {
+      "index": 19,
+      "family": "DOCUMENT_COMPLETENESS",
+      "description": "Zero-byte empty file uploaded into income_cert slot",
+      "split": "development",
+      "expected_status": "NEEDS_CHECKS",
+      "expected_score": 75,
+      "expected_defects": [
+        "RULE-DOC-02"
+      ]
+    },
+    "SCN_B10_UNSUPPORTED_FILE_EXT": {
+      "index": 20,
+      "family": "DOCUMENT_COMPLETENESS",
+      "description": "Extra unsupported .txt file in packet is safely ignored",
+      "split": "validation",
+      "expected_status": "NO_ISSUES_FOUND",
+      "expected_score": 100,
+      "expected_defects": []
+    },
+    "SCN_B11_DUPLICATE_IDENTICAL_DOC": {
+      "index": 21,
+      "family": "DOCUMENT_COMPLETENESS",
+      "description": "Harmless duplicate copy of caste certificate",
+      "split": "challenge",
+      "expected_status": "NO_ISSUES_FOUND",
+      "expected_score": 100,
+      "expected_defects": []
+    },
+    "SCN_B12_RENAMED_IMPERSONATION": {
+      "index": 22,
+      "family": "DOCUMENT_COMPLETENESS",
+      "description": "Marksheet renamed to income_cert.pdf (slot mismatch)",
+      "split": "development",
+      "expected_status": "NEEDS_CHECKS",
+      "expected_score": 90,
+      "expected_defects": [
+        "RULE-SLOT-01"
+      ]
+    },
+    "SCN_C01_UNREADABLE_INCOME_CERT": {
+      "index": 23,
+      "family": "SCAN_QUALITY",
+      "description": "Unreadable/corrupted Income Certificate scan",
+      "split": "development",
+      "expected_status": "NEEDS_CHECKS",
+      "expected_score": 75,
+      "expected_defects": [
+        "RULE-DOC-02"
+      ]
+    },
+    "SCN_C02_UNREADABLE_MARKSHEET": {
+      "index": 24,
+      "family": "SCAN_QUALITY",
+      "description": "Unreadable damaged marksheet scan",
+      "split": "development",
+      "expected_status": "NEEDS_CHECKS",
+      "expected_score": 75,
+      "expected_defects": [
+        "RULE-DOC-02"
+      ]
+    },
+    "SCN_C03_UNREADABLE_CASTE_CERT": {
+      "index": 25,
+      "family": "SCAN_QUALITY",
+      "description": "Unreadable damaged caste cert scan",
+      "split": "validation",
+      "expected_status": "NEEDS_CHECKS",
+      "expected_score": 75,
+      "expected_defects": [
+        "RULE-DOC-02"
+      ]
+    },
+    "SCN_C04_CORRUPTED_STREAM": {
+      "index": 26,
+      "family": "SCAN_QUALITY",
+      "description": "Corrupted truncated residence stream",
+      "split": "validation",
+      "expected_status": "NEEDS_CHECKS",
+      "expected_score": 75,
+      "expected_defects": [
+        "RULE-DOC-02"
+      ]
+    },
+    "SCN_C05_PROSE_HEAVY_SCAN": {
+      "index": 27,
+      "family": "SCAN_QUALITY",
+      "description": "Prose-heavy declaration text correctly captured",
+      "split": "development",
+      "expected_status": "NO_ISSUES_FOUND",
+      "expected_score": 100,
+      "expected_defects": []
+    },
+    "SCN_C06_TABLE_BOXED_SCAN": {
+      "index": 28,
+      "family": "SCAN_QUALITY",
+      "description": "Table boxed format with pipe lines",
+      "split": "validation",
+      "expected_status": "NO_ISSUES_FOUND",
+      "expected_score": 100,
+      "expected_defects": []
+    },
+    "SCN_C07_FAINT_CARBON_COPY": {
+      "index": 29,
+      "family": "SCAN_QUALITY",
+      "description": "Faint carbon text contrast recovery",
+      "split": "challenge",
+      "expected_status": "NO_ISSUES_FOUND",
+      "expected_score": 100,
+      "expected_defects": []
+    },
+    "SCN_C08_DIAGONAL_WATERMARK": {
+      "index": 30,
+      "family": "SCAN_QUALITY",
+      "description": "Heavy diagonal watermark background",
+      "split": "challenge",
+      "expected_status": "NO_ISSUES_FOUND",
+      "expected_score": 100,
+      "expected_defects": []
+    },
+    "SCN_C09_LOW_DPI_RECOVERY": {
+      "index": 31,
+      "family": "SCAN_QUALITY",
+      "description": "Low DPI scan legibility recovery",
+      "split": "development",
+      "expected_status": "NO_ISSUES_FOUND",
+      "expected_score": 100,
+      "expected_defects": []
+    },
+    "SCN_C10_HEADER_BORDER_SHADOW": {
+      "index": 32,
+      "family": "SCAN_QUALITY",
+      "description": "Top border shadow scan",
+      "split": "validation",
+      "expected_status": "NO_ISSUES_FOUND",
+      "expected_score": 100,
+      "expected_defects": []
+    },
+    "SCN_C11_UNREADABLE_BANK": {
+      "index": 33,
+      "family": "SCAN_QUALITY",
+      "description": "Unreadable bank passbook scan",
+      "split": "challenge",
+      "expected_status": "NEEDS_CHECKS",
+      "expected_score": 75,
+      "expected_defects": [
+        "RULE-DOC-02"
+      ]
+    },
+    "SCN_C12_DOUBLE_UNREADABLE": {
+      "index": 34,
+      "family": "SCAN_QUALITY",
+      "description": "Two unreadable scans in one packet",
+      "split": "development",
+      "expected_status": "NEEDS_CHECKS",
+      "expected_score": 50,
+      "expected_defects": [
+        "RULE-DOC-02"
+      ]
+    },
+    "SCN_D01_ROTATION_90_INCOME": {
+      "index": 35,
+      "family": "GEOMETRY_DESKEW",
+      "description": "90\u00b0 rotation recovered cleanly",
+      "split": "development",
+      "expected_status": "NO_ISSUES_FOUND",
+      "expected_score": 100,
+      "expected_defects": []
+    },
+    "SCN_D02_ROTATION_180_RESIDENCE": {
+      "index": 36,
+      "family": "GEOMETRY_DESKEW",
+      "description": "180\u00b0 rotation recovered cleanly",
+      "split": "development",
+      "expected_status": "NO_ISSUES_FOUND",
+      "expected_score": 100,
+      "expected_defects": []
+    },
+    "SCN_D03_ROTATION_270_MARKSHEET": {
+      "index": 37,
+      "family": "GEOMETRY_DESKEW",
+      "description": "270\u00b0 rotation recovered cleanly",
+      "split": "validation",
+      "expected_status": "NO_ISSUES_FOUND",
+      "expected_score": 100,
+      "expected_defects": []
+    },
+    "SCN_D04_SKEW_POS_3DEG": {
+      "index": 38,
+      "family": "GEOMETRY_DESKEW",
+      "description": "+3.0\u00b0 non-orthogonal skew recovered",
+      "split": "validation",
+      "expected_status": "NO_ISSUES_FOUND",
+      "expected_score": 100,
+      "expected_defects": []
+    },
+    "SCN_D05_SKEW_NEG_5DEG": {
+      "index": 39,
+      "family": "GEOMETRY_DESKEW",
+      "description": "-5.0\u00b0 non-orthogonal skew recovered",
+      "split": "challenge",
+      "expected_status": "NO_ISSUES_FOUND",
+      "expected_score": 100,
+      "expected_defects": []
+    },
+    "SCN_D06_SKEW_POS_8DEG": {
+      "index": 40,
+      "family": "GEOMETRY_DESKEW",
+      "description": "+8.0\u00b0 non-orthogonal skew recovered",
+      "split": "challenge",
+      "expected_status": "NO_ISSUES_FOUND",
+      "expected_score": 100,
+      "expected_defects": []
+    },
+    "SCN_D07_SKEW_POS_12DEG": {
+      "index": 41,
+      "family": "GEOMETRY_DESKEW",
+      "description": "+12.0\u00b0 non-orthogonal skew recovered",
+      "split": "development",
+      "expected_status": "NO_ISSUES_FOUND",
+      "expected_score": 100,
+      "expected_defects": []
+    },
+    "SCN_D08_MULTI_SKEW_PACKET": {
+      "index": 42,
+      "family": "GEOMETRY_DESKEW",
+      "description": "Compound multi-skew across multiple certificates",
+      "split": "validation",
+      "expected_status": "NO_ISSUES_FOUND",
+      "expected_score": 100,
+      "expected_defects": []
+    },
+    "SCN_D09_SKEW_WITH_NAME_CONFLICT": {
+      "index": 43,
+      "family": "GEOMETRY_DESKEW",
+      "description": "Deskew preserves underlying name conflict",
+      "split": "challenge",
+      "expected_status": "NOT_READY",
+      "expected_score": 75,
+      "expected_defects": [
+        "RULE-NAME-01"
+      ]
+    },
+    "SCN_D10_SKEW_WITH_DOB_CONFLICT": {
+      "index": 44,
+      "family": "GEOMETRY_DESKEW",
+      "description": "Deskew preserves underlying DOB conflict",
+      "split": "development",
+      "expected_status": "NOT_READY",
+      "expected_score": 75,
+      "expected_defects": [
+        "RULE-DOB-01"
+      ]
+    },
+    "SCN_D11_UPRIGHT_NOOP_VERIFICATION": {
+      "index": 45,
+      "family": "GEOMETRY_DESKEW",
+      "description": "Upright page zero-deskew guarantee",
+      "split": "validation",
+      "expected_status": "NO_ISSUES_FOUND",
+      "expected_score": 100,
+      "expected_defects": []
+    },
+    "SCN_D12_FINE_SKEW_0_5DEG": {
+      "index": 46,
+      "family": "GEOMETRY_DESKEW",
+      "description": "+0.5\u00b0 subtle skew handled safely",
+      "split": "challenge",
+      "expected_status": "NO_ISSUES_FOUND",
+      "expected_score": 100,
+      "expected_defects": []
+    },
+    "SCN_E01_OCR_YEAR_ZERO_CONFUSION": {
+      "index": 47,
+      "family": "EXTRACTION_ADVERSARIAL",
+      "description": "OCR letter O confusion in year (/2O25/)",
+      "split": "development",
+      "expected_status": "NO_ISSUES_FOUND",
+      "expected_score": 100,
+      "expected_defects": []
+    },
+    "SCN_E02_OCR_SEQ_ZERO_CONFUSION": {
+      "index": 48,
+      "family": "EXTRACTION_ADVERSARIAL",
+      "description": "OCR letter O confusion in sequence (/1O4928)",
+      "split": "development",
+      "expected_status": "NO_ISSUES_FOUND",
+      "expected_score": 100,
+      "expected_defects": []
+    },
+    "SCN_E03_DASH_DELIMITED_DATE": {
+      "index": 49,
+      "family": "EXTRACTION_ADVERSARIAL",
+      "description": "Dash-delimited ISO issue date (2025-01-15)",
+      "split": "validation",
+      "expected_status": "NO_ISSUES_FOUND",
+      "expected_score": 100,
+      "expected_defects": []
+    },
+    "SCN_E04_DOT_DELIMITED_DATE": {
+      "index": 50,
+      "family": "EXTRACTION_ADVERSARIAL",
+      "description": "Dot-delimited issue date (15.01.2025)",
+      "split": "validation",
+      "expected_status": "NO_ISSUES_FOUND",
+      "expected_score": 100,
+      "expected_defects": []
+    },
+    "SCN_E05_NAMED_MONTH_DATE": {
+      "index": 51,
+      "family": "EXTRACTION_ADVERSARIAL",
+      "description": "Named month date (15-Jan-2025)",
+      "split": "challenge",
+      "expected_status": "NO_ISSUES_FOUND",
+      "expected_score": 100,
+      "expected_defects": []
+    },
+    "SCN_E06_FATHER_NAME_NO_COMMA": {
+      "index": 52,
+      "family": "EXTRACTION_ADVERSARIAL",
+      "description": "Father name with S/O and no trailing comma",
+      "split": "challenge",
+      "expected_status": "NO_ISSUES_FOUND",
+      "expected_score": 100,
+      "expected_defects": []
+    },
+    "SCN_E07_LAKH_PROSE_NOTATION": {
+      "index": 53,
+      "family": "EXTRACTION_ADVERSARIAL",
+      "description": "Lakh notation 'Rs. 1,80,000/- (Rupees One Lakh)'",
+      "split": "development",
+      "expected_status": "NO_ISSUES_FOUND",
+      "expected_score": 100,
+      "expected_defects": []
+    },
+    "SCN_E08_LPA_NOTATION": {
+      "index": 54,
+      "family": "EXTRACTION_ADVERSARIAL",
+      "description": "LPA notation '1.80 LPA'",
+      "split": "validation",
+      "expected_status": "NO_ISSUES_FOUND",
+      "expected_score": 100,
+      "expected_defects": []
+    },
+    "SCN_E09_GIVEN_NAME_KUMAR": {
+      "index": 55,
+      "family": "EXTRACTION_ADVERSARIAL",
+      "description": "Preserves given name 'Kumar Gaurav'",
+      "split": "challenge",
+      "expected_status": "NO_ISSUES_FOUND",
+      "expected_score": 100,
+      "expected_defects": []
+    },
+    "SCN_E10_MIDDLE_HONORIFIC_KUMAR": {
+      "index": 56,
+      "family": "EXTRACTION_ADVERSARIAL",
+      "description": "Canonicalizes 3-token 'Rajesh Kumar Patel'",
+      "split": "development",
+      "expected_status": "NO_ISSUES_FOUND",
+      "expected_score": 100,
+      "expected_defects": []
+    },
+    "SCN_E11_AADHAAR_EXTRACTION": {
+      "index": 57,
+      "family": "EXTRACTION_ADVERSARIAL",
+      "description": "Masked Aadhaar format extraction",
+      "split": "validation",
+      "expected_status": "NO_ISSUES_FOUND",
+      "expected_score": 100,
+      "expected_defects": []
+    },
+    "SCN_E12_TABLE_PIPE_CLEANUP": {
+      "index": 58,
+      "family": "EXTRACTION_ADVERSARIAL",
+      "description": "Strips table pipes | without corrupting value",
+      "split": "challenge",
+      "expected_status": "NO_ISSUES_FOUND",
+      "expected_score": 100,
+      "expected_defects": []
+    },
+    "SCN_F01_EXACT_NAME_MATCH": {
+      "index": 59,
+      "family": "IDENTITY_CONSISTENCY",
+      "description": "Exact name match across all 6 documents",
+      "split": "development",
+      "expected_status": "NO_ISSUES_FOUND",
+      "expected_score": 100,
+      "expected_defects": []
+    },
+    "SCN_F02_HARD_NAME_CONFLICT": {
+      "index": 60,
+      "family": "IDENTITY_CONSISTENCY",
+      "description": "Hard name conflict: Smruti Nayak vs Ramesh Patel",
+      "split": "development",
+      "expected_status": "NOT_READY",
+      "expected_score": 75,
+      "expected_defects": [
+        "RULE-NAME-01"
+      ]
+    },
+    "SCN_F03_MIDDLE_NAME_OMISSION": {
+      "index": 61,
+      "family": "IDENTITY_CONSISTENCY",
+      "description": "Middle name omission on Caste Certificate",
+      "split": "development",
+      "expected_status": "NEEDS_CHECKS",
+      "expected_score": 95,
+      "expected_defects": [
+        "RULE-NAME-02"
+      ]
+    },
+    "SCN_F04_MIDDLE_NAME_INVERSE": {
+      "index": 62,
+      "family": "IDENTITY_CONSISTENCY",
+      "description": "Form has middle name, certificates omit",
+      "split": "validation",
+      "expected_status": "NEEDS_CHECKS",
+      "expected_score": 75,
+      "expected_defects": [
+        "RULE-NAME-02"
+      ]
+    },
+    "SCN_F05_SIBLING_RHYME_CONFLICT": {
+      "index": 63,
+      "family": "IDENTITY_CONSISTENCY",
+      "description": "Sibling name conflict: Smruti vs Suresh Nayak",
+      "split": "validation",
+      "expected_status": "NOT_READY",
+      "expected_score": 75,
+      "expected_defects": [
+        "RULE-NAME-01"
+      ]
+    },
+    "SCN_F06_DISTINCT_GIVEN_NAMES": {
+      "index": 64,
+      "family": "IDENTITY_CONSISTENCY",
+      "description": "Distinct given names: Smruti vs Sumit Nayak",
+      "split": "challenge",
+      "expected_status": "NOT_READY",
+      "expected_score": 75,
+      "expected_defects": [
+        "RULE-NAME-01"
+      ]
+    },
+    "SCN_F07_INITIAL_EXPANSION": {
+      "index": 65,
+      "family": "IDENTITY_CONSISTENCY",
+      "description": "Initial abbreviation S. Nayak",
+      "split": "challenge",
+      "expected_status": "NEEDS_CHECKS",
+      "expected_score": 95,
+      "expected_defects": [
+        "RULE-NAME-02"
+      ]
+    },
+    "SCN_F08_SURNAME_MISMATCH": {
+      "index": 66,
+      "family": "IDENTITY_CONSISTENCY",
+      "description": "Surname mismatch: Smruti Nayak vs Smruti Das",
+      "split": "development",
+      "expected_status": "NOT_READY",
+      "expected_score": 75,
+      "expected_defects": [
+        "RULE-NAME-01"
+      ]
+    },
+    "SCN_F09_TWO_DOC_NAME_CONFLICT": {
+      "index": 67,
+      "family": "IDENTITY_CONSISTENCY",
+      "description": "Two documents conflict with application",
+      "split": "development",
+      "expected_status": "NOT_READY",
+      "expected_score": 50,
+      "expected_defects": [
+        "RULE-NAME-01"
+      ]
+    },
+    "SCN_F10_COMPATIBLE_ON_APPLICATION": {
+      "index": 68,
+      "family": "IDENTITY_CONSISTENCY",
+      "description": "Compatible middle name variation on application",
+      "split": "validation",
+      "expected_status": "NEEDS_CHECKS",
+      "expected_score": 75,
+      "expected_defects": [
+        "RULE-NAME-02"
+      ]
+    },
+    "SCN_F11_SINGLE_CHAR_TYPO": {
+      "index": 69,
+      "family": "IDENTITY_CONSISTENCY",
+      "description": "Single-character OCR typo Smrutl Nayak",
+      "split": "challenge",
+      "expected_status": "NEEDS_CHECKS",
+      "expected_score": 95,
+      "expected_defects": [
+        "RULE-NAME-02"
+      ]
+    },
+    "SCN_F12_COMPLETELY_DIFFERENT_IDENTITY": {
+      "index": 70,
+      "family": "IDENTITY_CONSISTENCY",
+      "description": "Completely different identity Priya Sharma",
+      "split": "development",
+      "expected_status": "NOT_READY",
+      "expected_score": 75,
+      "expected_defects": [
+        "RULE-NAME-01"
+      ]
+    },
+    "SCN_F13_FATHER_NAME_CONFLICT": {
+      "index": 71,
+      "family": "IDENTITY_CONSISTENCY",
+      "description": "Applicant name matches, father name conflicts",
+      "split": "validation",
+      "expected_status": "NO_ISSUES_FOUND",
+      "expected_score": 100,
+      "expected_defects": []
+    },
+    "SCN_F14_NAME_CONFLICT_ON_RESIDENCE": {
+      "index": 72,
+      "family": "IDENTITY_CONSISTENCY",
+      "description": "Residence Certificate has conflicting name",
+      "split": "challenge",
+      "expected_status": "NOT_READY",
+      "expected_score": 75,
+      "expected_defects": [
+        "RULE-NAME-01"
+      ]
+    },
+    "SCN_F15_NAME_CONFLICT_ON_CASTE": {
+      "index": 73,
+      "family": "IDENTITY_CONSISTENCY",
+      "description": "Caste Certificate has conflicting name",
+      "split": "challenge",
+      "expected_status": "NOT_READY",
+      "expected_score": 75,
+      "expected_defects": [
+        "RULE-NAME-01"
+      ]
+    },
+    "SCN_G01_EXACT_DOB_MATCH": {
+      "index": 74,
+      "family": "TEMPORAL_CONSISTENCY",
+      "description": "Exact DOB match (14/05/2003)",
+      "split": "development",
+      "expected_status": "NO_ISSUES_FOUND",
+      "expected_score": 100,
+      "expected_defects": []
+    },
+    "SCN_G02_DOB_YEAR_MISMATCH": {
+      "index": 75,
+      "family": "TEMPORAL_CONSISTENCY",
+      "description": "DOB year mismatch (2003 vs 2001)",
+      "split": "development",
+      "expected_status": "NOT_READY",
+      "expected_score": 75,
+      "expected_defects": [
+        "RULE-DOB-01"
+      ]
+    },
+    "SCN_G03_DOB_DAY_MISMATCH": {
+      "index": 76,
+      "family": "TEMPORAL_CONSISTENCY",
+      "description": "DOB day mismatch (14/05/2003 vs 15/05/2003)",
+      "split": "development",
+      "expected_status": "NOT_READY",
+      "expected_score": 75,
+      "expected_defects": [
+        "RULE-DOB-01"
+      ]
+    },
+    "SCN_G04_DOB_MONTH_MISMATCH": {
+      "index": 77,
+      "family": "TEMPORAL_CONSISTENCY",
+      "description": "DOB month mismatch (14/05/2003 vs 14/06/2003)",
+      "split": "validation",
+      "expected_status": "NOT_READY",
+      "expected_score": 75,
+      "expected_defects": [
+        "RULE-DOB-01"
+      ]
+    },
+    "SCN_G05_EXPIRED_CERT_4YEARS": {
+      "index": 78,
+      "family": "TEMPORAL_CONSISTENCY",
+      "description": "Income certificate expired 4 years ago (10/01/2022)",
+      "split": "validation",
+      "expected_status": "NOT_READY",
+      "expected_score": 75,
+      "expected_defects": [
+        "RULE-EXP-01"
+      ]
+    },
+    "SCN_G06_EXPIRED_CERT_5YEARS": {
+      "index": 79,
+      "family": "TEMPORAL_CONSISTENCY",
+      "description": "Income certificate expired 5 years ago (10/01/2021)",
+      "split": "challenge",
+      "expected_status": "NOT_READY",
+      "expected_score": 75,
+      "expected_defects": [
+        "RULE-EXP-01"
+      ]
+    },
+    "SCN_G07_VALID_CERT_BOUNDARY": {
+      "index": 80,
+      "family": "TEMPORAL_CONSISTENCY",
+      "description": "Valid certificate near 3-year boundary (25/11/2023)",
+      "split": "challenge",
+      "expected_status": "NO_ISSUES_FOUND",
+      "expected_score": 100,
+      "expected_defects": []
+    },
+    "SCN_G08_RECENT_CERT_ISSUED": {
+      "index": 81,
+      "family": "TEMPORAL_CONSISTENCY",
+      "description": "Recently issued valid certificate (10/05/2026)",
+      "split": "development",
+      "expected_status": "NO_ISSUES_FOUND",
+      "expected_score": 100,
+      "expected_defects": []
+    },
+    "SCN_G09_AMBIGUOUS_DATE_FORMAT_SAFE": {
+      "index": 82,
+      "family": "TEMPORAL_CONSISTENCY",
+      "description": "Ambiguous format (06/07/2025) both valid -> Pass",
+      "split": "validation",
+      "expected_status": "NO_ISSUES_FOUND",
+      "expected_score": 100,
+      "expected_defects": []
+    },
+    "SCN_G10_AMBIGUOUS_DATE_FORMAT_EXPIRED": {
+      "index": 83,
+      "family": "TEMPORAL_CONSISTENCY",
+      "description": "Ambiguous format (06/07/2020) both expired -> Fail",
+      "split": "challenge",
+      "expected_status": "NOT_READY",
+      "expected_score": 75,
+      "expected_defects": [
+        "RULE-EXP-01"
+      ]
+    },
+    "SCN_G11_FUTURE_ISSUE_DATE": {
+      "index": 84,
+      "family": "TEMPORAL_CONSISTENCY",
+      "description": "Future date anomaly (20/11/2026)",
+      "split": "development",
+      "expected_status": "NOT_READY",
+      "expected_score": 75,
+      "expected_defects": [
+        "RULE-EXP-01"
+      ]
+    },
+    "SCN_G12_LEAP_DAY_DOB": {
+      "index": 85,
+      "family": "TEMPORAL_CONSISTENCY",
+      "description": "Valid leap day date of birth (29/02/2004)",
+      "split": "validation",
+      "expected_status": "NO_ISSUES_FOUND",
+      "expected_score": 100,
+      "expected_defects": []
+    },
+    "SCN_H01_INCOME_EXACT_MATCH_WITHIN_CEILING": {
+      "index": 86,
+      "family": "FINANCIAL_DATA",
+      "description": "Annual income exact match \u20b91.80L within ceiling",
+      "split": "development",
+      "expected_status": "NO_ISSUES_FOUND",
+      "expected_score": 100,
+      "expected_defects": []
+    },
+    "SCN_H02_INCOME_ABOVE_CEILING_CERTIFIED": {
+      "index": 87,
+      "family": "FINANCIAL_DATA",
+      "description": "Certified income \u20b93.80L exceeds statutory \u20b92.50L ceiling",
+      "split": "development",
+      "expected_status": "NOT_READY",
+      "expected_score": 65,
+      "expected_defects": [
+        "RULE-INC-01"
+      ]
+    },
+    "SCN_H03_INCOME_ABOVE_CEILING_SLIGHT": {
+      "index": 88,
+      "family": "FINANCIAL_DATA",
+      "description": "Certified income \u20b92.60L slightly exceeds \u20b92.50L ceiling",
+      "split": "development",
+      "expected_status": "NOT_READY",
+      "expected_score": 65,
+      "expected_defects": [
+        "RULE-INC-01"
+      ]
+    },
+    "SCN_H04_INCOME_AT_CEILING_EXACT": {
+      "index": 89,
+      "family": "FINANCIAL_DATA",
+      "description": "Certified income exactly \u20b92,50,000 equals statutory ceiling",
+      "split": "validation",
+      "expected_status": "NO_ISSUES_FOUND",
+      "expected_score": 100,
+      "expected_defects": []
+    },
+    "SCN_H05_INCOME_DECLARED_MISMATCH": {
+      "index": 90,
+      "family": "FINANCIAL_DATA",
+      "description": "Declared income \u20b91.50L mismatches certified \u20b91.80L",
+      "split": "validation",
+      "expected_status": "NOT_READY",
+      "expected_score": 75,
+      "expected_defects": [
+        "RULE-INC-02"
+      ]
+    },
+    "SCN_H06_INCOME_VERY_LOW": {
+      "index": 91,
+      "family": "FINANCIAL_DATA",
+      "description": "Very low income \u20b930,000 within ceiling",
+      "split": "challenge",
+      "expected_status": "NO_ISSUES_FOUND",
+      "expected_score": 100,
+      "expected_defects": []
+    },
+    "SCN_H07_INCOME_FORMAT_THOUSAND_COMMAS": {
+      "index": 92,
+      "family": "FINANCIAL_DATA",
+      "description": "Indian comma numbering format \u20b91,80,000/-",
+      "split": "challenge",
+      "expected_status": "NO_ISSUES_FOUND",
+      "expected_score": 100,
+      "expected_defects": []
+    },
+    "SCN_H08_INCOME_FORMAT_DECIMAL": {
+      "index": 93,
+      "family": "FINANCIAL_DATA",
+      "description": "Decimal income format \u20b9180000.00",
+      "split": "development",
+      "expected_status": "NO_ISSUES_FOUND",
+      "expected_score": 100,
+      "expected_defects": []
+    },
+    "SCN_H09_INCOME_MISMATCH_WITHIN_TOLERANCE": {
+      "index": 94,
+      "family": "FINANCIAL_DATA",
+      "description": "Income declaration matches exactly",
+      "split": "validation",
+      "expected_status": "NO_ISSUES_FOUND",
+      "expected_score": 100,
+      "expected_defects": []
+    },
+    "SCN_H10_INCOME_HIGH_EXTREME": {
+      "index": 95,
+      "family": "FINANCIAL_DATA",
+      "description": "Extreme high income \u20b912,00,000",
+      "split": "challenge",
+      "expected_status": "NOT_READY",
+      "expected_score": 65,
+      "expected_defects": [
+        "RULE-INC-01"
+      ]
+    },
+    "SCN_H11_INCOME_BOTH_CEILING_AND_MISMATCH": {
+      "index": 96,
+      "family": "FINANCIAL_DATA",
+      "description": "Both ceiling exceeded (\u20b93.5L) and declared mismatch (\u20b92.0L)",
+      "split": "development",
+      "expected_status": "NOT_READY",
+      "expected_score": 40,
+      "expected_defects": [
+        "RULE-INC-01",
+        "RULE-INC-02"
+      ]
+    },
+    "SCN_H12_INCOME_CERT_VALID_FORM_CEILING": {
+      "index": 97,
+      "family": "FINANCIAL_DATA",
+      "description": "Certified income \u20b91.8L, declared form income \u20b94.0L",
+      "split": "validation",
+      "expected_status": "NOT_READY",
+      "expected_score": 75,
+      "expected_defects": [
+        "RULE-INC-02"
+      ]
+    },
+    "SCN_I01_ODISHA_DOMICILE_MATCH": {
+      "index": 98,
+      "family": "DOMICILE_AND_SLOT",
+      "description": "Residence state matches required state ODISHA",
+      "split": "development",
+      "expected_status": "NO_ISSUES_FOUND",
+      "expected_score": 100,
+      "expected_defects": []
+    },
+    "SCN_I02_DOMICILE_MISMATCH_BIHAR": {
+      "index": 99,
+      "family": "DOMICILE_AND_SLOT",
+      "description": "Residence certificate issued by BIHAR fails domicile",
+      "split": "development",
+      "expected_status": "NOT_READY",
+      "expected_score": 75,
+      "expected_defects": [
+        "RULE-DOM-01"
+      ]
+    },
+    "SCN_I03_DOMICILE_MISMATCH_BENGAL": {
+      "index": 100,
+      "family": "DOMICILE_AND_SLOT",
+      "description": "Residence certificate issued by WEST BENGAL fails domicile",
+      "split": "validation",
+      "expected_status": "NOT_READY",
+      "expected_score": 75,
+      "expected_defects": [
+        "RULE-DOM-01"
+      ]
+    },
+    "SCN_I04_SLOT_SWAP_MARKSHEET_FOR_INCOME": {
+      "index": 101,
+      "family": "DOMICILE_AND_SLOT",
+      "description": "Marksheet uploaded into income_cert slot",
+      "split": "development",
+      "expected_status": "NEEDS_CHECKS",
+      "expected_score": 90,
+      "expected_defects": [
+        "RULE-SLOT-01"
+      ]
+    },
+    "SCN_I05_SLOT_SWAP_PASSBOOK_FOR_CASTE": {
+      "index": 102,
+      "family": "DOMICILE_AND_SLOT",
+      "description": "Bank passbook uploaded into caste_cert slot",
+      "split": "validation",
+      "expected_status": "NEEDS_CHECKS",
+      "expected_score": 90,
+      "expected_defects": [
+        "RULE-SLOT-01"
+      ]
+    },
+    "SCN_I06_SLOT_SWAP_RESIDENCE_FOR_FORM": {
+      "index": 103,
+      "family": "DOMICILE_AND_SLOT",
+      "description": "Residence certificate uploaded into application_form slot",
+      "split": "challenge",
+      "expected_status": "NEEDS_CHECKS",
+      "expected_score": 90,
+      "expected_defects": [
+        "RULE-SLOT-01"
+      ]
+    },
+    "SCN_I07_CERT_NO_EXACT_MATCH": {
+      "index": 104,
+      "family": "DOMICILE_AND_SLOT",
+      "description": "Certificate reference numbers match perfectly",
+      "split": "development",
+      "expected_status": "NO_ISSUES_FOUND",
+      "expected_score": 100,
+      "expected_defects": []
+    },
+    "SCN_I08_DOMICILE_MISMATCH_JHARKHAND": {
+      "index": 105,
+      "family": "DOMICILE_AND_SLOT",
+      "description": "Jharkhand domicile ineligible for Odisha scheme",
+      "split": "validation",
+      "expected_status": "NOT_READY",
+      "expected_score": 75,
+      "expected_defects": [
+        "RULE-DOM-01"
+      ]
+    },
+    "SCN_I09_DOMICILE_MISMATCH_ANDHRA": {
+      "index": 106,
+      "family": "DOMICILE_AND_SLOT",
+      "description": "Andhra Pradesh domicile ineligible for Odisha scheme",
+      "split": "challenge",
+      "expected_status": "NOT_READY",
+      "expected_score": 75,
+      "expected_defects": [
+        "RULE-DOM-01"
+      ]
+    },
+    "SCN_I10_BANK_IFSC_VALID_SBIN": {
+      "index": 107,
+      "family": "DOMICILE_AND_SLOT",
+      "description": "Valid RBI IFSC code SBIN0001234",
+      "split": "development",
+      "expected_status": "NO_ISSUES_FOUND",
+      "expected_score": 100,
+      "expected_defects": []
+    },
+    "SCN_I11_BANK_IFSC_INVALID_FORMAT": {
+      "index": 108,
+      "family": "DOMICILE_AND_SLOT",
+      "description": "Invalid IFSC code length (SBIN00123) triggers review",
+      "split": "validation",
+      "expected_status": "NEEDS_CHECKS",
+      "expected_score": 90,
+      "expected_defects": [
+        "RULE-BNK-01"
+      ]
+    },
+    "SCN_I12_BANK_ACCOUNT_NO_MISMATCH": {
+      "index": 109,
+      "family": "DOMICILE_AND_SLOT",
+      "description": "Bank account number mismatch between form and passbook",
+      "split": "challenge",
+      "expected_status": "NOT_READY",
+      "expected_score": 75,
+      "expected_defects": [
+        "RULE-BNK-02"
+      ]
+    },
+    "SCN_J01_NAME_CONFLICT_AND_MISSING_DOC": {
+      "index": 110,
+      "family": "INTERACTION",
+      "description": "Name conflict (-25) + missing residence cert (-35)",
+      "split": "development",
+      "expected_status": "NOT_READY",
+      "expected_score": 40,
+      "expected_defects": [
+        "RULE-NAME-01",
+        "RULE-DOC-01"
+      ]
+    },
+    "SCN_J02_DOB_CONFLICT_AND_UNREADABLE_DOC": {
+      "index": 111,
+      "family": "INTERACTION",
+      "description": "DOB conflict (-25) + unreadable income cert (-25)",
+      "split": "development",
+      "expected_status": "NOT_READY",
+      "expected_score": 50,
+      "expected_defects": [
+        "RULE-DOB-01",
+        "RULE-DOC-02"
+      ]
+    },
+    "SCN_J03_CEILING_EXCEEDED_AND_EXPIRED": {
+      "index": 112,
+      "family": "INTERACTION",
+      "description": "Income ceiling exceeded (\u20b93.8L) + expired cert (2021)",
+      "split": "development",
+      "expected_status": "NOT_READY",
+      "expected_score": 40,
+      "expected_defects": [
+        "RULE-INC-01",
+        "RULE-EXP-01"
+      ]
+    },
+    "SCN_J04_DOMICILE_MISMATCH_AND_NAME_CONFLICT": {
+      "index": 113,
+      "family": "INTERACTION",
+      "description": "State Bihar (-25) + name conflict (-25)",
+      "split": "validation",
+      "expected_status": "NOT_READY",
+      "expected_score": 50,
+      "expected_defects": [
+        "RULE-DOM-01",
+        "RULE-NAME-01"
+      ]
+    },
+    "SCN_J05_THREE_HARD_CONFLICTS": {
+      "index": 114,
+      "family": "INTERACTION",
+      "description": "Three hard conflicts: Name + DOB + Income ceiling",
+      "split": "validation",
+      "expected_status": "NOT_READY",
+      "expected_score": 15,
+      "expected_defects": [
+        "RULE-NAME-01",
+        "RULE-DOB-01",
+        "RULE-INC-01"
+      ]
+    },
+    "SCN_J06_MISSING_TWO_MANDATORY_DOCS": {
+      "index": 115,
+      "family": "INTERACTION",
+      "description": "Two mandatory documents missing: Income + Caste",
+      "split": "challenge",
+      "expected_status": "NOT_READY",
+      "expected_score": 30,
+      "expected_defects": [
+        "RULE-DOC-01"
+      ]
+    },
+    "SCN_J07_WARN_NAME_AND_UNREADABLE_PASSBOOK": {
+      "index": 116,
+      "family": "INTERACTION",
+      "description": "Middle name variation + unreadable passbook",
+      "split": "challenge",
+      "expected_status": "NEEDS_CHECKS",
+      "expected_score": 70,
+      "expected_defects": [
+        "RULE-NAME-02",
+        "RULE-DOC-02"
+      ]
+    },
+    "SCN_J08_SLOT_MISMATCH_AND_MISSING_DOC": {
+      "index": 117,
+      "family": "INTERACTION",
+      "description": "Slot mismatch + missing residence certificate",
+      "split": "development",
+      "expected_status": "NOT_READY",
+      "expected_score": 55,
+      "expected_defects": [
+        "RULE-SLOT-01",
+        "RULE-DOC-01"
+      ]
+    },
+    "SCN_J09_EXPIRED_CERT_AND_NAME_WARN": {
+      "index": 118,
+      "family": "INTERACTION",
+      "description": "Expired cert (2021) (-25) + middle name variation (-5)",
+      "split": "validation",
+      "expected_status": "NOT_READY",
+      "expected_score": 70,
+      "expected_defects": [
+        "RULE-EXP-01",
+        "RULE-NAME-02"
+      ]
+    },
+    "SCN_J10_EXPIRED_CERT_AND_UNREADABLE_CASTE": {
+      "index": 119,
+      "family": "INTERACTION",
+      "description": "Expired income cert (-25) + unreadable caste cert (-25)",
+      "split": "challenge",
+      "expected_status": "NOT_READY",
+      "expected_score": 50,
+      "expected_defects": [
+        "RULE-EXP-01",
+        "RULE-DOC-02"
+      ]
+    },
+    "SCN_J11_CLEAN_WITH_EXTRA_DOC": {
+      "index": 120,
+      "family": "INTERACTION",
+      "description": "Clean packet with harmless extra document copy",
+      "split": "development",
+      "expected_status": "NO_ISSUES_FOUND",
+      "expected_score": 100,
+      "expected_defects": []
+    },
+    "SCN_J12_COMPOUND_MAX_FAILURES": {
+      "index": 121,
+      "family": "INTERACTION",
+      "description": "Compound maximum failures across Name, DOB, Income, Domicile",
+      "split": "validation",
+      "expected_status": "NOT_READY",
+      "expected_score": 0,
+      "expected_defects": [
+        "RULE-NAME-01",
+        "RULE-DOB-01",
+        "RULE-INC-01",
+        "RULE-DOM-01"
+      ]
+    },
+    "SCN_K01_SC_RELAX_CUTOFF_PASS": {
+      "index": 122,
+      "family": "RESERVATION_AND_PARITY",
+      "description": "SC candidate (45% marks) exempt under Post-Matric Cl. 5.2",
+      "split": "development",
+      "expected_status": "NO_ISSUES_FOUND",
+      "expected_score": 100,
+      "expected_defects": []
+    },
+    "SCN_K02_ST_RELAX_CUTOFF_PASS": {
+      "index": 123,
+      "family": "RESERVATION_AND_PARITY",
+      "description": "ST candidate (42% marks) exempt under Post-Matric Cl. 5.2",
+      "split": "development",
+      "expected_status": "NO_ISSUES_FOUND",
+      "expected_score": 100,
+      "expected_defects": []
+    },
+    "SCN_K03_GEN_CUTOFF_FAIL": {
+      "index": 124,
+      "family": "RESERVATION_AND_PARITY",
+      "description": "General candidate (45% marks) fails 50% cutoff",
+      "split": "development",
+      "expected_status": "NOT_READY",
+      "expected_score": 75,
+      "expected_defects": [
+        "RULE-MRK-01"
+      ]
+    },
+    "SCN_K04_OBC_CUTOFF_FAIL": {
+      "index": 125,
+      "family": "RESERVATION_AND_PARITY",
+      "description": "OBC candidate (45% marks) fails 50% cutoff",
+      "split": "validation",
+      "expected_status": "NOT_READY",
+      "expected_score": 75,
+      "expected_defects": [
+        "RULE-MRK-01"
+      ]
+    },
+    "SCN_K05_SC_EXEMPTION_MISSING_CASTE": {
+      "index": 126,
+      "family": "RESERVATION_AND_PARITY",
+      "description": "SC candidate 45%, but Caste Certificate missing",
+      "split": "validation",
+      "expected_status": "NOT_READY",
+      "expected_score": 65,
+      "expected_defects": [
+        "RULE-DOC-01"
+      ]
+    },
+    "SCN_K06_SC_EXEMPTION_UNREADABLE": {
+      "index": 127,
+      "family": "RESERVATION_AND_PARITY",
+      "description": "SC candidate 45%, Caste Certificate unreadable (abstains to REVIEW)",
+      "split": "challenge",
+      "expected_status": "NEEDS_CHECKS",
+      "expected_score": 75,
+      "expected_defects": [
+        "RULE-DOC-02"
+      ]
+    },
+    "SCN_K07_PARITY_PACK_VS_CORE_CLEAN": {
+      "index": 128,
+      "family": "RESERVATION_AND_PARITY",
+      "description": "Parity check: Clean packet",
+      "split": "challenge",
+      "expected_status": "NO_ISSUES_FOUND",
+      "expected_score": 100,
+      "expected_defects": []
+    },
+    "SCN_K08_PARITY_PACK_VS_CORE_NAME_MISMATCH": {
+      "index": 129,
+      "family": "RESERVATION_AND_PARITY",
+      "description": "Parity check: Name mismatch",
+      "split": "development",
+      "expected_status": "NOT_READY",
+      "expected_score": 75,
+      "expected_defects": [
+        "RULE-NAME-01"
+      ]
+    },
+    "SCN_K09_PARITY_PACK_VS_CORE_DOB_MISMATCH": {
+      "index": 130,
+      "family": "RESERVATION_AND_PARITY",
+      "description": "Parity check: DOB mismatch",
+      "split": "validation",
+      "expected_status": "NOT_READY",
+      "expected_score": 75,
+      "expected_defects": [
+        "RULE-DOB-01"
+      ]
+    },
+    "SCN_K10_PARITY_PACK_VS_CORE_EXPIRED": {
+      "index": 131,
+      "family": "RESERVATION_AND_PARITY",
+      "description": "Parity check: Expired income cert",
+      "split": "challenge",
+      "expected_status": "NOT_READY",
+      "expected_score": 75,
+      "expected_defects": [
+        "RULE-EXP-01"
+      ]
+    },
+    "SCN_K11_PARITY_PACK_VS_CORE_SLOT_MISMATCH": {
+      "index": 132,
+      "family": "RESERVATION_AND_PARITY",
+      "description": "Parity check: Slot mismatch",
+      "split": "development",
+      "expected_status": "NEEDS_CHECKS",
+      "expected_score": 90,
+      "expected_defects": [
+        "RULE-SLOT-01"
+      ]
+    },
+    "SCN_K12_PARITY_PACK_VS_CORE_MISSING_DOC": {
+      "index": 133,
+      "family": "RESERVATION_AND_PARITY",
+      "description": "Parity check: Missing income certificate",
+      "split": "validation",
+      "expected_status": "NOT_READY",
+      "expected_score": 65,
+      "expected_defects": [
+        "RULE-DOC-01"
+      ]
+    }
+  }
+}

@@ -43,10 +43,16 @@ test("SidecarManager recovers from unexpected child process crash", async () => 
     // Kill sidecar to simulate sudden crash
     const child = (manager as any).child;
     assert.ok(child);
+    const exitPromise = new Promise<void>((resolve) => {
+      child.once("exit", () => resolve());
+    });
     child.kill("SIGKILL");
 
-    // Give process 50ms to terminate
-    await new Promise((r) => setTimeout(r, 50));
+    // Await process termination (with 3s timeout fallback)
+    await Promise.race([
+      exitPromise,
+      new Promise((r) => setTimeout(r, 3000))
+    ]);
 
     // Next request should automatically respawn sidecar process
     const health2 = await manager.getHealth();

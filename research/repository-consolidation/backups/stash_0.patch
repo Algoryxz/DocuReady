@@ -1,0 +1,169 @@
+diff --git a/docuready-mvp/src/__pycache__/calibrator.cpython-312.pyc b/docuready-mvp/src/__pycache__/calibrator.cpython-312.pyc
+index 79a609c..166bd6a 100644
+Binary files a/docuready-mvp/src/__pycache__/calibrator.cpython-312.pyc and b/docuready-mvp/src/__pycache__/calibrator.cpython-312.pyc differ
+diff --git a/docuready-mvp/src/__pycache__/extractor.cpython-312.pyc b/docuready-mvp/src/__pycache__/extractor.cpython-312.pyc
+index 62f8b66..0270927 100644
+Binary files a/docuready-mvp/src/__pycache__/extractor.cpython-312.pyc and b/docuready-mvp/src/__pycache__/extractor.cpython-312.pyc differ
+diff --git a/docuready-mvp/src/__pycache__/models.cpython-312.pyc b/docuready-mvp/src/__pycache__/models.cpython-312.pyc
+index 03ee4aa..573feaf 100644
+Binary files a/docuready-mvp/src/__pycache__/models.cpython-312.pyc and b/docuready-mvp/src/__pycache__/models.cpython-312.pyc differ
+diff --git a/docuready-mvp/src/__pycache__/validator.cpython-312.pyc b/docuready-mvp/src/__pycache__/validator.cpython-312.pyc
+index f994334..98a25a1 100644
+Binary files a/docuready-mvp/src/__pycache__/validator.cpython-312.pyc and b/docuready-mvp/src/__pycache__/validator.cpython-312.pyc differ
+diff --git a/docuready-mvp/synthetic_data/adversarial_tmp/blank_page.pdf b/docuready-mvp/synthetic_data/adversarial_tmp/blank_page.pdf
+index c8a3612..632fb50 100644
+--- a/docuready-mvp/synthetic_data/adversarial_tmp/blank_page.pdf
++++ b/docuready-mvp/synthetic_data/adversarial_tmp/blank_page.pdf
+@@ -27,7 +27,7 @@ endobj
+ endobj
+ 5 0 obj
+ <<
+-/Author (anonymous) /CreationDate (D:20261113203554+05'00') /Creator (anonymous) /Keywords () /ModDate (D:20261113203554+05'00') /Producer (ReportLab PDF Library - \(opensource\)) 
++/Author (anonymous) /CreationDate (D:20261113213208+05'00') /Creator (anonymous) /Keywords () /ModDate (D:20261113213208+05'00') /Producer (ReportLab PDF Library - \(opensource\)) 
+   /Subject (unspecified) /Title (untitled) /Trapped /False
+ >>
+ endobj
+@@ -56,7 +56,7 @@ xref
+ trailer
+ <<
+ /ID 
+-[<97496c0eaa616cace9ce0aadd3f0edde><97496c0eaa616cace9ce0aadd3f0edde>]
++[<c79ee5d744ea3c469d60ddb3fe872b58><c79ee5d744ea3c469d60ddb3fe872b58>]
+ % ReportLab generated PDF document -- digest (opensource)
+ 
+ /Info 5 0 R
+diff --git a/docuready-mvp/synthetic_data/adversarial_tmp/dup_packet/marksheet.pdf b/docuready-mvp/synthetic_data/adversarial_tmp/dup_packet/marksheet.pdf
+index f5b934f..6f2223a 100644
+--- a/docuready-mvp/synthetic_data/adversarial_tmp/dup_packet/marksheet.pdf
++++ b/docuready-mvp/synthetic_data/adversarial_tmp/dup_packet/marksheet.pdf
+@@ -27,7 +27,7 @@ endobj
+ endobj
+ 5 0 obj
+ <<
+-/Author (anonymous) /CreationDate (D:20261113203555+05'00') /Creator (anonymous) /Keywords () /ModDate (D:20261113203555+05'00') /Producer (ReportLab PDF Library - \(opensource\)) 
++/Author (anonymous) /CreationDate (D:20261113213209+05'00') /Creator (anonymous) /Keywords () /ModDate (D:20261113213209+05'00') /Producer (ReportLab PDF Library - \(opensource\)) 
+   /Subject (unspecified) /Title (untitled) /Trapped /False
+ >>
+ endobj
+@@ -56,7 +56,7 @@ xref
+ trailer
+ <<
+ /ID 
+-[<8fc480702f0a96d588b7f5e6cea0fc4f><8fc480702f0a96d588b7f5e6cea0fc4f>]
++[<f42160061c8eb87ace9078f5d7446f76><f42160061c8eb87ace9078f5d7446f76>]
+ % ReportLab generated PDF document -- digest (opensource)
+ 
+ /Info 5 0 R
+diff --git a/docuready-mvp/synthetic_data/adversarial_tmp/dup_packet/marksheet_copy.pdf b/docuready-mvp/synthetic_data/adversarial_tmp/dup_packet/marksheet_copy.pdf
+index 2e23c78..219f230 100644
+--- a/docuready-mvp/synthetic_data/adversarial_tmp/dup_packet/marksheet_copy.pdf
++++ b/docuready-mvp/synthetic_data/adversarial_tmp/dup_packet/marksheet_copy.pdf
+@@ -27,7 +27,7 @@ endobj
+ endobj
+ 5 0 obj
+ <<
+-/Author (anonymous) /CreationDate (D:20261113203555+05'00') /Creator (anonymous) /Keywords () /ModDate (D:20261113203555+05'00') /Producer (ReportLab PDF Library - \(opensource\)) 
++/Author (anonymous) /CreationDate (D:20261113213209+05'00') /Creator (anonymous) /Keywords () /ModDate (D:20261113213209+05'00') /Producer (ReportLab PDF Library - \(opensource\)) 
+   /Subject (unspecified) /Title (untitled) /Trapped /False
+ >>
+ endobj
+@@ -56,7 +56,7 @@ xref
+ trailer
+ <<
+ /ID 
+-[<8fe9510e503a80511258c7b1e8a84bce><8fe9510e503a80511258c7b1e8a84bce>]
++[<c625d5890d699ff4f9975f675fb5cfe2><c625d5890d699ff4f9975f675fb5cfe2>]
+ % ReportLab generated PDF document -- digest (opensource)
+ 
+ /Info 5 0 R
+diff --git a/docuready-mvp/synthetic_data/adversarial_tmp/electricity_bill.pdf b/docuready-mvp/synthetic_data/adversarial_tmp/electricity_bill.pdf
+index 2a3f2d9..02667de 100644
+--- a/docuready-mvp/synthetic_data/adversarial_tmp/electricity_bill.pdf
++++ b/docuready-mvp/synthetic_data/adversarial_tmp/electricity_bill.pdf
+@@ -27,7 +27,7 @@ endobj
+ endobj
+ 5 0 obj
+ <<
+-/Author (anonymous) /CreationDate (D:20261113203555+05'00') /Creator (anonymous) /Keywords () /ModDate (D:20261113203555+05'00') /Producer (ReportLab PDF Library - \(opensource\)) 
++/Author (anonymous) /CreationDate (D:20261113213209+05'00') /Creator (anonymous) /Keywords () /ModDate (D:20261113213209+05'00') /Producer (ReportLab PDF Library - \(opensource\)) 
+   /Subject (unspecified) /Title (untitled) /Trapped /False
+ >>
+ endobj
+@@ -56,7 +56,7 @@ xref
+ trailer
+ <<
+ /ID 
+-[<94e405033e34c753b9b31d0ace5b0bf6><94e405033e34c753b9b31d0ace5b0bf6>]
++[<21dd121d64a71edfa8a27a10d09ccad7><21dd121d64a71edfa8a27a10d09ccad7>]
+ % ReportLab generated PDF document -- digest (opensource)
+ 
+ /Info 5 0 R
+diff --git a/docuready-mvp/synthetic_data/adversarial_tmp/large_file.pdf b/docuready-mvp/synthetic_data/adversarial_tmp/large_file.pdf
+index a4d4490..f958d6c 100644
+--- a/docuready-mvp/synthetic_data/adversarial_tmp/large_file.pdf
++++ b/docuready-mvp/synthetic_data/adversarial_tmp/large_file.pdf
+@@ -67,7 +67,7 @@ endobj
+ endobj
+ 9 0 obj
+ <<
+-/Author (anonymous) /CreationDate (D:20261113203555+05'00') /Creator (anonymous) /Keywords () /ModDate (D:20261113203555+05'00') /Producer (ReportLab PDF Library - \(opensource\)) 
++/Author (anonymous) /CreationDate (D:20261113213209+05'00') /Creator (anonymous) /Keywords () /ModDate (D:20261113213209+05'00') /Producer (ReportLab PDF Library - \(opensource\)) 
+   /Subject (unspecified) /Title (untitled) /Trapped /False
+ >>
+ endobj
+@@ -132,7 +132,7 @@ xref
+ trailer
+ <<
+ /ID 
+-[<6b25d2e8a0d112934edd5393e6978ef4><6b25d2e8a0d112934edd5393e6978ef4>]
++[<4520d3e1fae1d53611a36d11c111bcad><4520d3e1fae1d53611a36d11c111bcad>]
+ % ReportLab generated PDF document -- digest (opensource)
+ 
+ /Info 9 0 R
+diff --git a/docuready-mvp/synthetic_data/adversarial_tmp/multipage_marksheet.pdf b/docuready-mvp/synthetic_data/adversarial_tmp/multipage_marksheet.pdf
+index 083e602..ff10aab 100644
+--- a/docuready-mvp/synthetic_data/adversarial_tmp/multipage_marksheet.pdf
++++ b/docuready-mvp/synthetic_data/adversarial_tmp/multipage_marksheet.pdf
+@@ -37,7 +37,7 @@ endobj
+ endobj
+ 6 0 obj
+ <<
+-/Author (anonymous) /CreationDate (D:20261113203555+05'00') /Creator (anonymous) /Keywords () /ModDate (D:20261113203555+05'00') /Producer (ReportLab PDF Library - \(opensource\)) 
++/Author (anonymous) /CreationDate (D:20261113213209+05'00') /Creator (anonymous) /Keywords () /ModDate (D:20261113213209+05'00') /Producer (ReportLab PDF Library - \(opensource\)) 
+   /Subject (unspecified) /Title (untitled) /Trapped /False
+ >>
+ endobj
+@@ -75,7 +75,7 @@ xref
+ trailer
+ <<
+ /ID 
+-[<95a981f6f552c26d7bb03bced0db25ce><95a981f6f552c26d7bb03bced0db25ce>]
++[<9baaf7089328a31155ee3318ab050d1b><9baaf7089328a31155ee3318ab050d1b>]
+ % ReportLab generated PDF document -- digest (opensource)
+ 
+ /Info 6 0 R
+diff --git a/docuready-mvp/synthetic_data/adversarial_tmp/unusual_position.pdf b/docuready-mvp/synthetic_data/adversarial_tmp/unusual_position.pdf
+index 64d938f..b75a5f7 100644
+--- a/docuready-mvp/synthetic_data/adversarial_tmp/unusual_position.pdf
++++ b/docuready-mvp/synthetic_data/adversarial_tmp/unusual_position.pdf
+@@ -27,7 +27,7 @@ endobj
+ endobj
+ 5 0 obj
+ <<
+-/Author (anonymous) /CreationDate (D:20261113203555+05'00') /Creator (anonymous) /Keywords () /ModDate (D:20261113203555+05'00') /Producer (ReportLab PDF Library - \(opensource\)) 
++/Author (anonymous) /CreationDate (D:20261113213209+05'00') /Creator (anonymous) /Keywords () /ModDate (D:20261113213209+05'00') /Producer (ReportLab PDF Library - \(opensource\)) 
+   /Subject (unspecified) /Title (untitled) /Trapped /False
+ >>
+ endobj
+@@ -56,7 +56,7 @@ xref
+ trailer
+ <<
+ /ID 
+-[<dc76db96fe2bd739c264ace2ffcf4deb><dc76db96fe2bd739c264ace2ffcf4deb>]
++[<88113910fb000493f9abfeb9bff4cda8><88113910fb000493f9abfeb9bff4cda8>]
+ % ReportLab generated PDF document -- digest (opensource)
+ 
+ /Info 5 0 R
+diff --git a/docuready-mvp/tests/__pycache__/test_validator.cpython-312-pytest-8.3.3.pyc b/docuready-mvp/tests/__pycache__/test_validator.cpython-312-pytest-8.3.3.pyc
+index 7a1ec82..60922d8 100644
+Binary files a/docuready-mvp/tests/__pycache__/test_validator.cpython-312-pytest-8.3.3.pyc and b/docuready-mvp/tests/__pycache__/test_validator.cpython-312-pytest-8.3.3.pyc differ

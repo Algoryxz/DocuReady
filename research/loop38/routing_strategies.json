@@ -1,0 +1,69 @@
+{
+  "strategies": [
+    {
+      "doc_id": "DOC_CTRL_01_ENGLISH_CERTIFICATE",
+      "expected_group": "eng",
+      "global_3lang_ms": 1220.94,
+      "global_3lang_words": 59,
+      "adaptive_strategy": "FAST_PATH_ENG",
+      "adaptive_lang": "eng",
+      "adaptive_ms": 2280.03,
+      "adaptive_words": 59,
+      "region_ms": 3226.47,
+      "region_words": 59,
+      "fallback_triggered": false
+    },
+    {
+      "doc_id": "DOC_HIN_01_ADMIN_CIRCULAR",
+      "expected_group": "hin",
+      "global_3lang_ms": 3148.52,
+      "global_3lang_words": 73,
+      "adaptive_strategy": "MONOLINGUAL_HIN",
+      "adaptive_lang": "hin",
+      "adaptive_ms": 3454.09,
+      "adaptive_words": 73,
+      "region_ms": 5208.24,
+      "region_words": 73,
+      "fallback_triggered": false
+    },
+    {
+      "doc_id": "DOC_ORI_01_ADMIN_CIRCULAR",
+      "expected_group": "ori",
+      "global_3lang_ms": 2322.42,
+      "global_3lang_words": 62,
+      "adaptive_strategy": "MONOLINGUAL_ORI",
+      "adaptive_lang": "ori",
+      "adaptive_ms": 2802.97,
+      "adaptive_words": 62,
+      "region_ms": 7214.19,
+      "region_words": 62,
+      "fallback_triggered": false
+    },
+    {
+      "doc_id": "DOC_MIX_01_HIN_ENG_SCHOLARSHIP",
+      "expected_group": "eng+hin",
+      "global_3lang_ms": 2730.72,
+      "global_3lang_words": 53,
+      "adaptive_strategy": "GLOBAL_MULTILINGUAL",
+      "adaptive_lang": "eng+hin+ori",
+      "adaptive_ms": 3497.64,
+      "adaptive_words": 53,
+      "region_ms": 6824.2,
+      "region_words": 53,
+      "fallback_triggered": false
+    },
+    {
+      "doc_id": "DOC_MIX_02_ORI_ENG_SCHOLARSHIP",
+      "expected_group": "eng+ori",
+      "global_3lang_ms": 2804.09,
+      "global_3lang_words": 46,
+      "adaptive_strategy": "GLOBAL_MULTILINGUAL",
+      "adaptive_lang": "eng+ori",
+      "adaptive_ms": 2680.88,
+      "adaptive_words": 46,
+      "region_ms": 5222.32,
+      "region_words": 46,
+      "fallback_triggered": false
+    }
+  ]
+}

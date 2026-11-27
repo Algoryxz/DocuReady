@@ -1,0 +1,50 @@
+[
+  {
+    "configuration": "Baseline (Loop 24 Exact Match Only)",
+    "total_fields": 303,
+    "verified_claims": 149,
+    "exact_matches": 149,
+    "false_verifications": 0,
+    "abstentions": 154,
+    "precision": 100.0,
+    "false_verification_rate": 0.0,
+    "coverage": 49.17,
+    "evaluation_time_ms": 159.63
+  },
+  {
+    "configuration": "Config A (Canonical OCR Equivalence Only)",
+    "total_fields": 303,
+    "verified_claims": 185,
+    "exact_matches": 185,
+    "false_verifications": 0,
+    "abstentions": 118,
+    "precision": 100.0,
+    "false_verification_rate": 0.0,
+    "coverage": 61.06,
+    "evaluation_time_ms": 170.57
+  },
+  {
+    "configuration": "Config B (Levenshtein Similarity Only)",
+    "total_fields": 303,
+    "verified_claims": 151,
+    "exact_matches": 151,
+    "false_verifications": 0,
+    "abstentions": 152,
+    "precision": 100.0,
+    "false_verification_rate": 0.0,
+    "coverage": 49.83,
+    "evaluation_time_ms": 177.48
+  },
+  {
+    "configuration": "Config C (Combined Full Loop 25 System)",
+    "total_fields": 303,
+    "verified_claims": 187,
+    "exact_matches": 187,
+    "false_verifications": 0,
+    "abstentions": 116,
+    "precision": 100.0,
+    "false_verification_rate": 0.0,
+    "coverage": 61.72,
+    "evaluation_time_ms": 159.32
+  }
+]

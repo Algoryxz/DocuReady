@@ -1,0 +1,595 @@
+{
+  "benchmark_timestamp": "2026-11-22",
+  "total_fixtures": 12,
+  "fixtures_passed": 12,
+  "fixture_pass_rate_pct": 100.0,
+  "name_matrix_cases": 9,
+  "name_matrix_passed": 9,
+  "name_matrix_pass_rate_pct": 100.0,
+  "date_cases": 6,
+  "date_passed": 6,
+  "date_pass_rate_pct": 100.0,
+  "fixture_details": [
+    {
+      "id": "l05_clean_income_standard.pdf",
+      "pdf_name": "l05_clean_income_standard.pdf",
+      "category": "lakh_text_in_parentheses",
+      "doc_type": "INCOME_CERT",
+      "extraction_method": "NATIVE_VECTOR",
+      "elapsed_ms": 19.95,
+      "success": true,
+      "failures": [],
+      "extracted_fields": {
+        "applicant_name": {
+          "raw_value": "Smruti Ranjan Nayak",
+          "normalized_value": "SMRUTI RANJAN NAYAK",
+          "confidence": 1.0,
+          "is_uncertain": false,
+          "uncertainty_reason": null
+        },
+        "father_name": {
+          "raw_value": "Ramesh Chandra Nayak",
+          "normalized_value": "RAMESH CHANDRA NAYAK",
+          "confidence": 1.0,
+          "is_uncertain": false,
+          "uncertainty_reason": null
+        },
+        "annual_income": {
+          "raw_value": "Rs. 1,80,000/- (Rupees One Lakh Eighty Thousand Only)",
+          "normalized_value": 180000.0,
+          "confidence": 1.0,
+          "is_uncertain": false,
+          "uncertainty_reason": null
+        },
+        "issue_date": {
+          "raw_value": "10/01/2025",
+          "normalized_value": "2025-01-10",
+          "confidence": 1.0,
+          "is_uncertain": true,
+          "uncertainty_reason": "Date format ambiguity (DD/MM vs MM/DD)"
+        },
+        "certificate_no": {
+          "raw_value": "E-INC/2025/104928",
+          "normalized_value": "EINC/2025/104928",
+          "confidence": 1.0,
+          "is_uncertain": false,
+          "uncertainty_reason": null
+        }
+      }
+    },
+    {
+      "id": "l05_kumar_middle_name.pdf",
+      "pdf_name": "l05_kumar_middle_name.pdf",
+      "category": "kumar_middle_name",
+      "doc_type": "INCOME_CERT",
+      "extraction_method": "NATIVE_VECTOR",
+      "elapsed_ms": 8.14,
+      "success": true,
+      "failures": [],
+      "extracted_fields": {
+        "applicant_name": {
+          "raw_value": "Santosh Kumar Nayak",
+          "normalized_value": "SANTOSH NAYAK",
+          "confidence": 1.0,
+          "is_uncertain": false,
+          "uncertainty_reason": null
+        },
+        "father_name": {
+          "raw_value": "Ramesh Chandra Nayak",
+          "normalized_value": "RAMESH CHANDRA NAYAK",
+          "confidence": 1.0,
+          "is_uncertain": false,
+          "uncertainty_reason": null
+        },
+        "annual_income": {
+          "raw_value": "Rs. 2,40,000/-",
+          "normalized_value": 240000.0,
+          "confidence": 1.0,
+          "is_uncertain": false,
+          "uncertainty_reason": null
+        },
+        "issue_date": {
+          "raw_value": "15/02/2025",
+          "normalized_value": "2025-02-15",
+          "confidence": 1.0,
+          "is_uncertain": false,
+          "uncertainty_reason": null
+        }
+      }
+    },
+    {
+      "id": "l05_kumar_given_name.pdf",
+      "pdf_name": "l05_kumar_given_name.pdf",
+      "category": "kumar_given_name",
+      "doc_type": "MARKSHEET",
+      "extraction_method": "NATIVE_VECTOR",
+      "elapsed_ms": 7.73,
+      "success": true,
+      "failures": [],
+      "extracted_fields": {
+        "applicant_name": {
+          "raw_value": "Kumar Gaurav",
+          "normalized_value": "KUMAR GAURAV",
+          "confidence": 1.0,
+          "is_uncertain": false,
+          "uncertainty_reason": null
+        },
+        "father_name": {
+          "raw_value": "Ramesh Chandra Gaurav",
+          "normalized_value": "RAMESH CHANDRA GAURAV",
+          "confidence": 1.0,
+          "is_uncertain": false,
+          "uncertainty_reason": null
+        },
+        "dob": {
+          "raw_value": "15/08/2004",
+          "normalized_value": "2004-08-15",
+          "confidence": 1.0,
+          "is_uncertain": false,
+          "uncertainty_reason": null
+        },
+        "roll_no": {
+          "raw_value": "2309BA1042",
+          "normalized_value": "2309BA1042",
+          "confidence": 1.0,
+          "is_uncertain": false,
+          "uncertainty_reason": null
+        },
+        "percentage": {
+          "raw_value": "78.5",
+          "normalized_value": 78.5,
+          "confidence": 1.0,
+          "is_uncertain": false,
+          "uncertainty_reason": null
+        }
+      }
+    },
+    {
+      "id": "l05_date_dot_delimited.pdf",
+      "pdf_name": "l05_date_dot_delimited.pdf",
+      "category": "date_dot_delimited",
+      "doc_type": "RESIDENCE_CERT",
+      "extraction_method": "NATIVE_VECTOR",
+      "elapsed_ms": 8.38,
+      "success": true,
+      "failures": [],
+      "extracted_fields": {
+        "applicant_name": {
+          "raw_value": "Smruti Ranjan Nayak",
+          "normalized_value": "SMRUTI RANJAN NAYAK",
+          "confidence": 1.0,
+          "is_uncertain": false,
+          "uncertainty_reason": null
+        },
+        "father_name": {
+          "raw_value": "Ramesh Chandra Nayak",
+          "normalized_value": "RAMESH CHANDRA NAYAK",
+          "confidence": 1.0,
+          "is_uncertain": false,
+          "uncertainty_reason": null
+        },
+        "issue_date": {
+          "raw_value": "10.01.2025",
+          "normalized_value": "2025-01-10",
+          "confidence": 1.0,
+          "is_uncertain": true,
+          "uncertainty_reason": "Date format ambiguity (DD/MM vs MM/DD)"
+        },
+        "state": {
+          "raw_value": "ODISHA",
+          "normalized_value": "ODISHA",
+          "confidence": 1.0,
+          "is_uncertain": false,
+          "uncertainty_reason": null
+        }
+      }
+    },
+    {
+      "id": "l05_date_named_month.pdf",
+      "pdf_name": "l05_date_named_month.pdf",
+      "category": "date_named_month",
+      "doc_type": "RESIDENCE_CERT",
+      "extraction_method": "NATIVE_VECTOR",
+      "elapsed_ms": 8.07,
+      "success": true,
+      "failures": [],
+      "extracted_fields": {
+        "applicant_name": {
+          "raw_value": "Smruti Ranjan Nayak",
+          "normalized_value": "SMRUTI RANJAN NAYAK",
+          "confidence": 1.0,
+          "is_uncertain": false,
+          "uncertainty_reason": null
+        },
+        "issue_date": {
+          "raw_value": "10 Jan 2025",
+          "normalized_value": "2025-01-10",
+          "confidence": 1.0,
+          "is_uncertain": false,
+          "uncertainty_reason": null
+        }
+      }
+    },
+    {
+      "id": "l05_date_dash_delimited.pdf",
+      "pdf_name": "l05_date_dash_delimited.pdf",
+      "category": "date_dash_delimited",
+      "doc_type": "CASTE_CERT",
+      "extraction_method": "NATIVE_VECTOR",
+      "elapsed_ms": 9.59,
+      "success": true,
+      "failures": [],
+      "extracted_fields": {
+        "applicant_name": {
+          "raw_value": "Smruti Ranjan Nayak",
+          "normalized_value": "SMRUTI RANJAN NAYAK",
+          "confidence": 1.0,
+          "is_uncertain": false,
+          "uncertainty_reason": null
+        },
+        "issue_date": {
+          "raw_value": "10-01-2025",
+          "normalized_value": "2025-01-10",
+          "confidence": 1.0,
+          "is_uncertain": true,
+          "uncertainty_reason": "Date format ambiguity (DD/MM vs MM/DD)"
+        },
+        "caste_category": {
+          "raw_value": "SEBC",
+          "normalized_value": "SEBC",
+          "confidence": 1.0,
+          "is_uncertain": false,
+          "uncertainty_reason": null
+        }
+      }
+    },
+    {
+      "id": "l05_table_boxed_layout.pdf",
+      "pdf_name": "l05_table_boxed_layout.pdf",
+      "category": "table_pipe_layout",
+      "doc_type": "INCOME_CERT",
+      "extraction_method": "NATIVE_VECTOR",
+      "elapsed_ms": 10.41,
+      "success": true,
+      "failures": [],
+      "extracted_fields": {
+        "applicant_name": {
+          "raw_value": "Smruti Ranjan Nayak",
+          "normalized_value": "SMRUTI RANJAN NAYAK",
+          "confidence": 1.0,
+          "is_uncertain": false,
+          "uncertainty_reason": null
+        },
+        "father_name": {
+          "raw_value": "Ramesh Chandra Nayak",
+          "normalized_value": "RAMESH CHANDRA NAYAK",
+          "confidence": 1.0,
+          "is_uncertain": false,
+          "uncertainty_reason": null
+        },
+        "annual_income": {
+          "raw_value": "Rs. 1,80,000",
+          "normalized_value": 180000.0,
+          "confidence": 1.0,
+          "is_uncertain": false,
+          "uncertainty_reason": null
+        },
+        "certificate_no": {
+          "raw_value": "E-INC/2025/778899",
+          "normalized_value": "EINC/2025/778899",
+          "confidence": 1.0,
+          "is_uncertain": false,
+          "uncertainty_reason": null
+        }
+      }
+    },
+    {
+      "id": "l05_competing_amounts_conflict.pdf",
+      "pdf_name": "l05_competing_amounts_conflict.pdf",
+      "category": "competing_amounts_ambiguity",
+      "doc_type": "INCOME_CERT",
+      "extraction_method": "NATIVE_VECTOR",
+      "elapsed_ms": 9.03,
+      "success": true,
+      "failures": [],
+      "extracted_fields": {
+        "applicant_name": {
+          "raw_value": "Smruti Ranjan Nayak",
+          "normalized_value": "SMRUTI RANJAN NAYAK",
+          "confidence": 1.0,
+          "is_uncertain": false,
+          "uncertainty_reason": null
+        },
+        "annual_income": {
+          "raw_value": "Rs. 1,80,000",
+          "normalized_value": 180000.0,
+          "confidence": 1.0,
+          "is_uncertain": false,
+          "uncertainty_reason": null
+        }
+      }
+    },
+    {
+      "id": "l05_father_name_no_comma.pdf",
+      "pdf_name": "l05_father_name_no_comma.pdf",
+      "category": "father_name_so_no_comma",
+      "doc_type": "INCOME_CERT",
+      "extraction_method": "NATIVE_VECTOR",
+      "elapsed_ms": 8.81,
+      "success": true,
+      "failures": [],
+      "extracted_fields": {
+        "applicant_name": {
+          "raw_value": "Smruti Ranjan Nayak",
+          "normalized_value": "SMRUTI RANJAN NAYAK",
+          "confidence": 1.0,
+          "is_uncertain": false,
+          "uncertainty_reason": null
+        },
+        "father_name": {
+          "raw_value": "Ramesh Chandra Nayak",
+          "normalized_value": "RAMESH CHANDRA NAYAK",
+          "confidence": 1.0,
+          "is_uncertain": false,
+          "uncertainty_reason": null
+        },
+        "annual_income": {
+          "raw_value": "Rs. 1,80,000/-",
+          "normalized_value": 180000.0,
+          "confidence": 1.0,
+          "is_uncertain": false,
+          "uncertainty_reason": null
+        }
+      }
+    },
+    {
+      "id": "l05_aadhaar_card_standard.pdf",
+      "pdf_name": "l05_aadhaar_card_standard.pdf",
+      "category": "aadhaar_card_extraction",
+      "doc_type": "AADHAAR",
+      "extraction_method": "NATIVE_VECTOR",
+      "elapsed_ms": 8.7,
+      "success": true,
+      "failures": [],
+      "extracted_fields": {
+        "applicant_name": {
+          "raw_value": "Smruti Ranjan Nayak",
+          "normalized_value": "SMRUTI RANJAN NAYAK",
+          "confidence": 1.0,
+          "is_uncertain": false,
+          "uncertainty_reason": null
+        },
+        "dob": {
+          "raw_value": "10/01/2005",
+          "normalized_value": "2005-01-10",
+          "confidence": 1.0,
+          "is_uncertain": true,
+          "uncertainty_reason": "Date format ambiguity (DD/MM vs MM/DD)"
+        },
+        "gender": {
+          "raw_value": "Male",
+          "normalized_value": "MALE",
+          "confidence": 1.0,
+          "is_uncertain": false,
+          "uncertainty_reason": null
+        },
+        "aadhaar_no": {
+          "raw_value": "XXXX XXXX 1234",
+          "normalized_value": "XXXXXXXX1234",
+          "confidence": 1.0,
+          "is_uncertain": false,
+          "uncertainty_reason": null
+        }
+      }
+    },
+    {
+      "id": "l05_income_lpa_format.pdf",
+      "pdf_name": "l05_income_lpa_format.pdf",
+      "category": "income_lpa_multiplier",
+      "doc_type": "INCOME_CERT",
+      "extraction_method": "NATIVE_VECTOR",
+      "elapsed_ms": 8.71,
+      "success": true,
+      "failures": [],
+      "extracted_fields": {
+        "applicant_name": {
+          "raw_value": "Smruti Ranjan Nayak",
+          "normalized_value": "SMRUTI RANJAN NAYAK",
+          "confidence": 1.0,
+          "is_uncertain": false,
+          "uncertainty_reason": null
+        },
+        "annual_income": {
+          "raw_value": "1.8 LPA",
+          "normalized_value": 180000.0,
+          "confidence": 1.0,
+          "is_uncertain": false,
+          "uncertainty_reason": null
+        }
+      }
+    },
+    {
+      "id": "l05_ocr_digit_confused_cert.pdf",
+      "pdf_name": "l05_ocr_digit_confused_cert.pdf",
+      "category": "ocr_digit_confused_cert",
+      "doc_type": "INCOME_CERT",
+      "extraction_method": "NATIVE_VECTOR",
+      "elapsed_ms": 11.78,
+      "success": true,
+      "failures": [],
+      "extracted_fields": {
+        "applicant_name": {
+          "raw_value": "Smruti Ranjan Nayak",
+          "normalized_value": "SMRUTI RANJAN NAYAK",
+          "confidence": 1.0,
+          "is_uncertain": false,
+          "uncertainty_reason": null
+        },
+        "certificate_no": {
+          "raw_value": "E-INC/2O25/1O4928",
+          "normalized_value": "EINC/2025/104928",
+          "confidence": 1.0,
+          "is_uncertain": false,
+          "uncertainty_reason": null
+        }
+      }
+    }
+  ],
+  "name_intelligence_matrix": [
+    {
+      "test_id": "EXACT",
+      "name_1": "Smruti Ranjan Nayak",
+      "name_2": "Smruti Ranjan Nayak",
+      "expected_grade": "EXACT",
+      "actual_grade": "EXACT",
+      "expected_type": "EXACT_MATCH",
+      "actual_type": "EXACT_MATCH",
+      "similarity": 1.0,
+      "passed": true
+    },
+    {
+      "test_id": "SIBLING_RHYME_1",
+      "name_1": "Ramesh Nayak",
+      "name_2": "Suresh Nayak",
+      "expected_grade": "CONFLICT",
+      "actual_grade": "CONFLICT",
+      "expected_type": "DISTINCT_GIVEN_NAMES",
+      "actual_type": "DISTINCT_GIVEN_NAMES",
+      "similarity": 0.75,
+      "passed": true
+    },
+    {
+      "test_id": "SIBLING_RHYME_2",
+      "name_1": "Anita Das",
+      "name_2": "Sunita Das",
+      "expected_grade": "CONFLICT",
+      "actual_grade": "CONFLICT",
+      "expected_type": "DISTINCT_GIVEN_NAMES",
+      "actual_type": "DISTINCT_GIVEN_NAMES",
+      "similarity": 0.8,
+      "passed": true
+    },
+    {
+      "test_id": "MIDDLE_OMITTED",
+      "name_1": "Smruti Nayak",
+      "name_2": "Smruti Ranjan Nayak",
+      "expected_grade": "COMPATIBLE",
+      "actual_grade": "COMPATIBLE",
+      "expected_type": "MIDDLE_NAME_VARIATION",
+      "actual_type": "MIDDLE_NAME_VARIATION",
+      "similarity": 0.88,
+      "passed": true
+    },
+    {
+      "test_id": "INITIALS_EXP",
+      "name_1": "S R Nayak",
+      "name_2": "Smruti Ranjan Nayak",
+      "expected_grade": "COMPATIBLE",
+      "actual_grade": "COMPATIBLE",
+      "expected_type": "INITIALS_EXPANSION",
+      "actual_type": "INITIALS_EXPANSION",
+      "similarity": 0.88,
+      "passed": true
+    },
+    {
+      "test_id": "TOKEN_ORDER",
+      "name_1": "Nayak Smruti Ranjan",
+      "name_2": "Smruti Ranjan Nayak",
+      "expected_grade": "COMPATIBLE",
+      "actual_grade": "COMPATIBLE",
+      "expected_type": "TOKEN_PERMUTATION",
+      "actual_type": "TOKEN_PERMUTATION",
+      "similarity": 0.98,
+      "passed": true
+    },
+    {
+      "test_id": "TRANSLIT_MINOR",
+      "name_1": "Smruti Nayak",
+      "name_2": "Smruti Naik",
+      "expected_grade": "COMPATIBLE",
+      "actual_grade": "COMPATIBLE",
+      "expected_type": "MINOR_TYPO_TRANSLITERATION",
+      "actual_type": "MINOR_TYPO_TRANSLITERATION",
+      "similarity": 0.833,
+      "passed": true
+    },
+    {
+      "test_id": "SINGLE_TOKEN",
+      "name_1": "Smruti",
+      "name_2": "Smruti Ranjan Nayak",
+      "expected_grade": "AMBIGUOUS",
+      "actual_grade": "AMBIGUOUS",
+      "expected_type": "SINGLE_TOKEN_NAME",
+      "actual_type": "SINGLE_TOKEN_NAME",
+      "similarity": 0.316,
+      "passed": true
+    },
+    {
+      "test_id": "DISTINCT_INDIVIDUAL",
+      "name_1": "Smruti Ranjan Nayak",
+      "name_2": "Rajesh Patel",
+      "expected_grade": "CONFLICT",
+      "actual_grade": "CONFLICT",
+      "expected_type": "CONTRADICTORY_NAME",
+      "actual_type": "CONTRADICTORY_NAME",
+      "similarity": 0.211,
+      "passed": true
+    }
+  ],
+  "date_normalization_details": [
+    {
+      "label": "Slash Unambiguous DD/MM/YYYY",
+      "raw_input": "25/01/2025",
+      "expected_iso": "2025-01-25",
+      "actual_iso": "2025-01-25",
+      "expected_ambiguous": false,
+      "actual_ambiguous": false,
+      "passed": true
+    },
+    {
+      "label": "Dot Unambiguous DD.MM.YYYY",
+      "raw_input": "25.01.2025",
+      "expected_iso": "2025-01-25",
+      "actual_iso": "2025-01-25",
+      "expected_ambiguous": false,
+      "actual_ambiguous": false,
+      "passed": true
+    },
+    {
+      "label": "Dash Unambiguous DD-MM-YYYY",
+      "raw_input": "25-01-2025",
+      "expected_iso": "2025-01-25",
+      "actual_iso": "2025-01-25",
+      "expected_ambiguous": false,
+      "actual_ambiguous": false,
+      "passed": true
+    },
+    {
+      "label": "Named Month DD Mon YYYY",
+      "raw_input": "10 Jan 2025",
+      "expected_iso": "2025-01-10",
+      "actual_iso": "2025-01-10",
+      "expected_ambiguous": false,
+      "actual_ambiguous": false,
+      "passed": true
+    },
+    {
+      "label": "Ambiguous Slash DD/MM vs MM/DD",
+      "raw_input": "10/01/2025",
+      "expected_iso": "2025-01-10",
+      "actual_iso": "2025-01-10",
+      "expected_ambiguous": true,
+      "actual_ambiguous": true,
+      "passed": true
+    },
+    {
+      "label": "Ambiguous Dot DD.MM vs MM.DD",
+      "raw_input": "05.06.2025",
+      "expected_iso": "2025-06-05",
+      "actual_iso": "2025-06-05",
+      "expected_ambiguous": true,
+      "actual_ambiguous": true,
+      "passed": true
+    }
+  ]
+}

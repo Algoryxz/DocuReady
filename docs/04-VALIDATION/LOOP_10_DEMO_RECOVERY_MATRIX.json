@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.0.0",
+  "loop_id": "LOOP_10",
+  "project": "DocuReady - HackNation 2026",
+  "timestamp": "2026-11-22T13:56:45+05:30",
+  "target_runtime": "DocuReady Windows x64 Desktop",
+  "scenarios": [
+    {
+      "scenario_id": "REC-01",
+      "name": "Mid-Flight Audit Cancellation",
+      "operator_action": "Operator clicks 'Cancel Audit' button while OCR / audit processing is actively in progress.",
+      "system_response": "Desktop sends cancel signal, terminates active child process if unresponsive, clears intake queues, and resets UI state to IDLE.",
+      "recovery_time_ms": 1709,
+      "state_after_recovery": "Clean IDLE state. No orphaned processes, workspace staging lock released.",
+      "reproducibility": "Automated in desktop test suite (test 22)"
+    },
+    {
+      "scenario_id": "REC-02",
+      "name": "Sidecar Process Crash or Unexpected Termination",
+      "operator_action": "Sidecar child process is abruptly killed via SIGKILL / taskkill during application lifecycle.",
+      "system_response": "SidecarManager detects unexpected process exit, emits error telemetry, cleans up stale IPC pipes, and automatically respawns on next user request.",
+      "recovery_time_ms": 3056,
+      "state_after_recovery": "Health handshake re-established. Subsequent audits execute seamlessly.",
+      "reproducibility": "Automated in desktop test suite (test 20)"
+    },
+    {
+      "scenario_id": "REC-03",
+      "name": "Corrupted or Truncated File Intake",
+      "operator_action": "Operator accidentally selects a zero-byte file or corrupted PDF header in the file picker.",
+      "system_response": "Intake validation pipeline inspects magic bytes (validateFileSignature) and rejects file before staging, displaying non-blocking user warning.",
+      "recovery_time_ms": 14,
+      "state_after_recovery": "Application remains responsive. Valid documents in the batch are preserved.",
+      "reproducibility": "Automated in desktop test suite (test 16)"
+    },
+    {
+      "scenario_id": "REC-04",
+      "name": "Session Data Purge & Isolation",
+      "operator_action": "Operator finishes a review session and clicks 'Clear / New Applicant'.",
+      "system_response": "WorkspaceManager recursively deletes staged packet directory, purges in-memory document blobs, and clears finding state.",
+      "recovery_time_ms": 31,
+      "state_after_recovery": "Zero residual files on disk in workspace. Fresh session initialized.",
+      "reproducibility": "Automated in desktop test suite (test 23)"
+    },
+    {
+      "scenario_id": "REC-05",
+      "name": "Rapid Re-Audit / Double-Click Defense",
+      "operator_action": "Operator double-clicks 'Start Audit' button or triggers multiple audits in rapid succession.",
+      "system_response": "UI disables intake triggers and applies debouncing gate while audit is IN_PROGRESS; duplicate IPC requests are ignored.",
+      "recovery_time_ms": 0,
+      "state_after_recovery": "Single deterministic audit runs to completion without race condition.",
+      "reproducibility": "Verified in desktop UI component state"
+    }
+  ]
+}

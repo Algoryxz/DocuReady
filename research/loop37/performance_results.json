@@ -1,0 +1,47 @@
+{
+  "loop17_test_fast_profiling_performance": {
+    "threshold_ms": 850.0,
+    "observed_ms": [
+      2096.33,
+      2046.65,
+      1929.56,
+      2057.89,
+      1662.61
+    ],
+    "pytest_observed_ms": 1317.63,
+    "breakdown": {
+      "gray_ms": 2.1,
+      "crop_resize_ms": 1.5,
+      "tesseract_eng_hin_ori_ms": 1738.2,
+      "tesseract_eng_only_ms": 752.6
+    },
+    "classification": "Environment-dependent Tesseract 5.4.0 multi-model subprocess latency variance (Windows Defender active)",
+    "status": "FAIL"
+  },
+  "loop18_test_new_documents_profiling_and_execution": {
+    "threshold_ms": 1400.0,
+    "observed_ms": [
+      2207.81,
+      2189.56,
+      1386.23,
+      1047.39,
+      915.24
+    ],
+    "pytest_observed_ms": 1625.94,
+    "classification": "Environment-dependent Tesseract 5.4.0 multi-model subprocess latency variance",
+    "status": "FAIL"
+  },
+  "sidecar_startup_import_breakdown_ms": {
+    "pytesseract": 2805.84,
+    "docuready.pipeline": 1007.7,
+    "fitz": 552.38,
+    "numpy": 471.47,
+    "pydantic": 214.45
+  },
+  "sidecar_30_rep_loop36_baseline": {
+    "cold_ms": 2666.12,
+    "warm_mean_ms": 1418.95,
+    "warm_median_ms": 1279.46,
+    "warm_p95_ms": 2610.57
+  }
+}

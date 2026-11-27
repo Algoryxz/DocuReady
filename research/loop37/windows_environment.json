@@ -1,0 +1,12 @@
+{
+  "os": "Microsoft Windows 11 Home Single Language",
+  "version": "10.0.26300",
+  "build": "26300",
+  "architecture": "AMD64",
+  "cpu": "12th Gen Intel(R) Core(TM) i5-12450H (8C/12T)",
+  "ram_bytes": 16891633664,
+  "defender_antivirus_enabled": true,
+  "defender_realtime_protection": true,
+  "clean_vm_available": false,
+  "interactive_gui_session": false
+}

@@ -5,8 +5,8 @@
 </div>
 
 [![CI Tests](https://github.com/Algoryxz/DocuReady/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/Algoryxz/DocuReady/actions/workflows/tests.yml)
-[![Desktop Tests](https://img.shields.io/badge/Desktop%20Tests-21%2F21%20Passed-brightgreen.svg)](apps/desktop)
-[![Python Tests](https://img.shields.io/badge/Python%20Tests-607%20Passed-brightgreen.svg)](tests)
+[![Desktop Tests](https://img.shields.io/badge/Desktop%20Tests-25%2F25%20Passed-brightgreen.svg)](apps/desktop)
+[![Python Tests](https://img.shields.io/badge/Python%20Tests-916%20Passed-brightgreen.svg)](tests)
 [![Project Source License: Apache 2.0](https://img.shields.io/badge/Project%20Source-Apache_2.0-blue.svg)](LICENSE)
 [![Python: 3.11–3.14](https://img.shields.io/badge/Python-3.11%20%7C%203.12%20%7C%203.13%20%7C%203.14-0A2540.svg)](pyproject.toml)
 [![Privacy: Local Processing](https://img.shields.io/badge/Privacy-Local%20Processing-0A2540.svg)](PRIVACY_NETWORK_AUDIT.md)
@@ -283,10 +283,10 @@ The distributables will be output to `apps/desktop/out/make/`.
 DocuReady enforces end-to-end automated testing across all layers:
 
 ```bash
-# 1. Run Python Audit Engine Test Suite (612 test items: 607 passed, 5 skipped)
+# 1. Run Python Audit Engine Test Suite (916 passing tests)
 pytest
 
-# 2. Run Desktop Node Test Suite (21 passing tests)
+# 2. Run Desktop Node Test Suite (25 passing tests)
 npm --prefix apps/desktop test
 
 # 3. Verify TypeScript Type Safety (0 errors)
@@ -297,8 +297,8 @@ npm --prefix apps/desktop run lint:types
 
 | Test Domain | Target Suite | Status | Key Verifications |
 | :--- | :--- | :--- | :--- |
-| **Python Audit Engine** | `pytest` (612 items) | **607 Passed, 5 Skipped** | Golden baselines, statutory rule matrix, scheme packs, slot validation, match grades, date invariance, safety downgrades, zero-network egress invariants, adversarial document handling. |
-| **Desktop Shell & IPC** | `apps/desktop/tests/` | **21 Passed, 0 Failed** | Packaged sidecar execution, health handshake, crash recovery, workspace traversal defense, file magic-byte validation, Content Security Policy, zero-PII diagnostics. |
+| **Python Audit Engine** | `pytest` (916 items) | **916 Passed, 0 Failed** | Golden baselines, statutory rule matrix, scheme packs, slot validation, match grades, date invariance, safety downgrades, zero-network egress invariants, adversarial document handling, and Loops 01–46 multilingual/table/spatial suites. |
+| **Desktop Shell & IPC** | `apps/desktop/tests/` | **25 Passed, 0 Failed** | Packaged sidecar execution, health handshake, crash recovery, workspace traversal defense, file magic-byte validation, Content Security Policy, zero-PII diagnostics, and workflow lifecycle state machine. |
 | **Evidence Math & Viewport** | `apps/desktop/tests/evidence.test.ts` | **Passed** | Bounding box normalization, clamp behavior, viewport transformations across $0^\circ$, $90^\circ$, $180^\circ$, and $270^\circ$ rotations. |
 | **TypeScript Type Checking** | `tsc --noEmit` | **0 Errors** | Strict type compliance across main process, preload bridge, and renderer UI. |
 

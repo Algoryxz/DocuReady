@@ -1,0 +1,18 @@
+[
+  {
+    "name": "gross_earnings",
+    "expected": "92140",
+    "row": 3,
+    "col": 1,
+    "type": "amount",
+    "target_pattern": "Gross Earnings"
+  },
+  {
+    "name": "total_deductions",
+    "expected": "15150",
+    "row": 3,
+    "col": 3,
+    "type": "amount",
+    "target_pattern": "Total Deductions"
+  }
+]

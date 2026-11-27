@@ -1,0 +1,8 @@
+{
+  "portable_sidecar_execution": "PASS (verified via Electron test + 30-rep cold/warm runs)",
+  "fresh_gui_installer": "BLOCKED (interactive Squirrel GUI wizard not automated in headless CLI)",
+  "upgrade_over_existing": "BLOCKED (no interactive clean VM)",
+  "reinstall_after_uninstall": "BLOCKED (no interactive clean VM)",
+  "uninstall_user_data_check": "BLOCKED (no interactive clean VM)",
+  "code_signing_status": "NotSigned (verified via Get-AuthenticodeSignature)"
+}

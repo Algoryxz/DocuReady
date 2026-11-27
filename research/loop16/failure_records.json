@@ -1,0 +1,44 @@
+[
+  {
+    "sample_id": "DOC_EXT_01_MOSPI_NADA_GUIDE",
+    "strategy": "STRATEGY_H_REGION_ROUTING",
+    "cer": 1.0,
+    "wer": 1.0,
+    "reason": "Elevated character error rate on complex/degraded layout"
+  },
+  {
+    "sample_id": "DOC_EXT_01_MOSPI_NADA_GUIDE",
+    "strategy": "STRATEGY_J_ADAPTIVE",
+    "cer": 1.0,
+    "wer": 1.0,
+    "reason": "Elevated character error rate on complex/degraded layout"
+  },
+  {
+    "sample_id": "DOC_MULTI_01_TRI_SCRIPT_GAZETTE",
+    "strategy": "STRATEGY_H_REGION_ROUTING",
+    "cer": 0.4098,
+    "wer": 0.5469,
+    "reason": "Elevated character error rate on complex/degraded layout"
+  },
+  {
+    "sample_id": "DOC_MULTI_01_TRI_SCRIPT_GAZETTE",
+    "strategy": "STRATEGY_J_ADAPTIVE",
+    "cer": 0.4938,
+    "wer": 0.6406,
+    "reason": "Elevated character error rate on complex/degraded layout"
+  },
+  {
+    "sample_id": "DOC_DEG_01_MULTI_SCRIPT_SKEWED",
+    "strategy": "STRATEGY_H_REGION_ROUTING",
+    "cer": 0.6459,
+    "wer": 0.7578,
+    "reason": "Elevated character error rate on complex/degraded layout"
+  },
+  {
+    "sample_id": "DOC_DEG_01_MULTI_SCRIPT_SKEWED",
+    "strategy": "STRATEGY_J_ADAPTIVE",
+    "cer": 0.6459,
+    "wer": 0.7578,
+    "reason": "Elevated character error rate on complex/degraded layout"
+  }
+]

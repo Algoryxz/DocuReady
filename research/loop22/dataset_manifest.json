@@ -1,0 +1,158 @@
+{
+  "loop": 22,
+  "suite": "Evidence Association & Risk-Calibrated Abstention",
+  "documents": {
+    "ASSOC_01_NEIGHBORING_COLUMN_TRAP": {
+      "cohort": "G_evidence_association",
+      "category": "neighboring_column_trap",
+      "image_path": "research/loop22/tables/ASSOC_01_NEIGHBORING_COLUMN_TRAP.png",
+      "critical_fields": [
+        {
+          "name": "turbine_clearance_surcharge",
+          "expected": "2500",
+          "row": 0,
+          "col": 2,
+          "type": "amount",
+          "target_pattern": "Turbine Bearings Batch A",
+          "col_pattern": "Clearance Surcharge"
+        },
+        {
+          "name": "actuator_base_cost",
+          "expected": "48000",
+          "row": 1,
+          "col": 1,
+          "type": "amount",
+          "target_pattern": "Hydraulic Actuators H-2",
+          "col_pattern": "Base Cost"
+        }
+      ]
+    },
+    "ASSOC_02_REPEATED_TRANSACTION_ID": {
+      "cohort": "G_evidence_association",
+      "category": "repeated_transaction_id",
+      "image_path": "research/loop22/tables/ASSOC_02_REPEATED_TRANSACTION_ID.png",
+      "critical_fields": [
+        {
+          "name": "txn_9092_withheld_amount",
+          "expected": "14500",
+          "row": 0,
+          "col": 3,
+          "type": "amount",
+          "target_pattern": "TXN-9092",
+          "col_pattern": "Withheld"
+        },
+        {
+          "name": "txn_9104_released_amount",
+          "expected": "112000",
+          "row": 3,
+          "col": 3,
+          "type": "amount",
+          "target_pattern": "TXN-9104",
+          "col_pattern": "Released"
+        }
+      ]
+    },
+    "ASSOC_03_GUTTER_BLEED_SPLIT_CELL": {
+      "cohort": "G_evidence_association",
+      "category": "gutter_bleed_split_cell",
+      "image_path": "research/loop22/tables/ASSOC_03_GUTTER_BLEED_SPLIT_CELL.png",
+      "critical_fields": [
+        {
+          "name": "binodini_base_tax",
+          "expected": "85000",
+          "row": 0,
+          "col": 1,
+          "type": "amount",
+          "target_pattern": "Binodini Mohanty",
+          "col_pattern": "Base Tax",
+          "trap_note": "Tight gutter may bleed '85000 8500' - must abstain if multi-token"
+        },
+        {
+          "name": "damodar_total_payable",
+          "expected": "46200",
+          "row": 2,
+          "col": 2,
+          "type": "amount",
+          "target_pattern": "Damodar Senapati",
+          "col_pattern": "Total Payable"
+        }
+      ]
+    },
+    "ASSOC_04_LOW_CONFIDENCE_GARBLE": {
+      "cohort": "G_evidence_association",
+      "category": "low_confidence_garble",
+      "image_path": "research/loop22/tables/ASSOC_04_LOW_CONFIDENCE_GARBLE.png",
+      "critical_fields": [
+        {
+          "name": "boiler_emission_level",
+          "expected": "38.5 mg/Nm3",
+          "row": 0,
+          "col": 2,
+          "type": "text",
+          "target_pattern": "Boiler Emission Index",
+          "col_pattern": "Recorded Level"
+        },
+        {
+          "name": "effluent_compliance_status",
+          "expected": "PASS",
+          "row": 1,
+          "col": 3,
+          "type": "code",
+          "target_pattern": "Effluent pH Buffer",
+          "col_pattern": "Compliance Status",
+          "trap_note": "Degraded scan garble - must abstain on low confidence or syntax characters"
+        }
+      ]
+    },
+    "ASSOC_05_CONTEXTUAL_CURRENCY_MISMATCH": {
+      "cohort": "G_evidence_association",
+      "category": "contextual_type_mismatch",
+      "image_path": "research/loop22/tables/ASSOC_05_CONTEXTUAL_CURRENCY_MISMATCH.png",
+      "critical_fields": [
+        {
+          "name": "compressor_efficiency",
+          "expected": "94.5%",
+          "row": 0,
+          "col": 2,
+          "type": "percentage",
+          "target_pattern": "Centrifugal Compressor CC-9",
+          "col_pattern": "Efficiency"
+        },
+        {
+          "name": "rotary_kiln_power",
+          "expected": "820 kW",
+          "row": 1,
+          "col": 1,
+          "type": "unit",
+          "target_pattern": "Rotary Kiln Drive RKD-2",
+          "col_pattern": "Power"
+        }
+      ]
+    },
+    "ASSOC_06_CROSS_DOC_DISAGREEMENT": {
+      "cohort": "G_evidence_association",
+      "category": "cross_doc_disagreement",
+      "image_path": "research/loop22/tables/ASSOC_06_CROSS_DOC_DISAGREEMENT.png",
+      "critical_fields": [
+        {
+          "name": "sunflag_invoice_amount",
+          "expected": "58000",
+          "row": 0,
+          "col": 1,
+          "type": "amount",
+          "target_pattern": "Sunflag Steel",
+          "col_pattern": "Original Invoice"
+        },
+        {
+          "name": "balasore_debit_adjustment",
+          "expected": "-12000",
+          "row": 1,
+          "col": 2,
+          "type": "amount",
+          "target_pattern": "Balasore Alloys",
+          "col_pattern": "Debit Memo"
+        }
+      ]
+    }
+  }
+}

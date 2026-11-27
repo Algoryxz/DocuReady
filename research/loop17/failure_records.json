@@ -1,0 +1,44 @@
+[
+  {
+    "sample_id": "DOC_EXT_01_MOSPI_NADA_GUIDE",
+    "strategy": "STRATEGY_H_REGION_ROUTING",
+    "cer": 7.8414,
+    "wer": 9.5238,
+    "reason": "Elevated character error rate on complex/degraded layout"
+  },
+  {
+    "sample_id": "DOC_EXT_01_MOSPI_NADA_GUIDE",
+    "strategy": "STRATEGY_J_ADAPTIVE",
+    "cer": 7.8414,
+    "wer": 9.5238,
+    "reason": "Elevated character error rate on complex/degraded layout"
+  },
+  {
+    "sample_id": "DOC_MULTI_03_BILINGUAL_COLUMNS_ORI_ENG",
+    "strategy": "STRATEGY_J_ADAPTIVE",
+    "cer": 0.481,
+    "wer": 0.5679,
+    "reason": "Elevated character error rate on complex/degraded layout"
+  },
+  {
+    "sample_id": "DOC_DEG_01_MULTI_SCRIPT_SKEWED",
+    "strategy": "STRATEGY_H_REGION_ROUTING",
+    "cer": 0.5392,
+    "wer": 0.6484,
+    "reason": "Elevated character error rate on complex/degraded layout"
+  },
+  {
+    "sample_id": "DOC_EXT_04_LAND_REVENUE_KHATAUNI_RECORD",
+    "strategy": "STRATEGY_H_REGION_ROUTING",
+    "cer": 0.5226,
+    "wer": 0.625,
+    "reason": "Elevated character error rate on complex/degraded layout"
+  },
+  {
+    "sample_id": "CHALLENGE_04_LOW_CONTRAST_UNREADABLE_STRESS",
+    "strategy": "STRATEGY_H_REGION_ROUTING",
+    "cer": 1.0,
+    "wer": 1.0,
+    "reason": "Elevated character error rate on complex/degraded layout"
+  }
+]

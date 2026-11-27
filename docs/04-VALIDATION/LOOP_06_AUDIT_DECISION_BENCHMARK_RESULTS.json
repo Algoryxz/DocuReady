@@ -1,0 +1,1320 @@
+{
+  "benchmark_timestamp": "2026-11-22",
+  "total_packets": 16,
+  "packet_evaluations": [
+    {
+      "packet_id": "PKT_01_CLEAN",
+      "category": "CLEAN",
+      "expected_status": "NO_ISSUES_FOUND",
+      "actual_status": "NO_ISSUES_FOUND",
+      "status_match": true,
+      "expected_score": 100,
+      "actual_score": 100,
+      "score_diff": 0,
+      "execution_time_ms": 100.35,
+      "findings_count": 8,
+      "findings": [
+        {
+          "rule_id": "RULE-NAME-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "APPLICANT_NAME"
+        },
+        {
+          "rule_id": "RULE-DOB-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "DATE_OF_BIRTH"
+        },
+        {
+          "rule_id": "RULE-INC-CEIL-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "INCOME_CEILING"
+        },
+        {
+          "rule_id": "RULE-INC-MATCH-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "INCOME_MATCH"
+        },
+        {
+          "rule_id": "RULE-EXP-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "CERTIFICATE_VALIDITY"
+        },
+        {
+          "rule_id": "RULE-BNK-IFSC-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "IFSC_FORMAT"
+        },
+        {
+          "rule_id": "RULE-DOM-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "DOMICILE_STATE"
+        },
+        {
+          "rule_id": "RULE-MRK-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "MERIT_PERCENTAGE"
+        }
+      ]
+    },
+    {
+      "packet_id": "PKT_02_NAME_MISMATCH",
+      "category": "DEFECTIVE",
+      "expected_status": "NOT_READY",
+      "actual_status": "NOT_READY",
+      "status_match": true,
+      "expected_score": 75,
+      "actual_score": 75,
+      "score_diff": 0,
+      "execution_time_ms": 83.18,
+      "findings_count": 8,
+      "findings": [
+        {
+          "rule_id": "RULE-NAME-01",
+          "status": "FAIL",
+          "severity": "CRITICAL",
+          "penalty": 25,
+          "reason_code": "DEFECT_CONFIRMED",
+          "field": "APPLICANT_NAME"
+        },
+        {
+          "rule_id": "RULE-DOB-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "DATE_OF_BIRTH"
+        },
+        {
+          "rule_id": "RULE-INC-CEIL-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "INCOME_CEILING"
+        },
+        {
+          "rule_id": "RULE-INC-MATCH-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "INCOME_MATCH"
+        },
+        {
+          "rule_id": "RULE-EXP-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "CERTIFICATE_VALIDITY"
+        },
+        {
+          "rule_id": "RULE-BNK-IFSC-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "IFSC_FORMAT"
+        },
+        {
+          "rule_id": "RULE-DOM-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "DOMICILE_STATE"
+        },
+        {
+          "rule_id": "RULE-MRK-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "MERIT_PERCENTAGE"
+        }
+      ]
+    },
+    {
+      "packet_id": "PKT_03_DOB_MISMATCH",
+      "category": "DEFECTIVE",
+      "expected_status": "NOT_READY",
+      "actual_status": "NOT_READY",
+      "status_match": true,
+      "expected_score": 75,
+      "actual_score": 75,
+      "score_diff": 0,
+      "execution_time_ms": 90.11,
+      "findings_count": 8,
+      "findings": [
+        {
+          "rule_id": "RULE-NAME-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "APPLICANT_NAME"
+        },
+        {
+          "rule_id": "RULE-DOB-01",
+          "status": "FAIL",
+          "severity": "CRITICAL",
+          "penalty": 25,
+          "reason_code": "DEFECT_CONFIRMED",
+          "field": "DATE_OF_BIRTH"
+        },
+        {
+          "rule_id": "RULE-INC-CEIL-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "INCOME_CEILING"
+        },
+        {
+          "rule_id": "RULE-INC-MATCH-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "INCOME_MATCH"
+        },
+        {
+          "rule_id": "RULE-EXP-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "CERTIFICATE_VALIDITY"
+        },
+        {
+          "rule_id": "RULE-BNK-IFSC-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "IFSC_FORMAT"
+        },
+        {
+          "rule_id": "RULE-DOM-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "DOMICILE_STATE"
+        },
+        {
+          "rule_id": "RULE-MRK-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "MERIT_PERCENTAGE"
+        }
+      ]
+    },
+    {
+      "packet_id": "PKT_04_INCOME_EXCEEDS_CEILING",
+      "category": "DEFECTIVE",
+      "expected_status": "NOT_READY",
+      "actual_status": "NOT_READY",
+      "status_match": true,
+      "expected_score": 65,
+      "actual_score": 65,
+      "score_diff": 0,
+      "execution_time_ms": 82.95,
+      "findings_count": 8,
+      "findings": [
+        {
+          "rule_id": "RULE-NAME-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "APPLICANT_NAME"
+        },
+        {
+          "rule_id": "RULE-DOB-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "DATE_OF_BIRTH"
+        },
+        {
+          "rule_id": "RULE-INC-01",
+          "status": "FAIL",
+          "severity": "FATAL",
+          "penalty": 35,
+          "reason_code": "DEFECT_CONFIRMED",
+          "field": "INCOME_CEILING"
+        },
+        {
+          "rule_id": "RULE-INC-MATCH-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "INCOME_MATCH"
+        },
+        {
+          "rule_id": "RULE-EXP-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "CERTIFICATE_VALIDITY"
+        },
+        {
+          "rule_id": "RULE-BNK-IFSC-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "IFSC_FORMAT"
+        },
+        {
+          "rule_id": "RULE-DOM-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "DOMICILE_STATE"
+        },
+        {
+          "rule_id": "RULE-MRK-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "MERIT_PERCENTAGE"
+        }
+      ]
+    },
+    {
+      "packet_id": "PKT_05_MISSING_MANDATORY_DOC",
+      "category": "DEFECTIVE",
+      "expected_status": "NOT_READY",
+      "actual_status": "NOT_READY",
+      "status_match": true,
+      "expected_score": 65,
+      "actual_score": 65,
+      "score_diff": 0,
+      "execution_time_ms": 63.1,
+      "findings_count": 6,
+      "findings": [
+        {
+          "rule_id": "RULE-DOC-01",
+          "status": "MISSING",
+          "severity": "FATAL",
+          "penalty": 35,
+          "reason_code": "DOC_ABSENT",
+          "field": "MANDATORY_DOCUMENT"
+        },
+        {
+          "rule_id": "RULE-NAME-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "APPLICANT_NAME"
+        },
+        {
+          "rule_id": "RULE-DOB-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "DATE_OF_BIRTH"
+        },
+        {
+          "rule_id": "RULE-BNK-IFSC-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "IFSC_FORMAT"
+        },
+        {
+          "rule_id": "RULE-DOM-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "DOMICILE_STATE"
+        },
+        {
+          "rule_id": "RULE-MRK-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "MERIT_PERCENTAGE"
+        }
+      ]
+    },
+    {
+      "packet_id": "PKT_06_UNREADABLE_MANDATORY_DOC",
+      "category": "UNCERTAIN",
+      "expected_status": "NEEDS_CHECKS",
+      "actual_status": "NEEDS_CHECKS",
+      "status_match": true,
+      "expected_score": 75,
+      "actual_score": 75,
+      "score_diff": 0,
+      "execution_time_ms": 2005.13,
+      "findings_count": 6,
+      "findings": [
+        {
+          "rule_id": "RULE-DOC-02",
+          "status": "REVIEW",
+          "severity": "CRITICAL",
+          "penalty": 25,
+          "reason_code": "EVIDENCE_UNCERTAIN",
+          "field": "SCAN_QUALITY"
+        },
+        {
+          "rule_id": "RULE-NAME-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "APPLICANT_NAME"
+        },
+        {
+          "rule_id": "RULE-DOB-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "DATE_OF_BIRTH"
+        },
+        {
+          "rule_id": "RULE-BNK-IFSC-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "IFSC_FORMAT"
+        },
+        {
+          "rule_id": "RULE-DOM-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "DOMICILE_STATE"
+        },
+        {
+          "rule_id": "RULE-MRK-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "MERIT_PERCENTAGE"
+        }
+      ]
+    },
+    {
+      "packet_id": "PKT_07_COMPATIBLE_NAME_VARIATION",
+      "category": "UNCERTAIN",
+      "expected_status": "NEEDS_CHECKS",
+      "actual_status": "NEEDS_CHECKS",
+      "status_match": true,
+      "expected_score": 75,
+      "actual_score": 75,
+      "score_diff": 0,
+      "execution_time_ms": 234.37,
+      "findings_count": 12,
+      "findings": [
+        {
+          "rule_id": "RULE-NAME-02",
+          "status": "WARN",
+          "severity": "REVIEW",
+          "penalty": 5,
+          "reason_code": "DEFECT_PROBABLE",
+          "field": "APPLICANT_NAME_VARIATION"
+        },
+        {
+          "rule_id": "RULE-NAME-02",
+          "status": "WARN",
+          "severity": "REVIEW",
+          "penalty": 5,
+          "reason_code": "DEFECT_PROBABLE",
+          "field": "APPLICANT_NAME_VARIATION"
+        },
+        {
+          "rule_id": "RULE-NAME-02",
+          "status": "WARN",
+          "severity": "REVIEW",
+          "penalty": 5,
+          "reason_code": "DEFECT_PROBABLE",
+          "field": "APPLICANT_NAME_VARIATION"
+        },
+        {
+          "rule_id": "RULE-NAME-02",
+          "status": "WARN",
+          "severity": "REVIEW",
+          "penalty": 5,
+          "reason_code": "DEFECT_PROBABLE",
+          "field": "APPLICANT_NAME_VARIATION"
+        },
+        {
+          "rule_id": "RULE-NAME-02",
+          "status": "WARN",
+          "severity": "REVIEW",
+          "penalty": 5,
+          "reason_code": "DEFECT_PROBABLE",
+          "field": "APPLICANT_NAME_VARIATION"
+        },
+        {
+          "rule_id": "RULE-DOB-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "DATE_OF_BIRTH"
+        },
+        {
+          "rule_id": "RULE-INC-CEIL-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "INCOME_CEILING"
+        },
+        {
+          "rule_id": "RULE-INC-MATCH-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "INCOME_MATCH"
+        },
+        {
+          "rule_id": "RULE-EXP-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "CERTIFICATE_VALIDITY"
+        },
+        {
+          "rule_id": "RULE-BNK-IFSC-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "IFSC_FORMAT"
+        },
+        {
+          "rule_id": "RULE-DOM-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "DOMICILE_STATE"
+        },
+        {
+          "rule_id": "RULE-MRK-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "MERIT_PERCENTAGE"
+        }
+      ]
+    },
+    {
+      "packet_id": "PKT_08_EXPIRED_CERTIFICATE",
+      "category": "DEFECTIVE",
+      "expected_status": "NOT_READY",
+      "actual_status": "NOT_READY",
+      "status_match": true,
+      "expected_score": 75,
+      "actual_score": 75,
+      "score_diff": 0,
+      "execution_time_ms": 228.44,
+      "findings_count": 8,
+      "findings": [
+        {
+          "rule_id": "RULE-NAME-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "APPLICANT_NAME"
+        },
+        {
+          "rule_id": "RULE-DOB-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "DATE_OF_BIRTH"
+        },
+        {
+          "rule_id": "RULE-INC-CEIL-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "INCOME_CEILING"
+        },
+        {
+          "rule_id": "RULE-INC-MATCH-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "INCOME_MATCH"
+        },
+        {
+          "rule_id": "RULE-EXP-01",
+          "status": "FAIL",
+          "severity": "CRITICAL",
+          "penalty": 25,
+          "reason_code": "DEFECT_CONFIRMED",
+          "field": "CERTIFICATE_EXPIRY"
+        },
+        {
+          "rule_id": "RULE-BNK-IFSC-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "IFSC_FORMAT"
+        },
+        {
+          "rule_id": "RULE-DOM-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "DOMICILE_STATE"
+        },
+        {
+          "rule_id": "RULE-MRK-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "MERIT_PERCENTAGE"
+        }
+      ]
+    },
+    {
+      "packet_id": "PKT_09_DOMICILE_MISMATCH",
+      "category": "DEFECTIVE",
+      "expected_status": "NOT_READY",
+      "actual_status": "NOT_READY",
+      "status_match": true,
+      "expected_score": 75,
+      "actual_score": 75,
+      "score_diff": 0,
+      "execution_time_ms": 233.6,
+      "findings_count": 8,
+      "findings": [
+        {
+          "rule_id": "RULE-NAME-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "APPLICANT_NAME"
+        },
+        {
+          "rule_id": "RULE-DOB-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "DATE_OF_BIRTH"
+        },
+        {
+          "rule_id": "RULE-INC-CEIL-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "INCOME_CEILING"
+        },
+        {
+          "rule_id": "RULE-INC-MATCH-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "INCOME_MATCH"
+        },
+        {
+          "rule_id": "RULE-EXP-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "CERTIFICATE_VALIDITY"
+        },
+        {
+          "rule_id": "RULE-BNK-IFSC-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "IFSC_FORMAT"
+        },
+        {
+          "rule_id": "RULE-DOM-01",
+          "status": "FAIL",
+          "severity": "CRITICAL",
+          "penalty": 25,
+          "reason_code": "DEFECT_CONFIRMED",
+          "field": "DOMICILE_STATE"
+        },
+        {
+          "rule_id": "RULE-MRK-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "MERIT_PERCENTAGE"
+        }
+      ]
+    },
+    {
+      "packet_id": "PKT_10_INTERACTION_NAME_CONFLICT_AND_MISSING_DOC",
+      "category": "INTERACTION",
+      "expected_status": "NOT_READY",
+      "actual_status": "NOT_READY",
+      "status_match": true,
+      "expected_score": 40,
+      "actual_score": 40,
+      "score_diff": 0,
+      "execution_time_ms": 176.62,
+      "findings_count": 8,
+      "findings": [
+        {
+          "rule_id": "RULE-DOC-01",
+          "status": "MISSING",
+          "severity": "FATAL",
+          "penalty": 35,
+          "reason_code": "DOC_ABSENT",
+          "field": "MANDATORY_DOCUMENT"
+        },
+        {
+          "rule_id": "RULE-NAME-01",
+          "status": "FAIL",
+          "severity": "CRITICAL",
+          "penalty": 25,
+          "reason_code": "DEFECT_CONFIRMED",
+          "field": "APPLICANT_NAME"
+        },
+        {
+          "rule_id": "RULE-DOB-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "DATE_OF_BIRTH"
+        },
+        {
+          "rule_id": "RULE-INC-CEIL-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "INCOME_CEILING"
+        },
+        {
+          "rule_id": "RULE-INC-MATCH-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "INCOME_MATCH"
+        },
+        {
+          "rule_id": "RULE-EXP-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "CERTIFICATE_VALIDITY"
+        },
+        {
+          "rule_id": "RULE-BNK-IFSC-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "IFSC_FORMAT"
+        },
+        {
+          "rule_id": "RULE-MRK-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "MERIT_PERCENTAGE"
+        }
+      ]
+    },
+    {
+      "packet_id": "PKT_11_INTERACTION_DOB_CONFLICT_AND_UNREADABLE_DOC",
+      "category": "INTERACTION",
+      "expected_status": "NOT_READY",
+      "actual_status": "NOT_READY",
+      "status_match": true,
+      "expected_score": 50,
+      "actual_score": 50,
+      "score_diff": 0,
+      "execution_time_ms": 2188.14,
+      "findings_count": 6,
+      "findings": [
+        {
+          "rule_id": "RULE-DOC-02",
+          "status": "REVIEW",
+          "severity": "CRITICAL",
+          "penalty": 25,
+          "reason_code": "EVIDENCE_UNCERTAIN",
+          "field": "SCAN_QUALITY"
+        },
+        {
+          "rule_id": "RULE-NAME-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "APPLICANT_NAME"
+        },
+        {
+          "rule_id": "RULE-DOB-01",
+          "status": "FAIL",
+          "severity": "CRITICAL",
+          "penalty": 25,
+          "reason_code": "DEFECT_CONFIRMED",
+          "field": "DATE_OF_BIRTH"
+        },
+        {
+          "rule_id": "RULE-BNK-IFSC-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "IFSC_FORMAT"
+        },
+        {
+          "rule_id": "RULE-DOM-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "DOMICILE_STATE"
+        },
+        {
+          "rule_id": "RULE-MRK-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "MERIT_PERCENTAGE"
+        }
+      ]
+    },
+    {
+      "packet_id": "PKT_12_SLOT_MISMATCH",
+      "category": "UNCERTAIN",
+      "expected_status": "NEEDS_CHECKS",
+      "actual_status": "NEEDS_CHECKS",
+      "status_match": true,
+      "expected_score": 90,
+      "actual_score": 90,
+      "score_diff": 0,
+      "execution_time_ms": 183.19,
+      "findings_count": 6,
+      "findings": [
+        {
+          "rule_id": "RULE-SLOT-01",
+          "status": "REVIEW",
+          "severity": "REVIEW",
+          "penalty": 10,
+          "reason_code": "WRONG_DOCUMENT_TYPE",
+          "field": "DOCUMENT_SLOT"
+        },
+        {
+          "rule_id": "RULE-NAME-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "APPLICANT_NAME"
+        },
+        {
+          "rule_id": "RULE-DOB-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "DATE_OF_BIRTH"
+        },
+        {
+          "rule_id": "RULE-BNK-IFSC-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "IFSC_FORMAT"
+        },
+        {
+          "rule_id": "RULE-DOM-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "DOMICILE_STATE"
+        },
+        {
+          "rule_id": "RULE-MRK-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "MERIT_PERCENTAGE"
+        }
+      ]
+    },
+    {
+      "packet_id": "PKT_13_CATEGORY_EXEMPTION_VERIFIED",
+      "category": "CLEAN",
+      "expected_status": "NO_ISSUES_FOUND",
+      "actual_status": "NO_ISSUES_FOUND",
+      "status_match": true,
+      "expected_score": 100,
+      "actual_score": 100,
+      "score_diff": 0,
+      "execution_time_ms": 223.06,
+      "findings_count": 8,
+      "findings": [
+        {
+          "rule_id": "RULE-NAME-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "APPLICANT_NAME"
+        },
+        {
+          "rule_id": "RULE-DOB-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "DATE_OF_BIRTH"
+        },
+        {
+          "rule_id": "RULE-INC-CEIL-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "INCOME_CEILING"
+        },
+        {
+          "rule_id": "RULE-INC-MATCH-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "INCOME_MATCH"
+        },
+        {
+          "rule_id": "RULE-EXP-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "CERTIFICATE_VALIDITY"
+        },
+        {
+          "rule_id": "RULE-BNK-IFSC-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "IFSC_FORMAT"
+        },
+        {
+          "rule_id": "RULE-DOM-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "DOMICILE_STATE"
+        },
+        {
+          "rule_id": "RULE-MRK-RELAX-PASS",
+          "status": "NOT_APPLICABLE",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "EXEMPT:CATEGORY_EXEMPTION",
+          "field": "MERIT_PERCENTAGE"
+        }
+      ]
+    },
+    {
+      "packet_id": "PKT_14_CATEGORY_EXEMPTION_UNCERTAIN",
+      "category": "INTERACTION",
+      "expected_status": "NOT_READY",
+      "actual_status": "NOT_READY",
+      "status_match": true,
+      "expected_score": 65,
+      "actual_score": 65,
+      "score_diff": 0,
+      "execution_time_ms": 203.11,
+      "findings_count": 9,
+      "findings": [
+        {
+          "rule_id": "RULE-DOC-01",
+          "status": "MISSING",
+          "severity": "FATAL",
+          "penalty": 35,
+          "reason_code": "DOC_ABSENT",
+          "field": "MANDATORY_DOCUMENT"
+        },
+        {
+          "rule_id": "RULE-NAME-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "APPLICANT_NAME"
+        },
+        {
+          "rule_id": "RULE-DOB-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "DATE_OF_BIRTH"
+        },
+        {
+          "rule_id": "RULE-INC-CEIL-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "INCOME_CEILING"
+        },
+        {
+          "rule_id": "RULE-INC-MATCH-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "INCOME_MATCH"
+        },
+        {
+          "rule_id": "RULE-EXP-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "CERTIFICATE_VALIDITY"
+        },
+        {
+          "rule_id": "RULE-BNK-IFSC-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "IFSC_FORMAT"
+        },
+        {
+          "rule_id": "RULE-DOM-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "DOMICILE_STATE"
+        },
+        {
+          "rule_id": "RULE-MRK-RELAX-PASS",
+          "status": "NOT_APPLICABLE",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "EXEMPT:CATEGORY_EXEMPTION",
+          "field": "MERIT_PERCENTAGE"
+        }
+      ]
+    },
+    {
+      "packet_id": "PKT_15_DUPLICATE_DOCUMENTS_CLEAN",
+      "category": "CLEAN",
+      "expected_status": "NO_ISSUES_FOUND",
+      "actual_status": "NO_ISSUES_FOUND",
+      "status_match": true,
+      "expected_score": 100,
+      "actual_score": 100,
+      "score_diff": 0,
+      "execution_time_ms": 177.84,
+      "findings_count": 8,
+      "findings": [
+        {
+          "rule_id": "RULE-NAME-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "APPLICANT_NAME"
+        },
+        {
+          "rule_id": "RULE-DOB-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "DATE_OF_BIRTH"
+        },
+        {
+          "rule_id": "RULE-INC-CEIL-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "INCOME_CEILING"
+        },
+        {
+          "rule_id": "RULE-INC-MATCH-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "INCOME_MATCH"
+        },
+        {
+          "rule_id": "RULE-EXP-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "CERTIFICATE_VALIDITY"
+        },
+        {
+          "rule_id": "RULE-BNK-IFSC-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "IFSC_FORMAT"
+        },
+        {
+          "rule_id": "RULE-DOM-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "DOMICILE_STATE"
+        },
+        {
+          "rule_id": "RULE-MRK-PASS",
+          "status": "PASS",
+          "severity": "INFO",
+          "penalty": 0,
+          "reason_code": "CONFIRMED_OK",
+          "field": "MERIT_PERCENTAGE"
+        }
+      ]
+    },
+    {
+      "packet_id": "PKT_16_EMPTY_PACKET_FAIL_CLOSED",
+      "category": "DEFECTIVE",
+      "expected_status": "NOT_READY",
+      "actual_status": "NOT_READY",
+      "status_match": true,
+      "expected_score": 0,
+      "actual_score": 0,
+      "score_diff": 0,
+      "execution_time_ms": 1.56,
+      "findings_count": 6,
+      "findings": [
+        {
+          "rule_id": "RULE-DOC-01",
+          "status": "MISSING",
+          "severity": "FATAL",
+          "penalty": 35,
+          "reason_code": "DOC_ABSENT",
+          "field": "MANDATORY_DOCUMENT"
+        },
+        {
+          "rule_id": "RULE-DOC-01",
+          "status": "MISSING",
+          "severity": "FATAL",
+          "penalty": 35,
+          "reason_code": "DOC_ABSENT",
+          "field": "MANDATORY_DOCUMENT"
+        },
+        {
+          "rule_id": "RULE-DOC-01",
+          "status": "MISSING",
+          "severity": "FATAL",
+          "penalty": 35,
+          "reason_code": "DOC_ABSENT",
+          "field": "MANDATORY_DOCUMENT"
+        },
+        {
+          "rule_id": "RULE-DOC-01",
+          "status": "MISSING",
+          "severity": "FATAL",
+          "penalty": 35,
+          "reason_code": "DOC_ABSENT",
+          "field": "MANDATORY_DOCUMENT"
+        },
+        {
+          "rule_id": "RULE-DOC-01",
+          "status": "MISSING",
+          "severity": "FATAL",
+          "penalty": 35,
+          "reason_code": "DOC_ABSENT",
+          "field": "MANDATORY_DOCUMENT"
+        },
+        {
+          "rule_id": "RULE-DOC-01",
+          "status": "MISSING",
+          "severity": "FATAL",
+          "penalty": 35,
+          "reason_code": "DOC_ABSENT",
+          "field": "MANDATORY_DOCUMENT"
+        }
+      ]
+    }
+  ],
+  "decision_invariants": {
+    "INV-1_HARD_CONFLICT_NEVER_READY": {
+      "description": "A packet with a confirmed hard defect (Status.FAIL) must always resolve to NOT_READY",
+      "passed": true,
+      "evaluated_cases": 7
+    },
+    "INV-2_MISSING_DOC_NEVER_READY": {
+      "description": "A packet with an absent mandatory document (Status.MISSING) must always resolve to NOT_READY",
+      "passed": true,
+      "evaluated_cases": 4
+    },
+    "INV-3_UNREADABLE_DOC_NEVER_READY": {
+      "description": "An unreadable mandatory document (Status.REVIEW) must never resolve to NO_ISSUES_FOUND",
+      "passed": true,
+      "evaluated_cases": 2
+    },
+    "INV-4_AMBIGUITY_NEVER_FALSE_FAIL": {
+      "description": "Ambiguous evidence or compatible variation must abstain to REVIEW/WARN and never emit false FAIL",
+      "passed": true
+    },
+    "INV-5_SOFT_WARN_NEVER_FORCES_NOT_READY": {
+      "description": "A packet with soft warnings (Status.WARN) and no hard failures must resolve to NEEDS_CHECKS",
+      "passed": true
+    },
+    "INV-6_SCORE_CANNOT_DOWNGRADE_STATUS": {
+      "description": "High residual readiness score (>= 75) cannot downgrade a confirmed hard defect to READY",
+      "passed": true,
+      "evaluated_cases": 4
+    },
+    "INV-7_DUPLICATE_FINDING_DEDUPLICATION": {
+      "description": "Identical rule findings are unified; duplicate penalties are never double-deducted",
+      "passed": true
+    },
+    "INV-8_ORDER_INVARIANCE": {
+      "description": "Readiness status derivation is strictly order-invariant across all permutation orders",
+      "passed": true
+    },
+    "INV-9_EMPTY_EXECUTION_FAILS_CLOSED": {
+      "description": "Empty rule evaluation set returns NEEDS_CHECKS; never emits false green NO_ISSUES_FOUND",
+      "passed": true
+    },
+    "INV-10_EXCEPTION_SAFETY_FAIL_CLOSED": {
+      "description": "Rule execution exceptions fail closed to Status.REVIEW and ReasonCode.INSUFFICIENT_DATA",
+      "passed": true
+    }
+  },
+  "scoring_calibration": {
+    "formula": "Score = max(0, min(100, 100 - sum(finding_penalties)))",
+    "penalties": {
+      "FATAL": -35,
+      "CRITICAL": -25,
+      "REVIEW": -10,
+      "WARNING": -5,
+      "INFO": 0,
+      "NOT_APPLICABLE": 0
+    },
+    "score_determinism": true,
+    "clean_run_scores_5_trials": [
+      100,
+      100,
+      100,
+      100,
+      100
+    ],
+    "monotonicity_verified": true,
+    "score_range_observed": [
+      0,
+      100
+    ]
+  },
+  "evidence_provenance": {
+    "bounding_box_geometry_valid": true,
+    "unlocated_missing_evidence_honest": true,
+    "provenance_traceable_to_document": true
+  },
+  "privacy_redaction": {
+    "pii_masking_verified": true,
+    "host_paths_scrubbed": true,
+    "offline_operation_verified": true
+  },
+  "confusion_matrix": {
+    "NO_ISSUES_FOUND": {
+      "actual_NO_ISSUES_FOUND": 0,
+      "actual_NEEDS_CHECKS": 0,
+      "actual_NOT_READY": 0
+    },
+    "NEEDS_CHECKS": {
+      "actual_NO_ISSUES_FOUND": 0,
+      "actual_NEEDS_CHECKS": 0,
+      "actual_NOT_READY": 0
+    },
+    "NOT_READY": {
+      "actual_NO_ISSUES_FOUND": 0,
+      "actual_NEEDS_CHECKS": 0,
+      "actual_NOT_READY": 0
+    }
+  },
+  "metrics": {
+    "false_ready_count": 0,
+    "false_ready_rate_pct": 0.0,
+    "false_not_ready_count": 0,
+    "false_not_ready_rate_pct": 0.0,
+    "status_accuracy_pct": 100.0,
+    "score_determinism_pct": 100.0,
+    "provenance_accuracy_pct": 100.0
+  }
+}

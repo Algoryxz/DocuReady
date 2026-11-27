@@ -1,0 +1,90 @@
+{
+  "milestone": "Loop 35",
+  "total_packets": 12,
+  "packets": [
+    {
+      "packet_id": "PKT-35-DEV-01",
+      "split": "DEV",
+      "category": "Complete Valid Packet",
+      "origin": "Synthetic",
+      "expected_readiness": "NO_ISSUES_FOUND"
+    },
+    {
+      "packet_id": "PKT-35-DEV-02",
+      "split": "DEV",
+      "category": "Missing Mandatory Income Cert",
+      "origin": "Synthetic",
+      "expected_readiness": "NOT_READY"
+    },
+    {
+      "packet_id": "PKT-35-DEV-03",
+      "split": "DEV",
+      "category": "Wrong Slot (Caste in Income Slot)",
+      "origin": "Synthetic",
+      "expected_readiness": "NOT_READY"
+    },
+    {
+      "packet_id": "PKT-35-DEV-04",
+      "split": "DEV",
+      "category": "Corrupted & Empty PDF Import",
+      "origin": "Synthetic",
+      "expected_readiness": "NOT_READY"
+    },
+    {
+      "packet_id": "PKT-35-CAL-01",
+      "split": "CAL",
+      "category": "Low-Confidence Sub-T* Abstention",
+      "origin": "Synthetic",
+      "expected_readiness": "NEEDS_CHECKS"
+    },
+    {
+      "packet_id": "PKT-35-CAL-02",
+      "split": "CAL",
+      "category": "Outdated Expired Income Cert",
+      "origin": "Synthetic",
+      "expected_readiness": "NOT_READY"
+    },
+    {
+      "packet_id": "PKT-35-CAL-03",
+      "split": "CAL",
+      "category": "Conflicting DOB Across Docs",
+      "origin": "Synthetic",
+      "expected_readiness": "NOT_READY"
+    },
+    {
+      "packet_id": "PKT-35-CAL-04",
+      "split": "CAL",
+      "category": "Cross-Document Amount Mismatch",
+      "origin": "Synthetic",
+      "expected_readiness": "NOT_READY"
+    },
+    {
+      "packet_id": "PKT-35-BLIND-01",
+      "split": "BLIND",
+      "category": "Unicode Path & Export Consistency",
+      "origin": "Synthetic",
+      "expected_readiness": "NEEDS_CHECKS"
+    },
+    {
+      "packet_id": "PKT-35-BLIND-02",
+      "split": "BLIND",
+      "category": "Cross-Applicant Contamination Trap",
+      "origin": "Synthetic",
+      "expected_readiness": "ISOLATED"
+    },
+    {
+      "packet_id": "PKT-35-BLIND-03",
+      "split": "BLIND",
+      "category": "Duplicate Source Shared-Page Trap",
+      "origin": "Public/Synthetic",
+      "expected_readiness": "ABSTAIN"
+    },
+    {
+      "packet_id": "PKT-35-BLIND-04",
+      "split": "BLIND",
+      "category": "Mixed English/Hindi/Odia Packet",
+      "origin": "GODL/Public",
+      "expected_readiness": "NEEDS_CHECKS"
+    }
+  ]
+}

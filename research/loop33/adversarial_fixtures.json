@@ -1,0 +1,167 @@
+{
+  "corpus_version": "1.0.0",
+  "milestone": "Loop 33",
+  "total_adversarial_cases": 24,
+  "cases": [
+    {
+      "id": "ADV-ID-01",
+      "family": "A",
+      "name": "IFSC O for Zero Confusion at Index 4",
+      "input": "SBINO001234",
+      "expected_decision": "ABSTAIN",
+      "expected_reason_contains": "O vs 0 confusable"
+    },
+    {
+      "id": "ADV-ID-02",
+      "family": "A",
+      "name": "PAN Digit in Alpha Position 5",
+      "input": "ABCD01234F",
+      "expected_decision": "ABSTAIN",
+      "expected_reason_contains": "confusable"
+    },
+    {
+      "id": "ADV-ID-03",
+      "family": "A",
+      "name": "Aadhaar Single-Digit Mutation",
+      "input": "236356789013",
+      "expected_valid": false,
+      "algorithm": "Verhoeff"
+    },
+    {
+      "id": "ADV-ID-04",
+      "family": "A",
+      "name": "Aadhaar Adjacent Transposition Mutation",
+      "input": "236365789012",
+      "expected_valid": false,
+      "algorithm": "Verhoeff"
+    },
+    {
+      "id": "ADV-ID-05",
+      "family": "A",
+      "name": "Trailing Punctuation & Quotes Bleed",
+      "input": "'BARB0BHUBAN,':",
+      "expected_cleaned": "BARB0BHUBAN"
+    },
+    {
+      "id": "ADV-DATE-01",
+      "family": "B",
+      "name": "Valid Leap Year Date Feb 29 2024",
+      "input": "29/02/2024",
+      "expected_iso": "2024-02-29",
+      "expected_valid": true
+    },
+    {
+      "id": "ADV-DATE-02",
+      "family": "B",
+      "name": "Invalid Non-Leap Year Date Feb 29 2025",
+      "input": "29/02/2025",
+      "expected_valid": false
+    },
+    {
+      "id": "ADV-DATE-03",
+      "family": "B",
+      "name": "Invalid Calendar Date April 31",
+      "input": "31/04/2024",
+      "expected_valid": false
+    },
+    {
+      "id": "ADV-DATE-04",
+      "family": "B",
+      "name": "Ambiguous Slash Date 05/06/2024",
+      "input": "05/06/2024",
+      "expected_ambiguous": true
+    },
+    {
+      "id": "ADV-NUM-01",
+      "family": "C",
+      "name": "Indian Number Comma Grouping",
+      "input": "Rs. 2,50,000.00",
+      "expected_amount": 250000.0
+    },
+    {
+      "id": "ADV-NUM-02",
+      "family": "C",
+      "name": "Lakhs Textual Representation",
+      "input": "2.5 Lakhs",
+      "expected_amount": 250000.0
+    },
+    {
+      "id": "ADV-NUM-03",
+      "family": "C",
+      "name": "Ceiling Strict Boundary Violation",
+      "income_val": 250000.01,
+      "ceiling": 250000.0,
+      "expected_status": "FAIL"
+    },
+    {
+      "id": "ADV-NUM-04",
+      "family": "C",
+      "name": "Physical Metric Equivalence with Policy Separation",
+      "claim_a": "1 MT",
+      "claim_b": "1000 KG",
+      "expected_physical_equiv": true,
+      "expected_policy_conflict": true
+    },
+    {
+      "id": "ADV-SLOT-01",
+      "family": "D",
+      "name": "Slot Mismatch Quarantine",
+      "slot": "INCOME_CERT",
+      "uploaded_type": "CASTE_CERT",
+      "expected_rule": "RULE-SLOT-01",
+      "expected_quarantine": true
+    },
+    {
+      "id": "ADV-XDOC-01",
+      "family": "E",
+      "name": "Entity Resolution Conflicting DOB",
+      "name_1": "Sunil Kumar",
+      "name_2": "Sunil Kumar",
+      "dob_1": "10/05/2004",
+      "dob_2": "10/05/2001",
+      "expected_match": false
+    },
+    {
+      "id": "ADV-XDOC-02",
+      "family": "E",
+      "name": "Corroboration Dependent Source Detection",
+      "source_a_page": 1,
+      "source_b_page": 1,
+      "file_hash_match": true,
+      "expected_independent": false
+    },
+    {
+      "id": "ADV-SCHEME-01",
+      "family": "F",
+      "name": "SC/ST Cutoff Pass Only Policy",
+      "percentage": 42.0,
+      "category": "SC",
+      "policy": "PASS_ONLY",
+      "expected_status": "PASS"
+    },
+    {
+      "id": "ADV-SCHEME-02",
+      "family": "F",
+      "name": "General Category Caste Exemption",
+      "category": "GENERAL",
+      "required_doc": "CASTE_CERT",
+      "expected_verdict": "EXEMPT"
+    },
+    {
+      "id": "ADV-CONF-01",
+      "family": "G",
+      "name": "Sub-Threshold Confidence Abstention",
+      "confidence": 68.5,
+      "t_star": 70.0,
+      "expected_evidence_state": "UNCERTAIN"
+    },
+    {
+      "id": "ADV-SAFE-01",
+      "family": "H",
+      "name": "Missing Evidence Passes Barred",
+      "status": "MISSING",
+      "rule": "RULE-DOC-01",
+      "expected_final_outcome": "MISSING"
+    }
+  ]
+}

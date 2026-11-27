@@ -1,0 +1,122 @@
+[
+  {
+    "case_id": "COL-01-PREFIX-COLLISION",
+    "category": "Prefix collision",
+    "target_pattern": "BATCH-ORD-500",
+    "expected_type": "amount",
+    "expected_behavior": "REJECT",
+    "observed_row_idx": null,
+    "observed_method": "canon_collision",
+    "observed_score": 0.0,
+    "status": "PASS",
+    "details": "method=canon_collision, score=0.0, row_idx=None"
+  },
+  {
+    "case_id": "COL-02-CANONICAL-SUBST",
+    "category": "Alphanumeric substitution",
+    "target_pattern": "SUITE-501",
+    "expected_type": "amount",
+    "expected_behavior": "MATCH_SUITE_S01",
+    "observed_row_idx": 1,
+    "observed_method": "canonical_equivalence",
+    "observed_score": 0.95,
+    "status": "PASS",
+    "details": "method=canonical_equivalence, score=0.95, row_idx=1"
+  },
+  {
+    "case_id": "COL-03-CANONICAL-COLLISION",
+    "category": "Canonical collision",
+    "target_pattern": "ROOM-O1",
+    "expected_type": "amount",
+    "expected_behavior": "REJECT",
+    "observed_row_idx": null,
+    "observed_method": "canon_collision",
+    "observed_score": 0.0,
+    "status": "PASS",
+    "details": "method=canon_collision, score=0.0, row_idx=None"
+  },
+  {
+    "case_id": "COL-04-DRUG-CONFUSION",
+    "category": "Drug name lookalike",
+    "target_pattern": "CEFAZOLIN",
+    "expected_type": "amount",
+    "expected_behavior": "REJECT",
+    "observed_row_idx": null,
+    "observed_method": null,
+    "observed_score": 0.0,
+    "status": "PASS",
+    "details": "method=None, score=0.0, row_idx=None"
+  },
+  {
+    "case_id": "COL-05-ANALYTE-LOOKALIKE",
+    "category": "Analyte lookalike",
+    "target_pattern": "BILIRUBIN TOTAL",
+    "expected_type": "number",
+    "expected_behavior": "REJECT",
+    "observed_row_idx": null,
+    "observed_method": null,
+    "observed_score": 0.0,
+    "status": "PASS",
+    "details": "method=None, score=0.0, row_idx=None"
+  },
+  {
+    "case_id": "COL-06-FINANCIAL-TERM",
+    "category": "Financial terminology",
+    "target_pattern": "NET REVENUE",
+    "expected_type": "amount",
+    "expected_behavior": "REJECT",
+    "observed_row_idx": null,
+    "observed_method": null,
+    "observed_score": 0.0,
+    "status": "PASS",
+    "details": "method=None, score=0.0, row_idx=None"
+  },
+  {
+    "case_id": "COL-07-SHORT-ABBREV",
+    "category": "Short abbreviation",
+    "target_pattern": "CT",
+    "expected_type": "number",
+    "expected_behavior": "REJECT",
+    "observed_row_idx": null,
+    "observed_method": null,
+    "observed_score": 0.0,
+    "status": "PASS",
+    "details": "method=None, score=0.0, row_idx=None"
+  },
+  {
+    "case_id": "COL-08-UNICODE-DIACRITICS",
+    "category": "Unicode diacritics",
+    "target_pattern": "CAF\u00c9 EXPENSE",
+    "expected_type": "amount",
+    "expected_behavior": "MATCH",
+    "observed_row_idx": 1,
+    "observed_method": "levenshtein_similarity",
+    "observed_score": 0.917,
+    "status": "PASS",
+    "details": "method=levenshtein_similarity, score=0.9166666666666666, row_idx=1"
+  },
+  {
+    "case_id": "COL-09-PUNCT-NOISE",
+    "category": "Punctuation noise",
+    "target_pattern": "TAX 18%",
+    "expected_type": "amount",
+    "expected_behavior": "MATCH",
+    "observed_row_idx": 1,
+    "observed_method": "canonical_equivalence",
+    "observed_score": 0.95,
+    "status": "PASS",
+    "details": "method=canonical_equivalence, score=0.95, row_idx=1"
+  },
+  {
+    "case_id": "COL-10-SEMANTIC-CONTRADICTION",
+    "category": "Semantic contradiction",
+    "target_pattern": "FREIGHT CHARGES",
+    "expected_type": "amount",
+    "expected_behavior": "REJECT",
+    "observed_row_idx": null,
+    "observed_method": null,
+    "observed_score": 0.0,
+    "status": "PASS",
+    "details": "method=None, score=0.0, row_idx=None"
+  }
+]

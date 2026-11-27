@@ -1,0 +1,172 @@
+{
+  "summary": {
+    "corpus_size": 6,
+    "mean_baseline_wer": 0.2749,
+    "mean_loop13_wer": 0.0,
+    "mean_baseline_cer": 0.2318,
+    "mean_loop13_cer": 0.0,
+    "mean_baseline_inversion_rate": 0.0874,
+    "mean_loop13_inversion_rate": 0.0,
+    "mean_baseline_latency_ms": 0.104,
+    "mean_loop13_latency_ms": 1.125,
+    "mean_latency_overhead_ms": 1.021
+  },
+  "documents": [
+    {
+      "id": "DOC_01_TWO_COL_NARRATIVE",
+      "category": "Multi-Column Text",
+      "description": "Standard two-column official notification layout with parallel text flow",
+      "word_count": 18,
+      "baseline": {
+        "text": "The post-matric scholarship State verification offices scheme guidelines require shall inspect educational strict physical verification. institutions annually strictly.",
+        "cer": 0.4762,
+        "wer": 0.6667,
+        "inversion_rate": 0.1765,
+        "latency_ms": 0.123
+      },
+      "loop13": {
+        "text": "The post-matric scholarship scheme guidelines require strict physical verification. State verification offices shall inspect educational institutions annually strictly.",
+        "cer": 0.0,
+        "wer": 0.0,
+        "inversion_rate": 0.0,
+        "latency_ms": 4.448
+      },
+      "delta": {
+        "wer_reduction": 0.6667,
+        "cer_reduction": 0.4762,
+        "inversion_reduction": 0.1765,
+        "latency_overhead_ms": 4.325
+      }
+    },
+    {
+      "id": "DOC_02_HEADER_FOOTER_BRACKET",
+      "category": "Bracketed Multi-Column",
+      "description": "Full-width spanning header and footer bracketing a two-column body",
+      "word_count": 19,
+      "baseline": {
+        "text": "GOVERNMENT OF INDIA Ministry of Education Department of Higher New Delhi Headquarters Annual Budget Division Official Gazette Notification 2026",
+        "cer": 0.2587,
+        "wer": 0.3158,
+        "inversion_rate": 0.0526,
+        "latency_ms": 0.115
+      },
+      "loop13": {
+        "text": "GOVERNMENT OF INDIA Ministry of Education New Delhi Headquarters Department of Higher Annual Budget Division Official Gazette Notification 2026",
+        "cer": 0.0,
+        "wer": 0.0,
+        "inversion_rate": 0.0,
+        "latency_ms": 0.553
+      },
+      "delta": {
+        "wer_reduction": 0.3158,
+        "cer_reduction": 0.2587,
+        "inversion_reduction": 0.0526,
+        "latency_overhead_ms": 0.438
+      }
+    },
+    {
+      "id": "DOC_03_ASYMMETRIC_COLUMNS",
+      "category": "Asymmetric Multi-Column",
+      "description": "Left column has 4 lines, right column has 2 lines",
+      "word_count": 15,
+      "baseline": {
+        "text": "Primary Objective: Disbursement Window: Direct benefit transfer. March 31 annually. Secondary Goal: Aadhaar seed coverage.",
+        "cer": 0.6557,
+        "wer": 0.6667,
+        "inversion_rate": 0.2952,
+        "latency_ms": 0.102
+      },
+      "loop13": {
+        "text": "Primary Objective: Direct benefit transfer. Secondary Goal: Aadhaar seed coverage. Disbursement Window: March 31 annually.",
+        "cer": 0.0,
+        "wer": 0.0,
+        "inversion_rate": 0.0,
+        "latency_ms": 0.623
+      },
+      "delta": {
+        "wer_reduction": 0.6667,
+        "cer_reduction": 0.6557,
+        "inversion_reduction": 0.2952,
+        "latency_overhead_ms": 0.521
+      }
+    },
+    {
+      "id": "DOC_04_KEY_VALUE_FORM",
+      "category": "Tabular Form",
+      "description": "Standard key-value form fields with horizontal alignment (must NOT be split)",
+      "word_count": 14,
+      "baseline": {
+        "text": "Applicant Name: ROHIT VERMA Roll Number: DHE-2026-5541 Annual Income: INR 180000 Verification Status: VERIFIED",
+        "cer": 0.0,
+        "wer": 0.0,
+        "inversion_rate": 0.0,
+        "latency_ms": 0.103
+      },
+      "loop13": {
+        "text": "Applicant Name: ROHIT VERMA Roll Number: DHE-2026-5541 Annual Income: INR 180000 Verification Status: VERIFIED",
+        "cer": 0.0,
+        "wer": 0.0,
+        "inversion_rate": 0.0,
+        "latency_ms": 0.499
+      },
+      "delta": {
+        "wer_reduction": 0.0,
+        "cer_reduction": 0.0,
+        "inversion_reduction": 0.0,
+        "latency_overhead_ms": 0.396
+      }
+    },
+    {
+      "id": "DOC_05_MARKSHEET_TABLE_GRID",
+      "category": "3-Column Data Grid",
+      "description": "3-column table grid with numbers and headers (must preserve row-wise order)",
+      "word_count": 12,
+      "baseline": {
+        "text": "Subject Max_Marks Marks_Obtained Mathematics 100 92 Physics 100 88 Chemistry 100 95",
+        "cer": 0.0,
+        "wer": 0.0,
+        "inversion_rate": 0.0,
+        "latency_ms": 0.077
+      },
+      "loop13": {
+        "text": "Subject Max_Marks Marks_Obtained Mathematics 100 92 Physics 100 88 Chemistry 100 95",
+        "cer": 0.0,
+        "wer": 0.0,
+        "inversion_rate": 0.0,
+        "latency_ms": 0.32
+      },
+      "delta": {
+        "wer_reduction": 0.0,
+        "cer_reduction": 0.0,
+        "inversion_reduction": 0.0,
+        "latency_overhead_ms": 0.243
+      }
+    },
+    {
+      "id": "DOC_06_SINGLE_COLUMN_CERTIFICATE",
+      "category": "Single Column Narrative",
+      "description": "Single-column certificate paragraph (control baseline - must never split)",
+      "word_count": 16,
+      "baseline": {
+        "text": "This is to certify that the candidate has satisfied all statutory criteria for the 2026 grant.",
+        "cer": 0.0,
+        "wer": 0.0,
+        "inversion_rate": 0.0,
+        "latency_ms": 0.101
+      },
+      "loop13": {
+        "text": "This is to certify that the candidate has satisfied all statutory criteria for the 2026 grant.",
+        "cer": 0.0,
+        "wer": 0.0,
+        "inversion_rate": 0.0,
+        "latency_ms": 0.307
+      },
+      "delta": {
+        "wer_reduction": 0.0,
+        "cer_reduction": 0.0,
+        "inversion_reduction": 0.0,
+        "latency_overhead_ms": 0.206
+      }
+    }
+  ]
+}

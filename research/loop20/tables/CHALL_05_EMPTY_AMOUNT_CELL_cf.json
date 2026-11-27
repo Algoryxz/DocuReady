@@ -1,0 +1,20 @@
+[
+  {
+    "name": "hold_401_arrears",
+    "expected": "",
+    "row": 0,
+    "col": 1,
+    "type": "empty",
+    "target_pattern": "HOLD-401",
+    "is_trap": true,
+    "trap_note": "Empty cell must not inherit 15000"
+  },
+  {
+    "name": "hold_401_current",
+    "expected": "15000",
+    "row": 0,
+    "col": 2,
+    "type": "amount",
+    "target_pattern": "HOLD-401"
+  }
+]

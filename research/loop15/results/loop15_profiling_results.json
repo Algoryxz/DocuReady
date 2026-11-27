@@ -1,0 +1,68 @@
+{
+  "per_doc": {
+    "DOC_MULTI_01_TRI_SCRIPT_GAZETTE": {
+      "image_size": "1000x1200",
+      "region_count": 2,
+      "segmentation_ms": 20.53,
+      "classification_ms": 2939.28,
+      "ocr_execution_ms": 4449.06,
+      "assembly_ms": 20.83,
+      "total_ms": 7429.74,
+      "peak_memory_mb": 2.62,
+      "line_count": 17
+    },
+    "DOC_MULTI_02_BILINGUAL_COLUMNS_HIN_ENG": {
+      "image_size": "1000x750",
+      "region_count": 2,
+      "segmentation_ms": 28.86,
+      "classification_ms": 2519.81,
+      "ocr_execution_ms": 3347.49,
+      "assembly_ms": 12.49,
+      "total_ms": 5908.67,
+      "peak_memory_mb": 1.44,
+      "line_count": 15
+    },
+    "DOC_MULTI_03_BILINGUAL_COLUMNS_ORI_ENG": {
+      "image_size": "1000x750",
+      "region_count": 2,
+      "segmentation_ms": 54.21,
+      "classification_ms": 2394.85,
+      "ocr_execution_ms": 3320.85,
+      "assembly_ms": 11.81,
+      "total_ms": 5781.73,
+      "peak_memory_mb": 1.44,
+      "line_count": 13
+    },
+    "DOC_MULTI_04_MARKSHEET_INDIC_GRID": {
+      "image_size": "1000x750",
+      "region_count": 12,
+      "segmentation_ms": 63.32,
+      "classification_ms": 7485.76,
+      "ocr_execution_ms": 15189.29,
+      "assembly_ms": 11.28,
+      "total_ms": 22749.66,
+      "peak_memory_mb": 1.45,
+      "line_count": 15
+    },
+    "DOC_CTRL_01_ENGLISH_CERTIFICATE": {
+      "image_size": "1000x750",
+      "region_count": 3,
+      "segmentation_ms": 55.7,
+      "classification_ms": 1854.33,
+      "ocr_execution_ms": 2468.89,
+      "assembly_ms": 4.8,
+      "total_ms": 4383.74,
+      "peak_memory_mb": 1.44,
+      "line_count": 9
+    }
+  },
+  "summary": {
+    "mean_segmentation_ms": 44.52,
+    "mean_classification_ms": 3438.8,
+    "mean_ocr_execution_ms": 5755.12,
+    "mean_assembly_ms": 12.24,
+    "mean_total_latency_ms": 9250.71,
+    "mean_peak_memory_mb": 1.68,
+    "throughput_pages_per_minute": 6.5
+  }
+}

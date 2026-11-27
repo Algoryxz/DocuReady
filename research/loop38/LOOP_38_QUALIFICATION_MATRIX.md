@@ -1,0 +1,28 @@
+# DOCUREADY — LOOP 38 QUALIFICATION MATRIX (GATES A–Z)
+
+- **Gate A (Correct Loop37 baseline):** **PASS** — Base commit ea09c79 verified
+- **Gate B (Repository and branch preservation):** **PASS** — Branches and untracked files preserved
+- **Gate C (Loop10 release integrity):** **PASS** — 5/5 SHA-256 bit-exact match
+- **Gate D (Original multilingual baseline reproduced):** **PASS** — 7 language combos benchmarked (ocr_performance_results.json)
+- **Gate E (Production routing path understood):** **PASS** — adaptive_ocr.py, script_router.py, region_ocr.py inspected
+- **Gate F (Language/script detection audited):** **PASS** — language_detection_results.json
+- **Gate G (Page-level routing evaluated):** **PASS** — routing_strategies.json (5 docs)
+- **Gate H (Region-level routing evaluated):** **PASS** — routing_strategies.json + test_loop15
+- **Gate I (Adaptive fallback evaluated):** **PASS** — Stage 4 eng+hin+ori fallback audited
+- **Gate J (Mixed-script recognition preserved):** **PASS** — DOC_MIX_01 (53 words) & DOC_MIX_02 (46 words) matched
+- **Gate K (English accuracy qualified):** **PASS** — DOC_CTRL_01: 59/59 words matched across strategies
+- **Gate L (Hindi accuracy qualified):** **PASS** — DOC_HIN_01: 73/73 words matched across strategies
+- **Gate M (Odia accuracy qualified):** **PASS** — DOC_ORI_01: 62/62 words matched across strategies
+- **Gate N (Critical-field accuracy preserved):** **PASS** — T*=70, T_fuzzy=75 preserved; 0 false verifications
+- **Gate O (Table/spatial association preserved):** **PASS** — Loop 13 column order & spatial tests passed
+- **Gate P (Abstention and verification safety preserved):** **PASS** — ABSTAIN_UNREADABLE & Loop 35 e2e tests passed
+- **Gate Q (Loop17/18 performance regression evaluated):** **PARTIAL** — After timeout=8 fix (BUG-038-002), Loop 15-17 passed 26/26 including test_fast_profiling_performance; Loop 18 evaluated separately
+- **Gate R (End-to-end latency qualified):** **PARTIAL** — Measured per-combo & per-strategy latencies; identified 2-pass probe overhead (BUG-038-001)
+- **Gate S (OCR subprocess and memory behavior evaluated):** **PASS** — 1 vs 2 vs N subprocess counts documented
+- **Gate T (Original/minimized package comparison completed):** **PASS** — package_comparison.json (-66,485,066 bytes, both audit_ok=true)
+- **Gate U (Packaged English OCR verified):** **PASS** — Variant A & B audit_packet passed on DOC_CTRL_01
+- **Gate V (Packaged Hindi/Odia OCR verified):** **PASS** — Variant A & B audit_packet passed on DOC_HIN_01 & DOC_ORI_01
+- **Gate W (Packaged mixed-script OCR verified):** **PASS** — Variant A & B audit_packet passed on DOC_MIX_01 & DOC_MIX_02
+- **Gate X (Packaged recovery and export verified):** **PASS** — Electron 25/25 suite passed (SIGKILL recovery, export)
+- **Gate Y (Dataset provenance/licensing assessed):** **PASS** — FUNSD/CORD/SROIE/Gazette/Land Revenue carried forward
+- **Gate Z (Documentation and reproducibility complete):** **PASS** — 20 MD + 11 JSON artifacts authored

@@ -26,7 +26,7 @@ export const DocumentNav: React.FC<DocumentNavProps> = ({
   isAuditing = false
 }) => {
   return (
-    <aside className="document-nav-panel">
+    <aside className="document-nav-panel" aria-label="Audit documents navigation">
       <div className="panel-header">
         <h3 className="panel-title">Audit Documents</h3>
         <span className="badge count-badge">{documents.length}</span>
@@ -54,6 +54,7 @@ export const DocumentNav: React.FC<DocumentNavProps> = ({
                 onClick={() => onSelectDocument(doc)}
                 disabled={isAuditing}
                 aria-current={isActive ? "true" : undefined}
+                aria-label={`${doc.name}, ${doc.fileType.toUpperCase()}, ${counts.fail} issues, ${counts.warn} warnings, ${counts.pass} passes`}
               >
                 <div className="document-card-header">
                   <span className="doc-icon">
@@ -73,17 +74,17 @@ export const DocumentNav: React.FC<DocumentNavProps> = ({
                   <div className="document-finding-indicators">
                     {counts.fail > 0 && (
                       <span className="badge badge-fail" title={`${counts.fail} issue(s)`}>
-                        {counts.fail} FAIL
+                        ❌ {counts.fail} FAIL
                       </span>
                     )}
                     {counts.warn > 0 && (
                       <span className="badge badge-warn" title={`${counts.warn} warning(s)`}>
-                        {counts.warn} WARN
+                        ⚠️ {counts.warn} WARN
                       </span>
                     )}
                     {counts.pass > 0 && (
                       <span className="badge badge-pass" title={`${counts.pass} passed`}>
-                        {counts.pass} PASS
+                        ✅ {counts.pass} PASS
                       </span>
                     )}
                   </div>

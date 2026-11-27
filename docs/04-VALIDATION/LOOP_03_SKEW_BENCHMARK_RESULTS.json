@@ -1,0 +1,1649 @@
+{
+  "total_fixtures": 43,
+  "mean_angle_error_deg": 0.06,
+  "max_angle_error_deg": 0.1,
+  "clean_mean_angle_error_deg": 0.056,
+  "mean_estimation_time_ms": 163.3,
+  "mean_extraction_time_ms": 2047.2,
+  "mean_field_recovery_rate_pct": 26.7,
+  "bbox_geometry_valid_count": 43,
+  "results": [
+    {
+      "file_name": "skew_clean_m45deg.pdf",
+      "category": "clean_scan",
+      "ground_truth_skew_deg": -45.0,
+      "estimated_correction_deg": 45.0,
+      "skew_confidence": 130.13561320754718,
+      "angle_error_deg": 0.0,
+      "estimation_time_ms": 111.6,
+      "total_extraction_time_ms": 1062.1,
+      "status": "UNREADABLE",
+      "matched_fields": 0,
+      "total_expected_fields": 4,
+      "recovery_rate_pct": 0.0,
+      "bbox_geometry_valid": true,
+      "fields": {
+        "applicant_name": {
+          "expected": "Smruti Ranjan Nayak",
+          "actual": null,
+          "matched": false,
+          "bbox": null
+        },
+        "father_name": {
+          "expected": "Ramesh Chandra Nayak",
+          "actual": null,
+          "matched": false,
+          "bbox": null
+        },
+        "annual_income": {
+          "expected": "Rs. 1,80,000/-",
+          "actual": null,
+          "matched": false,
+          "bbox": null
+        },
+        "certificate_no": {
+          "expected": "E-INC/2025/104928",
+          "actual": null,
+          "matched": false,
+          "bbox": null
+        }
+      }
+    },
+    {
+      "file_name": "skew_clean_m35deg.pdf",
+      "category": "clean_scan",
+      "ground_truth_skew_deg": -35.0,
+      "estimated_correction_deg": 34.9,
+      "skew_confidence": 49.16912599318956,
+      "angle_error_deg": 0.10000000000000142,
+      "estimation_time_ms": 99.0,
+      "total_extraction_time_ms": 948.5,
+      "status": "UNREADABLE",
+      "matched_fields": 0,
+      "total_expected_fields": 4,
+      "recovery_rate_pct": 0.0,
+      "bbox_geometry_valid": true,
+      "fields": {
+        "applicant_name": {
+          "expected": "Smruti Ranjan Nayak",
+          "actual": null,
+          "matched": false,
+          "bbox": null
+        },
+        "father_name": {
+          "expected": "Ramesh Chandra Nayak",
+          "actual": null,
+          "matched": false,
+          "bbox": null
+        },
+        "annual_income": {
+          "expected": "Rs. 1,80,000/-",
+          "actual": null,
+          "matched": false,
+          "bbox": null
+        },
+        "certificate_no": {
+          "expected": "E-INC/2025/104928",
+          "actual": null,
+          "matched": false,
+          "bbox": null
+        }
+      }
+    },
+    {
+      "file_name": "skew_clean_m30deg.pdf",
+      "category": "clean_scan",
+      "ground_truth_skew_deg": -30.0,
+      "estimated_correction_deg": 30.0,
+      "skew_confidence": 122.00515873015873,
+      "angle_error_deg": 0.0,
+      "estimation_time_ms": 137.6,
+      "total_extraction_time_ms": 1006.4,
+      "status": "UNREADABLE",
+      "matched_fields": 0,
+      "total_expected_fields": 4,
+      "recovery_rate_pct": 0.0,
+      "bbox_geometry_valid": true,
+      "fields": {
+        "applicant_name": {
+          "expected": "Smruti Ranjan Nayak",
+          "actual": null,
+          "matched": false,
+          "bbox": null
+        },
+        "father_name": {
+          "expected": "Ramesh Chandra Nayak",
+          "actual": null,
+          "matched": false,
+          "bbox": null
+        },
+        "annual_income": {
+          "expected": "Rs. 1,80,000/-",
+          "actual": null,
+          "matched": false,
+          "bbox": null
+        },
+        "certificate_no": {
+          "expected": "E-INC/2025/104928",
+          "actual": null,
+          "matched": false,
+          "bbox": null
+        }
+      }
+    },
+    {
+      "file_name": "skew_clean_m25deg.pdf",
+      "category": "clean_scan",
+      "ground_truth_skew_deg": -25.0,
+      "estimated_correction_deg": 25.1,
+      "skew_confidence": 52.515589353612164,
+      "angle_error_deg": 0.10000000000000142,
+      "estimation_time_ms": 109.6,
+      "total_extraction_time_ms": 888.2,
+      "status": "UNREADABLE",
+      "matched_fields": 0,
+      "total_expected_fields": 4,
+      "recovery_rate_pct": 0.0,
+      "bbox_geometry_valid": true,
+      "fields": {
+        "applicant_name": {
+          "expected": "Smruti Ranjan Nayak",
+          "actual": null,
+          "matched": false,
+          "bbox": null
+        },
+        "father_name": {
+          "expected": "Ramesh Chandra Nayak",
+          "actual": null,
+          "matched": false,
+          "bbox": null
+        },
+        "annual_income": {
+          "expected": "Rs. 1,80,000/-",
+          "actual": null,
+          "matched": false,
+          "bbox": null
+        },
+        "certificate_no": {
+          "expected": "E-INC/2025/104928",
+          "actual": null,
+          "matched": false,
+          "bbox": null
+        }
+      }
+    },
+    {
+      "file_name": "skew_clean_m20deg.pdf",
+      "category": "clean_scan",
+      "ground_truth_skew_deg": -20.0,
+      "estimated_correction_deg": 20.1,
+      "skew_confidence": 45.641149982680986,
+      "angle_error_deg": 0.10000000000000142,
+      "estimation_time_ms": 141.1,
+      "total_extraction_time_ms": 1058.0,
+      "status": "UNREADABLE",
+      "matched_fields": 0,
+      "total_expected_fields": 4,
+      "recovery_rate_pct": 0.0,
+      "bbox_geometry_valid": true,
+      "fields": {
+        "applicant_name": {
+          "expected": "Smruti Ranjan Nayak",
+          "actual": null,
+          "matched": false,
+          "bbox": null
+        },
+        "father_name": {
+          "expected": "Ramesh Chandra Nayak",
+          "actual": null,
+          "matched": false,
+          "bbox": null
+        },
+        "annual_income": {
+          "expected": "Rs. 1,80,000/-",
+          "actual": null,
+          "matched": false,
+          "bbox": null
+        },
+        "certificate_no": {
+          "expected": "E-INC/2025/104928",
+          "actual": null,
+          "matched": false,
+          "bbox": null
+        }
+      }
+    },
+    {
+      "file_name": "skew_clean_m15deg.pdf",
+      "category": "clean_scan",
+      "ground_truth_skew_deg": -15.0,
+      "estimated_correction_deg": 15.0,
+      "skew_confidence": 121.52107809260539,
+      "angle_error_deg": 0.0,
+      "estimation_time_ms": 115.4,
+      "total_extraction_time_ms": 2607.9,
+      "status": "VALID",
+      "matched_fields": 4,
+      "total_expected_fields": 4,
+      "recovery_rate_pct": 100.0,
+      "bbox_geometry_valid": true,
+      "fields": {
+        "applicant_name": {
+          "expected": "Smruti Ranjan Nayak",
+          "actual": "Smruti Ranjan Nayak",
+          "matched": true,
+          "bbox": [
+            198.0,
+            230.3,
+            652.8,
+            359.2
+          ]
+        },
+        "father_name": {
+          "expected": "Ramesh Chandra Nayak",
+          "actual": "Ramesh Chandra Nayak",
+          "matched": true,
+          "bbox": [
+            198.0,
+            230.3,
+            652.8,
+            359.2
+          ]
+        },
+        "annual_income": {
+          "expected": "Rs. 1,80,000/-",
+          "actual": "Rs. 1,80,000/-",
+          "matched": true,
+          "bbox": [
+            186.3,
+            280.5,
+            518.4,
+            381.0
+          ]
+        },
+        "certificate_no": {
+          "expected": "E-INC/2025/104928",
+          "actual": "E-INC/2025/104928",
+          "matched": true,
+          "bbox": [
+            212.9,
+            181.7,
+            577.6,
+            286.5
+          ]
+        }
+      }
+    },
+    {
+      "file_name": "skew_clean_m12deg.pdf",
+      "category": "clean_scan",
+      "ground_truth_skew_deg": -12.0,
+      "estimated_correction_deg": 12.0,
+      "skew_confidence": 133.77474892395983,
+      "angle_error_deg": 0.0,
+      "estimation_time_ms": 92.5,
+      "total_extraction_time_ms": 769.1,
+      "status": "UNREADABLE",
+      "matched_fields": 0,
+      "total_expected_fields": 4,
+      "recovery_rate_pct": 0.0,
+      "bbox_geometry_valid": true,
+      "fields": {
+        "applicant_name": {
+          "expected": "Smruti Ranjan Nayak",
+          "actual": null,
+          "matched": false,
+          "bbox": null
+        },
+        "father_name": {
+          "expected": "Ramesh Chandra Nayak",
+          "actual": null,
+          "matched": false,
+          "bbox": null
+        },
+        "annual_income": {
+          "expected": "Rs. 1,80,000/-",
+          "actual": null,
+          "matched": false,
+          "bbox": null
+        },
+        "certificate_no": {
+          "expected": "E-INC/2025/104928",
+          "actual": null,
+          "matched": false,
+          "bbox": null
+        }
+      }
+    },
+    {
+      "file_name": "skew_clean_m10deg.pdf",
+      "category": "clean_scan",
+      "ground_truth_skew_deg": -10.0,
+      "estimated_correction_deg": 10.1,
+      "skew_confidence": 48.89719626168224,
+      "angle_error_deg": 0.09999999999999964,
+      "estimation_time_ms": 87.8,
+      "total_extraction_time_ms": 2559.9,
+      "status": "VALID",
+      "matched_fields": 4,
+      "total_expected_fields": 4,
+      "recovery_rate_pct": 100.0,
+      "bbox_geometry_valid": true,
+      "fields": {
+        "applicant_name": {
+          "expected": "Smruti Ranjan Nayak",
+          "actual": "Smruti Ranjan Nayak",
+          "matched": true,
+          "bbox": [
+            189.0,
+            238.2,
+            610.1,
+            319.9
+          ]
+        },
+        "father_name": {
+          "expected": "Ramesh Chandra Nayak",
+          "actual": "Ramesh Chandra Nayak",
+          "matched": true,
+          "bbox": [
+            189.0,
+            238.2,
+            610.1,
+            319.9
+          ]
+        },
+        "annual_income": {
+          "expected": "Rs. 1,80,000/-",
+          "actual": "Rs. 1,80,000/-",
+          "matched": true,
+          "bbox": [
+            139.6,
+            281.6,
+            477.9,
+            353.3
+          ]
+        },
+        "certificate_no": {
+          "expected": "E-INC/2025/104928",
+          "actual": "E-INC/2025/104928",
+          "matched": true,
+          "bbox": [
+            157.8,
+            181.0,
+            528.9,
+            254.3
+          ]
+        }
+      }
+    },
+    {
+      "file_name": "skew_clean_m07deg.pdf",
+      "category": "clean_scan",
+      "ground_truth_skew_deg": -7.0,
+      "estimated_correction_deg": 7.1,
+      "skew_confidence": 47.87305348679756,
+      "angle_error_deg": 0.09999999999999964,
+      "estimation_time_ms": 82.4,
+      "total_extraction_time_ms": 2491.9,
+      "status": "VALID",
+      "matched_fields": 4,
+      "total_expected_fields": 4,
+      "recovery_rate_pct": 100.0,
+      "bbox_geometry_valid": true,
+      "fields": {
+        "applicant_name": {
+          "expected": "Smruti Ranjan Nayak",
+          "actual": "Smruti Ranjan Nayak",
+          "matched": true,
+          "bbox": [
+            116.0,
+            230.5,
+            582.2,
+            295.6
+          ]
+        },
+        "father_name": {
+          "expected": "Ramesh Chandra Nayak",
+          "actual": "Ramesh Chandra Nayak",
+          "matched": true,
+          "bbox": [
+            116.0,
+            230.5,
+            582.2,
+            295.6
+          ]
+        },
+        "annual_income": {
+          "expected": "Rs. 1,80,000/-",
+          "actual": "Rs. 1,80,000/-",
+          "matched": true,
+          "bbox": [
+            111.4,
+            281.8,
+            451.4,
+            336.2
+          ]
+        },
+        "certificate_no": {
+          "expected": "E-INC/2025/104928",
+          "actual": "E-INC/2025/104928",
+          "matched": true,
+          "bbox": [
+            124.1,
+            180.3,
+            497.7,
+            234.3
+          ]
+        }
+      }
+    },
+    {
+      "file_name": "skew_clean_m05deg.pdf",
+      "category": "clean_scan",
+      "ground_truth_skew_deg": -5.0,
+      "estimated_correction_deg": 5.1,
+      "skew_confidence": 46.28393850179915,
+      "angle_error_deg": 0.09999999999999964,
+      "estimation_time_ms": 87.3,
+      "total_extraction_time_ms": 2408.9,
+      "status": "VALID",
+      "matched_fields": 4,
+      "total_expected_fields": 4,
+      "recovery_rate_pct": 100.0,
+      "bbox_geometry_valid": true,
+      "fields": {
+        "applicant_name": {
+          "expected": "Smruti Ranjan Nayak",
+          "actual": "Smruti Ranjan Nayak",
+          "matched": true,
+          "bbox": [
+            94.9,
+            229.7,
+            562.6,
+            278.5
+          ]
+        },
+        "father_name": {
+          "expected": "Ramesh Chandra Nayak",
+          "actual": "Ramesh Chandra Nayak",
+          "matched": true,
+          "bbox": [
+            94.9,
+            229.7,
+            562.6,
+            278.5
+          ]
+        },
+        "annual_income": {
+          "expected": "Rs. 1,80,000/-",
+          "actual": "Rs. 1,80,000/-",
+          "matched": true,
+          "bbox": [
+            92.1,
+            281.4,
+            433.2,
+            323.3
+          ]
+        },
+        "certificate_no": {
+          "expected": "E-INC/2025/104928",
+          "actual": "E-INC/2025/104928",
+          "matched": true,
+          "bbox": [
+            101.2,
+            179.3,
+            476.0,
+            220.2
+          ]
+        }
+      }
+    },
+    {
+      "file_name": "skew_clean_m03deg.pdf",
+      "category": "clean_scan",
+      "ground_truth_skew_deg": -3.0,
+      "estimated_correction_deg": 3.0,
+      "skew_confidence": 120.82423857868021,
+      "angle_error_deg": 0.0,
+      "estimation_time_ms": 71.2,
+      "total_extraction_time_ms": 2460.8,
+      "status": "VALID",
+      "matched_fields": 3,
+      "total_expected_fields": 4,
+      "recovery_rate_pct": 75.0,
+      "bbox_geometry_valid": true,
+      "fields": {
+        "applicant_name": {
+          "expected": "Smruti Ranjan Nayak",
+          "actual": "Smruti Ranjan Nayak",
+          "matched": true,
+          "bbox": [
+            74.2,
+            228.8,
+            542.3,
+            268.7
+          ]
+        },
+        "father_name": {
+          "expected": "Ramesh Chandra Nayak",
+          "actual": "Ramesh a Chandra Nayak",
+          "matched": false,
+          "bbox": [
+            74.2,
+            228.8,
+            542.3,
+            268.7
+          ]
+        },
+        "annual_income": {
+          "expected": "Rs. 1,80,000/-",
+          "actual": "Rs. 1,80,000/-",
+          "matched": true,
+          "bbox": [
+            73.2,
+            280.3,
+            414.9,
+            310.4
+          ]
+        },
+        "certificate_no": {
+          "expected": "E-INC/2025/104928",
+          "actual": "E-INC/2025/104928",
+          "matched": true,
+          "bbox": [
+            78.6,
+            178.2,
+            454.0,
+            205.8
+          ]
+        }
+      }
+    },
+    {
+      "file_name": "skew_clean_m02deg.pdf",
+      "category": "clean_scan",
+      "ground_truth_skew_deg": -2.0,
+      "estimated_correction_deg": 2.1,
+      "skew_confidence": 45.09718670076726,
+      "angle_error_deg": 0.10000000000000009,
+      "estimation_time_ms": 83.1,
+      "total_extraction_time_ms": 2263.3,
+      "status": "VALID",
+      "matched_fields": 4,
+      "total_expected_fields": 4,
+      "recovery_rate_pct": 100.0,
+      "bbox_geometry_valid": true,
+      "fields": {
+        "applicant_name": {
+          "expected": "Smruti Ranjan Nayak",
+          "actual": "Smruti Ranjan Nayak",
+          "matched": true,
+          "bbox": [
+            63.5,
+            228.7,
+            531.9,
+            252.7
+          ]
+        },
+        "father_name": {
+          "expected": "Ramesh Chandra Nayak",
+          "actual": "Ramesh Chandra Nayak",
+          "matched": true,
+          "bbox": [
+            63.5,
+            228.7,
+            531.9,
+            252.7
+          ]
+        },
+        "annual_income": {
+          "expected": "Rs. 1,80,000/-",
+          "actual": "Rs. 1,80,000/-",
+          "matched": true,
+          "bbox": [
+            63.4,
+            280.2,
+            405.1,
+            304.3
+          ]
+        },
+        "certificate_no": {
+          "expected": "E-INC/2025/104928",
+          "actual": "E-INC/2025/104928",
+          "matched": true,
+          "bbox": [
+            67.2,
+            177.7,
+            226.1,
+            191.4
+          ]
+        }
+      }
+    },
+    {
+      "file_name": "skew_clean_p00deg.pdf",
+      "category": "clean_scan",
+      "ground_truth_skew_deg": 0.0,
+      "estimated_correction_deg": 0.0,
+      "skew_confidence": 12.671602500822639,
+      "angle_error_deg": 0.0,
+      "estimation_time_ms": 91.2,
+      "total_extraction_time_ms": 1445.5,
+      "status": "VALID",
+      "matched_fields": 4,
+      "total_expected_fields": 4,
+      "recovery_rate_pct": 100.0,
+      "bbox_geometry_valid": true,
+      "fields": {
+        "applicant_name": {
+          "expected": "Smruti Ranjan Nayak",
+          "actual": "Smruti Ranjan Nayak",
+          "matched": true,
+          "bbox": [
+            42.1,
+            226.8,
+            510.5,
+            236.5
+          ]
+        },
+        "father_name": {
+          "expected": "Ramesh Chandra Nayak",
+          "actual": "Ramesh Chandra Nayak",
+          "matched": true,
+          "bbox": [
+            42.1,
+            226.8,
+            510.5,
+            236.5
+          ]
+        },
+        "annual_income": {
+          "expected": "Rs. 1,80,000/-",
+          "actual": "Rs. 1,80,000/-",
+          "matched": true,
+          "bbox": [
+            43.9,
+            278.6,
+            385.6,
+            290.5
+          ]
+        },
+        "certificate_no": {
+          "expected": "E-INC/2025/104928",
+          "actual": "E-INC/2025/104928",
+          "matched": true,
+          "bbox": [
+            43.9,
+            176.0,
+            419.4,
+            184.0
+          ]
+        }
+      }
+    },
+    {
+      "file_name": "skew_clean_p02deg.pdf",
+      "category": "clean_scan",
+      "ground_truth_skew_deg": 2.0,
+      "estimated_correction_deg": -2.1,
+      "skew_confidence": 45.3473149030823,
+      "angle_error_deg": 0.10000000000000009,
+      "estimation_time_ms": 126.9,
+      "total_extraction_time_ms": 2522.9,
+      "status": "VALID",
+      "matched_fields": 4,
+      "total_expected_fields": 4,
+      "recovery_rate_pct": 100.0,
+      "bbox_geometry_valid": true,
+      "fields": {
+        "applicant_name": {
+          "expected": "Smruti Ranjan Nayak",
+          "actual": "Smruti Ranjan Nayak",
+          "matched": true,
+          "bbox": [
+            50.3,
+            229.9,
+            518.6,
+            254.5
+          ]
+        },
+        "father_name": {
+          "expected": "Ramesh Chandra Nayak",
+          "actual": "Ramesh Chandra Nayak",
+          "matched": true,
+          "bbox": [
+            50.3,
+            229.9,
+            518.6,
+            254.5
+          ]
+        },
+        "annual_income": {
+          "expected": "Rs. 1,80,000/-",
+          "actual": "Rs. 1,80,000/-",
+          "matched": true,
+          "bbox": [
+            53.6,
+            286.3,
+            395.9,
+            307.0
+          ]
+        },
+        "certificate_no": {
+          "expected": "E-INC/2025/104928",
+          "actual": "E-INC/2025/104928",
+          "matched": true,
+          "bbox": [
+            50.2,
+            189.7,
+            209.5,
+            203.5
+          ]
+        }
+      }
+    },
+    {
+      "file_name": "skew_clean_p03deg.pdf",
+      "category": "clean_scan",
+      "ground_truth_skew_deg": 3.0,
+      "estimated_correction_deg": -3.0,
+      "skew_confidence": 117.74461538461539,
+      "angle_error_deg": 0.0,
+      "estimation_time_ms": 94.6,
+      "total_extraction_time_ms": 2657.1,
+      "status": "VALID",
+      "matched_fields": 3,
+      "total_expected_fields": 4,
+      "recovery_rate_pct": 75.0,
+      "bbox_geometry_valid": true,
+      "fields": {
+        "applicant_name": {
+          "expected": "Smruti Ranjan Nayak",
+          "actual": "Smruti Ranjan Nayak",
+          "matched": true,
+          "bbox": [
+            54.3,
+            231.1,
+            522.4,
+            263.7
+          ]
+        },
+        "father_name": {
+          "expected": "Ramesh Chandra Nayak",
+          "actual": "Ramesh a Chandra Nayak",
+          "matched": false,
+          "bbox": [
+            54.3,
+            231.1,
+            522.4,
+            263.7
+          ]
+        },
+        "annual_income": {
+          "expected": "Rs. 1,80,000/-",
+          "actual": "Rs. 1,80,000/-",
+          "matched": true,
+          "bbox": [
+            58.8,
+            289.4,
+            400.6,
+            315.5
+          ]
+        },
+        "certificate_no": {
+          "expected": "E-INC/2025/104928",
+          "actual": "E-INC/2025/104928",
+          "matched": true,
+          "bbox": [
+            53.4,
+            185.1,
+            428.8,
+            212.7
+          ]
+        }
+      }
+    },
+    {
+      "file_name": "skew_clean_p05deg.pdf",
+      "category": "clean_scan",
+      "ground_truth_skew_deg": 5.0,
+      "estimated_correction_deg": -5.1,
+      "skew_confidence": 47.34056761268781,
+      "angle_error_deg": 0.09999999999999964,
+      "estimation_time_ms": 97.4,
+      "total_extraction_time_ms": 2605.3,
+      "status": "VALID",
+      "matched_fields": 4,
+      "total_expected_fields": 4,
+      "recovery_rate_pct": 100.0,
+      "bbox_geometry_valid": true,
+      "fields": {
+        "applicant_name": {
+          "expected": "Smruti Ranjan Nayak",
+          "actual": "Smruti Ranjan Nayak",
+          "matched": true,
+          "bbox": [
+            61.8,
+            233.5,
+            529.1,
+            282.3
+          ]
+        },
+        "father_name": {
+          "expected": "Ramesh Chandra Nayak",
+          "actual": "Ramesh Chandra Nayak",
+          "matched": true,
+          "bbox": [
+            61.8,
+            233.5,
+            529.1,
+            282.3
+          ]
+        },
+        "annual_income": {
+          "expected": "Rs. 1,80,000/-",
+          "actual": "Rs. 1,80,000/-",
+          "matched": true,
+          "bbox": [
+            67.8,
+            296.2,
+            409.6,
+            334.1
+          ]
+        },
+        "certificate_no": {
+          "expected": "E-INC/2025/104928",
+          "actual": "E-INC/2025/104928",
+          "matched": true,
+          "bbox": [
+            59.1,
+            191.0,
+            434.2,
+            231.5
+          ]
+        }
+      }
+    },
+    {
+      "file_name": "skew_clean_p07deg.pdf",
+      "category": "clean_scan",
+      "ground_truth_skew_deg": 7.0,
+      "estimated_correction_deg": -7.1,
+      "skew_confidence": 45.50928641251222,
+      "angle_error_deg": 0.09999999999999964,
+      "estimation_time_ms": 92.9,
+      "total_extraction_time_ms": 2941.0,
+      "status": "VALID",
+      "matched_fields": 4,
+      "total_expected_fields": 4,
+      "recovery_rate_pct": 100.0,
+      "bbox_geometry_valid": true,
+      "fields": {
+        "applicant_name": {
+          "expected": "Smruti Ranjan Nayak",
+          "actual": "Smruti Ranjan Nayak",
+          "matched": true,
+          "bbox": [
+            69.7,
+            235.8,
+            535.5,
+            300.8
+          ]
+        },
+        "father_name": {
+          "expected": "Ramesh Chandra Nayak",
+          "actual": "Ramesh Chandra Nayak",
+          "matched": true,
+          "bbox": [
+            69.7,
+            235.8,
+            535.5,
+            300.8
+          ]
+        },
+        "annual_income": {
+          "expected": "Rs. 1,80,000/-",
+          "actual": "Rs. 1,80,000/-",
+          "matched": true,
+          "bbox": [
+            77.9,
+            302.7,
+            418.5,
+            352.4
+          ]
+        },
+        "certificate_no": {
+          "expected": "E-INC/2025/104928",
+          "actual": "E-INC/2025/104928",
+          "matched": true,
+          "bbox": [
+            65.2,
+            196.7,
+            438.9,
+            250.2
+          ]
+        }
+      }
+    },
+    {
+      "file_name": "skew_clean_p10deg.pdf",
+      "category": "clean_scan",
+      "ground_truth_skew_deg": 10.0,
+      "estimated_correction_deg": -10.1,
+      "skew_confidence": 45.83497698882314,
+      "angle_error_deg": 0.09999999999999964,
+      "estimation_time_ms": 179.5,
+      "total_extraction_time_ms": 2934.9,
+      "status": "VALID",
+      "matched_fields": 4,
+      "total_expected_fields": 4,
+      "recovery_rate_pct": 100.0,
+      "bbox_geometry_valid": true,
+      "fields": {
+        "applicant_name": {
+          "expected": "Smruti Ranjan Nayak",
+          "actual": "Smruti Ranjan Nayak",
+          "matched": true,
+          "bbox": [
+            80.7,
+            238.2,
+            543.7,
+            327.4
+          ]
+        },
+        "father_name": {
+          "expected": "Ramesh Chandra Nayak",
+          "actual": "Ramesh Chandra Nayak",
+          "matched": true,
+          "bbox": [
+            80.7,
+            238.2,
+            543.7,
+            327.4
+          ]
+        },
+        "annual_income": {
+          "expected": "Rs. 1,80,000/-",
+          "actual": "Rs. 1,80,000/-",
+          "matched": true,
+          "bbox": [
+            91.9,
+            311.1,
+            430.4,
+            378.4
+          ]
+        },
+        "certificate_no": {
+          "expected": "E-INC/2025/104928",
+          "actual": "E-INC/2025/104928",
+          "matched": true,
+          "bbox": [
+            73.9,
+            204.1,
+            445.1,
+            277.1
+          ]
+        }
+      }
+    },
+    {
+      "file_name": "skew_clean_p12deg.pdf",
+      "category": "clean_scan",
+      "ground_truth_skew_deg": 12.0,
+      "estimated_correction_deg": -12.0,
+      "skew_confidence": 126.7467248908297,
+      "angle_error_deg": 0.0,
+      "estimation_time_ms": 175.9,
+      "total_extraction_time_ms": 1033.0,
+      "status": "UNREADABLE",
+      "matched_fields": 0,
+      "total_expected_fields": 4,
+      "recovery_rate_pct": 0.0,
+      "bbox_geometry_valid": true,
+      "fields": {
+        "applicant_name": {
+          "expected": "Smruti Ranjan Nayak",
+          "actual": null,
+          "matched": false,
+          "bbox": null
+        },
+        "father_name": {
+          "expected": "Ramesh Chandra Nayak",
+          "actual": null,
+          "matched": false,
+          "bbox": null
+        },
+        "annual_income": {
+          "expected": "Rs. 1,80,000/-",
+          "actual": null,
+          "matched": false,
+          "bbox": null
+        },
+        "certificate_no": {
+          "expected": "E-INC/2025/104928",
+          "actual": null,
+          "matched": false,
+          "bbox": null
+        }
+      }
+    },
+    {
+      "file_name": "skew_clean_p15deg.pdf",
+      "category": "clean_scan",
+      "ground_truth_skew_deg": 15.0,
+      "estimated_correction_deg": -15.0,
+      "skew_confidence": 115.25239194985153,
+      "angle_error_deg": 0.0,
+      "estimation_time_ms": 206.5,
+      "total_extraction_time_ms": 1109.6,
+      "status": "UNREADABLE",
+      "matched_fields": 0,
+      "total_expected_fields": 4,
+      "recovery_rate_pct": 0.0,
+      "bbox_geometry_valid": true,
+      "fields": {
+        "applicant_name": {
+          "expected": "Smruti Ranjan Nayak",
+          "actual": null,
+          "matched": false,
+          "bbox": null
+        },
+        "father_name": {
+          "expected": "Ramesh Chandra Nayak",
+          "actual": null,
+          "matched": false,
+          "bbox": null
+        },
+        "annual_income": {
+          "expected": "Rs. 1,80,000/-",
+          "actual": null,
+          "matched": false,
+          "bbox": null
+        },
+        "certificate_no": {
+          "expected": "E-INC/2025/104928",
+          "actual": null,
+          "matched": false,
+          "bbox": null
+        }
+      }
+    },
+    {
+      "file_name": "skew_clean_p20deg.pdf",
+      "category": "clean_scan",
+      "ground_truth_skew_deg": 20.0,
+      "estimated_correction_deg": -20.1,
+      "skew_confidence": 45.82115518441197,
+      "angle_error_deg": 0.10000000000000142,
+      "estimation_time_ms": 182.7,
+      "total_extraction_time_ms": 1110.2,
+      "status": "UNREADABLE",
+      "matched_fields": 0,
+      "total_expected_fields": 4,
+      "recovery_rate_pct": 0.0,
+      "bbox_geometry_valid": true,
+      "fields": {
+        "applicant_name": {
+          "expected": "Smruti Ranjan Nayak",
+          "actual": null,
+          "matched": false,
+          "bbox": null
+        },
+        "father_name": {
+          "expected": "Ramesh Chandra Nayak",
+          "actual": null,
+          "matched": false,
+          "bbox": null
+        },
+        "annual_income": {
+          "expected": "Rs. 1,80,000/-",
+          "actual": null,
+          "matched": false,
+          "bbox": null
+        },
+        "certificate_no": {
+          "expected": "E-INC/2025/104928",
+          "actual": null,
+          "matched": false,
+          "bbox": null
+        }
+      }
+    },
+    {
+      "file_name": "skew_clean_p25deg.pdf",
+      "category": "clean_scan",
+      "ground_truth_skew_deg": 25.0,
+      "estimated_correction_deg": -25.1,
+      "skew_confidence": 51.321076573161484,
+      "angle_error_deg": 0.10000000000000142,
+      "estimation_time_ms": 204.3,
+      "total_extraction_time_ms": 1473.8,
+      "status": "UNREADABLE",
+      "matched_fields": 0,
+      "total_expected_fields": 4,
+      "recovery_rate_pct": 0.0,
+      "bbox_geometry_valid": true,
+      "fields": {
+        "applicant_name": {
+          "expected": "Smruti Ranjan Nayak",
+          "actual": null,
+          "matched": false,
+          "bbox": null
+        },
+        "father_name": {
+          "expected": "Ramesh Chandra Nayak",
+          "actual": null,
+          "matched": false,
+          "bbox": null
+        },
+        "annual_income": {
+          "expected": "Rs. 1,80,000/-",
+          "actual": null,
+          "matched": false,
+          "bbox": null
+        },
+        "certificate_no": {
+          "expected": "E-INC/2025/104928",
+          "actual": null,
+          "matched": false,
+          "bbox": null
+        }
+      }
+    },
+    {
+      "file_name": "skew_clean_p30deg.pdf",
+      "category": "clean_scan",
+      "ground_truth_skew_deg": 30.0,
+      "estimated_correction_deg": -30.0,
+      "skew_confidence": 110.13079116179615,
+      "angle_error_deg": 0.0,
+      "estimation_time_ms": 223.0,
+      "total_extraction_time_ms": 1071.3,
+      "status": "UNREADABLE",
+      "matched_fields": 0,
+      "total_expected_fields": 4,
+      "recovery_rate_pct": 0.0,
+      "bbox_geometry_valid": true,
+      "fields": {
+        "applicant_name": {
+          "expected": "Smruti Ranjan Nayak",
+          "actual": null,
+          "matched": false,
+          "bbox": null
+        },
+        "father_name": {
+          "expected": "Ramesh Chandra Nayak",
+          "actual": null,
+          "matched": false,
+          "bbox": null
+        },
+        "annual_income": {
+          "expected": "Rs. 1,80,000/-",
+          "actual": null,
+          "matched": false,
+          "bbox": null
+        },
+        "certificate_no": {
+          "expected": "E-INC/2025/104928",
+          "actual": null,
+          "matched": false,
+          "bbox": null
+        }
+      }
+    },
+    {
+      "file_name": "skew_clean_p35deg.pdf",
+      "category": "clean_scan",
+      "ground_truth_skew_deg": 35.0,
+      "estimated_correction_deg": -34.9,
+      "skew_confidence": 49.96219135802469,
+      "angle_error_deg": 0.10000000000000142,
+      "estimation_time_ms": 224.9,
+      "total_extraction_time_ms": 1117.1,
+      "status": "UNREADABLE",
+      "matched_fields": 0,
+      "total_expected_fields": 4,
+      "recovery_rate_pct": 0.0,
+      "bbox_geometry_valid": true,
+      "fields": {
+        "applicant_name": {
+          "expected": "Smruti Ranjan Nayak",
+          "actual": null,
+          "matched": false,
+          "bbox": null
+        },
+        "father_name": {
+          "expected": "Ramesh Chandra Nayak",
+          "actual": null,
+          "matched": false,
+          "bbox": null
+        },
+        "annual_income": {
+          "expected": "Rs. 1,80,000/-",
+          "actual": null,
+          "matched": false,
+          "bbox": null
+        },
+        "certificate_no": {
+          "expected": "E-INC/2025/104928",
+          "actual": null,
+          "matched": false,
+          "bbox": null
+        }
+      }
+    },
+    {
+      "file_name": "skew_clean_p45deg.pdf",
+      "category": "clean_scan",
+      "ground_truth_skew_deg": 45.0,
+      "estimated_correction_deg": -45.0,
+      "skew_confidence": 131.8738019169329,
+      "angle_error_deg": 0.0,
+      "estimation_time_ms": 300.4,
+      "total_extraction_time_ms": 1550.0,
+      "status": "UNREADABLE",
+      "matched_fields": 0,
+      "total_expected_fields": 4,
+      "recovery_rate_pct": 0.0,
+      "bbox_geometry_valid": true,
+      "fields": {
+        "applicant_name": {
+          "expected": "Smruti Ranjan Nayak",
+          "actual": null,
+          "matched": false,
+          "bbox": null
+        },
+        "father_name": {
+          "expected": "Ramesh Chandra Nayak",
+          "actual": null,
+          "matched": false,
+          "bbox": null
+        },
+        "annual_income": {
+          "expected": "Rs. 1,80,000/-",
+          "actual": null,
+          "matched": false,
+          "bbox": null
+        },
+        "certificate_no": {
+          "expected": "E-INC/2025/104928",
+          "actual": null,
+          "matched": false,
+          "bbox": null
+        }
+      }
+    },
+    {
+      "file_name": "skew_low_dpi_m15deg.pdf",
+      "category": "low_dpi",
+      "ground_truth_skew_deg": -15.0,
+      "estimated_correction_deg": 15.0,
+      "skew_confidence": 134.78434844192634,
+      "angle_error_deg": 0.0,
+      "estimation_time_ms": 242.1,
+      "total_extraction_time_ms": 1125.2,
+      "status": "UNREADABLE",
+      "matched_fields": 0,
+      "total_expected_fields": 1,
+      "recovery_rate_pct": 0.0,
+      "bbox_geometry_valid": true,
+      "fields": {
+        "applicant_name": {
+          "expected": "Smruti Ranjan Nayak",
+          "actual": null,
+          "matched": false,
+          "bbox": null
+        }
+      }
+    },
+    {
+      "file_name": "skew_low_dpi_m10deg.pdf",
+      "category": "low_dpi",
+      "ground_truth_skew_deg": -10.0,
+      "estimated_correction_deg": 10.1,
+      "skew_confidence": 52.64310226492793,
+      "angle_error_deg": 0.09999999999999964,
+      "estimation_time_ms": 227.3,
+      "total_extraction_time_ms": 1033.3,
+      "status": "UNREADABLE",
+      "matched_fields": 0,
+      "total_expected_fields": 1,
+      "recovery_rate_pct": 0.0,
+      "bbox_geometry_valid": true,
+      "fields": {
+        "applicant_name": {
+          "expected": "Smruti Ranjan Nayak",
+          "actual": null,
+          "matched": false,
+          "bbox": null
+        }
+      }
+    },
+    {
+      "file_name": "skew_low_dpi_m05deg.pdf",
+      "category": "low_dpi",
+      "ground_truth_skew_deg": -5.0,
+      "estimated_correction_deg": 5.1,
+      "skew_confidence": 51.887942779291556,
+      "angle_error_deg": 0.09999999999999964,
+      "estimation_time_ms": 180.5,
+      "total_extraction_time_ms": 3079.6,
+      "status": "VALID",
+      "matched_fields": 0,
+      "total_expected_fields": 1,
+      "recovery_rate_pct": 0.0,
+      "bbox_geometry_valid": true,
+      "fields": {
+        "applicant_name": {
+          "expected": "Smruti Ranjan Nayak",
+          "actual": null,
+          "matched": false,
+          "bbox": null
+        }
+      }
+    },
+    {
+      "file_name": "skew_low_dpi_p05deg.pdf",
+      "category": "low_dpi",
+      "ground_truth_skew_deg": 5.0,
+      "estimated_correction_deg": -5.1,
+      "skew_confidence": 51.52839425587467,
+      "angle_error_deg": 0.09999999999999964,
+      "estimation_time_ms": 192.7,
+      "total_extraction_time_ms": 2959.9,
+      "status": "VALID",
+      "matched_fields": 0,
+      "total_expected_fields": 1,
+      "recovery_rate_pct": 0.0,
+      "bbox_geometry_valid": true,
+      "fields": {
+        "applicant_name": {
+          "expected": "Smruti Ranjan Nayak",
+          "actual": null,
+          "matched": false,
+          "bbox": null
+        }
+      }
+    },
+    {
+      "file_name": "skew_low_dpi_p10deg.pdf",
+      "category": "low_dpi",
+      "ground_truth_skew_deg": 10.0,
+      "estimated_correction_deg": -10.1,
+      "skew_confidence": 51.8716540837337,
+      "angle_error_deg": 0.09999999999999964,
+      "estimation_time_ms": 261.9,
+      "total_extraction_time_ms": 2698.9,
+      "status": "VALID",
+      "matched_fields": 0,
+      "total_expected_fields": 1,
+      "recovery_rate_pct": 0.0,
+      "bbox_geometry_valid": true,
+      "fields": {
+        "applicant_name": {
+          "expected": "Smruti Ranjan Nayak",
+          "actual": null,
+          "matched": false,
+          "bbox": null
+        }
+      }
+    },
+    {
+      "file_name": "skew_low_dpi_p15deg.pdf",
+      "category": "low_dpi",
+      "ground_truth_skew_deg": 15.0,
+      "estimated_correction_deg": -15.0,
+      "skew_confidence": 133.06994727592266,
+      "angle_error_deg": 0.0,
+      "estimation_time_ms": 188.8,
+      "total_extraction_time_ms": 963.2,
+      "status": "UNREADABLE",
+      "matched_fields": 0,
+      "total_expected_fields": 1,
+      "recovery_rate_pct": 0.0,
+      "bbox_geometry_valid": true,
+      "fields": {
+        "applicant_name": {
+          "expected": "Smruti Ranjan Nayak",
+          "actual": null,
+          "matched": false,
+          "bbox": null
+        }
+      }
+    },
+    {
+      "file_name": "skew_shadow_m15deg.pdf",
+      "category": "shadow",
+      "ground_truth_skew_deg": -15.0,
+      "estimated_correction_deg": 15.0,
+      "skew_confidence": 39.45800227014756,
+      "angle_error_deg": 0.0,
+      "estimation_time_ms": 198.2,
+      "total_extraction_time_ms": 1401.4,
+      "status": "UNREADABLE",
+      "matched_fields": 0,
+      "total_expected_fields": 1,
+      "recovery_rate_pct": 0.0,
+      "bbox_geometry_valid": true,
+      "fields": {
+        "applicant_name": {
+          "expected": "Smruti Ranjan Nayak",
+          "actual": null,
+          "matched": false,
+          "bbox": null
+        }
+      }
+    },
+    {
+      "file_name": "skew_shadow_m10deg.pdf",
+      "category": "shadow",
+      "ground_truth_skew_deg": -10.0,
+      "estimated_correction_deg": 9.9,
+      "skew_confidence": 29.925037894446742,
+      "angle_error_deg": 0.09999999999999964,
+      "estimation_time_ms": 183.3,
+      "total_extraction_time_ms": 4940.6,
+      "status": "VALID",
+      "matched_fields": 0,
+      "total_expected_fields": 1,
+      "recovery_rate_pct": 0.0,
+      "bbox_geometry_valid": true,
+      "fields": {
+        "applicant_name": {
+          "expected": "Smruti Ranjan Nayak",
+          "actual": null,
+          "matched": false,
+          "bbox": null
+        }
+      }
+    },
+    {
+      "file_name": "skew_shadow_m05deg.pdf",
+      "category": "shadow",
+      "ground_truth_skew_deg": -5.0,
+      "estimated_correction_deg": 5.1,
+      "skew_confidence": 31.08666047663262,
+      "angle_error_deg": 0.09999999999999964,
+      "estimation_time_ms": 239.6,
+      "total_extraction_time_ms": 5211.3,
+      "status": "VALID",
+      "matched_fields": 0,
+      "total_expected_fields": 1,
+      "recovery_rate_pct": 0.0,
+      "bbox_geometry_valid": true,
+      "fields": {
+        "applicant_name": {
+          "expected": "Smruti Ranjan Nayak",
+          "actual": null,
+          "matched": false,
+          "bbox": null
+        }
+      }
+    },
+    {
+      "file_name": "skew_shadow_p05deg.pdf",
+      "category": "shadow",
+      "ground_truth_skew_deg": 5.0,
+      "estimated_correction_deg": -4.9,
+      "skew_confidence": 35.77828127528726,
+      "angle_error_deg": 0.09999999999999964,
+      "estimation_time_ms": 181.0,
+      "total_extraction_time_ms": 2514.3,
+      "status": "VALID",
+      "matched_fields": 0,
+      "total_expected_fields": 1,
+      "recovery_rate_pct": 0.0,
+      "bbox_geometry_valid": true,
+      "fields": {
+        "applicant_name": {
+          "expected": "Smruti Ranjan Nayak",
+          "actual": null,
+          "matched": false,
+          "bbox": null
+        }
+      }
+    },
+    {
+      "file_name": "skew_shadow_p10deg.pdf",
+      "category": "shadow",
+      "ground_truth_skew_deg": 10.0,
+      "estimated_correction_deg": -10.1,
+      "skew_confidence": 34.008740964868046,
+      "angle_error_deg": 0.09999999999999964,
+      "estimation_time_ms": 195.1,
+      "total_extraction_time_ms": 1240.0,
+      "status": "UNREADABLE",
+      "matched_fields": 0,
+      "total_expected_fields": 1,
+      "recovery_rate_pct": 0.0,
+      "bbox_geometry_valid": true,
+      "fields": {
+        "applicant_name": {
+          "expected": "Smruti Ranjan Nayak",
+          "actual": null,
+          "matched": false,
+          "bbox": null
+        }
+      }
+    },
+    {
+      "file_name": "skew_shadow_p15deg.pdf",
+      "category": "shadow",
+      "ground_truth_skew_deg": 15.0,
+      "estimated_correction_deg": -15.0,
+      "skew_confidence": 51.00093615427822,
+      "angle_error_deg": 0.0,
+      "estimation_time_ms": 190.6,
+      "total_extraction_time_ms": 1326.0,
+      "status": "UNREADABLE",
+      "matched_fields": 0,
+      "total_expected_fields": 1,
+      "recovery_rate_pct": 0.0,
+      "bbox_geometry_valid": true,
+      "fields": {
+        "applicant_name": {
+          "expected": "Smruti Ranjan Nayak",
+          "actual": null,
+          "matched": false,
+          "bbox": null
+        }
+      }
+    },
+    {
+      "file_name": "skew_table_m15deg.pdf",
+      "category": "table",
+      "ground_truth_skew_deg": -15.0,
+      "estimated_correction_deg": 15.0,
+      "skew_confidence": 414.93465909090907,
+      "angle_error_deg": 0.0,
+      "estimation_time_ms": 247.1,
+      "total_extraction_time_ms": 1207.7,
+      "status": "UNREADABLE",
+      "matched_fields": 0,
+      "total_expected_fields": 0,
+      "recovery_rate_pct": 0.0,
+      "bbox_geometry_valid": true,
+      "fields": {}
+    },
+    {
+      "file_name": "skew_table_m10deg.pdf",
+      "category": "table",
+      "ground_truth_skew_deg": -10.0,
+      "estimated_correction_deg": 10.1,
+      "skew_confidence": 108.02670157068063,
+      "angle_error_deg": 0.09999999999999964,
+      "estimation_time_ms": 182.1,
+      "total_extraction_time_ms": 1151.2,
+      "status": "UNREADABLE",
+      "matched_fields": 0,
+      "total_expected_fields": 0,
+      "recovery_rate_pct": 0.0,
+      "bbox_geometry_valid": true,
+      "fields": {}
+    },
+    {
+      "file_name": "skew_table_m05deg.pdf",
+      "category": "table",
+      "ground_truth_skew_deg": -5.0,
+      "estimated_correction_deg": 5.1,
+      "skew_confidence": 103.23787167449139,
+      "angle_error_deg": 0.09999999999999964,
+      "estimation_time_ms": 162.5,
+      "total_extraction_time_ms": 4493.9,
+      "status": "VALID",
+      "matched_fields": 0,
+      "total_expected_fields": 0,
+      "recovery_rate_pct": 0.0,
+      "bbox_geometry_valid": true,
+      "fields": {}
+    },
+    {
+      "file_name": "skew_table_p05deg.pdf",
+      "category": "table",
+      "ground_truth_skew_deg": 5.0,
+      "estimated_correction_deg": -5.1,
+      "skew_confidence": 106.05904455179818,
+      "angle_error_deg": 0.09999999999999964,
+      "estimation_time_ms": 157.4,
+      "total_extraction_time_ms": 2360.3,
+      "status": "VALID",
+      "matched_fields": 0,
+      "total_expected_fields": 0,
+      "recovery_rate_pct": 0.0,
+      "bbox_geometry_valid": true,
+      "fields": {}
+    },
+    {
+      "file_name": "skew_table_p10deg.pdf",
+      "category": "table",
+      "ground_truth_skew_deg": 10.0,
+      "estimated_correction_deg": -10.1,
+      "skew_confidence": 104.67991845056065,
+      "angle_error_deg": 0.09999999999999964,
+      "estimation_time_ms": 164.0,
+      "total_extraction_time_ms": 4935.8,
+      "status": "UNREADABLE",
+      "matched_fields": 0,
+      "total_expected_fields": 0,
+      "recovery_rate_pct": 0.0,
+      "bbox_geometry_valid": true,
+      "fields": {}
+    },
+    {
+      "file_name": "skew_table_p15deg.pdf",
+      "category": "table",
+      "ground_truth_skew_deg": 15.0,
+      "estimated_correction_deg": -15.0,
+      "skew_confidence": 427.4845481049563,
+      "angle_error_deg": 0.0,
+      "estimation_time_ms": 206.8,
+      "total_extraction_time_ms": 1290.9,
+      "status": "UNREADABLE",
+      "matched_fields": 0,
+      "total_expected_fields": 0,
+      "recovery_rate_pct": 0.0,
+      "bbox_geometry_valid": true,
+      "fields": {}
+    }
+  ]
+}

@@ -1,0 +1,149 @@
+{
+  "corpus_version": "1.0.0",
+  "engineering_loop": "Loop 06 \u2014 Audit Decision Engine Calibration & Rule Integrity",
+  "total_packets": 16,
+  "as_of_reference": "2026-11-16",
+  "packets": {
+    "PKT_01_CLEAN": {
+      "description": "Clean upright packet with all 6 valid matching documents",
+      "expected_status": "NO_ISSUES_FOUND",
+      "expected_score": 100,
+      "expected_defects": [],
+      "category": "CLEAN"
+    },
+    "PKT_02_NAME_MISMATCH": {
+      "description": "Hard applicant name conflict between Form ('Smruti Nayak') and Income Cert ('Ramesh Patel')",
+      "expected_status": "NOT_READY",
+      "expected_score": 75,
+      "expected_defects": [
+        "RULE-NAME-01"
+      ],
+      "category": "DEFECTIVE"
+    },
+    "PKT_03_DOB_MISMATCH": {
+      "description": "Hard date of birth mismatch between Form ('14/05/2003') and Marksheet ('20/11/2001')",
+      "expected_status": "NOT_READY",
+      "expected_score": 75,
+      "expected_defects": [
+        "RULE-DOB-01"
+      ],
+      "category": "DEFECTIVE"
+    },
+    "PKT_04_INCOME_EXCEEDS_CEILING": {
+      "description": "Certified family income (\u20b93,80,000) exceeds scheme statutory ceiling (\u20b92,50,000)",
+      "expected_status": "NOT_READY",
+      "expected_score": 65,
+      "expected_defects": [
+        "RULE-INC-01"
+      ],
+      "category": "DEFECTIVE"
+    },
+    "PKT_05_MISSING_MANDATORY_DOC": {
+      "description": "Mandatory Income Certificate is missing from packet",
+      "expected_status": "NOT_READY",
+      "expected_score": 65,
+      "expected_defects": [
+        "RULE-DOC-01"
+      ],
+      "category": "DEFECTIVE"
+    },
+    "PKT_06_UNREADABLE_MANDATORY_DOC": {
+      "description": "Mandatory Income Certificate is unreadable scan (abstains to REVIEW)",
+      "expected_status": "NEEDS_CHECKS",
+      "expected_score": 75,
+      "expected_defects": [
+        "RULE-DOC-02"
+      ],
+      "category": "UNCERTAIN"
+    },
+    "PKT_07_COMPATIBLE_NAME_VARIATION": {
+      "description": "Compatible middle name variation between Form ('Smruti Ranjan Nayak') and Caste ('Smruti Nayak')",
+      "expected_status": "NEEDS_CHECKS",
+      "expected_score": 75,
+      "expected_defects": [
+        "RULE-NAME-02"
+      ],
+      "category": "UNCERTAIN"
+    },
+    "PKT_08_EXPIRED_CERTIFICATE": {
+      "description": "Income Certificate issued on 10/01/2021 exceeds 3-year statutory validity as of Nov 2026",
+      "expected_status": "NOT_READY",
+      "expected_score": 75,
+      "expected_defects": [
+        "RULE-EXP-01"
+      ],
+      "category": "DEFECTIVE"
+    },
+    "PKT_09_DOMICILE_MISMATCH": {
+      "description": "Residence Certificate issued by BIHAR fails statutory ODISHA domicile rule",
+      "expected_status": "NOT_READY",
+      "expected_score": 75,
+      "expected_defects": [
+        "RULE-DOM-01"
+      ],
+      "category": "DEFECTIVE"
+    },
+    "PKT_10_INTERACTION_NAME_CONFLICT_AND_MISSING_DOC": {
+      "description": "Interaction: Name conflict on Marksheet (-25) + missing Residence Certificate (-35)",
+      "expected_status": "NOT_READY",
+      "expected_score": 40,
+      "expected_defects": [
+        "RULE-NAME-01",
+        "RULE-DOC-01"
+      ],
+      "category": "INTERACTION"
+    },
+    "PKT_11_INTERACTION_DOB_CONFLICT_AND_UNREADABLE_DOC": {
+      "description": "Interaction: Hard DOB mismatch (-25) + unreadable Income Certificate (-25)",
+      "expected_status": "NOT_READY",
+      "expected_score": 50,
+      "expected_defects": [
+        "RULE-DOB-01",
+        "RULE-DOC-02"
+      ],
+      "category": "INTERACTION"
+    },
+    "PKT_12_SLOT_MISMATCH": {
+      "description": "Slot Mismatch: Marksheet uploaded into income_cert.pdf slot",
+      "expected_status": "NEEDS_CHECKS",
+      "expected_score": 90,
+      "expected_defects": [
+        "RULE-SLOT-01"
+      ],
+      "category": "UNCERTAIN"
+    },
+    "PKT_13_CATEGORY_EXEMPTION_VERIFIED": {
+      "description": "ST candidate marks (45%) below standard cutoff (50%) but exempt under Post-Matric Clause 5.2",
+      "expected_status": "NO_ISSUES_FOUND",
+      "expected_score": 100,
+      "expected_defects": [],
+      "category": "CLEAN"
+    },
+    "PKT_14_CATEGORY_EXEMPTION_UNCERTAIN": {
+      "description": "Candidate marks 45%, but Caste Certificate missing so exemption cannot be verified",
+      "expected_status": "NOT_READY",
+      "expected_score": 65,
+      "expected_defects": [
+        "RULE-DOC-01",
+        "RULE-MRK-01"
+      ],
+      "category": "INTERACTION"
+    },
+    "PKT_15_DUPLICATE_DOCUMENTS_CLEAN": {
+      "description": "Clean packet with harmless additional duplicate certificate copy",
+      "expected_status": "NO_ISSUES_FOUND",
+      "expected_score": 100,
+      "expected_defects": [],
+      "category": "CLEAN"
+    },
+    "PKT_16_EMPTY_PACKET_FAIL_CLOSED": {
+      "description": "Empty packet (zero uploaded documents) fails closed to NOT_READY",
+      "expected_status": "NOT_READY",
+      "expected_score": 0,
+      "expected_defects": [
+        "RULE-DOC-01"
+      ],
+      "category": "DEFECTIVE"
+    }
+  }
+}

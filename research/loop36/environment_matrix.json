@@ -1,0 +1,11 @@
+{
+  "host_os": "Microsoft Windows 11 Home Single Language",
+  "version": "10.0.26300",
+  "build": "26300",
+  "architecture": "AMD64 (64-bit)",
+  "cpu": "12th Gen Intel(R) Core(TM) i5-12450H (8C / 12T)",
+  "ram_kb": 16495736,
+  "clean_vm_windows_10": "UNAVAILABLE (BLOCKED)",
+  "clean_vm_windows_11": "UNAVAILABLE (BLOCKED)",
+  "interactive_gui_session": "UNAVAILABLE IN HEADLESS CLI (BLOCKED)"
+}

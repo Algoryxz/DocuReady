@@ -80,3 +80,6 @@ node_modules/
 .vite/
 out/
 release/
+
+# Research benchmark binary datasets (reproducible via acquire_benchmark_data.py)
+research/loop11_benchmark/data/

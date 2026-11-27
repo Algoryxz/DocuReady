@@ -1,0 +1,51 @@
+{
+  "milestone": "Loop 38",
+  "protected_commit": "bdc403a",
+  "artifacts": [
+    {
+      "artifact": "DocuReady.exe",
+      "path": "apps/desktop/out/DocuReady-win32-x64/DocuReady.exe",
+      "expected_size": 250056704,
+      "actual_size": 250056704,
+      "expected_sha256": "86339ba01c1e0e73b1a8e3cf799880c957f24e3691b0b4ee0717a861fcc5dcd2",
+      "recomputed_sha256": "86339ba01c1e0e73b1a8e3cf799880c957f24e3691b0b4ee0717a861fcc5dcd2",
+      "status": "PASS"
+    },
+    {
+      "artifact": "app.asar",
+      "path": "apps/desktop/out/DocuReady-win32-x64/resources/app.asar",
+      "expected_size": 3239787,
+      "actual_size": 3239787,
+      "expected_sha256": "d72882945989e468c76ce43840c16457aa94e59584dc6f953689a28a0014f27e",
+      "recomputed_sha256": "d72882945989e468c76ce43840c16457aa94e59584dc6f953689a28a0014f27e",
+      "status": "PASS"
+    },
+    {
+      "artifact": "docuready_sidecar.exe",
+      "path": "apps/desktop/out/DocuReady-win32-x64/resources/docuready_sidecar/docuready_sidecar.exe",
+      "expected_size": 28369190,
+      "actual_size": 28369190,
+      "expected_sha256": "5cf296943a640f41784b27786b59ee679c59daa6bda59ca2acbeae7621770b4c",
+      "recomputed_sha256": "5cf296943a640f41784b27786b59ee679c59daa6bda59ca2acbeae7621770b4c",
+      "status": "PASS"
+    },
+    {
+      "artifact": "DocuReady-0.1.0-Setup.exe",
+      "path": "apps/desktop/out/make/squirrel.windows/x64/DocuReady-0.1.0-Setup.exe",
+      "expected_size": 457490432,
+      "actual_size": 457490432,
+      "expected_sha256": "8dcd51c89d305c0d92503f93c7dc255c5f29c7eb18b6cabe866d01d30d8766ed",
+      "recomputed_sha256": "8dcd51c89d305c0d92503f93c7dc255c5f29c7eb18b6cabe866d01d30d8766ed",
+      "status": "PASS"
+    },
+    {
+      "artifact": "DocuReady-win32-x64-0.1.0.zip",
+      "path": "apps/desktop/out/make/zip/win32/x64/DocuReady-win32-x64-0.1.0.zip",
+      "expected_size": 469045411,
+      "actual_size": 469045411,
+      "expected_sha256": "eb4cef9395e9fea1155b06afba7091521eb58b75d43e9dd51fa40fae6015e5c4",
+      "recomputed_sha256": "eb4cef9395e9fea1155b06afba7091521eb58b75d43e9dd51fa40fae6015e5c4",
+      "status": "PASS"
+    }
+  ]
+}
