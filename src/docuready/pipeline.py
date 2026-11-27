@@ -7,11 +7,11 @@ from __future__ import annotations
 import os
 import time
 from datetime import date, datetime
-from typing import Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 from docuready.domain.models import (
     DocumentType, ExtractedDocument, AuditResult, FindingStatus
 )
-from docuready.ingest.extractor import DocumentExtractor, detect_document_type
+from docuready.ingest.extractor import DocumentExtractor, detect_document_type, get_slot_ocr_langs
 from docuready.rules.validator import DocuReadyValidator, SchemeConfig
 from docuready.report.redact import get_safe_logger
 
@@ -25,6 +25,7 @@ class AuditPipeline:
         scheme_config: Optional[SchemeConfig] = None,
         audit_date: Optional[date] = None,
         as_of: Optional[date] = None,
+        pack: Optional[Any] = None,
     ):
         if as_of is not None and audit_date is not None and as_of != audit_date:
             raise ValueError(
@@ -40,6 +41,7 @@ class AuditPipeline:
 
         self.as_of = effective_as_of
         self.audit_date = effective_as_of
+        self.pack = pack
         self.extractor = DocumentExtractor()
         self.validator = DocuReadyValidator(
             scheme_config=scheme_config,
@@ -66,25 +68,29 @@ class AuditPipeline:
         pid = packet_id or os.path.basename(packet_dir)
         logger.info("Starting audit for packet_id=%s in directory=%s", pid, os.path.basename(packet_dir))
 
-        # Expected filenames or auto-detect
-        type_mapping = {
-            "income_cert.pdf": DocumentType.INCOME_CERT,
-            "caste_cert.pdf": DocumentType.CASTE_CERT,
-            "residence_cert.pdf": DocumentType.RESIDENCE_CERT,
-            "marksheet.pdf": DocumentType.MARKSHEET,
-            "bank_passbook.pdf": DocumentType.BANK_PASSBOOK,
-            "application_form.pdf": DocumentType.APPLICATION_FORM,
-            "aadhaar.pdf": DocumentType.AADHAAR
+        # Expected canonical filename stems or auto-detect
+        stem_mapping = {
+            "income_cert": DocumentType.INCOME_CERT,
+            "caste_cert": DocumentType.CASTE_CERT,
+            "residence_cert": DocumentType.RESIDENCE_CERT,
+            "marksheet": DocumentType.MARKSHEET,
+            "bank_passbook": DocumentType.BANK_PASSBOOK,
+            "application_form": DocumentType.APPLICATION_FORM,
+            "aadhaar": DocumentType.AADHAAR,
         }
 
         extracted_docs: Dict[DocumentType, ExtractedDocument] = {}
 
         if os.path.exists(packet_dir):
             for file_name in os.listdir(packet_dir):
-                if file_name.lower().endswith(".pdf") or file_name.lower().endswith(".png") or file_name.lower().endswith(".jpg"):
+                stem, ext = os.path.splitext(file_name.lower())
+                if ext in (".pdf", ".png", ".jpg"):
                     file_path = os.path.join(packet_dir, file_name)
-                    expected_type = type_mapping.get(file_name.lower())
-                    extracted = self.extractor.extract_document(file_path, expected_type=expected_type)
+                    expected_type = stem_mapping.get(stem)
+                    slot_langs = get_slot_ocr_langs(self.pack, expected_type)
+                    extracted = self.extractor.extract_document(
+                        file_path, expected_type=expected_type, ocr_langs=slot_langs
+                    )
                     target_slot = expected_type or extracted.doc_type
                     extracted_docs[target_slot] = extracted
 
@@ -124,7 +130,10 @@ class AuditPipeline:
         effective_as_of = as_of or audit_date or self.as_of
         t0 = time.perf_counter()
         new_docs = dict(current_docs)
-        new_doc = self.extractor.extract_document(replacement_file_path, expected_type=doc_type)
+        slot_langs = get_slot_ocr_langs(self.pack, doc_type)
+        new_doc = self.extractor.extract_document(
+            replacement_file_path, expected_type=doc_type, ocr_langs=slot_langs
+        )
         new_docs[doc_type] = new_doc
 
         generation_ts = datetime.now().isoformat()

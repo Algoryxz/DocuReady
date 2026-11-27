@@ -116,25 +116,57 @@ class DocuReadyValidator:
         # ----------------- 2. UNREADABLE / SCAN QUALITY CHECK -----------------
         for d_type, doc in documents.items():
             if doc and doc.status in ["UNREADABLE", "CORRUPTED"]:
-                findings.append(Finding(
-                    rule_id="RULE-DOC-02",
-                    rule_name="Document Legibility & Evidence Integrity",
-                    status=FindingStatus.UNKNOWN,
-                    severity=Severity.CRITICAL,
-                    penalty=25,
-                    field="SCAN_QUALITY",
-                    documents_involved=[d_type.value],
-                    message=f"Document '{d_type.value}' is unreadable or corrupted. Clear evidence cannot be extracted.",
-                    evidence=[
-                        EvidenceProvenance(
-                            document_type=d_type.value,
-                            file_name=doc.file_path,
-                            raw_snippet="[UNREADABLE SCAN / INSUFFICIENT EVIDENCE]"
-                        )
-                    ],
-                    remediation="Re-scan the document with at least 300 DPI flatbed scanner and ensure good lighting.",
-                    statutory_reference="NSP Upload Guidelines & IT Act 2000 Section 6A"
-                ))
+                cls_details = doc.classification_details or {}
+                missing_langs = cls_details.get("missing_ocr_langs") or []
+                if missing_langs:
+                    langs_str = ", ".join(missing_langs)
+                    req_lang = doc.ocr_lang or "+".join(missing_langs)
+                    findings.append(Finding(
+                        rule_id="RULE-DOC-02",
+                        rule_name="Missing OCR Language Pack",
+                        status=FindingStatus.UNKNOWN,
+                        severity=Severity.CRITICAL,
+                        penalty=25,
+                        field="OCR_LANGUAGE_PACK",
+                        documents_involved=[d_type.value],
+                        message=(
+                            f"Local OCR for '{d_type.value}' cannot proceed because required Tesseract "
+                            f"language data is missing for: {langs_str} (requested {req_lang})."
+                        ),
+                        evidence=[
+                            EvidenceProvenance(
+                                document_type=d_type.value,
+                                file_name=doc.file_path,
+                                raw_snippet=f"[MISSING OCR LANGUAGE PACK: {langs_str}]",
+                            )
+                        ],
+                        remediation=(
+                            f"Install the missing Tesseract traineddata for language(s): {langs_str} "
+                            f"(for example, tesseract-ocr-{missing_langs[0]} or {missing_langs[0]}.traineddata "
+                            "in tessdata) and re-run the audit."
+                        ),
+                        statutory_reference="NSP Upload Guidelines & IT Act 2000 Section 6A"
+                    ))
+                else:
+                    findings.append(Finding(
+                        rule_id="RULE-DOC-02",
+                        rule_name="Document Legibility & Evidence Integrity",
+                        status=FindingStatus.UNKNOWN,
+                        severity=Severity.CRITICAL,
+                        penalty=25,
+                        field="SCAN_QUALITY",
+                        documents_involved=[d_type.value],
+                        message=f"Document '{d_type.value}' is unreadable or corrupted. Clear evidence cannot be extracted.",
+                        evidence=[
+                            EvidenceProvenance(
+                                document_type=d_type.value,
+                                file_name=doc.file_path,
+                                raw_snippet="[UNREADABLE SCAN / INSUFFICIENT EVIDENCE]"
+                            )
+                        ],
+                        remediation="Re-scan the document with at least 300 DPI flatbed scanner and ensure good lighting.",
+                        statutory_reference="NSP Upload Guidelines & IT Act 2000 Section 6A"
+                    ))
                 score -= 25
 
         # ----------------- 2.5 DOCUMENT SLOT VALIDATION -----------------

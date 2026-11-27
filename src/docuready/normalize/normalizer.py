@@ -9,6 +9,28 @@ from typing import Tuple, Optional, Any, Dict, List
 
 from docuready.domain.enums import MatchGrade
 
+# ----------------- INDIC NUMERAL NORMALIZATION -----------------
+_INDIC_DIGIT_TABLE = str.maketrans({
+    # Odia digits (U+0B66 - U+0B6F)
+    "୦": "0", "୧": "1", "୨": "2", "୩": "3", "୪": "4",
+    "୫": "5", "୬": "6", "୭": "7", "୮": "8", "୯": "9",
+    # Devanagari digits (U+0966 - U+096F)
+    "०": "0", "१": "1", "२": "2", "३": "3", "४": "4",
+    "५": "5", "६": "6", "७": "7", "८": "8", "९": "9",
+})
+
+
+def normalize_indic_digits(value: Any) -> str:
+    """Convert Odia and Devanagari decimal digits to ASCII digits deterministically.
+
+    Preserves punctuation, separators, whitespace, currency symbols, and non-digit
+    characters unchanged. Idempotent; returns "" for None.
+    """
+    if value is None:
+        return ""
+    return str(value).translate(_INDIC_DIGIT_TABLE)
+
+
 # ----------------- VERHOEFF CHECKSUM (ISO/IEC 7064) -----------------
 D_TABLE = [
     [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
@@ -36,10 +58,13 @@ P_TABLE = [
 
 def validate_verhoeff(num_str: str) -> bool:
     """Validates 12-digit number against Verhoeff checksum algorithm."""
-    if not num_str or not str(num_str).strip().isdigit() or len(str(num_str).strip()) != 12:
+    if not num_str:
+        return False
+    cleaned = normalize_indic_digits(num_str).strip()
+    if not cleaned.isascii() or not cleaned.isdigit() or len(cleaned) != 12:
         return False
     c = 0
-    inv = str(num_str).strip()[::-1]
+    inv = cleaned[::-1]
     for i, ch in enumerate(inv):
         c = D_TABLE[c][P_TABLE[i % 8][int(ch)]]
     return c == 0
@@ -221,7 +246,7 @@ def parse_and_normalize_date(date_str: Any) -> Tuple[Optional[date], str, bool]:
         dt = date_str if isinstance(date_str, date) else date_str.date()
         return dt, "VALID", False
 
-    s = str(date_str).strip()
+    s = normalize_indic_digits(date_str).strip()
     if not s:
         return None, "EMPTY", False
     if '?' in s or 'X' in s.upper():
@@ -259,7 +284,7 @@ def get_date_ambiguity_candidates(date_str: Any) -> List[date]:
         dt = date_str if isinstance(date_str, date) else date_str.date()
         return [dt]
 
-    s = str(date_str).strip()
+    s = normalize_indic_digits(date_str).strip()
     if not s or '?' in s or 'X' in s.upper():
         return []
 
@@ -333,7 +358,7 @@ def normalize_income(val: Any) -> Optional[float]:
     if isinstance(val, (int, float)):
         return float(val)
 
-    s = str(val).upper().replace(",", "").replace("/-", "").replace("RS.", "").replace("₹", "").strip()
+    s = normalize_indic_digits(val).upper().replace(",", "").replace("/-", "").replace("RS.", "").replace("₹", "").strip()
     if not s:
         return None
 
@@ -365,10 +390,10 @@ def validate_ifsc_code(ifsc: Optional[str]) -> bool:
 
 # ----------------- CERTIFICATE NUMBER NORMALIZATION -----------------
 def normalize_cert_number(cert_no: Optional[str]) -> str:
-    """Normalizes certificate/registration number: strips whitespace, converts to uppercase."""
+    """Normalizes certificate/registration number: converts Indic digits, strips whitespace, converts to uppercase."""
     if not cert_no or not isinstance(cert_no, str):
         return ""
-    return re.sub(r'[\s\-_]', '', cert_no.strip().upper())
+    return re.sub(r'[\s\-_]', '', normalize_indic_digits(cert_no).strip().upper())
 
 
 # ----------------- V2 MATCH GRADE COMPARISON FUNCTIONS -----------------
@@ -450,8 +475,8 @@ def compare_identifiers(
             "type": "MISSING_IDENTIFIER",
             "notes": "One or both identifier fields are missing",
         }
-    s1 = re.sub(r'[\s\-_/]', '', str(id1).upper())
-    s2 = re.sub(r'[\s\-_/]', '', str(id2).upper())
+    s1 = re.sub(r'[\s\-_/]', '', normalize_indic_digits(id1).upper())
+    s2 = re.sub(r'[\s\-_/]', '', normalize_indic_digits(id2).upper())
     if not s1 or not s2:
         return {
             "grade": MatchGrade.AMBIGUOUS,

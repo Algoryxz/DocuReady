@@ -184,3 +184,57 @@ def test_ocr_integration_extracts_raster_text(tmp_path):
     # 5. Assert OCR confidence is recorded
     assert extracted.mean_ocr_confidence is not None
     assert extracted.mean_ocr_confidence > 0.0
+
+
+@pytest.mark.parametrize(
+    "ocr_langs,expected_lang",
+    [
+        (["eng", "ori"], "eng+ori"),
+        (["eng", "hin"], "eng+hin"),
+    ],
+)
+def test_ocr_integration_multilingual_lang_config_real_tesseract(tmp_path, ocr_langs, expected_lang):
+    """Real Tesseract CI qualification for eng+ori and eng+hin language configurations."""
+    require_tesseract()
+
+    import pytesseract
+
+    try:
+        available_langs = pytesseract.get_languages()
+    except Exception as exc:
+        if is_ci_environment():
+            pytest.fail(f"Failed to query Tesseract languages via pytesseract in CI: {exc}")
+        else:
+            pytest.skip(f"Failed to query Tesseract languages locally: {exc}")
+
+    missing = [lang for lang in ocr_langs if lang not in available_langs]
+    if missing:
+        msg = f"Required Tesseract language pack(s) missing for {expected_lang}: {missing}. Available: {available_langs}"
+        if is_ci_environment():
+            pytest.fail(msg)
+        else:
+            pytest.skip(msg)
+
+    text_lines = [
+        "GOVERNMENT OF ODISHA",
+        "SYNTHETIC RESIDENCE CERTIFICATE",
+        "Applicant Name: Pravasini Sahoo",
+        "Certificate No: RES-2026-00101",
+    ]
+    pdf_path = str(tmp_path / f"synthetic_{expected_lang.replace('+', '_')}.pdf")
+    create_synthetic_raster_pdf(pdf_path, text_lines)
+
+    extractor = DocumentExtractor()
+    extracted = extractor.extract_document(
+        pdf_path,
+        expected_type=DocumentType.RESIDENCE_CERT,
+        ocr_langs=ocr_langs,
+    )
+
+    assert extracted.extraction_method == ExtractionMethod.LOCAL_OCR.value
+    assert extracted.status == "VALID"
+    assert extracted.ocr_lang == expected_lang
+    assert extracted.raw_text and len(extracted.raw_text.strip()) > 0
+    for field in extracted.fields.values():
+        if field.provenance is not None:
+            assert field.provenance.ocr_lang == expected_lang

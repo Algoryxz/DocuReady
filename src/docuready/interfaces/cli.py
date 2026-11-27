@@ -129,6 +129,11 @@ def main():
         action="store_true",
         help="Disable default redaction (requires explicit flag; emits privacy warning)",
     )
+    audit_parser.add_argument(
+        "--ocr-pack",
+        default=None,
+        help="Path to a scheme pack directory whose slot ocr_langs configure local OCR extraction only (does not switch validation rules)",
+    )
 
     # Benchmark command
     subparsers.add_parser("benchmark", help="Run benchmark across all synthetic test packets")
@@ -161,7 +166,38 @@ def main():
     elif args.command == "audit":
         from docuready.pipeline import AuditPipeline
 
-        pipeline = AuditPipeline()
+        loaded_pack = None
+        if args.ocr_pack is not None:
+            from docuready.rules.lint import lint_pack
+            from docuready.rules.loader import PackLoadError, load_pack
+
+            ocr_pack_path = Path(args.ocr_pack).resolve()
+            if not ocr_pack_path.exists() or not ocr_pack_path.is_dir():
+                print(
+                    f"Error: OCR pack directory '{args.ocr_pack}' not found.",
+                    file=sys.stderr,
+                )
+                sys.exit(int(ExitCode.USAGE_ERROR))
+
+            lint_res = lint_pack(ocr_pack_path)
+            if not lint_res.is_valid:
+                err_details = "; ".join(str(e) for e in lint_res.errors)
+                print(
+                    f"Error: Invalid OCR pack '{args.ocr_pack}': {err_details}",
+                    file=sys.stderr,
+                )
+                sys.exit(int(ExitCode.USAGE_ERROR))
+
+            try:
+                loaded_pack, _ = load_pack(ocr_pack_path)
+            except (PackLoadError, ValueError) as exc:
+                print(
+                    f"Error: Failed to load OCR pack '{args.ocr_pack}': {exc}",
+                    file=sys.stderr,
+                )
+                sys.exit(int(ExitCode.USAGE_ERROR))
+
+        pipeline = AuditPipeline(pack=loaded_pack) if loaded_pack is not None else AuditPipeline()
         packet_path = Path(args.packet_dir).resolve()
         if not packet_path.exists() or not packet_path.is_dir():
             print(f"Error: Directory '{args.packet_dir}' not found.", file=sys.stderr)
