@@ -178,21 +178,38 @@ def get_ocr_runtime_info() -> Dict[str, Any]:
             "error": f"Tesseract execution failed: {err}",
         }
 
-    # Discover traineddata languages
-    tessdata_dir: Optional[Path] = None
-    if "TESSDATA_PREFIX" in os.environ:
-        tessdata_dir = Path(os.environ["TESSDATA_PREFIX"])
-    elif (bin_path.parent / "tessdata").is_dir():
-        tessdata_dir = bin_path.parent / "tessdata"
+    # Discover traineddata languages via pytesseract first (handles distro-specific tessdata dirs on Linux/macOS/Windows)
+    try:
+        import pytesseract
+        pytess_langs = pytesseract.get_languages(config="")
+        for lang in pytess_langs:
+            if lang not in ("osd", "pdf", "snum") and lang not in languages:
+                languages.append(lang)
+    except Exception:
+        pass
 
-    if tessdata_dir and tessdata_dir.is_dir():
-        try:
-            for file in tessdata_dir.glob("*.traineddata"):
-                lang = file.stem
-                if lang not in ("osd", "pdf", "snum"):
-                    languages.append(lang)
-        except Exception:
-            pass
+    # Fallback: scan tessdata directory directly
+    if not languages:
+        tessdata_candidates: List[Path] = []
+        if "TESSDATA_PREFIX" in os.environ:
+            tessdata_candidates.append(Path(os.environ["TESSDATA_PREFIX"]))
+        tessdata_candidates.extend([
+            bin_path.parent / "tessdata",
+            Path("/usr/share/tesseract-ocr/5/tessdata"),
+            Path("/usr/share/tesseract-ocr/4.00/tessdata"),
+            Path("/usr/share/tessdata"),
+        ])
+        for tessdata_dir in tessdata_candidates:
+            if tessdata_dir.is_dir():
+                try:
+                    for file in tessdata_dir.glob("*.traineddata"):
+                        lang = file.stem
+                        if lang not in ("osd", "pdf", "snum") and lang not in languages:
+                            languages.append(lang)
+                except Exception:
+                    pass
+                if languages:
+                    break
 
     if not languages:
         languages = ["eng"]
