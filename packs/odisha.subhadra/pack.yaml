@@ -1,10 +1,18 @@
 # DocuReady Scheme Pack Manifest — odisha.subhadra
 # Task T3.3: First Real Scheme Pack (Demo Snapshot)
 # Grounded in official Government of Odisha Women & Child Development Department notifications
+#
+# DEMO SNAPSHOT — FY 2024–25 REFERENCE MATERIALS
+# This is a historical demonstration based on FY 2024–25 scheme materials.
+# It does not represent live application-intake status or determine current eligibility.
+# Application dates, availability and current requirements must be confirmed through
+# the latest official Government notifications.
 
 pack_id: odisha.subhadra
 version: "2024.1"
 status: demo_snapshot
+# Historical FY 2024-25 demo-snapshot reference window only; 2025-03-31 is not an
+# officially verified Government application closing date.
 effective:
   from: 2024-09-05
   to: 2025-03-31

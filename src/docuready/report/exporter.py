@@ -8,7 +8,11 @@ import json
 import re
 import os
 from typing import Dict, Any, List
-from docuready.domain.models import AuditResult
+from docuready.domain.models import (
+    AuditResult,
+    DEMO_SNAPSHOT_DISCLAIMER_BODY,
+    DEMO_SNAPSHOT_DISCLAIMER_TITLE,
+)
 from docuready.domain.enums import Status
 from docuready.report.redact import redact_text_pii, redact_audit_result_dict
 
@@ -53,6 +57,9 @@ def generate_readiness_summary_markdown(
 
     md = []
     md.append("# DOCUREADY PRE-SUBMISSION READINESS REPORT")
+    if result.pack_status == "demo_snapshot":
+        md.append(f"**{DEMO_SNAPSHOT_DISCLAIMER_TITLE}**\n")
+        md.append(f"{DEMO_SNAPSHOT_DISCLAIMER_BODY}\n")
     if redact:
         md.append("> *Privacy Notice: This report has been redacted to mask extracted personal snippets and citizen identifiers.*  \n")
     md.append(f"**Packet ID:** `{result.packet_id}`  ")

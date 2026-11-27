@@ -14,5 +14,10 @@ All notable changes to the `odisha.subhadra` scheme pack are documented in this 
 - Implemented `RULE-SUB-NAME-01` (Aadhaar vs Passbook demographic name match, capped at `REVIEW`).
 - Configured `as_of_required: true` for clock-injected deterministic age evaluation.
 
+### Added (Disclaimer & Exporter Integration)
+- Applied the Product Owner-approved `DEMO SNAPSHOT — FY 2024–25 REFERENCE MATERIALS` historical disclaimer in `docs/BACKLOG.md`, `packs/odisha.subhadra/pack.yaml`, `docs/04-VALIDATION/SUBHADRA_SOURCE_VERIFICATION_MATRIX.md`, and the production report exporter (`src/docuready/report/exporter.py`).
+- Clarified that `effective.to: 2025-03-31` is historical demo-snapshot metadata only and not an officially verified Government application closing date.
+- Pending gates preserved: Akriti's source-review confirmation (`RULE-SUB-DOC-01`) and shared `field_present` cross-pack technical review remain open/blocked.
+
 ### Architecture Demarcation & Unimplemented Eligibility Rules
 - The Subhadra family-income ceiling of ₹2,50,000 applies only to households without NFSA/SFSS coverage. The current DocuReady implementation has no trusted government database verification interface for NFSA/SFSS coverage. Therefore, the conditional income eligibility test is intentionally unimplemented. Applicant declarations and OCR-extracted values cannot establish household coverage or determine whether the income ceiling applies.

@@ -13,6 +13,7 @@ Verifies:
 
 from __future__ import annotations
 
+import json
 from datetime import date
 from pathlib import Path
 from typing import Any, Dict
@@ -28,11 +29,18 @@ from docuready.domain.enums import (
     Status,
 )
 from docuready.domain.models import (
+    AuditResult,
+    DEMO_SNAPSHOT_DISCLAIMER_BODY,
+    DEMO_SNAPSHOT_DISCLAIMER_TITLE,
     DocumentType,
     EvidenceProvenance,
     ExtractedDocument,
     ExtractedField,
     Severity,
+)
+from docuready.report.exporter import (
+    export_audit_report_json,
+    generate_readiness_summary_markdown,
 )
 from docuready.rules.engine import PackExecutionEngine
 from docuready.rules.lint import lint_pack
@@ -520,24 +528,73 @@ def test_subhadra_external_database_exclusions_not_falsely_claimed():
     assert fail_capable_rules[0].id == "RULE-SUB-AGE-01"
 
 
-def test_subhadra_report_header_proposed_format():
-    """Verify proposed report header banner format string for Deeptiman's review.
+def test_subhadra_report_markdown_contains_approved_disclaimer(subhadra_engine):
+    """Production Markdown exporter emits the exact PO-approved demo-snapshot disclaimer."""
+    packet = _make_subhadra_packet(dob="15/05/1990", annual_income=180000.0)
+    result = subhadra_engine.validate_packet("PKT_SUB_MD_DISC", packet, as_of=date(2024, 7, 1))
+    assert result.pack_status == PackStatus.DEMO_SNAPSHOT.value
 
-    This test validates the proposed banner format string only; it does not test
-    or assert that the actual exporter produces this banner, as exporter changes
-    remain pending Deeptiman's formal approval.
-    """
-    pack, _ = load_pack(_SUBHADRA_PACK_DIR)
-    expected_token = "demo snapshot — intake window closed"
+    md = generate_readiness_summary_markdown(result, redact=True)
+    assert f"**{DEMO_SNAPSHOT_DISCLAIMER_TITLE}**" in md
+    assert DEMO_SNAPSHOT_DISCLAIMER_BODY in md
 
-    # Proposed header formatting logic for exporter.py
-    is_demo = pack.status == PackStatus.DEMO_SNAPSHOT
-    header_banner = (
-        f"> **Notice: {expected_token.title()}**  \n"
-        "> *Historical demonstration snapshot representing Odisha SUBHADRA Yojana FY 2024–25 Phase-I baseline. "
-        "DocuReady is an applicant preparation aid and not a live government enrollment portal.*"
-        if is_demo
-        else ""
+
+def test_subhadra_report_json_contains_structured_disclaimer(subhadra_engine, tmp_path: Path):
+    """Production JSON exporter preserves the demo-snapshot disclaimer in structured form without leaking pack_status."""
+    packet = _make_subhadra_packet(dob="15/05/1990", annual_income=180000.0)
+    result = subhadra_engine.validate_packet("PKT_SUB_JSON_DISC", packet, as_of=date(2024, 7, 1))
+
+    out_path = tmp_path / "subhadra_report.json"
+    export_audit_report_json(result, str(out_path), redact=True)
+    payload = json.loads(out_path.read_text(encoding="utf-8"))
+
+    assert "pack_status" not in payload
+    assert payload["demo_snapshot_disclaimer"] == {
+        "title": DEMO_SNAPSHOT_DISCLAIMER_TITLE,
+        "body": DEMO_SNAPSHOT_DISCLAIMER_BODY,
+    }
+
+    # Canonical export retains the structured disclaimer without volatile fields
+    canon_path = tmp_path / "subhadra_report_canonical.json"
+    export_audit_report_json(result, str(canon_path), redact=True, canonical=True)
+    canon_payload = json.loads(canon_path.read_text(encoding="utf-8"))
+    assert canon_payload["demo_snapshot_disclaimer"] == {
+        "title": DEMO_SNAPSHOT_DISCLAIMER_TITLE,
+        "body": DEMO_SNAPSHOT_DISCLAIMER_BODY,
+    }
+    assert "execution_time_ms" not in canon_payload
+    assert "timestamp" not in canon_payload
+
+
+def test_non_demo_report_omits_subhadra_disclaimer_and_preserves_shape(tmp_path: Path):
+    """Verified-pack and legacy (pack_status=None) reports omit demo_snapshot_disclaimer and pack_status."""
+    base_kwargs = dict(
+        packet_id="PKT_NON_DEMO",
+        scheme_name="generic.demo",
+        readiness_score=100,
+        overall_status=Readiness.NO_ISSUES_FOUND,
+        findings=[],
+        summary_counts={},
+        execution_time_ms=1.0,
+        timestamp="2026-11-27T00:00:00",
     )
-    assert expected_token in header_banner.lower()
-    assert "fy 2024–25" in header_banner.lower()
+    legacy_result = AuditResult(**base_kwargs)
+    verified_result = AuditResult(**base_kwargs, pack_status=PackStatus.VERIFIED.value)
+
+    legacy_md = generate_readiness_summary_markdown(legacy_result, redact=True)
+    verified_md = generate_readiness_summary_markdown(verified_result, redact=True)
+    assert DEMO_SNAPSHOT_DISCLAIMER_TITLE not in legacy_md
+    assert DEMO_SNAPSHOT_DISCLAIMER_BODY not in legacy_md
+    assert verified_md == legacy_md
+
+    legacy_path = tmp_path / "non_demo_legacy.json"
+    verified_path = tmp_path / "non_demo_verified.json"
+    export_audit_report_json(legacy_result, str(legacy_path), redact=True)
+    export_audit_report_json(verified_result, str(verified_path), redact=True)
+    legacy_payload = json.loads(legacy_path.read_text(encoding="utf-8"))
+    verified_payload = json.loads(verified_path.read_text(encoding="utf-8"))
+
+    for payload in (legacy_payload, verified_payload):
+        assert "demo_snapshot_disclaimer" not in payload
+        assert "pack_status" not in payload
+    assert verified_payload == legacy_payload

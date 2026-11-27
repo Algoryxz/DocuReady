@@ -106,14 +106,14 @@ These are acceptance requirements for a later implementation change; they have n
 - Do not convert the baseline FAIL into a permanent, scheme-wide ineligibility claim.
 - Do not calculate later-year entitlements until scheme-year boundaries and the exact age-transition evaluation contract are approved.
 
-### Report header / exporter test and unchanged backlog criterion
+### Report header / exporter test and Product Owner wording decision
 
-- The existing T3.3 backlog acceptance criterion remains **unchanged**: the report header must show the exact phrase “demo snapshot — intake window closed” for this pack. This matrix revision does not edit `docs/BACKLOG.md`, change the acceptance criterion or authorize an exporter change.
-- Current test `test_subhadra_report_header_proposed_format` constructs a proposed banner string inside the test. It does not call the production report exporter and therefore does not prove that an actual report contains the banner.
+- **Product Owner wording decision (resolved):** The Product Owner (Deeptiman) explicitly approved replacing the old T3.3 backlog phrase `"demo snapshot — intake window closed"` with the following scoped historical disclaimer:
+  - **DEMO SNAPSHOT — FY 2024–25 REFERENCE MATERIALS**
+  - *This is a historical demonstration based on FY 2024–25 scheme materials. It does not represent live application-intake status or determine current eligibility. Application dates, availability and current requirements must be confirmed through the latest official Government notifications.*
+- **Scope of PO wording approval:** This decision resolves the wording only. It does not establish `31-03-2025` as an officially notified Government application closing date, does not approve this source-verification matrix as a whole, and does not waive Akriti's pending source-review confirmation or technical cross-pack regression gates.
 - The cited Gazette, Guidelines and SOP do not establish 31-03-2025 as an official application closing date. The 16-09-2026 secondary report about a future April 2027 reopening also does not establish a 2025 closing date.
-- **Decision required before the report-header criterion can be satisfied safely:** either (a) produce an authoritative, date-specific Government notification that establishes the claimed intake-closing date and supports the exact backlog wording; or (b) obtain explicit written Product Owner approval (Deeptiman) to revise the acceptance wording to a historically accurate demo-snapshot disclaimer that does not claim Government closure. Akriti's agreement to the evidence matrix is not a substitute for that Product Owner decision.
-- Until one of those paths is approved, leave the backlog unchanged and mark the report-header criterion OPEN / BLOCKED. Do not rewrite the phrase, alter the exporter, or modify the existing test string on T3.3 authority alone. Once the criterion is formally resolved and the exporter owner provides the supported test seam, the test must invoke the real production exporter and assert against generated output.
-- This is an acceptance-criteria and cross-owner dependency, not authorization for T3.3 to modify another owner's exporter.
+- **Exporter integration:** `PackExecutionEngine` propagates `pack_status` onto `AuditResult`, and `src/docuready/report/exporter.py` emits the exact PO-approved disclaimer in Markdown and structured JSON for `demo_snapshot` packs, verified against the production exporter in `tests/test_subhadra_pack.py`.
 
 ## 4. Explicit non-claims and unresolved evidence
 
@@ -140,7 +140,7 @@ These are acceptance requirements for a later implementation change; they have n
 | Age §3.1(e) | Legal provision verified; year-aware model unresolved | Specification approval first |
 | Income / NFSA-SFSS / external exclusions | Intentionally not executable without trusted verification | Remain deferred |
 | AWW / AWH | AWW verified exception; AWH unverified | No AWH rule |
-| Report exporter | Existing test is string-construction only; production exporter not tested. Backlog phrase remains unchanged and OPEN / BLOCKED pending authoritative close-date evidence or explicit PO approval to revise wording. | Coordinate with exporter owner and PO |
+| Report exporter | PO wording decision resolved (`DEMO SNAPSHOT — FY 2024–25 REFERENCE MATERIALS` disclaimer); production exporter emits the disclosure for `demo_snapshot` packs and is tested in `tests/test_subhadra_pack.py`. | Wording resolved by PO; Akriti matrix review still pending |
 | 31-03-2025 | Demo metadata only; not an official closing date | No official deadline claim |
 | 16-09-2026 reopening announcement | Secondary report recorded as UNVERIFIED / supports_rule:false; corresponding Government written notification not produced and remains UNVERIFIED. | No rule or effective-date change until official written notice is reviewed |
 | Implementation PR / merge | Not opened / not authorized by this matrix | Wait for Akriti's explicit written agreement |
