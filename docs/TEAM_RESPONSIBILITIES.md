@@ -97,7 +97,7 @@ The following assigns one primary owner to each V2 backlog item. It does not cha
 | T2.4 — Slot validation | **Akriti** | Susmita defines slot anchors and expected ambiguous outcomes; Deeptiman reviews user flow. |
 | T3.1 — Pack schema, loader and lint | **Susmita** | Akriti implements packaging/CI integration; Deeptiman approves lifecycle/governance. |
 | T3.2 — Primitives and `generic.demo` port | **Susmita** | Akriti reviews engine interfaces/performance; Deeptiman accepts equivalence and scope. |
-| T3.3 — `odisha.subhadra` demo snapshot | **Susmita** | Deeptiman reviews citizen-facing boundaries; Akriti reviews pack loading/report integration. |
+| T3.3 — `odisha.subhadra` demo snapshot | **Susmita** | Akriti: Evidence-matrix reviewer (reviews source traceability, verification states, pack schema compatibility, primitive contracts, and implementation implications); Deeptiman: Product Owner (reviews citizen-facing boundaries and gate sign-off). **Mandatory Governance Gate:** T3.3 implementation changes are blocked until Akriti has reviewed and explicitly agreed to the parameter-level source-verification matrix. |
 | T3.4 — Report v2 | **Deeptiman** | Susmita validates findings/citations; Akriti implements renderer, redaction and schema integration. |
 | T4.1 — Evaluation harness v2 | **Susmita** | Akriti provides CI reproducibility; Deeptiman signs off public metric wording. |
 | T4.2 — Indic OCR and numerals | **Akriti** | Susmita defines cross-script ambiguity policy and evaluation; Deeptiman approves limitations. |
@@ -106,6 +106,16 @@ The following assigns one primary owner to each V2 backlog item. It does not cha
 | T5.1 — Container | **Akriti** | Susmita supplies demo pack fixtures; Deeptiman approves user-facing setup/limitations. |
 | T5.2 — Supply chain | **Akriti** | Susmita checks runtime package needs; Deeptiman approves release-risk policy. |
 | T5.3 — Release | **Deeptiman** | Akriti supplies build/SBOM evidence; Susmita supplies pack/evaluation evidence. |
+
+### T3.3 Mandatory Evidence Gate & Governance Workflow
+
+Per governance agreement between Susmita (Owner) and Akriti (Reviewer), T3.3 follows a strict five-stage evidence gate:
+
+1. **Stage 1 — Source Verification:** Susmita prepares the complete parameter-level evidence matrix (`docs/04-VALIDATION/SUBHADRA_SOURCE_VERIFICATION_MATRIX.md`).
+2. **Stage 2 — Review Submission:** Susmita shares the completed matrix with Akriti.
+3. **Stage 3 — Evidence and Contract Review:** Akriti reviews official source URLs, document dates, retrieval dates, exact statutory clauses/printed pages, supporting wording, verification states, pack schema compatibility, primitive contracts, evidence-state behavior, severity and FAIL-capability implications, and proposed implementation boundaries.
+4. **Stage 4 — Explicit Agreement:** **T3.3 implementation changes are blocked until Akriti has reviewed and explicitly agreed to the parameter-level source-verification matrix.** Silence, test results, preliminary comments, or an agent's GO recommendation do not constitute approval.
+5. **Stage 5 — Implementation Authorization:** Only after explicit agreement may the team coordinate pack implementation, synthetic packet testing, evaluation updates, and report integration.
 
 ## 5. Track ownership and current handoff
 

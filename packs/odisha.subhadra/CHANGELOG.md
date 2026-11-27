@@ -16,7 +16,7 @@ All notable changes to the `odisha.subhadra` scheme pack are documented in this 
 - Initial declarative scheme pack implementation representing the FY 2024–25 Phase-I operational guidelines of the Odisha SUBHADRA Yojana.
 - Grounded in Odisha Gazette Resolution No. 1637 (05.09.2024), W&CD Guidelines (Letter No. 19188/WCD dated 29.08.2024), and English SOP (Letter No. 26139/WCD dated 11.11.2024).
 - Configured declarative `aadhaar_card` identity slot (`required: false` in `doc_slots`) and optional `bank_passbook`, `income_certificate`, and `ration_card` slots.
-- Implemented `RULE-SUB-DOC-01` (pack-specific `require_document` rule for digital pre-check, distinguishing online automated scan verification from in-person Mo Seva Kendra assisted e-KYC per SOP Section 2; missing scan yields `Status.MISSING` without implying government rejection).
+- Reconciled Aadhaar optional-upload semantics: removed `RULE-SUB-DOC-01` (`require_document`) from active pack rules because `Raw.DOC_ABSENT` bypasses severity caps and yields `Status.MISSING` / `Readiness.NOT_READY`. When the optional digital Aadhaar scan is absent or unreadable, dependent rules (`RULE-SUB-FLD-01`, `RULE-SUB-AGE-01`, `RULE-SUB-NAME-01`) abstain via `Raw.INDETERMINATE` / `EvidenceState.UNCERTAIN` and resolve to `Status.REVIEW` / `ReasonCode.INSUFFICIENT_DATA` (`Readiness.NEEDS_CHECKS`).
 - Implemented `RULE-SUB-FLD-01` (Aadhaar legal name completeness).
 - Implemented `RULE-SUB-AGE-01` (statutory age verification: ≥21 and <60 completed years as of `2024-07-01`, requiring DOB between `1964-07-02` and `2003-07-01`).
 - Implemented `RULE-SUB-NAME-01` (Aadhaar vs Passbook demographic name match, capped at `REVIEW`).

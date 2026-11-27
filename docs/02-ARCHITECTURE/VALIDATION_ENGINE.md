@@ -1,111 +1,80 @@
-# DocuReady Statutory Validation Engine
+# DocuReady Statutory Validation Engine (Architecture V2)
 
 ## Ownership & Contribution Responsibilities
 
 | Role | Assignee | Primary Scope & Focus |
 |---|---|---|
-| **Primary Owner** | **Susmita** (Domain Rules & Evaluation Lead) | Deterministic rules engine, bipartite entity matching, statutory citations, decision safety firewall |
-| **Supporting Contributor** | **Akriti** (Platform, Privacy & Delivery Lead) | Pipeline integration, execution performance, injected time/clock abstraction |
+| **Primary Owner** | **Susmita** (Domain Rules & Evaluation Lead) | Deterministic rules engine, closed primitive registry, YAML pack schema, symmetric outcome resolution (`resolve_outcome`), statutory citations |
+| **Supporting Contributor** | **Akriti** (Platform, Privacy & Delivery Lead) | Pipeline integration, execution performance, slot validation, injected time/clock abstraction |
 | **Supporting Contributor** | **Deeptiman** (Product Owner & Integration Lead) | Citizen-facing finding explanations, remediation action clarity, status terminology |
 
 ### Detailed Responsibilities & Deliverables
 - **Primary Owner (Susmita)**:
-  - Architect and maintain the deterministic validation rule set, bipartite fuzzy string matching, date arithmetic, and income ceiling verifications.
-  - Own the statutory citation matrix, official gazette references, and rule pack YAML schema (`packs/`).
-  - Implement and maintain the `DecisionSafetyLayer` firewall: enforce symmetric resolution (prevent both unsupported PASS and unsupported FAIL) and downgrade uncertain evidence to human `REVIEW`.
+  - Architect and maintain the deterministic validation rule engine (`src/docuready/rules/engine.py`, `primitives.py`, `schema.py`, `loader.py`, `lint.py`) and YAML scheme packs (`packs/**`).
+  - Maintain the canonical V2 outcome resolver (`src/docuready/outcome/resolver.py`) enforcing symmetric resolution (preventing both unsupported `PASS` and unsupported `FAIL` outcomes).
+  - Own the statutory citation registries (`sources.yaml`) and per-rule/cross-pack regression suites.
 - **Platform Contributor (Akriti)**:
-  - Support high-performance rule execution, slot validation, and clock injection (`frozen_time`) for deterministic date testing.
+  - Support high-performance rule execution, slot validation, and clock injection (`as_of`) for deterministic date testing.
 - **Product Contributor (Deeptiman)**:
   - Review all citizen-facing finding explanations and remediation instructions for clarity and tone.
 
 ### Coordination & Review Gates
-- Any addition, deletion, or threshold adjustment of validation rules requires Susmita's authoritative approval.
-- Governed by [TEAM_RESPONSIBILITIES.md](../TEAM_RESPONSIBILITIES.md) and Gates G2/G3.
+- Governed by [TEAM_RESPONSIBILITIES.md](../TEAM_RESPONSIBILITIES.md) and Gates G2/G3/G4.
+- Legacy `DecisionSafetyLayer` (`src/docuready/outcome/safety_layer.py`) is retained solely as a compatibility shim; all V2 pack execution routes through `resolve_outcome()`.
 
 ---
 
 ## Design Mission
 
-The DocuReady Validation Engine executes deterministic, legally grounded, cross-document checks against extracted applicant packets.
+The DocuReady Validation Engine executes deterministic, data-driven, cross-document checks against extracted applicant packets using versioned YAML scheme packs over a closed primitive set.
 
-Unlike generic linter tools or black-box LLM prompts:
-1. Every rule corresponds directly to an enacted Indian statutory guideline or government scholarship / welfare scheme criterion.
-2. Every finding provides complete provenance, citing the governing order, exact clause, conflicting field values, and actionable remediation steps.
-3. Every finding is passed through the **Evidence Safety Layer**, preventing false rejections caused by OCR or extraction uncertainty.
-
----
-
-## The 10 Core Statutory Validation Rules
-
-| Rule ID | Rule Name | Governing Order / Statutory Authority | Exact Clause Citation | Scope / Condition |
-| :--- | :--- | :--- | :--- | :--- |
-| **RULE-NAME-01** | Cross-Document Name Inconsistency | MoSJE Scheme Guidelines / e-District Standard | Section 4.2: Name matching across ID and qualifying certificates | All applicant documents must match phonetically and token-wise. Salutations excluded. |
-| **RULE-DOB-01** | Date of Birth Conflict | Secondary Education Board & DoPT Guidelines | Rule 8: Verification of Age via Matriculation Certificate | DOB in 10th marksheet is authoritative; application form must match. |
-| **RULE-INC-01** | Income Exceeds Scheme Ceiling | Post-Matric Scholarship Scheme (MoSJE / MoMA) | Clause 3.1: Family annual income ceiling $\le \text{Rs. } 2,50,000$ | Income certificate annual income $\le 2.50 \text{ Lakhs}$. |
-| **RULE-INC-02** | Declared vs. Certified Income Mismatch | State Scholarship Portal Compliance Guidelines | Guideline 5.1: Self-declaration must reconcile with Tehsildar certificate | Form income declaration must not conflict with issued certificate. |
-| **RULE-VAL-01** | Certificate Expired | State Revenue Department Manual (Income) | Section 12: Validity of Income Certificate is 1 financial year | Issue date must be within 12 months of application date. |
-| **RULE-CAS-01** | Category / Caste Mismatch | Central / State Caste Reservation List | Article 341/342 & Scheme Rule 4: Category claim substantiation | Declared category (SC/ST/OBC/GEN) must match certified category. |
-| **RULE-RES-01** | Domicile / State Mismatch | State Domicile & Residence Rules | Rule 2: State domicile quota eligibility requirement | State/District in Residence Certificate must match declared domicile. |
-| **RULE-DOC-01** | Missing Mandatory Document | Mandatory Application Checklist | Clause 2.1: Requisite documents for scholarship admission | Income, Caste (if reserved), Marksheet, and Passbook are mandatory. |
-| **RULE-BNK-01** | Bank Passbook Name Discrepancy | PFMS / DBT Direct Benefit Transfer Manual | Section 6: Direct Benefit Transfer Bank Account Seeding | Account holder name on passbook must match applicant name. |
-| **RULE-ACA-01** | Academic Eligibility / Cutoff | Scheme Minimum Educational Requirement | Guideline 6.2: Minimum aggregate marks (SC/ST Candidates Exempt) | General $\ge 50\%$; SC/ST candidates explicitly exempt per statutory order. |
+1. **Rules are data; the engine is code.** Policy changes live in `packs/<pack_id>/pack.yaml` without arbitrary Python `eval`.
+2. **Abstention is symmetric.** Uncertain or incomplete evidence can neither fail nor pass a rule.
+3. **Every finding is traceable.** Findings link to observations, bounding boxes, page numbers, and `sources.yaml` entries.
+4. **Deterministic and replayable.** All date-dependent rules consume an explicit injected `as_of: date` clock.
 
 ---
 
-## Two-Phase Evaluation Architecture
+## Closed 9-Primitive Registry (`src/docuready/rules/primitives.py`)
 
-```mermaid
-flowchart TD
-    subgraph Phase 1: Pure Statutory Evaluation
-        InputFields[Normalized Cross-Document Fields] --> EvalRules[Execute Rules RULE-NAME-01 to RULE-ACA-01]
-        EvalRules --> RawFindings[Generate Raw Findings: VIOLATION | WARNING | PASS]
-    end
-
-    subgraph Phase 2: Evidence-Gated Safety Downgrade
-        RawFindings --> SafetyFilter[Inspect EvidenceState of Supporting Fields]
-        SafetyFilter --> CheckState{Supporting Fields Status}
-        CheckState -->|All VERIFIED| KeepViolation[Retain VIOLATION / BLOCKING]
-        CheckState -->|Contains PROVISIONAL| DowngradeWarn[Downgrade to WARNING + Notice]
-        CheckState -->|Contains UNCERTAIN| DowngradeReview[Downgrade to MANUAL_REVIEW]
-    end
-
-    KeepViolation --> ConsolidatedReport[Audit Report & Remediation Plan]
-    DowngradeWarn --> ConsolidatedReport
-    DowngradeReview --> ConsolidatedReport
-```
+| Primitive | Purpose | Fail-Closed / Uncertainty Behavior |
+|---|---|---|
+| `require_document` | Verifies mandatory document slot presence and minimum page count. | Absent/missing $\to$ `Raw.DOC_ABSENT`; `UNREADABLE`/`CORRUPTED` $\to$ `Raw.INDETERMINATE` / `UNCERTAIN`. |
+| `field_present` | Verifies that required field(s) are extracted and non-empty across specified docs. | Absent/unreadable doc or missing/blank field $\to$ `Raw.INDETERMINATE` / `UNCERTAIN`. |
+| `match_across` | Cross-document consistency (`grade=name \| date \| id \| text`). | Returns `MatchGrade` (`EXACT`, `COMPATIBLE`, `CONFLICT`, `AMBIGUOUS`) with weakest-evidence propagation. |
+| `within_validity` | Validates document issue date against statutory validity window using `as_of`. | Unparseable/missing date $\to$ `Raw.INDETERMINATE` / `UNCERTAIN`. |
+| `numeric_cap` | Evaluates numeric ceiling (`<= cap`). | Missing/unparseable value $\to$ `Raw.INDETERMINATE` / `UNCERTAIN`. |
+| `numeric_consistency` | Evaluates numeric agreement across documents within tolerance. | Missing/unparseable value $\to$ `Raw.INDETERMINATE` / `UNCERTAIN`. |
+| `age_on` | Evaluates `[min_age, max_age]` on `reference_date` (or injected `as_of`). | Missing/ambiguous DOB $\to$ `Raw.INDETERMINATE` / `UNCERTAIN`. |
+| `enum_in` | Evaluates categorical field membership against allowed values. | Missing/empty value $\to$ `Raw.INDETERMINATE` / `UNCERTAIN`. |
+| `legible` | Evaluates document-level OCR confidence against `min_confidence`. | Missing/unreadable doc $\to$ `Raw.INDETERMINATE` / `UNCERTAIN`. |
 
 ---
 
-## Detailed Safety Downgrade Matrix
+## Canonical V2 Outcome Resolution (`src/docuready/outcome/resolver.py`)
 
-The central innovation of the DocuReady Validation Engine is its refusal to issue a blocking rejection to an applicant when the underlying evidentiary tokens have low OCR certainty:
+All rule evaluations emit a `Raw` outcome (`SATISFIED`, `VIOLATED`, `INDETERMINATE`, `DOC_ABSENT`, `EXEMPT`) paired with the weakest `EvidenceState` (`VERIFIED`, `PROVISIONAL`, `UNCERTAIN`) and optional `MatchGrade` (`EXACT`, `COMPATIBLE`, `CONFLICT`, `AMBIGUOUS`).
 
-```python
-def apply_safety_downgrades(raw_finding: ValidationFinding, packet: DocumentPacket) -> ValidationFinding:
-    supporting_fields = get_supporting_fields_for_rule(raw_finding.rule_id, packet)
-    states = [f.evidence_state for f in supporting_fields]
+Transitional extractor states (`VERIFIED_TEXT`, `OCR_EXTRACTED`, `LOW_CONFIDENCE`, `AMBIGUOUS`, `NOT_FOUND`, `UNREADABLE`, `CONFLICTING`) are normalized fail-closed via `normalize_evidence_state()`.
 
-    if EvidenceState.UNCERTAIN in states:
-        return raw_finding.downgrade(
-            new_severity=FindingSeverity.REVIEW,
-            reason="Degraded document evidence. Cannot confirm violation without human inspection."
-        )
-    elif EvidenceState.PROVISIONAL in states and raw_finding.severity == FindingSeverity.VIOLATION:
-        return raw_finding.downgrade(
-            new_severity=FindingSeverity.WARNING,
-            reason="Extracted evidence is provisional. Please verify document scan quality."
-        )
-    return raw_finding
-```
+| Raw | Weakest Evidence | Match Grade | Resolved `Status` | `ReasonCode` | Citizen Meaning |
+|---|---|---|---|---|---|
+| `DOC_ABSENT` | — | — | `MISSING` | `DOC_ABSENT` | Required document not supplied |
+| `EXEMPT` | — | — | `NOT_APPLICABLE` | `EXEMPT:<REASON>` | Rule exempted for category |
+| `INDETERMINATE` | any | — | `REVIEW` | `INSUFFICIENT_DATA` | Missing, unreadable, or ambiguous input |
+| any | any | `AMBIGUOUS` | `REVIEW` | `EVIDENCE_UNCERTAIN` | Match is ambiguous; human check needed |
+| `VIOLATED` | `VERIFIED` | `CONFLICT` / none | `FAIL` | `DEFECT_CONFIRMED` | Confirmed defect; fix before submitting |
+| `VIOLATED` | `VERIFIED` | `COMPATIBLE` | `WARN` | `DEFECT_PROBABLE` | Compatible variation; check before relying |
+| `VIOLATED` | `PROVISIONAL` | any (not `AMBIGUOUS`) | `WARN` | `DEFECT_PROBABLE` | Probable defect on provisional evidence |
+| `VIOLATED` | `UNCERTAIN` | any | `REVIEW` | `EVIDENCE_UNCERTAIN` | Uncertain evidence; cannot confirm defect |
+| `SATISFIED` | `VERIFIED` | `EXACT` / none | `PASS` | `CONFIRMED_OK` | No issue found on verified evidence |
+| `SATISFIED` | `VERIFIED` | `COMPATIBLE` | `WARN` | `DEFECT_PROBABLE` | Compatible variation requires checking |
+| `SATISFIED` | `PROVISIONAL` / `UNCERTAIN` | any | `REVIEW` | `CANNOT_CONFIRM` | Looks fine, but evidence too weak to pass |
 
----
-
-## Actionable Remediation Guidance
-
-Every finding emitted by the engine includes:
-- **`finding_id`**: Unique instance key.
-- **`rule_id`**: Canonical rule reference.
-- **`severity`**: `VIOLATION` (fatal submission blocker), `WARNING` (potential flaw), `REVIEW` (OCR unreadable / needs check).
-- **`statutory_reference`**: Clause and Gazette / Ministry order number.
-- **`conflicting_documents`**: Specific document IDs and pages containing the conflict.
-- **`remediation_action`**: Clear, plain-language instructions explaining how the applicant can resolve the issue (e.g., *"Obtain a revised Income Certificate from the Tehsildar office reflecting current fiscal year income"*).
+### Additional Resolver Invariants
+- **`MaxSeverity` Cap:** A rule's `max_severity` (`FAIL`, `WARN`, `REVIEW`) caps adverse statuses (`FAIL`/`WARN` downgraded to the cap with `ReasonCode.ADVISORY_RULE_CAP`), except structural `Raw.DOC_ABSENT` (`Status.MISSING`).
+- **Packet Readiness (`Readiness`):**
+  - `NOT_READY` if any finding is `Status.FAIL` or `Status.MISSING`.
+  - `NEEDS_CHECKS` if any finding is `Status.WARN` or `Status.REVIEW`.
+  - `NO_ISSUES_FOUND` otherwise.
+- **CLI Exit Codes:** `0` (`NO_ISSUES_FOUND`), `1` (`NEEDS_CHECKS`), `2` (`NOT_READY`), `64` (usage/system error).

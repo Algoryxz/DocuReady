@@ -22,6 +22,7 @@ import pytest
 
 from docuready.domain.enums import (
     EvidenceState,
+    MatchGrade,
     MaxSeverity,
     Raw,
     Readiness,
@@ -169,11 +170,11 @@ def test_subhadra_exact_official_clause_citations():
     assert guidelines.status.value == "verified"
     assert guidelines.retrieved_on == date(2026, 11, 21)
 
-    # 2. Gazette Resolution (No. 1637 dated 05.09.2024): Sections 1(e), 2(a), 3.1(c)–(e), 3.2, 5(a)(i), 5(a)(iii)
+    # 2. Gazette Resolution (No. 1637 dated 05.09.2024): Sections 1(e), 2(a), 3.1(a), 3.1(c)–(e), 3.2, 5(a)(i), 5(a)(iii)
     gazette = sources_by_id.get("SRC-SUB-GAZETTE-2024")
     assert gazette is not None
     assert "1637" in gazette.url
-    assert "2(a)" in gazette.clause and "3.1(c)" in gazette.clause and "5(a)(i)" in gazette.clause
+    assert "2(a)" in gazette.clause and "3.1(a)" in gazette.clause and "3.1(c)" in gazette.clause and "5(a)(i)" in gazette.clause
     assert gazette.status.value == "verified"
     assert gazette.retrieved_on == date(2026, 11, 21)
 
@@ -402,6 +403,81 @@ def test_subhadra_statutory_age_reference_date_precedes_execution_context_as_of(
     assert f_age_upper.resolved_status is Status.PASS
 
 
+def test_subhadra_missing_dob_field_yields_review_not_statutory_fail(subhadra_engine):
+    """Missing DOB field on Aadhaar scan yields REVIEW/UNCERTAIN, not statutory FAIL."""
+    packet = _make_subhadra_packet()
+    del packet[DocumentType.AADHAAR].fields["dob"]
+    result = subhadra_engine.validate_packet("PKT_SUB_NO_DOB", packet, as_of=date(2024, 7, 1))
+
+    assert result.readiness is Readiness.NEEDS_CHECKS
+    assert not any(f.resolved_status is Status.FAIL for f in result.findings)
+
+    f_age = next((f for f in result.findings if f.rule_id == "RULE-SUB-AGE-01"), None)
+    assert f_age is not None
+    assert f_age.raw_result is Raw.INDETERMINATE
+    assert f_age.resolved_status is Status.REVIEW
+    assert f_age.reason_code == ReasonCode.INSUFFICIENT_DATA.value
+
+
+def test_subhadra_malformed_dob_format_yields_review_not_statutory_fail(subhadra_engine):
+    """Malformed or unparseable DOB string on Aadhaar yields REVIEW/UNCERTAIN, not statutory FAIL."""
+    packet = _make_subhadra_packet(dob="INVALID_DATE_FORMAT")
+    result = subhadra_engine.validate_packet("PKT_SUB_MALFORMED_DOB", packet, as_of=date(2024, 7, 1))
+
+    assert result.readiness is Readiness.NEEDS_CHECKS
+    assert not any(f.resolved_status is Status.FAIL for f in result.findings)
+
+    f_age = next((f for f in result.findings if f.rule_id == "RULE-SUB-AGE-01"), None)
+    assert f_age is not None
+    assert f_age.raw_result is Raw.INDETERMINATE
+    assert f_age.resolved_status is Status.REVIEW
+    assert f_age.reason_code == ReasonCode.INSUFFICIENT_DATA.value
+
+
+def test_subhadra_missing_name_field_yields_review_insufficient_data(subhadra_engine):
+    """Missing applicant_name field on Aadhaar yields INDETERMINATE / REVIEW (INSUFFICIENT_DATA)."""
+    packet = _make_subhadra_packet()
+    del packet[DocumentType.AADHAAR].fields["applicant_name"]
+    result = subhadra_engine.validate_packet("PKT_SUB_NO_NAME_FIELD", packet, as_of=date(2024, 7, 1))
+
+    assert result.readiness is Readiness.NEEDS_CHECKS
+    assert not any(f.resolved_status is Status.FAIL for f in result.findings)
+
+    f_name = next((f for f in result.findings if f.rule_id == "RULE-SUB-FLD-01"), None)
+    assert f_name is not None
+    assert f_name.raw_result is Raw.INDETERMINATE
+    assert f_name.resolved_status is Status.REVIEW
+    assert f_name.reason_code == ReasonCode.INSUFFICIENT_DATA.value
+
+
+def test_subhadra_uncertain_dob_outside_range_yields_review_not_statutory_fail(subhadra_engine):
+    """Extracted DOB outside statutory age range with uncertain evidence yields REVIEW, not statutory FAIL.
+
+    Validates that the outcome resolver intercepts Raw.VIOLATED under EvidenceState.UNCERTAIN
+    and downgrades the outcome to Status.REVIEW (ReasonCode.EVIDENCE_UNCERTAIN). An applicant
+    is not falsely rejected based solely on low-confidence OCR evidence.
+    """
+    # Underage DOB (01/01/2010 -> age 14 as of 2024-07-01), but with is_uncertain=True
+    packet = _make_subhadra_packet(dob="01/01/2010")
+    packet[DocumentType.AADHAAR].fields["dob"].is_uncertain = True
+
+    result = subhadra_engine.validate_packet(
+        "PKT_SUB_UNCERTAIN_DOB_UNDERAGE", packet, as_of=date(2024, 7, 1)
+    )
+
+    # Packet readiness is NEEDS_CHECKS, NOT_READY rejection is prevented
+    assert result.readiness is Readiness.NEEDS_CHECKS
+    assert not any(f.resolved_status is Status.FAIL for f in result.findings)
+
+    # RULE-SUB-AGE-01 exact outcome assertions
+    f_age = next((f for f in result.findings if f.rule_id == "RULE-SUB-AGE-01"), None)
+    assert f_age is not None
+    assert f_age.raw_result is Raw.VIOLATED
+    assert f_age.resolved_status is Status.REVIEW
+    assert f_age.reason_code == ReasonCode.EVIDENCE_UNCERTAIN.value
+    assert f_age.severity == Severity.REVIEW
+
+
 # =============================================================================
 # 4. Income Conditional Applicability & Unimplemented Database Demarcation
 # =============================================================================
@@ -528,6 +604,54 @@ def test_subhadra_bank_passbook_name_mismatch_yields_review_not_fail(subhadra_en
     assert f_name.resolved_status is Status.REVIEW
 
 
+def test_subhadra_compatible_name_variation_yields_review_capped(subhadra_engine):
+    """Compatible name variation (e.g. token reorder) produces COMPATIBLE match capped at REVIEW."""
+    packet = _make_subhadra_packet(name="Pravasini Sahoo", passbook_name="Sahoo Pravasini")
+    result = subhadra_engine.validate_packet("PKT_SUB_COMPATIBLE_NAME", packet, as_of=date(2024, 7, 1))
+
+    assert result.readiness is Readiness.NEEDS_CHECKS
+    f_match = next((f for f in result.findings if f.rule_id == "RULE-SUB-NAME-01"), None)
+    assert f_match is not None
+    assert f_match.raw_result is Raw.SATISFIED
+    assert f_match.match_grade == MatchGrade.COMPATIBLE
+    assert f_match.resolved_status is Status.REVIEW
+    assert f_match.reason_code == ReasonCode.ADVISORY_RULE_CAP.value
+
+
+def test_subhadra_ambiguous_name_matching_uncertain_ocr_yields_review(subhadra_engine):
+    """Uncertain OCR extraction in demographic name matching produces AMBIGUOUS match and REVIEW."""
+    packet = _make_subhadra_packet(name="Pravasini Sahoo", passbook_name="Pravasini Sahoo")
+    packet[DocumentType.AADHAAR].fields["applicant_name"].is_uncertain = True
+    result = subhadra_engine.validate_packet("PKT_SUB_UNCERTAIN_OCR_NAME", packet, as_of=date(2024, 7, 1))
+
+    assert result.readiness is Readiness.NEEDS_CHECKS
+    f_match = next((f for f in result.findings if f.rule_id == "RULE-SUB-NAME-01"), None)
+    assert f_match is not None
+    assert f_match.raw_result is Raw.SATISFIED
+    assert f_match.match_grade == MatchGrade.AMBIGUOUS
+    assert f_match.resolved_status is Status.REVIEW
+    assert f_match.reason_code == ReasonCode.EVIDENCE_UNCERTAIN.value
+
+
+def test_subhadra_passbook_name_match_does_not_assert_dbt_seeding(subhadra_engine):
+    """Advisory passbook name consistency check does not assert or verify Aadhaar DBT seeding."""
+    packet = _make_subhadra_packet(name="Pravasini Sahoo", passbook_name="Pravasini Sahoo")
+    result = subhadra_engine.validate_packet("PKT_SUB_CLEAN_DBT_CHECK", packet, as_of=date(2024, 7, 1))
+
+    # Clean name match passes RULE-SUB-NAME-01
+    f_match = next((f for f in result.findings if f.rule_id == "RULE-SUB-NAME-01"), None)
+    assert f_match is not None
+    assert f_match.resolved_status is Status.PASS
+    assert f_match.reason_code == ReasonCode.CONFIRMED_OK.value
+
+    # Pack does NOT contain any rule claiming to verify DBT activation or NPCI seeding
+    rule_ids = {r.id for r in subhadra_engine.pack.rules}
+    assert not any("dbt" in r_id.lower() or "npci" in r_id.lower() for r_id in rule_ids)
+
+    # Remediation text explicitly communicates this limitation to citizens
+    assert "npc" in f_match.remediation.lower() or "dbt" in f_match.remediation.lower()
+
+
 # =============================================================================
 # 5. External Database Exclusions & Report Header Formatting
 # =============================================================================
@@ -630,3 +754,357 @@ def test_non_demo_report_omits_subhadra_disclaimer_and_preserves_shape(tmp_path:
         assert "demo_snapshot_disclaimer" not in payload
         assert "pack_status" not in payload
     assert verified_payload == legacy_payload
+
+
+# =============================================================================
+# 6. Synthetic Packet Catalog Matrix
+# =============================================================================
+
+def _make_packet_missing_dob():
+    p = _make_subhadra_packet()
+    del p[DocumentType.AADHAAR].fields["dob"]
+    return p
+
+
+def _make_packet_missing_name():
+    p = _make_subhadra_packet()
+    del p[DocumentType.AADHAAR].fields["applicant_name"]
+    return p
+
+
+def _make_packet_uncertain_name():
+    p = _make_subhadra_packet()
+    p[DocumentType.AADHAAR].fields["applicant_name"].is_uncertain = True
+    return p
+
+
+SUBHADRA_SYNTHETIC_PACKET_CATALOG = [
+    {
+        "packet_id": "PKT_SUB_01_CLEAN",
+        "description": "Clean, fully compliant packet with all docs and matching details",
+        "factory": lambda: _make_subhadra_packet(dob="15/05/1990", name="Pravasini Sahoo", passbook_name="Pravasini Sahoo"),
+        "expected_readiness": Readiness.NO_ISSUES_FOUND,
+        "expected_raw": {
+            "RULE-SUB-AGE-01": Raw.SATISFIED,
+            "RULE-SUB-FLD-01": Raw.SATISFIED,
+            "RULE-SUB-NAME-01": Raw.SATISFIED,
+        },
+        "expected_statuses": {
+            "RULE-SUB-AGE-01": Status.PASS,
+            "RULE-SUB-FLD-01": Status.PASS,
+            "RULE-SUB-NAME-01": Status.PASS,
+        },
+        "expected_reasons": {
+            "RULE-SUB-AGE-01": ReasonCode.CONFIRMED_OK.value,
+            "RULE-SUB-FLD-01": ReasonCode.CONFIRMED_OK.value,
+            "RULE-SUB-NAME-01": ReasonCode.CONFIRMED_OK.value,
+        },
+        "expected_match_grades": {
+            "RULE-SUB-NAME-01": MatchGrade.EXACT,
+        },
+    },
+    {
+        "packet_id": "PKT_SUB_02_AGE_UNDER_21",
+        "description": "Applicant under statutory minimum age (20 years old on 01.07.2024)",
+        "factory": lambda: _make_subhadra_packet(dob="02/07/2003"),
+        "expected_readiness": Readiness.NOT_READY,
+        "expected_raw": {
+            "RULE-SUB-AGE-01": Raw.VIOLATED,
+            "RULE-SUB-FLD-01": Raw.SATISFIED,
+            "RULE-SUB-NAME-01": Raw.SATISFIED,
+        },
+        "expected_statuses": {
+            "RULE-SUB-AGE-01": Status.FAIL,
+            "RULE-SUB-FLD-01": Status.PASS,
+            "RULE-SUB-NAME-01": Status.PASS,
+        },
+        "expected_reasons": {
+            "RULE-SUB-AGE-01": ReasonCode.DEFECT_CONFIRMED.value,
+            "RULE-SUB-FLD-01": ReasonCode.CONFIRMED_OK.value,
+            "RULE-SUB-NAME-01": ReasonCode.CONFIRMED_OK.value,
+        },
+    },
+    {
+        "packet_id": "PKT_SUB_03_AGE_EXACT_LOWER_21",
+        "description": "Applicant exactly 21 years old on 01.07.2024 (statutory lower boundary)",
+        "factory": lambda: _make_subhadra_packet(dob="01/07/2003"),
+        "expected_readiness": Readiness.NO_ISSUES_FOUND,
+        "expected_raw": {
+            "RULE-SUB-AGE-01": Raw.SATISFIED,
+            "RULE-SUB-FLD-01": Raw.SATISFIED,
+            "RULE-SUB-NAME-01": Raw.SATISFIED,
+        },
+        "expected_statuses": {
+            "RULE-SUB-AGE-01": Status.PASS,
+            "RULE-SUB-FLD-01": Status.PASS,
+            "RULE-SUB-NAME-01": Status.PASS,
+        },
+        "expected_reasons": {
+            "RULE-SUB-AGE-01": ReasonCode.CONFIRMED_OK.value,
+            "RULE-SUB-FLD-01": ReasonCode.CONFIRMED_OK.value,
+            "RULE-SUB-NAME-01": ReasonCode.CONFIRMED_OK.value,
+        },
+    },
+    {
+        "packet_id": "PKT_SUB_04_AGE_EXACT_UPPER_59",
+        "description": "Applicant exactly 59y 364d on 01.07.2024 (statutory upper boundary, strictly < 60)",
+        "factory": lambda: _make_subhadra_packet(dob="02/07/1964"),
+        "expected_readiness": Readiness.NO_ISSUES_FOUND,
+        "expected_raw": {
+            "RULE-SUB-AGE-01": Raw.SATISFIED,
+            "RULE-SUB-FLD-01": Raw.SATISFIED,
+            "RULE-SUB-NAME-01": Raw.SATISFIED,
+        },
+        "expected_statuses": {
+            "RULE-SUB-AGE-01": Status.PASS,
+            "RULE-SUB-FLD-01": Status.PASS,
+            "RULE-SUB-NAME-01": Status.PASS,
+        },
+        "expected_reasons": {
+            "RULE-SUB-AGE-01": ReasonCode.CONFIRMED_OK.value,
+            "RULE-SUB-FLD-01": ReasonCode.CONFIRMED_OK.value,
+            "RULE-SUB-NAME-01": ReasonCode.CONFIRMED_OK.value,
+        },
+    },
+    {
+        "packet_id": "PKT_SUB_05_AGE_OVER_60",
+        "description": "Applicant turned 60 on 01.07.2024 (exceeds strictly < 60 statutory boundary)",
+        "factory": lambda: _make_subhadra_packet(dob="01/07/1964"),
+        "expected_readiness": Readiness.NOT_READY,
+        "expected_raw": {
+            "RULE-SUB-AGE-01": Raw.VIOLATED,
+            "RULE-SUB-FLD-01": Raw.SATISFIED,
+            "RULE-SUB-NAME-01": Raw.SATISFIED,
+        },
+        "expected_statuses": {
+            "RULE-SUB-AGE-01": Status.FAIL,
+            "RULE-SUB-FLD-01": Status.PASS,
+            "RULE-SUB-NAME-01": Status.PASS,
+        },
+        "expected_reasons": {
+            "RULE-SUB-AGE-01": ReasonCode.DEFECT_CONFIRMED.value,
+            "RULE-SUB-FLD-01": ReasonCode.CONFIRMED_OK.value,
+            "RULE-SUB-NAME-01": ReasonCode.CONFIRMED_OK.value,
+        },
+    },
+    {
+        "packet_id": "PKT_SUB_06_MISSING_AADHAAR_SCAN",
+        "description": "Missing optional Aadhaar card scan yields REVIEW / INSUFFICIENT_DATA and NEEDS_CHECKS",
+        "factory": lambda: _make_subhadra_packet(omit_aadhaar=True),
+        "expected_readiness": Readiness.NEEDS_CHECKS,
+        "expected_raw": {
+            "RULE-SUB-AGE-01": Raw.INDETERMINATE,
+            "RULE-SUB-FLD-01": Raw.INDETERMINATE,
+            "RULE-SUB-NAME-01": Raw.INDETERMINATE,
+        },
+        "expected_statuses": {
+            "RULE-SUB-AGE-01": Status.REVIEW,
+            "RULE-SUB-FLD-01": Status.REVIEW,
+            "RULE-SUB-NAME-01": Status.REVIEW,
+        },
+        "expected_reasons": {
+            "RULE-SUB-AGE-01": ReasonCode.INSUFFICIENT_DATA.value,
+            "RULE-SUB-FLD-01": ReasonCode.INSUFFICIENT_DATA.value,
+            "RULE-SUB-NAME-01": ReasonCode.INSUFFICIENT_DATA.value,
+        },
+    },
+    {
+        "packet_id": "PKT_SUB_07_UNREADABLE_AADHAAR_SCAN",
+        "description": "Unreadable/corrupt Aadhaar scan yields REVIEW / INSUFFICIENT_DATA and NEEDS_CHECKS",
+        "factory": lambda: _make_subhadra_packet(corrupt_aadhaar=True),
+        "expected_readiness": Readiness.NEEDS_CHECKS,
+        "expected_raw": {
+            "RULE-SUB-AGE-01": Raw.INDETERMINATE,
+            "RULE-SUB-FLD-01": Raw.INDETERMINATE,
+            "RULE-SUB-NAME-01": Raw.INDETERMINATE,
+        },
+        "expected_statuses": {
+            "RULE-SUB-AGE-01": Status.REVIEW,
+            "RULE-SUB-FLD-01": Status.REVIEW,
+            "RULE-SUB-NAME-01": Status.REVIEW,
+        },
+        "expected_reasons": {
+            "RULE-SUB-AGE-01": ReasonCode.INSUFFICIENT_DATA.value,
+            "RULE-SUB-FLD-01": ReasonCode.INSUFFICIENT_DATA.value,
+            "RULE-SUB-NAME-01": ReasonCode.INSUFFICIENT_DATA.value,
+        },
+    },
+    {
+        "packet_id": "PKT_SUB_08_MISSING_DOB_FIELD",
+        "description": "Aadhaar scan missing DOB field yields REVIEW (INSUFFICIENT_DATA)",
+        "factory": lambda: _make_packet_missing_dob(),
+        "expected_readiness": Readiness.NEEDS_CHECKS,
+        "expected_raw": {
+            "RULE-SUB-AGE-01": Raw.INDETERMINATE,
+            "RULE-SUB-FLD-01": Raw.SATISFIED,
+            "RULE-SUB-NAME-01": Raw.SATISFIED,
+        },
+        "expected_statuses": {
+            "RULE-SUB-AGE-01": Status.REVIEW,
+            "RULE-SUB-FLD-01": Status.PASS,
+            "RULE-SUB-NAME-01": Status.PASS,
+        },
+        "expected_reasons": {
+            "RULE-SUB-AGE-01": ReasonCode.INSUFFICIENT_DATA.value,
+            "RULE-SUB-FLD-01": ReasonCode.CONFIRMED_OK.value,
+            "RULE-SUB-NAME-01": ReasonCode.CONFIRMED_OK.value,
+        },
+    },
+    {
+        "packet_id": "PKT_SUB_09_MALFORMED_DOB_FORMAT",
+        "description": "Aadhaar scan with unparseable DOB yields REVIEW (INSUFFICIENT_DATA)",
+        "factory": lambda: _make_subhadra_packet(dob="INVALID_DATE_FORMAT"),
+        "expected_readiness": Readiness.NEEDS_CHECKS,
+        "expected_raw": {
+            "RULE-SUB-AGE-01": Raw.INDETERMINATE,
+            "RULE-SUB-FLD-01": Raw.SATISFIED,
+            "RULE-SUB-NAME-01": Raw.SATISFIED,
+        },
+        "expected_statuses": {
+            "RULE-SUB-AGE-01": Status.REVIEW,
+            "RULE-SUB-FLD-01": Status.PASS,
+            "RULE-SUB-NAME-01": Status.PASS,
+        },
+        "expected_reasons": {
+            "RULE-SUB-AGE-01": ReasonCode.INSUFFICIENT_DATA.value,
+            "RULE-SUB-FLD-01": ReasonCode.CONFIRMED_OK.value,
+            "RULE-SUB-NAME-01": ReasonCode.CONFIRMED_OK.value,
+        },
+    },
+    {
+        "packet_id": "PKT_SUB_10_MISSING_NAME_FIELD",
+        "description": "Aadhaar scan missing applicant_name field yields INDETERMINATE / REVIEW",
+        "factory": lambda: _make_packet_missing_name(),
+        "expected_readiness": Readiness.NEEDS_CHECKS,
+        "expected_raw": {
+            "RULE-SUB-AGE-01": Raw.SATISFIED,
+            "RULE-SUB-FLD-01": Raw.INDETERMINATE,
+            "RULE-SUB-NAME-01": Raw.INDETERMINATE,
+        },
+        "expected_statuses": {
+            "RULE-SUB-AGE-01": Status.PASS,
+            "RULE-SUB-FLD-01": Status.REVIEW,
+            "RULE-SUB-NAME-01": Status.REVIEW,
+        },
+        "expected_reasons": {
+            "RULE-SUB-AGE-01": ReasonCode.CONFIRMED_OK.value,
+            "RULE-SUB-FLD-01": ReasonCode.INSUFFICIENT_DATA.value,
+            "RULE-SUB-NAME-01": ReasonCode.INSUFFICIENT_DATA.value,
+        },
+    },
+    {
+        "packet_id": "PKT_SUB_11_COMPATIBLE_NAME_VARIATION",
+        "description": "Compatible name token variation (Sahoo Pravasini) yields advisory REVIEW",
+        "factory": lambda: _make_subhadra_packet(name="Pravasini Sahoo", passbook_name="Sahoo Pravasini"),
+        "expected_readiness": Readiness.NEEDS_CHECKS,
+        "expected_raw": {
+            "RULE-SUB-AGE-01": Raw.SATISFIED,
+            "RULE-SUB-FLD-01": Raw.SATISFIED,
+            "RULE-SUB-NAME-01": Raw.SATISFIED,
+        },
+        "expected_statuses": {
+            "RULE-SUB-AGE-01": Status.PASS,
+            "RULE-SUB-FLD-01": Status.PASS,
+            "RULE-SUB-NAME-01": Status.REVIEW,
+        },
+        "expected_reasons": {
+            "RULE-SUB-AGE-01": ReasonCode.CONFIRMED_OK.value,
+            "RULE-SUB-FLD-01": ReasonCode.CONFIRMED_OK.value,
+            "RULE-SUB-NAME-01": ReasonCode.ADVISORY_RULE_CAP.value,
+        },
+        "expected_match_grades": {
+            "RULE-SUB-NAME-01": MatchGrade.COMPATIBLE,
+        },
+    },
+    {
+        "packet_id": "PKT_SUB_12_NAME_MISMATCH",
+        "description": "Name mismatch between Aadhaar and Passbook yields advisory REVIEW",
+        "factory": lambda: _make_subhadra_packet(name="Pravasini Sahoo", passbook_name="Minati Das"),
+        "expected_readiness": Readiness.NEEDS_CHECKS,
+        "expected_raw": {
+            "RULE-SUB-AGE-01": Raw.SATISFIED,
+            "RULE-SUB-FLD-01": Raw.SATISFIED,
+            "RULE-SUB-NAME-01": Raw.VIOLATED,
+        },
+        "expected_statuses": {
+            "RULE-SUB-AGE-01": Status.PASS,
+            "RULE-SUB-FLD-01": Status.PASS,
+            "RULE-SUB-NAME-01": Status.REVIEW,
+        },
+        "expected_reasons": {
+            "RULE-SUB-AGE-01": ReasonCode.CONFIRMED_OK.value,
+            "RULE-SUB-FLD-01": ReasonCode.CONFIRMED_OK.value,
+            "RULE-SUB-NAME-01": ReasonCode.ADVISORY_RULE_CAP.value,
+        },
+        "expected_match_grades": {
+            "RULE-SUB-NAME-01": MatchGrade.CONFLICT,
+        },
+    },
+    {
+        "packet_id": "PKT_SUB_13_UNCERTAIN_OCR_NAME",
+        "description": "Uncertain OCR on applicant name yields AMBIGUOUS match and REVIEW",
+        "factory": lambda: _make_packet_uncertain_name(),
+        "expected_readiness": Readiness.NEEDS_CHECKS,
+        "expected_raw": {
+            "RULE-SUB-AGE-01": Raw.SATISFIED,
+            "RULE-SUB-FLD-01": Raw.SATISFIED,
+            "RULE-SUB-NAME-01": Raw.SATISFIED,
+        },
+        "expected_statuses": {
+            "RULE-SUB-AGE-01": Status.PASS,
+            "RULE-SUB-FLD-01": Status.REVIEW,
+            "RULE-SUB-NAME-01": Status.REVIEW,
+        },
+        "expected_reasons": {
+            "RULE-SUB-AGE-01": ReasonCode.CONFIRMED_OK.value,
+            "RULE-SUB-FLD-01": ReasonCode.CANNOT_CONFIRM.value,
+            "RULE-SUB-NAME-01": ReasonCode.EVIDENCE_UNCERTAIN.value,
+        },
+        "expected_match_grades": {
+            "RULE-SUB-NAME-01": MatchGrade.AMBIGUOUS,
+        },
+    },
+]
+
+
+@pytest.mark.parametrize(
+    "case",
+    SUBHADRA_SYNTHETIC_PACKET_CATALOG,
+    ids=[c["packet_id"] for c in SUBHADRA_SYNTHETIC_PACKET_CATALOG],
+)
+def test_subhadra_synthetic_packet_catalog_matrix(subhadra_engine, case):
+    """Execute synthetic packet matrix verifying deterministic outcomes against canonical spec."""
+    packet = case["factory"]()
+    result = subhadra_engine.validate_packet(
+        case["packet_id"],
+        packet,
+        as_of=date(2024, 7, 1),
+    )
+    assert result.readiness is case["expected_readiness"], (
+        f"Packet {case['packet_id']} expected readiness {case['expected_readiness'].value}, "
+        f"got {result.readiness.value}"
+    )
+
+    finding_map = {f.rule_id: f for f in result.findings}
+    for rule_id, expected_status in case["expected_statuses"].items():
+        assert rule_id in finding_map, f"Expected finding for rule {rule_id} in {case['packet_id']}"
+        finding = finding_map[rule_id]
+        assert finding.resolved_status is expected_status, (
+            f"Rule {rule_id} in {case['packet_id']} expected status {expected_status.value}, "
+            f"got {finding.resolved_status.value}"
+        )
+        if "expected_raw" in case and rule_id in case["expected_raw"]:
+            assert finding.raw_result is case["expected_raw"][rule_id], (
+                f"Rule {rule_id} in {case['packet_id']} expected raw {case['expected_raw'][rule_id].value}, "
+                f"got {finding.raw_result.value}"
+            )
+        if "expected_reasons" in case and rule_id in case["expected_reasons"]:
+            assert finding.reason_code == case["expected_reasons"][rule_id], (
+                f"Rule {rule_id} in {case['packet_id']} expected reason {case['expected_reasons'][rule_id]}, "
+                f"got {finding.reason_code}"
+            )
+        if "expected_match_grades" in case and rule_id in case["expected_match_grades"]:
+            assert finding.match_grade == case["expected_match_grades"][rule_id], (
+                f"Rule {rule_id} in {case['packet_id']} expected match grade {case['expected_match_grades'][rule_id]}, "
+                f"got {finding.match_grade}"
+            )
