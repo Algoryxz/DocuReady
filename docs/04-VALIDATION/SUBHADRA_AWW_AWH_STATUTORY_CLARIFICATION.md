@@ -160,7 +160,7 @@ To preserve legal integrity and avoid citizen harm, DocuReady must adhere to the
 
 1. **Zero Automated Employment Rules:**
    - DocuReady must **not** enact any rule that attempts to verify or disqualify applicants based on employment status (`HRMS`, government payroll, or honorarium engagement).
-   - The pack must continue to execute only the four approved rules: `RULE-SUB-DOC-01`, `RULE-SUB-FLD-01`, `RULE-SUB-AGE-01`, and `RULE-SUB-NAME-01`.
+   - The pack currently executes only the three configured rules: `RULE-SUB-FLD-01`, `RULE-SUB-AGE-01`, and `RULE-SUB-NAME-01`. `RULE-SUB-DOC-01` was removed in pack version `2024.1.1`; `aadhaar_card.required: false` remains. The optional Aadhaar upload is not a document-presence gate, and dependent field checks abstain to `REVIEW` when required evidence is absent or unreadable.
 
 2. **No HRMS-Derived Ineligibility:**
    - DocuReady must never treat an HRMS record or government employment claim as conclusive proof of statutory ineligibility.
@@ -184,4 +184,4 @@ To preserve legal integrity and avoid citizen harm, DocuReady must adhere to the
 | **SOP §10(f) Redressal Process** | Expressly verified from primary document (Letter No. 26139/WCD, p. 11) | `VERIFIED WITH LIMITATIONS` |
 | **General AWH Statutory Standing** | Relies on non-exhaustive statutory language; pending clarificatory circular | `REQUIRES STATUTORY SOURCE VERIFICATION` |
 | **Future Occupation Slot Automation** | Policy & evidentiary intake decisions required from Product Owner | `REQUIRES PRODUCT OWNER DECISION` |
-| **Engine & Pack Implementation** | Exactly four rules active; zero employment exclusions automated | `VERIFIED` |
+| **Engine & Pack Implementation** | Three configured rules active (`RULE-SUB-FLD-01`, `RULE-SUB-AGE-01`, `RULE-SUB-NAME-01`); `RULE-SUB-DOC-01` removed; Aadhaar scan remains optional; zero employment exclusions automated | `IMPLEMENTED` |
