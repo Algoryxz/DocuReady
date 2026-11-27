@@ -504,5 +504,6 @@ class PackExecutionEngine:
             execution_time_ms=0.0,
             timestamp=audit_ts,
             as_of=effective_as_of.isoformat(),
+            pack_status=self.pack.status.value,
             legacy_readiness_score_snapshot=score,
         )

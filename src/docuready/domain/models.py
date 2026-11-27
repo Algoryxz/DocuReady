@@ -176,6 +176,14 @@ class Finding(BaseModel):
         return self._raw_result
 
 
+DEMO_SNAPSHOT_DISCLAIMER_TITLE = "DEMO SNAPSHOT — FY 2024–25 REFERENCE MATERIALS"
+DEMO_SNAPSHOT_DISCLAIMER_BODY = (
+    "This is a historical demonstration based on FY 2024–25 scheme materials. "
+    "It does not represent live application-intake status or determine current eligibility. "
+    "Application dates, availability and current requirements must be confirmed through the latest official Government notifications."
+)
+
+
 class AuditResult(BaseModel):
     packet_id: str
     scheme_name: str
@@ -186,6 +194,7 @@ class AuditResult(BaseModel):
     execution_time_ms: float
     timestamp: str
     as_of: Optional[str] = Field(default=None, exclude=True)
+    pack_status: Optional[str] = Field(default=None, exclude=True)
 
     # Excluded from normal V2 models, emitted only by the serializer so the
     # immutable legacy_v0 baseline remains comparable.
@@ -259,6 +268,11 @@ class AuditResult(BaseModel):
         data["summary_counts"] = self.v2_summary_counts
         if self.as_of is not None:
             data["as_of"] = self.as_of
+        if self.pack_status == "demo_snapshot":
+            data["demo_snapshot_disclaimer"] = {
+                "title": DEMO_SNAPSHOT_DISCLAIMER_TITLE,
+                "body": DEMO_SNAPSHOT_DISCLAIMER_BODY,
+            }
         for item, finding in zip(data.get("findings", []), self.findings):
             item["status"] = finding.resolved_status.value
             item["penalty"] = finding.penalty

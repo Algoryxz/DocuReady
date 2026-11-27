@@ -325,11 +325,11 @@ T1.x tasks are independent of each other and can run in parallel once G0 passes.
 - **Gate:** G3
 
 #### T3.3 — First real pack: `odisha.subhadra` (demo snapshot)
-- **Behaviour:** Build from primary sources only (the scheme guidelines and official notices). Record the application window, age reference date, exclusion conditions, and required documents with their URLs and retrieval dates. Mark `status: demo_snapshot` and set `effective` to the intake window, which has closed, so reports say so plainly. Reuse any structure from the earlier standalone bundle only after checking each rule against a source.
+- **Behaviour:** Build from primary sources only (the scheme guidelines and official notices). Record the historical FY 2024–25 reference window, age reference date, exclusion conditions, and required documents with their URLs and retrieval dates. Mark `status: demo_snapshot` and set `effective` to the historical FY 2024–25 reference metadata (`2024-09-05` to `2025-03-31`, without claiming `2025-03-31` as an officially verified application closing date), so reports display the PO-approved historical demo disclaimer plainly. Reuse any structure from the earlier standalone bundle only after checking each rule against a source.
 - **Acceptance:**
   - [ ] Every parameter traces to a `sources.yaml` entry; anything unconfirmed is `UNVERIFIED` and excluded from FAIL-capable rules
   - [ ] Synthetic good/defective packets with expected findings are committed and tested
-  - [ ] Report header shows "demo snapshot — intake window closed" for this pack
+  - [ ] Report output shows the PO-approved disclaimer (`DEMO SNAPSHOT — FY 2024–25 REFERENCE MATERIALS`: "This is a historical demonstration based on FY 2024–25 scheme materials. It does not represent live application-intake status or determine current eligibility. Application dates, availability and current requirements must be confirmed through the latest official Government notifications.") for this pack
 - **Gate:** G4
 
 #### T3.4 — Report v2
