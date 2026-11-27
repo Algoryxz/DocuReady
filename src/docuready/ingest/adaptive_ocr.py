@@ -283,13 +283,13 @@ def profile_document(
     profile.split_x = split_x if has_gutter else None
 
     # 4. Adaptive Multi-Region Script Probe (in-process TessBaseAPI, fallback to pytesseract)
-    def _probe_band(y0_f: float, y1_f: float) -> Optional[str]:
+    def _probe_band(y0_f: float, y1_f: float, max_dim: float = 350.0) -> Optional[str]:
         strip = img.crop((int(w * 0.15), int(h * y0_f), int(w * 0.85), int(h * y1_f)))
         if max(strip.size) <= 0:
             return None
         if float((np.asarray(strip.convert("L")) < 210).mean()) < 0.003:
             return ""
-        scale = min(1.0, 350.0 / max(strip.size))
+        scale = min(1.0, max_dim / max(strip.size))
         thumb_w, thumb_h = max(10, int(strip.width * scale)), max(10, int(strip.height * scale))
         thumb = strip.resize((thumb_w, thumb_h), Image.Resampling.BILINEAR)
         txt: Optional[str] = None
@@ -307,12 +307,26 @@ def profile_document(
     try:
         sample_txt = _probe_band(0.25, 0.45) or ""
         res = detect_unicode_script(sample_txt) if len(sample_txt.strip()) >= 5 else None
-        # If central strip looks monolingual LATIN, sample lower body so Latin headers cannot hide Indic bodies
+        # Strategy C: If central strip looks monolingual LATIN, sample lower body so Latin headers cannot hide Indic bodies
         if res and res["primary_script"] == "LATIN" and not res["is_mixed"]:
             lower_txt = _probe_band(0.52, 0.85) or ""
             if lower_txt.strip():
                 sample_txt = (sample_txt + "\n" + lower_txt).strip()
                 res = detect_unicode_script(sample_txt)
+            else:
+                # Strategy D: Lower body is blank/inconclusive — probe upper band to catch
+                # Indic headers (e.g. Odia/Hindi heading at y < 0.25) that the central window misses.
+                # Guard: require >= 6 real Indic letter codepoints in the upper band to avoid
+                # false positives from logos, stamps, letterhead decorations.
+                # Use max_dim=500 so short header strips preserve Indic glyph height.
+                upper_txt = _probe_band(0.05, 0.22, max_dim=500.0) or ""
+                if upper_txt.strip():
+                    dev_count = len(RE_DEVANAGARI.findall(upper_txt))
+                    ori_count = len(RE_ODIA.findall(upper_txt))
+                    indic_count = dev_count + ori_count
+                    if indic_count >= 6:
+                        sample_txt = (sample_txt + "\n" + upper_txt).strip()
+                        res = detect_unicode_script(sample_txt)
         if res and len(sample_txt.strip()) >= 5:
             profile.script_counts = res["counts"]
             profile.primary_script = res["primary_script"]

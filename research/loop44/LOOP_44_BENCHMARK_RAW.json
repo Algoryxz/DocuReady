@@ -1,0 +1,57 @@
+{
+  "blind43_ind_hdr_lat_id": {
+    "odia_chars_upper": 45,
+    "devanagari_chars_upper": 0,
+    "indic_total_upper": 45,
+    "strategy_d_fires": true,
+    "primary_script": "MIXED_ODIA_LATIN",
+    "is_mixed_script": true,
+    "decision_strategy": "GLOBAL_MULTILINGUAL",
+    "fixed": true
+  },
+  "blind43_lat_hdr_hin_body": {
+    "primary_script": "DEVANAGARI",
+    "decision": "MONOLINGUAL_HIN",
+    "regression_free": true
+  },
+  "profile_warm_english": {
+    "n": 30,
+    "mean_ms": 495.17,
+    "median_ms": 477.92,
+    "p90_ms": 569.6,
+    "p95_ms": 602.82,
+    "stdev_ms": 74.29,
+    "min_ms": 409.36,
+    "max_ms": 752.0,
+    "threshold_ms": 850,
+    "passing": true
+  },
+  "profile_warm_odia": {
+    "n": 30,
+    "mean_ms": 279.23,
+    "median_ms": 319.52,
+    "p90_ms": 447.29,
+    "p95_ms": 462.13,
+    "stdev_ms": 121.0,
+    "min_ms": 118.58,
+    "max_ms": 536.53,
+    "threshold_ms": 1400,
+    "passing": true
+  },
+  "e2e_warm_english": {
+    "n": 5,
+    "mean_ms": 368.85,
+    "median_ms": 373.72,
+    "min_ms": 340.66,
+    "max_ms": 384.77,
+    "note": "No formal threshold — profile_document() thresholds are separate"
+  },
+  "e2e_warm_odia": {
+    "n": 5,
+    "mean_ms": 1278.33,
+    "median_ms": 1227.35,
+    "min_ms": 1185.19,
+    "max_ms": 1512.8,
+    "note": "No formal threshold — profile_document() thresholds are separate"
+  }
+}

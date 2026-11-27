@@ -1,0 +1,190 @@
+{
+  "raster_ablation": {
+    "DOC_CTRL_01 (Eng)": {
+      "primary_script": "LATIN",
+      "is_mixed": false,
+      "script_counts": {
+        "latin": 49,
+        "devanagari": 0,
+        "odia": 0,
+        "total": 49
+      },
+      "strategy": "FAST_PATH_ENG",
+      "lang": "eng",
+      "profile_ms": 896.45
+    },
+    "DOC_EXT_06 (Ori)": {
+      "primary_script": "MIXED_ODIA_LATIN",
+      "is_mixed": true,
+      "script_counts": {
+        "latin": 29,
+        "devanagari": 0,
+        "odia": 26,
+        "total": 55
+      },
+      "strategy": "GLOBAL_MULTILINGUAL",
+      "lang": "eng+hin+ori",
+      "profile_ms": 396.63
+    },
+    "DOC_HIN_01 (Hin)": {
+      "primary_script": "DEVANAGARI",
+      "is_mixed": false,
+      "script_counts": {
+        "latin": 13,
+        "devanagari": 137,
+        "odia": 0,
+        "total": 150
+      },
+      "strategy": "MONOLINGUAL_HIN",
+      "lang": "hin",
+      "profile_ms": 1198.77
+    },
+    "DOC_MIX_01 (Hin+Eng)": {
+      "primary_script": "MIXED_DEVANAGARI_LATIN",
+      "is_mixed": true,
+      "script_counts": {
+        "latin": 42,
+        "devanagari": 23,
+        "odia": 7,
+        "total": 72
+      },
+      "strategy": "GLOBAL_MULTILINGUAL",
+      "lang": "eng+hin+ori",
+      "profile_ms": 368.37
+    },
+    "DOC_MIX_02 (Ori+Eng)": {
+      "primary_script": "MIXED_ODIA_LATIN",
+      "is_mixed": true,
+      "script_counts": {
+        "latin": 22,
+        "devanagari": 0,
+        "odia": 23,
+        "total": 45
+      },
+      "strategy": "GLOBAL_MULTILINGUAL",
+      "lang": "eng+hin+ori",
+      "profile_ms": 698.17
+    },
+    "BLIND44_IND_HDR_LAT_ID (Raster)": {
+      "primary_script": "MIXED_ODIA_LATIN",
+      "is_mixed": true,
+      "script_counts": {
+        "latin": 93,
+        "devanagari": 0,
+        "odia": 37,
+        "total": 130
+      },
+      "strategy": "GLOBAL_MULTILINGUAL",
+      "lang": "eng+hin+ori",
+      "profile_ms": 864.07
+    },
+    "BLIND44_LAT_HDR_HIN_BODY (Raster)": {
+      "primary_script": "MIXED_DEVANAGARI_LATIN",
+      "is_mixed": true,
+      "script_counts": {
+        "latin": 66,
+        "devanagari": 237,
+        "odia": 0,
+        "total": 303
+      },
+      "strategy": "GLOBAL_MULTILINGUAL",
+      "lang": "eng+hin",
+      "profile_ms": 1728.57
+    },
+    "BLIND44_ENG_UPPER_SEAL (Raster)": {
+      "primary_script": "LATIN",
+      "is_mixed": false,
+      "script_counts": {
+        "latin": 66,
+        "devanagari": 0,
+        "odia": 0,
+        "total": 66
+      },
+      "strategy": "FAST_PATH_ENG",
+      "lang": "eng",
+      "profile_ms": 363.46
+    }
+  },
+  "cold_profile_english": {
+    "n": 5,
+    "values_ms": [
+      1131.59,
+      908.2,
+      889.4,
+      867.51,
+      881.86
+    ],
+    "mean_ms": 935.71,
+    "median_ms": 889.4,
+    "min_ms": 867.51,
+    "max_ms": 1131.59
+  },
+  "cold_profile_odia": {
+    "n": 5,
+    "values_ms": [
+      761.69,
+      770.27,
+      839.2,
+      833.94,
+      785.99
+    ],
+    "mean_ms": 798.22,
+    "median_ms": 785.99,
+    "min_ms": 761.69,
+    "max_ms": 839.2
+  },
+  "cold_e2e_english": {
+    "n": 5,
+    "values_ms": [
+      1650.41,
+      1776.51,
+      1861.79,
+      1834.21,
+      1838.05
+    ],
+    "mean_ms": 1792.19,
+    "median_ms": 1834.21,
+    "min_ms": 1650.41,
+    "max_ms": 1861.79
+  },
+  "cold_e2e_odia": {
+    "n": 5,
+    "values_ms": [
+      4373.36,
+      4375.19,
+      4214.58,
+      4484.72,
+      4243.24
+    ],
+    "mean_ms": 4338.22,
+    "median_ms": 4373.36,
+    "min_ms": 4214.58,
+    "max_ms": 4484.72
+  },
+  "tsv_parity": {
+    "eng_psm6": {
+      "exact_match": false,
+      "words": 59
+    },
+    "hin_psm6": {
+      "exact_match": false,
+      "words": 59
+    },
+    "ori_psm6": {
+      "exact_match": false,
+      "words": 70
+    },
+    "eng+hin_psm6": {
+      "exact_match": false,
+      "words": 59
+    },
+    "eng+ori_psm6": {
+      "exact_match": false,
+      "words": 59
+    },
+    "eng+hin+ori_psm6": {
+      "exact_match": false,
+      "words": 59
+    }
+  }
+}
