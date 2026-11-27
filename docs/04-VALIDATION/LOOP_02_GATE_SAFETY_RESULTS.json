@@ -1,0 +1,2418 @@
+{
+  "timestamp": "2026-11-21T20:10:00Z",
+  "summary": {
+    "total_fixtures": 70,
+    "actual_upright_count": 62,
+    "upright_fast_path_rate_pct": 91.94,
+    "actual_rotated_count": 8,
+    "rotated_false_upright_count": 0,
+    "rotated_false_upright_rate_pct": 0.0,
+    "rotated_correctly_rejected_count": 8
+  },
+  "critical_failures": [],
+  "fixtures": [
+    {
+      "file_name": "smp_01_income_cert_clean.pdf",
+      "path": "synthetic_data\\realistic_corpus_60\\smp_01_income_cert_clean.pdf",
+      "ground_truth_orientation": 0,
+      "is_actually_upright": true,
+      "page_dimensions_pt": [
+        595.3,
+        841.9
+      ],
+      "raster_dimensions_px": [
+        1654,
+        2339
+      ],
+      "speculative_ocr_ms": 732.52,
+      "total_extraction_ms": 17.98,
+      "token_metrics": {
+        "total_tokens": 92,
+        "mean_confidence": 94.5,
+        "high_confidence_ratio": 1.0,
+        "horizontal_token_ratio": 0.935
+      },
+      "gate_decision_upright": true,
+      "classification": "TRUE_UPRIGHT_FAST_PATH",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 6,
+      "extracted_fields": [
+        "applicant_name",
+        "father_name",
+        "annual_income",
+        "issue_date",
+        "certificate_no",
+        "state"
+      ],
+      "bounding_box_valid": true,
+      "corpus_category": "realistic"
+    },
+    {
+      "file_name": "smp_02_caste_cert_clean.pdf",
+      "path": "synthetic_data\\realistic_corpus_60\\smp_02_caste_cert_clean.pdf",
+      "ground_truth_orientation": 0,
+      "is_actually_upright": true,
+      "page_dimensions_pt": [
+        595.3,
+        841.9
+      ],
+      "raster_dimensions_px": [
+        1654,
+        2339
+      ],
+      "speculative_ocr_ms": 672.23,
+      "total_extraction_ms": 11.84,
+      "token_metrics": {
+        "total_tokens": 91,
+        "mean_confidence": 94.3,
+        "high_confidence_ratio": 1.0,
+        "horizontal_token_ratio": 0.901
+      },
+      "gate_decision_upright": true,
+      "classification": "TRUE_UPRIGHT_FAST_PATH",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 7,
+      "extracted_fields": [
+        "applicant_name",
+        "father_name",
+        "caste_category",
+        "sub_caste",
+        "certificate_no",
+        "issue_date",
+        "state"
+      ],
+      "bounding_box_valid": true,
+      "corpus_category": "realistic"
+    },
+    {
+      "file_name": "smp_03_residence_cert_clean.pdf",
+      "path": "synthetic_data\\realistic_corpus_60\\smp_03_residence_cert_clean.pdf",
+      "ground_truth_orientation": 0,
+      "is_actually_upright": true,
+      "page_dimensions_pt": [
+        595.3,
+        841.9
+      ],
+      "raster_dimensions_px": [
+        1654,
+        2339
+      ],
+      "speculative_ocr_ms": 709.56,
+      "total_extraction_ms": 40.3,
+      "token_metrics": {
+        "total_tokens": 92,
+        "mean_confidence": 94.5,
+        "high_confidence_ratio": 1.0,
+        "horizontal_token_ratio": 0.902
+      },
+      "gate_decision_upright": true,
+      "classification": "TRUE_UPRIGHT_FAST_PATH",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 4,
+      "extracted_fields": [
+        "applicant_name",
+        "father_name",
+        "state",
+        "certificate_no"
+      ],
+      "bounding_box_valid": true,
+      "corpus_category": "realistic"
+    },
+    {
+      "file_name": "smp_04_marksheet_clean.pdf",
+      "path": "synthetic_data\\realistic_corpus_60\\smp_04_marksheet_clean.pdf",
+      "ground_truth_orientation": 0,
+      "is_actually_upright": true,
+      "page_dimensions_pt": [
+        595.3,
+        841.9
+      ],
+      "raster_dimensions_px": [
+        1654,
+        2339
+      ],
+      "speculative_ocr_ms": 791.26,
+      "total_extraction_ms": 36.34,
+      "token_metrics": {
+        "total_tokens": 87,
+        "mean_confidence": 95.09,
+        "high_confidence_ratio": 1.0,
+        "horizontal_token_ratio": 1.0
+      },
+      "gate_decision_upright": true,
+      "classification": "TRUE_UPRIGHT_FAST_PATH",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 5,
+      "extracted_fields": [
+        "applicant_name",
+        "father_name",
+        "dob",
+        "roll_no",
+        "percentage"
+      ],
+      "bounding_box_valid": true,
+      "corpus_category": "realistic"
+    },
+    {
+      "file_name": "smp_05_bank_passbook_clean.pdf",
+      "path": "synthetic_data\\realistic_corpus_60\\smp_05_bank_passbook_clean.pdf",
+      "ground_truth_orientation": 0,
+      "is_actually_upright": true,
+      "page_dimensions_pt": [
+        595.3,
+        841.9
+      ],
+      "raster_dimensions_px": [
+        1654,
+        2339
+      ],
+      "speculative_ocr_ms": 594.71,
+      "total_extraction_ms": 14.77,
+      "token_metrics": {
+        "total_tokens": 48,
+        "mean_confidence": 94.12,
+        "high_confidence_ratio": 1.0,
+        "horizontal_token_ratio": 0.938
+      },
+      "gate_decision_upright": true,
+      "classification": "TRUE_UPRIGHT_FAST_PATH",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 4,
+      "extracted_fields": [
+        "applicant_name",
+        "account_no",
+        "ifsc",
+        "dbt_seeded"
+      ],
+      "bounding_box_valid": true,
+      "corpus_category": "realistic"
+    },
+    {
+      "file_name": "smp_06_application_form_clean.pdf",
+      "path": "synthetic_data\\realistic_corpus_60\\smp_06_application_form_clean.pdf",
+      "ground_truth_orientation": 0,
+      "is_actually_upright": true,
+      "page_dimensions_pt": [
+        595.3,
+        841.9
+      ],
+      "raster_dimensions_px": [
+        1654,
+        2339
+      ],
+      "speculative_ocr_ms": 841.2,
+      "total_extraction_ms": 30.92,
+      "token_metrics": {
+        "total_tokens": 105,
+        "mean_confidence": 94.84,
+        "high_confidence_ratio": 1.0,
+        "horizontal_token_ratio": 0.981
+      },
+      "gate_decision_upright": true,
+      "classification": "TRUE_UPRIGHT_FAST_PATH",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 7,
+      "extracted_fields": [
+        "applicant_name",
+        "father_name",
+        "dob",
+        "caste_category",
+        "annual_income",
+        "account_no",
+        "ifsc"
+      ],
+      "bounding_box_valid": true,
+      "corpus_category": "realistic"
+    },
+    {
+      "file_name": "smp_07_income_cert_clean.pdf",
+      "path": "synthetic_data\\realistic_corpus_60\\smp_07_income_cert_clean.pdf",
+      "ground_truth_orientation": 0,
+      "is_actually_upright": true,
+      "page_dimensions_pt": [
+        595.3,
+        841.9
+      ],
+      "raster_dimensions_px": [
+        1654,
+        2339
+      ],
+      "speculative_ocr_ms": 776.79,
+      "total_extraction_ms": 32.63,
+      "token_metrics": {
+        "total_tokens": 92,
+        "mean_confidence": 94.5,
+        "high_confidence_ratio": 1.0,
+        "horizontal_token_ratio": 0.935
+      },
+      "gate_decision_upright": true,
+      "classification": "TRUE_UPRIGHT_FAST_PATH",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 6,
+      "extracted_fields": [
+        "applicant_name",
+        "father_name",
+        "annual_income",
+        "issue_date",
+        "certificate_no",
+        "state"
+      ],
+      "bounding_box_valid": true,
+      "corpus_category": "realistic"
+    },
+    {
+      "file_name": "smp_08_caste_cert_clean.pdf",
+      "path": "synthetic_data\\realistic_corpus_60\\smp_08_caste_cert_clean.pdf",
+      "ground_truth_orientation": 0,
+      "is_actually_upright": true,
+      "page_dimensions_pt": [
+        595.3,
+        841.9
+      ],
+      "raster_dimensions_px": [
+        1654,
+        2339
+      ],
+      "speculative_ocr_ms": 793.36,
+      "total_extraction_ms": 31.36,
+      "token_metrics": {
+        "total_tokens": 91,
+        "mean_confidence": 94.3,
+        "high_confidence_ratio": 1.0,
+        "horizontal_token_ratio": 0.901
+      },
+      "gate_decision_upright": true,
+      "classification": "TRUE_UPRIGHT_FAST_PATH",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 7,
+      "extracted_fields": [
+        "applicant_name",
+        "father_name",
+        "caste_category",
+        "sub_caste",
+        "certificate_no",
+        "issue_date",
+        "state"
+      ],
+      "bounding_box_valid": true,
+      "corpus_category": "realistic"
+    },
+    {
+      "file_name": "smp_09_marksheet_clean.pdf",
+      "path": "synthetic_data\\realistic_corpus_60\\smp_09_marksheet_clean.pdf",
+      "ground_truth_orientation": 0,
+      "is_actually_upright": true,
+      "page_dimensions_pt": [
+        595.3,
+        841.9
+      ],
+      "raster_dimensions_px": [
+        1654,
+        2339
+      ],
+      "speculative_ocr_ms": 686.74,
+      "total_extraction_ms": 40.1,
+      "token_metrics": {
+        "total_tokens": 87,
+        "mean_confidence": 95.09,
+        "high_confidence_ratio": 1.0,
+        "horizontal_token_ratio": 1.0
+      },
+      "gate_decision_upright": true,
+      "classification": "TRUE_UPRIGHT_FAST_PATH",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 5,
+      "extracted_fields": [
+        "applicant_name",
+        "father_name",
+        "dob",
+        "roll_no",
+        "percentage"
+      ],
+      "bounding_box_valid": true,
+      "corpus_category": "realistic"
+    },
+    {
+      "file_name": "smp_10_application_form_clean.pdf",
+      "path": "synthetic_data\\realistic_corpus_60\\smp_10_application_form_clean.pdf",
+      "ground_truth_orientation": 0,
+      "is_actually_upright": true,
+      "page_dimensions_pt": [
+        595.3,
+        841.9
+      ],
+      "raster_dimensions_px": [
+        1654,
+        2339
+      ],
+      "speculative_ocr_ms": 883.23,
+      "total_extraction_ms": 52.12,
+      "token_metrics": {
+        "total_tokens": 105,
+        "mean_confidence": 94.84,
+        "high_confidence_ratio": 1.0,
+        "horizontal_token_ratio": 0.981
+      },
+      "gate_decision_upright": true,
+      "classification": "TRUE_UPRIGHT_FAST_PATH",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 7,
+      "extracted_fields": [
+        "applicant_name",
+        "father_name",
+        "dob",
+        "caste_category",
+        "annual_income",
+        "account_no",
+        "ifsc"
+      ],
+      "bounding_box_valid": true,
+      "corpus_category": "realistic"
+    },
+    {
+      "file_name": "smp_11_raster_scan.pdf",
+      "path": "synthetic_data\\realistic_corpus_60\\smp_11_raster_scan.pdf",
+      "ground_truth_orientation": 0,
+      "is_actually_upright": true,
+      "page_dimensions_pt": [
+        595.4,
+        842.0
+      ],
+      "raster_dimensions_px": [
+        1654,
+        2339
+      ],
+      "speculative_ocr_ms": 908.2,
+      "total_extraction_ms": 1109.73,
+      "token_metrics": {
+        "total_tokens": 92,
+        "mean_confidence": 94.43,
+        "high_confidence_ratio": 1.0,
+        "horizontal_token_ratio": 0.935
+      },
+      "gate_decision_upright": true,
+      "classification": "TRUE_UPRIGHT_FAST_PATH",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 6,
+      "extracted_fields": [
+        "applicant_name",
+        "father_name",
+        "annual_income",
+        "issue_date",
+        "certificate_no",
+        "state"
+      ],
+      "bounding_box_valid": true,
+      "corpus_category": "realistic"
+    },
+    {
+      "file_name": "smp_12_raster_scan.pdf",
+      "path": "synthetic_data\\realistic_corpus_60\\smp_12_raster_scan.pdf",
+      "ground_truth_orientation": 0,
+      "is_actually_upright": true,
+      "page_dimensions_pt": [
+        595.4,
+        842.0
+      ],
+      "raster_dimensions_px": [
+        1654,
+        2339
+      ],
+      "speculative_ocr_ms": 970.65,
+      "total_extraction_ms": 1229.67,
+      "token_metrics": {
+        "total_tokens": 91,
+        "mean_confidence": 94.3,
+        "high_confidence_ratio": 1.0,
+        "horizontal_token_ratio": 0.901
+      },
+      "gate_decision_upright": true,
+      "classification": "TRUE_UPRIGHT_FAST_PATH",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 7,
+      "extracted_fields": [
+        "applicant_name",
+        "father_name",
+        "caste_category",
+        "sub_caste",
+        "certificate_no",
+        "issue_date",
+        "state"
+      ],
+      "bounding_box_valid": true,
+      "corpus_category": "realistic"
+    },
+    {
+      "file_name": "smp_13_raster_scan.pdf",
+      "path": "synthetic_data\\realistic_corpus_60\\smp_13_raster_scan.pdf",
+      "ground_truth_orientation": 0,
+      "is_actually_upright": true,
+      "page_dimensions_pt": [
+        595.4,
+        842.0
+      ],
+      "raster_dimensions_px": [
+        1654,
+        2339
+      ],
+      "speculative_ocr_ms": 1006.26,
+      "total_extraction_ms": 1154.52,
+      "token_metrics": {
+        "total_tokens": 92,
+        "mean_confidence": 94.57,
+        "high_confidence_ratio": 1.0,
+        "horizontal_token_ratio": 0.902
+      },
+      "gate_decision_upright": true,
+      "classification": "TRUE_UPRIGHT_FAST_PATH",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 4,
+      "extracted_fields": [
+        "applicant_name",
+        "father_name",
+        "state",
+        "certificate_no"
+      ],
+      "bounding_box_valid": true,
+      "corpus_category": "realistic"
+    },
+    {
+      "file_name": "smp_14_raster_scan.pdf",
+      "path": "synthetic_data\\realistic_corpus_60\\smp_14_raster_scan.pdf",
+      "ground_truth_orientation": 0,
+      "is_actually_upright": true,
+      "page_dimensions_pt": [
+        595.4,
+        842.0
+      ],
+      "raster_dimensions_px": [
+        1654,
+        2339
+      ],
+      "speculative_ocr_ms": 949.79,
+      "total_extraction_ms": 1132.29,
+      "token_metrics": {
+        "total_tokens": 90,
+        "mean_confidence": 93.68,
+        "high_confidence_ratio": 0.978,
+        "horizontal_token_ratio": 0.967
+      },
+      "gate_decision_upright": true,
+      "classification": "TRUE_UPRIGHT_FAST_PATH",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 3,
+      "extracted_fields": [
+        "dob",
+        "roll_no",
+        "percentage"
+      ],
+      "bounding_box_valid": true,
+      "corpus_category": "realistic"
+    },
+    {
+      "file_name": "smp_15_raster_scan.pdf",
+      "path": "synthetic_data\\realistic_corpus_60\\smp_15_raster_scan.pdf",
+      "ground_truth_orientation": 0,
+      "is_actually_upright": true,
+      "page_dimensions_pt": [
+        595.4,
+        842.0
+      ],
+      "raster_dimensions_px": [
+        1654,
+        2339
+      ],
+      "speculative_ocr_ms": 781.81,
+      "total_extraction_ms": 874.81,
+      "token_metrics": {
+        "total_tokens": 48,
+        "mean_confidence": 94.23,
+        "high_confidence_ratio": 1.0,
+        "horizontal_token_ratio": 0.938
+      },
+      "gate_decision_upright": true,
+      "classification": "TRUE_UPRIGHT_FAST_PATH",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 4,
+      "extracted_fields": [
+        "applicant_name",
+        "account_no",
+        "ifsc",
+        "dbt_seeded"
+      ],
+      "bounding_box_valid": true,
+      "corpus_category": "realistic"
+    },
+    {
+      "file_name": "smp_16_raster_scan.pdf",
+      "path": "synthetic_data\\realistic_corpus_60\\smp_16_raster_scan.pdf",
+      "ground_truth_orientation": 0,
+      "is_actually_upright": true,
+      "page_dimensions_pt": [
+        595.4,
+        842.0
+      ],
+      "raster_dimensions_px": [
+        1654,
+        2339
+      ],
+      "speculative_ocr_ms": 1163.59,
+      "total_extraction_ms": 1226.16,
+      "token_metrics": {
+        "total_tokens": 105,
+        "mean_confidence": 94.79,
+        "high_confidence_ratio": 1.0,
+        "horizontal_token_ratio": 0.981
+      },
+      "gate_decision_upright": true,
+      "classification": "TRUE_UPRIGHT_FAST_PATH",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 10,
+      "extracted_fields": [
+        "applicant_name",
+        "father_name",
+        "dob",
+        "caste_category",
+        "annual_income",
+        "income_cert_no",
+        "caste_cert_no",
+        "residence_cert_no",
+        "account_no",
+        "ifsc"
+      ],
+      "bounding_box_valid": true,
+      "corpus_category": "realistic"
+    },
+    {
+      "file_name": "smp_17_raster_scan.pdf",
+      "path": "synthetic_data\\realistic_corpus_60\\smp_17_raster_scan.pdf",
+      "ground_truth_orientation": 0,
+      "is_actually_upright": true,
+      "page_dimensions_pt": [
+        595.4,
+        842.0
+      ],
+      "raster_dimensions_px": [
+        1654,
+        2339
+      ],
+      "speculative_ocr_ms": 1213.98,
+      "total_extraction_ms": 1168.81,
+      "token_metrics": {
+        "total_tokens": 92,
+        "mean_confidence": 94.43,
+        "high_confidence_ratio": 1.0,
+        "horizontal_token_ratio": 0.935
+      },
+      "gate_decision_upright": true,
+      "classification": "TRUE_UPRIGHT_FAST_PATH",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 6,
+      "extracted_fields": [
+        "applicant_name",
+        "father_name",
+        "annual_income",
+        "issue_date",
+        "certificate_no",
+        "state"
+      ],
+      "bounding_box_valid": true,
+      "corpus_category": "realistic"
+    },
+    {
+      "file_name": "smp_18_raster_scan.pdf",
+      "path": "synthetic_data\\realistic_corpus_60\\smp_18_raster_scan.pdf",
+      "ground_truth_orientation": 0,
+      "is_actually_upright": true,
+      "page_dimensions_pt": [
+        595.4,
+        842.0
+      ],
+      "raster_dimensions_px": [
+        1654,
+        2339
+      ],
+      "speculative_ocr_ms": 986.72,
+      "total_extraction_ms": 1101.83,
+      "token_metrics": {
+        "total_tokens": 90,
+        "mean_confidence": 93.68,
+        "high_confidence_ratio": 0.978,
+        "horizontal_token_ratio": 0.967
+      },
+      "gate_decision_upright": true,
+      "classification": "TRUE_UPRIGHT_FAST_PATH",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 3,
+      "extracted_fields": [
+        "dob",
+        "roll_no",
+        "percentage"
+      ],
+      "bounding_box_valid": true,
+      "corpus_category": "realistic"
+    },
+    {
+      "file_name": "smp_19_rotated_2deg.pdf",
+      "path": "synthetic_data\\realistic_corpus_60\\smp_19_rotated_2deg.pdf",
+      "ground_truth_orientation": 0,
+      "is_actually_upright": true,
+      "page_dimensions_pt": [
+        625.0,
+        862.9
+      ],
+      "raster_dimensions_px": [
+        1736,
+        2397
+      ],
+      "speculative_ocr_ms": 965.47,
+      "total_extraction_ms": 1079.52,
+      "token_metrics": {
+        "total_tokens": 92,
+        "mean_confidence": 94.55,
+        "high_confidence_ratio": 1.0,
+        "horizontal_token_ratio": 0.913
+      },
+      "gate_decision_upright": true,
+      "classification": "TRUE_UPRIGHT_FAST_PATH",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 3,
+      "extracted_fields": [
+        "applicant_name",
+        "certificate_no",
+        "state"
+      ],
+      "bounding_box_valid": true,
+      "corpus_category": "realistic"
+    },
+    {
+      "file_name": "smp_20_rotated_-3deg.pdf",
+      "path": "synthetic_data\\realistic_corpus_60\\smp_20_rotated_-3deg.pdf",
+      "ground_truth_orientation": 0,
+      "is_actually_upright": true,
+      "page_dimensions_pt": [
+        639.4,
+        872.3
+      ],
+      "raster_dimensions_px": [
+        1776,
+        2423
+      ],
+      "speculative_ocr_ms": 972.42,
+      "total_extraction_ms": 1135.09,
+      "token_metrics": {
+        "total_tokens": 95,
+        "mean_confidence": 93.46,
+        "high_confidence_ratio": 0.989,
+        "horizontal_token_ratio": 0.937
+      },
+      "gate_decision_upright": true,
+      "classification": "TRUE_UPRIGHT_FAST_PATH",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 3,
+      "extracted_fields": [
+        "issue_date",
+        "certificate_no",
+        "state"
+      ],
+      "bounding_box_valid": true,
+      "corpus_category": "realistic"
+    },
+    {
+      "file_name": "smp_21_rotated_5deg.pdf",
+      "path": "synthetic_data\\realistic_corpus_60\\smp_21_rotated_5deg.pdf",
+      "ground_truth_orientation": 0,
+      "is_actually_upright": true,
+      "page_dimensions_pt": [
+        666.7,
+        891.0
+      ],
+      "raster_dimensions_px": [
+        1852,
+        2475
+      ],
+      "speculative_ocr_ms": 1024.75,
+      "total_extraction_ms": 1197.99,
+      "token_metrics": {
+        "total_tokens": 95,
+        "mean_confidence": 90.18,
+        "high_confidence_ratio": 0.968,
+        "horizontal_token_ratio": 0.916
+      },
+      "gate_decision_upright": true,
+      "classification": "TRUE_UPRIGHT_FAST_PATH",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 3,
+      "extracted_fields": [
+        "applicant_name",
+        "certificate_no",
+        "state"
+      ],
+      "bounding_box_valid": true,
+      "corpus_category": "realistic"
+    },
+    {
+      "file_name": "smp_22_rotated_-4deg.pdf",
+      "path": "synthetic_data\\realistic_corpus_60\\smp_22_rotated_-4deg.pdf",
+      "ground_truth_orientation": 0,
+      "is_actually_upright": true,
+      "page_dimensions_pt": [
+        660.2,
+        886.7
+      ],
+      "raster_dimensions_px": [
+        1834,
+        2463
+      ],
+      "speculative_ocr_ms": 988.68,
+      "total_extraction_ms": 1162.87,
+      "token_metrics": {
+        "total_tokens": 98,
+        "mean_confidence": 88.65,
+        "high_confidence_ratio": 0.929,
+        "horizontal_token_ratio": 0.888
+      },
+      "gate_decision_upright": true,
+      "classification": "TRUE_UPRIGHT_FAST_PATH",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 4,
+      "extracted_fields": [
+        "applicant_name",
+        "issue_date",
+        "certificate_no",
+        "state"
+      ],
+      "bounding_box_valid": true,
+      "corpus_category": "realistic"
+    },
+    {
+      "file_name": "smp_23_rotated_90deg.pdf",
+      "path": "synthetic_data\\realistic_corpus_60\\smp_23_rotated_90deg.pdf",
+      "ground_truth_orientation": 90,
+      "is_actually_upright": false,
+      "page_dimensions_pt": [
+        842.0,
+        595.4
+      ],
+      "raster_dimensions_px": [
+        2339,
+        1654
+      ],
+      "speculative_ocr_ms": 1133.82,
+      "total_extraction_ms": 3234.98,
+      "token_metrics": {
+        "total_tokens": 93,
+        "mean_confidence": 29.72,
+        "high_confidence_ratio": 0.161,
+        "horizontal_token_ratio": 0.086
+      },
+      "gate_decision_upright": false,
+      "classification": "ROTATED_CORRECTLY_REJECTED",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 6,
+      "extracted_fields": [
+        "applicant_name",
+        "father_name",
+        "annual_income",
+        "issue_date",
+        "certificate_no",
+        "state"
+      ],
+      "bounding_box_valid": true,
+      "corpus_category": "realistic"
+    },
+    {
+      "file_name": "smp_24_rotated_180deg.pdf",
+      "path": "synthetic_data\\realistic_corpus_60\\smp_24_rotated_180deg.pdf",
+      "ground_truth_orientation": 180,
+      "is_actually_upright": false,
+      "page_dimensions_pt": [
+        595.4,
+        842.0
+      ],
+      "raster_dimensions_px": [
+        1654,
+        2339
+      ],
+      "speculative_ocr_ms": 1014.83,
+      "total_extraction_ms": 4629.67,
+      "token_metrics": {
+        "total_tokens": 93,
+        "mean_confidence": 31.1,
+        "high_confidence_ratio": 0.183,
+        "horizontal_token_ratio": 0.925
+      },
+      "gate_decision_upright": false,
+      "classification": "ROTATED_CORRECTLY_REJECTED",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 6,
+      "extracted_fields": [
+        "applicant_name",
+        "father_name",
+        "annual_income",
+        "issue_date",
+        "certificate_no",
+        "state"
+      ],
+      "bounding_box_valid": true,
+      "corpus_category": "realistic"
+    },
+    {
+      "file_name": "smp_25_low_dpi.pdf",
+      "path": "synthetic_data\\realistic_corpus_60\\smp_25_low_dpi.pdf",
+      "ground_truth_orientation": 0,
+      "is_actually_upright": true,
+      "page_dimensions_pt": [
+        595.4,
+        842.0
+      ],
+      "raster_dimensions_px": [
+        1654,
+        2339
+      ],
+      "speculative_ocr_ms": 1175.61,
+      "total_extraction_ms": 1080.78,
+      "token_metrics": {
+        "total_tokens": 92,
+        "mean_confidence": 86.88,
+        "high_confidence_ratio": 0.935,
+        "horizontal_token_ratio": 0.935
+      },
+      "gate_decision_upright": true,
+      "classification": "TRUE_UPRIGHT_FAST_PATH",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 5,
+      "extracted_fields": [
+        "father_name",
+        "annual_income",
+        "issue_date",
+        "certificate_no",
+        "state"
+      ],
+      "bounding_box_valid": true,
+      "corpus_category": "realistic"
+    },
+    {
+      "file_name": "smp_26_low_dpi.pdf",
+      "path": "synthetic_data\\realistic_corpus_60\\smp_26_low_dpi.pdf",
+      "ground_truth_orientation": 0,
+      "is_actually_upright": true,
+      "page_dimensions_pt": [
+        595.4,
+        842.0
+      ],
+      "raster_dimensions_px": [
+        1654,
+        2339
+      ],
+      "speculative_ocr_ms": 891.16,
+      "total_extraction_ms": 1070.24,
+      "token_metrics": {
+        "total_tokens": 88,
+        "mean_confidence": 85.99,
+        "high_confidence_ratio": 0.909,
+        "horizontal_token_ratio": 0.943
+      },
+      "gate_decision_upright": true,
+      "classification": "TRUE_UPRIGHT_FAST_PATH",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 3,
+      "extracted_fields": [
+        "applicant_name",
+        "roll_no",
+        "percentage"
+      ],
+      "bounding_box_valid": true,
+      "corpus_category": "realistic"
+    },
+    {
+      "file_name": "smp_27_low_dpi.pdf",
+      "path": "synthetic_data\\realistic_corpus_60\\smp_27_low_dpi.pdf",
+      "ground_truth_orientation": 0,
+      "is_actually_upright": true,
+      "page_dimensions_pt": [
+        595.4,
+        842.0
+      ],
+      "raster_dimensions_px": [
+        1654,
+        2339
+      ],
+      "speculative_ocr_ms": 957.63,
+      "total_extraction_ms": 1227.81,
+      "token_metrics": {
+        "total_tokens": 91,
+        "mean_confidence": 88.1,
+        "high_confidence_ratio": 0.956,
+        "horizontal_token_ratio": 0.89
+      },
+      "gate_decision_upright": true,
+      "classification": "TRUE_UPRIGHT_FAST_PATH",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 7,
+      "extracted_fields": [
+        "applicant_name",
+        "father_name",
+        "caste_category",
+        "sub_caste",
+        "certificate_no",
+        "issue_date",
+        "state"
+      ],
+      "bounding_box_valid": true,
+      "corpus_category": "realistic"
+    },
+    {
+      "file_name": "smp_28_low_dpi.pdf",
+      "path": "synthetic_data\\realistic_corpus_60\\smp_28_low_dpi.pdf",
+      "ground_truth_orientation": 0,
+      "is_actually_upright": true,
+      "page_dimensions_pt": [
+        595.4,
+        842.0
+      ],
+      "raster_dimensions_px": [
+        1654,
+        2339
+      ],
+      "speculative_ocr_ms": 721.58,
+      "total_extraction_ms": 740.02,
+      "token_metrics": {
+        "total_tokens": 43,
+        "mean_confidence": 90.21,
+        "high_confidence_ratio": 1.0,
+        "horizontal_token_ratio": 0.93
+      },
+      "gate_decision_upright": true,
+      "classification": "TRUE_UPRIGHT_FAST_PATH",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 1,
+      "extracted_fields": [
+        "dbt_seeded"
+      ],
+      "bounding_box_valid": true,
+      "corpus_category": "realistic"
+    },
+    {
+      "file_name": "smp_29_low_dpi.pdf",
+      "path": "synthetic_data\\realistic_corpus_60\\smp_29_low_dpi.pdf",
+      "ground_truth_orientation": 0,
+      "is_actually_upright": true,
+      "page_dimensions_pt": [
+        595.4,
+        842.0
+      ],
+      "raster_dimensions_px": [
+        1654,
+        2339
+      ],
+      "speculative_ocr_ms": 1041.98,
+      "total_extraction_ms": 1243.14,
+      "token_metrics": {
+        "total_tokens": 108,
+        "mean_confidence": 84.43,
+        "high_confidence_ratio": 0.898,
+        "horizontal_token_ratio": 0.963
+      },
+      "gate_decision_upright": true,
+      "classification": "TRUE_UPRIGHT_FAST_PATH",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 7,
+      "extracted_fields": [
+        "applicant_name",
+        "father_name",
+        "dob",
+        "caste_category",
+        "annual_income",
+        "residence_cert_no",
+        "account_no"
+      ],
+      "bounding_box_valid": true,
+      "corpus_category": "realistic"
+    },
+    {
+      "file_name": "smp_30_low_dpi.pdf",
+      "path": "synthetic_data\\realistic_corpus_60\\smp_30_low_dpi.pdf",
+      "ground_truth_orientation": 0,
+      "is_actually_upright": true,
+      "page_dimensions_pt": [
+        595.4,
+        842.0
+      ],
+      "raster_dimensions_px": [
+        1654,
+        2339
+      ],
+      "speculative_ocr_ms": 953.1,
+      "total_extraction_ms": 1034.06,
+      "token_metrics": {
+        "total_tokens": 92,
+        "mean_confidence": 88.89,
+        "high_confidence_ratio": 0.957,
+        "horizontal_token_ratio": 0.902
+      },
+      "gate_decision_upright": true,
+      "classification": "TRUE_UPRIGHT_FAST_PATH",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 4,
+      "extracted_fields": [
+        "applicant_name",
+        "father_name",
+        "state",
+        "certificate_no"
+      ],
+      "bounding_box_valid": true,
+      "corpus_category": "realistic"
+    },
+    {
+      "file_name": "smp_31_mobile_perspective.pdf",
+      "path": "synthetic_data\\realistic_corpus_60\\smp_31_mobile_perspective.pdf",
+      "ground_truth_orientation": 0,
+      "is_actually_upright": true,
+      "page_dimensions_pt": [
+        595.4,
+        842.0
+      ],
+      "raster_dimensions_px": [
+        1654,
+        2339
+      ],
+      "speculative_ocr_ms": 852.05,
+      "total_extraction_ms": 798.92,
+      "token_metrics": {
+        "total_tokens": 92,
+        "mean_confidence": 94.18,
+        "high_confidence_ratio": 1.0,
+        "horizontal_token_ratio": 0.924
+      },
+      "gate_decision_upright": true,
+      "classification": "TRUE_UPRIGHT_FAST_PATH",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 6,
+      "extracted_fields": [
+        "applicant_name",
+        "father_name",
+        "annual_income",
+        "issue_date",
+        "certificate_no",
+        "state"
+      ],
+      "bounding_box_valid": true,
+      "corpus_category": "realistic"
+    },
+    {
+      "file_name": "smp_32_mobile_perspective.pdf",
+      "path": "synthetic_data\\realistic_corpus_60\\smp_32_mobile_perspective.pdf",
+      "ground_truth_orientation": 0,
+      "is_actually_upright": true,
+      "page_dimensions_pt": [
+        595.4,
+        842.0
+      ],
+      "raster_dimensions_px": [
+        1654,
+        2339
+      ],
+      "speculative_ocr_ms": 753.47,
+      "total_extraction_ms": 788.94,
+      "token_metrics": {
+        "total_tokens": 102,
+        "mean_confidence": 85.59,
+        "high_confidence_ratio": 0.873,
+        "horizontal_token_ratio": 0.863
+      },
+      "gate_decision_upright": true,
+      "classification": "TRUE_UPRIGHT_FAST_PATH",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 4,
+      "extracted_fields": [
+        "applicant_name",
+        "dob",
+        "roll_no",
+        "percentage"
+      ],
+      "bounding_box_valid": true,
+      "corpus_category": "realistic"
+    },
+    {
+      "file_name": "smp_33_mobile_perspective.pdf",
+      "path": "synthetic_data\\realistic_corpus_60\\smp_33_mobile_perspective.pdf",
+      "ground_truth_orientation": 0,
+      "is_actually_upright": true,
+      "page_dimensions_pt": [
+        595.4,
+        842.0
+      ],
+      "raster_dimensions_px": [
+        1654,
+        2339
+      ],
+      "speculative_ocr_ms": 979.96,
+      "total_extraction_ms": 1141.56,
+      "token_metrics": {
+        "total_tokens": 105,
+        "mean_confidence": 94.61,
+        "high_confidence_ratio": 0.99,
+        "horizontal_token_ratio": 0.971
+      },
+      "gate_decision_upright": true,
+      "classification": "TRUE_UPRIGHT_FAST_PATH",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 10,
+      "extracted_fields": [
+        "applicant_name",
+        "father_name",
+        "dob",
+        "caste_category",
+        "annual_income",
+        "income_cert_no",
+        "caste_cert_no",
+        "residence_cert_no",
+        "account_no",
+        "ifsc"
+      ],
+      "bounding_box_valid": true,
+      "corpus_category": "realistic"
+    },
+    {
+      "file_name": "smp_34_mobile_perspective.pdf",
+      "path": "synthetic_data\\realistic_corpus_60\\smp_34_mobile_perspective.pdf",
+      "ground_truth_orientation": 0,
+      "is_actually_upright": true,
+      "page_dimensions_pt": [
+        595.4,
+        842.0
+      ],
+      "raster_dimensions_px": [
+        1654,
+        2339
+      ],
+      "speculative_ocr_ms": 809.0,
+      "total_extraction_ms": 796.76,
+      "token_metrics": {
+        "total_tokens": 52,
+        "mean_confidence": 93.65,
+        "high_confidence_ratio": 0.981,
+        "horizontal_token_ratio": 0.865
+      },
+      "gate_decision_upright": true,
+      "classification": "TRUE_UPRIGHT_FAST_PATH",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 3,
+      "extracted_fields": [
+        "applicant_name",
+        "account_no",
+        "dbt_seeded"
+      ],
+      "bounding_box_valid": true,
+      "corpus_category": "realistic"
+    },
+    {
+      "file_name": "smp_35_mobile_perspective.pdf",
+      "path": "synthetic_data\\realistic_corpus_60\\smp_35_mobile_perspective.pdf",
+      "ground_truth_orientation": 0,
+      "is_actually_upright": true,
+      "page_dimensions_pt": [
+        595.4,
+        842.0
+      ],
+      "raster_dimensions_px": [
+        1654,
+        2339
+      ],
+      "speculative_ocr_ms": 941.56,
+      "total_extraction_ms": 1003.79,
+      "token_metrics": {
+        "total_tokens": 91,
+        "mean_confidence": 94.11,
+        "high_confidence_ratio": 1.0,
+        "horizontal_token_ratio": 0.912
+      },
+      "gate_decision_upright": true,
+      "classification": "TRUE_UPRIGHT_FAST_PATH",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 7,
+      "extracted_fields": [
+        "applicant_name",
+        "father_name",
+        "caste_category",
+        "sub_caste",
+        "certificate_no",
+        "issue_date",
+        "state"
+      ],
+      "bounding_box_valid": true,
+      "corpus_category": "realistic"
+    },
+    {
+      "file_name": "smp_36_mobile_perspective.pdf",
+      "path": "synthetic_data\\realistic_corpus_60\\smp_36_mobile_perspective.pdf",
+      "ground_truth_orientation": 0,
+      "is_actually_upright": true,
+      "page_dimensions_pt": [
+        595.4,
+        842.0
+      ],
+      "raster_dimensions_px": [
+        1654,
+        2339
+      ],
+      "speculative_ocr_ms": 950.96,
+      "total_extraction_ms": 985.2,
+      "token_metrics": {
+        "total_tokens": 92,
+        "mean_confidence": 94.53,
+        "high_confidence_ratio": 1.0,
+        "horizontal_token_ratio": 0.902
+      },
+      "gate_decision_upright": true,
+      "classification": "TRUE_UPRIGHT_FAST_PATH",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 4,
+      "extracted_fields": [
+        "applicant_name",
+        "father_name",
+        "state",
+        "certificate_no"
+      ],
+      "bounding_box_valid": true,
+      "corpus_category": "realistic"
+    },
+    {
+      "file_name": "smp_37_shadow_gradient.pdf",
+      "path": "synthetic_data\\realistic_corpus_60\\smp_37_shadow_gradient.pdf",
+      "ground_truth_orientation": 0,
+      "is_actually_upright": true,
+      "page_dimensions_pt": [
+        595.4,
+        842.0
+      ],
+      "raster_dimensions_px": [
+        1654,
+        2339
+      ],
+      "speculative_ocr_ms": 826.48,
+      "total_extraction_ms": 1001.98,
+      "token_metrics": {
+        "total_tokens": 59,
+        "mean_confidence": 93.92,
+        "high_confidence_ratio": 0.983,
+        "horizontal_token_ratio": 0.915
+      },
+      "gate_decision_upright": true,
+      "classification": "TRUE_UPRIGHT_FAST_PATH",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 3,
+      "extracted_fields": [
+        "applicant_name",
+        "certificate_no",
+        "state"
+      ],
+      "bounding_box_valid": true,
+      "corpus_category": "realistic"
+    },
+    {
+      "file_name": "smp_38_shadow_gradient.pdf",
+      "path": "synthetic_data\\realistic_corpus_60\\smp_38_shadow_gradient.pdf",
+      "ground_truth_orientation": 0,
+      "is_actually_upright": true,
+      "page_dimensions_pt": [
+        595.4,
+        842.0
+      ],
+      "raster_dimensions_px": [
+        1654,
+        2339
+      ],
+      "speculative_ocr_ms": 837.0,
+      "total_extraction_ms": 948.51,
+      "token_metrics": {
+        "total_tokens": 66,
+        "mean_confidence": 84.79,
+        "high_confidence_ratio": 0.879,
+        "horizontal_token_ratio": 0.909
+      },
+      "gate_decision_upright": true,
+      "classification": "TRUE_UPRIGHT_FAST_PATH",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 1,
+      "extracted_fields": [
+        "roll_no"
+      ],
+      "bounding_box_valid": true,
+      "corpus_category": "realistic"
+    },
+    {
+      "file_name": "smp_39_shadow_gradient.pdf",
+      "path": "synthetic_data\\realistic_corpus_60\\smp_39_shadow_gradient.pdf",
+      "ground_truth_orientation": 0,
+      "is_actually_upright": true,
+      "page_dimensions_pt": [
+        595.4,
+        842.0
+      ],
+      "raster_dimensions_px": [
+        1654,
+        2339
+      ],
+      "speculative_ocr_ms": 871.75,
+      "total_extraction_ms": 831.03,
+      "token_metrics": {
+        "total_tokens": 63,
+        "mean_confidence": 91.94,
+        "high_confidence_ratio": 0.984,
+        "horizontal_token_ratio": 0.905
+      },
+      "gate_decision_upright": true,
+      "classification": "TRUE_UPRIGHT_FAST_PATH",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 3,
+      "extracted_fields": [
+        "applicant_name",
+        "certificate_no",
+        "state"
+      ],
+      "bounding_box_valid": true,
+      "corpus_category": "realistic"
+    },
+    {
+      "file_name": "smp_40_shadow_gradient.pdf",
+      "path": "synthetic_data\\realistic_corpus_60\\smp_40_shadow_gradient.pdf",
+      "ground_truth_orientation": 0,
+      "is_actually_upright": true,
+      "page_dimensions_pt": [
+        595.4,
+        842.0
+      ],
+      "raster_dimensions_px": [
+        1654,
+        2339
+      ],
+      "speculative_ocr_ms": 706.2,
+      "total_extraction_ms": 889.09,
+      "token_metrics": {
+        "total_tokens": 45,
+        "mean_confidence": 93.44,
+        "high_confidence_ratio": 1.0,
+        "horizontal_token_ratio": 0.867
+      },
+      "gate_decision_upright": true,
+      "classification": "TRUE_UPRIGHT_FAST_PATH",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 4,
+      "extracted_fields": [
+        "applicant_name",
+        "account_no",
+        "ifsc",
+        "dbt_seeded"
+      ],
+      "bounding_box_valid": true,
+      "corpus_category": "realistic"
+    },
+    {
+      "file_name": "smp_41_shadow_gradient.pdf",
+      "path": "synthetic_data\\realistic_corpus_60\\smp_41_shadow_gradient.pdf",
+      "ground_truth_orientation": 0,
+      "is_actually_upright": true,
+      "page_dimensions_pt": [
+        595.4,
+        842.0
+      ],
+      "raster_dimensions_px": [
+        1654,
+        2339
+      ],
+      "speculative_ocr_ms": 960.46,
+      "total_extraction_ms": 1044.84,
+      "token_metrics": {
+        "total_tokens": 91,
+        "mean_confidence": 91.91,
+        "high_confidence_ratio": 0.956,
+        "horizontal_token_ratio": 0.967
+      },
+      "gate_decision_upright": true,
+      "classification": "TRUE_UPRIGHT_FAST_PATH",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 6,
+      "extracted_fields": [
+        "applicant_name",
+        "father_name",
+        "dob",
+        "caste_category",
+        "annual_income",
+        "income_cert_no"
+      ],
+      "bounding_box_valid": true,
+      "corpus_category": "realistic"
+    },
+    {
+      "file_name": "smp_42_shadow_gradient.pdf",
+      "path": "synthetic_data\\realistic_corpus_60\\smp_42_shadow_gradient.pdf",
+      "ground_truth_orientation": 0,
+      "is_actually_upright": true,
+      "page_dimensions_pt": [
+        595.4,
+        842.0
+      ],
+      "raster_dimensions_px": [
+        1654,
+        2339
+      ],
+      "speculative_ocr_ms": 717.45,
+      "total_extraction_ms": 820.76,
+      "token_metrics": {
+        "total_tokens": 67,
+        "mean_confidence": 91.93,
+        "high_confidence_ratio": 0.97,
+        "horizontal_token_ratio": 0.91
+      },
+      "gate_decision_upright": true,
+      "classification": "TRUE_UPRIGHT_FAST_PATH",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 4,
+      "extracted_fields": [
+        "applicant_name",
+        "father_name",
+        "state",
+        "certificate_no"
+      ],
+      "bounding_box_valid": true,
+      "corpus_category": "realistic"
+    },
+    {
+      "file_name": "smp_43_jpeg_artifacts.pdf",
+      "path": "synthetic_data\\realistic_corpus_60\\smp_43_jpeg_artifacts.pdf",
+      "ground_truth_orientation": 0,
+      "is_actually_upright": true,
+      "page_dimensions_pt": [
+        595.4,
+        842.0
+      ],
+      "raster_dimensions_px": [
+        1654,
+        2339
+      ],
+      "speculative_ocr_ms": 1037.36,
+      "total_extraction_ms": 1189.03,
+      "token_metrics": {
+        "total_tokens": 92,
+        "mean_confidence": 93.52,
+        "high_confidence_ratio": 0.989,
+        "horizontal_token_ratio": 0.924
+      },
+      "gate_decision_upright": true,
+      "classification": "TRUE_UPRIGHT_FAST_PATH",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 6,
+      "extracted_fields": [
+        "applicant_name",
+        "father_name",
+        "annual_income",
+        "issue_date",
+        "certificate_no",
+        "state"
+      ],
+      "bounding_box_valid": true,
+      "corpus_category": "realistic"
+    },
+    {
+      "file_name": "smp_44_jpeg_artifacts.pdf",
+      "path": "synthetic_data\\realistic_corpus_60\\smp_44_jpeg_artifacts.pdf",
+      "ground_truth_orientation": 0,
+      "is_actually_upright": true,
+      "page_dimensions_pt": [
+        595.4,
+        842.0
+      ],
+      "raster_dimensions_px": [
+        1654,
+        2339
+      ],
+      "speculative_ocr_ms": 701.35,
+      "total_extraction_ms": 799.55,
+      "token_metrics": {
+        "total_tokens": 99,
+        "mean_confidence": 86.05,
+        "high_confidence_ratio": 0.899,
+        "horizontal_token_ratio": 0.909
+      },
+      "gate_decision_upright": true,
+      "classification": "TRUE_UPRIGHT_FAST_PATH",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 4,
+      "extracted_fields": [
+        "applicant_name",
+        "dob",
+        "roll_no",
+        "percentage"
+      ],
+      "bounding_box_valid": true,
+      "corpus_category": "realistic"
+    },
+    {
+      "file_name": "smp_45_jpeg_artifacts.pdf",
+      "path": "synthetic_data\\realistic_corpus_60\\smp_45_jpeg_artifacts.pdf",
+      "ground_truth_orientation": 0,
+      "is_actually_upright": true,
+      "page_dimensions_pt": [
+        595.4,
+        842.0
+      ],
+      "raster_dimensions_px": [
+        1654,
+        2339
+      ],
+      "speculative_ocr_ms": 629.81,
+      "total_extraction_ms": 857.58,
+      "token_metrics": {
+        "total_tokens": 48,
+        "mean_confidence": 93.67,
+        "high_confidence_ratio": 1.0,
+        "horizontal_token_ratio": 0.938
+      },
+      "gate_decision_upright": true,
+      "classification": "TRUE_UPRIGHT_FAST_PATH",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 4,
+      "extracted_fields": [
+        "applicant_name",
+        "account_no",
+        "ifsc",
+        "dbt_seeded"
+      ],
+      "bounding_box_valid": true,
+      "corpus_category": "realistic"
+    },
+    {
+      "file_name": "smp_46_jpeg_artifacts.pdf",
+      "path": "synthetic_data\\realistic_corpus_60\\smp_46_jpeg_artifacts.pdf",
+      "ground_truth_orientation": 0,
+      "is_actually_upright": true,
+      "page_dimensions_pt": [
+        595.4,
+        842.0
+      ],
+      "raster_dimensions_px": [
+        1654,
+        2339
+      ],
+      "speculative_ocr_ms": 1075.11,
+      "total_extraction_ms": 1132.41,
+      "token_metrics": {
+        "total_tokens": 105,
+        "mean_confidence": 94.98,
+        "high_confidence_ratio": 1.0,
+        "horizontal_token_ratio": 0.981
+      },
+      "gate_decision_upright": true,
+      "classification": "TRUE_UPRIGHT_FAST_PATH",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 10,
+      "extracted_fields": [
+        "applicant_name",
+        "father_name",
+        "dob",
+        "caste_category",
+        "annual_income",
+        "income_cert_no",
+        "caste_cert_no",
+        "residence_cert_no",
+        "account_no",
+        "ifsc"
+      ],
+      "bounding_box_valid": true,
+      "corpus_category": "realistic"
+    },
+    {
+      "file_name": "smp_47_overlapping_seal.pdf",
+      "path": "synthetic_data\\realistic_corpus_60\\smp_47_overlapping_seal.pdf",
+      "ground_truth_orientation": 0,
+      "is_actually_upright": true,
+      "page_dimensions_pt": [
+        595.4,
+        842.0
+      ],
+      "raster_dimensions_px": [
+        1654,
+        2339
+      ],
+      "speculative_ocr_ms": 1102.0,
+      "total_extraction_ms": 1112.61,
+      "token_metrics": {
+        "total_tokens": 94,
+        "mean_confidence": 91.54,
+        "high_confidence_ratio": 0.968,
+        "horizontal_token_ratio": 0.926
+      },
+      "gate_decision_upright": true,
+      "classification": "TRUE_UPRIGHT_FAST_PATH",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 6,
+      "extracted_fields": [
+        "applicant_name",
+        "father_name",
+        "annual_income",
+        "issue_date",
+        "certificate_no",
+        "state"
+      ],
+      "bounding_box_valid": true,
+      "corpus_category": "realistic"
+    },
+    {
+      "file_name": "smp_48_overlapping_seal.pdf",
+      "path": "synthetic_data\\realistic_corpus_60\\smp_48_overlapping_seal.pdf",
+      "ground_truth_orientation": 0,
+      "is_actually_upright": true,
+      "page_dimensions_pt": [
+        595.4,
+        842.0
+      ],
+      "raster_dimensions_px": [
+        1654,
+        2339
+      ],
+      "speculative_ocr_ms": 934.87,
+      "total_extraction_ms": 1024.09,
+      "token_metrics": {
+        "total_tokens": 89,
+        "mean_confidence": 94.26,
+        "high_confidence_ratio": 1.0,
+        "horizontal_token_ratio": 0.899
+      },
+      "gate_decision_upright": true,
+      "classification": "TRUE_UPRIGHT_FAST_PATH",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 7,
+      "extracted_fields": [
+        "applicant_name",
+        "father_name",
+        "caste_category",
+        "sub_caste",
+        "certificate_no",
+        "issue_date",
+        "state"
+      ],
+      "bounding_box_valid": true,
+      "corpus_category": "realistic"
+    },
+    {
+      "file_name": "smp_49_overlapping_seal.pdf",
+      "path": "synthetic_data\\realistic_corpus_60\\smp_49_overlapping_seal.pdf",
+      "ground_truth_orientation": 0,
+      "is_actually_upright": true,
+      "page_dimensions_pt": [
+        595.4,
+        842.0
+      ],
+      "raster_dimensions_px": [
+        1654,
+        2339
+      ],
+      "speculative_ocr_ms": 985.8,
+      "total_extraction_ms": 1101.3,
+      "token_metrics": {
+        "total_tokens": 95,
+        "mean_confidence": 93.45,
+        "high_confidence_ratio": 0.979,
+        "horizontal_token_ratio": 0.884
+      },
+      "gate_decision_upright": true,
+      "classification": "TRUE_UPRIGHT_FAST_PATH",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 4,
+      "extracted_fields": [
+        "applicant_name",
+        "father_name",
+        "state",
+        "certificate_no"
+      ],
+      "bounding_box_valid": true,
+      "corpus_category": "realistic"
+    },
+    {
+      "file_name": "smp_50_overlapping_seal.pdf",
+      "path": "synthetic_data\\realistic_corpus_60\\smp_50_overlapping_seal.pdf",
+      "ground_truth_orientation": 0,
+      "is_actually_upright": true,
+      "page_dimensions_pt": [
+        595.4,
+        842.0
+      ],
+      "raster_dimensions_px": [
+        1654,
+        2339
+      ],
+      "speculative_ocr_ms": 910.53,
+      "total_extraction_ms": 1000.67,
+      "token_metrics": {
+        "total_tokens": 90,
+        "mean_confidence": 93.68,
+        "high_confidence_ratio": 0.978,
+        "horizontal_token_ratio": 0.967
+      },
+      "gate_decision_upright": true,
+      "classification": "TRUE_UPRIGHT_FAST_PATH",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 3,
+      "extracted_fields": [
+        "dob",
+        "roll_no",
+        "percentage"
+      ],
+      "bounding_box_valid": true,
+      "corpus_category": "realistic"
+    },
+    {
+      "file_name": "smp_51_handwritten_annotations.pdf",
+      "path": "synthetic_data\\realistic_corpus_60\\smp_51_handwritten_annotations.pdf",
+      "ground_truth_orientation": 0,
+      "is_actually_upright": true,
+      "page_dimensions_pt": [
+        595.4,
+        842.0
+      ],
+      "raster_dimensions_px": [
+        1654,
+        2339
+      ],
+      "speculative_ocr_ms": 1000.79,
+      "total_extraction_ms": 1035.0,
+      "token_metrics": {
+        "total_tokens": 99,
+        "mean_confidence": 90.94,
+        "high_confidence_ratio": 0.929,
+        "horizontal_token_ratio": 0.899
+      },
+      "gate_decision_upright": true,
+      "classification": "TRUE_UPRIGHT_FAST_PATH",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 6,
+      "extracted_fields": [
+        "applicant_name",
+        "father_name",
+        "annual_income",
+        "issue_date",
+        "certificate_no",
+        "state"
+      ],
+      "bounding_box_valid": true,
+      "corpus_category": "realistic"
+    },
+    {
+      "file_name": "smp_52_handwritten_annotations.pdf",
+      "path": "synthetic_data\\realistic_corpus_60\\smp_52_handwritten_annotations.pdf",
+      "ground_truth_orientation": 0,
+      "is_actually_upright": true,
+      "page_dimensions_pt": [
+        595.4,
+        842.0
+      ],
+      "raster_dimensions_px": [
+        1654,
+        2339
+      ],
+      "speculative_ocr_ms": 1025.92,
+      "total_extraction_ms": 995.31,
+      "token_metrics": {
+        "total_tokens": 100,
+        "mean_confidence": 88.02,
+        "high_confidence_ratio": 0.88,
+        "horizontal_token_ratio": 0.96
+      },
+      "gate_decision_upright": true,
+      "classification": "TRUE_UPRIGHT_FAST_PATH",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 3,
+      "extracted_fields": [
+        "dob",
+        "roll_no",
+        "percentage"
+      ],
+      "bounding_box_valid": true,
+      "corpus_category": "realistic"
+    },
+    {
+      "file_name": "smp_53_handwritten_annotations.pdf",
+      "path": "synthetic_data\\realistic_corpus_60\\smp_53_handwritten_annotations.pdf",
+      "ground_truth_orientation": 0,
+      "is_actually_upright": true,
+      "page_dimensions_pt": [
+        595.4,
+        842.0
+      ],
+      "raster_dimensions_px": [
+        1654,
+        2339
+      ],
+      "speculative_ocr_ms": 1018.69,
+      "total_extraction_ms": 1144.61,
+      "token_metrics": {
+        "total_tokens": 111,
+        "mean_confidence": 92.0,
+        "high_confidence_ratio": 0.955,
+        "horizontal_token_ratio": 0.973
+      },
+      "gate_decision_upright": true,
+      "classification": "TRUE_UPRIGHT_FAST_PATH",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 10,
+      "extracted_fields": [
+        "applicant_name",
+        "father_name",
+        "dob",
+        "caste_category",
+        "annual_income",
+        "income_cert_no",
+        "caste_cert_no",
+        "residence_cert_no",
+        "account_no",
+        "ifsc"
+      ],
+      "bounding_box_valid": true,
+      "corpus_category": "realistic"
+    },
+    {
+      "file_name": "smp_54_handwritten_annotations.pdf",
+      "path": "synthetic_data\\realistic_corpus_60\\smp_54_handwritten_annotations.pdf",
+      "ground_truth_orientation": 0,
+      "is_actually_upright": true,
+      "page_dimensions_pt": [
+        595.4,
+        842.0
+      ],
+      "raster_dimensions_px": [
+        1654,
+        2339
+      ],
+      "speculative_ocr_ms": 718.62,
+      "total_extraction_ms": 881.33,
+      "token_metrics": {
+        "total_tokens": 58,
+        "mean_confidence": 86.09,
+        "high_confidence_ratio": 0.845,
+        "horizontal_token_ratio": 0.879
+      },
+      "gate_decision_upright": true,
+      "classification": "TRUE_UPRIGHT_FAST_PATH",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 4,
+      "extracted_fields": [
+        "applicant_name",
+        "account_no",
+        "ifsc",
+        "dbt_seeded"
+      ],
+      "bounding_box_valid": true,
+      "corpus_category": "realistic"
+    },
+    {
+      "file_name": "smp_55_multipage_layout_1.pdf",
+      "path": "synthetic_data\\realistic_corpus_60\\smp_55_multipage_layout_1.pdf",
+      "ground_truth_orientation": 0,
+      "is_actually_upright": true,
+      "page_dimensions_pt": [
+        612.0,
+        792.0
+      ],
+      "raster_dimensions_px": [
+        1700,
+        2200
+      ],
+      "speculative_ocr_ms": 495.08,
+      "total_extraction_ms": 7.72,
+      "token_metrics": {
+        "total_tokens": 19,
+        "mean_confidence": 94.95,
+        "high_confidence_ratio": 1.0,
+        "horizontal_token_ratio": 1.0
+      },
+      "gate_decision_upright": true,
+      "classification": "TRUE_UPRIGHT_FAST_PATH",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 5,
+      "extracted_fields": [
+        "applicant_name",
+        "father_name",
+        "annual_income",
+        "certificate_no",
+        "state"
+      ],
+      "bounding_box_valid": true,
+      "corpus_category": "realistic"
+    },
+    {
+      "file_name": "smp_56_multipage_layout_2.pdf",
+      "path": "synthetic_data\\realistic_corpus_60\\smp_56_multipage_layout_2.pdf",
+      "ground_truth_orientation": 0,
+      "is_actually_upright": true,
+      "page_dimensions_pt": [
+        612.0,
+        792.0
+      ],
+      "raster_dimensions_px": [
+        1700,
+        2200
+      ],
+      "speculative_ocr_ms": 503.81,
+      "total_extraction_ms": 15.77,
+      "token_metrics": {
+        "total_tokens": 19,
+        "mean_confidence": 94.89,
+        "high_confidence_ratio": 1.0,
+        "horizontal_token_ratio": 1.0
+      },
+      "gate_decision_upright": true,
+      "classification": "TRUE_UPRIGHT_FAST_PATH",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 5,
+      "extracted_fields": [
+        "applicant_name",
+        "father_name",
+        "annual_income",
+        "certificate_no",
+        "state"
+      ],
+      "bounding_box_valid": true,
+      "corpus_category": "realistic"
+    },
+    {
+      "file_name": "smp_57_multipage_layout_3.pdf",
+      "path": "synthetic_data\\realistic_corpus_60\\smp_57_multipage_layout_3.pdf",
+      "ground_truth_orientation": 0,
+      "is_actually_upright": true,
+      "page_dimensions_pt": [
+        612.0,
+        792.0
+      ],
+      "raster_dimensions_px": [
+        1700,
+        2200
+      ],
+      "speculative_ocr_ms": 518.58,
+      "total_extraction_ms": 11.56,
+      "token_metrics": {
+        "total_tokens": 19,
+        "mean_confidence": 94.95,
+        "high_confidence_ratio": 1.0,
+        "horizontal_token_ratio": 1.0
+      },
+      "gate_decision_upright": true,
+      "classification": "TRUE_UPRIGHT_FAST_PATH",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 5,
+      "extracted_fields": [
+        "applicant_name",
+        "father_name",
+        "annual_income",
+        "certificate_no",
+        "state"
+      ],
+      "bounding_box_valid": true,
+      "corpus_category": "realistic"
+    },
+    {
+      "file_name": "smp_58_multipage_layout_4.pdf",
+      "path": "synthetic_data\\realistic_corpus_60\\smp_58_multipage_layout_4.pdf",
+      "ground_truth_orientation": 0,
+      "is_actually_upright": true,
+      "page_dimensions_pt": [
+        612.0,
+        792.0
+      ],
+      "raster_dimensions_px": [
+        1700,
+        2200
+      ],
+      "speculative_ocr_ms": 586.56,
+      "total_extraction_ms": 14.61,
+      "token_metrics": {
+        "total_tokens": 19,
+        "mean_confidence": 94.95,
+        "high_confidence_ratio": 1.0,
+        "horizontal_token_ratio": 1.0
+      },
+      "gate_decision_upright": true,
+      "classification": "TRUE_UPRIGHT_FAST_PATH",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 5,
+      "extracted_fields": [
+        "applicant_name",
+        "father_name",
+        "annual_income",
+        "certificate_no",
+        "state"
+      ],
+      "bounding_box_valid": true,
+      "corpus_category": "realistic"
+    },
+    {
+      "file_name": "smp_59_blank_scan.pdf",
+      "path": "synthetic_data\\realistic_corpus_60\\smp_59_blank_scan.pdf",
+      "ground_truth_orientation": 0,
+      "is_actually_upright": true,
+      "page_dimensions_pt": [
+        612.0,
+        792.0
+      ],
+      "raster_dimensions_px": [
+        1700,
+        2200
+      ],
+      "speculative_ocr_ms": 403.7,
+      "total_extraction_ms": 453.32,
+      "token_metrics": {
+        "total_tokens": 0,
+        "mean_confidence": 0.0,
+        "high_confidence_ratio": 0.0,
+        "horizontal_token_ratio": 0.0
+      },
+      "gate_decision_upright": false,
+      "classification": "UPRIGHT_FALLBACK_TO_OSD",
+      "extraction_status": "UNREADABLE",
+      "fields_extracted_count": 0,
+      "extracted_fields": [],
+      "bounding_box_valid": true,
+      "corpus_category": "realistic"
+    },
+    {
+      "file_name": "smp_61_rotated_270deg.pdf",
+      "path": "synthetic_data\\realistic_corpus_60\\smp_61_rotated_270deg.pdf",
+      "ground_truth_orientation": 270,
+      "is_actually_upright": false,
+      "page_dimensions_pt": [
+        842.0,
+        595.4
+      ],
+      "raster_dimensions_px": [
+        2339,
+        1654
+      ],
+      "speculative_ocr_ms": 985.11,
+      "total_extraction_ms": 3163.35,
+      "token_metrics": {
+        "total_tokens": 92,
+        "mean_confidence": 94.43,
+        "high_confidence_ratio": 1.0,
+        "horizontal_token_ratio": 0.087
+      },
+      "gate_decision_upright": false,
+      "classification": "ROTATED_CORRECTLY_REJECTED",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 6,
+      "extracted_fields": [
+        "applicant_name",
+        "father_name",
+        "annual_income",
+        "issue_date",
+        "certificate_no",
+        "state"
+      ],
+      "bounding_box_valid": true,
+      "corpus_category": "realistic"
+    },
+    {
+      "file_name": "atk_01_skew_10deg.pdf",
+      "path": "synthetic_data\\attack_corpus\\atk_01_skew_10deg.pdf",
+      "ground_truth_orientation": 10,
+      "is_actually_upright": false,
+      "page_dimensions_pt": [
+        733.0,
+        932.8
+      ],
+      "raster_dimensions_px": [
+        2036,
+        2591
+      ],
+      "speculative_ocr_ms": 690.82,
+      "total_extraction_ms": 2298.36,
+      "token_metrics": {
+        "total_tokens": 11,
+        "mean_confidence": 75.91,
+        "high_confidence_ratio": 0.727,
+        "horizontal_token_ratio": 1.0
+      },
+      "gate_decision_upright": false,
+      "classification": "ROTATED_CORRECTLY_REJECTED",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 0,
+      "extracted_fields": [],
+      "bounding_box_valid": true,
+      "corpus_category": "attack"
+    },
+    {
+      "file_name": "atk_02_skew_15deg.pdf",
+      "path": "synthetic_data\\attack_corpus\\atk_02_skew_15deg.pdf",
+      "ground_truth_orientation": 15,
+      "is_actually_upright": false,
+      "page_dimensions_pt": [
+        793.4,
+        968.0
+      ],
+      "raster_dimensions_px": [
+        2204,
+        2689
+      ],
+      "speculative_ocr_ms": 730.68,
+      "total_extraction_ms": 888.46,
+      "token_metrics": {
+        "total_tokens": 0,
+        "mean_confidence": 0.0,
+        "high_confidence_ratio": 0.0,
+        "horizontal_token_ratio": 0.0
+      },
+      "gate_decision_upright": false,
+      "classification": "ROTATED_CORRECTLY_REJECTED",
+      "extraction_status": "UNREADABLE",
+      "fields_extracted_count": 0,
+      "extracted_fields": [],
+      "bounding_box_valid": true,
+      "corpus_category": "attack"
+    },
+    {
+      "file_name": "atk_03_mixed_orientation.pdf",
+      "path": "synthetic_data\\attack_corpus\\atk_03_mixed_orientation.pdf",
+      "ground_truth_orientation": 999,
+      "is_actually_upright": false,
+      "page_dimensions_pt": [
+        595.4,
+        842.0
+      ],
+      "raster_dimensions_px": [
+        1654,
+        2339
+      ],
+      "speculative_ocr_ms": 946.27,
+      "total_extraction_ms": 3291.9,
+      "token_metrics": {
+        "total_tokens": 89,
+        "mean_confidence": 31.67,
+        "high_confidence_ratio": 0.225,
+        "horizontal_token_ratio": 0.191
+      },
+      "gate_decision_upright": false,
+      "classification": "ROTATED_CORRECTLY_REJECTED",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 6,
+      "extracted_fields": [
+        "applicant_name",
+        "father_name",
+        "annual_income",
+        "issue_date",
+        "certificate_no",
+        "state"
+      ],
+      "bounding_box_valid": false,
+      "corpus_category": "attack"
+    },
+    {
+      "file_name": "atk_04_sparse_receipt.pdf",
+      "path": "synthetic_data\\attack_corpus\\atk_04_sparse_receipt.pdf",
+      "ground_truth_orientation": 0,
+      "is_actually_upright": true,
+      "page_dimensions_pt": [
+        595.4,
+        842.0
+      ],
+      "raster_dimensions_px": [
+        1654,
+        2339
+      ],
+      "speculative_ocr_ms": 644.79,
+      "total_extraction_ms": 1419.82,
+      "token_metrics": {
+        "total_tokens": 7,
+        "mean_confidence": 65.57,
+        "high_confidence_ratio": 0.714,
+        "horizontal_token_ratio": 1.0
+      },
+      "gate_decision_upright": false,
+      "classification": "UPRIGHT_FALLBACK_TO_OSD",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 0,
+      "extracted_fields": [],
+      "bounding_box_valid": true,
+      "corpus_category": "attack"
+    },
+    {
+      "file_name": "atk_05_blank_with_noise_dots.pdf",
+      "path": "synthetic_data\\attack_corpus\\atk_05_blank_with_noise_dots.pdf",
+      "ground_truth_orientation": 0,
+      "is_actually_upright": true,
+      "page_dimensions_pt": [
+        595.4,
+        842.0
+      ],
+      "raster_dimensions_px": [
+        1654,
+        2339
+      ],
+      "speculative_ocr_ms": 558.29,
+      "total_extraction_ms": 679.52,
+      "token_metrics": {
+        "total_tokens": 0,
+        "mean_confidence": 0.0,
+        "high_confidence_ratio": 0.0,
+        "horizontal_token_ratio": 0.0
+      },
+      "gate_decision_upright": false,
+      "classification": "UPRIGHT_FALLBACK_TO_OSD",
+      "extraction_status": "UNREADABLE",
+      "fields_extracted_count": 0,
+      "extracted_fields": [],
+      "bounding_box_valid": true,
+      "corpus_category": "attack"
+    },
+    {
+      "file_name": "atk_06_inverted_reversible_words.pdf",
+      "path": "synthetic_data\\attack_corpus\\atk_06_inverted_reversible_words.pdf",
+      "ground_truth_orientation": 180,
+      "is_actually_upright": false,
+      "page_dimensions_pt": [
+        595.4,
+        842.0
+      ],
+      "raster_dimensions_px": [
+        1654,
+        2339
+      ],
+      "speculative_ocr_ms": 608.67,
+      "total_extraction_ms": 1815.03,
+      "token_metrics": {
+        "total_tokens": 32,
+        "mean_confidence": 47.84,
+        "high_confidence_ratio": 0.375,
+        "horizontal_token_ratio": 0.75
+      },
+      "gate_decision_upright": false,
+      "classification": "ROTATED_CORRECTLY_REJECTED",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 0,
+      "extracted_fields": [],
+      "bounding_box_valid": true,
+      "corpus_category": "attack"
+    },
+    {
+      "file_name": "atk_07_vertical_column_numbers.pdf",
+      "path": "synthetic_data\\attack_corpus\\atk_07_vertical_column_numbers.pdf",
+      "ground_truth_orientation": 0,
+      "is_actually_upright": true,
+      "page_dimensions_pt": [
+        595.4,
+        842.0
+      ],
+      "raster_dimensions_px": [
+        1654,
+        2339
+      ],
+      "speculative_ocr_ms": 719.94,
+      "total_extraction_ms": 1400.68,
+      "token_metrics": {
+        "total_tokens": 4,
+        "mean_confidence": 87.0,
+        "high_confidence_ratio": 1.0,
+        "horizontal_token_ratio": 1.0
+      },
+      "gate_decision_upright": false,
+      "classification": "UPRIGHT_FALLBACK_TO_OSD",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 0,
+      "extracted_fields": [],
+      "bounding_box_valid": true,
+      "corpus_category": "attack"
+    },
+    {
+      "file_name": "atk_08_landscape_table_90deg.pdf",
+      "path": "synthetic_data\\attack_corpus\\atk_08_landscape_table_90deg.pdf",
+      "ground_truth_orientation": 90,
+      "is_actually_upright": false,
+      "page_dimensions_pt": [
+        842.0,
+        595.4
+      ],
+      "raster_dimensions_px": [
+        2339,
+        1654
+      ],
+      "speculative_ocr_ms": 754.89,
+      "total_extraction_ms": 1835.86,
+      "token_metrics": {
+        "total_tokens": 76,
+        "mean_confidence": 17.91,
+        "high_confidence_ratio": 0.184,
+        "horizontal_token_ratio": 0.329
+      },
+      "gate_decision_upright": false,
+      "classification": "ROTATED_CORRECTLY_REJECTED",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 0,
+      "extracted_fields": [],
+      "bounding_box_valid": true,
+      "corpus_category": "attack"
+    },
+    {
+      "file_name": "atk_09_heavy_gaussian_blur.pdf",
+      "path": "synthetic_data\\attack_corpus\\atk_09_heavy_gaussian_blur.pdf",
+      "ground_truth_orientation": 0,
+      "is_actually_upright": true,
+      "page_dimensions_pt": [
+        595.4,
+        842.0
+      ],
+      "raster_dimensions_px": [
+        1654,
+        2339
+      ],
+      "speculative_ocr_ms": 961.22,
+      "total_extraction_ms": 1774.03,
+      "token_metrics": {
+        "total_tokens": 72,
+        "mean_confidence": 32.71,
+        "high_confidence_ratio": 0.181,
+        "horizontal_token_ratio": 0.75
+      },
+      "gate_decision_upright": false,
+      "classification": "UPRIGHT_FALLBACK_TO_OSD",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 0,
+      "extracted_fields": [],
+      "bounding_box_valid": true,
+      "corpus_category": "attack"
+    },
+    {
+      "file_name": "atk_10_extreme_shadow_corner.pdf",
+      "path": "synthetic_data\\attack_corpus\\atk_10_extreme_shadow_corner.pdf",
+      "ground_truth_orientation": 0,
+      "is_actually_upright": true,
+      "page_dimensions_pt": [
+        595.4,
+        842.0
+      ],
+      "raster_dimensions_px": [
+        1654,
+        2339
+      ],
+      "speculative_ocr_ms": 912.74,
+      "total_extraction_ms": 1006.19,
+      "token_metrics": {
+        "total_tokens": 66,
+        "mean_confidence": 93.36,
+        "high_confidence_ratio": 0.985,
+        "horizontal_token_ratio": 0.894
+      },
+      "gate_decision_upright": true,
+      "classification": "TRUE_UPRIGHT_FAST_PATH",
+      "extraction_status": "VALID",
+      "fields_extracted_count": 5,
+      "extracted_fields": [
+        "applicant_name",
+        "father_name",
+        "issue_date",
+        "certificate_no",
+        "state"
+      ],
+      "bounding_box_valid": true,
+      "corpus_category": "attack"
+    }
+  ]
+}

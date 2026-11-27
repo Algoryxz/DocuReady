@@ -1,0 +1,64 @@
+{
+  "audit_metadata": {
+    "loop": 12,
+    "title": "Metric Implementation Audit & Mathematical Forensics",
+    "target_file_1": "research/loop11_benchmark/harness/metrics.py",
+    "target_file_2": "research/loop11_benchmark/harness/benchmark_runner.py"
+  },
+  "metric_evaluations": {
+    "compute_cer": {
+      "loop11_implementation": "Levenshtein(ref, hyp) / len(ref), clamped to [0, 1]",
+      "reference_implementation": "Levenshtein(ref, hyp) / len(ref) with Unicode NFC & edge handling",
+      "verdict": "PARTIALLY_VALID",
+      "flaws_identified": [
+        "No Unicode NFC/NFD normalization prior to Levenshtein calculation",
+        "Clamping min(1.0, dist/len(ref)) conceals extreme divergence (dist >> len(ref))",
+        "Harness invoked CER against incompatible text targets (e.g. 20-char name vs 500-char page)"
+      ]
+    },
+    "compute_wer": {
+      "loop11_implementation": "Levenshtein(ref_words, hyp_words) / len(ref_words)",
+      "reference_implementation": "Whitespace tokenized edit distance with Unicode normalization",
+      "verdict": "PARTIALLY_VALID",
+      "flaws_identified": [
+        "Word splitting by regex \\s+ without punctuation stripping causes punctuation attached to words to trigger word substitution errors"
+      ]
+    },
+    "compute_bbox_iou": {
+      "loop11_implementation": "Intersection / Union for [x0, y0, x1, y1]",
+      "actual_usage_in_runner": "HARDCODED simulated floats (table_ious.append(0.85), header_ious.append(0.92))",
+      "verdict": "INVALID_AND_MISLEADING",
+      "forensic_finding": "While metrics.py defined a valid IoU function, benchmark_runner.py bypassed it entirely in run_doclaynet_benchmark and hardcoded 0.85 and 0.92 directly into the results array. No actual predicted bounding box was compared against ground-truth polygons."
+    },
+    "sroie_evaluation_logic": {
+      "loop11_method": "Concatenated synthetic string vs raw page OCR string",
+      "reference_method": "Field-level Key-Value extraction Precision/Recall/F1 + entity normalization",
+      "verdict": "INVALID_METRIC_TARGET",
+      "forensic_finding": "The ground truth reference was constructed as '{company} {address} DATE: {date} TOTAL AMOUNT PAID: INR {total}'. Comparing this single-line synthetic string against the entire raw OCR page text produced CER = 1.0 solely due to length mismatch and non-target receipt lines. The actual date normalization and amount extraction accuracies were 100% (60/60)."
+    },
+    "funsd_evaluation_logic": {
+      "loop11_method": "Dictionary keys order join vs full OCR page text",
+      "reference_method": "Multi-column spatial reading order alignment and entity-level field matching",
+      "verdict": "FLAWED_COMPARISON",
+      "forensic_finding": "FUNSD forms are two-column forms. Concatenating dictionary keys ignores reading order. Furthermore, form headers and boilerplate not present in the fields dictionary penalized the Levenshtein distance, creating an artificial CER of 0.5589 and failing 50/50 samples."
+    },
+    "degradation_evaluation_logic": {
+      "loop11_method": "Single applicant name (20 chars) vs full page raw text (300-500 chars)",
+      "reference_method": "Target field extraction or full clean document text comparison",
+      "verdict": "INVALID_METRIC_TARGET",
+      "forensic_finding": "The reference string was set to clean_applicant_name. Computing CER against the entire page raw text guaranteed CER = 1.0 for all samples, even on perfectly deskewed and uncorrupted documents. This produced 0 clean passes and 37 false failure cases."
+    },
+    "indic_ocr_evaluation_logic": {
+      "loop11_method": "Indic title + clause vs raw text with default eng model",
+      "reference_method": "Font glyph inspection + script-aware OCR",
+      "verdict": "COMPOUND_FAILURE",
+      "forensic_finding": "ReportLab failed to render Indic glyphs, outputting Latin capital 'I' characters. Tesseract was also invoked with default 'eng', guaranteeing failure on two separate levels."
+    }
+  },
+  "denominator_audit": {
+    "total_samples_manifest": 230,
+    "total_samples_evaluated": 230,
+    "samples_silently_dropped": 0,
+    "denominator_integrity": "VERIFIED"
+  }
+}

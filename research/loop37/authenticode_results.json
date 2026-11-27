@@ -1,0 +1,8 @@
+{
+  "cert_store_user_my": [],
+  "cert_store_local_machine_my": [],
+  "DocuReady.exe": "NotSigned",
+  "docuready_sidecar.exe": "NotSigned",
+  "DocuReady-0.1.0-Setup.exe": "NotSigned",
+  "smartscreen_tested_on_clean_vm": false
+}

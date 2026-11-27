@@ -1,0 +1,18 @@
+[
+  {
+    "name": "drainage_net",
+    "expected": "1480",
+    "row": 2,
+    "col": 5,
+    "type": "amount",
+    "target_pattern": "Drainage Cess"
+  },
+  {
+    "name": "grand_net_tax",
+    "expected": "6730",
+    "row": 3,
+    "col": 5,
+    "type": "amount",
+    "target_pattern": "Grand Total"
+  }
+]

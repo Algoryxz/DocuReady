@@ -1,0 +1,166 @@
+{
+  "total_cases": 20,
+  "passed_cases": 20,
+  "cases": [
+    {
+      "case_id": "CASE_01_SAME_PERSON_MATCHING_DOB",
+      "description": "Same person, same name, matching DOB",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "status": "PASS",
+      "reason": "Exact canonical name match with consistent anchoring attributes"
+    },
+    {
+      "case_id": "CASE_02_DIFFERENT_PEOPLE_SAME_NAME",
+      "description": "Different people, same name, distinct DOBs",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "status": "PASS",
+      "reason": "Entity conflict: distinct dates of birth ('05/09/2004' vs '12/11/1998') despite name similarity"
+    },
+    {
+      "case_id": "CASE_03_SIBLINGS_SHARING_PARENT_ADDRESS",
+      "description": "Siblings sharing father name and address, distinct DOBs and names",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "status": "PASS",
+      "reason": "Entity conflict: distinct dates of birth ('12/04/2001' vs '15/08/2003') despite name similarity"
+    },
+    {
+      "case_id": "CASE_04_PARENT_CHILD_SIMILAR_NAMES",
+      "description": "Parent and child with similar names (Ramesh Verma vs Ramesh Verma Jr)",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "status": "PASS",
+      "reason": "Entity conflict: distinct dates of birth ('10/05/1972' vs '14/09/2002') despite name similarity"
+    },
+    {
+      "case_id": "CASE_05_DIFFERENT_DOB_SAME_NAME",
+      "description": "Different DOB, identical name, without other anchors",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "status": "PASS",
+      "reason": "Entity conflict: distinct dates of birth ('01/01/1995' vs '02/02/2000') despite name similarity"
+    },
+    {
+      "case_id": "CASE_06_SAME_ADDRESS_UNRELATED_APPLICANTS",
+      "description": "Same rental address, completely unrelated applicants",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "status": "PASS",
+      "reason": "Entity mismatch: distinct names ('SURESH CHANDRA MOHANTY' vs 'KAVITA AGRAWAL')"
+    },
+    {
+      "case_id": "CASE_07_SAME_AMOUNT_UNRELATED_APPLICANTS",
+      "description": "Same fee payment amount (INR 5500.00), unrelated applicants",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "status": "PASS",
+      "reason": "Entity mismatch: distinct names ('MANAS SAHOO' vs 'DEEPAK JENA')"
+    },
+    {
+      "case_id": "CASE_08_VERMA_VARMA_SPELLING_VARIATION",
+      "description": "Verma versus Varma spelling variation with matching DOB anchor",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "status": "PASS",
+      "reason": "Spelling variation resolved by corroborating anchor (similarity: 0.91)"
+    },
+    {
+      "case_id": "CASE_09_PAN_O_0_CONFUSION",
+      "description": "PAN O vs 0 confusable at index 4 (BARBOBHUBAN vs BARB0BHUBAN)",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "status": "PASS",
+      "reason": "Entity conflict: distinct identification numbers ('BARB0BHUBAN' vs 'BARBOBHUBAN')"
+    },
+    {
+      "case_id": "CASE_10_PAN_B_8_CONFUSION",
+      "description": "PAN B vs 8 visual confusion in alphanumeric identifier",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "status": "PASS",
+      "reason": "Entity conflict: distinct identification numbers ('AZXPR0298B' vs 'AZXPR02988')"
+    },
+    {
+      "case_id": "CASE_11_PAN_ONE_CHAR_SUBSTITUTION",
+      "description": "PAN 1-char substitution (AZXPR0298B vs AZXPR0298F) across docs",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "status": "PASS",
+      "reason": "Entity conflict: distinct identification numbers ('AZXPR0298B' vs 'AZXPR0298F')"
+    },
+    {
+      "case_id": "CASE_12_PAN_CONFLICT_INDEPENDENT_DOCS",
+      "description": "PAN conflict across independent docs (ABCDE1234F vs XYZPR9876K)",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "status": "PASS",
+      "reason": "Entity conflict: distinct identification numbers ('ABCDE1234F' vs 'XYZPR9876K')"
+    },
+    {
+      "case_id": "CASE_13_REPEATED_PAN_DUPLICATE_DOCS",
+      "description": "Repeated PAN copied into multiple documents (duplicate check)",
+      "expected": "DUPLICATE",
+      "actual": "DUPLICATE",
+      "status": "PASS",
+      "reason": "Independence test: DUPLICATE"
+    },
+    {
+      "case_id": "CASE_14_DUPLICATE_SCAN_DIFFERENT_FILENAME",
+      "description": "Identical content hash under different filenames",
+      "expected": "DUPLICATE",
+      "actual": "DUPLICATE",
+      "status": "PASS",
+      "reason": "Independence test: DUPLICATE"
+    },
+    {
+      "case_id": "CASE_15_SAME_FILENAME_UNRELATED_DOCS",
+      "description": "Same filename ('invoice.pdf') used for distinct documents (different hashes)",
+      "expected": "INDEPENDENT",
+      "actual": "INDEPENDENT",
+      "status": "PASS",
+      "reason": "Independence test: INDEPENDENT"
+    },
+    {
+      "case_id": "CASE_16_SAME_DOC_CHANGED_FORMATTING",
+      "description": "Same underlying document with reformatted text",
+      "expected": "DUPLICATE",
+      "actual": "DUPLICATE",
+      "status": "PASS",
+      "reason": "Independence test: DUPLICATE"
+    },
+    {
+      "case_id": "CASE_17_MULTILINGUAL_TRANSLITERATION",
+      "description": "Transliteration variation (Soumya vs Saumya) with matching DOB",
+      "expected": "ACCEPT",
+      "actual": "ACCEPT",
+      "status": "PASS",
+      "reason": "Spelling variation resolved by corroborating anchor (similarity: 0.94)"
+    },
+    {
+      "case_id": "CASE_18_MISSING_DOB_MISSING_UID",
+      "description": "Different names without any DOB or unique identifier",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "status": "PASS",
+      "reason": "Similar names ('SUNIL PATRA' vs 'ANIL PATRA') without corroborating identifier or DOB"
+    },
+    {
+      "case_id": "CASE_19_CONFLICTING_FATHER_AND_DOB",
+      "description": "Conflicting father name and conflicting DOB despite identical name",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "status": "PASS",
+      "reason": "Entity conflict: distinct dates of birth ('11/03/1997' vs '19/08/2001') despite name similarity"
+    },
+    {
+      "case_id": "CASE_20_SHARED_FAMILY_IDENTIFIERS",
+      "description": "Two family applicants with shared family ration card, distinct applicant names",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "status": "PASS",
+      "reason": "Entity mismatch: distinct names ('GEETA RANI SAHU' vs 'MAMATA SAHU')"
+    }
+  ]
+}

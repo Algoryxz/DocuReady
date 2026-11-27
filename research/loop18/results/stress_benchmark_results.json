@@ -1,0 +1,180 @@
+{
+  "STRESS_01_SIMILAR_DIGIT_CONFUSION": {
+    "strategy": "FAST_PATH_ENG",
+    "language": "eng",
+    "latency_ms": 827.39,
+    "invocations": 1,
+    "cer": 0.2336,
+    "critical_fields_eval": {
+      "total_fields": 4,
+      "exact_matches": 3,
+      "match_rate": 0.75,
+      "numeric_matches": 4,
+      "field_details": {
+        "voucher_id": {
+          "expected": "B801-O08B-1Il5S",
+          "exact_matched": false,
+          "numeric_matched": true,
+          "field_cer": 0.0667
+        },
+        "pan_code": {
+          "expected": "AABCP0815S",
+          "exact_matched": true,
+          "numeric_matched": true,
+          "field_cer": 0.0
+        },
+        "meter_reading": {
+          "expected": "808015",
+          "exact_matched": true,
+          "numeric_matched": true,
+          "field_cer": 0.0
+        },
+        "date_stamp": {
+          "expected": "08/01/2026",
+          "exact_matched": true,
+          "numeric_matched": true,
+          "field_cer": 0.0
+        }
+      }
+    },
+    "extracted_lines": [
+      "ADVERSARIAL STRESS 01: SIMILAR DIGIT CONFUSION",
+      "Voucher Identifier: B801-O08B-1II5S",
+      "PAN Verification Code: AABCP0815S",
+      "Serial AlphaNum: 0OO0OO-8B8BB-1I1II-5S5SS",
+      "Meter Reading 01: 808015"
+    ]
+  },
+  "STRESS_02_FAINT_RUBBER_STAMP_OVERLAY": {
+    "strategy": "FAST_PATH_ENG",
+    "language": "eng",
+    "latency_ms": 817.77,
+    "invocations": 1,
+    "cer": 0.268,
+    "critical_fields_eval": {
+      "total_fields": 4,
+      "exact_matches": 4,
+      "match_rate": 1.0,
+      "numeric_matches": 4,
+      "field_details": {
+        "token_serial": {
+          "expected": "TR-2026-99318",
+          "exact_matched": true,
+          "numeric_matched": true,
+          "field_cer": 0.0
+        },
+        "approved_amount": {
+          "expected": "285400",
+          "exact_matched": true,
+          "numeric_matched": true,
+          "field_cer": 0.0
+        },
+        "payment_order_date": {
+          "expected": "28/09/2026",
+          "exact_matched": true,
+          "numeric_matched": true,
+          "field_cer": 0.0
+        },
+        "branch_code": {
+          "expected": "SBIN0004910",
+          "exact_matched": true,
+          "numeric_matched": true,
+          "field_cer": 0.0
+        }
+      }
+    },
+    "extracted_lines": [
+      "TREASURY DISBURSEMENT CERTIFICATE",
+      "Token-Serial: TR-2026-99318",
+      "Approved Amount: Rs 285400",
+      "Payment Order Date: 28/09/2026,",
+      "Disbursing. Officer: K-V=Subramanian"
+    ]
+  },
+  "STRESS_03_MULTICOLUMN_EMBEDDED_AMOUNTS": {
+    "strategy": "FAST_PATH_ENG",
+    "language": "eng",
+    "latency_ms": 1125.24,
+    "invocations": 1,
+    "cer": 0.1125,
+    "critical_fields_eval": {
+      "total_fields": 4,
+      "exact_matches": 4,
+      "match_rate": 1.0,
+      "numeric_matches": 4,
+      "field_details": {
+        "ledger_id": {
+          "expected": "REV-COL-101",
+          "exact_matched": true,
+          "numeric_matched": true,
+          "field_cer": 0.0
+        },
+        "subtotal_a": {
+          "expected": "221700",
+          "exact_matched": true,
+          "numeric_matched": true,
+          "field_cer": 0.0
+        },
+        "voucher_no": {
+          "expected": "DIS-VOU-909",
+          "exact_matched": true,
+          "numeric_matched": true,
+          "field_cer": 0.0
+        },
+        "subtotal_b": {
+          "expected": "194300",
+          "exact_matched": true,
+          "numeric_matched": true,
+          "field_cer": 0.0
+        }
+      }
+    },
+    "extracted_lines": [
+      "DISTRICT AUDIT LEDGER - DUAL COLUMN",
+      "COLUMN A: REVENUE",
+      "Ledger ID: REV-COL-101",
+      "Entry Date: 12/03/2026",
+      "Property Tax: Rs 154000"
+    ]
+  },
+  "STRESS_04_SKEW_LOW_CONTRAST": {
+    "strategy": "FAST_PATH_ENG",
+    "language": "eng",
+    "latency_ms": 1640.07,
+    "invocations": 1,
+    "cer": 0.383,
+    "critical_fields_eval": {
+      "total_fields": 3,
+      "exact_matches": 2,
+      "match_rate": 0.6667,
+      "numeric_matches": 3,
+      "field_details": {
+        "certificate_id": {
+          "expected": "REG-LOW-2026-118",
+          "exact_matched": true,
+          "numeric_matched": true,
+          "field_cer": 0.0
+        },
+        "registration_date": {
+          "expected": "02/05/2026",
+          "exact_matched": true,
+          "numeric_matched": true,
+          "field_cer": 0.0
+        },
+        "hospital_id": {
+          "expected": "AIIMS-BBSR-8921",
+          "exact_matched": false,
+          "numeric_matched": true,
+          "field_cer": 0.0667
+        }
+      }
+    },
+    "extracted_lines": [
+      "CIVIL REGISTRY RECORD - SKEWED",
+      "Certificate ID: REG-LOW-2026-118",
+      "Registration Date: 02/05/2026",
+      "Child Name: Aryan Patnaik",
+      "S. Patnaik"
+    ]
+  }
+}

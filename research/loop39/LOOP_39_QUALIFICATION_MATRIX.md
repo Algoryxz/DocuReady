@@ -1,0 +1,28 @@
+# DOCUREADY — LOOP 39 QUALIFICATION MATRIX (GATES A–Z)
+
+- **Gate A (Baseline and branch ancestry):** **PASS** — Base commit d66c8e5, ancestor bdc403a verified
+- **Gate B (Loop 10 release integrity):** **PASS** — 5/5 SHA-256 bit-exact match
+- **Gate C (Repository preservation):** **PASS** — Untracked directories & branches preserved
+- **Gate D (Loop 38 baseline reproduction):** **PASS** — 2-pass raster probe & timeout=8 verified
+- **Gate E (OCR execution graph instrumentation):** **PASS** — ocr_invocations=2 recorded per raster doc
+- **Gate F (Duplicate execution root cause):** **PASS** — profile_document() thumbnail probe vs full-res OCR pass
+- **Gate G (Probe reuse correctness):** **PASS** — Proved thumbnail probe (450px crop) cannot substitute for full-res evidence
+- **Gate H (Cache invalidation and provenance):** **PASS** — Probe reuse barred for evidence; timeout fallback hardened (probe_uncertain)
+- **Gate I (English accuracy):** **PASS** — DOC_CTRL_01 routed to FAST_PATH_ENG, 59/59 words
+- **Gate J (Hindi accuracy):** **PASS** — DOC_HIN_01 CER improved 18.66% -> 11.71% via MONOLINGUAL_HIN
+- **Gate K (Odia accuracy):** **PASS** — DOC_ORI_01 CER 8.21%, WER 39.66% (parity)
+- **Gate L (Mixed-script accuracy):** **PASS** — DOC_MIX_01 CER 8.57%; DOC_MIX_02 CER 9.36% vs 6.35%
+- **Gate M (Field and table accuracy):** **PASS** — Historical 791/Loop 28/Cohort M + Loop 35 e2e passed
+- **Gate N (Verification and abstention safety):** **PASS** — 0 false verifications; probe_uncertain never routes to FAST_PATH_ENG
+- **Gate O (Loop 17 performance):** **FAIL** — 30-rep mean 1610.15 ms > 850 ms threshold
+- **Gate P (Loop 18 performance):** **FAIL** — 10-rep mean 1800.37 ms > 1400 ms threshold
+- **Gate Q (Controlled performance comparison):** **PASS** — Alternating A/B paired trials & 30-rep Loop 17 stats completed
+- **Gate R (Variant A/B package integrity):** **PASS** — A=759,258,903 B, B=692,773,837 B (-66,485,066 B)
+- **Gate S (Full application package parity):** **PASS** — Paired trials A=27,288.26 ms vs B=27,447.14 ms (+0.58%, both 3/3 ok=true)
+- **Gate T (Adversarial timeout and failure handling):** **PASS** — tests/test_loop39_probe_hardening.py (3/3 passed) + Loop 16 (10/10 passed)
+- **Gate U (Privacy and offline qualification):** **PASS** — Electron 25/25 + no-network + redaction verified
+- **Gate V (Windows installation lifecycle):** **BLOCKED** — No clean Windows 10/11 VM for interactive GUI install/uninstall
+- **Gate W (Release trust and signing):** **FAIL** — NotSigned; no Authenticode certificate in Windows stores
+- **Gate X (Dataset provenance and licensing):** **PASS** — FUNSD/CORD/SROIE/Gazette/Land Revenue status carried forward
+- **Gate Y (Test and benchmark reproducibility):** **PASS** — 791/Loop 28/Cohort M reproduced 100%; Electron 25/25; Loop 39+16 13/13
+- **Gate Z (Documentation and commit integrity):** **PASS** — All 20+ deliverables authored and reconciled

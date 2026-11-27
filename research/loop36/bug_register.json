@@ -1,0 +1,42 @@
+{
+  "milestone": "Loop 36",
+  "total_findings": 3,
+  "findings": [
+    {
+      "id": "BUG-036-001",
+      "severity": "Medium",
+      "classification": "Code Signing / Windows Trust",
+      "artifact": "DocuReady.exe, docuready_sidecar.exe, DocuReady-0.1.0-Setup.exe",
+      "environment": "Windows 11 10.0.26300 AMD64",
+      "description": "All three Windows executables returned Get-AuthenticodeSignature Status=NotSigned.",
+      "root_cause": "No Authenticode code-signing certificate configured in Electron Forge / PyInstaller build.",
+      "impact": "Clean end-user Windows machines will display SmartScreen 'Windows protected your PC' warnings.",
+      "fix_status": "Open (Policy/Release Engineering)",
+      "residual_risk": "User friction or AV quarantine on clean machines until EV/OV code signing is applied."
+    },
+    {
+      "id": "BUG-036-002",
+      "severity": "Low",
+      "classification": "Packaging Bloat",
+      "artifact": "apps/desktop/out/DocuReady-win32-x64/resources/docuready_sidecar/tesseract/",
+      "environment": "Bundled sidecar distribution",
+      "description": "Bundled tesseract directory includes 18 training/utility EXEs (e.g., lstmtraining.exe, cntraining.exe, tesseract-uninstall.exe) alongside tesseract.exe.",
+      "root_cause": "Full Tesseract installation directory copied into PyInstaller bundle.",
+      "impact": "Minor unnecessary disk footprint.",
+      "fix_status": "Documented Optimization Candidate",
+      "residual_risk": "Low."
+    },
+    {
+      "id": "BUG-036-003",
+      "severity": "Low",
+      "classification": "Historical Profiling Latency Miss",
+      "artifact": "src/docuready/ingest/adaptive_ocr.py:profile_document",
+      "environment": "Windows 11 + Tesseract 5.4.0",
+      "description": "Loop 17 test_fast_profiling_performance (1129.65 ms vs <850 ms) and Loop 18 test_new_documents_profiling_and_execution (1582.11 ms vs <1400 ms) exceed tight wall-clock targets.",
+      "root_cause": "Tesseract subprocess invocation latency during adaptive profiling on Windows.",
+      "impact": "Profiling takes ~1.1-1.6s per page; accuracy and abstention unaffected.",
+      "fix_status": "Reproduced & Classified (Environment-Dependent Performance Variance)",
+      "residual_risk": "Low."
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+DIGITAL LIFE CERTIFICATE RECEIPT / जीवन प्रमाण पावती
+CENTRAL PENSIONER PORTAL / केन्द्रीय पेंशनर पोर्टल
+Pramaan ID / प्रमाण आईडी: 9812-7410-6325
+PPO Number / पीपीओ संख्या: PPO-DEF-2019-94812
+Pensioner Name / पेंशनभोगी नाम: Ramesh Chander Joshi
+Disbursing Bank / संवितरण बैंक: State Bank of India
+Account Number / खाता संख्या: 30198471205
+Submission Date / प्रस्तुति तिथि: 04/11/2026
+Validity Until / वैधता तिथि: 30/11/2027
+Authentication Mode / प्रमाणीकरण माध्यम: Iris Biometric Verified
+
+Certificate successfully submitted to Disbursing Agency.
+डिजिटल जीवन प्रमाण पत्र संबंधित संवितरण एजेंसी को प्रेषित किया गया।

@@ -1,0 +1,42 @@
+{
+  "loop": 29,
+  "performance": {
+    "machine_specs": {
+      "platform": "Windows-11-10.0.26300-SP0",
+      "processor": "Intel64 Family 6 Model 154 Stepping 3, GenuineIntel",
+      "python_version": "3.12.10",
+      "timer": "time.perf_counter_ns (nanosecond hardware clock)",
+      "iterations": 50,
+      "packets_profiled": 66
+    },
+    "component_breakdown_ms": {
+      "entity_resolution": {
+        "mean": 0.0245,
+        "p50": 0.0227,
+        "p90": 0.0431,
+        "p95": 0.0562,
+        "p99": 0.0826
+      },
+      "duplicate_detection": {
+        "mean": 0.0014,
+        "p50": 0.0011,
+        "p90": 0.0023,
+        "p95": 0.0027,
+        "p99": 0.0044
+      },
+      "complete_packet_verification": {
+        "mean": 0.086,
+        "p50": 0.0841,
+        "p90": 0.155,
+        "p95": 0.2221,
+        "p99": 0.3031
+      }
+    }
+  },
+  "determinism": {
+    "run1_evaluations_count": 121,
+    "run2_evaluations_count": 121,
+    "discrepancies": 0,
+    "is_deterministic": true
+  }
+}

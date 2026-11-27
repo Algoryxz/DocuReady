@@ -1,0 +1,198 @@
+{
+  "portal_a_data_gov_in": {
+    "name": "Open Government Data (OGD) Platform India",
+    "base_url": "https://www.data.gov.in",
+    "license": "Government Open Data License - India (GODL)",
+    "primary_formats": "CSV, XML, JSON, occasional PDF guidelines",
+    "multilingual_readiness": "High metadata bilingualism (English/Hindi), PDFs largely vector English/Hindi",
+    "base_probe": {
+      "url": "https://www.data.gov.in",
+      "status": 200,
+      "accessible": true,
+      "latency_ms": 259.93,
+      "content_type": "text/html; charset=utf-8",
+      "content_length": "1364914",
+      "body_preview": "<!doctype html>\n<html data-n-head-ssr lang=\"en\" data-n-head=\"%7B%22lang%22:%7B%22ssr%22:%22en%22%7D%7D\">\n  <head >\n    <meta data-n-head=\"ssr\" charset=\"utf-8\"><meta data-n-head=\"ssr\" name=\"http-equiv\" content=\"text/html\"><meta data-n-head=\"ssr\" name=\"viewport\" content=\"width=device-width, initial-scale=1\"><meta data-n-head=\"ssr\" name=\"format-detection\" content=\"telephone=no\"><meta data-n-head=\"ssr\" data-hid=\"google-site-verification\" name=\"google-site-verification\" content=\"E_mHMxl8OOc7JXOce6JaG",
+      "error": null
+    },
+    "query_probes": [
+      {
+        "query": "scholarship guidelines",
+        "url": "https://data.gov.in/api/3/action/package_search?q=scholarship+guidelines",
+        "status": 200,
+        "accessible": true,
+        "latency_ms": 1177.63,
+        "content_type": "text/html; charset=utf-8"
+      },
+      {
+        "query": "income certificate format",
+        "url": "https://data.gov.in/api/3/action/package_search?q=income+certificate+format",
+        "status": 200,
+        "accessible": true,
+        "latency_ms": 887.64,
+        "content_type": "text/html; charset=utf-8"
+      },
+      {
+        "query": "caste certificate",
+        "url": "https://data.gov.in/api/3/action/package_search?q=caste+certificate",
+        "status": 200,
+        "accessible": true,
+        "latency_ms": 959.15,
+        "content_type": "text/html; charset=utf-8"
+      },
+      {
+        "query": "odisha circular",
+        "url": "https://data.gov.in/api/3/action/package_search?q=odisha+circular",
+        "status": 200,
+        "accessible": true,
+        "latency_ms": 1091.92,
+        "content_type": "text/html; charset=utf-8"
+      },
+      {
+        "query": "hindi notification",
+        "url": "https://data.gov.in/api/3/action/package_search?q=hindi+notification",
+        "status": 200,
+        "accessible": true,
+        "latency_ms": 1042.31,
+        "content_type": "text/html; charset=utf-8"
+      }
+    ]
+  },
+  "portal_b_ndap": {
+    "name": "National Data & Analytics Platform (NDAP) - NITI Aayog",
+    "base_url": "https://ndap.niti.gov.in",
+    "license": "Standard NDAP terms (free public access, attribution required)",
+    "primary_formats": "Harmonized tabular CSV/JSON, API queries",
+    "multilingual_readiness": "Tabular datasets primarily in English; portal UI bilingual",
+    "base_probe": {
+      "url": "https://ndap.niti.gov.in",
+      "status": 200,
+      "accessible": true,
+      "latency_ms": 308.5,
+      "content_type": "text/html",
+      "content_length": "9255",
+      "body_preview": "<!doctype html><html lang=\"en\"><head><meta name=\"csp-nonce\" content=\"__NONCE__\"/><title>National Data and Analytics Platform</title><meta charset=\"UTF-8\"/><meta name=\"viewport\" content=\"width=device-width,initial-scale=1,maximum-scale=1\"/><meta name=\"description\" content=\"The National Data and Analytics Platform (NDAP) facilitates and improves access to Indian government data. Through the platform, data sets from across India's extensive administrative landscape can be accessed. NDAP allows user",
+      "error": null
+    },
+    "query_probes": [
+      {
+        "query": "education",
+        "url": "https://ndap.niti.gov.in/api/v1/dataset?q=education",
+        "status": 404,
+        "accessible": false,
+        "latency_ms": 242.41,
+        "content_type": null
+      },
+      {
+        "query": "district report",
+        "url": "https://ndap.niti.gov.in/api/v1/dataset?q=district+report",
+        "status": 404,
+        "accessible": false,
+        "latency_ms": 185.62,
+        "content_type": null
+      },
+      {
+        "query": "scholarship scheme",
+        "url": "https://ndap.niti.gov.in/api/v1/dataset?q=scholarship+scheme",
+        "status": 404,
+        "accessible": false,
+        "latency_ms": 155.96,
+        "content_type": null
+      }
+    ]
+  },
+  "portal_c_mospi_nada": {
+    "name": "MoSPI Microdata / National Data Archive (NADA)",
+    "base_url": "https://microdata.gov.in/nada/index.php/home",
+    "license": "Ministry of Statistics & Programme Implementation Data Sharing Policy",
+    "primary_formats": "Survey Questionnaires, Reports (PDF), Microdata (Stata/SPSS/ASCII)",
+    "multilingual_readiness": "Field questionnaires frequently bilingual (English + Hindi/Regional); administrative PDFs verified",
+    "base_probe": {
+      "url": "https://microdata.gov.in/nada/index.php/home",
+      "status": 200,
+      "accessible": true,
+      "latency_ms": 218.86,
+      "content_type": "text/html; charset=UTF-8",
+      "content_length": "18852",
+      "body_preview": "<!DOCTYPE html>\n<html>\n\n<head>\n    <meta charset=\"utf-8\">\n<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n\n<title>Home</title>\n\n    <link href=\"https://microdata.gov.in/nada/themes/nada52/fontawesome/css/all.css\" rel=\"stylesheet\">\n    <link rel=\"stylesheet\" href=\"https://microdata.gov.in/nada/themes/nada52/css/bootstrap.min.css\">\n    \n\n<link rel=\"stylesheet\" href=\"https://microdata.gov.in/nada/themes/nada52/css/style.css?",
+      "error": null
+    },
+    "query_probes": [
+      {
+        "query": "NSS",
+        "url": "https://microdata.gov.in/nada/index.php/catalog?sk=NSS",
+        "status": 200,
+        "accessible": true,
+        "latency_ms": 724.94,
+        "content_type": "text/html; charset=UTF-8"
+      },
+      {
+        "query": "Schedule 1.0",
+        "url": "https://microdata.gov.in/nada/index.php/catalog?sk=Schedule+1.0",
+        "status": 200,
+        "accessible": true,
+        "latency_ms": 222.32,
+        "content_type": "text/html; charset=UTF-8"
+      },
+      {
+        "query": "Questionnaire",
+        "url": "https://microdata.gov.in/nada/index.php/catalog?sk=Questionnaire",
+        "status": 200,
+        "accessible": true,
+        "latency_ms": 249.45,
+        "content_type": "text/html; charset=UTF-8"
+      },
+      {
+        "query": "Survey Instruction",
+        "url": "https://microdata.gov.in/nada/index.php/catalog?sk=Survey+Instruction",
+        "status": 200,
+        "accessible": true,
+        "latency_ms": 230.65,
+        "content_type": "text/html; charset=UTF-8"
+      }
+    ]
+  },
+  "portal_d_india_data_portal": {
+    "name": "India Data Portal (Bharti Institute / ISB)",
+    "base_url": "https://indiadataportal.com",
+    "license": "Open access for research and visualization",
+    "primary_formats": "Visualizations, curated CSV datasets",
+    "multilingual_readiness": "English metadata and visualizations; links to state government sources",
+    "base_probe": {
+      "url": "https://indiadataportal.com",
+      "status": 200,
+      "accessible": true,
+      "latency_ms": 651.06,
+      "content_type": "text/html; charset=utf-8",
+      "content_length": "34821",
+      "body_preview": "<!DOCTYPE html><html class=\"scroll-smooth hover:scroll-auto md:scroll-auto\" lang=\"en\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width\"/><title>IndiaDataPortal</title><link rel=\"icon\" href=\"/favicon.ico\"/><meta name=\"keywords\" content=\"Open Government Data, OGD, Data Portal India, Open Data Portal, Open Data, Indian Government Data, Free Data, Open Data India, Data Science, Data Visualization, Datasets, Indian Datasets,Administration and Governance, Climate and Weat",
+      "error": null
+    },
+    "query_probes": [
+      {
+        "query": "agriculture",
+        "url": "https://indiadataportal.com/?s=agriculture",
+        "status": 200,
+        "accessible": true,
+        "latency_ms": 492.6,
+        "content_type": "text/html; charset=utf-8"
+      },
+      {
+        "query": "education",
+        "url": "https://indiadataportal.com/?s=education",
+        "status": 200,
+        "accessible": true,
+        "latency_ms": 471.6,
+        "content_type": "text/html; charset=utf-8"
+      },
+      {
+        "query": "scholarship",
+        "url": "https://indiadataportal.com/?s=scholarship",
+        "status": 200,
+        "accessible": true,
+        "latency_ms": 504.34,
+        "content_type": "text/html; charset=utf-8"
+      }
+    ]
+  }
+}

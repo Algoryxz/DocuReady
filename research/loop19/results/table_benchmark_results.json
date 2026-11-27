@@ -1,0 +1,647 @@
+{
+  "total_fixtures": 10,
+  "mean_spatial_exact_match_rate": 0.8833,
+  "mean_traceability_rate": 0.8833,
+  "mean_total_latency_ms": 483.39,
+  "mean_table_overhead_ms": 2.8,
+  "per_fixture": {
+    "TAB_01_SIMPLE_GRID": {
+      "fixture_id": "TAB_01_SIMPLE_GRID",
+      "category": "Category A: Simple Grid",
+      "raw_ocr_latency_ms": 465.37,
+      "spatial_overhead_ms": 9.66,
+      "total_latency_ms": 475.03,
+      "grid_rows": 6,
+      "grid_cols": 4,
+      "total_cells": 24,
+      "non_empty_cells": 24,
+      "cell_density_precision": 1.0,
+      "baseline_substring_match_rate": 1.0,
+      "spatial_exact_match_rate": 1.0,
+      "wrong_row_rate": 0.0,
+      "wrong_col_rate": 0.0,
+      "traceability_rate": 1.0,
+      "fields": {
+        "item_01_amount": {
+          "expected": "45000",
+          "status": "PASS_SPATIAL_EXACT",
+          "extracted_value": "45000",
+          "row": 1,
+          "col": 3,
+          "confidence": 95.0,
+          "bbox": [
+            765,
+            188,
+            809,
+            200
+          ]
+        },
+        "item_03_sanction": {
+          "expected": "RUR-2026-781",
+          "status": "PASS_SPATIAL_EXACT",
+          "extracted_value": "RUR-2026-781",
+          "row": 3,
+          "col": 2,
+          "confidence": 92.0,
+          "bbox": [
+            536,
+            304,
+            641,
+            329
+          ]
+        },
+        "total_amount": {
+          "expected": "602500",
+          "status": "PASS_SPATIAL_EXACT",
+          "extracted_value": "602500",
+          "row": 5,
+          "col": 3,
+          "confidence": 96.0,
+          "bbox": [
+            766,
+            428,
+            818,
+            440
+          ]
+        }
+      }
+    },
+    "TAB_02_BORDERLESS_TABLE": {
+      "fixture_id": "TAB_02_BORDERLESS_TABLE",
+      "category": "Category B: Borderless Table",
+      "raw_ocr_latency_ms": 483.23,
+      "spatial_overhead_ms": 1.66,
+      "total_latency_ms": 484.89,
+      "grid_rows": 5,
+      "grid_cols": 5,
+      "total_cells": 25,
+      "non_empty_cells": 25,
+      "cell_density_precision": 1.0,
+      "baseline_substring_match_rate": 1.0,
+      "spatial_exact_match_rate": 1.0,
+      "wrong_row_rate": 0.0,
+      "wrong_col_rate": 0.0,
+      "traceability_rate": 1.0,
+      "fields": {
+        "admin_balance": {
+          "expected": "400000",
+          "status": "PASS_SPATIAL_EXACT",
+          "extracted_value": "400000",
+          "row": 1,
+          "col": 4,
+          "confidence": 96.0,
+          "bbox": [
+            840,
+            223,
+            893,
+            235
+          ]
+        },
+        "survey_utilized": {
+          "expected": "890000",
+          "status": "PASS_SPATIAL_EXACT",
+          "extracted_value": "890000",
+          "row": 3,
+          "col": 3,
+          "confidence": 96.0,
+          "bbox": [
+            681,
+            343,
+            733,
+            355
+          ]
+        },
+        "info_budget": {
+          "expected": "420000",
+          "status": "PASS_SPATIAL_EXACT",
+          "extracted_value": "420000",
+          "row": 4,
+          "col": 2,
+          "confidence": 95.0,
+          "bbox": [
+            480,
+            403,
+            533,
+            415
+          ]
+        }
+      }
+    },
+    "TAB_03_DENSE_NUMERIC_COLUMNS": {
+      "fixture_id": "TAB_03_DENSE_NUMERIC_COLUMNS",
+      "category": "Category C: Dense Numeric",
+      "raw_ocr_latency_ms": 421.74,
+      "spatial_overhead_ms": 1.91,
+      "total_latency_ms": 423.65,
+      "grid_rows": 5,
+      "grid_cols": 6,
+      "total_cells": 30,
+      "non_empty_cells": 30,
+      "cell_density_precision": 1.0,
+      "baseline_substring_match_rate": 1.0,
+      "spatial_exact_match_rate": 1.0,
+      "wrong_row_rate": 0.0,
+      "wrong_col_rate": 0.0,
+      "traceability_rate": 1.0,
+      "fields": {
+        "may_tax_inflow": {
+          "expected": "912400",
+          "status": "PASS_SPATIAL_EXACT",
+          "extracted_value": "912400",
+          "row": 2,
+          "col": 1,
+          "confidence": 96.0,
+          "bbox": [
+            191,
+            233,
+            243,
+            245
+          ]
+        },
+        "jun_revenue_out": {
+          "expected": "290000",
+          "status": "PASS_SPATIAL_EXACT",
+          "extracted_value": "290000",
+          "row": 3,
+          "col": 4,
+          "confidence": 96.0,
+          "bbox": [
+            681,
+            283,
+            733,
+            295
+          ]
+        },
+        "jul_net_surplus": {
+          "expected": "190900",
+          "status": "PASS_SPATIAL_EXACT",
+          "extracted_value": "190900",
+          "row": 4,
+          "col": 5,
+          "confidence": 96.0,
+          "bbox": [
+            842,
+            333,
+            893,
+            345
+          ]
+        }
+      }
+    },
+    "TAB_04_SIMILAR_ADJACENT_VALUES": {
+      "fixture_id": "TAB_04_SIMILAR_ADJACENT_VALUES",
+      "category": "Category D: Similar Adjacent",
+      "raw_ocr_latency_ms": 374.02,
+      "spatial_overhead_ms": 1.8,
+      "total_latency_ms": 375.82,
+      "grid_rows": 5,
+      "grid_cols": 5,
+      "total_cells": 25,
+      "non_empty_cells": 25,
+      "cell_density_precision": 1.0,
+      "baseline_substring_match_rate": 1.0,
+      "spatial_exact_match_rate": 1.0,
+      "wrong_row_rate": 0.0,
+      "wrong_col_rate": 0.0,
+      "traceability_rate": 1.0,
+      "fields": {
+        "tier_01_topup": {
+          "expected": "10000",
+          "status": "PASS_SPATIAL_EXACT",
+          "extracted_value": "10000",
+          "row": 1,
+          "col": 2,
+          "confidence": 96.0,
+          "bbox": [
+            422,
+            193,
+            464,
+            205
+          ]
+        },
+        "tier_02_base": {
+          "expected": "10000",
+          "status": "PASS_SPATIAL_EXACT",
+          "extracted_value": "10000",
+          "row": 1,
+          "col": 2,
+          "confidence": 96.0,
+          "bbox": [
+            422,
+            193,
+            464,
+            205
+          ]
+        },
+        "tier_03_beneficiaries": {
+          "expected": "1080",
+          "status": "PASS_SPATIAL_EXACT",
+          "extracted_value": "1080",
+          "row": 3,
+          "col": 4,
+          "confidence": 96.0,
+          "bbox": [
+            802,
+            303,
+            835,
+            315
+          ]
+        },
+        "tier_04_beneficiaries": {
+          "expected": "1800",
+          "status": "PASS_SPATIAL_EXACT",
+          "extracted_value": "1800",
+          "row": 4,
+          "col": 4,
+          "confidence": 96.0,
+          "bbox": [
+            802,
+            358,
+            835,
+            370
+          ]
+        }
+      }
+    },
+    "TAB_05_WRAPPED_CELLS": {
+      "fixture_id": "TAB_05_WRAPPED_CELLS",
+      "category": "Category E: Wrapped Cells",
+      "raw_ocr_latency_ms": 471.16,
+      "spatial_overhead_ms": 2.08,
+      "total_latency_ms": 473.24,
+      "grid_rows": 4,
+      "grid_cols": 4,
+      "total_cells": 16,
+      "non_empty_cells": 16,
+      "cell_density_precision": 1.0,
+      "baseline_substring_match_rate": 1.0,
+      "spatial_exact_match_rate": 1.0,
+      "wrong_row_rate": 0.0,
+      "wrong_col_rate": 0.0,
+      "traceability_rate": 1.0,
+      "fields": {
+        "pr_110_value": {
+          "expected": "4200000",
+          "status": "PASS_SPATIAL_EXACT",
+          "extracted_value": "4200000",
+          "row": 1,
+          "col": 3,
+          "confidence": 95.0,
+          "bbox": [
+            840,
+            183,
+            902,
+            195
+          ]
+        },
+        "pr_114_vendor": {
+          "expected": "Netcom Infra",
+          "status": "PASS_SPATIAL_EXACT",
+          "extracted_value": "Netcom Infra",
+          "row": 2,
+          "col": 2,
+          "confidence": 95.0,
+          "bbox": [
+            681,
+            263,
+            769,
+            275
+          ]
+        },
+        "pr_118_value": {
+          "expected": "1450000",
+          "status": "PASS_SPATIAL_EXACT",
+          "extracted_value": "1450000",
+          "row": 3,
+          "col": 3,
+          "confidence": 96.0,
+          "bbox": [
+            842,
+            343,
+            902,
+            355
+          ]
+        }
+      }
+    },
+    "TAB_06_MISSING_EMPTY_CELLS": {
+      "fixture_id": "TAB_06_MISSING_EMPTY_CELLS",
+      "category": "Category F: Empty Cells",
+      "raw_ocr_latency_ms": 472.94,
+      "spatial_overhead_ms": 1.49,
+      "total_latency_ms": 474.43,
+      "grid_rows": 5,
+      "grid_cols": 5,
+      "total_cells": 25,
+      "non_empty_cells": 22,
+      "cell_density_precision": 0.88,
+      "baseline_substring_match_rate": 1.0,
+      "spatial_exact_match_rate": 1.0,
+      "wrong_row_rate": 0.0,
+      "wrong_col_rate": 0.0,
+      "traceability_rate": 1.0,
+      "fields": {
+        "ppo_9011_pension": {
+          "expected": "32400",
+          "status": "PASS_SPATIAL_EXACT",
+          "extracted_value": "32400",
+          "row": 1,
+          "col": 4,
+          "confidence": 96.0,
+          "bbox": [
+            801,
+            183,
+            844,
+            195
+          ]
+        },
+        "ppo_9012_disability": {
+          "expected": "5000",
+          "status": "PASS_SPATIAL_EXACT",
+          "extracted_value": "5000",
+          "row": 2,
+          "col": 3,
+          "confidence": 95.0,
+          "bbox": [
+            611,
+            238,
+            645,
+            250
+          ]
+        },
+        "ppo_9014_pension": {
+          "expected": "41000",
+          "status": "PASS_SPATIAL_EXACT",
+          "extracted_value": "41000",
+          "row": 4,
+          "col": 4,
+          "confidence": 96.0,
+          "bbox": [
+            800,
+            348,
+            844,
+            360
+          ]
+        }
+      }
+    },
+    "TAB_07_MERGED_HEADERS": {
+      "fixture_id": "TAB_07_MERGED_HEADERS",
+      "category": "Category G: Merged Headers",
+      "raw_ocr_latency_ms": 522.08,
+      "spatial_overhead_ms": 1.48,
+      "total_latency_ms": 523.56,
+      "grid_rows": 5,
+      "grid_cols": 2,
+      "total_cells": 10,
+      "non_empty_cells": 10,
+      "cell_density_precision": 1.0,
+      "baseline_substring_match_rate": 1.0,
+      "spatial_exact_match_rate": 0.6667,
+      "wrong_row_rate": 0.3333,
+      "wrong_col_rate": 0.0,
+      "traceability_rate": 0.6667,
+      "fields": {
+        "jatni_property_cess": {
+          "expected": "120000",
+          "status": "FAIL_WRONG_ASSOCIATION (got: 115000 42000)",
+          "extracted_value": "115000 42000",
+          "row": 2,
+          "col": 1,
+          "confidence": 95.5,
+          "bbox": [
+            612,
+            210,
+            814,
+            222
+          ]
+        },
+        "bbsr_property_coll": {
+          "expected": "325000",
+          "status": "PASS_SPATIAL_EXACT",
+          "extracted_value": "325000 85000",
+          "row": 3,
+          "col": 1,
+          "confidence": 96.0,
+          "bbox": [
+            611,
+            255,
+            814,
+            267
+          ]
+        },
+        "balianta_water_coll": {
+          "expected": "26000",
+          "status": "PASS_SPATIAL_EXACT",
+          "extracted_value": "90000 26000",
+          "row": 4,
+          "col": 1,
+          "confidence": 95.5,
+          "bbox": [
+            611,
+            300,
+            814,
+            312
+          ]
+        }
+      }
+    },
+    "TAB_08_IRREGULAR_LAYOUTS": {
+      "fixture_id": "TAB_08_IRREGULAR_LAYOUTS",
+      "category": "Category H: Irregular Layouts",
+      "raw_ocr_latency_ms": 550.31,
+      "spatial_overhead_ms": 2.04,
+      "total_latency_ms": 552.35,
+      "grid_rows": 4,
+      "grid_cols": 3,
+      "total_cells": 12,
+      "non_empty_cells": 12,
+      "cell_density_precision": 1.0,
+      "baseline_substring_match_rate": 1.0,
+      "spatial_exact_match_rate": 1.0,
+      "wrong_row_rate": 0.0,
+      "wrong_col_rate": 0.0,
+      "traceability_rate": 1.0,
+      "fields": {
+        "rev_801_duty": {
+          "expected": "4850",
+          "status": "PASS_SPATIAL_EXACT",
+          "extracted_value": "Mutation Sanctioned 4850",
+          "row": 1,
+          "col": 2,
+          "confidence": 96.0,
+          "bbox": [
+            571,
+            183,
+            795,
+            195
+          ]
+        },
+        "rev_804_duty": {
+          "expected": "12500",
+          "status": "PASS_SPATIAL_EXACT",
+          "extracted_value": "Hearing Scheduled 12500",
+          "row": 2,
+          "col": 2,
+          "confidence": 95.67,
+          "bbox": [
+            571,
+            253,
+            804,
+            268
+          ]
+        },
+        "rev_809_duty": {
+          "expected": "31200",
+          "status": "PASS_SPATIAL_EXACT",
+          "extracted_value": "Disposed under Section \u00a7 31200",
+          "row": 3,
+          "col": 2,
+          "confidence": 93.2,
+          "bbox": [
+            571,
+            299,
+            804,
+            324
+          ]
+        }
+      }
+    },
+    "TAB_09_MULTICOLUMN_DOCUMENT": {
+      "fixture_id": "TAB_09_MULTICOLUMN_DOCUMENT",
+      "category": "Category I: Multi-column",
+      "raw_ocr_latency_ms": 573.67,
+      "spatial_overhead_ms": 4.54,
+      "total_latency_ms": 578.21,
+      "grid_rows": 6,
+      "grid_cols": 2,
+      "total_cells": 12,
+      "non_empty_cells": 12,
+      "cell_density_precision": 1.0,
+      "baseline_substring_match_rate": 1.0,
+      "spatial_exact_match_rate": 0.5,
+      "wrong_row_rate": 0.5,
+      "wrong_col_rate": 0.0,
+      "traceability_rate": 0.5,
+      "fields": {
+        "batch_a2_amount": {
+          "expected": "240000",
+          "status": "FAIL_WRONG_ASSOCIATION (got: Batch B-2 VOU-982 195000)",
+          "extracted_value": "Batch B-2 VOU-982 195000",
+          "row": 4,
+          "col": 1,
+          "confidence": 43.75,
+          "bbox": [
+            531,
+            263,
+            772,
+            275
+          ]
+        },
+        "batch_a3_voucher": {
+          "expected": "VOU-903",
+          "status": "FAIL_WRONG_ASSOCIATION (got: Batch B-3. \\VOU-983 275000)",
+          "extracted_value": "Batch B-3. \\VOU-983 275000",
+          "row": 5,
+          "col": 1,
+          "confidence": 42.25,
+          "bbox": [
+            531,
+            308,
+            772,
+            320
+          ]
+        },
+        "batch_b2_amount": {
+          "expected": "195000",
+          "status": "PASS_SPATIAL_EXACT",
+          "extracted_value": "Batch B-2 VOU-982 195000",
+          "row": 4,
+          "col": 1,
+          "confidence": 43.75,
+          "bbox": [
+            531,
+            263,
+            772,
+            275
+          ]
+        },
+        "batch_b3_voucher": {
+          "expected": "VOU-983",
+          "status": "PASS_SPATIAL_EXACT",
+          "extracted_value": "Batch B-3. \\VOU-983 275000",
+          "row": 5,
+          "col": 1,
+          "confidence": 42.25,
+          "bbox": [
+            531,
+            308,
+            772,
+            320
+          ]
+        }
+      }
+    },
+    "TAB_10_ADVERSARIAL_GEOMETRY": {
+      "fixture_id": "TAB_10_ADVERSARIAL_GEOMETRY",
+      "category": "Category J: Adversarial Geometry",
+      "raw_ocr_latency_ms": 471.35,
+      "spatial_overhead_ms": 1.38,
+      "total_latency_ms": 472.73,
+      "grid_rows": 6,
+      "grid_cols": 4,
+      "total_cells": 24,
+      "non_empty_cells": 16,
+      "cell_density_precision": 0.6667,
+      "baseline_substring_match_rate": 0.6667,
+      "spatial_exact_match_rate": 0.6667,
+      "wrong_row_rate": 0.3333,
+      "wrong_col_rate": 0.0,
+      "traceability_rate": 0.6667,
+      "fields": {
+        "tk_801_amount": {
+          "expected": "85000",
+          "status": "PASS_SPATIAL_EXACT",
+          "extracted_value": "85000",
+          "row": 2,
+          "col": 3,
+          "confidence": 94.0,
+          "bbox": [
+            744,
+            174,
+            787,
+            188
+          ]
+        },
+        "tk_802_date": {
+          "expected": "19/04/2026",
+          "status": "FAIL_WRONG_ASSOCIATION (got: Amount (INR))",
+          "extracted_value": "Amount (INR)",
+          "row": 0,
+          "col": 3,
+          "confidence": 95.5,
+          "bbox": [
+            742,
+            130,
+            851,
+            149
+          ]
+        },
+        "tk_803_amount": {
+          "expected": "67000",
+          "status": "PASS_SPATIAL_EXACT",
+          "extracted_value": "67000",
+          "row": 5,
+          "col": 3,
+          "confidence": 96.0,
+          "bbox": [
+            747,
+            264,
+            791,
+            277
+          ]
+        }
+      }
+    }
+  }
+}

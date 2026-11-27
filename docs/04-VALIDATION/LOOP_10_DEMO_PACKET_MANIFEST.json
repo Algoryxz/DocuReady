@@ -1,0 +1,148 @@
+{
+  "schema_version": "1.0.0",
+  "loop_id": "LOOP_10",
+  "project": "DocuReady - HackNation 2026",
+  "timestamp": "2026-11-22T13:56:00+05:30",
+  "demo_packet_count": 5,
+  "packets": [
+    {
+      "packet_id": "pkt_01_clean",
+      "designation": "Demo Packet A",
+      "title": "Clean Compliant Submission",
+      "storyline": "Ideal applicant submission where all documents are present, identity fields match across certificates, income falls within statutory thresholds, and bank IFSC is verified.",
+      "documents": [
+        "application_form.pdf",
+        "bank_passbook.pdf",
+        "caste_cert.pdf",
+        "income_cert.pdf",
+        "marksheet.pdf",
+        "residence_cert.pdf"
+      ],
+      "synthetic_applicant_profile": {
+        "name": "[REDACTED SYNTHETIC]",
+        "dob": "2004-05-14",
+        "category": "OBC",
+        "annual_income_inr": 180000,
+        "marks_pct": 78.5,
+        "state": "Odisha"
+      },
+      "expected_outcome": {
+        "status": "NO_ISSUES_FOUND",
+        "readiness_score": 100,
+        "human_action": "Proceed to one-click portal submission."
+      },
+      "key_talking_point": "Demonstrates high-confidence green path: sub-2s offline extraction, 100 score, cross-document field reconciliation."
+    },
+    {
+      "packet_id": "pkt_02_name_conflict",
+      "designation": "Demo Packet B",
+      "title": "Critical Applicant Name Mismatch",
+      "storyline": "High-risk failure mode where the applicant name on the marksheet differs from the government application form due to typographic substitution.",
+      "documents": [
+        "application_form.pdf",
+        "bank_passbook.pdf",
+        "caste_cert.pdf",
+        "income_cert.pdf",
+        "marksheet.pdf",
+        "residence_cert.pdf"
+      ],
+      "synthetic_applicant_profile": {
+        "name": "[REDACTED SYNTHETIC]",
+        "dob": "2004-05-14",
+        "category": "OBC",
+        "annual_income_inr": 180000,
+        "marks_pct": 78.5,
+        "state": "Odisha"
+      },
+      "expected_outcome": {
+        "status": "NOT_READY",
+        "readiness_score": 75,
+        "human_action": "Correct marksheet or application name before submission."
+      },
+      "key_talking_point": "Demonstrates fatal defect detection: instantaneous red alert, side-by-side evidence navigation with exact bounding boxes, and strict human override blocking."
+    },
+    {
+      "packet_id": "pkt_05_missing_certificate",
+      "designation": "Demo Packet C",
+      "title": "Missing Mandatory Caste Certificate",
+      "storyline": "Applicant claims caste reservation quota but omits the mandatory caste certificate from the upload packet.",
+      "documents": [
+        "application_form.pdf",
+        "bank_passbook.pdf",
+        "income_cert.pdf",
+        "marksheet.pdf",
+        "residence_cert.pdf"
+      ],
+      "synthetic_applicant_profile": {
+        "name": "[REDACTED SYNTHETIC]",
+        "dob": "2004-05-14",
+        "category": "SC",
+        "annual_income_inr": 120000,
+        "marks_pct": 68.0,
+        "state": "Odisha"
+      },
+      "expected_outcome": {
+        "status": "NOT_READY",
+        "readiness_score": 65,
+        "human_action": "Upload valid Caste Certificate before proceeding."
+      },
+      "key_talking_point": "Demonstrates negative evidence handling: clean absence callout without hallucinated coordinates, exact statutory clause citation."
+    },
+    {
+      "packet_id": "pkt_08_ambiguous_evidence",
+      "designation": "Demo Packet D",
+      "title": "Ambiguous Evidence & Human Review Boundary",
+      "storyline": "Edge-case submission with single-letter initials in bank passbook and ambiguous date format (DD/MM vs MM/DD) on marksheet.",
+      "documents": [
+        "application_form.pdf",
+        "bank_passbook.pdf",
+        "caste_cert.pdf",
+        "income_cert.pdf",
+        "marksheet.pdf",
+        "residence_cert.pdf"
+      ],
+      "synthetic_applicant_profile": {
+        "name": "[REDACTED SYNTHETIC]",
+        "dob": "2004-06-05",
+        "category": "General",
+        "annual_income_inr": 220000,
+        "marks_pct": 82.0,
+        "state": "Odisha"
+      },
+      "expected_outcome": {
+        "status": "NEEDS_CHECKS",
+        "readiness_score": 90,
+        "human_action": "Operator manually inspects initials and ambiguous date before clearing."
+      },
+      "key_talking_point": "Demonstrates calibrated human-in-the-loop review: neither false rejection nor false clearance; targeted bounding boxes guide rapid verification."
+    },
+    {
+      "packet_id": "pkt_07_unreadable_doc",
+      "designation": "Demo Packet E",
+      "title": "Degraded / Unreadable Document Abstention",
+      "storyline": "Upload packet contains a heavily blurred, corrupted, or low-contrast income certificate where text characters cannot be reliably resolved.",
+      "documents": [
+        "application_form.pdf",
+        "bank_passbook.pdf",
+        "caste_cert.pdf",
+        "income_cert.pdf",
+        "marksheet.pdf",
+        "residence_cert.pdf"
+      ],
+      "synthetic_applicant_profile": {
+        "name": "[REDACTED SYNTHETIC]",
+        "dob": "2004-05-14",
+        "category": "OBC",
+        "annual_income_inr": 180000,
+        "marks_pct": 78.5,
+        "state": "Odisha"
+      },
+      "expected_outcome": {
+        "status": "NEEDS_CHECKS",
+        "readiness_score": 75,
+        "human_action": "Operator requests clear re-scan from applicant."
+      },
+      "key_talking_point": "Demonstrates conservative AI safety: abstains when evidence is degraded instead of hallucinating OCR text or asserting false compliance."
+    }
+  ]
+}

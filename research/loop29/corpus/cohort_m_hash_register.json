@@ -1,0 +1,9 @@
+{
+  "corpus_file": "cohort_m_corpus.json",
+  "sha256": "c33c7491bc78f769e856d1dcc476a42ba537eefefae87598bd693cc630280722",
+  "file_size_bytes": 57071,
+  "total_packets": 30,
+  "total_claims": 103,
+  "status": "FROZEN_LOCKED_INDEPENDENT_EVALUATION",
+  "timestamp": "2026-11-24T17:05:00+05:30"
+}

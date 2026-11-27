@@ -1,0 +1,14 @@
+{
+  "word_counts_identical_across_global_and_adaptive": true,
+  "loop34_baseline": {
+    "eng_cer_pct": 2.45,
+    "hin_cer_pct": 5.82,
+    "ori_cer_pct": 6.4,
+    "mixed_cer_pct": 5.15,
+    "false_verifications": 0
+  },
+  "thresholds_preserved": {
+    "T_star": 70.0,
+    "T_fuzzy": 75.0
+  }
+}

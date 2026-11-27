@@ -1,0 +1,213 @@
+{
+  "loop": 28,
+  "timestamp": "2026-11-24T16:25:00+05:30",
+  "partitions": {
+    "DEV": {
+      "packets": 10,
+      "claims": 27,
+      "verified": 14,
+      "exact_matches": 14,
+      "false_verifications": 0,
+      "abstentions": 13,
+      "precision": 100.0,
+      "precision_ci95": [
+        78.47,
+        100.0
+      ],
+      "coverage": 51.85,
+      "coverage_ci95": [
+        33.99,
+        69.26
+      ]
+    },
+    "CAL": {
+      "packets": 8,
+      "claims": 23,
+      "verified": 13,
+      "exact_matches": 13,
+      "false_verifications": 0,
+      "abstentions": 10,
+      "precision": 100.0,
+      "precision_ci95": [
+        77.19,
+        100.0
+      ],
+      "coverage": 56.52,
+      "coverage_ci95": [
+        36.81,
+        74.37
+      ]
+    },
+    "BLIND": {
+      "packets": 12,
+      "claims": 31,
+      "verified": 14,
+      "exact_matches": 14,
+      "false_verifications": 0,
+      "abstentions": 17,
+      "precision": 100.0,
+      "precision_ci95": [
+        78.47,
+        100.0
+      ],
+      "coverage": 45.16,
+      "coverage_ci95": [
+        29.16,
+        62.23
+      ]
+    },
+    "CHALL": {
+      "packets": 6,
+      "claims": 11,
+      "verified": 1,
+      "exact_matches": 1,
+      "false_verifications": 0,
+      "abstentions": 10,
+      "precision": 100.0,
+      "precision_ci95": [
+        20.65,
+        100.0
+      ],
+      "coverage": 9.09,
+      "coverage_ci95": [
+        1.62,
+        37.74
+      ]
+    }
+  },
+  "aggregate": {
+    "total_packets": 36,
+    "total_claims": 92,
+    "verified_claims": 42,
+    "exact_matches": 42,
+    "false_verifications": 0,
+    "abstentions": 50,
+    "precision": 100.0,
+    "precision_ci95": [
+      91.62,
+      100.0
+    ],
+    "coverage": 45.65,
+    "coverage_ci95": [
+      35.85,
+      55.8
+    ]
+  },
+  "calibration": {
+    "ece": 46.93,
+    "mce": 89.0,
+    "brier_score": 0.4603
+  },
+  "latency_ms": {
+    "mean": 0.09,
+    "p50": 0.04,
+    "p95": 0.14,
+    "p99": 1.35,
+    "target_mean_passed": true,
+    "target_p95_passed": true
+  },
+  "determinism": {
+    "run1_vs_run2_discrepancies": 0,
+    "status": "DETERMINISTIC_BIT_EXACT"
+  },
+  "conditions": {
+    "COND_01_EXACT_AGREEMENT": {
+      "claims": 15,
+      "verified": 15,
+      "exact": 15,
+      "false": 0,
+      "abstain": 0
+    },
+    "COND_02_NUMERIC_MISMATCH": {
+      "claims": 12,
+      "verified": 6,
+      "exact": 6,
+      "false": 0,
+      "abstain": 6
+    },
+    "COND_03_DECIMAL_MISMATCH": {
+      "claims": 12,
+      "verified": 6,
+      "exact": 6,
+      "false": 0,
+      "abstain": 6
+    },
+    "COND_04_DATE_MISMATCH": {
+      "claims": 9,
+      "verified": 3,
+      "exact": 3,
+      "false": 0,
+      "abstain": 6
+    },
+    "COND_07_DISTINCT_ENTITIES": {
+      "claims": 6,
+      "verified": 3,
+      "exact": 3,
+      "false": 0,
+      "abstain": 3
+    },
+    "COND_09_MISSING_ATTACHMENT": {
+      "claims": 3,
+      "verified": 0,
+      "exact": 0,
+      "false": 0,
+      "abstain": 3
+    },
+    "COND_10_DUPLICATE_DOCUMENTS": {
+      "claims": 6,
+      "verified": 6,
+      "exact": 6,
+      "false": 0,
+      "abstain": 0
+    },
+    "COND_12_DOCUMENT_VERSIONS": {
+      "claims": 6,
+      "verified": 0,
+      "exact": 0,
+      "false": 0,
+      "abstain": 6
+    },
+    "COND_20_INCONSISTENT_CHRONOLOGY": {
+      "claims": 6,
+      "verified": 3,
+      "exact": 3,
+      "false": 0,
+      "abstain": 3
+    },
+    "COND_15_REPEATED_OCR_ERROR": {
+      "claims": 6,
+      "verified": 0,
+      "exact": 0,
+      "false": 0,
+      "abstain": 6
+    },
+    "COND_05_CURRENCY_MISMATCH": {
+      "claims": 4,
+      "verified": 0,
+      "exact": 0,
+      "false": 0,
+      "abstain": 4
+    },
+    "COND_06_UNIT_MISMATCH": {
+      "claims": 4,
+      "verified": 0,
+      "exact": 0,
+      "false": 0,
+      "abstain": 4
+    },
+    "COND_13_ILLEGIBLE_EVIDENCE": {
+      "claims": 2,
+      "verified": 0,
+      "exact": 0,
+      "false": 0,
+      "abstain": 2
+    },
+    "COND_19_WRONG_DOCUMENT": {
+      "claims": 1,
+      "verified": 0,
+      "exact": 0,
+      "false": 0,
+      "abstain": 1
+    }
+  }
+}

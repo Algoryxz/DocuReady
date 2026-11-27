@@ -1,0 +1,6 @@
+{
+  "os_tcp_snapshot": "Get-NetTCPConnection verified 0 outbound connections from sidecar",
+  "python_socket_guard": "test_zero_outbound_network_attempts_during_pipeline (0 attempts)",
+  "contract_tests": "tests/contract/test_no_network.py (12/12 passed)",
+  "limitation": "Full ETW/WFP kernel packet capture driver not installed; verified via Get-NetTCPConnection + socket guard"
+}

@@ -116,6 +116,62 @@ def find_tesseract_binary() -> Optional[Path]:
     return bin_path
 
 
+def get_unified_tessdata_dir(bin_path: Path) -> Optional[Path]:
+    """Resolves or prepares a unified tessdata directory containing both base and extra language models."""
+    import tempfile
+    
+    # 1. Base tessdata next to tesseract binary
+    base_tessdata = bin_path.parent / "tessdata"
+    
+    # 2. Extra tessdata candidates in repository / sidecar / bundle
+    extra_candidates = [
+        Path(__file__).resolve().parents[3] / "sidecar" / "tessdata_extra",
+        Path(__file__).resolve().parents[3] / "sidecar" / "tessdata",
+        Path(sys.executable).parent / "tessdata",
+    ]
+    if hasattr(sys, "_MEIPASS"):
+        extra_candidates.append(Path(sys._MEIPASS) / "tessdata")
+        extra_candidates.append(Path(sys._MEIPASS) / "tessdata_extra")
+
+    extra_tessdata = None
+    for cand in extra_candidates:
+        if cand.is_dir() and (cand / "hin.traineddata").exists():
+            extra_tessdata = cand
+            break
+
+    if not extra_tessdata:
+        return base_tessdata if base_tessdata.is_dir() else None
+
+    # If base_tessdata already has hin.traineddata, just return it
+    if base_tessdata.is_dir() and (base_tessdata / "hin.traineddata").exists():
+        return base_tessdata
+
+    # Otherwise, create/update a cached unified tessdata folder in tempdir
+    unified_dir = Path(tempfile.gettempdir()) / "docuready_unified_tessdata"
+    unified_dir.mkdir(parents=True, exist_ok=True)
+
+    # Populate from base
+    if base_tessdata.is_dir():
+        for f in base_tessdata.glob("*.traineddata"):
+            dst = unified_dir / f.name
+            try:
+                if not dst.exists() or dst.stat().st_size != f.stat().st_size:
+                    shutil.copy2(f, dst)
+            except Exception:
+                pass
+
+    # Populate from extra
+    for f in extra_tessdata.glob("*.traineddata"):
+        dst = unified_dir / f.name
+        try:
+            if not dst.exists() or dst.stat().st_size != f.stat().st_size:
+                shutil.copy2(f, dst)
+        except Exception:
+            pass
+
+    return unified_dir
+
+
 def configure_pytesseract() -> Optional[Path]:
     """Finds Tesseract and configures pytesseract.pytesseract.tesseract_cmd.
 
@@ -128,9 +184,9 @@ def configure_pytesseract() -> Optional[Path]:
 
             pytesseract.pytesseract.tesseract_cmd = str(bin_path)
 
-            # Auto-configure TESSDATA_PREFIX if tessdata exists next to binary
-            tessdata_candidate = bin_path.parent / "tessdata"
-            if tessdata_candidate.is_dir() and "TESSDATA_PREFIX" not in os.environ:
+            # Auto-configure TESSDATA_PREFIX to unified tessdata directory
+            tessdata_candidate = get_unified_tessdata_dir(bin_path)
+            if tessdata_candidate and tessdata_candidate.is_dir():
                 os.environ["TESSDATA_PREFIX"] = str(tessdata_candidate)
         except Exception:
             pass

@@ -1,0 +1,135 @@
+{
+  "loop": "Loop 09 — Windows Distribution & Release Integrity",
+  "generated_at": "2026-11-22T08:10:00Z",
+  "application": {
+    "name": "DocuReady",
+    "version": "0.1.0",
+    "platform": "win32",
+    "arch": "x64",
+    "electron_version": "45.3.2",
+    "node_version": "22.14.0",
+    "python_runtime": "Embedded Python 3.12.10 (PyInstaller Onedir)",
+    "pdf_engine": "PyMuPDF 1.25.3 (Native C Extensions)",
+    "ocr_engine": "Tesseract 5.5.0 (Bundled Windows x64)"
+  },
+  "dependency_inventory": [
+    {
+      "component": "Electron Main Shell",
+      "development_source": "apps/desktop/src/main.ts",
+      "packaged_location": "out/DocuReady-win32-x64/DocuReady.exe",
+      "required_at_runtime": true,
+      "verified": true,
+      "isolation_notes": "Native Windows x64 binary with ASAR packaging and context isolation enabled"
+    },
+    {
+      "component": "Renderer UI Bundle",
+      "development_source": "apps/desktop/src/renderer/**",
+      "packaged_location": "out/DocuReady-win32-x64/resources/app.asar (.vite/renderer/main_window)",
+      "required_at_runtime": true,
+      "verified": true,
+      "isolation_notes": "Strict CSP enforced; zero nodeIntegration; sandboxed Chromium webview"
+    },
+    {
+      "component": "Preload Secure Bridge",
+      "development_source": "apps/desktop/src/preload.ts",
+      "packaged_location": "out/DocuReady-win32-x64/resources/app.asar (.vite/build/preload.cjs)",
+      "required_at_runtime": true,
+      "verified": true,
+      "isolation_notes": "Exposes typed contextBridge window.docureadyDesktop with IPC parameter validation"
+    },
+    {
+      "component": "Python Standalone Sidecar",
+      "development_source": "sidecar/docuready_sidecar.py + src/docuready/**",
+      "packaged_location": "out/DocuReady-win32-x64/resources/docuready_sidecar/docuready_sidecar.exe",
+      "required_at_runtime": true,
+      "verified": true,
+      "isolation_notes": "Self-contained PyInstaller executable; embeds full Python 3.12.10 and docuready engine"
+    },
+    {
+      "component": "PyMuPDF Native Extensions",
+      "development_source": "python environment site-packages/fitz",
+      "packaged_location": "out/DocuReady-win32-x64/resources/docuready_sidecar/_internal/fitz/**",
+      "required_at_runtime": true,
+      "verified": true,
+      "isolation_notes": "Compiled DLLs (_fitz.pyd, etc.) bundled in _internal; zero developer Python path inheritance"
+    },
+    {
+      "component": "Pillow & NumPy Native Extensions",
+      "development_source": "python environment site-packages/PIL, numpy",
+      "packaged_location": "out/DocuReady-win32-x64/resources/docuready_sidecar/_internal/**",
+      "required_at_runtime": true,
+      "verified": true,
+      "isolation_notes": "Bundled in _internal; supports deskew, Hough transforms, and image preprocessing"
+    },
+    {
+      "component": "Tesseract OCR Executable",
+      "development_source": "bundled tesseract binary distribution",
+      "packaged_location": "out/DocuReady-win32-x64/resources/docuready_sidecar/tesseract/tesseract.exe",
+      "required_at_runtime": true,
+      "verified": true,
+      "isolation_notes": "Dynamically discovered via DOCUREADY_TESSERACT_PATH; requires no system PATH entry"
+    },
+    {
+      "component": "Tesseract Dynamic Link Libraries",
+      "development_source": "bundled tesseract dlls (libtesseract-5.dll, etc.)",
+      "packaged_location": "out/DocuReady-win32-x64/resources/docuready_sidecar/tesseract/*.dll",
+      "required_at_runtime": true,
+      "verified": true,
+      "isolation_notes": "Full dependency closure (libarchive, libdeflate, libwebp, libzstd, etc.) collocated with tesseract.exe"
+    },
+    {
+      "component": "English OCR Model",
+      "development_source": "tessdata/eng.traineddata",
+      "packaged_location": "out/DocuReady-win32-x64/resources/docuready_sidecar/tesseract/tessdata/eng.traineddata",
+      "required_at_runtime": true,
+      "verified": true,
+      "isolation_notes": "4.11 MB English neural network traineddata; verified healthy on clean machine"
+    },
+    {
+      "component": "Hindi OCR Model",
+      "development_source": "tessdata/hin.traineddata",
+      "packaged_location": "out/DocuReady-win32-x64/resources/docuready_sidecar/tesseract/tessdata/hin.traineddata",
+      "required_at_runtime": false,
+      "verified": true,
+      "isolation_notes": "1.12 MB Hindi Devanagari traineddata for regional certificate pre-flight"
+    },
+    {
+      "component": "Odia OCR Model",
+      "development_source": "tessdata/ori.traineddata",
+      "packaged_location": "out/DocuReady-win32-x64/resources/docuready_sidecar/tesseract/tessdata/ori.traineddata",
+      "required_at_runtime": false,
+      "verified": true,
+      "isolation_notes": "1.48 MB Odia script traineddata for Odisha scholarship certificates"
+    },
+    {
+      "component": "Orientation & Script Detection Model",
+      "development_source": "tessdata/osd.traineddata",
+      "packaged_location": "out/DocuReady-win32-x64/resources/docuready_sidecar/tesseract/tessdata/osd.traineddata",
+      "required_at_runtime": true,
+      "verified": true,
+      "isolation_notes": "10.56 MB OSD model for speculative gate fallback and orientation recovery"
+    },
+    {
+      "component": "Squirrel Windows Installer",
+      "development_source": "electron-forge maker-squirrel",
+      "packaged_location": "out/make/squirrel.windows/x64/DocuReady-0.1.0-Setup.exe",
+      "required_at_runtime": false,
+      "verified": true,
+      "isolation_notes": "457 MB standalone self-extracting one-click installer for clean Windows deployment"
+    },
+    {
+      "component": "Portable ZIP Archive",
+      "development_source": "electron-forge maker-zip",
+      "packaged_location": "out/make/zip/win32/x64/DocuReady-win32-x64-0.1.0.zip",
+      "required_at_runtime": false,
+      "verified": true,
+      "isolation_notes": "469 MB standalone portable zip requiring zero installation or admin privileges"
+    }
+  ],
+  "runtime_inheritance_audit": {
+    "inherited_from_path": "NONE (Verified via DOCUREADY_REQUIRE_BUNDLED_OCR=1 and clean PATH tests)",
+    "inherited_from_pythonpath": "NONE (Verified via explicit clean-environment subprocess test)",
+    "inherited_from_global_node": "NONE (Electron and Vite modules bundled into app.asar)",
+    "inherited_from_git_repo": "NONE (All resources resolve from process.resourcesPath in production)"
+  }
+}

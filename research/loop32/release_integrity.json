@@ -1,0 +1,27 @@
+{
+  "DocuReady.exe": {
+    "path": "apps/desktop/out/DocuReady-win32-x64/DocuReady.exe",
+    "sha256": "86339ba01c1e0e73b1a8e3cf799880c957f24e3691b0b4ee0717a861fcc5dcd2",
+    "size": 250056704
+  },
+  "app.asar": {
+    "path": "apps/desktop/out/DocuReady-win32-x64/resources/app.asar",
+    "sha256": "d72882945989e468c76ce43840c16457aa94e59584dc6f953689a28a0014f27e",
+    "size": 3239787
+  },
+  "docuready_sidecar.exe": {
+    "path": "apps/desktop/out/DocuReady-win32-x64/resources/docuready_sidecar/docuready_sidecar.exe",
+    "sha256": "5cf296943a640f41784b27786b59ee679c59daa6bda59ca2acbeae7621770b4c",
+    "size": 28369190
+  },
+  "DocuReady-0.1.0-Setup.exe": {
+    "path": "apps/desktop/out/make/squirrel.windows/x64/DocuReady-0.1.0-Setup.exe",
+    "sha256": "8dcd51c89d305c0d92503f93c7dc255c5f29c7eb18b6cabe866d01d30d8766ed",
+    "size": 457490432
+  },
+  "DocuReady-win32-x64-0.1.0.zip": {
+    "path": "apps/desktop/out/make/zip/win32/x64/DocuReady-win32-x64-0.1.0.zip",
+    "sha256": "eb4cef9395e9fea1155b06afba7091521eb58b75d43e9dd51fa40fae6015e5c4",
+    "size": 469045411
+  }
+}

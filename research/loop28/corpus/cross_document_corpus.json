@@ -1,0 +1,1992 @@
+{
+  "manifest_version": "28.0.0",
+  "loop": 28,
+  "corpus_name": "Loop 28 Cross-Document Verification & Contradiction Corpus",
+  "total_packets": 36,
+  "total_cross_document_claims": 92,
+  "split_counts": {
+    "DEV": 10,
+    "CAL": 8,
+    "BLIND": 12,
+    "CHALL": 6
+  },
+  "packets": [
+    {
+      "packet_id": "PKT_DEV_01",
+      "split": "DEV",
+      "condition_category": "Exact Agreement",
+      "condition_code": "COND_01_EXACT_AGREEMENT",
+      "description": "Multi-source application and passbook agreement with matching entity and identifiers",
+      "target_entity": {
+        "entity_id": "ENT_EXACT_0",
+        "canonical_name": "ROHIT VERMA 1",
+        "father_name": "SURESH VERMA",
+        "date_of_birth": "05/09/2004",
+        "tax_id": "ABCDE1000F",
+        "account_number": "123456789000"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_APP",
+          "doc_type": "APPLICATION_FORM",
+          "file_name": "app.pdf",
+          "content_hash": "hash_app_0"
+        },
+        {
+          "doc_id": "DOC_PASSBOOK",
+          "doc_type": "BANK_PASSBOOK",
+          "file_name": "passbook.pdf",
+          "content_hash": "hash_pass_0"
+        },
+        {
+          "doc_id": "DOC_INCOME",
+          "doc_type": "INCOME_CERT",
+          "file_name": "income.pdf",
+          "content_hash": "hash_inc_0"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "family_income",
+          "field_type": "amount",
+          "doc_id": "DOC_APP",
+          "claimed_value": "INR 220000",
+          "confidence": 94.0,
+          "ground_truth": "220000.00",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "family_income",
+          "field_type": "amount",
+          "doc_id": "DOC_INCOME",
+          "claimed_value": "220,000.00",
+          "confidence": 96.0,
+          "ground_truth": "220000.00",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "account_number",
+          "field_type": "id",
+          "doc_id": "DOC_APP",
+          "claimed_value": "123456789000",
+          "confidence": 92.0,
+          "ground_truth": "123456789000",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "account_number",
+          "field_type": "id",
+          "doc_id": "DOC_PASSBOOK",
+          "claimed_value": "123456789000",
+          "confidence": 95.0,
+          "ground_truth": "123456789000",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "dob",
+          "field_type": "date",
+          "doc_id": "DOC_APP",
+          "claimed_value": "05/09/2004",
+          "confidence": 91.0,
+          "ground_truth": "05/09/2004",
+          "expected_outcome": "VERIFY"
+        }
+      ],
+      "required_doc_types": [
+        "APPLICATION_FORM",
+        "INCOME_CERT"
+      ]
+    },
+    {
+      "packet_id": "PKT_CAL_01",
+      "split": "CAL",
+      "condition_category": "Exact Agreement",
+      "condition_code": "COND_01_EXACT_AGREEMENT",
+      "description": "Multi-source application and passbook agreement with matching entity and identifiers",
+      "target_entity": {
+        "entity_id": "ENT_EXACT_1",
+        "canonical_name": "ROHIT VERMA 2",
+        "father_name": "SURESH VERMA",
+        "date_of_birth": "05/09/2004",
+        "tax_id": "ABCDE1001F",
+        "account_number": "123456789001"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_APP",
+          "doc_type": "APPLICATION_FORM",
+          "file_name": "app.pdf",
+          "content_hash": "hash_app_1"
+        },
+        {
+          "doc_id": "DOC_PASSBOOK",
+          "doc_type": "BANK_PASSBOOK",
+          "file_name": "passbook.pdf",
+          "content_hash": "hash_pass_1"
+        },
+        {
+          "doc_id": "DOC_INCOME",
+          "doc_type": "INCOME_CERT",
+          "file_name": "income.pdf",
+          "content_hash": "hash_inc_1"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "family_income",
+          "field_type": "amount",
+          "doc_id": "DOC_APP",
+          "claimed_value": "INR 220000",
+          "confidence": 94.0,
+          "ground_truth": "220000.00",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "family_income",
+          "field_type": "amount",
+          "doc_id": "DOC_INCOME",
+          "claimed_value": "220,000.00",
+          "confidence": 96.0,
+          "ground_truth": "220000.00",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "account_number",
+          "field_type": "id",
+          "doc_id": "DOC_APP",
+          "claimed_value": "123456789001",
+          "confidence": 92.0,
+          "ground_truth": "123456789001",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "account_number",
+          "field_type": "id",
+          "doc_id": "DOC_PASSBOOK",
+          "claimed_value": "123456789001",
+          "confidence": 95.0,
+          "ground_truth": "123456789001",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "dob",
+          "field_type": "date",
+          "doc_id": "DOC_APP",
+          "claimed_value": "05/09/2004",
+          "confidence": 91.0,
+          "ground_truth": "05/09/2004",
+          "expected_outcome": "VERIFY"
+        }
+      ],
+      "required_doc_types": [
+        "APPLICATION_FORM",
+        "INCOME_CERT"
+      ]
+    },
+    {
+      "packet_id": "PKT_BLIND_01",
+      "split": "BLIND",
+      "condition_category": "Exact Agreement",
+      "condition_code": "COND_01_EXACT_AGREEMENT",
+      "description": "Multi-source application and passbook agreement with matching entity and identifiers",
+      "target_entity": {
+        "entity_id": "ENT_EXACT_2",
+        "canonical_name": "ROHIT VERMA 3",
+        "father_name": "SURESH VERMA",
+        "date_of_birth": "05/09/2004",
+        "tax_id": "ABCDE1002F",
+        "account_number": "123456789002"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_APP",
+          "doc_type": "APPLICATION_FORM",
+          "file_name": "app.pdf",
+          "content_hash": "hash_app_2"
+        },
+        {
+          "doc_id": "DOC_PASSBOOK",
+          "doc_type": "BANK_PASSBOOK",
+          "file_name": "passbook.pdf",
+          "content_hash": "hash_pass_2"
+        },
+        {
+          "doc_id": "DOC_INCOME",
+          "doc_type": "INCOME_CERT",
+          "file_name": "income.pdf",
+          "content_hash": "hash_inc_2"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "family_income",
+          "field_type": "amount",
+          "doc_id": "DOC_APP",
+          "claimed_value": "INR 220000",
+          "confidence": 94.0,
+          "ground_truth": "220000.00",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "family_income",
+          "field_type": "amount",
+          "doc_id": "DOC_INCOME",
+          "claimed_value": "220,000.00",
+          "confidence": 96.0,
+          "ground_truth": "220000.00",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "account_number",
+          "field_type": "id",
+          "doc_id": "DOC_APP",
+          "claimed_value": "123456789002",
+          "confidence": 92.0,
+          "ground_truth": "123456789002",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "account_number",
+          "field_type": "id",
+          "doc_id": "DOC_PASSBOOK",
+          "claimed_value": "123456789002",
+          "confidence": 95.0,
+          "ground_truth": "123456789002",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "dob",
+          "field_type": "date",
+          "doc_id": "DOC_APP",
+          "claimed_value": "05/09/2004",
+          "confidence": 91.0,
+          "ground_truth": "05/09/2004",
+          "expected_outcome": "VERIFY"
+        }
+      ],
+      "required_doc_types": [
+        "APPLICATION_FORM",
+        "INCOME_CERT"
+      ]
+    },
+    {
+      "packet_id": "PKT_DEV_02",
+      "split": "DEV",
+      "condition_category": "Numeric Amount Mismatch",
+      "condition_code": "COND_02_NUMERIC_MISMATCH",
+      "description": "Salary slip gross amount conflicts with tax declaration summary",
+      "target_entity": {
+        "entity_id": "ENT_AMT_0",
+        "canonical_name": "PRIYA MOHAPATRA 1",
+        "date_of_birth": "14/08/2002",
+        "tax_id": "PQXYZ2000K"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_SALARY",
+          "doc_type": "SALARY_SLIP",
+          "file_name": "salary.pdf",
+          "content_hash": "hash_sal_0"
+        },
+        {
+          "doc_id": "DOC_TAX",
+          "doc_type": "TAX_SUMMARY",
+          "file_name": "tax.pdf",
+          "content_hash": "hash_tax_0"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "gross_annual_salary",
+          "field_type": "amount",
+          "doc_id": "DOC_SALARY",
+          "claimed_value": "850000",
+          "confidence": 93.0,
+          "ground_truth": "CONTRADICTION",
+          "expected_outcome": "CONTRADICTION_DETECTED"
+        },
+        {
+          "field_name": "gross_annual_salary",
+          "field_type": "amount",
+          "doc_id": "DOC_TAX",
+          "claimed_value": "920000",
+          "confidence": 91.0,
+          "ground_truth": "CONTRADICTION",
+          "expected_outcome": "CONTRADICTION_DETECTED"
+        },
+        {
+          "field_name": "basic_pay",
+          "field_type": "amount",
+          "doc_id": "DOC_SALARY",
+          "claimed_value": "45000",
+          "confidence": 95.0,
+          "ground_truth": "45000.00",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "pan_number",
+          "field_type": "id",
+          "doc_id": "DOC_SALARY",
+          "claimed_value": "PQXYZ2000K",
+          "confidence": 94.0,
+          "ground_truth": "PQXYZ2000K",
+          "expected_outcome": "VERIFY"
+        }
+      ],
+      "required_doc_types": [
+        "SALARY_SLIP",
+        "TAX_SUMMARY"
+      ]
+    },
+    {
+      "packet_id": "PKT_CAL_02",
+      "split": "CAL",
+      "condition_category": "Numeric Amount Mismatch",
+      "condition_code": "COND_02_NUMERIC_MISMATCH",
+      "description": "Salary slip gross amount conflicts with tax declaration summary",
+      "target_entity": {
+        "entity_id": "ENT_AMT_1",
+        "canonical_name": "PRIYA MOHAPATRA 2",
+        "date_of_birth": "14/08/2002",
+        "tax_id": "PQXYZ2001K"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_SALARY",
+          "doc_type": "SALARY_SLIP",
+          "file_name": "salary.pdf",
+          "content_hash": "hash_sal_1"
+        },
+        {
+          "doc_id": "DOC_TAX",
+          "doc_type": "TAX_SUMMARY",
+          "file_name": "tax.pdf",
+          "content_hash": "hash_tax_1"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "gross_annual_salary",
+          "field_type": "amount",
+          "doc_id": "DOC_SALARY",
+          "claimed_value": "850000",
+          "confidence": 93.0,
+          "ground_truth": "CONTRADICTION",
+          "expected_outcome": "CONTRADICTION_DETECTED"
+        },
+        {
+          "field_name": "gross_annual_salary",
+          "field_type": "amount",
+          "doc_id": "DOC_TAX",
+          "claimed_value": "920000",
+          "confidence": 91.0,
+          "ground_truth": "CONTRADICTION",
+          "expected_outcome": "CONTRADICTION_DETECTED"
+        },
+        {
+          "field_name": "basic_pay",
+          "field_type": "amount",
+          "doc_id": "DOC_SALARY",
+          "claimed_value": "45000",
+          "confidence": 95.0,
+          "ground_truth": "45000.00",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "pan_number",
+          "field_type": "id",
+          "doc_id": "DOC_SALARY",
+          "claimed_value": "PQXYZ2001K",
+          "confidence": 94.0,
+          "ground_truth": "PQXYZ2001K",
+          "expected_outcome": "VERIFY"
+        }
+      ],
+      "required_doc_types": [
+        "SALARY_SLIP",
+        "TAX_SUMMARY"
+      ]
+    },
+    {
+      "packet_id": "PKT_BLIND_02",
+      "split": "BLIND",
+      "condition_category": "Numeric Amount Mismatch",
+      "condition_code": "COND_02_NUMERIC_MISMATCH",
+      "description": "Salary slip gross amount conflicts with tax declaration summary",
+      "target_entity": {
+        "entity_id": "ENT_AMT_2",
+        "canonical_name": "PRIYA MOHAPATRA 3",
+        "date_of_birth": "14/08/2002",
+        "tax_id": "PQXYZ2002K"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_SALARY",
+          "doc_type": "SALARY_SLIP",
+          "file_name": "salary.pdf",
+          "content_hash": "hash_sal_2"
+        },
+        {
+          "doc_id": "DOC_TAX",
+          "doc_type": "TAX_SUMMARY",
+          "file_name": "tax.pdf",
+          "content_hash": "hash_tax_2"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "gross_annual_salary",
+          "field_type": "amount",
+          "doc_id": "DOC_SALARY",
+          "claimed_value": "850000",
+          "confidence": 93.0,
+          "ground_truth": "CONTRADICTION",
+          "expected_outcome": "CONTRADICTION_DETECTED"
+        },
+        {
+          "field_name": "gross_annual_salary",
+          "field_type": "amount",
+          "doc_id": "DOC_TAX",
+          "claimed_value": "920000",
+          "confidence": 91.0,
+          "ground_truth": "CONTRADICTION",
+          "expected_outcome": "CONTRADICTION_DETECTED"
+        },
+        {
+          "field_name": "basic_pay",
+          "field_type": "amount",
+          "doc_id": "DOC_SALARY",
+          "claimed_value": "45000",
+          "confidence": 95.0,
+          "ground_truth": "45000.00",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "pan_number",
+          "field_type": "id",
+          "doc_id": "DOC_SALARY",
+          "claimed_value": "PQXYZ2002K",
+          "confidence": 94.0,
+          "ground_truth": "PQXYZ2002K",
+          "expected_outcome": "VERIFY"
+        }
+      ],
+      "required_doc_types": [
+        "SALARY_SLIP",
+        "TAX_SUMMARY"
+      ]
+    },
+    {
+      "packet_id": "PKT_DEV_03",
+      "split": "DEV",
+      "condition_category": "Decimal Mismatch",
+      "condition_code": "COND_03_DECIMAL_MISMATCH",
+      "description": "Lab report clinical parameter decimal shifted under micro-font OCR (5.60 vs 56.00)",
+      "target_entity": {
+        "entity_id": "ENT_DEC_0",
+        "canonical_name": "MANAS SAHOO 1"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_LAB_PRIMARY",
+          "doc_type": "LAB_REPORT",
+          "file_name": "lab1.pdf",
+          "content_hash": "hash_lab1_0"
+        },
+        {
+          "doc_id": "DOC_LAB_SUMMARY",
+          "doc_type": "CLINICAL_DISCHARGE",
+          "file_name": "discharge.pdf",
+          "content_hash": "hash_lab2_0"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "hba1c_level",
+          "field_type": "number",
+          "doc_id": "DOC_LAB_PRIMARY",
+          "claimed_value": "5.60",
+          "confidence": 92.0,
+          "ground_truth": "CONTRADICTION",
+          "expected_outcome": "CONTRADICTION_DETECTED"
+        },
+        {
+          "field_name": "hba1c_level",
+          "field_type": "number",
+          "doc_id": "DOC_LAB_SUMMARY",
+          "claimed_value": "56.00",
+          "confidence": 89.0,
+          "ground_truth": "CONTRADICTION",
+          "expected_outcome": "CONTRADICTION_DETECTED"
+        },
+        {
+          "field_name": "blood_urea",
+          "field_type": "number",
+          "doc_id": "DOC_LAB_PRIMARY",
+          "claimed_value": "24.50",
+          "confidence": 94.0,
+          "ground_truth": "24.50",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "blood_urea",
+          "field_type": "number",
+          "doc_id": "DOC_LAB_SUMMARY",
+          "claimed_value": "24.50",
+          "confidence": 93.0,
+          "ground_truth": "24.50",
+          "expected_outcome": "VERIFY"
+        }
+      ],
+      "required_doc_types": [
+        "LAB_REPORT"
+      ]
+    },
+    {
+      "packet_id": "PKT_CAL_03",
+      "split": "CAL",
+      "condition_category": "Decimal Mismatch",
+      "condition_code": "COND_03_DECIMAL_MISMATCH",
+      "description": "Lab report clinical parameter decimal shifted under micro-font OCR (5.60 vs 56.00)",
+      "target_entity": {
+        "entity_id": "ENT_DEC_1",
+        "canonical_name": "MANAS SAHOO 2"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_LAB_PRIMARY",
+          "doc_type": "LAB_REPORT",
+          "file_name": "lab1.pdf",
+          "content_hash": "hash_lab1_1"
+        },
+        {
+          "doc_id": "DOC_LAB_SUMMARY",
+          "doc_type": "CLINICAL_DISCHARGE",
+          "file_name": "discharge.pdf",
+          "content_hash": "hash_lab2_1"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "hba1c_level",
+          "field_type": "number",
+          "doc_id": "DOC_LAB_PRIMARY",
+          "claimed_value": "5.60",
+          "confidence": 92.0,
+          "ground_truth": "CONTRADICTION",
+          "expected_outcome": "CONTRADICTION_DETECTED"
+        },
+        {
+          "field_name": "hba1c_level",
+          "field_type": "number",
+          "doc_id": "DOC_LAB_SUMMARY",
+          "claimed_value": "56.00",
+          "confidence": 89.0,
+          "ground_truth": "CONTRADICTION",
+          "expected_outcome": "CONTRADICTION_DETECTED"
+        },
+        {
+          "field_name": "blood_urea",
+          "field_type": "number",
+          "doc_id": "DOC_LAB_PRIMARY",
+          "claimed_value": "24.50",
+          "confidence": 94.0,
+          "ground_truth": "24.50",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "blood_urea",
+          "field_type": "number",
+          "doc_id": "DOC_LAB_SUMMARY",
+          "claimed_value": "24.50",
+          "confidence": 93.0,
+          "ground_truth": "24.50",
+          "expected_outcome": "VERIFY"
+        }
+      ],
+      "required_doc_types": [
+        "LAB_REPORT"
+      ]
+    },
+    {
+      "packet_id": "PKT_BLIND_03",
+      "split": "BLIND",
+      "condition_category": "Decimal Mismatch",
+      "condition_code": "COND_03_DECIMAL_MISMATCH",
+      "description": "Lab report clinical parameter decimal shifted under micro-font OCR (5.60 vs 56.00)",
+      "target_entity": {
+        "entity_id": "ENT_DEC_2",
+        "canonical_name": "MANAS SAHOO 3"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_LAB_PRIMARY",
+          "doc_type": "LAB_REPORT",
+          "file_name": "lab1.pdf",
+          "content_hash": "hash_lab1_2"
+        },
+        {
+          "doc_id": "DOC_LAB_SUMMARY",
+          "doc_type": "CLINICAL_DISCHARGE",
+          "file_name": "discharge.pdf",
+          "content_hash": "hash_lab2_2"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "hba1c_level",
+          "field_type": "number",
+          "doc_id": "DOC_LAB_PRIMARY",
+          "claimed_value": "5.60",
+          "confidence": 92.0,
+          "ground_truth": "CONTRADICTION",
+          "expected_outcome": "CONTRADICTION_DETECTED"
+        },
+        {
+          "field_name": "hba1c_level",
+          "field_type": "number",
+          "doc_id": "DOC_LAB_SUMMARY",
+          "claimed_value": "56.00",
+          "confidence": 89.0,
+          "ground_truth": "CONTRADICTION",
+          "expected_outcome": "CONTRADICTION_DETECTED"
+        },
+        {
+          "field_name": "blood_urea",
+          "field_type": "number",
+          "doc_id": "DOC_LAB_PRIMARY",
+          "claimed_value": "24.50",
+          "confidence": 94.0,
+          "ground_truth": "24.50",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "blood_urea",
+          "field_type": "number",
+          "doc_id": "DOC_LAB_SUMMARY",
+          "claimed_value": "24.50",
+          "confidence": 93.0,
+          "ground_truth": "24.50",
+          "expected_outcome": "VERIFY"
+        }
+      ],
+      "required_doc_types": [
+        "LAB_REPORT"
+      ]
+    },
+    {
+      "packet_id": "PKT_DEV_04",
+      "split": "DEV",
+      "condition_category": "Date Mismatch",
+      "condition_code": "COND_04_DATE_MISMATCH",
+      "description": "Invoice delivery date conflicts with receipt acknowledgement date",
+      "target_entity": {
+        "entity_id": "ENT_DATE_0",
+        "canonical_name": "EAST COAST ENTERPRISES 1"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_INVOICE",
+          "doc_type": "TAX_INVOICE",
+          "file_name": "invoice.pdf",
+          "content_hash": "hash_inv_0"
+        },
+        {
+          "doc_id": "DOC_RECEIPT",
+          "doc_type": "DELIVERY_CHALLAN",
+          "file_name": "challan.pdf",
+          "content_hash": "hash_chal_0"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "delivery_date",
+          "field_type": "date",
+          "doc_id": "DOC_INVOICE",
+          "claimed_value": "10/10/2026",
+          "confidence": 94.0,
+          "ground_truth": "CONTRADICTION",
+          "expected_outcome": "CONTRADICTION_DETECTED"
+        },
+        {
+          "field_name": "delivery_date",
+          "field_type": "date",
+          "doc_id": "DOC_RECEIPT",
+          "claimed_value": "15/10/2026",
+          "confidence": 90.0,
+          "ground_truth": "CONTRADICTION",
+          "expected_outcome": "CONTRADICTION_DETECTED"
+        },
+        {
+          "field_name": "total_amount",
+          "field_type": "amount",
+          "doc_id": "DOC_INVOICE",
+          "claimed_value": "125000",
+          "confidence": 95.0,
+          "ground_truth": "125000.00",
+          "expected_outcome": "VERIFY"
+        }
+      ],
+      "required_doc_types": [
+        "TAX_INVOICE",
+        "DELIVERY_CHALLAN"
+      ]
+    },
+    {
+      "packet_id": "PKT_CAL_04",
+      "split": "CAL",
+      "condition_category": "Date Mismatch",
+      "condition_code": "COND_04_DATE_MISMATCH",
+      "description": "Invoice delivery date conflicts with receipt acknowledgement date",
+      "target_entity": {
+        "entity_id": "ENT_DATE_1",
+        "canonical_name": "EAST COAST ENTERPRISES 2"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_INVOICE",
+          "doc_type": "TAX_INVOICE",
+          "file_name": "invoice.pdf",
+          "content_hash": "hash_inv_1"
+        },
+        {
+          "doc_id": "DOC_RECEIPT",
+          "doc_type": "DELIVERY_CHALLAN",
+          "file_name": "challan.pdf",
+          "content_hash": "hash_chal_1"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "delivery_date",
+          "field_type": "date",
+          "doc_id": "DOC_INVOICE",
+          "claimed_value": "10/10/2026",
+          "confidence": 94.0,
+          "ground_truth": "CONTRADICTION",
+          "expected_outcome": "CONTRADICTION_DETECTED"
+        },
+        {
+          "field_name": "delivery_date",
+          "field_type": "date",
+          "doc_id": "DOC_RECEIPT",
+          "claimed_value": "15/10/2026",
+          "confidence": 90.0,
+          "ground_truth": "CONTRADICTION",
+          "expected_outcome": "CONTRADICTION_DETECTED"
+        },
+        {
+          "field_name": "total_amount",
+          "field_type": "amount",
+          "doc_id": "DOC_INVOICE",
+          "claimed_value": "125000",
+          "confidence": 95.0,
+          "ground_truth": "125000.00",
+          "expected_outcome": "VERIFY"
+        }
+      ],
+      "required_doc_types": [
+        "TAX_INVOICE",
+        "DELIVERY_CHALLAN"
+      ]
+    },
+    {
+      "packet_id": "PKT_BLIND_04",
+      "split": "BLIND",
+      "condition_category": "Date Mismatch",
+      "condition_code": "COND_04_DATE_MISMATCH",
+      "description": "Invoice delivery date conflicts with receipt acknowledgement date",
+      "target_entity": {
+        "entity_id": "ENT_DATE_2",
+        "canonical_name": "EAST COAST ENTERPRISES 3"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_INVOICE",
+          "doc_type": "TAX_INVOICE",
+          "file_name": "invoice.pdf",
+          "content_hash": "hash_inv_2"
+        },
+        {
+          "doc_id": "DOC_RECEIPT",
+          "doc_type": "DELIVERY_CHALLAN",
+          "file_name": "challan.pdf",
+          "content_hash": "hash_chal_2"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "delivery_date",
+          "field_type": "date",
+          "doc_id": "DOC_INVOICE",
+          "claimed_value": "10/10/2026",
+          "confidence": 94.0,
+          "ground_truth": "CONTRADICTION",
+          "expected_outcome": "CONTRADICTION_DETECTED"
+        },
+        {
+          "field_name": "delivery_date",
+          "field_type": "date",
+          "doc_id": "DOC_RECEIPT",
+          "claimed_value": "15/10/2026",
+          "confidence": 90.0,
+          "ground_truth": "CONTRADICTION",
+          "expected_outcome": "CONTRADICTION_DETECTED"
+        },
+        {
+          "field_name": "total_amount",
+          "field_type": "amount",
+          "doc_id": "DOC_INVOICE",
+          "claimed_value": "125000",
+          "confidence": 95.0,
+          "ground_truth": "125000.00",
+          "expected_outcome": "VERIFY"
+        }
+      ],
+      "required_doc_types": [
+        "TAX_INVOICE",
+        "DELIVERY_CHALLAN"
+      ]
+    },
+    {
+      "packet_id": "PKT_DEV_05",
+      "split": "DEV",
+      "condition_category": "Similar Distinct Entity Names",
+      "condition_code": "COND_07_DISTINCT_ENTITIES",
+      "description": "Two brothers sharing same parent and address submitted in single family packet",
+      "target_entity": {
+        "entity_id": "ENT_BROTHER_1_0",
+        "canonical_name": "AMIT KUMAR NAYAK",
+        "father_name": "BIJAY NAYAK",
+        "date_of_birth": "12/04/2001"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_BROTHER_1",
+          "doc_type": "MARKSHEET",
+          "file_name": "m1.pdf",
+          "content_hash": "hash_b1_0"
+        },
+        {
+          "doc_id": "DOC_BROTHER_2",
+          "doc_type": "MARKSHEET",
+          "file_name": "m2.pdf",
+          "content_hash": "hash_b2_0"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "academic_score",
+          "field_type": "number",
+          "doc_id": "DOC_BROTHER_1",
+          "claimed_value": "84.50",
+          "confidence": 93.0,
+          "ground_truth": "84.50",
+          "expected_outcome": "VERIFY",
+          "entity_hints": {
+            "name": "AMIT KUMAR NAYAK",
+            "date_of_birth": "12/04/2001"
+          }
+        },
+        {
+          "field_name": "academic_score",
+          "field_type": "number",
+          "doc_id": "DOC_BROTHER_2",
+          "claimed_value": "68.00",
+          "confidence": 92.0,
+          "ground_truth": "REJECT_ENTITY",
+          "expected_outcome": "ENTITY_AMBIGUOUS",
+          "entity_hints": {
+            "name": "ANIL KUMAR NAYAK",
+            "date_of_birth": "15/08/2003"
+          }
+        }
+      ],
+      "required_doc_types": [
+        "MARKSHEET"
+      ]
+    },
+    {
+      "packet_id": "PKT_CAL_05",
+      "split": "CAL",
+      "condition_category": "Similar Distinct Entity Names",
+      "condition_code": "COND_07_DISTINCT_ENTITIES",
+      "description": "Two brothers sharing same parent and address submitted in single family packet",
+      "target_entity": {
+        "entity_id": "ENT_BROTHER_1_1",
+        "canonical_name": "AMIT KUMAR NAYAK",
+        "father_name": "BIJAY NAYAK",
+        "date_of_birth": "12/04/2001"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_BROTHER_1",
+          "doc_type": "MARKSHEET",
+          "file_name": "m1.pdf",
+          "content_hash": "hash_b1_1"
+        },
+        {
+          "doc_id": "DOC_BROTHER_2",
+          "doc_type": "MARKSHEET",
+          "file_name": "m2.pdf",
+          "content_hash": "hash_b2_1"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "academic_score",
+          "field_type": "number",
+          "doc_id": "DOC_BROTHER_1",
+          "claimed_value": "84.50",
+          "confidence": 93.0,
+          "ground_truth": "84.50",
+          "expected_outcome": "VERIFY",
+          "entity_hints": {
+            "name": "AMIT KUMAR NAYAK",
+            "date_of_birth": "12/04/2001"
+          }
+        },
+        {
+          "field_name": "academic_score",
+          "field_type": "number",
+          "doc_id": "DOC_BROTHER_2",
+          "claimed_value": "68.00",
+          "confidence": 92.0,
+          "ground_truth": "REJECT_ENTITY",
+          "expected_outcome": "ENTITY_AMBIGUOUS",
+          "entity_hints": {
+            "name": "ANIL KUMAR NAYAK",
+            "date_of_birth": "15/08/2003"
+          }
+        }
+      ],
+      "required_doc_types": [
+        "MARKSHEET"
+      ]
+    },
+    {
+      "packet_id": "PKT_BLIND_05",
+      "split": "BLIND",
+      "condition_category": "Similar Distinct Entity Names",
+      "condition_code": "COND_07_DISTINCT_ENTITIES",
+      "description": "Two brothers sharing same parent and address submitted in single family packet",
+      "target_entity": {
+        "entity_id": "ENT_BROTHER_1_2",
+        "canonical_name": "AMIT KUMAR NAYAK",
+        "father_name": "BIJAY NAYAK",
+        "date_of_birth": "12/04/2001"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_BROTHER_1",
+          "doc_type": "MARKSHEET",
+          "file_name": "m1.pdf",
+          "content_hash": "hash_b1_2"
+        },
+        {
+          "doc_id": "DOC_BROTHER_2",
+          "doc_type": "MARKSHEET",
+          "file_name": "m2.pdf",
+          "content_hash": "hash_b2_2"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "academic_score",
+          "field_type": "number",
+          "doc_id": "DOC_BROTHER_1",
+          "claimed_value": "84.50",
+          "confidence": 93.0,
+          "ground_truth": "84.50",
+          "expected_outcome": "VERIFY",
+          "entity_hints": {
+            "name": "AMIT KUMAR NAYAK",
+            "date_of_birth": "12/04/2001"
+          }
+        },
+        {
+          "field_name": "academic_score",
+          "field_type": "number",
+          "doc_id": "DOC_BROTHER_2",
+          "claimed_value": "68.00",
+          "confidence": 92.0,
+          "ground_truth": "REJECT_ENTITY",
+          "expected_outcome": "ENTITY_AMBIGUOUS",
+          "entity_hints": {
+            "name": "ANIL KUMAR NAYAK",
+            "date_of_birth": "15/08/2003"
+          }
+        }
+      ],
+      "required_doc_types": [
+        "MARKSHEET"
+      ]
+    },
+    {
+      "packet_id": "PKT_DEV_06",
+      "split": "DEV",
+      "condition_category": "Missing Supporting Attachment",
+      "condition_code": "COND_09_MISSING_ATTACHMENT",
+      "description": "Application form asserts caste quota reservation but mandatory Caste Certificate is missing",
+      "target_entity": {
+        "entity_id": "ENT_MISSING_0",
+        "canonical_name": "KABITA DAS 1"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_APP",
+          "doc_type": "APPLICATION_FORM",
+          "file_name": "app.pdf",
+          "content_hash": "hash_m_app_0"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "reservation_category",
+          "field_type": "text",
+          "doc_id": "DOC_APP",
+          "claimed_value": "SCHEDULED CASTE (SC)",
+          "confidence": 95.0,
+          "ground_truth": "MISSING_EVIDENCE",
+          "expected_outcome": "MISSING_EVIDENCE"
+        }
+      ],
+      "required_doc_types": [
+        "APPLICATION_FORM",
+        "CASTE_CERT"
+      ]
+    },
+    {
+      "packet_id": "PKT_CAL_06",
+      "split": "CAL",
+      "condition_category": "Missing Supporting Attachment",
+      "condition_code": "COND_09_MISSING_ATTACHMENT",
+      "description": "Application form asserts caste quota reservation but mandatory Caste Certificate is missing",
+      "target_entity": {
+        "entity_id": "ENT_MISSING_1",
+        "canonical_name": "KABITA DAS 2"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_APP",
+          "doc_type": "APPLICATION_FORM",
+          "file_name": "app.pdf",
+          "content_hash": "hash_m_app_1"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "reservation_category",
+          "field_type": "text",
+          "doc_id": "DOC_APP",
+          "claimed_value": "SCHEDULED CASTE (SC)",
+          "confidence": 95.0,
+          "ground_truth": "MISSING_EVIDENCE",
+          "expected_outcome": "MISSING_EVIDENCE"
+        }
+      ],
+      "required_doc_types": [
+        "APPLICATION_FORM",
+        "CASTE_CERT"
+      ]
+    },
+    {
+      "packet_id": "PKT_BLIND_06",
+      "split": "BLIND",
+      "condition_category": "Missing Supporting Attachment",
+      "condition_code": "COND_09_MISSING_ATTACHMENT",
+      "description": "Application form asserts caste quota reservation but mandatory Caste Certificate is missing",
+      "target_entity": {
+        "entity_id": "ENT_MISSING_2",
+        "canonical_name": "KABITA DAS 3"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_APP",
+          "doc_type": "APPLICATION_FORM",
+          "file_name": "app.pdf",
+          "content_hash": "hash_m_app_2"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "reservation_category",
+          "field_type": "text",
+          "doc_id": "DOC_APP",
+          "claimed_value": "SCHEDULED CASTE (SC)",
+          "confidence": 95.0,
+          "ground_truth": "MISSING_EVIDENCE",
+          "expected_outcome": "MISSING_EVIDENCE"
+        }
+      ],
+      "required_doc_types": [
+        "APPLICATION_FORM",
+        "CASTE_CERT"
+      ]
+    },
+    {
+      "packet_id": "PKT_DEV_07",
+      "split": "DEV",
+      "condition_category": "Duplicate Documents",
+      "condition_code": "COND_10_DUPLICATE_DOCUMENTS",
+      "description": "Applicant uploaded exact same scanned file twice under different names to simulate multi-source corroboration",
+      "target_entity": {
+        "entity_id": "ENT_DUP_0",
+        "canonical_name": "DEBASHIS PANDA 1"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_ORIGINAL",
+          "doc_type": "INCOME_CERT",
+          "file_name": "income_cert.pdf",
+          "content_hash": "identical_sha256_fingerprint_0"
+        },
+        {
+          "doc_id": "DOC_COPY",
+          "doc_type": "INCOME_CERT",
+          "file_name": "income_cert_verified_copy.pdf",
+          "content_hash": "identical_sha256_fingerprint_0"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "annual_income",
+          "field_type": "amount",
+          "doc_id": "DOC_ORIGINAL",
+          "claimed_value": "180000",
+          "confidence": 95.0,
+          "ground_truth": "180000.00",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "annual_income",
+          "field_type": "amount",
+          "doc_id": "DOC_COPY",
+          "claimed_value": "180000",
+          "confidence": 95.0,
+          "ground_truth": "180000.00",
+          "expected_outcome": "VERIFY"
+        }
+      ],
+      "required_doc_types": [
+        "INCOME_CERT"
+      ]
+    },
+    {
+      "packet_id": "PKT_CAL_07",
+      "split": "CAL",
+      "condition_category": "Duplicate Documents",
+      "condition_code": "COND_10_DUPLICATE_DOCUMENTS",
+      "description": "Applicant uploaded exact same scanned file twice under different names to simulate multi-source corroboration",
+      "target_entity": {
+        "entity_id": "ENT_DUP_1",
+        "canonical_name": "DEBASHIS PANDA 2"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_ORIGINAL",
+          "doc_type": "INCOME_CERT",
+          "file_name": "income_cert.pdf",
+          "content_hash": "identical_sha256_fingerprint_1"
+        },
+        {
+          "doc_id": "DOC_COPY",
+          "doc_type": "INCOME_CERT",
+          "file_name": "income_cert_verified_copy.pdf",
+          "content_hash": "identical_sha256_fingerprint_1"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "annual_income",
+          "field_type": "amount",
+          "doc_id": "DOC_ORIGINAL",
+          "claimed_value": "180000",
+          "confidence": 95.0,
+          "ground_truth": "180000.00",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "annual_income",
+          "field_type": "amount",
+          "doc_id": "DOC_COPY",
+          "claimed_value": "180000",
+          "confidence": 95.0,
+          "ground_truth": "180000.00",
+          "expected_outcome": "VERIFY"
+        }
+      ],
+      "required_doc_types": [
+        "INCOME_CERT"
+      ]
+    },
+    {
+      "packet_id": "PKT_BLIND_07",
+      "split": "BLIND",
+      "condition_category": "Duplicate Documents",
+      "condition_code": "COND_10_DUPLICATE_DOCUMENTS",
+      "description": "Applicant uploaded exact same scanned file twice under different names to simulate multi-source corroboration",
+      "target_entity": {
+        "entity_id": "ENT_DUP_2",
+        "canonical_name": "DEBASHIS PANDA 3"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_ORIGINAL",
+          "doc_type": "INCOME_CERT",
+          "file_name": "income_cert.pdf",
+          "content_hash": "identical_sha256_fingerprint_2"
+        },
+        {
+          "doc_id": "DOC_COPY",
+          "doc_type": "INCOME_CERT",
+          "file_name": "income_cert_verified_copy.pdf",
+          "content_hash": "identical_sha256_fingerprint_2"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "annual_income",
+          "field_type": "amount",
+          "doc_id": "DOC_ORIGINAL",
+          "claimed_value": "180000",
+          "confidence": 95.0,
+          "ground_truth": "180000.00",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "annual_income",
+          "field_type": "amount",
+          "doc_id": "DOC_COPY",
+          "claimed_value": "180000",
+          "confidence": 95.0,
+          "ground_truth": "180000.00",
+          "expected_outcome": "VERIFY"
+        }
+      ],
+      "required_doc_types": [
+        "INCOME_CERT"
+      ]
+    },
+    {
+      "packet_id": "PKT_DEV_08",
+      "split": "DEV",
+      "condition_category": "Different Document Versions",
+      "condition_code": "COND_12_DOCUMENT_VERSIONS",
+      "description": "Draft Purchase Order (Rev A) vs Final Approved Purchase Order (Rev B) line items conflict",
+      "target_entity": {
+        "entity_id": "ENT_VER_0",
+        "canonical_name": "ORISSA POWER TRANSMISSION CORP 1"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_PO_REV_A",
+          "doc_type": "PURCHASE_ORDER",
+          "file_name": "po_rev_a.pdf",
+          "content_hash": "hash_po_a_0"
+        },
+        {
+          "doc_id": "DOC_PO_REV_B",
+          "doc_type": "PURCHASE_ORDER",
+          "file_name": "po_rev_b.pdf",
+          "content_hash": "hash_po_b_0"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "transformer_oil_cost",
+          "field_type": "amount",
+          "doc_id": "DOC_PO_REV_A",
+          "claimed_value": "450000",
+          "confidence": 92.0,
+          "ground_truth": "CONTRADICTION",
+          "expected_outcome": "CONTRADICTION_DETECTED"
+        },
+        {
+          "field_name": "transformer_oil_cost",
+          "field_type": "amount",
+          "doc_id": "DOC_PO_REV_B",
+          "claimed_value": "495000",
+          "confidence": 96.0,
+          "ground_truth": "CONTRADICTION",
+          "expected_outcome": "CONTRADICTION_DETECTED"
+        }
+      ],
+      "required_doc_types": [
+        "PURCHASE_ORDER"
+      ]
+    },
+    {
+      "packet_id": "PKT_CAL_08",
+      "split": "CAL",
+      "condition_category": "Different Document Versions",
+      "condition_code": "COND_12_DOCUMENT_VERSIONS",
+      "description": "Draft Purchase Order (Rev A) vs Final Approved Purchase Order (Rev B) line items conflict",
+      "target_entity": {
+        "entity_id": "ENT_VER_1",
+        "canonical_name": "ORISSA POWER TRANSMISSION CORP 2"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_PO_REV_A",
+          "doc_type": "PURCHASE_ORDER",
+          "file_name": "po_rev_a.pdf",
+          "content_hash": "hash_po_a_1"
+        },
+        {
+          "doc_id": "DOC_PO_REV_B",
+          "doc_type": "PURCHASE_ORDER",
+          "file_name": "po_rev_b.pdf",
+          "content_hash": "hash_po_b_1"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "transformer_oil_cost",
+          "field_type": "amount",
+          "doc_id": "DOC_PO_REV_A",
+          "claimed_value": "450000",
+          "confidence": 92.0,
+          "ground_truth": "CONTRADICTION",
+          "expected_outcome": "CONTRADICTION_DETECTED"
+        },
+        {
+          "field_name": "transformer_oil_cost",
+          "field_type": "amount",
+          "doc_id": "DOC_PO_REV_B",
+          "claimed_value": "495000",
+          "confidence": 96.0,
+          "ground_truth": "CONTRADICTION",
+          "expected_outcome": "CONTRADICTION_DETECTED"
+        }
+      ],
+      "required_doc_types": [
+        "PURCHASE_ORDER"
+      ]
+    },
+    {
+      "packet_id": "PKT_BLIND_08",
+      "split": "BLIND",
+      "condition_category": "Different Document Versions",
+      "condition_code": "COND_12_DOCUMENT_VERSIONS",
+      "description": "Draft Purchase Order (Rev A) vs Final Approved Purchase Order (Rev B) line items conflict",
+      "target_entity": {
+        "entity_id": "ENT_VER_2",
+        "canonical_name": "ORISSA POWER TRANSMISSION CORP 3"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_PO_REV_A",
+          "doc_type": "PURCHASE_ORDER",
+          "file_name": "po_rev_a.pdf",
+          "content_hash": "hash_po_a_2"
+        },
+        {
+          "doc_id": "DOC_PO_REV_B",
+          "doc_type": "PURCHASE_ORDER",
+          "file_name": "po_rev_b.pdf",
+          "content_hash": "hash_po_b_2"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "transformer_oil_cost",
+          "field_type": "amount",
+          "doc_id": "DOC_PO_REV_A",
+          "claimed_value": "450000",
+          "confidence": 92.0,
+          "ground_truth": "CONTRADICTION",
+          "expected_outcome": "CONTRADICTION_DETECTED"
+        },
+        {
+          "field_name": "transformer_oil_cost",
+          "field_type": "amount",
+          "doc_id": "DOC_PO_REV_B",
+          "claimed_value": "495000",
+          "confidence": 96.0,
+          "ground_truth": "CONTRADICTION",
+          "expected_outcome": "CONTRADICTION_DETECTED"
+        }
+      ],
+      "required_doc_types": [
+        "PURCHASE_ORDER"
+      ]
+    },
+    {
+      "packet_id": "PKT_DEV_09",
+      "split": "DEV",
+      "condition_category": "Inconsistent Chronology",
+      "condition_code": "COND_20_INCONSISTENT_CHRONOLOGY",
+      "description": "Receipt date precedes order creation date (anachronistic transaction timing)",
+      "target_entity": {
+        "entity_id": "ENT_CHRONO_0",
+        "canonical_name": "MAHESH LOGISTICS 1"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_ORDER",
+          "doc_type": "SALES_ORDER",
+          "file_name": "order.pdf",
+          "content_hash": "hash_ord_0"
+        },
+        {
+          "doc_id": "DOC_DELIVERY",
+          "doc_type": "DELIVERY_CHALLAN",
+          "file_name": "challan.pdf",
+          "content_hash": "hash_del_0"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "order_date",
+          "field_type": "date",
+          "doc_id": "DOC_ORDER",
+          "claimed_value": "20/10/2026",
+          "confidence": 95.0,
+          "ground_truth": "20/10/2026",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "delivery_date",
+          "field_type": "date",
+          "doc_id": "DOC_DELIVERY",
+          "claimed_value": "10/10/2026",
+          "confidence": 94.0,
+          "ground_truth": "CONTRADICTION",
+          "expected_outcome": "CONTRADICTION_DETECTED"
+        }
+      ],
+      "required_doc_types": [
+        "SALES_ORDER",
+        "DELIVERY_CHALLAN"
+      ]
+    },
+    {
+      "packet_id": "PKT_BLIND_09",
+      "split": "BLIND",
+      "condition_category": "Inconsistent Chronology",
+      "condition_code": "COND_20_INCONSISTENT_CHRONOLOGY",
+      "description": "Receipt date precedes order creation date (anachronistic transaction timing)",
+      "target_entity": {
+        "entity_id": "ENT_CHRONO_1",
+        "canonical_name": "MAHESH LOGISTICS 2"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_ORDER",
+          "doc_type": "SALES_ORDER",
+          "file_name": "order.pdf",
+          "content_hash": "hash_ord_1"
+        },
+        {
+          "doc_id": "DOC_DELIVERY",
+          "doc_type": "DELIVERY_CHALLAN",
+          "file_name": "challan.pdf",
+          "content_hash": "hash_del_1"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "order_date",
+          "field_type": "date",
+          "doc_id": "DOC_ORDER",
+          "claimed_value": "20/10/2026",
+          "confidence": 95.0,
+          "ground_truth": "20/10/2026",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "delivery_date",
+          "field_type": "date",
+          "doc_id": "DOC_DELIVERY",
+          "claimed_value": "10/10/2026",
+          "confidence": 94.0,
+          "ground_truth": "CONTRADICTION",
+          "expected_outcome": "CONTRADICTION_DETECTED"
+        }
+      ],
+      "required_doc_types": [
+        "SALES_ORDER",
+        "DELIVERY_CHALLAN"
+      ]
+    },
+    {
+      "packet_id": "PKT_CHALL_01",
+      "split": "CHALL",
+      "condition_category": "Inconsistent Chronology",
+      "condition_code": "COND_20_INCONSISTENT_CHRONOLOGY",
+      "description": "Receipt date precedes order creation date (anachronistic transaction timing)",
+      "target_entity": {
+        "entity_id": "ENT_CHRONO_2",
+        "canonical_name": "MAHESH LOGISTICS 3"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_ORDER",
+          "doc_type": "SALES_ORDER",
+          "file_name": "order.pdf",
+          "content_hash": "hash_ord_2"
+        },
+        {
+          "doc_id": "DOC_DELIVERY",
+          "doc_type": "DELIVERY_CHALLAN",
+          "file_name": "challan.pdf",
+          "content_hash": "hash_del_2"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "order_date",
+          "field_type": "date",
+          "doc_id": "DOC_ORDER",
+          "claimed_value": "20/10/2026",
+          "confidence": 95.0,
+          "ground_truth": "20/10/2026",
+          "expected_outcome": "VERIFY"
+        },
+        {
+          "field_name": "delivery_date",
+          "field_type": "date",
+          "doc_id": "DOC_DELIVERY",
+          "claimed_value": "10/10/2026",
+          "confidence": 94.0,
+          "ground_truth": "CONTRADICTION",
+          "expected_outcome": "CONTRADICTION_DETECTED"
+        }
+      ],
+      "required_doc_types": [
+        "SALES_ORDER",
+        "DELIVERY_CHALLAN"
+      ]
+    },
+    {
+      "packet_id": "PKT_DEV_10",
+      "split": "DEV",
+      "condition_category": "Repeated OCR-Derived Error",
+      "condition_code": "COND_15_REPEATED_OCR_ERROR",
+      "description": "Two forms generated from same flawed template contain identical O/0 OCR substitution (BARBOBHUBAN)",
+      "target_entity": {
+        "entity_id": "ENT_OCR_ERR_0",
+        "canonical_name": "SMITA PRADHAN 1"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_SCHOLARSHIP_APP",
+          "doc_type": "APPLICATION_FORM",
+          "file_name": "app.pdf",
+          "content_hash": "hash_app_err_0"
+        },
+        {
+          "doc_id": "DOC_VERIFICATION_CERT",
+          "doc_type": "VERIFICATION_CERT",
+          "file_name": "cert.pdf",
+          "content_hash": "hash_cert_err_0"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "bank_ifsc",
+          "field_type": "id",
+          "doc_id": "DOC_SCHOLARSHIP_APP",
+          "claimed_value": "BARBOBHUBAN",
+          "confidence": 93.0,
+          "ground_truth": "BARB0BHUBAN",
+          "expected_outcome": "ABSTAIN"
+        },
+        {
+          "field_name": "bank_ifsc",
+          "field_type": "id",
+          "doc_id": "DOC_VERIFICATION_CERT",
+          "claimed_value": "BARBOBHUBAN",
+          "confidence": 91.0,
+          "ground_truth": "BARB0BHUBAN",
+          "expected_outcome": "ABSTAIN"
+        }
+      ],
+      "required_doc_types": [
+        "APPLICATION_FORM"
+      ]
+    },
+    {
+      "packet_id": "PKT_BLIND_10",
+      "split": "BLIND",
+      "condition_category": "Repeated OCR-Derived Error",
+      "condition_code": "COND_15_REPEATED_OCR_ERROR",
+      "description": "Two forms generated from same flawed template contain identical O/0 OCR substitution (BARBOBHUBAN)",
+      "target_entity": {
+        "entity_id": "ENT_OCR_ERR_1",
+        "canonical_name": "SMITA PRADHAN 2"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_SCHOLARSHIP_APP",
+          "doc_type": "APPLICATION_FORM",
+          "file_name": "app.pdf",
+          "content_hash": "hash_app_err_1"
+        },
+        {
+          "doc_id": "DOC_VERIFICATION_CERT",
+          "doc_type": "VERIFICATION_CERT",
+          "file_name": "cert.pdf",
+          "content_hash": "hash_cert_err_1"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "bank_ifsc",
+          "field_type": "id",
+          "doc_id": "DOC_SCHOLARSHIP_APP",
+          "claimed_value": "BARBOBHUBAN",
+          "confidence": 93.0,
+          "ground_truth": "BARB0BHUBAN",
+          "expected_outcome": "ABSTAIN"
+        },
+        {
+          "field_name": "bank_ifsc",
+          "field_type": "id",
+          "doc_id": "DOC_VERIFICATION_CERT",
+          "claimed_value": "BARBOBHUBAN",
+          "confidence": 91.0,
+          "ground_truth": "BARB0BHUBAN",
+          "expected_outcome": "ABSTAIN"
+        }
+      ],
+      "required_doc_types": [
+        "APPLICATION_FORM"
+      ]
+    },
+    {
+      "packet_id": "PKT_CHALL_02",
+      "split": "CHALL",
+      "condition_category": "Repeated OCR-Derived Error",
+      "condition_code": "COND_15_REPEATED_OCR_ERROR",
+      "description": "Two forms generated from same flawed template contain identical O/0 OCR substitution (BARBOBHUBAN)",
+      "target_entity": {
+        "entity_id": "ENT_OCR_ERR_2",
+        "canonical_name": "SMITA PRADHAN 3"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_SCHOLARSHIP_APP",
+          "doc_type": "APPLICATION_FORM",
+          "file_name": "app.pdf",
+          "content_hash": "hash_app_err_2"
+        },
+        {
+          "doc_id": "DOC_VERIFICATION_CERT",
+          "doc_type": "VERIFICATION_CERT",
+          "file_name": "cert.pdf",
+          "content_hash": "hash_cert_err_2"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "bank_ifsc",
+          "field_type": "id",
+          "doc_id": "DOC_SCHOLARSHIP_APP",
+          "claimed_value": "BARBOBHUBAN",
+          "confidence": 93.0,
+          "ground_truth": "BARB0BHUBAN",
+          "expected_outcome": "ABSTAIN"
+        },
+        {
+          "field_name": "bank_ifsc",
+          "field_type": "id",
+          "doc_id": "DOC_VERIFICATION_CERT",
+          "claimed_value": "BARBOBHUBAN",
+          "confidence": 91.0,
+          "ground_truth": "BARB0BHUBAN",
+          "expected_outcome": "ABSTAIN"
+        }
+      ],
+      "required_doc_types": [
+        "APPLICATION_FORM"
+      ]
+    },
+    {
+      "packet_id": "PKT_BLIND_11",
+      "split": "BLIND",
+      "condition_category": "Currency Mismatch",
+      "condition_code": "COND_05_CURRENCY_MISMATCH",
+      "description": "Invoice denominated in USD while customs clearance summary claims INR value without FX rate",
+      "target_entity": {
+        "entity_id": "ENT_CURR_0",
+        "canonical_name": "GLOBAL TECH EXPORTS 1"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_INVOICE_USD",
+          "doc_type": "FOREIGN_INVOICE",
+          "file_name": "inv_usd.pdf",
+          "content_hash": "hash_usd_0"
+        },
+        {
+          "doc_id": "DOC_CUSTOMS_INR",
+          "doc_type": "CUSTOMS_BILL",
+          "file_name": "customs.pdf",
+          "content_hash": "hash_inr_0"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "invoice_total",
+          "field_type": "amount",
+          "doc_id": "DOC_INVOICE_USD",
+          "claimed_value": "$ 15,000.00",
+          "confidence": 95.0,
+          "ground_truth": "CONTRADICTION",
+          "expected_outcome": "CONTRADICTION_DETECTED"
+        },
+        {
+          "field_name": "invoice_total",
+          "field_type": "amount",
+          "doc_id": "DOC_CUSTOMS_INR",
+          "claimed_value": "INR 15,000.00",
+          "confidence": 94.0,
+          "ground_truth": "CONTRADICTION",
+          "expected_outcome": "CONTRADICTION_DETECTED"
+        }
+      ],
+      "required_doc_types": [
+        "FOREIGN_INVOICE",
+        "CUSTOMS_BILL"
+      ]
+    },
+    {
+      "packet_id": "PKT_CHALL_03",
+      "split": "CHALL",
+      "condition_category": "Currency Mismatch",
+      "condition_code": "COND_05_CURRENCY_MISMATCH",
+      "description": "Invoice denominated in USD while customs clearance summary claims INR value without FX rate",
+      "target_entity": {
+        "entity_id": "ENT_CURR_1",
+        "canonical_name": "GLOBAL TECH EXPORTS 2"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_INVOICE_USD",
+          "doc_type": "FOREIGN_INVOICE",
+          "file_name": "inv_usd.pdf",
+          "content_hash": "hash_usd_1"
+        },
+        {
+          "doc_id": "DOC_CUSTOMS_INR",
+          "doc_type": "CUSTOMS_BILL",
+          "file_name": "customs.pdf",
+          "content_hash": "hash_inr_1"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "invoice_total",
+          "field_type": "amount",
+          "doc_id": "DOC_INVOICE_USD",
+          "claimed_value": "$ 15,000.00",
+          "confidence": 95.0,
+          "ground_truth": "CONTRADICTION",
+          "expected_outcome": "CONTRADICTION_DETECTED"
+        },
+        {
+          "field_name": "invoice_total",
+          "field_type": "amount",
+          "doc_id": "DOC_CUSTOMS_INR",
+          "claimed_value": "INR 15,000.00",
+          "confidence": 94.0,
+          "ground_truth": "CONTRADICTION",
+          "expected_outcome": "CONTRADICTION_DETECTED"
+        }
+      ],
+      "required_doc_types": [
+        "FOREIGN_INVOICE",
+        "CUSTOMS_BILL"
+      ]
+    },
+    {
+      "packet_id": "PKT_BLIND_12",
+      "split": "BLIND",
+      "condition_category": "Unit Mismatch",
+      "condition_code": "COND_06_UNIT_MISMATCH",
+      "description": "Weighbridge gross weight in Metric Tonnes (MT) vs warehouse dispatch ledger in Kilograms (KG)",
+      "target_entity": {
+        "entity_id": "ENT_UNIT_0",
+        "canonical_name": "KALINGA STEEL INDUSTRIES 1"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_WEIGHBRIDGE",
+          "doc_type": "WEIGHT_SLIP",
+          "file_name": "weight.pdf",
+          "content_hash": "hash_wt_0"
+        },
+        {
+          "doc_id": "DOC_DISPATCH",
+          "doc_type": "DISPATCH_LEDGER",
+          "file_name": "dispatch.pdf",
+          "content_hash": "hash_disp_0"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "consignment_weight",
+          "field_type": "weight",
+          "doc_id": "DOC_WEIGHBRIDGE",
+          "claimed_value": "25.50 MT",
+          "confidence": 94.0,
+          "ground_truth": "CONTRADICTION",
+          "expected_outcome": "CONTRADICTION_DETECTED"
+        },
+        {
+          "field_name": "consignment_weight",
+          "field_type": "weight",
+          "doc_id": "DOC_DISPATCH",
+          "claimed_value": "25500 KG",
+          "confidence": 92.0,
+          "ground_truth": "CONTRADICTION",
+          "expected_outcome": "CONTRADICTION_DETECTED"
+        }
+      ],
+      "required_doc_types": [
+        "WEIGHT_SLIP",
+        "DISPATCH_LEDGER"
+      ]
+    },
+    {
+      "packet_id": "PKT_CHALL_04",
+      "split": "CHALL",
+      "condition_category": "Unit Mismatch",
+      "condition_code": "COND_06_UNIT_MISMATCH",
+      "description": "Weighbridge gross weight in Metric Tonnes (MT) vs warehouse dispatch ledger in Kilograms (KG)",
+      "target_entity": {
+        "entity_id": "ENT_UNIT_1",
+        "canonical_name": "KALINGA STEEL INDUSTRIES 2"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_WEIGHBRIDGE",
+          "doc_type": "WEIGHT_SLIP",
+          "file_name": "weight.pdf",
+          "content_hash": "hash_wt_1"
+        },
+        {
+          "doc_id": "DOC_DISPATCH",
+          "doc_type": "DISPATCH_LEDGER",
+          "file_name": "dispatch.pdf",
+          "content_hash": "hash_disp_1"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "consignment_weight",
+          "field_type": "weight",
+          "doc_id": "DOC_WEIGHBRIDGE",
+          "claimed_value": "25.50 MT",
+          "confidence": 94.0,
+          "ground_truth": "CONTRADICTION",
+          "expected_outcome": "CONTRADICTION_DETECTED"
+        },
+        {
+          "field_name": "consignment_weight",
+          "field_type": "weight",
+          "doc_id": "DOC_DISPATCH",
+          "claimed_value": "25500 KG",
+          "confidence": 92.0,
+          "ground_truth": "CONTRADICTION",
+          "expected_outcome": "CONTRADICTION_DETECTED"
+        }
+      ],
+      "required_doc_types": [
+        "WEIGHT_SLIP",
+        "DISPATCH_LEDGER"
+      ]
+    },
+    {
+      "packet_id": "PKT_CHALL_05",
+      "split": "CHALL",
+      "condition_category": "Illegible Supporting Evidence",
+      "condition_code": "COND_13_ILLEGIBLE_EVIDENCE",
+      "description": "Supporting bank passbook stamp severely faded; OCR confidence 22% fails confidence floor",
+      "target_entity": {
+        "entity_id": "ENT_FADED_01",
+        "canonical_name": "SUNIL TRIPATHY"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_APP",
+          "doc_type": "APPLICATION_FORM",
+          "file_name": "app.pdf",
+          "content_hash": "hash_faded_app"
+        },
+        {
+          "doc_id": "DOC_PASSBOOK",
+          "doc_type": "BANK_PASSBOOK",
+          "file_name": "passbook_faded.pdf",
+          "content_hash": "hash_faded_pass"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "account_number",
+          "field_type": "id",
+          "doc_id": "DOC_APP",
+          "claimed_value": "908812345678",
+          "confidence": 94.0,
+          "ground_truth": "908812345678",
+          "expected_outcome": "ABSTAIN"
+        },
+        {
+          "field_name": "account_number",
+          "field_type": "id",
+          "doc_id": "DOC_PASSBOOK",
+          "claimed_value": "9088~123?5678",
+          "confidence": 24.0,
+          "ground_truth": "908812345678",
+          "expected_outcome": "ABSTAIN"
+        }
+      ],
+      "required_doc_types": [
+        "APPLICATION_FORM",
+        "BANK_PASSBOOK"
+      ]
+    },
+    {
+      "packet_id": "PKT_CHALL_06",
+      "split": "CHALL",
+      "condition_category": "Wrong Document Linked",
+      "condition_code": "COND_19_WRONG_DOCUMENT",
+      "description": "Electricity utility bill uploaded instead of mandatory Domicile Certificate",
+      "target_entity": {
+        "entity_id": "ENT_WRONG_01",
+        "canonical_name": "SUBASH CHANDRA MOHANTY"
+      },
+      "documents": [
+        {
+          "doc_id": "DOC_APP",
+          "doc_type": "APPLICATION_FORM",
+          "file_name": "app.pdf",
+          "content_hash": "hash_wr_app"
+        },
+        {
+          "doc_id": "DOC_UTILITY",
+          "doc_type": "UTILITY_BILL",
+          "file_name": "electric_bill.pdf",
+          "content_hash": "hash_wr_bill"
+        }
+      ],
+      "claims": [
+        {
+          "field_name": "domicile_certificate_no",
+          "field_type": "id",
+          "doc_id": "DOC_APP",
+          "claimed_value": "DOM-2026-99120",
+          "confidence": 93.0,
+          "ground_truth": "MISSING_EVIDENCE",
+          "expected_outcome": "MISSING_EVIDENCE"
+        }
+      ],
+      "required_doc_types": [
+        "APPLICATION_FORM",
+        "RESIDENCE_CERT"
+      ]
+    }
+  ]
+}

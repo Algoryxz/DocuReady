@@ -1,0 +1,9 @@
+{
+  "fixture_id": "TAB_03_DENSE_NUMERIC_COLUMNS",
+  "category": "Category C: Dense Numeric",
+  "critical_fields": {
+    "may_tax_inflow": "912400",
+    "jun_revenue_out": "290000",
+    "jul_net_surplus": "190900"
+  }
+}

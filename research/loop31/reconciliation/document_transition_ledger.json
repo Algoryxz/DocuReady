@@ -1,0 +1,2216 @@
+{
+  "version": "31.0.0",
+  "total_documents": 221,
+  "documents": [
+    {
+      "document_id": "ASSOC_03_GUTTER_BLEED_SPLIT_CELL",
+      "origin_loop": "20-23",
+      "family": "Historical_Loops_20_23",
+      "benchmark_cohort": "Historical_Loops_20_23",
+      "field_count": 2,
+      "exact_verified_count": 2,
+      "false_verified_count": 0,
+      "abstained_count": 0
+    },
+    {
+      "document_id": "CHALL_01_IDENTICAL_AMOUNT_DIFF_COLUMNS",
+      "origin_loop": "20-23",
+      "family": "Historical_Loops_20_23",
+      "benchmark_cohort": "Historical_Loops_20_23",
+      "field_count": 2,
+      "exact_verified_count": 1,
+      "false_verified_count": 0,
+      "abstained_count": 1
+    },
+    {
+      "document_id": "CHALL_02_WRONG_PERSON_ADJACENT_ROWS",
+      "origin_loop": "20-23",
+      "family": "Historical_Loops_20_23",
+      "benchmark_cohort": "Historical_Loops_20_23",
+      "field_count": 2,
+      "exact_verified_count": 2,
+      "false_verified_count": 0,
+      "abstained_count": 0
+    },
+    {
+      "document_id": "CHALL_03_FAINT_COLUMN_BLEED",
+      "origin_loop": "20-23",
+      "family": "Historical_Loops_20_23",
+      "benchmark_cohort": "Historical_Loops_20_23",
+      "field_count": 2,
+      "exact_verified_count": 2,
+      "false_verified_count": 0,
+      "abstained_count": 0
+    },
+    {
+      "document_id": "CHALL_04_REPEATED_ACCOUNT_NUMBERS",
+      "origin_loop": "20-23",
+      "family": "Historical_Loops_20_23",
+      "benchmark_cohort": "Historical_Loops_20_23",
+      "field_count": 2,
+      "exact_verified_count": 2,
+      "false_verified_count": 0,
+      "abstained_count": 0
+    },
+    {
+      "document_id": "CHALL_05_EMPTY_AMOUNT_CELL",
+      "origin_loop": "20-23",
+      "family": "Historical_Loops_20_23",
+      "benchmark_cohort": "Historical_Loops_20_23",
+      "field_count": 2,
+      "exact_verified_count": 1,
+      "false_verified_count": 0,
+      "abstained_count": 1
+    },
+    {
+      "document_id": "CHALL_06_LABEL_AS_VALUE_TRAP",
+      "origin_loop": "20-23",
+      "family": "Historical_Loops_20_23",
+      "benchmark_cohort": "Historical_Loops_20_23",
+      "field_count": 1,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 1
+    },
+    {
+      "document_id": "CHALL_07_CROSS_DOC_PAIR_A",
+      "origin_loop": "20-23",
+      "family": "Historical_Loops_20_23",
+      "benchmark_cohort": "Historical_Loops_20_23",
+      "field_count": 1,
+      "exact_verified_count": 1,
+      "false_verified_count": 0,
+      "abstained_count": 0
+    },
+    {
+      "document_id": "CHALL_08_CROSS_DOC_PAIR_B",
+      "origin_loop": "20-23",
+      "family": "Historical_Loops_20_23",
+      "benchmark_cohort": "Historical_Loops_20_23",
+      "field_count": 1,
+      "exact_verified_count": 1,
+      "false_verified_count": 0,
+      "abstained_count": 0
+    },
+    {
+      "document_id": "COHORT_H_01_MICRO_CLINICAL_PANEL",
+      "origin_loop": 23,
+      "family": "Cohort_H (Integrated into Cohort_I_Blind)",
+      "benchmark_cohort": "Cohort_I_Blind",
+      "field_count": 4,
+      "exact_verified_count": 1,
+      "false_verified_count": 0,
+      "abstained_count": 3
+    },
+    {
+      "document_id": "COHORT_H_02_MICRO_DOSAGE_AUDIT",
+      "origin_loop": 23,
+      "family": "Cohort_H (Integrated into Cohort_I_Blind)",
+      "benchmark_cohort": "Cohort_I_Blind",
+      "field_count": 4,
+      "exact_verified_count": 1,
+      "false_verified_count": 0,
+      "abstained_count": 3
+    },
+    {
+      "document_id": "COHORT_H_03_NARROW_GUTTER_LEDGER",
+      "origin_loop": 23,
+      "family": "Cohort_H (Integrated into Cohort_I_Blind)",
+      "benchmark_cohort": "Cohort_I_Blind",
+      "field_count": 3,
+      "exact_verified_count": 1,
+      "false_verified_count": 0,
+      "abstained_count": 2
+    },
+    {
+      "document_id": "COHORT_H_04_NARROW_GUTTER_INVOICE",
+      "origin_loop": 23,
+      "family": "Cohort_H (Integrated into Cohort_I_Blind)",
+      "benchmark_cohort": "Cohort_I_Blind",
+      "field_count": 3,
+      "exact_verified_count": 3,
+      "false_verified_count": 0,
+      "abstained_count": 0
+    },
+    {
+      "document_id": "COHORT_H_05_ADVERSARIAL_NARROW_EMPTY_TRAP",
+      "origin_loop": 23,
+      "family": "Cohort_H (Integrated into Cohort_I_Blind)",
+      "benchmark_cohort": "Cohort_I_Blind",
+      "field_count": 2,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 2
+    },
+    {
+      "document_id": "COHORT_H_06_ADVERSARIAL_MICRO_COLLISION",
+      "origin_loop": 23,
+      "family": "Cohort_H (Integrated into Cohort_I_Blind)",
+      "benchmark_cohort": "Cohort_I_Blind",
+      "field_count": 2,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 2
+    },
+    {
+      "document_id": "COHORT_I_ADV_01_EMPTY_TRAP",
+      "origin_loop": 24,
+      "family": "Cohort_I",
+      "benchmark_cohort": "Cohort_I_Blind",
+      "field_count": 3,
+      "exact_verified_count": 1,
+      "false_verified_count": 0,
+      "abstained_count": 2
+    },
+    {
+      "document_id": "COHORT_I_ADV_02_COLLISION_IDENTIFIERS",
+      "origin_loop": 24,
+      "family": "Cohort_I",
+      "benchmark_cohort": "Cohort_I_Blind",
+      "field_count": 4,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 4
+    },
+    {
+      "document_id": "COHORT_I_ADV_03_BORDERLESS_TIGHT_GUTTER",
+      "origin_loop": 24,
+      "family": "Cohort_I",
+      "benchmark_cohort": "Cohort_I_Blind",
+      "field_count": 3,
+      "exact_verified_count": 1,
+      "false_verified_count": 0,
+      "abstained_count": 2
+    },
+    {
+      "document_id": "COHORT_I_ADV_04_MICRO_DECIMAL_LOSS",
+      "origin_loop": 24,
+      "family": "Cohort_I",
+      "benchmark_cohort": "Cohort_I_Blind",
+      "field_count": 3,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 3
+    },
+    {
+      "document_id": "COHORT_I_BLIND_01_SOLAR_TARIFF",
+      "origin_loop": 24,
+      "family": "Cohort_I",
+      "benchmark_cohort": "Cohort_I_Blind",
+      "field_count": 4,
+      "exact_verified_count": 2,
+      "false_verified_count": 0,
+      "abstained_count": 2
+    },
+    {
+      "document_id": "COHORT_I_BLIND_02_LOAN_AMORTIZATION",
+      "origin_loop": 24,
+      "family": "Cohort_I",
+      "benchmark_cohort": "Cohort_I_Blind",
+      "field_count": 4,
+      "exact_verified_count": 1,
+      "false_verified_count": 0,
+      "abstained_count": 3
+    },
+    {
+      "document_id": "COHORT_I_BLIND_03_CUSTOMS_DUTY",
+      "origin_loop": 24,
+      "family": "Cohort_I",
+      "benchmark_cohort": "Cohort_I_Blind",
+      "field_count": 3,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 3
+    },
+    {
+      "document_id": "COHORT_I_BLIND_04_THYROID_PROFILE",
+      "origin_loop": 24,
+      "family": "Cohort_I",
+      "benchmark_cohort": "Cohort_I_Blind",
+      "field_count": 3,
+      "exact_verified_count": 2,
+      "false_verified_count": 0,
+      "abstained_count": 1
+    },
+    {
+      "document_id": "COHORT_I_BLIND_05_STERILITY_ASSAY",
+      "origin_loop": 24,
+      "family": "Cohort_I",
+      "benchmark_cohort": "Cohort_I_Blind",
+      "field_count": 3,
+      "exact_verified_count": 1,
+      "false_verified_count": 0,
+      "abstained_count": 2
+    },
+    {
+      "document_id": "COHORT_I_BLIND_06_PHARMACY_RECEIPT",
+      "origin_loop": 24,
+      "family": "Cohort_I",
+      "benchmark_cohort": "Cohort_I_Blind",
+      "field_count": 3,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 3
+    },
+    {
+      "document_id": "COHORT_I_BLIND_07_RAIL_FREIGHT",
+      "origin_loop": 24,
+      "family": "Cohort_I",
+      "benchmark_cohort": "Cohort_I_Blind",
+      "field_count": 3,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 3
+    },
+    {
+      "document_id": "COHORT_I_BLIND_08_COMMERCIAL_LEASE",
+      "origin_loop": 24,
+      "family": "Cohort_I",
+      "benchmark_cohort": "Cohort_I_Blind",
+      "field_count": 4,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 4
+    },
+    {
+      "document_id": "COHORT_I_BLIND_09_CREDIT_CARD",
+      "origin_loop": 24,
+      "family": "Cohort_I",
+      "benchmark_cohort": "Cohort_I_Blind",
+      "field_count": 3,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 3
+    },
+    {
+      "document_id": "COHORT_I_BLIND_10_WATER_MUNICIPAL",
+      "origin_loop": 24,
+      "family": "Cohort_I",
+      "benchmark_cohort": "Cohort_I_Blind",
+      "field_count": 4,
+      "exact_verified_count": 1,
+      "false_verified_count": 0,
+      "abstained_count": 3
+    },
+    {
+      "document_id": "COHORT_I_CAL_01_FREIGHT_INVOICE",
+      "origin_loop": 24,
+      "family": "Cohort_I",
+      "benchmark_cohort": "Cohort_I_Blind",
+      "field_count": 4,
+      "exact_verified_count": 1,
+      "false_verified_count": 0,
+      "abstained_count": 3
+    },
+    {
+      "document_id": "COHORT_I_CAL_02_ESCROW_STATEMENT",
+      "origin_loop": 24,
+      "family": "Cohort_I",
+      "benchmark_cohort": "Cohort_I_Blind",
+      "field_count": 4,
+      "exact_verified_count": 1,
+      "false_verified_count": 0,
+      "abstained_count": 3
+    },
+    {
+      "document_id": "COHORT_I_CAL_03_CORPORATE_TAX",
+      "origin_loop": 24,
+      "family": "Cohort_I",
+      "benchmark_cohort": "Cohort_I_Blind",
+      "field_count": 3,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 3
+    },
+    {
+      "document_id": "COHORT_I_CAL_04_BLOOD_GAS",
+      "origin_loop": 24,
+      "family": "Cohort_I",
+      "benchmark_cohort": "Cohort_I_Blind",
+      "field_count": 4,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 4
+    },
+    {
+      "document_id": "COHORT_I_CAL_05_DISSOLUTION_RATE",
+      "origin_loop": 24,
+      "family": "Cohort_I",
+      "benchmark_cohort": "Cohort_I_Blind",
+      "field_count": 3,
+      "exact_verified_count": 1,
+      "false_verified_count": 0,
+      "abstained_count": 2
+    },
+    {
+      "document_id": "COHORT_I_CAL_06_HARDWARE_POS",
+      "origin_loop": 24,
+      "family": "Cohort_I",
+      "benchmark_cohort": "Cohort_I_Blind",
+      "field_count": 3,
+      "exact_verified_count": 2,
+      "false_verified_count": 0,
+      "abstained_count": 1
+    },
+    {
+      "document_id": "COHORT_I_CAL_07_DISPATCH_MANIFEST",
+      "origin_loop": 24,
+      "family": "Cohort_I",
+      "benchmark_cohort": "Cohort_I_Blind",
+      "field_count": 3,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 3
+    },
+    {
+      "document_id": "COHORT_I_CAL_08_COMMODITY_STATEMENT",
+      "origin_loop": 24,
+      "family": "Cohort_I",
+      "benchmark_cohort": "Cohort_I_Blind",
+      "field_count": 3,
+      "exact_verified_count": 2,
+      "false_verified_count": 0,
+      "abstained_count": 1
+    },
+    {
+      "document_id": "COHORT_I_DEV_01_INVOICE",
+      "origin_loop": 24,
+      "family": "Cohort_I",
+      "benchmark_cohort": "Cohort_I_Blind",
+      "field_count": 4,
+      "exact_verified_count": 2,
+      "false_verified_count": 0,
+      "abstained_count": 2
+    },
+    {
+      "document_id": "COHORT_I_DEV_02_BANK_STATEMENT",
+      "origin_loop": 24,
+      "family": "Cohort_I",
+      "benchmark_cohort": "Cohort_I_Blind",
+      "field_count": 4,
+      "exact_verified_count": 2,
+      "false_verified_count": 0,
+      "abstained_count": 2
+    },
+    {
+      "document_id": "COHORT_I_DEV_03_TAX_SCHEDULE",
+      "origin_loop": 24,
+      "family": "Cohort_I",
+      "benchmark_cohort": "Cohort_I_Blind",
+      "field_count": 4,
+      "exact_verified_count": 2,
+      "false_verified_count": 0,
+      "abstained_count": 2
+    },
+    {
+      "document_id": "COHORT_I_DEV_04_CLINICAL_PANEL",
+      "origin_loop": 24,
+      "family": "Cohort_I",
+      "benchmark_cohort": "Cohort_I_Blind",
+      "field_count": 4,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 4
+    },
+    {
+      "document_id": "COHORT_I_DEV_05_PHARMA_ASSAY",
+      "origin_loop": 24,
+      "family": "Cohort_I",
+      "benchmark_cohort": "Cohort_I_Blind",
+      "field_count": 3,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 3
+    },
+    {
+      "document_id": "COHORT_I_DEV_06_RETAIL_RECEIPT",
+      "origin_loop": 24,
+      "family": "Cohort_I",
+      "benchmark_cohort": "Cohort_I_Blind",
+      "field_count": 3,
+      "exact_verified_count": 3,
+      "false_verified_count": 0,
+      "abstained_count": 0
+    },
+    {
+      "document_id": "COHORT_I_DEV_07_CHALLAN_DELIVERY",
+      "origin_loop": 24,
+      "family": "Cohort_I",
+      "benchmark_cohort": "Cohort_I_Blind",
+      "field_count": 3,
+      "exact_verified_count": 1,
+      "false_verified_count": 0,
+      "abstained_count": 2
+    },
+    {
+      "document_id": "COHORT_I_DEV_08_ENERGY_AUDIT",
+      "origin_loop": 24,
+      "family": "Cohort_I",
+      "benchmark_cohort": "Cohort_I_Blind",
+      "field_count": 3,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 3
+    },
+    {
+      "document_id": "COHORT_J_ADV_01_EMPTY_TRAP",
+      "origin_loop": 25,
+      "family": "Cohort_J",
+      "benchmark_cohort": "Cohort_J_Synthetic",
+      "field_count": 4,
+      "exact_verified_count": 1,
+      "false_verified_count": 0,
+      "abstained_count": 3
+    },
+    {
+      "document_id": "COHORT_J_ADV_02_PREFIX_COLLISION",
+      "origin_loop": 25,
+      "family": "Cohort_J",
+      "benchmark_cohort": "Cohort_J_Synthetic",
+      "field_count": 4,
+      "exact_verified_count": 2,
+      "false_verified_count": 0,
+      "abstained_count": 2
+    },
+    {
+      "document_id": "COHORT_J_ADV_03_NARROW_GUTTER_LEDGER",
+      "origin_loop": 25,
+      "family": "Cohort_J",
+      "benchmark_cohort": "Cohort_J_Synthetic",
+      "field_count": 3,
+      "exact_verified_count": 1,
+      "false_verified_count": 0,
+      "abstained_count": 2
+    },
+    {
+      "document_id": "COHORT_J_ADV_04_MICRO_DECIMAL_LOSS",
+      "origin_loop": 25,
+      "family": "Cohort_J",
+      "benchmark_cohort": "Cohort_J_Synthetic",
+      "field_count": 3,
+      "exact_verified_count": 3,
+      "false_verified_count": 0,
+      "abstained_count": 0
+    },
+    {
+      "document_id": "COHORT_J_ADV_05_HEADER_CONTRADICTION",
+      "origin_loop": 25,
+      "family": "Cohort_J",
+      "benchmark_cohort": "Cohort_J_Synthetic",
+      "field_count": 3,
+      "exact_verified_count": 3,
+      "false_verified_count": 0,
+      "abstained_count": 0
+    },
+    {
+      "document_id": "COHORT_J_ADV_06_CHARACTER_SUBSTITUTION_STRESS",
+      "origin_loop": 25,
+      "family": "Cohort_J",
+      "benchmark_cohort": "Cohort_J_Synthetic",
+      "field_count": 3,
+      "exact_verified_count": 3,
+      "false_verified_count": 0,
+      "abstained_count": 0
+    },
+    {
+      "document_id": "COHORT_J_ADV_07_IDENTICAL_NEIGHBORS",
+      "origin_loop": 25,
+      "family": "Cohort_J",
+      "benchmark_cohort": "Cohort_J_Synthetic",
+      "field_count": 3,
+      "exact_verified_count": 3,
+      "false_verified_count": 0,
+      "abstained_count": 0
+    },
+    {
+      "document_id": "COHORT_J_ADV_08_MULTI_TIER_INTERFERENCE",
+      "origin_loop": 25,
+      "family": "Cohort_J",
+      "benchmark_cohort": "Cohort_J_Synthetic",
+      "field_count": 3,
+      "exact_verified_count": 3,
+      "false_verified_count": 0,
+      "abstained_count": 0
+    },
+    {
+      "document_id": "COHORT_J_ADV_09_FAINT_THERMAL_RECEIPT",
+      "origin_loop": 25,
+      "family": "Cohort_J",
+      "benchmark_cohort": "Cohort_J_Synthetic",
+      "field_count": 3,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 3
+    },
+    {
+      "document_id": "COHORT_J_ADV_10_SUB10PX_REAGENT_STABILITY",
+      "origin_loop": 25,
+      "family": "Cohort_J",
+      "benchmark_cohort": "Cohort_J_Synthetic",
+      "field_count": 4,
+      "exact_verified_count": 3,
+      "false_verified_count": 0,
+      "abstained_count": 1
+    },
+    {
+      "document_id": "COHORT_J_BLIND_01_SOLAR_INVOICE",
+      "origin_loop": 25,
+      "family": "Cohort_J",
+      "benchmark_cohort": "Cohort_J_Synthetic",
+      "field_count": 4,
+      "exact_verified_count": 4,
+      "false_verified_count": 0,
+      "abstained_count": 0
+    },
+    {
+      "document_id": "COHORT_J_BLIND_02_ESCROW_SETTLE",
+      "origin_loop": 25,
+      "family": "Cohort_J",
+      "benchmark_cohort": "Cohort_J_Synthetic",
+      "field_count": 3,
+      "exact_verified_count": 3,
+      "false_verified_count": 0,
+      "abstained_count": 0
+    },
+    {
+      "document_id": "COHORT_J_BLIND_03_CUSTOMS_ENTRY",
+      "origin_loop": 25,
+      "family": "Cohort_J",
+      "benchmark_cohort": "Cohort_J_Synthetic",
+      "field_count": 3,
+      "exact_verified_count": 1,
+      "false_verified_count": 0,
+      "abstained_count": 2
+    },
+    {
+      "document_id": "COHORT_J_BLIND_04_COAGULATION",
+      "origin_loop": 25,
+      "family": "Cohort_J",
+      "benchmark_cohort": "Cohort_J_Synthetic",
+      "field_count": 4,
+      "exact_verified_count": 4,
+      "false_verified_count": 0,
+      "abstained_count": 0
+    },
+    {
+      "document_id": "COHORT_J_BLIND_05_STERILITY_AUDIT",
+      "origin_loop": 25,
+      "family": "Cohort_J",
+      "benchmark_cohort": "Cohort_J_Synthetic",
+      "field_count": 3,
+      "exact_verified_count": 3,
+      "false_verified_count": 0,
+      "abstained_count": 0
+    },
+    {
+      "document_id": "COHORT_J_BLIND_06_SOLAR_INVOICE",
+      "origin_loop": 25,
+      "family": "Cohort_J",
+      "benchmark_cohort": "Cohort_J_Synthetic",
+      "field_count": 4,
+      "exact_verified_count": 2,
+      "false_verified_count": 0,
+      "abstained_count": 2
+    },
+    {
+      "document_id": "COHORT_J_BLIND_07_ESCROW_SETTLE",
+      "origin_loop": 25,
+      "family": "Cohort_J",
+      "benchmark_cohort": "Cohort_J_Synthetic",
+      "field_count": 3,
+      "exact_verified_count": 3,
+      "false_verified_count": 0,
+      "abstained_count": 0
+    },
+    {
+      "document_id": "COHORT_J_BLIND_08_CUSTOMS_ENTRY",
+      "origin_loop": 25,
+      "family": "Cohort_J",
+      "benchmark_cohort": "Cohort_J_Synthetic",
+      "field_count": 3,
+      "exact_verified_count": 2,
+      "false_verified_count": 0,
+      "abstained_count": 1
+    },
+    {
+      "document_id": "COHORT_J_BLIND_09_COAGULATION",
+      "origin_loop": 25,
+      "family": "Cohort_J",
+      "benchmark_cohort": "Cohort_J_Synthetic",
+      "field_count": 4,
+      "exact_verified_count": 4,
+      "false_verified_count": 0,
+      "abstained_count": 0
+    },
+    {
+      "document_id": "COHORT_J_BLIND_10_STERILITY_AUDIT",
+      "origin_loop": 25,
+      "family": "Cohort_J",
+      "benchmark_cohort": "Cohort_J_Synthetic",
+      "field_count": 3,
+      "exact_verified_count": 3,
+      "false_verified_count": 0,
+      "abstained_count": 0
+    },
+    {
+      "document_id": "COHORT_J_BLIND_11_SOLAR_INVOICE",
+      "origin_loop": 25,
+      "family": "Cohort_J",
+      "benchmark_cohort": "Cohort_J_Synthetic",
+      "field_count": 4,
+      "exact_verified_count": 4,
+      "false_verified_count": 0,
+      "abstained_count": 0
+    },
+    {
+      "document_id": "COHORT_J_BLIND_12_ESCROW_SETTLE",
+      "origin_loop": 25,
+      "family": "Cohort_J",
+      "benchmark_cohort": "Cohort_J_Synthetic",
+      "field_count": 3,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 3
+    },
+    {
+      "document_id": "COHORT_J_BLIND_13_CUSTOMS_ENTRY",
+      "origin_loop": 25,
+      "family": "Cohort_J",
+      "benchmark_cohort": "Cohort_J_Synthetic",
+      "field_count": 3,
+      "exact_verified_count": 2,
+      "false_verified_count": 0,
+      "abstained_count": 1
+    },
+    {
+      "document_id": "COHORT_J_BLIND_14_COAGULATION",
+      "origin_loop": 25,
+      "family": "Cohort_J",
+      "benchmark_cohort": "Cohort_J_Synthetic",
+      "field_count": 4,
+      "exact_verified_count": 4,
+      "false_verified_count": 0,
+      "abstained_count": 0
+    },
+    {
+      "document_id": "COHORT_J_BLIND_15_STERILITY_AUDIT",
+      "origin_loop": 25,
+      "family": "Cohort_J",
+      "benchmark_cohort": "Cohort_J_Synthetic",
+      "field_count": 3,
+      "exact_verified_count": 3,
+      "false_verified_count": 0,
+      "abstained_count": 0
+    },
+    {
+      "document_id": "COHORT_J_BLIND_16_SOLAR_INVOICE",
+      "origin_loop": 25,
+      "family": "Cohort_J",
+      "benchmark_cohort": "Cohort_J_Synthetic",
+      "field_count": 4,
+      "exact_verified_count": 4,
+      "false_verified_count": 0,
+      "abstained_count": 0
+    },
+    {
+      "document_id": "COHORT_J_BLIND_17_ESCROW_SETTLE",
+      "origin_loop": 25,
+      "family": "Cohort_J",
+      "benchmark_cohort": "Cohort_J_Synthetic",
+      "field_count": 3,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 3
+    },
+    {
+      "document_id": "COHORT_J_BLIND_18_CUSTOMS_ENTRY",
+      "origin_loop": 25,
+      "family": "Cohort_J",
+      "benchmark_cohort": "Cohort_J_Synthetic",
+      "field_count": 3,
+      "exact_verified_count": 2,
+      "false_verified_count": 0,
+      "abstained_count": 1
+    },
+    {
+      "document_id": "COHORT_J_BLIND_19_COAGULATION",
+      "origin_loop": 25,
+      "family": "Cohort_J",
+      "benchmark_cohort": "Cohort_J_Synthetic",
+      "field_count": 4,
+      "exact_verified_count": 4,
+      "false_verified_count": 0,
+      "abstained_count": 0
+    },
+    {
+      "document_id": "COHORT_J_BLIND_20_STERILITY_AUDIT",
+      "origin_loop": 25,
+      "family": "Cohort_J",
+      "benchmark_cohort": "Cohort_J_Synthetic",
+      "field_count": 3,
+      "exact_verified_count": 3,
+      "false_verified_count": 0,
+      "abstained_count": 0
+    },
+    {
+      "document_id": "COHORT_J_CAL_01_INVOICE",
+      "origin_loop": 25,
+      "family": "Cohort_J",
+      "benchmark_cohort": "Cohort_J_Synthetic",
+      "field_count": 3,
+      "exact_verified_count": 3,
+      "false_verified_count": 0,
+      "abstained_count": 0
+    },
+    {
+      "document_id": "COHORT_J_CAL_02_BANK_REGISTER",
+      "origin_loop": 25,
+      "family": "Cohort_J",
+      "benchmark_cohort": "Cohort_J_Synthetic",
+      "field_count": 3,
+      "exact_verified_count": 3,
+      "false_verified_count": 0,
+      "abstained_count": 0
+    },
+    {
+      "document_id": "COHORT_J_CAL_03_TAX_ASSESSMENT",
+      "origin_loop": 25,
+      "family": "Cohort_J",
+      "benchmark_cohort": "Cohort_J_Synthetic",
+      "field_count": 4,
+      "exact_verified_count": 4,
+      "false_verified_count": 0,
+      "abstained_count": 0
+    },
+    {
+      "document_id": "COHORT_J_CAL_04_CLINICAL_CHEM",
+      "origin_loop": 25,
+      "family": "Cohort_J",
+      "benchmark_cohort": "Cohort_J_Synthetic",
+      "field_count": 3,
+      "exact_verified_count": 3,
+      "false_verified_count": 0,
+      "abstained_count": 0
+    },
+    {
+      "document_id": "COHORT_J_CAL_05_PHARMA_POTENCY",
+      "origin_loop": 25,
+      "family": "Cohort_J",
+      "benchmark_cohort": "Cohort_J_Synthetic",
+      "field_count": 3,
+      "exact_verified_count": 3,
+      "false_verified_count": 0,
+      "abstained_count": 0
+    },
+    {
+      "document_id": "COHORT_J_CAL_06_INVOICE",
+      "origin_loop": 25,
+      "family": "Cohort_J",
+      "benchmark_cohort": "Cohort_J_Synthetic",
+      "field_count": 3,
+      "exact_verified_count": 3,
+      "false_verified_count": 0,
+      "abstained_count": 0
+    },
+    {
+      "document_id": "COHORT_J_CAL_07_BANK_REGISTER",
+      "origin_loop": 25,
+      "family": "Cohort_J",
+      "benchmark_cohort": "Cohort_J_Synthetic",
+      "field_count": 3,
+      "exact_verified_count": 3,
+      "false_verified_count": 0,
+      "abstained_count": 0
+    },
+    {
+      "document_id": "COHORT_J_CAL_08_TAX_ASSESSMENT",
+      "origin_loop": 25,
+      "family": "Cohort_J",
+      "benchmark_cohort": "Cohort_J_Synthetic",
+      "field_count": 4,
+      "exact_verified_count": 4,
+      "false_verified_count": 0,
+      "abstained_count": 0
+    },
+    {
+      "document_id": "COHORT_J_CAL_09_CLINICAL_CHEM",
+      "origin_loop": 25,
+      "family": "Cohort_J",
+      "benchmark_cohort": "Cohort_J_Synthetic",
+      "field_count": 3,
+      "exact_verified_count": 3,
+      "false_verified_count": 0,
+      "abstained_count": 0
+    },
+    {
+      "document_id": "COHORT_J_CAL_10_PHARMA_POTENCY",
+      "origin_loop": 25,
+      "family": "Cohort_J",
+      "benchmark_cohort": "Cohort_J_Synthetic",
+      "field_count": 3,
+      "exact_verified_count": 3,
+      "false_verified_count": 0,
+      "abstained_count": 0
+    },
+    {
+      "document_id": "COHORT_J_CAL_11_INVOICE",
+      "origin_loop": 25,
+      "family": "Cohort_J",
+      "benchmark_cohort": "Cohort_J_Synthetic",
+      "field_count": 3,
+      "exact_verified_count": 3,
+      "false_verified_count": 0,
+      "abstained_count": 0
+    },
+    {
+      "document_id": "COHORT_J_CAL_12_BANK_REGISTER",
+      "origin_loop": 25,
+      "family": "Cohort_J",
+      "benchmark_cohort": "Cohort_J_Synthetic",
+      "field_count": 3,
+      "exact_verified_count": 3,
+      "false_verified_count": 0,
+      "abstained_count": 0
+    },
+    {
+      "document_id": "COHORT_J_CAL_13_TAX_ASSESSMENT",
+      "origin_loop": 25,
+      "family": "Cohort_J",
+      "benchmark_cohort": "Cohort_J_Synthetic",
+      "field_count": 4,
+      "exact_verified_count": 2,
+      "false_verified_count": 0,
+      "abstained_count": 2
+    },
+    {
+      "document_id": "COHORT_J_CAL_14_CLINICAL_CHEM",
+      "origin_loop": 25,
+      "family": "Cohort_J",
+      "benchmark_cohort": "Cohort_J_Synthetic",
+      "field_count": 3,
+      "exact_verified_count": 3,
+      "false_verified_count": 0,
+      "abstained_count": 0
+    },
+    {
+      "document_id": "COHORT_J_CAL_15_PHARMA_POTENCY",
+      "origin_loop": 25,
+      "family": "Cohort_J",
+      "benchmark_cohort": "Cohort_J_Synthetic",
+      "field_count": 3,
+      "exact_verified_count": 3,
+      "false_verified_count": 0,
+      "abstained_count": 0
+    },
+    {
+      "document_id": "COHORT_J_DEV_01_INVOICE",
+      "origin_loop": 25,
+      "family": "Cohort_J",
+      "benchmark_cohort": "Cohort_J_Synthetic",
+      "field_count": 4,
+      "exact_verified_count": 4,
+      "false_verified_count": 0,
+      "abstained_count": 0
+    },
+    {
+      "document_id": "COHORT_J_DEV_02_BANK_STATEMENT",
+      "origin_loop": 25,
+      "family": "Cohort_J",
+      "benchmark_cohort": "Cohort_J_Synthetic",
+      "field_count": 3,
+      "exact_verified_count": 3,
+      "false_verified_count": 0,
+      "abstained_count": 0
+    },
+    {
+      "document_id": "COHORT_J_DEV_03_TAX_SCHEDULE",
+      "origin_loop": 25,
+      "family": "Cohort_J",
+      "benchmark_cohort": "Cohort_J_Synthetic",
+      "field_count": 4,
+      "exact_verified_count": 2,
+      "false_verified_count": 0,
+      "abstained_count": 2
+    },
+    {
+      "document_id": "COHORT_J_DEV_04_CLINICAL_PANEL",
+      "origin_loop": 25,
+      "family": "Cohort_J",
+      "benchmark_cohort": "Cohort_J_Synthetic",
+      "field_count": 4,
+      "exact_verified_count": 3,
+      "false_verified_count": 0,
+      "abstained_count": 1
+    },
+    {
+      "document_id": "COHORT_J_DEV_05_PHARMA_ASSAY",
+      "origin_loop": 25,
+      "family": "Cohort_J",
+      "benchmark_cohort": "Cohort_J_Synthetic",
+      "field_count": 4,
+      "exact_verified_count": 1,
+      "false_verified_count": 0,
+      "abstained_count": 3
+    },
+    {
+      "document_id": "COHORT_J_DEV_06_RETAIL_RECEIPT",
+      "origin_loop": 25,
+      "family": "Cohort_J",
+      "benchmark_cohort": "Cohort_J_Synthetic",
+      "field_count": 4,
+      "exact_verified_count": 2,
+      "false_verified_count": 0,
+      "abstained_count": 2
+    },
+    {
+      "document_id": "COHORT_J_DEV_07_CHALLAN_DELIVERY",
+      "origin_loop": 25,
+      "family": "Cohort_J",
+      "benchmark_cohort": "Cohort_J_Synthetic",
+      "field_count": 4,
+      "exact_verified_count": 4,
+      "false_verified_count": 0,
+      "abstained_count": 0
+    },
+    {
+      "document_id": "COHORT_J_DEV_08_COMMERCIAL_INVOICE",
+      "origin_loop": 25,
+      "family": "Cohort_J",
+      "benchmark_cohort": "Cohort_J_Synthetic",
+      "field_count": 3,
+      "exact_verified_count": 3,
+      "false_verified_count": 0,
+      "abstained_count": 0
+    },
+    {
+      "document_id": "COHORT_J_DEV_09_BANK_LEDGER",
+      "origin_loop": 25,
+      "family": "Cohort_J",
+      "benchmark_cohort": "Cohort_J_Synthetic",
+      "field_count": 3,
+      "exact_verified_count": 1,
+      "false_verified_count": 0,
+      "abstained_count": 2
+    },
+    {
+      "document_id": "COHORT_J_DEV_10_MUNICIPAL_WATER",
+      "origin_loop": 25,
+      "family": "Cohort_J",
+      "benchmark_cohort": "Cohort_J_Synthetic",
+      "field_count": 3,
+      "exact_verified_count": 2,
+      "false_verified_count": 0,
+      "abstained_count": 1
+    },
+    {
+      "document_id": "COHORT_J_DEV_11_LIPID_PROFILE",
+      "origin_loop": 25,
+      "family": "Cohort_J",
+      "benchmark_cohort": "Cohort_J_Synthetic",
+      "field_count": 4,
+      "exact_verified_count": 3,
+      "false_verified_count": 0,
+      "abstained_count": 1
+    },
+    {
+      "document_id": "COHORT_J_DEV_12_CHEMICAL_PURITY",
+      "origin_loop": 25,
+      "family": "Cohort_J",
+      "benchmark_cohort": "Cohort_J_Synthetic",
+      "field_count": 3,
+      "exact_verified_count": 3,
+      "false_verified_count": 0,
+      "abstained_count": 0
+    },
+    {
+      "document_id": "COHORT_J_DEV_13_ELECTRONICS_POS",
+      "origin_loop": 25,
+      "family": "Cohort_J",
+      "benchmark_cohort": "Cohort_J_Synthetic",
+      "field_count": 3,
+      "exact_verified_count": 3,
+      "false_verified_count": 0,
+      "abstained_count": 0
+    },
+    {
+      "document_id": "COHORT_J_DEV_14_FREIGHT_MANIFEST",
+      "origin_loop": 25,
+      "family": "Cohort_J",
+      "benchmark_cohort": "Cohort_J_Synthetic",
+      "field_count": 3,
+      "exact_verified_count": 1,
+      "false_verified_count": 0,
+      "abstained_count": 2
+    },
+    {
+      "document_id": "COHORT_J_DEV_15_EQUIPMENT_RENTAL",
+      "origin_loop": 25,
+      "family": "Cohort_J",
+      "benchmark_cohort": "Cohort_J_Synthetic",
+      "field_count": 3,
+      "exact_verified_count": 3,
+      "false_verified_count": 0,
+      "abstained_count": 0
+    },
+    {
+      "document_id": "COHORT_K_BLIND_31_FUNSD",
+      "origin_loop": 26,
+      "family": "Cohort_K",
+      "benchmark_cohort": "Cohort_K_BLIND",
+      "field_count": 9,
+      "exact_verified_count": 5,
+      "false_verified_count": 0,
+      "abstained_count": 4
+    },
+    {
+      "document_id": "COHORT_K_BLIND_32_FUNSD",
+      "origin_loop": 26,
+      "family": "Cohort_K",
+      "benchmark_cohort": "Cohort_K_BLIND",
+      "field_count": 9,
+      "exact_verified_count": 6,
+      "false_verified_count": 0,
+      "abstained_count": 3
+    },
+    {
+      "document_id": "COHORT_K_BLIND_33_FUNSD",
+      "origin_loop": 26,
+      "family": "Cohort_K",
+      "benchmark_cohort": "Cohort_K_BLIND",
+      "field_count": 9,
+      "exact_verified_count": 5,
+      "false_verified_count": 0,
+      "abstained_count": 4
+    },
+    {
+      "document_id": "COHORT_K_BLIND_34_FUNSD",
+      "origin_loop": 26,
+      "family": "Cohort_K",
+      "benchmark_cohort": "Cohort_K_BLIND",
+      "field_count": 9,
+      "exact_verified_count": 5,
+      "false_verified_count": 0,
+      "abstained_count": 4
+    },
+    {
+      "document_id": "COHORT_K_BLIND_35_FUNSD",
+      "origin_loop": 26,
+      "family": "Cohort_K",
+      "benchmark_cohort": "Cohort_K_BLIND",
+      "field_count": 9,
+      "exact_verified_count": 5,
+      "false_verified_count": 0,
+      "abstained_count": 4
+    },
+    {
+      "document_id": "COHORT_K_BLIND_36_SROIE",
+      "origin_loop": 26,
+      "family": "Cohort_K",
+      "benchmark_cohort": "Cohort_K_BLIND",
+      "field_count": 4,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 4
+    },
+    {
+      "document_id": "COHORT_K_BLIND_37_SROIE",
+      "origin_loop": 26,
+      "family": "Cohort_K",
+      "benchmark_cohort": "Cohort_K_BLIND",
+      "field_count": 4,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 4
+    },
+    {
+      "document_id": "COHORT_K_BLIND_38_SROIE",
+      "origin_loop": 26,
+      "family": "Cohort_K",
+      "benchmark_cohort": "Cohort_K_BLIND",
+      "field_count": 4,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 4
+    },
+    {
+      "document_id": "COHORT_K_BLIND_39_SROIE",
+      "origin_loop": 26,
+      "family": "Cohort_K",
+      "benchmark_cohort": "Cohort_K_BLIND",
+      "field_count": 4,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 4
+    },
+    {
+      "document_id": "COHORT_K_BLIND_40_SROIE",
+      "origin_loop": 26,
+      "family": "Cohort_K",
+      "benchmark_cohort": "Cohort_K_BLIND",
+      "field_count": 4,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 4
+    },
+    {
+      "document_id": "COHORT_K_BLIND_41_INDIC",
+      "origin_loop": 26,
+      "family": "Cohort_K",
+      "benchmark_cohort": "Cohort_K_BLIND",
+      "field_count": 4,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 4
+    },
+    {
+      "document_id": "COHORT_K_BLIND_42_INDIC",
+      "origin_loop": 26,
+      "family": "Cohort_K",
+      "benchmark_cohort": "Cohort_K_BLIND",
+      "field_count": 4,
+      "exact_verified_count": 1,
+      "false_verified_count": 0,
+      "abstained_count": 3
+    },
+    {
+      "document_id": "COHORT_K_BLIND_43_INDIC",
+      "origin_loop": 26,
+      "family": "Cohort_K",
+      "benchmark_cohort": "Cohort_K_BLIND",
+      "field_count": 4,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 4
+    },
+    {
+      "document_id": "COHORT_K_BLIND_44_INDIC",
+      "origin_loop": 26,
+      "family": "Cohort_K",
+      "benchmark_cohort": "Cohort_K_BLIND",
+      "field_count": 4,
+      "exact_verified_count": 1,
+      "false_verified_count": 0,
+      "abstained_count": 3
+    },
+    {
+      "document_id": "COHORT_K_BLIND_45_INDIC",
+      "origin_loop": 26,
+      "family": "Cohort_K",
+      "benchmark_cohort": "Cohort_K_BLIND",
+      "field_count": 4,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 4
+    },
+    {
+      "document_id": "COHORT_K_BLIND_46_DEG",
+      "origin_loop": 26,
+      "family": "Cohort_K",
+      "benchmark_cohort": "Cohort_K_BLIND",
+      "field_count": 3,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 3
+    },
+    {
+      "document_id": "COHORT_K_BLIND_47_DEG",
+      "origin_loop": 26,
+      "family": "Cohort_K",
+      "benchmark_cohort": "Cohort_K_BLIND",
+      "field_count": 3,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 3
+    },
+    {
+      "document_id": "COHORT_K_BLIND_48_DEG",
+      "origin_loop": 26,
+      "family": "Cohort_K",
+      "benchmark_cohort": "Cohort_K_BLIND",
+      "field_count": 3,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 3
+    },
+    {
+      "document_id": "COHORT_K_BLIND_49_DEG",
+      "origin_loop": 26,
+      "family": "Cohort_K",
+      "benchmark_cohort": "Cohort_K_BLIND",
+      "field_count": 3,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 3
+    },
+    {
+      "document_id": "COHORT_K_BLIND_50_DEG",
+      "origin_loop": 26,
+      "family": "Cohort_K",
+      "benchmark_cohort": "Cohort_K_BLIND",
+      "field_count": 3,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 3
+    },
+    {
+      "document_id": "COHORT_K_CAL_16_FUNSD",
+      "origin_loop": 26,
+      "family": "Cohort_K",
+      "benchmark_cohort": "Cohort_K_CAL",
+      "field_count": 9,
+      "exact_verified_count": 5,
+      "false_verified_count": 0,
+      "abstained_count": 4
+    },
+    {
+      "document_id": "COHORT_K_CAL_17_FUNSD",
+      "origin_loop": 26,
+      "family": "Cohort_K",
+      "benchmark_cohort": "Cohort_K_CAL",
+      "field_count": 9,
+      "exact_verified_count": 6,
+      "false_verified_count": 0,
+      "abstained_count": 3
+    },
+    {
+      "document_id": "COHORT_K_CAL_18_FUNSD",
+      "origin_loop": 26,
+      "family": "Cohort_K",
+      "benchmark_cohort": "Cohort_K_CAL",
+      "field_count": 9,
+      "exact_verified_count": 6,
+      "false_verified_count": 0,
+      "abstained_count": 3
+    },
+    {
+      "document_id": "COHORT_K_CAL_19_FUNSD",
+      "origin_loop": 26,
+      "family": "Cohort_K",
+      "benchmark_cohort": "Cohort_K_CAL",
+      "field_count": 9,
+      "exact_verified_count": 5,
+      "false_verified_count": 0,
+      "abstained_count": 4
+    },
+    {
+      "document_id": "COHORT_K_CAL_20_SROIE",
+      "origin_loop": 26,
+      "family": "Cohort_K",
+      "benchmark_cohort": "Cohort_K_CAL",
+      "field_count": 4,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 4
+    },
+    {
+      "document_id": "COHORT_K_CAL_21_SROIE",
+      "origin_loop": 26,
+      "family": "Cohort_K",
+      "benchmark_cohort": "Cohort_K_CAL",
+      "field_count": 4,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 4
+    },
+    {
+      "document_id": "COHORT_K_CAL_22_SROIE",
+      "origin_loop": 26,
+      "family": "Cohort_K",
+      "benchmark_cohort": "Cohort_K_CAL",
+      "field_count": 4,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 4
+    },
+    {
+      "document_id": "COHORT_K_CAL_23_SROIE",
+      "origin_loop": 26,
+      "family": "Cohort_K",
+      "benchmark_cohort": "Cohort_K_CAL",
+      "field_count": 4,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 4
+    },
+    {
+      "document_id": "COHORT_K_CAL_24_INDIC",
+      "origin_loop": 26,
+      "family": "Cohort_K",
+      "benchmark_cohort": "Cohort_K_CAL",
+      "field_count": 4,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 4
+    },
+    {
+      "document_id": "COHORT_K_CAL_25_INDIC",
+      "origin_loop": 26,
+      "family": "Cohort_K",
+      "benchmark_cohort": "Cohort_K_CAL",
+      "field_count": 4,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 4
+    },
+    {
+      "document_id": "COHORT_K_CAL_26_INDIC",
+      "origin_loop": 26,
+      "family": "Cohort_K",
+      "benchmark_cohort": "Cohort_K_CAL",
+      "field_count": 4,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 4
+    },
+    {
+      "document_id": "COHORT_K_CAL_27_INDIC",
+      "origin_loop": 26,
+      "family": "Cohort_K",
+      "benchmark_cohort": "Cohort_K_CAL",
+      "field_count": 4,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 4
+    },
+    {
+      "document_id": "COHORT_K_CAL_28_DEG",
+      "origin_loop": 26,
+      "family": "Cohort_K",
+      "benchmark_cohort": "Cohort_K_CAL",
+      "field_count": 3,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 3
+    },
+    {
+      "document_id": "COHORT_K_CAL_29_DEG",
+      "origin_loop": 26,
+      "family": "Cohort_K",
+      "benchmark_cohort": "Cohort_K_CAL",
+      "field_count": 3,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 3
+    },
+    {
+      "document_id": "COHORT_K_CAL_30_DEG",
+      "origin_loop": 26,
+      "family": "Cohort_K",
+      "benchmark_cohort": "Cohort_K_CAL",
+      "field_count": 3,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 3
+    },
+    {
+      "document_id": "COHORT_K_CHALL_51_FUNSD",
+      "origin_loop": 26,
+      "family": "Cohort_K",
+      "benchmark_cohort": "Cohort_K_CHALL",
+      "field_count": 9,
+      "exact_verified_count": 5,
+      "false_verified_count": 0,
+      "abstained_count": 4
+    },
+    {
+      "document_id": "COHORT_K_CHALL_52_FUNSD",
+      "origin_loop": 26,
+      "family": "Cohort_K",
+      "benchmark_cohort": "Cohort_K_CHALL",
+      "field_count": 9,
+      "exact_verified_count": 5,
+      "false_verified_count": 0,
+      "abstained_count": 4
+    },
+    {
+      "document_id": "COHORT_K_CHALL_53_FUNSD",
+      "origin_loop": 26,
+      "family": "Cohort_K",
+      "benchmark_cohort": "Cohort_K_CHALL",
+      "field_count": 9,
+      "exact_verified_count": 6,
+      "false_verified_count": 0,
+      "abstained_count": 3
+    },
+    {
+      "document_id": "COHORT_K_CHALL_54_SROIE",
+      "origin_loop": 26,
+      "family": "Cohort_K",
+      "benchmark_cohort": "Cohort_K_CHALL",
+      "field_count": 4,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 4
+    },
+    {
+      "document_id": "COHORT_K_CHALL_55_SROIE",
+      "origin_loop": 26,
+      "family": "Cohort_K",
+      "benchmark_cohort": "Cohort_K_CHALL",
+      "field_count": 4,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 4
+    },
+    {
+      "document_id": "COHORT_K_CHALL_56_SROIE",
+      "origin_loop": 26,
+      "family": "Cohort_K",
+      "benchmark_cohort": "Cohort_K_CHALL",
+      "field_count": 4,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 4
+    },
+    {
+      "document_id": "COHORT_K_CHALL_57_INDIC",
+      "origin_loop": 26,
+      "family": "Cohort_K",
+      "benchmark_cohort": "Cohort_K_CHALL",
+      "field_count": 4,
+      "exact_verified_count": 1,
+      "false_verified_count": 0,
+      "abstained_count": 3
+    },
+    {
+      "document_id": "COHORT_K_CHALL_58_INDIC",
+      "origin_loop": 26,
+      "family": "Cohort_K",
+      "benchmark_cohort": "Cohort_K_CHALL",
+      "field_count": 4,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 4
+    },
+    {
+      "document_id": "COHORT_K_CHALL_59_DEG",
+      "origin_loop": 26,
+      "family": "Cohort_K",
+      "benchmark_cohort": "Cohort_K_CHALL",
+      "field_count": 3,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 3
+    },
+    {
+      "document_id": "COHORT_K_CHALL_60_DEG",
+      "origin_loop": 26,
+      "family": "Cohort_K",
+      "benchmark_cohort": "Cohort_K_CHALL",
+      "field_count": 3,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 3
+    },
+    {
+      "document_id": "COHORT_K_DEV_01_FUNSD",
+      "origin_loop": 26,
+      "family": "Cohort_K",
+      "benchmark_cohort": "Cohort_K_DEV",
+      "field_count": 9,
+      "exact_verified_count": 7,
+      "false_verified_count": 0,
+      "abstained_count": 2
+    },
+    {
+      "document_id": "COHORT_K_DEV_02_FUNSD",
+      "origin_loop": 26,
+      "family": "Cohort_K",
+      "benchmark_cohort": "Cohort_K_DEV",
+      "field_count": 9,
+      "exact_verified_count": 7,
+      "false_verified_count": 0,
+      "abstained_count": 2
+    },
+    {
+      "document_id": "COHORT_K_DEV_03_FUNSD",
+      "origin_loop": 26,
+      "family": "Cohort_K",
+      "benchmark_cohort": "Cohort_K_DEV",
+      "field_count": 9,
+      "exact_verified_count": 7,
+      "false_verified_count": 0,
+      "abstained_count": 2
+    },
+    {
+      "document_id": "COHORT_K_DEV_04_FUNSD",
+      "origin_loop": 26,
+      "family": "Cohort_K",
+      "benchmark_cohort": "Cohort_K_DEV",
+      "field_count": 9,
+      "exact_verified_count": 6,
+      "false_verified_count": 0,
+      "abstained_count": 3
+    },
+    {
+      "document_id": "COHORT_K_DEV_05_SROIE",
+      "origin_loop": 26,
+      "family": "Cohort_K",
+      "benchmark_cohort": "Cohort_K_DEV",
+      "field_count": 4,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 4
+    },
+    {
+      "document_id": "COHORT_K_DEV_06_SROIE",
+      "origin_loop": 26,
+      "family": "Cohort_K",
+      "benchmark_cohort": "Cohort_K_DEV",
+      "field_count": 4,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 4
+    },
+    {
+      "document_id": "COHORT_K_DEV_07_SROIE",
+      "origin_loop": 26,
+      "family": "Cohort_K",
+      "benchmark_cohort": "Cohort_K_DEV",
+      "field_count": 4,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 4
+    },
+    {
+      "document_id": "COHORT_K_DEV_08_SROIE",
+      "origin_loop": 26,
+      "family": "Cohort_K",
+      "benchmark_cohort": "Cohort_K_DEV",
+      "field_count": 4,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 4
+    },
+    {
+      "document_id": "COHORT_K_DEV_09_INDIC",
+      "origin_loop": 26,
+      "family": "Cohort_K",
+      "benchmark_cohort": "Cohort_K_DEV",
+      "field_count": 4,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 4
+    },
+    {
+      "document_id": "COHORT_K_DEV_10_INDIC",
+      "origin_loop": 26,
+      "family": "Cohort_K",
+      "benchmark_cohort": "Cohort_K_DEV",
+      "field_count": 4,
+      "exact_verified_count": 1,
+      "false_verified_count": 0,
+      "abstained_count": 3
+    },
+    {
+      "document_id": "COHORT_K_DEV_11_INDIC",
+      "origin_loop": 26,
+      "family": "Cohort_K",
+      "benchmark_cohort": "Cohort_K_DEV",
+      "field_count": 4,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 4
+    },
+    {
+      "document_id": "COHORT_K_DEV_12_INDIC",
+      "origin_loop": 26,
+      "family": "Cohort_K",
+      "benchmark_cohort": "Cohort_K_DEV",
+      "field_count": 4,
+      "exact_verified_count": 1,
+      "false_verified_count": 0,
+      "abstained_count": 3
+    },
+    {
+      "document_id": "COHORT_K_DEV_13_DEG",
+      "origin_loop": 26,
+      "family": "Cohort_K",
+      "benchmark_cohort": "Cohort_K_DEV",
+      "field_count": 3,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 3
+    },
+    {
+      "document_id": "COHORT_K_DEV_14_DEG",
+      "origin_loop": 26,
+      "family": "Cohort_K",
+      "benchmark_cohort": "Cohort_K_DEV",
+      "field_count": 3,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 3
+    },
+    {
+      "document_id": "COHORT_K_DEV_15_DEG",
+      "origin_loop": 26,
+      "family": "Cohort_K",
+      "benchmark_cohort": "Cohort_K_DEV",
+      "field_count": 3,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 3
+    },
+    {
+      "document_id": "COHORT_L_BLIND_26_FUNSD",
+      "origin_loop": 27,
+      "family": "Cohort_L",
+      "benchmark_cohort": "Cohort_L_BLIND",
+      "field_count": 3,
+      "exact_verified_count": 2,
+      "false_verified_count": 0,
+      "abstained_count": 1
+    },
+    {
+      "document_id": "COHORT_L_BLIND_26_SROIE",
+      "origin_loop": 27,
+      "family": "Cohort_L",
+      "benchmark_cohort": "Cohort_L_BLIND",
+      "field_count": 3,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 3
+    },
+    {
+      "document_id": "COHORT_L_BLIND_27_FUNSD",
+      "origin_loop": 27,
+      "family": "Cohort_L",
+      "benchmark_cohort": "Cohort_L_BLIND",
+      "field_count": 3,
+      "exact_verified_count": 2,
+      "false_verified_count": 0,
+      "abstained_count": 1
+    },
+    {
+      "document_id": "COHORT_L_BLIND_27_SROIE",
+      "origin_loop": 27,
+      "family": "Cohort_L",
+      "benchmark_cohort": "Cohort_L_BLIND",
+      "field_count": 3,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 3
+    },
+    {
+      "document_id": "COHORT_L_BLIND_28_FUNSD",
+      "origin_loop": 27,
+      "family": "Cohort_L",
+      "benchmark_cohort": "Cohort_L_BLIND",
+      "field_count": 3,
+      "exact_verified_count": 1,
+      "false_verified_count": 0,
+      "abstained_count": 2
+    },
+    {
+      "document_id": "COHORT_L_BLIND_28_SROIE",
+      "origin_loop": 27,
+      "family": "Cohort_L",
+      "benchmark_cohort": "Cohort_L_BLIND",
+      "field_count": 3,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 3
+    },
+    {
+      "document_id": "COHORT_L_BLIND_29_FUNSD",
+      "origin_loop": 27,
+      "family": "Cohort_L",
+      "benchmark_cohort": "Cohort_L_BLIND",
+      "field_count": 3,
+      "exact_verified_count": 1,
+      "false_verified_count": 0,
+      "abstained_count": 2
+    },
+    {
+      "document_id": "COHORT_L_BLIND_29_SROIE",
+      "origin_loop": 27,
+      "family": "Cohort_L",
+      "benchmark_cohort": "Cohort_L_BLIND",
+      "field_count": 3,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 3
+    },
+    {
+      "document_id": "COHORT_L_BLIND_30_FUNSD",
+      "origin_loop": 27,
+      "family": "Cohort_L",
+      "benchmark_cohort": "Cohort_L_BLIND",
+      "field_count": 3,
+      "exact_verified_count": 1,
+      "false_verified_count": 0,
+      "abstained_count": 2
+    },
+    {
+      "document_id": "COHORT_L_BLIND_30_SROIE",
+      "origin_loop": 27,
+      "family": "Cohort_L",
+      "benchmark_cohort": "Cohort_L_BLIND",
+      "field_count": 3,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 3
+    },
+    {
+      "document_id": "COHORT_L_CAL_21_FUNSD",
+      "origin_loop": 27,
+      "family": "Cohort_L",
+      "benchmark_cohort": "Cohort_L_CAL",
+      "field_count": 3,
+      "exact_verified_count": 1,
+      "false_verified_count": 0,
+      "abstained_count": 2
+    },
+    {
+      "document_id": "COHORT_L_CAL_21_SROIE",
+      "origin_loop": 27,
+      "family": "Cohort_L",
+      "benchmark_cohort": "Cohort_L_CAL",
+      "field_count": 3,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 3
+    },
+    {
+      "document_id": "COHORT_L_CAL_22_FUNSD",
+      "origin_loop": 27,
+      "family": "Cohort_L",
+      "benchmark_cohort": "Cohort_L_CAL",
+      "field_count": 3,
+      "exact_verified_count": 1,
+      "false_verified_count": 0,
+      "abstained_count": 2
+    },
+    {
+      "document_id": "COHORT_L_CAL_22_SROIE",
+      "origin_loop": 27,
+      "family": "Cohort_L",
+      "benchmark_cohort": "Cohort_L_CAL",
+      "field_count": 3,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 3
+    },
+    {
+      "document_id": "COHORT_L_CAL_23_FUNSD",
+      "origin_loop": 27,
+      "family": "Cohort_L",
+      "benchmark_cohort": "Cohort_L_CAL",
+      "field_count": 3,
+      "exact_verified_count": 2,
+      "false_verified_count": 0,
+      "abstained_count": 1
+    },
+    {
+      "document_id": "COHORT_L_CAL_23_SROIE",
+      "origin_loop": 27,
+      "family": "Cohort_L",
+      "benchmark_cohort": "Cohort_L_CAL",
+      "field_count": 3,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 3
+    },
+    {
+      "document_id": "COHORT_L_CAL_24_FUNSD",
+      "origin_loop": 27,
+      "family": "Cohort_L",
+      "benchmark_cohort": "Cohort_L_CAL",
+      "field_count": 3,
+      "exact_verified_count": 1,
+      "false_verified_count": 0,
+      "abstained_count": 2
+    },
+    {
+      "document_id": "COHORT_L_CAL_24_SROIE",
+      "origin_loop": 27,
+      "family": "Cohort_L",
+      "benchmark_cohort": "Cohort_L_CAL",
+      "field_count": 3,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 3
+    },
+    {
+      "document_id": "COHORT_L_CAL_25_FUNSD",
+      "origin_loop": 27,
+      "family": "Cohort_L",
+      "benchmark_cohort": "Cohort_L_CAL",
+      "field_count": 3,
+      "exact_verified_count": 2,
+      "false_verified_count": 0,
+      "abstained_count": 1
+    },
+    {
+      "document_id": "COHORT_L_CAL_25_SROIE",
+      "origin_loop": 27,
+      "family": "Cohort_L",
+      "benchmark_cohort": "Cohort_L_CAL",
+      "field_count": 3,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 3
+    },
+    {
+      "document_id": "COHORT_L_CHALL_16_DOCLAY",
+      "origin_loop": 27,
+      "family": "Cohort_L",
+      "benchmark_cohort": "Cohort_L_CHALL",
+      "field_count": 2,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 2
+    },
+    {
+      "document_id": "COHORT_L_CHALL_16_INDIC",
+      "origin_loop": 27,
+      "family": "Cohort_L",
+      "benchmark_cohort": "Cohort_L_CHALL",
+      "field_count": 2,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 2
+    },
+    {
+      "document_id": "COHORT_L_CHALL_17_DOCLAY",
+      "origin_loop": 27,
+      "family": "Cohort_L",
+      "benchmark_cohort": "Cohort_L_CHALL",
+      "field_count": 2,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 2
+    },
+    {
+      "document_id": "COHORT_L_CHALL_17_INDIC",
+      "origin_loop": 27,
+      "family": "Cohort_L",
+      "benchmark_cohort": "Cohort_L_CHALL",
+      "field_count": 2,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 2
+    },
+    {
+      "document_id": "COHORT_L_CHALL_18_DOCLAY",
+      "origin_loop": 27,
+      "family": "Cohort_L",
+      "benchmark_cohort": "Cohort_L_CHALL",
+      "field_count": 2,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 2
+    },
+    {
+      "document_id": "COHORT_L_CHALL_18_INDIC",
+      "origin_loop": 27,
+      "family": "Cohort_L",
+      "benchmark_cohort": "Cohort_L_CHALL",
+      "field_count": 2,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 2
+    },
+    {
+      "document_id": "COHORT_L_CHALL_19_DOCLAY",
+      "origin_loop": 27,
+      "family": "Cohort_L",
+      "benchmark_cohort": "Cohort_L_CHALL",
+      "field_count": 2,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 2
+    },
+    {
+      "document_id": "COHORT_L_CHALL_19_INDIC",
+      "origin_loop": 27,
+      "family": "Cohort_L",
+      "benchmark_cohort": "Cohort_L_CHALL",
+      "field_count": 2,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 2
+    },
+    {
+      "document_id": "COHORT_L_CHALL_20_DOCLAY",
+      "origin_loop": 27,
+      "family": "Cohort_L",
+      "benchmark_cohort": "Cohort_L_CHALL",
+      "field_count": 2,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 2
+    },
+    {
+      "document_id": "COHORT_L_CHALL_20_INDIC",
+      "origin_loop": 27,
+      "family": "Cohort_L",
+      "benchmark_cohort": "Cohort_L_CHALL",
+      "field_count": 2,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 2
+    },
+    {
+      "document_id": "COHORT_L_CHALL_21_INDIC",
+      "origin_loop": 27,
+      "family": "Cohort_L",
+      "benchmark_cohort": "Cohort_L_CHALL",
+      "field_count": 2,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 2
+    },
+    {
+      "document_id": "COHORT_L_CHALL_22_INDIC",
+      "origin_loop": 27,
+      "family": "Cohort_L",
+      "benchmark_cohort": "Cohort_L_CHALL",
+      "field_count": 2,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 2
+    },
+    {
+      "document_id": "COHORT_L_CHALL_23_INDIC",
+      "origin_loop": 27,
+      "family": "Cohort_L",
+      "benchmark_cohort": "Cohort_L_CHALL",
+      "field_count": 2,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 2
+    },
+    {
+      "document_id": "COHORT_L_CHALL_24_INDIC",
+      "origin_loop": 27,
+      "family": "Cohort_L",
+      "benchmark_cohort": "Cohort_L_CHALL",
+      "field_count": 2,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 2
+    },
+    {
+      "document_id": "COHORT_L_CHALL_25_INDIC",
+      "origin_loop": 27,
+      "family": "Cohort_L",
+      "benchmark_cohort": "Cohort_L_CHALL",
+      "field_count": 2,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 2
+    },
+    {
+      "document_id": "COHORT_L_DEV_16_FUNSD",
+      "origin_loop": 27,
+      "family": "Cohort_L",
+      "benchmark_cohort": "Cohort_L_DEV",
+      "field_count": 3,
+      "exact_verified_count": 2,
+      "false_verified_count": 0,
+      "abstained_count": 1
+    },
+    {
+      "document_id": "COHORT_L_DEV_16_SROIE",
+      "origin_loop": 27,
+      "family": "Cohort_L",
+      "benchmark_cohort": "Cohort_L_DEV",
+      "field_count": 3,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 3
+    },
+    {
+      "document_id": "COHORT_L_DEV_17_FUNSD",
+      "origin_loop": 27,
+      "family": "Cohort_L",
+      "benchmark_cohort": "Cohort_L_DEV",
+      "field_count": 3,
+      "exact_verified_count": 1,
+      "false_verified_count": 0,
+      "abstained_count": 2
+    },
+    {
+      "document_id": "COHORT_L_DEV_17_SROIE",
+      "origin_loop": 27,
+      "family": "Cohort_L",
+      "benchmark_cohort": "Cohort_L_DEV",
+      "field_count": 3,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 3
+    },
+    {
+      "document_id": "COHORT_L_DEV_18_FUNSD",
+      "origin_loop": 27,
+      "family": "Cohort_L",
+      "benchmark_cohort": "Cohort_L_DEV",
+      "field_count": 3,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 3
+    },
+    {
+      "document_id": "COHORT_L_DEV_18_SROIE",
+      "origin_loop": 27,
+      "family": "Cohort_L",
+      "benchmark_cohort": "Cohort_L_DEV",
+      "field_count": 3,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 3
+    },
+    {
+      "document_id": "COHORT_L_DEV_19_FUNSD",
+      "origin_loop": 27,
+      "family": "Cohort_L",
+      "benchmark_cohort": "Cohort_L_DEV",
+      "field_count": 3,
+      "exact_verified_count": 2,
+      "false_verified_count": 0,
+      "abstained_count": 1
+    },
+    {
+      "document_id": "COHORT_L_DEV_19_SROIE",
+      "origin_loop": 27,
+      "family": "Cohort_L",
+      "benchmark_cohort": "Cohort_L_DEV",
+      "field_count": 3,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 3
+    },
+    {
+      "document_id": "COHORT_L_DEV_20_FUNSD",
+      "origin_loop": 27,
+      "family": "Cohort_L",
+      "benchmark_cohort": "Cohort_L_DEV",
+      "field_count": 3,
+      "exact_verified_count": 1,
+      "false_verified_count": 0,
+      "abstained_count": 2
+    },
+    {
+      "document_id": "COHORT_L_DEV_20_SROIE",
+      "origin_loop": 27,
+      "family": "Cohort_L",
+      "benchmark_cohort": "Cohort_L_DEV",
+      "field_count": 3,
+      "exact_verified_count": 0,
+      "false_verified_count": 0,
+      "abstained_count": 3
+    },
+    {
+      "document_id": "DEC_01_BIOCHEMISTRY_REPORT",
+      "origin_loop": "20-23",
+      "family": "Historical_Loops_20_23",
+      "benchmark_cohort": "Historical_Loops_20_23",
+      "field_count": 4,
+      "exact_verified_count": 3,
+      "false_verified_count": 0,
+      "abstained_count": 1
+    },
+    {
+      "document_id": "DEC_02_COMMODITY_RATES",
+      "origin_loop": "20-23",
+      "family": "Historical_Loops_20_23",
+      "benchmark_cohort": "Historical_Loops_20_23",
+      "field_count": 4,
+      "exact_verified_count": 3,
+      "false_verified_count": 0,
+      "abstained_count": 1
+    },
+    {
+      "document_id": "DEC_03_PHARMA_DOSAGE",
+      "origin_loop": "20-23",
+      "family": "Historical_Loops_20_23",
+      "benchmark_cohort": "Historical_Loops_20_23",
+      "field_count": 4,
+      "exact_verified_count": 3,
+      "false_verified_count": 0,
+      "abstained_count": 1
+    },
+    {
+      "document_id": "VAL_01_WRAPPED_LINE_ITEMS",
+      "origin_loop": "20-23",
+      "family": "Historical_Loops_20_23",
+      "benchmark_cohort": "Historical_Loops_20_23",
+      "field_count": 2,
+      "exact_verified_count": 2,
+      "false_verified_count": 0,
+      "abstained_count": 0
+    },
+    {
+      "document_id": "VAL_02_DENSE_LEDGER",
+      "origin_loop": "20-23",
+      "family": "Historical_Loops_20_23",
+      "benchmark_cohort": "Historical_Loops_20_23",
+      "field_count": 2,
+      "exact_verified_count": 2,
+      "false_verified_count": 0,
+      "abstained_count": 0
+    },
+    {
+      "document_id": "VAL_03_BORDERLESS_PAYSLIP",
+      "origin_loop": "20-23",
+      "family": "Historical_Loops_20_23",
+      "benchmark_cohort": "Historical_Loops_20_23",
+      "field_count": 2,
+      "exact_verified_count": 1,
+      "false_verified_count": 0,
+      "abstained_count": 1
+    },
+    {
+      "document_id": "VAL_04_MIXED_SCRIPT_BILINGUAL",
+      "origin_loop": "20-23",
+      "family": "Historical_Loops_20_23",
+      "benchmark_cohort": "Historical_Loops_20_23",
+      "field_count": 2,
+      "exact_verified_count": 2,
+      "false_verified_count": 0,
+      "abstained_count": 0
+    },
+    {
+      "document_id": "VAL_05_MULTI_ROW_SUMMARY",
+      "origin_loop": "20-23",
+      "family": "Historical_Loops_20_23",
+      "benchmark_cohort": "Historical_Loops_20_23",
+      "field_count": 2,
+      "exact_verified_count": 2,
+      "false_verified_count": 0,
+      "abstained_count": 0
+    },
+    {
+      "document_id": "VAL_06_PARTIALLY_FILLED_FORM",
+      "origin_loop": "20-23",
+      "family": "Historical_Loops_20_23",
+      "benchmark_cohort": "Historical_Loops_20_23",
+      "field_count": 2,
+      "exact_verified_count": 1,
+      "false_verified_count": 0,
+      "abstained_count": 1
+    },
+    {
+      "document_id": "VAL_07_TAX_ASSESSMENT_SCHEDULE",
+      "origin_loop": "20-23",
+      "family": "Historical_Loops_20_23",
+      "benchmark_cohort": "Historical_Loops_20_23",
+      "field_count": 2,
+      "exact_verified_count": 2,
+      "false_verified_count": 0,
+      "abstained_count": 0
+    },
+    {
+      "document_id": "VAL_08_SHADOW_NOISE_SCAN",
+      "origin_loop": "20-23",
+      "family": "Historical_Loops_20_23",
+      "benchmark_cohort": "Historical_Loops_20_23",
+      "field_count": 2,
+      "exact_verified_count": 2,
+      "false_verified_count": 0,
+      "abstained_count": 0
+    }
+  ]
+}

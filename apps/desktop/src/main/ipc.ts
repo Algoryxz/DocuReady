@@ -153,6 +153,11 @@ export class IpcHandlerRegistry {
           throw new Error("Invalid packetId parameter.");
         }
 
+        const existing = this.auditResults.get(packetId);
+        if (existing && existing.status === "running") {
+          return existing;
+        }
+
         const packet = this.workspaceManager.getStoredPacket(packetId);
         if (!packet) {
           throw new Error(`Packet '${packetId}' does not exist or has expired.`);
@@ -179,6 +184,12 @@ export class IpcHandlerRegistry {
           packetId,
           packet.asOf
         );
+
+        // Concurrency guard: check if the packet was cancelled in flight
+        const currentStored = this.auditResults.get(packetId);
+        if (currentStored && currentStored.status === "cancelled") {
+          return currentStored;
+        }
 
         this.auditResults.set(packetId, finalStatus);
         return finalStatus;
@@ -331,6 +342,13 @@ export class IpcHandlerRegistry {
     ipcMain.handle("session:clear", async (event): Promise<ClearSessionResult> => {
       this.validateSender(event);
 
+      // Cancel any running sidecar jobs and clear caches
+      try {
+        await this.sidecarManager.cancelAudit("all");
+      } catch {
+        // Ignore cancellation errors on session clear
+      }
+
       this.auditResults.clear();
       const cleaned = await this.workspaceManager.clearAll();
 
@@ -354,30 +372,48 @@ export class IpcHandlerRegistry {
     const lines: string[] = [];
     lines.push(`# DocuReady Pre-Flight Audit Report`);
     lines.push(``);
+    lines.push(`**Generated:** \`${new Date().toISOString()}\`  `);
     lines.push(`**Packet ID:** \`${result.packet_id}\`  `);
     lines.push(`**Scheme:** ${result.scheme_name}  `);
     lines.push(`**Effective Date:** ${result.as_of || "N/A"}  `);
     lines.push(`**Readiness Score:** **${result.readiness_score}/100**  `);
     lines.push(`**Overall Status:** \`${result.overall_status}\`  `);
     lines.push(``);
-    lines.push(`## Statutory Notice`);
+    lines.push(`---`);
+    lines.push(``);
+    lines.push(`## Statutory Notice & Disclaimer`);
+    lines.push(``);
     lines.push(
-      `> This report is an applicant-side clerical pre-flight check. It does not certify legal eligibility or guarantee approval by any portal or authority.`
+      `> **IMPORTANT NOTICE:** This report is an applicant-side clerical pre-flight check executed entirely on local hardware. DocuReady is an offline assistive tool and does NOT represent official government approval, statutory eligibility verification, or guaranteed admission/disbursement by any government authority or portal.`
     );
     lines.push(``);
     lines.push(`## Findings Summary`);
     lines.push(``);
-    lines.push(`| Status | Count |`);
-    lines.push(`|---|---|`);
+    lines.push(`| Status | Count | Description |`);
+    lines.push(`|---|---|---|`);
     for (const [k, v] of Object.entries(result.summary_counts || {})) {
-      lines.push(`| ${k} | ${v} |`);
+      let desc = "Evaluated requirement";
+      if (k === "FAIL" || k === "MISSING") desc = "Critical defect or missing document requiring resolution";
+      else if (k === "WARN") desc = "Warning or soft advisory requiring attention";
+      else if (k === "REVIEW" || k === "MANUAL_REVIEW") desc = "Clerical review item; automated engine conservatively abstained";
+      else if (k === "PASS") desc = "Fully verified against statutory rules";
+      lines.push(`| **${k}** | ${v} | ${desc} |`);
     }
     lines.push(``);
     lines.push(`## Detailed Rule Evaluations`);
     lines.push(``);
 
     for (const finding of result.findings) {
-      lines.push(`### ${finding.rule_name} (\`${finding.rule_id}\`)`);
+      const statusIcon =
+        finding.status === "PASS"
+          ? "✅"
+          : finding.status === "WARN"
+          ? "⚠️"
+          : finding.status === "REVIEW" || finding.status === "MANUAL_REVIEW"
+          ? "🔍"
+          : "❌";
+
+      lines.push(`### ${statusIcon} ${finding.rule_name} (\`${finding.rule_id}\`)`);
       lines.push(`- **Status:** \`${finding.status}\` | **Severity:** ${finding.severity}`);
       lines.push(`- **Field:** \`${finding.field}\``);
       if (finding.documents_involved && finding.documents_involved.length > 0) {
@@ -390,14 +426,19 @@ export class IpcHandlerRegistry {
         lines.push(`- **Match Grade:** \`${finding.match_grade}\``);
       }
       if (finding.message) {
-        lines.push(`- **Message:** ${finding.message}`);
+        lines.push(`- **Explanation:** ${finding.message}`);
       }
       if (finding.remediation) {
-        lines.push(`- **Remediation:** ${finding.remediation}`);
+        lines.push(`- **Remediation Action:** ${finding.remediation}`);
+      }
+      if (finding.statutory_reference) {
+        lines.push(`- **Statutory Reference:** ${finding.statutory_reference}`);
       }
       lines.push(``);
     }
 
+    lines.push(`---`);
+    lines.push(`*Report compiled by DocuReady Offline Pre-Flight Engine. Zero applicant data transmitted.*`);
     return lines.join("\n");
   }
 }

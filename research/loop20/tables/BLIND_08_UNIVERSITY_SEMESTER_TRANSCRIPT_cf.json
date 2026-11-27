@@ -1,0 +1,18 @@
+[
+  {
+    "name": "networks_grade",
+    "expected": "O",
+    "row": 1,
+    "col": 3,
+    "type": "grade",
+    "target_pattern": "Computer Networks"
+  },
+  {
+    "name": "compiler_credits",
+    "expected": "4",
+    "row": 0,
+    "col": 2,
+    "type": "count",
+    "target_pattern": "Compiler Design"
+  }
+]

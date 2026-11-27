@@ -1,0 +1,6 @@
+COUNCIL OF HIGHER SECONDARY EDUCATION - MARKS STATEMENT
+Subject Max_Marks Marks_Obtained
+Mathematics 100 92
+Physics 100 88
+Chemistry 100 95
+English 100 84

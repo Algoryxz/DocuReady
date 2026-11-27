@@ -1,0 +1,9 @@
+{
+  "document_id": "STRESS_03_MULTICOLUMN_EMBEDDED_AMOUNTS",
+  "critical_fields": {
+    "ledger_id": "REV-COL-101",
+    "subtotal_a": "221700",
+    "voucher_no": "DIS-VOU-909",
+    "subtotal_b": "194300"
+  }
+}

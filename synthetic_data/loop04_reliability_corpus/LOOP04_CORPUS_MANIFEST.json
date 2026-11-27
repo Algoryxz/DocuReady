@@ -1,0 +1,649 @@
+{
+  "l04_clean_p0p00deg.pdf": {
+    "file_name": "l04_clean_p0p00deg.pdf",
+    "category": "clean_scan",
+    "ground_truth_skew_degrees": 0.0,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    },
+    "modalities": [
+      "clean_scan"
+    ]
+  },
+  "l04_clean_p0p25deg.pdf": {
+    "file_name": "l04_clean_p0p25deg.pdf",
+    "category": "clean_scan",
+    "ground_truth_skew_degrees": 0.25,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    },
+    "modalities": [
+      "clean_scan"
+    ]
+  },
+  "l04_clean_m0p25deg.pdf": {
+    "file_name": "l04_clean_m0p25deg.pdf",
+    "category": "clean_scan",
+    "ground_truth_skew_degrees": -0.25,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    },
+    "modalities": [
+      "clean_scan"
+    ]
+  },
+  "l04_clean_p0p50deg.pdf": {
+    "file_name": "l04_clean_p0p50deg.pdf",
+    "category": "clean_scan",
+    "ground_truth_skew_degrees": 0.5,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    },
+    "modalities": [
+      "clean_scan"
+    ]
+  },
+  "l04_clean_m0p50deg.pdf": {
+    "file_name": "l04_clean_m0p50deg.pdf",
+    "category": "clean_scan",
+    "ground_truth_skew_degrees": -0.5,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    },
+    "modalities": [
+      "clean_scan"
+    ]
+  },
+  "l04_clean_p0p75deg.pdf": {
+    "file_name": "l04_clean_p0p75deg.pdf",
+    "category": "clean_scan",
+    "ground_truth_skew_degrees": 0.75,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    },
+    "modalities": [
+      "clean_scan"
+    ]
+  },
+  "l04_clean_m0p75deg.pdf": {
+    "file_name": "l04_clean_m0p75deg.pdf",
+    "category": "clean_scan",
+    "ground_truth_skew_degrees": -0.75,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    },
+    "modalities": [
+      "clean_scan"
+    ]
+  },
+  "l04_clean_p1p00deg.pdf": {
+    "file_name": "l04_clean_p1p00deg.pdf",
+    "category": "clean_scan",
+    "ground_truth_skew_degrees": 1.0,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    },
+    "modalities": [
+      "clean_scan"
+    ]
+  },
+  "l04_clean_m1p00deg.pdf": {
+    "file_name": "l04_clean_m1p00deg.pdf",
+    "category": "clean_scan",
+    "ground_truth_skew_degrees": -1.0,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    },
+    "modalities": [
+      "clean_scan"
+    ]
+  },
+  "l04_clean_p1p50deg.pdf": {
+    "file_name": "l04_clean_p1p50deg.pdf",
+    "category": "clean_scan",
+    "ground_truth_skew_degrees": 1.5,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    },
+    "modalities": [
+      "clean_scan"
+    ]
+  },
+  "l04_clean_m1p50deg.pdf": {
+    "file_name": "l04_clean_m1p50deg.pdf",
+    "category": "clean_scan",
+    "ground_truth_skew_degrees": -1.5,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    },
+    "modalities": [
+      "clean_scan"
+    ]
+  },
+  "l04_clean_p2p00deg.pdf": {
+    "file_name": "l04_clean_p2p00deg.pdf",
+    "category": "clean_scan",
+    "ground_truth_skew_degrees": 2.0,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    },
+    "modalities": [
+      "clean_scan"
+    ]
+  },
+  "l04_clean_m2p00deg.pdf": {
+    "file_name": "l04_clean_m2p00deg.pdf",
+    "category": "clean_scan",
+    "ground_truth_skew_degrees": -2.0,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    },
+    "modalities": [
+      "clean_scan"
+    ]
+  },
+  "l04_clean_p3p00deg.pdf": {
+    "file_name": "l04_clean_p3p00deg.pdf",
+    "category": "clean_scan",
+    "ground_truth_skew_degrees": 3.0,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    },
+    "modalities": [
+      "clean_scan"
+    ]
+  },
+  "l04_clean_m3p00deg.pdf": {
+    "file_name": "l04_clean_m3p00deg.pdf",
+    "category": "clean_scan",
+    "ground_truth_skew_degrees": -3.0,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    },
+    "modalities": [
+      "clean_scan"
+    ]
+  },
+  "l04_clean_p5p00deg.pdf": {
+    "file_name": "l04_clean_p5p00deg.pdf",
+    "category": "clean_scan",
+    "ground_truth_skew_degrees": 5.0,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    },
+    "modalities": [
+      "clean_scan"
+    ]
+  },
+  "l04_clean_m5p00deg.pdf": {
+    "file_name": "l04_clean_m5p00deg.pdf",
+    "category": "clean_scan",
+    "ground_truth_skew_degrees": -5.0,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    },
+    "modalities": [
+      "clean_scan"
+    ]
+  },
+  "l04_clean_p7p00deg.pdf": {
+    "file_name": "l04_clean_p7p00deg.pdf",
+    "category": "clean_scan",
+    "ground_truth_skew_degrees": 7.0,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    },
+    "modalities": [
+      "clean_scan"
+    ]
+  },
+  "l04_clean_m7p00deg.pdf": {
+    "file_name": "l04_clean_m7p00deg.pdf",
+    "category": "clean_scan",
+    "ground_truth_skew_degrees": -7.0,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    },
+    "modalities": [
+      "clean_scan"
+    ]
+  },
+  "l04_clean_p10p00deg.pdf": {
+    "file_name": "l04_clean_p10p00deg.pdf",
+    "category": "clean_scan",
+    "ground_truth_skew_degrees": 10.0,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    },
+    "modalities": [
+      "clean_scan"
+    ]
+  },
+  "l04_clean_m10p00deg.pdf": {
+    "file_name": "l04_clean_m10p00deg.pdf",
+    "category": "clean_scan",
+    "ground_truth_skew_degrees": -10.0,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    },
+    "modalities": [
+      "clean_scan"
+    ]
+  },
+  "l04_clean_p12p00deg.pdf": {
+    "file_name": "l04_clean_p12p00deg.pdf",
+    "category": "clean_scan",
+    "ground_truth_skew_degrees": 12.0,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    },
+    "modalities": [
+      "clean_scan"
+    ]
+  },
+  "l04_clean_m12p00deg.pdf": {
+    "file_name": "l04_clean_m12p00deg.pdf",
+    "category": "clean_scan",
+    "ground_truth_skew_degrees": -12.0,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    },
+    "modalities": [
+      "clean_scan"
+    ]
+  },
+  "l04_clean_p15p00deg.pdf": {
+    "file_name": "l04_clean_p15p00deg.pdf",
+    "category": "clean_scan",
+    "ground_truth_skew_degrees": 15.0,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    },
+    "modalities": [
+      "clean_scan"
+    ]
+  },
+  "l04_clean_m15p00deg.pdf": {
+    "file_name": "l04_clean_m15p00deg.pdf",
+    "category": "clean_scan",
+    "ground_truth_skew_degrees": -15.0,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    },
+    "modalities": [
+      "clean_scan"
+    ]
+  },
+  "l04_clean_p20p00deg.pdf": {
+    "file_name": "l04_clean_p20p00deg.pdf",
+    "category": "clean_scan",
+    "ground_truth_skew_degrees": 20.0,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    },
+    "modalities": [
+      "clean_scan"
+    ]
+  },
+  "l04_clean_m20p00deg.pdf": {
+    "file_name": "l04_clean_m20p00deg.pdf",
+    "category": "clean_scan",
+    "ground_truth_skew_degrees": -20.0,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    },
+    "modalities": [
+      "clean_scan"
+    ]
+  },
+  "l04_clean_p25p00deg.pdf": {
+    "file_name": "l04_clean_p25p00deg.pdf",
+    "category": "clean_scan",
+    "ground_truth_skew_degrees": 25.0,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    },
+    "modalities": [
+      "clean_scan"
+    ]
+  },
+  "l04_clean_m25p00deg.pdf": {
+    "file_name": "l04_clean_m25p00deg.pdf",
+    "category": "clean_scan",
+    "ground_truth_skew_degrees": -25.0,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    },
+    "modalities": [
+      "clean_scan"
+    ]
+  },
+  "l04_clean_p30p00deg.pdf": {
+    "file_name": "l04_clean_p30p00deg.pdf",
+    "category": "clean_scan",
+    "ground_truth_skew_degrees": 30.0,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    },
+    "modalities": [
+      "clean_scan"
+    ]
+  },
+  "l04_clean_m30p00deg.pdf": {
+    "file_name": "l04_clean_m30p00deg.pdf",
+    "category": "clean_scan",
+    "ground_truth_skew_degrees": -30.0,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    },
+    "modalities": [
+      "clean_scan"
+    ]
+  },
+  "l04_clean_p35p00deg.pdf": {
+    "file_name": "l04_clean_p35p00deg.pdf",
+    "category": "clean_scan",
+    "ground_truth_skew_degrees": 35.0,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    },
+    "modalities": [
+      "clean_scan"
+    ]
+  },
+  "l04_clean_m35p00deg.pdf": {
+    "file_name": "l04_clean_m35p00deg.pdf",
+    "category": "clean_scan",
+    "ground_truth_skew_degrees": -35.0,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    },
+    "modalities": [
+      "clean_scan"
+    ]
+  },
+  "l04_clean_p40p00deg.pdf": {
+    "file_name": "l04_clean_p40p00deg.pdf",
+    "category": "clean_scan",
+    "ground_truth_skew_degrees": 40.0,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    },
+    "modalities": [
+      "clean_scan"
+    ]
+  },
+  "l04_clean_m40p00deg.pdf": {
+    "file_name": "l04_clean_m40p00deg.pdf",
+    "category": "clean_scan",
+    "ground_truth_skew_degrees": -40.0,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    },
+    "modalities": [
+      "clean_scan"
+    ]
+  },
+  "l04_clean_p45p00deg.pdf": {
+    "file_name": "l04_clean_p45p00deg.pdf",
+    "category": "clean_scan",
+    "ground_truth_skew_degrees": 45.0,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    },
+    "modalities": [
+      "clean_scan"
+    ]
+  },
+  "l04_clean_m45p00deg.pdf": {
+    "file_name": "l04_clean_m45p00deg.pdf",
+    "category": "clean_scan",
+    "ground_truth_skew_degrees": -45.0,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    },
+    "modalities": [
+      "clean_scan"
+    ]
+  },
+  "l04_combo_skew03deg_low_dpi.pdf": {
+    "file_name": "l04_combo_skew03deg_low_dpi.pdf",
+    "category": "compound",
+    "ground_truth_skew_degrees": 3.0,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    },
+    "modalities": [
+      "skew",
+      "low_dpi"
+    ]
+  },
+  "l04_combo_skew05deg_shadow.pdf": {
+    "file_name": "l04_combo_skew05deg_shadow.pdf",
+    "category": "compound",
+    "ground_truth_skew_degrees": 5.0,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    },
+    "modalities": [
+      "skew",
+      "shadow_gradient"
+    ]
+  },
+  "l04_combo_skew07deg_blur.pdf": {
+    "file_name": "l04_combo_skew07deg_blur.pdf",
+    "category": "compound",
+    "ground_truth_skew_degrees": 7.0,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    },
+    "modalities": [
+      "skew",
+      "blur"
+    ]
+  },
+  "l04_combo_skew02deg_jpeg_artifact.pdf": {
+    "file_name": "l04_combo_skew02deg_jpeg_artifact.pdf",
+    "category": "compound",
+    "ground_truth_skew_degrees": 2.0,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    },
+    "modalities": [
+      "skew",
+      "jpeg_artifacts"
+    ]
+  },
+  "l04_combo_skew05deg_table_rules.pdf": {
+    "file_name": "l04_combo_skew05deg_table_rules.pdf",
+    "category": "compound",
+    "ground_truth_skew_degrees": 5.0,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    },
+    "modalities": [
+      "skew",
+      "table_grid"
+    ]
+  },
+  "l04_combo_skew10deg_sparse_text.pdf": {
+    "file_name": "l04_combo_skew10deg_sparse_text.pdf",
+    "category": "compound",
+    "ground_truth_skew_degrees": 10.0,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    },
+    "modalities": [
+      "skew",
+      "sparse_text"
+    ]
+  },
+  "l04_combo_upright00deg_shadow_box_border.pdf": {
+    "file_name": "l04_combo_upright00deg_shadow_box_border.pdf",
+    "category": "compound",
+    "ground_truth_skew_degrees": 0.0,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    },
+    "modalities": [
+      "upright",
+      "shadow",
+      "box_border"
+    ]
+  },
+  "l04_combo_skew05deg_diag_watermark.pdf": {
+    "file_name": "l04_combo_skew05deg_diag_watermark.pdf",
+    "category": "compound",
+    "ground_truth_skew_degrees": 5.0,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    },
+    "modalities": [
+      "skew",
+      "diagonal_watermark"
+    ]
+  },
+  "l04_combo_upright00deg_blank.pdf": {
+    "file_name": "l04_combo_upright00deg_blank.pdf",
+    "category": "compound",
+    "ground_truth_skew_degrees": 0.0,
+    "expected_fields": {},
+    "modalities": [
+      "blank"
+    ]
+  }
+}

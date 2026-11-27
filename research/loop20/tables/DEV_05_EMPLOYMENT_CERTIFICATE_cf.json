@@ -1,0 +1,18 @@
+[
+  {
+    "name": "planner_confirm_date",
+    "expected": "01/09/2021",
+    "row": 1,
+    "col": 3,
+    "type": "date",
+    "target_pattern": "Assistant Town Planner"
+  },
+  {
+    "name": "inspector_scale",
+    "expected": "Level 08",
+    "row": 2,
+    "col": 4,
+    "type": "id",
+    "target_pattern": "Sanitary Inspector"
+  }
+]

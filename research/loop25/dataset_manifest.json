@@ -1,0 +1,2291 @@
+{
+  "COHORT_J_DEV_01_INVOICE": {
+    "cohort": "J_development",
+    "category": "Commercial Invoice",
+    "condition": "clean",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop25\\tables\\COHORT_J_DEV_01_INVOICE.png",
+    "critical_fields": [
+      {
+        "name": "pin_cost",
+        "expected": "45.00",
+        "row": 0,
+        "col": 2,
+        "type": "amount",
+        "target_pattern": "PRT-8801-A",
+        "col_pattern": "Unit Cost"
+      },
+      {
+        "name": "pin_total",
+        "expected": "900.00",
+        "row": 0,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "PRT-8801-A",
+        "col_pattern": "Total"
+      },
+      {
+        "name": "bush_total",
+        "expected": "685.00",
+        "row": 1,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "PRT-8802-B",
+        "col_pattern": "Total"
+      },
+      {
+        "name": "bearing_cost",
+        "expected": "145.00",
+        "row": 2,
+        "col": 2,
+        "type": "amount",
+        "target_pattern": "PRT-9903-C",
+        "col_pattern": "Unit Cost"
+      }
+    ]
+  },
+  "COHORT_J_DEV_02_BANK_STATEMENT": {
+    "cohort": "J_development",
+    "category": "Bank Statement",
+    "condition": "clean",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop25\\tables\\COHORT_J_DEV_02_BANK_STATEMENT.png",
+    "critical_fields": [
+      {
+        "name": "pension_credit",
+        "expected": "32000",
+        "row": 0,
+        "col": 3,
+        "type": "amount",
+        "target_pattern": "PENSION CREDIT",
+        "col_pattern": "Credit"
+      },
+      {
+        "name": "pharmacy_debit",
+        "expected": "1850",
+        "row": 1,
+        "col": 2,
+        "type": "amount",
+        "target_pattern": "PHARMACY CARD",
+        "col_pattern": "Debit"
+      },
+      {
+        "name": "closing_balance",
+        "expected": "69250",
+        "row": 2,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "GROCERY STORE",
+        "col_pattern": "Balance"
+      }
+    ]
+  },
+  "COHORT_J_DEV_03_TAX_SCHEDULE": {
+    "cohort": "J_development",
+    "category": "Tax Schedule",
+    "condition": "scan",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop25\\tables\\COHORT_J_DEV_03_TAX_SCHEDULE.png",
+    "critical_fields": [
+      {
+        "name": "h101_tax",
+        "expected": "9600",
+        "row": 0,
+        "col": 2,
+        "type": "amount",
+        "target_pattern": "COMM-HOLD-101",
+        "col_pattern": "Property Tax"
+      },
+      {
+        "name": "h101_due",
+        "expected": "10560",
+        "row": 0,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "COMM-HOLD-101",
+        "col_pattern": "Net Due"
+      },
+      {
+        "name": "h102_due",
+        "expected": "15840",
+        "row": 1,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "COMM-HOLD-102",
+        "col_pattern": "Net Due"
+      },
+      {
+        "name": "h103_tax",
+        "expected": "7200",
+        "row": 2,
+        "col": 2,
+        "type": "amount",
+        "target_pattern": "COMM-HOLD-103",
+        "col_pattern": "Property Tax"
+      }
+    ]
+  },
+  "COHORT_J_DEV_04_CLINICAL_PANEL": {
+    "cohort": "J_development",
+    "category": "Medical Panel",
+    "condition": "clean",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop25\\tables\\COHORT_J_DEV_04_CLINICAL_PANEL.png",
+    "critical_fields": [
+      {
+        "name": "uric_acid",
+        "expected": "6.2",
+        "row": 0,
+        "col": 1,
+        "type": "number",
+        "target_pattern": "Serum Uric Acid",
+        "col_pattern": "Observed Concentration"
+      },
+      {
+        "name": "protein",
+        "expected": "7.1",
+        "row": 1,
+        "col": 1,
+        "type": "number",
+        "target_pattern": "Total Protein",
+        "col_pattern": "Observed Concentration"
+      },
+      {
+        "name": "albumin",
+        "expected": "4.3",
+        "row": 2,
+        "col": 1,
+        "type": "number",
+        "target_pattern": "Serum Albumin",
+        "col_pattern": "Observed Concentration"
+      },
+      {
+        "name": "creatinine",
+        "expected": "1.2",
+        "row": 3,
+        "col": 1,
+        "type": "number",
+        "target_pattern": "Serum Creatinine",
+        "col_pattern": "Observed Concentration"
+      }
+    ]
+  },
+  "COHORT_J_DEV_05_PHARMA_ASSAY": {
+    "cohort": "J_development",
+    "category": "Pharma Assay",
+    "condition": "scan",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop25\\tables\\COHORT_J_DEV_05_PHARMA_ASSAY.png",
+    "critical_fields": [
+      {
+        "name": "b01_weight",
+        "expected": "5.02",
+        "row": 0,
+        "col": 1,
+        "type": "number",
+        "target_pattern": "STAB-BATCH-01",
+        "col_pattern": "Fill Weight"
+      },
+      {
+        "name": "b01_moisture",
+        "expected": "0.42",
+        "row": 0,
+        "col": 2,
+        "type": "percentage",
+        "target_pattern": "STAB-BATCH-01",
+        "col_pattern": "Residual Moisture"
+      },
+      {
+        "name": "b02_weight",
+        "expected": "5.05",
+        "row": 1,
+        "col": 1,
+        "type": "number",
+        "target_pattern": "STAB-BATCH-02",
+        "col_pattern": "Fill Weight"
+      },
+      {
+        "name": "b03_weight",
+        "expected": "4.98",
+        "row": 2,
+        "col": 1,
+        "type": "number",
+        "target_pattern": "STAB-BATCH-03",
+        "col_pattern": "Fill Weight"
+      }
+    ]
+  },
+  "COHORT_J_DEV_06_RETAIL_RECEIPT": {
+    "cohort": "J_development",
+    "category": "Retail Receipt",
+    "condition": "thermal",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop25\\tables\\COHORT_J_DEV_06_RETAIL_RECEIPT.png",
+    "critical_fields": [
+      {
+        "name": "water_total",
+        "expected": "80.00",
+        "row": 0,
+        "col": 3,
+        "type": "amount",
+        "target_pattern": "Mineral Water",
+        "col_pattern": "Total"
+      },
+      {
+        "name": "water_price",
+        "expected": "20.00",
+        "row": 0,
+        "col": 1,
+        "type": "amount",
+        "target_pattern": "Mineral Water",
+        "col_pattern": "Unit Price"
+      },
+      {
+        "name": "biscuit_total",
+        "expected": "90.00",
+        "row": 1,
+        "col": 3,
+        "type": "amount",
+        "target_pattern": "Digestive Biscuits",
+        "col_pattern": "Total"
+      },
+      {
+        "name": "coffee_price",
+        "expected": "125.00",
+        "row": 2,
+        "col": 1,
+        "type": "amount",
+        "target_pattern": "Instant Coffee",
+        "col_pattern": "Unit Price"
+      }
+    ]
+  },
+  "COHORT_J_DEV_07_CHALLAN_DELIVERY": {
+    "cohort": "J_development",
+    "category": "Delivery Challan",
+    "condition": "clean",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop25\\tables\\COHORT_J_DEV_07_CHALLAN_DELIVERY.png",
+    "critical_fields": [
+      {
+        "name": "d401_bags",
+        "expected": "150",
+        "row": 0,
+        "col": 2,
+        "type": "count",
+        "target_pattern": "DKT-2026-401",
+        "col_pattern": "Consignment Bags"
+      },
+      {
+        "name": "d401_weight",
+        "expected": "7.50",
+        "row": 0,
+        "col": 3,
+        "type": "weight",
+        "target_pattern": "DKT-2026-401",
+        "col_pattern": "Net Weight"
+      },
+      {
+        "name": "d402_weight",
+        "expected": "10.00",
+        "row": 1,
+        "col": 3,
+        "type": "weight",
+        "target_pattern": "DKT-2026-402",
+        "col_pattern": "Net Weight"
+      },
+      {
+        "name": "d403_bags",
+        "expected": "80",
+        "row": 2,
+        "col": 2,
+        "type": "count",
+        "target_pattern": "DKT-2026-403",
+        "col_pattern": "Consignment Bags"
+      }
+    ]
+  },
+  "COHORT_J_DEV_08_COMMERCIAL_INVOICE": {
+    "cohort": "J_development",
+    "category": "Commercial Invoice",
+    "condition": "clean",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop25\\tables\\COHORT_J_DEV_08_COMMERCIAL_INVOICE.png",
+    "critical_fields": [
+      {
+        "name": "pipe01_cost",
+        "expected": "36000",
+        "row": 0,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "MS-PIPE-01",
+        "col_pattern": "Total Cost"
+      },
+      {
+        "name": "pipe02_cost",
+        "expected": "42500",
+        "row": 1,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "MS-PIPE-02",
+        "col_pattern": "Total Cost"
+      },
+      {
+        "name": "pipe03_qty",
+        "expected": "16",
+        "row": 2,
+        "col": 3,
+        "type": "count",
+        "target_pattern": "MS-PIPE-03",
+        "col_pattern": "Quantity"
+      }
+    ]
+  },
+  "COHORT_J_DEV_09_BANK_LEDGER": {
+    "cohort": "J_development",
+    "category": "Bank Statement",
+    "condition": "clean",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop25\\tables\\COHORT_J_DEV_09_BANK_LEDGER.png",
+    "critical_fields": [
+      {
+        "name": "txn01_wdr",
+        "expected": "45000",
+        "row": 0,
+        "col": 2,
+        "type": "amount",
+        "target_pattern": "TXN-991201",
+        "col_pattern": "Withdrawals"
+      },
+      {
+        "name": "txn02_dep",
+        "expected": "120000",
+        "row": 1,
+        "col": 3,
+        "type": "amount",
+        "target_pattern": "TXN-991202",
+        "col_pattern": "Deposits"
+      },
+      {
+        "name": "txn02_bal",
+        "expected": "405000",
+        "row": 1,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "TXN-991202",
+        "col_pattern": "Account Balance"
+      }
+    ]
+  },
+  "COHORT_J_DEV_10_MUNICIPAL_WATER": {
+    "cohort": "J_development",
+    "category": "Tax Schedule",
+    "condition": "clean",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop25\\tables\\COHORT_J_DEV_10_MUNICIPAL_WATER.png",
+    "critical_fields": [
+      {
+        "name": "w801_charge",
+        "expected": "625",
+        "row": 0,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "WTR-CONS-801",
+        "col_pattern": "Charges"
+      },
+      {
+        "name": "w802_charge",
+        "expected": "1000",
+        "row": 1,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "WTR-CONS-802",
+        "col_pattern": "Charges"
+      },
+      {
+        "name": "w803_kl",
+        "expected": "20",
+        "row": 2,
+        "col": 3,
+        "type": "count",
+        "target_pattern": "WTR-CONS-803",
+        "col_pattern": "Kiloliters"
+      }
+    ]
+  },
+  "COHORT_J_DEV_11_LIPID_PROFILE": {
+    "cohort": "J_development",
+    "category": "Medical Panel",
+    "condition": "scan",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop25\\tables\\COHORT_J_DEV_11_LIPID_PROFILE.png",
+    "critical_fields": [
+      {
+        "name": "tot_chol",
+        "expected": "185",
+        "row": 0,
+        "col": 1,
+        "type": "count",
+        "target_pattern": "Total Cholesterol",
+        "col_pattern": "Result Value"
+      },
+      {
+        "name": "hdl_chol",
+        "expected": "52",
+        "row": 1,
+        "col": 1,
+        "type": "count",
+        "target_pattern": "HDL Cholesterol",
+        "col_pattern": "Result Value"
+      },
+      {
+        "name": "ldl_chol",
+        "expected": "108",
+        "row": 2,
+        "col": 1,
+        "type": "count",
+        "target_pattern": "LDL Cholesterol",
+        "col_pattern": "Result Value"
+      },
+      {
+        "name": "triglyc",
+        "expected": "125",
+        "row": 3,
+        "col": 1,
+        "type": "count",
+        "target_pattern": "Serum Triglycerides",
+        "col_pattern": "Result Value"
+      }
+    ]
+  },
+  "COHORT_J_DEV_12_CHEMICAL_PURITY": {
+    "cohort": "J_development",
+    "category": "Pharma Assay",
+    "condition": "clean",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop25\\tables\\COHORT_J_DEV_12_CHEMICAL_PURITY.png",
+    "critical_fields": [
+      {
+        "name": "c01_purity",
+        "expected": "99.8",
+        "row": 0,
+        "col": 1,
+        "type": "percentage",
+        "target_pattern": "CMP-ACET-01",
+        "col_pattern": "HPLC Purity"
+      },
+      {
+        "name": "c01_mp",
+        "expected": "168.5",
+        "row": 0,
+        "col": 3,
+        "type": "number",
+        "target_pattern": "CMP-ACET-01",
+        "col_pattern": "Melting Point"
+      },
+      {
+        "name": "c02_purity",
+        "expected": "99.5",
+        "row": 1,
+        "col": 1,
+        "type": "percentage",
+        "target_pattern": "CMP-SALIC-02",
+        "col_pattern": "HPLC Purity"
+      }
+    ]
+  },
+  "COHORT_J_DEV_13_ELECTRONICS_POS": {
+    "cohort": "J_development",
+    "category": "Retail Receipt",
+    "condition": "thermal",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop25\\tables\\COHORT_J_DEV_13_ELECTRONICS_POS.png",
+    "critical_fields": [
+      {
+        "name": "cbl_amount",
+        "expected": "598.00",
+        "row": 0,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "SKU-CBL-01",
+        "col_pattern": "Amount"
+      },
+      {
+        "name": "adp_rate",
+        "expected": "699.00",
+        "row": 1,
+        "col": 2,
+        "type": "amount",
+        "target_pattern": "SKU-ADP-02",
+        "col_pattern": "Rate"
+      },
+      {
+        "name": "otg_amount",
+        "expected": "298.00",
+        "row": 2,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "SKU-OTG-03",
+        "col_pattern": "Amount"
+      }
+    ]
+  },
+  "COHORT_J_DEV_14_FREIGHT_MANIFEST": {
+    "cohort": "J_development",
+    "category": "Delivery Challan",
+    "condition": "scan",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop25\\tables\\COHORT_J_DEV_14_FREIGHT_MANIFEST.png",
+    "critical_fields": [
+      {
+        "name": "wb10_freight",
+        "expected": "4080",
+        "row": 0,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "WB-9910-OR",
+        "col_pattern": "Freight"
+      },
+      {
+        "name": "wb10_wt",
+        "expected": "680.0",
+        "row": 0,
+        "col": 3,
+        "type": "weight",
+        "target_pattern": "WB-9910-OR",
+        "col_pattern": "Chargeable Wt"
+      },
+      {
+        "name": "wb11_freight",
+        "expected": "5520",
+        "row": 1,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "WB-9911-OR",
+        "col_pattern": "Freight"
+      }
+    ]
+  },
+  "COHORT_J_DEV_15_EQUIPMENT_RENTAL": {
+    "cohort": "J_development",
+    "category": "Commercial Invoice",
+    "condition": "clean",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop25\\tables\\COHORT_J_DEV_15_EQUIPMENT_RENTAL.png",
+    "critical_fields": [
+      {
+        "name": "excav_fee",
+        "expected": "144000",
+        "row": 0,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "EQP-EXCAV-01",
+        "col_pattern": "Rental Fee"
+      },
+      {
+        "name": "load_fee",
+        "expected": "84000",
+        "row": 1,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "EQP-LOAD-02",
+        "col_pattern": "Rental Fee"
+      },
+      {
+        "name": "roller_rate",
+        "expected": "1200",
+        "row": 2,
+        "col": 3,
+        "type": "amount",
+        "target_pattern": "EQP-ROAST-03",
+        "col_pattern": "Hourly Rate"
+      }
+    ]
+  },
+  "COHORT_J_CAL_01_INVOICE": {
+    "cohort": "J_calibration",
+    "category": "Commercial Invoice",
+    "condition": "clean",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop25\\tables\\COHORT_J_CAL_01_INVOICE.png",
+    "critical_fields": [
+      {
+        "name": "vlv_gate_total_01",
+        "expected": "2500",
+        "row": 0,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "VLV-GATE-01A",
+        "col_pattern": "Total"
+      },
+      {
+        "name": "vlv_ball_total_01",
+        "expected": "1800",
+        "row": 1,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "VLV-BALL-01B",
+        "col_pattern": "Total"
+      },
+      {
+        "name": "vlv_chk_units_01",
+        "expected": "16",
+        "row": 2,
+        "col": 3,
+        "type": "count",
+        "target_pattern": "VLV-CHK-01C",
+        "col_pattern": "Units"
+      }
+    ]
+  },
+  "COHORT_J_CAL_02_BANK_REGISTER": {
+    "cohort": "J_calibration",
+    "category": "Bank Statement",
+    "condition": "clean",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop25\\tables\\COHORT_J_CAL_02_BANK_REGISTER.png",
+    "critical_fields": [
+      {
+        "name": "rtgs_debit_02",
+        "expected": "52000",
+        "row": 0,
+        "col": 2,
+        "type": "amount",
+        "target_pattern": "CLR-RTGS-021",
+        "col_pattern": "Debit Outflow"
+      },
+      {
+        "name": "neft_credit_02",
+        "expected": "82000",
+        "row": 1,
+        "col": 3,
+        "type": "amount",
+        "target_pattern": "CLR-NEFT-022",
+        "col_pattern": "Credit Inflow"
+      },
+      {
+        "name": "neft_settle_02",
+        "expected": "82000",
+        "row": 1,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "CLR-NEFT-022",
+        "col_pattern": "Net Settlement"
+      }
+    ]
+  },
+  "COHORT_J_CAL_03_TAX_ASSESSMENT": {
+    "cohort": "J_calibration",
+    "category": "Tax Schedule",
+    "condition": "scan",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop25\\tables\\COHORT_J_CAL_03_TAX_ASSESSMENT.png",
+    "critical_fields": [
+      {
+        "name": "plot1_rent_03",
+        "expected": "2800",
+        "row": 0,
+        "col": 2,
+        "type": "amount",
+        "target_pattern": "PLOT-AGRI-031",
+        "col_pattern": "Base Rent"
+      },
+      {
+        "name": "plot1_total_03",
+        "expected": "3080",
+        "row": 0,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "PLOT-AGRI-031",
+        "col_pattern": "Total Levy"
+      },
+      {
+        "name": "plot2_total_03",
+        "expected": "4730",
+        "row": 1,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "PLOT-AGRI-032",
+        "col_pattern": "Total Levy"
+      },
+      {
+        "name": "plot2_area_03",
+        "expected": "4.0",
+        "row": 1,
+        "col": 1,
+        "type": "number",
+        "target_pattern": "PLOT-AGRI-032",
+        "col_pattern": "Land Area"
+      }
+    ]
+  },
+  "COHORT_J_CAL_04_CLINICAL_CHEM": {
+    "cohort": "J_calibration",
+    "category": "Medical Panel",
+    "condition": "clean",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop25\\tables\\COHORT_J_CAL_04_CLINICAL_CHEM.png",
+    "critical_fields": [
+      {
+        "name": "tlc_04",
+        "expected": "6700",
+        "row": 0,
+        "col": 1,
+        "type": "count",
+        "target_pattern": "Total Leukocyte Count 04",
+        "col_pattern": "Measured Result"
+      },
+      {
+        "name": "hb_04",
+        "expected": "14.0",
+        "row": 1,
+        "col": 1,
+        "type": "number",
+        "target_pattern": "Hemoglobin Hb 04",
+        "col_pattern": "Measured Result"
+      },
+      {
+        "name": "pcv_04",
+        "expected": "42.0",
+        "row": 2,
+        "col": 1,
+        "type": "percentage",
+        "target_pattern": "Packed Cell Volume 04",
+        "col_pattern": "Measured Result"
+      }
+    ]
+  },
+  "COHORT_J_CAL_05_PHARMA_POTENCY": {
+    "cohort": "J_calibration",
+    "category": "Pharma Assay",
+    "condition": "clean",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop25\\tables\\COHORT_J_CAL_05_PHARMA_POTENCY.png",
+    "critical_fields": [
+      {
+        "name": "zone_051",
+        "expected": "24.5",
+        "row": 0,
+        "col": 1,
+        "type": "number",
+        "target_pattern": "ANTIB-LOT-051",
+        "col_pattern": "Inhibition Zone"
+      },
+      {
+        "name": "potency_051",
+        "expected": "990",
+        "row": 0,
+        "col": 2,
+        "type": "count",
+        "target_pattern": "ANTIB-LOT-051",
+        "col_pattern": "Calculated Potency"
+      },
+      {
+        "name": "potency_052",
+        "expected": "1005",
+        "row": 1,
+        "col": 2,
+        "type": "count",
+        "target_pattern": "ANTIB-LOT-052",
+        "col_pattern": "Calculated Potency"
+      }
+    ]
+  },
+  "COHORT_J_CAL_06_INVOICE": {
+    "cohort": "J_calibration",
+    "category": "Commercial Invoice",
+    "condition": "clean",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop25\\tables\\COHORT_J_CAL_06_INVOICE.png",
+    "critical_fields": [
+      {
+        "name": "vlv_gate_total_06",
+        "expected": "15000",
+        "row": 0,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "VLV-GATE-06A",
+        "col_pattern": "Total"
+      },
+      {
+        "name": "vlv_ball_total_06",
+        "expected": "10800",
+        "row": 1,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "VLV-BALL-06B",
+        "col_pattern": "Total"
+      },
+      {
+        "name": "vlv_chk_units_06",
+        "expected": "16",
+        "row": 2,
+        "col": 3,
+        "type": "count",
+        "target_pattern": "VLV-CHK-06C",
+        "col_pattern": "Units"
+      }
+    ]
+  },
+  "COHORT_J_CAL_07_BANK_REGISTER": {
+    "cohort": "J_calibration",
+    "category": "Bank Statement",
+    "condition": "clean",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop25\\tables\\COHORT_J_CAL_07_BANK_REGISTER.png",
+    "critical_fields": [
+      {
+        "name": "rtgs_debit_07",
+        "expected": "57000",
+        "row": 0,
+        "col": 2,
+        "type": "amount",
+        "target_pattern": "CLR-RTGS-071",
+        "col_pattern": "Debit Outflow"
+      },
+      {
+        "name": "neft_credit_07",
+        "expected": "87000",
+        "row": 1,
+        "col": 3,
+        "type": "amount",
+        "target_pattern": "CLR-NEFT-072",
+        "col_pattern": "Credit Inflow"
+      },
+      {
+        "name": "neft_settle_07",
+        "expected": "87000",
+        "row": 1,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "CLR-NEFT-072",
+        "col_pattern": "Net Settlement"
+      }
+    ]
+  },
+  "COHORT_J_CAL_08_TAX_ASSESSMENT": {
+    "cohort": "J_calibration",
+    "category": "Tax Schedule",
+    "condition": "scan",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop25\\tables\\COHORT_J_CAL_08_TAX_ASSESSMENT.png",
+    "critical_fields": [
+      {
+        "name": "plot1_rent_08",
+        "expected": "3300",
+        "row": 0,
+        "col": 2,
+        "type": "amount",
+        "target_pattern": "PLOT-AGRI-081",
+        "col_pattern": "Base Rent"
+      },
+      {
+        "name": "plot1_total_08",
+        "expected": "3630",
+        "row": 0,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "PLOT-AGRI-081",
+        "col_pattern": "Total Levy"
+      },
+      {
+        "name": "plot2_total_08",
+        "expected": "5280",
+        "row": 1,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "PLOT-AGRI-082",
+        "col_pattern": "Total Levy"
+      },
+      {
+        "name": "plot2_area_08",
+        "expected": "4.0",
+        "row": 1,
+        "col": 1,
+        "type": "number",
+        "target_pattern": "PLOT-AGRI-082",
+        "col_pattern": "Land Area"
+      }
+    ]
+  },
+  "COHORT_J_CAL_09_CLINICAL_CHEM": {
+    "cohort": "J_calibration",
+    "category": "Medical Panel",
+    "condition": "clean",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop25\\tables\\COHORT_J_CAL_09_CLINICAL_CHEM.png",
+    "critical_fields": [
+      {
+        "name": "tlc_09",
+        "expected": "6950",
+        "row": 0,
+        "col": 1,
+        "type": "count",
+        "target_pattern": "Total Leukocyte Count 09",
+        "col_pattern": "Measured Result"
+      },
+      {
+        "name": "hb_09",
+        "expected": "13.5",
+        "row": 1,
+        "col": 1,
+        "type": "number",
+        "target_pattern": "Hemoglobin Hb 09",
+        "col_pattern": "Measured Result"
+      },
+      {
+        "name": "pcv_09",
+        "expected": "42.5",
+        "row": 2,
+        "col": 1,
+        "type": "percentage",
+        "target_pattern": "Packed Cell Volume 09",
+        "col_pattern": "Measured Result"
+      }
+    ]
+  },
+  "COHORT_J_CAL_10_PHARMA_POTENCY": {
+    "cohort": "J_calibration",
+    "category": "Pharma Assay",
+    "condition": "clean",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop25\\tables\\COHORT_J_CAL_10_PHARMA_POTENCY.png",
+    "critical_fields": [
+      {
+        "name": "zone_101",
+        "expected": "24.5",
+        "row": 0,
+        "col": 1,
+        "type": "number",
+        "target_pattern": "ANTIB-LOT-101",
+        "col_pattern": "Inhibition Zone"
+      },
+      {
+        "name": "potency_101",
+        "expected": "1000",
+        "row": 0,
+        "col": 2,
+        "type": "count",
+        "target_pattern": "ANTIB-LOT-101",
+        "col_pattern": "Calculated Potency"
+      },
+      {
+        "name": "potency_102",
+        "expected": "1015",
+        "row": 1,
+        "col": 2,
+        "type": "count",
+        "target_pattern": "ANTIB-LOT-102",
+        "col_pattern": "Calculated Potency"
+      }
+    ]
+  },
+  "COHORT_J_CAL_11_INVOICE": {
+    "cohort": "J_calibration",
+    "category": "Commercial Invoice",
+    "condition": "clean",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop25\\tables\\COHORT_J_CAL_11_INVOICE.png",
+    "critical_fields": [
+      {
+        "name": "vlv_gate_total_11",
+        "expected": "27500",
+        "row": 0,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "VLV-GATE-11A",
+        "col_pattern": "Total"
+      },
+      {
+        "name": "vlv_ball_total_11",
+        "expected": "19800",
+        "row": 1,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "VLV-BALL-11B",
+        "col_pattern": "Total"
+      },
+      {
+        "name": "vlv_chk_units_11",
+        "expected": "16",
+        "row": 2,
+        "col": 3,
+        "type": "count",
+        "target_pattern": "VLV-CHK-11C",
+        "col_pattern": "Units"
+      }
+    ]
+  },
+  "COHORT_J_CAL_12_BANK_REGISTER": {
+    "cohort": "J_calibration",
+    "category": "Bank Statement",
+    "condition": "clean",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop25\\tables\\COHORT_J_CAL_12_BANK_REGISTER.png",
+    "critical_fields": [
+      {
+        "name": "rtgs_debit_12",
+        "expected": "62000",
+        "row": 0,
+        "col": 2,
+        "type": "amount",
+        "target_pattern": "CLR-RTGS-121",
+        "col_pattern": "Debit Outflow"
+      },
+      {
+        "name": "neft_credit_12",
+        "expected": "92000",
+        "row": 1,
+        "col": 3,
+        "type": "amount",
+        "target_pattern": "CLR-NEFT-122",
+        "col_pattern": "Credit Inflow"
+      },
+      {
+        "name": "neft_settle_12",
+        "expected": "92000",
+        "row": 1,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "CLR-NEFT-122",
+        "col_pattern": "Net Settlement"
+      }
+    ]
+  },
+  "COHORT_J_CAL_13_TAX_ASSESSMENT": {
+    "cohort": "J_calibration",
+    "category": "Tax Schedule",
+    "condition": "scan",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop25\\tables\\COHORT_J_CAL_13_TAX_ASSESSMENT.png",
+    "critical_fields": [
+      {
+        "name": "plot1_rent_13",
+        "expected": "3800",
+        "row": 0,
+        "col": 2,
+        "type": "amount",
+        "target_pattern": "PLOT-AGRI-131",
+        "col_pattern": "Base Rent"
+      },
+      {
+        "name": "plot1_total_13",
+        "expected": "4180",
+        "row": 0,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "PLOT-AGRI-131",
+        "col_pattern": "Total Levy"
+      },
+      {
+        "name": "plot2_total_13",
+        "expected": "5830",
+        "row": 1,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "PLOT-AGRI-132",
+        "col_pattern": "Total Levy"
+      },
+      {
+        "name": "plot2_area_13",
+        "expected": "4.0",
+        "row": 1,
+        "col": 1,
+        "type": "number",
+        "target_pattern": "PLOT-AGRI-132",
+        "col_pattern": "Land Area"
+      }
+    ]
+  },
+  "COHORT_J_CAL_14_CLINICAL_CHEM": {
+    "cohort": "J_calibration",
+    "category": "Medical Panel",
+    "condition": "clean",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop25\\tables\\COHORT_J_CAL_14_CLINICAL_CHEM.png",
+    "critical_fields": [
+      {
+        "name": "tlc_14",
+        "expected": "7200",
+        "row": 0,
+        "col": 1,
+        "type": "count",
+        "target_pattern": "Total Leukocyte Count 14",
+        "col_pattern": "Measured Result"
+      },
+      {
+        "name": "hb_14",
+        "expected": "14.5",
+        "row": 1,
+        "col": 1,
+        "type": "number",
+        "target_pattern": "Hemoglobin Hb 14",
+        "col_pattern": "Measured Result"
+      },
+      {
+        "name": "pcv_14",
+        "expected": "43.0",
+        "row": 2,
+        "col": 1,
+        "type": "percentage",
+        "target_pattern": "Packed Cell Volume 14",
+        "col_pattern": "Measured Result"
+      }
+    ]
+  },
+  "COHORT_J_CAL_15_PHARMA_POTENCY": {
+    "cohort": "J_calibration",
+    "category": "Pharma Assay",
+    "condition": "clean",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop25\\tables\\COHORT_J_CAL_15_PHARMA_POTENCY.png",
+    "critical_fields": [
+      {
+        "name": "zone_151",
+        "expected": "24.5",
+        "row": 0,
+        "col": 1,
+        "type": "number",
+        "target_pattern": "ANTIB-LOT-151",
+        "col_pattern": "Inhibition Zone"
+      },
+      {
+        "name": "potency_151",
+        "expected": "1010",
+        "row": 0,
+        "col": 2,
+        "type": "count",
+        "target_pattern": "ANTIB-LOT-151",
+        "col_pattern": "Calculated Potency"
+      },
+      {
+        "name": "potency_152",
+        "expected": "1025",
+        "row": 1,
+        "col": 2,
+        "type": "count",
+        "target_pattern": "ANTIB-LOT-152",
+        "col_pattern": "Calculated Potency"
+      }
+    ]
+  },
+  "COHORT_J_BLIND_01_SOLAR_INVOICE": {
+    "cohort": "J_blind_evaluation",
+    "category": "Commercial Invoice",
+    "condition": "clean",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop25\\tables\\COHORT_J_BLIND_01_SOLAR_INVOICE.png",
+    "critical_fields": [
+      {
+        "name": "inv_a_net_01",
+        "expected": "13800",
+        "row": 0,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "INV-ARRAY-01A",
+        "col_pattern": "Net Settlement"
+      },
+      {
+        "name": "inv_a_kwh_01",
+        "expected": "4600",
+        "row": 0,
+        "col": 1,
+        "type": "count",
+        "target_pattern": "INV-ARRAY-01A",
+        "col_pattern": "Gross Generation"
+      },
+      {
+        "name": "inv_b_net_01",
+        "expected": "15900",
+        "row": 1,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "INV-ARRAY-01B",
+        "col_pattern": "Net Settlement"
+      },
+      {
+        "name": "inv_c_net_01",
+        "expected": "11700",
+        "row": 2,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "INV-ARRAY-01C",
+        "col_pattern": "Net Settlement"
+      }
+    ]
+  },
+  "COHORT_J_BLIND_02_ESCROW_SETTLE": {
+    "cohort": "J_blind_evaluation",
+    "category": "Bank Statement",
+    "condition": "clean",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop25\\tables\\COHORT_J_BLIND_02_ESCROW_SETTLE.png",
+    "critical_fields": [
+      {
+        "name": "esc_ln1_tot_02",
+        "expected": "34100",
+        "row": 0,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "ESC-LN-021",
+        "col_pattern": "Total Monthly"
+      },
+      {
+        "name": "esc_ln1_prn_02",
+        "expected": "18400",
+        "row": 0,
+        "col": 1,
+        "type": "amount",
+        "target_pattern": "ESC-LN-021",
+        "col_pattern": "Principal Due"
+      },
+      {
+        "name": "esc_ln2_tot_02",
+        "expected": "40800",
+        "row": 1,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "ESC-LN-022",
+        "col_pattern": "Total Monthly"
+      }
+    ]
+  },
+  "COHORT_J_BLIND_03_CUSTOMS_ENTRY": {
+    "cohort": "J_blind_evaluation",
+    "category": "Tax Schedule",
+    "condition": "scan",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop25\\tables\\COHORT_J_BLIND_03_CUSTOMS_ENTRY.png",
+    "critical_fields": [
+      {
+        "name": "duty1_03",
+        "expected": "14850",
+        "row": 0,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "CUST-HS-031",
+        "col_pattern": "Duty Payable"
+      },
+      {
+        "name": "duty1_cif_03",
+        "expected": "135000",
+        "row": 0,
+        "col": 1,
+        "type": "amount",
+        "target_pattern": "CUST-HS-031",
+        "col_pattern": "Declared CIF Value"
+      },
+      {
+        "name": "duty2_03",
+        "expected": "28050",
+        "row": 1,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "CUST-HS-032",
+        "col_pattern": "Duty Payable"
+      }
+    ]
+  },
+  "COHORT_J_BLIND_04_COAGULATION": {
+    "cohort": "J_blind_evaluation",
+    "category": "Medical Panel",
+    "condition": "clean",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop25\\tables\\COHORT_J_BLIND_04_COAGULATION.png",
+    "critical_fields": [
+      {
+        "name": "pt_time_04",
+        "expected": "12.5",
+        "row": 0,
+        "col": 1,
+        "type": "number",
+        "target_pattern": "Prothrombin Time PT 04",
+        "col_pattern": "Patient Time"
+      },
+      {
+        "name": "pt_inr_04",
+        "expected": "1.10",
+        "row": 0,
+        "col": 3,
+        "type": "number",
+        "target_pattern": "Prothrombin Time PT 04",
+        "col_pattern": "INR Ratio"
+      },
+      {
+        "name": "aptt_04",
+        "expected": "32.0",
+        "row": 1,
+        "col": 1,
+        "type": "number",
+        "target_pattern": "Activated PTT 04",
+        "col_pattern": "Patient Time"
+      },
+      {
+        "name": "tt_04",
+        "expected": "15.5",
+        "row": 2,
+        "col": 1,
+        "type": "number",
+        "target_pattern": "Thrombin Time 04",
+        "col_pattern": "Patient Time"
+      }
+    ]
+  },
+  "COHORT_J_BLIND_05_STERILITY_AUDIT": {
+    "cohort": "J_blind_evaluation",
+    "category": "Pharma Assay",
+    "condition": "clean",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop25\\tables\\COHORT_J_BLIND_05_STERILITY_AUDIT.png",
+    "critical_fields": [
+      {
+        "name": "vol1_05",
+        "expected": "10.0",
+        "row": 0,
+        "col": 1,
+        "type": "number",
+        "target_pattern": "STER-VIAL-051",
+        "col_pattern": "Fill Volume"
+      },
+      {
+        "name": "part1_05",
+        "expected": "14",
+        "row": 0,
+        "col": 2,
+        "type": "count",
+        "target_pattern": "STER-VIAL-051",
+        "col_pattern": "Sub-visible Particles"
+      },
+      {
+        "name": "vol2_05",
+        "expected": "10.2",
+        "row": 1,
+        "col": 1,
+        "type": "number",
+        "target_pattern": "STER-VIAL-052",
+        "col_pattern": "Fill Volume"
+      }
+    ]
+  },
+  "COHORT_J_BLIND_06_SOLAR_INVOICE": {
+    "cohort": "J_blind_evaluation",
+    "category": "Commercial Invoice",
+    "condition": "clean",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop25\\tables\\COHORT_J_BLIND_06_SOLAR_INVOICE.png",
+    "critical_fields": [
+      {
+        "name": "inv_a_net_06",
+        "expected": "15300",
+        "row": 0,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "INV-ARRAY-06A",
+        "col_pattern": "Net Settlement"
+      },
+      {
+        "name": "inv_a_kwh_06",
+        "expected": "5100",
+        "row": 0,
+        "col": 1,
+        "type": "count",
+        "target_pattern": "INV-ARRAY-06A",
+        "col_pattern": "Gross Generation"
+      },
+      {
+        "name": "inv_b_net_06",
+        "expected": "17400",
+        "row": 1,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "INV-ARRAY-06B",
+        "col_pattern": "Net Settlement"
+      },
+      {
+        "name": "inv_c_net_06",
+        "expected": "13200",
+        "row": 2,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "INV-ARRAY-06C",
+        "col_pattern": "Net Settlement"
+      }
+    ]
+  },
+  "COHORT_J_BLIND_07_ESCROW_SETTLE": {
+    "cohort": "J_blind_evaluation",
+    "category": "Bank Statement",
+    "condition": "clean",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop25\\tables\\COHORT_J_BLIND_07_ESCROW_SETTLE.png",
+    "critical_fields": [
+      {
+        "name": "esc_ln1_tot_07",
+        "expected": "35600",
+        "row": 0,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "ESC-LN-071",
+        "col_pattern": "Total Monthly"
+      },
+      {
+        "name": "esc_ln1_prn_07",
+        "expected": "19400",
+        "row": 0,
+        "col": 1,
+        "type": "amount",
+        "target_pattern": "ESC-LN-071",
+        "col_pattern": "Principal Due"
+      },
+      {
+        "name": "esc_ln2_tot_07",
+        "expected": "42300",
+        "row": 1,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "ESC-LN-072",
+        "col_pattern": "Total Monthly"
+      }
+    ]
+  },
+  "COHORT_J_BLIND_08_CUSTOMS_ENTRY": {
+    "cohort": "J_blind_evaluation",
+    "category": "Tax Schedule",
+    "condition": "scan",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop25\\tables\\COHORT_J_BLIND_08_CUSTOMS_ENTRY.png",
+    "critical_fields": [
+      {
+        "name": "duty1_08",
+        "expected": "17600",
+        "row": 0,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "CUST-HS-081",
+        "col_pattern": "Duty Payable"
+      },
+      {
+        "name": "duty1_cif_08",
+        "expected": "160000",
+        "row": 0,
+        "col": 1,
+        "type": "amount",
+        "target_pattern": "CUST-HS-081",
+        "col_pattern": "Declared CIF Value"
+      },
+      {
+        "name": "duty2_08",
+        "expected": "30800",
+        "row": 1,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "CUST-HS-082",
+        "col_pattern": "Duty Payable"
+      }
+    ]
+  },
+  "COHORT_J_BLIND_09_COAGULATION": {
+    "cohort": "J_blind_evaluation",
+    "category": "Medical Panel",
+    "condition": "clean",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop25\\tables\\COHORT_J_BLIND_09_COAGULATION.png",
+    "critical_fields": [
+      {
+        "name": "pt_time_09",
+        "expected": "12.7",
+        "row": 0,
+        "col": 1,
+        "type": "number",
+        "target_pattern": "Prothrombin Time PT 09",
+        "col_pattern": "Patient Time"
+      },
+      {
+        "name": "pt_inr_09",
+        "expected": "1.05",
+        "row": 0,
+        "col": 3,
+        "type": "number",
+        "target_pattern": "Prothrombin Time PT 09",
+        "col_pattern": "INR Ratio"
+      },
+      {
+        "name": "aptt_09",
+        "expected": "32.0",
+        "row": 1,
+        "col": 1,
+        "type": "number",
+        "target_pattern": "Activated PTT 09",
+        "col_pattern": "Patient Time"
+      },
+      {
+        "name": "tt_09",
+        "expected": "15.2",
+        "row": 2,
+        "col": 1,
+        "type": "number",
+        "target_pattern": "Thrombin Time 09",
+        "col_pattern": "Patient Time"
+      }
+    ]
+  },
+  "COHORT_J_BLIND_10_STERILITY_AUDIT": {
+    "cohort": "J_blind_evaluation",
+    "category": "Pharma Assay",
+    "condition": "clean",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop25\\tables\\COHORT_J_BLIND_10_STERILITY_AUDIT.png",
+    "critical_fields": [
+      {
+        "name": "vol1_10",
+        "expected": "10.0",
+        "row": 0,
+        "col": 1,
+        "type": "number",
+        "target_pattern": "STER-VIAL-101",
+        "col_pattern": "Fill Volume"
+      },
+      {
+        "name": "part1_10",
+        "expected": "14",
+        "row": 0,
+        "col": 2,
+        "type": "count",
+        "target_pattern": "STER-VIAL-101",
+        "col_pattern": "Sub-visible Particles"
+      },
+      {
+        "name": "vol2_10",
+        "expected": "10.2",
+        "row": 1,
+        "col": 1,
+        "type": "number",
+        "target_pattern": "STER-VIAL-102",
+        "col_pattern": "Fill Volume"
+      }
+    ]
+  },
+  "COHORT_J_BLIND_11_SOLAR_INVOICE": {
+    "cohort": "J_blind_evaluation",
+    "category": "Commercial Invoice",
+    "condition": "clean",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop25\\tables\\COHORT_J_BLIND_11_SOLAR_INVOICE.png",
+    "critical_fields": [
+      {
+        "name": "inv_a_net_11",
+        "expected": "16800",
+        "row": 0,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "INV-ARRAY-11A",
+        "col_pattern": "Net Settlement"
+      },
+      {
+        "name": "inv_a_kwh_11",
+        "expected": "5600",
+        "row": 0,
+        "col": 1,
+        "type": "count",
+        "target_pattern": "INV-ARRAY-11A",
+        "col_pattern": "Gross Generation"
+      },
+      {
+        "name": "inv_b_net_11",
+        "expected": "18900",
+        "row": 1,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "INV-ARRAY-11B",
+        "col_pattern": "Net Settlement"
+      },
+      {
+        "name": "inv_c_net_11",
+        "expected": "14700",
+        "row": 2,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "INV-ARRAY-11C",
+        "col_pattern": "Net Settlement"
+      }
+    ]
+  },
+  "COHORT_J_BLIND_12_ESCROW_SETTLE": {
+    "cohort": "J_blind_evaluation",
+    "category": "Bank Statement",
+    "condition": "clean",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop25\\tables\\COHORT_J_BLIND_12_ESCROW_SETTLE.png",
+    "critical_fields": [
+      {
+        "name": "esc_ln1_tot_12",
+        "expected": "37100",
+        "row": 0,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "ESC-LN-121",
+        "col_pattern": "Total Monthly"
+      },
+      {
+        "name": "esc_ln1_prn_12",
+        "expected": "20400",
+        "row": 0,
+        "col": 1,
+        "type": "amount",
+        "target_pattern": "ESC-LN-121",
+        "col_pattern": "Principal Due"
+      },
+      {
+        "name": "esc_ln2_tot_12",
+        "expected": "43800",
+        "row": 1,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "ESC-LN-122",
+        "col_pattern": "Total Monthly"
+      }
+    ]
+  },
+  "COHORT_J_BLIND_13_CUSTOMS_ENTRY": {
+    "cohort": "J_blind_evaluation",
+    "category": "Tax Schedule",
+    "condition": "scan",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop25\\tables\\COHORT_J_BLIND_13_CUSTOMS_ENTRY.png",
+    "critical_fields": [
+      {
+        "name": "duty1_13",
+        "expected": "20350",
+        "row": 0,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "CUST-HS-131",
+        "col_pattern": "Duty Payable"
+      },
+      {
+        "name": "duty1_cif_13",
+        "expected": "185000",
+        "row": 0,
+        "col": 1,
+        "type": "amount",
+        "target_pattern": "CUST-HS-131",
+        "col_pattern": "Declared CIF Value"
+      },
+      {
+        "name": "duty2_13",
+        "expected": "33550",
+        "row": 1,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "CUST-HS-132",
+        "col_pattern": "Duty Payable"
+      }
+    ]
+  },
+  "COHORT_J_BLIND_14_COAGULATION": {
+    "cohort": "J_blind_evaluation",
+    "category": "Medical Panel",
+    "condition": "clean",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop25\\tables\\COHORT_J_BLIND_14_COAGULATION.png",
+    "critical_fields": [
+      {
+        "name": "pt_time_14",
+        "expected": "12.9",
+        "row": 0,
+        "col": 1,
+        "type": "number",
+        "target_pattern": "Prothrombin Time PT 14",
+        "col_pattern": "Patient Time"
+      },
+      {
+        "name": "pt_inr_14",
+        "expected": "1.15",
+        "row": 0,
+        "col": 3,
+        "type": "number",
+        "target_pattern": "Prothrombin Time PT 14",
+        "col_pattern": "INR Ratio"
+      },
+      {
+        "name": "aptt_14",
+        "expected": "32.0",
+        "row": 1,
+        "col": 1,
+        "type": "number",
+        "target_pattern": "Activated PTT 14",
+        "col_pattern": "Patient Time"
+      },
+      {
+        "name": "tt_14",
+        "expected": "15.8",
+        "row": 2,
+        "col": 1,
+        "type": "number",
+        "target_pattern": "Thrombin Time 14",
+        "col_pattern": "Patient Time"
+      }
+    ]
+  },
+  "COHORT_J_BLIND_15_STERILITY_AUDIT": {
+    "cohort": "J_blind_evaluation",
+    "category": "Pharma Assay",
+    "condition": "clean",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop25\\tables\\COHORT_J_BLIND_15_STERILITY_AUDIT.png",
+    "critical_fields": [
+      {
+        "name": "vol1_15",
+        "expected": "10.0",
+        "row": 0,
+        "col": 1,
+        "type": "number",
+        "target_pattern": "STER-VIAL-151",
+        "col_pattern": "Fill Volume"
+      },
+      {
+        "name": "part1_15",
+        "expected": "14",
+        "row": 0,
+        "col": 2,
+        "type": "count",
+        "target_pattern": "STER-VIAL-151",
+        "col_pattern": "Sub-visible Particles"
+      },
+      {
+        "name": "vol2_15",
+        "expected": "10.2",
+        "row": 1,
+        "col": 1,
+        "type": "number",
+        "target_pattern": "STER-VIAL-152",
+        "col_pattern": "Fill Volume"
+      }
+    ]
+  },
+  "COHORT_J_BLIND_16_SOLAR_INVOICE": {
+    "cohort": "J_blind_evaluation",
+    "category": "Commercial Invoice",
+    "condition": "clean",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop25\\tables\\COHORT_J_BLIND_16_SOLAR_INVOICE.png",
+    "critical_fields": [
+      {
+        "name": "inv_a_net_16",
+        "expected": "18300",
+        "row": 0,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "INV-ARRAY-16A",
+        "col_pattern": "Net Settlement"
+      },
+      {
+        "name": "inv_a_kwh_16",
+        "expected": "6100",
+        "row": 0,
+        "col": 1,
+        "type": "count",
+        "target_pattern": "INV-ARRAY-16A",
+        "col_pattern": "Gross Generation"
+      },
+      {
+        "name": "inv_b_net_16",
+        "expected": "20400",
+        "row": 1,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "INV-ARRAY-16B",
+        "col_pattern": "Net Settlement"
+      },
+      {
+        "name": "inv_c_net_16",
+        "expected": "16200",
+        "row": 2,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "INV-ARRAY-16C",
+        "col_pattern": "Net Settlement"
+      }
+    ]
+  },
+  "COHORT_J_BLIND_17_ESCROW_SETTLE": {
+    "cohort": "J_blind_evaluation",
+    "category": "Bank Statement",
+    "condition": "clean",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop25\\tables\\COHORT_J_BLIND_17_ESCROW_SETTLE.png",
+    "critical_fields": [
+      {
+        "name": "esc_ln1_tot_17",
+        "expected": "38600",
+        "row": 0,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "ESC-LN-171",
+        "col_pattern": "Total Monthly"
+      },
+      {
+        "name": "esc_ln1_prn_17",
+        "expected": "21400",
+        "row": 0,
+        "col": 1,
+        "type": "amount",
+        "target_pattern": "ESC-LN-171",
+        "col_pattern": "Principal Due"
+      },
+      {
+        "name": "esc_ln2_tot_17",
+        "expected": "45300",
+        "row": 1,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "ESC-LN-172",
+        "col_pattern": "Total Monthly"
+      }
+    ]
+  },
+  "COHORT_J_BLIND_18_CUSTOMS_ENTRY": {
+    "cohort": "J_blind_evaluation",
+    "category": "Tax Schedule",
+    "condition": "scan",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop25\\tables\\COHORT_J_BLIND_18_CUSTOMS_ENTRY.png",
+    "critical_fields": [
+      {
+        "name": "duty1_18",
+        "expected": "23100",
+        "row": 0,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "CUST-HS-181",
+        "col_pattern": "Duty Payable"
+      },
+      {
+        "name": "duty1_cif_18",
+        "expected": "210000",
+        "row": 0,
+        "col": 1,
+        "type": "amount",
+        "target_pattern": "CUST-HS-181",
+        "col_pattern": "Declared CIF Value"
+      },
+      {
+        "name": "duty2_18",
+        "expected": "36300",
+        "row": 1,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "CUST-HS-182",
+        "col_pattern": "Duty Payable"
+      }
+    ]
+  },
+  "COHORT_J_BLIND_19_COAGULATION": {
+    "cohort": "J_blind_evaluation",
+    "category": "Medical Panel",
+    "condition": "clean",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop25\\tables\\COHORT_J_BLIND_19_COAGULATION.png",
+    "critical_fields": [
+      {
+        "name": "pt_time_19",
+        "expected": "13.1",
+        "row": 0,
+        "col": 1,
+        "type": "number",
+        "target_pattern": "Prothrombin Time PT 19",
+        "col_pattern": "Patient Time"
+      },
+      {
+        "name": "pt_inr_19",
+        "expected": "1.10",
+        "row": 0,
+        "col": 3,
+        "type": "number",
+        "target_pattern": "Prothrombin Time PT 19",
+        "col_pattern": "INR Ratio"
+      },
+      {
+        "name": "aptt_19",
+        "expected": "32.0",
+        "row": 1,
+        "col": 1,
+        "type": "number",
+        "target_pattern": "Activated PTT 19",
+        "col_pattern": "Patient Time"
+      },
+      {
+        "name": "tt_19",
+        "expected": "15.5",
+        "row": 2,
+        "col": 1,
+        "type": "number",
+        "target_pattern": "Thrombin Time 19",
+        "col_pattern": "Patient Time"
+      }
+    ]
+  },
+  "COHORT_J_BLIND_20_STERILITY_AUDIT": {
+    "cohort": "J_blind_evaluation",
+    "category": "Pharma Assay",
+    "condition": "clean",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop25\\tables\\COHORT_J_BLIND_20_STERILITY_AUDIT.png",
+    "critical_fields": [
+      {
+        "name": "vol1_20",
+        "expected": "10.0",
+        "row": 0,
+        "col": 1,
+        "type": "number",
+        "target_pattern": "STER-VIAL-201",
+        "col_pattern": "Fill Volume"
+      },
+      {
+        "name": "part1_20",
+        "expected": "14",
+        "row": 0,
+        "col": 2,
+        "type": "count",
+        "target_pattern": "STER-VIAL-201",
+        "col_pattern": "Sub-visible Particles"
+      },
+      {
+        "name": "vol2_20",
+        "expected": "10.2",
+        "row": 1,
+        "col": 1,
+        "type": "number",
+        "target_pattern": "STER-VIAL-202",
+        "col_pattern": "Fill Volume"
+      }
+    ]
+  },
+  "COHORT_J_ADV_01_EMPTY_TRAP": {
+    "cohort": "J_challenge_adversarial",
+    "category": "Bank Statement",
+    "condition": "clean",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop25\\tables\\COHORT_J_ADV_01_EMPTY_TRAP.png",
+    "critical_fields": [
+      {
+        "name": "entry401_debit",
+        "expected": "",
+        "row": 0,
+        "col": 1,
+        "type": "empty",
+        "target_pattern": "AUD-ENTRY-401",
+        "col_pattern": "Debit"
+      },
+      {
+        "name": "entry401_credit",
+        "expected": "25000",
+        "row": 0,
+        "col": 2,
+        "type": "amount",
+        "target_pattern": "AUD-ENTRY-401",
+        "col_pattern": "Credit"
+      },
+      {
+        "name": "entry402_credit",
+        "expected": "",
+        "row": 1,
+        "col": 2,
+        "type": "empty",
+        "target_pattern": "AUD-ENTRY-402",
+        "col_pattern": "Credit"
+      },
+      {
+        "name": "entry403_debit",
+        "expected": "",
+        "row": 2,
+        "col": 1,
+        "type": "empty",
+        "target_pattern": "AUD-ENTRY-403",
+        "col_pattern": "Debit"
+      }
+    ]
+  },
+  "COHORT_J_ADV_02_PREFIX_COLLISION": {
+    "cohort": "J_challenge_adversarial",
+    "category": "Commercial Invoice",
+    "condition": "clean",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop25\\tables\\COHORT_J_ADV_02_PREFIX_COLLISION.png",
+    "critical_fields": [
+      {
+        "name": "b500_units",
+        "expected": "100",
+        "row": 0,
+        "col": 1,
+        "type": "count",
+        "target_pattern": "BATCH-ORD-500",
+        "col_pattern": "Units In Stock"
+      },
+      {
+        "name": "b500_val",
+        "expected": "8500",
+        "row": 0,
+        "col": 3,
+        "type": "amount",
+        "target_pattern": "BATCH-ORD-500",
+        "col_pattern": "Stock Value"
+      },
+      {
+        "name": "b500a_val",
+        "expected": "12750",
+        "row": 1,
+        "col": 3,
+        "type": "amount",
+        "target_pattern": "BATCH-ORD-500-A",
+        "col_pattern": "Stock Value"
+      },
+      {
+        "name": "b500b_val",
+        "expected": "6800",
+        "row": 2,
+        "col": 3,
+        "type": "amount",
+        "target_pattern": "BATCH-ORD-500-B",
+        "col_pattern": "Stock Value"
+      }
+    ]
+  },
+  "COHORT_J_ADV_03_NARROW_GUTTER_LEDGER": {
+    "cohort": "J_challenge_adversarial",
+    "category": "Tax Schedule",
+    "condition": "clean",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop25\\tables\\COHORT_J_ADV_03_NARROW_GUTTER_LEDGER.png",
+    "critical_fields": [
+      {
+        "name": "r8801_tax",
+        "expected": "24000",
+        "row": 0,
+        "col": 1,
+        "type": "amount",
+        "target_pattern": "REC-REV-8801",
+        "col_pattern": "Net Tax"
+      },
+      {
+        "name": "r8801_sur",
+        "expected": "2400",
+        "row": 0,
+        "col": 1,
+        "type": "amount",
+        "target_pattern": "REC-REV-8801",
+        "col_pattern": "Municipal Surcharge"
+      },
+      {
+        "name": "r8801_tot",
+        "expected": "26400",
+        "row": 0,
+        "col": 2,
+        "type": "amount",
+        "target_pattern": "REC-REV-8801",
+        "col_pattern": "Total Assessment"
+      }
+    ]
+  },
+  "COHORT_J_ADV_04_MICRO_DECIMAL_LOSS": {
+    "cohort": "J_challenge_adversarial",
+    "category": "Pharma Assay",
+    "condition": "scan",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop25\\tables\\COHORT_J_ADV_04_MICRO_DECIMAL_LOSS.png",
+    "critical_fields": [
+      {
+        "name": "m01_visc",
+        "expected": "3.8",
+        "row": 0,
+        "col": 2,
+        "type": "number",
+        "target_pattern": "TUBE-MICRO-01",
+        "col_pattern": "Viscosity"
+      },
+      {
+        "name": "m01_ph",
+        "expected": "7.2",
+        "row": 0,
+        "col": 3,
+        "type": "number",
+        "target_pattern": "TUBE-MICRO-01",
+        "col_pattern": "pH Reading"
+      },
+      {
+        "name": "m02_visc",
+        "expected": "4.2",
+        "row": 1,
+        "col": 2,
+        "type": "number",
+        "target_pattern": "TUBE-MICRO-02",
+        "col_pattern": "Viscosity"
+      }
+    ]
+  },
+  "COHORT_J_ADV_05_HEADER_CONTRADICTION": {
+    "cohort": "J_challenge_adversarial",
+    "category": "Commercial Invoice",
+    "condition": "clean",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop25\\tables\\COHORT_J_ADV_05_HEADER_CONTRADICTION.png",
+    "critical_fields": [
+      {
+        "name": "disp01_trap_weight",
+        "expected": "1450.0",
+        "row": 0,
+        "col": 1,
+        "type": "weight",
+        "target_pattern": "DISP-CON-01",
+        "col_pattern": "Gross Cargo"
+      },
+      {
+        "name": "disp01_val",
+        "expected": "85000",
+        "row": 0,
+        "col": 2,
+        "type": "amount",
+        "target_pattern": "DISP-CON-01",
+        "col_pattern": "Declared Value"
+      },
+      {
+        "name": "disp02_val",
+        "expected": "140000",
+        "row": 1,
+        "col": 2,
+        "type": "amount",
+        "target_pattern": "DISP-CON-02",
+        "col_pattern": "Declared Value"
+      }
+    ]
+  },
+  "COHORT_J_ADV_06_CHARACTER_SUBSTITUTION_STRESS": {
+    "cohort": "J_challenge_adversarial",
+    "category": "Commercial Invoice",
+    "condition": "scan",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop25\\tables\\COHORT_J_ADV_06_CHARACTER_SUBSTITUTION_STRESS.png",
+    "critical_fields": [
+      {
+        "name": "sku1_val",
+        "expected": "1250",
+        "row": 0,
+        "col": 3,
+        "type": "amount",
+        "target_pattern": "SKU-001-S05",
+        "col_pattern": "Total Value"
+      },
+      {
+        "name": "sku2_val",
+        "expected": "700",
+        "row": 1,
+        "col": 3,
+        "type": "amount",
+        "target_pattern": "SKU-002-Z28",
+        "col_pattern": "Total Value"
+      },
+      {
+        "name": "sku3_val",
+        "expected": "1320",
+        "row": 2,
+        "col": 3,
+        "type": "amount",
+        "target_pattern": "SKU-003-B88",
+        "col_pattern": "Total Value"
+      }
+    ]
+  },
+  "COHORT_J_ADV_07_IDENTICAL_NEIGHBORS": {
+    "cohort": "J_challenge_adversarial",
+    "category": "Bank Statement",
+    "condition": "clean",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop25\\tables\\COHORT_J_ADV_07_IDENTICAL_NEIGHBORS.png",
+    "critical_fields": [
+      {
+        "name": "vch101_paid",
+        "expected": "5500",
+        "row": 0,
+        "col": 3,
+        "type": "amount",
+        "target_pattern": "VCH-TAG-101",
+        "col_pattern": "Total Paid"
+      },
+      {
+        "name": "vch102_paid",
+        "expected": "5500",
+        "row": 1,
+        "col": 3,
+        "type": "amount",
+        "target_pattern": "VCH-TAG-102",
+        "col_pattern": "Total Paid"
+      },
+      {
+        "name": "vch103_paid",
+        "expected": "5500",
+        "row": 2,
+        "col": 3,
+        "type": "amount",
+        "target_pattern": "VCH-TAG-103",
+        "col_pattern": "Total Paid"
+      }
+    ]
+  },
+  "COHORT_J_ADV_08_MULTI_TIER_INTERFERENCE": {
+    "cohort": "J_challenge_adversarial",
+    "category": "Tax Schedule",
+    "condition": "clean",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop25\\tables\\COHORT_J_ADV_08_MULTI_TIER_INTERFERENCE.png",
+    "critical_fields": [
+      {
+        "name": "ent901_q1_act",
+        "expected": "48500",
+        "row": 0,
+        "col": 2,
+        "type": "amount",
+        "target_pattern": "ENT-REV-901",
+        "col_pattern": "Q1 Actual"
+      },
+      {
+        "name": "ent901_q2_act",
+        "expected": "59200",
+        "row": 0,
+        "col": 4,
+        "type": "amount",
+        "target_pattern": "ENT-REV-901",
+        "col_pattern": "Q2 Actual"
+      },
+      {
+        "name": "ent902_q1_act",
+        "expected": "79000",
+        "row": 1,
+        "col": 2,
+        "type": "amount",
+        "target_pattern": "ENT-REV-902",
+        "col_pattern": "Q1 Actual"
+      }
+    ]
+  },
+  "COHORT_J_ADV_09_FAINT_THERMAL_RECEIPT": {
+    "cohort": "J_challenge_adversarial",
+    "category": "Retail Receipt",
+    "condition": "thermal",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop25\\tables\\COHORT_J_ADV_09_FAINT_THERMAL_RECEIPT.png",
+    "critical_fields": [
+      {
+        "name": "lane01_toll",
+        "expected": "85.00",
+        "row": 0,
+        "col": 3,
+        "type": "amount",
+        "target_pattern": "LANE-EAST-01",
+        "col_pattern": "Fastag Debit"
+      },
+      {
+        "name": "lane02_toll",
+        "expected": "140.00",
+        "row": 1,
+        "col": 3,
+        "type": "amount",
+        "target_pattern": "LANE-EAST-02",
+        "col_pattern": "Fastag Debit"
+      },
+      {
+        "name": "lane03_toll",
+        "expected": "280.00",
+        "row": 2,
+        "col": 3,
+        "type": "amount",
+        "target_pattern": "LANE-WEST-03",
+        "col_pattern": "Fastag Debit"
+      }
+    ]
+  },
+  "COHORT_J_ADV_10_SUB10PX_REAGENT_STABILITY": {
+    "cohort": "J_challenge_adversarial",
+    "category": "Pharma Assay",
+    "condition": "scan",
+    "image_path": "C:\\Users\\smara\\Desktop\\New folder\\research\\loop25\\tables\\COHORT_J_ADV_10_SUB10PX_REAGENT_STABILITY.png",
+    "critical_fields": [
+      {
+        "name": "well01_dens",
+        "expected": "1.02",
+        "row": 0,
+        "col": 1,
+        "type": "number",
+        "target_pattern": "WELL-PLATE-01",
+        "col_pattern": "Reagent Density"
+      },
+      {
+        "name": "well01_ph",
+        "expected": "7.35",
+        "row": 0,
+        "col": 3,
+        "type": "number",
+        "target_pattern": "WELL-PLATE-01",
+        "col_pattern": "pH Balance"
+      },
+      {
+        "name": "well02_dens",
+        "expected": "1.05",
+        "row": 1,
+        "col": 1,
+        "type": "number",
+        "target_pattern": "WELL-PLATE-02",
+        "col_pattern": "Reagent Density"
+      },
+      {
+        "name": "well02_osmo",
+        "expected": "310",
+        "row": 1,
+        "col": 2,
+        "type": "count",
+        "target_pattern": "WELL-PLATE-02",
+        "col_pattern": "Osmolality"
+      }
+    ]
+  }
+}

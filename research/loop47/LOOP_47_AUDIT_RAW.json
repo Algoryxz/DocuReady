@@ -1,0 +1,1037 @@
+{
+  "real_corpus": [
+    {
+      "strategy": "FAST_PATH_ENG",
+      "lang": "eng",
+      "script": "LATIN",
+      "counts": {
+        "latin": 49,
+        "devanagari": 0,
+        "odia": 0,
+        "total": 49
+      },
+      "probe_uncertain": false,
+      "ms": 1424.47,
+      "pass": true,
+      "sha256": "2d1593af0562920e39cda860919a8e3d90790cb059d0e4c3e1dcb3e1e6c3a655",
+      "id": "DOC_CTRL_01",
+      "partition": "CAL",
+      "expected": "FAST_PATH_ENG"
+    },
+    {
+      "strategy": "GLOBAL_MULTILINGUAL",
+      "lang": "eng+hin+ori",
+      "script": "MIXED_ODIA_LATIN",
+      "counts": {
+        "latin": 29,
+        "devanagari": 0,
+        "odia": 26,
+        "total": 55
+      },
+      "probe_uncertain": false,
+      "ms": 393.83,
+      "pass": true,
+      "sha256": "1a1beb61608bd44d80aff1dbe665c418c02dc0c78af9ae9cfd0d0b8fe45ed07f",
+      "id": "DOC_EXT_06",
+      "partition": "CAL",
+      "expected": "INDIC_OR_MULTI"
+    },
+    {
+      "strategy": "MONOLINGUAL_HIN",
+      "lang": "hin",
+      "script": "DEVANAGARI",
+      "counts": {
+        "latin": 13,
+        "devanagari": 137,
+        "odia": 0,
+        "total": 150
+      },
+      "probe_uncertain": false,
+      "ms": 1249.66,
+      "pass": true,
+      "sha256": "a48b0bf31a9df2be21f686525d81732b2aefb9578b7a1f73e2517972dec89341",
+      "id": "DOC_HIN_01",
+      "partition": "CAL",
+      "expected": "INDIC_OR_MULTI"
+    },
+    {
+      "strategy": "GLOBAL_MULTILINGUAL",
+      "lang": "eng+hin+ori",
+      "script": "MIXED_DEVANAGARI_LATIN",
+      "counts": {
+        "latin": 42,
+        "devanagari": 23,
+        "odia": 7,
+        "total": 72
+      },
+      "probe_uncertain": false,
+      "ms": 377.63,
+      "pass": true,
+      "sha256": "cff4c86a71b9d70401705c9e33a048c208a26be88bcd79b140c5446610a36862",
+      "id": "DOC_MIX_01",
+      "partition": "CAL",
+      "expected": "INDIC_OR_MULTI"
+    },
+    {
+      "strategy": "GLOBAL_MULTILINGUAL",
+      "lang": "eng+hin+ori",
+      "script": "MIXED_ODIA_LATIN",
+      "counts": {
+        "latin": 22,
+        "devanagari": 0,
+        "odia": 23,
+        "total": 45
+      },
+      "probe_uncertain": false,
+      "ms": 659.68,
+      "pass": true,
+      "sha256": "551083ad6e960ea9222ddf0be91d72d4b58ecf5b24392864f21598d46cfb50ab",
+      "id": "DOC_MIX_02",
+      "partition": "CAL",
+      "expected": "INDIC_OR_MULTI"
+    },
+    {
+      "strategy": "GLOBAL_MULTILINGUAL",
+      "lang": "eng+hin+ori",
+      "script": "UNKNOWN",
+      "counts": {},
+      "probe_uncertain": true,
+      "ms": 38.34,
+      "pass": false,
+      "sha256": "a286b4a8c8bb4be9405741e37f1753de485d710b14b12ab8f13602c9c03e438a",
+      "id": "doclaynet_001",
+      "partition": "BLIND",
+      "expected": "FAST_PATH_ENG"
+    },
+    {
+      "strategy": "GLOBAL_MULTILINGUAL",
+      "lang": "eng+hin+ori",
+      "script": "UNKNOWN",
+      "counts": {},
+      "probe_uncertain": true,
+      "ms": 38.5,
+      "pass": false,
+      "sha256": "eccd44a9ae0d26e64348b4e3df3213d49213868edc4a1fcc223c32812bae60e0",
+      "id": "doclaynet_002",
+      "partition": "BLIND",
+      "expected": "FAST_PATH_ENG"
+    },
+    {
+      "strategy": "GLOBAL_MULTILINGUAL",
+      "lang": "eng+hin+ori",
+      "script": "UNKNOWN",
+      "counts": {},
+      "probe_uncertain": true,
+      "ms": 68.93,
+      "pass": false,
+      "sha256": "fc7d7748b4c967f712ea244ebb474847febf94671025a9be0f4b1d4f588b348f",
+      "id": "doclaynet_003",
+      "partition": "BLIND",
+      "expected": "FAST_PATH_ENG"
+    },
+    {
+      "strategy": "GLOBAL_MULTILINGUAL",
+      "lang": "eng+hin+ori",
+      "script": "UNKNOWN",
+      "counts": {},
+      "probe_uncertain": true,
+      "ms": 39.02,
+      "pass": false,
+      "sha256": "f1258f8a9a3807ae11335813f41bd544a1be38a8853c475362ed90a971abec03",
+      "id": "doclaynet_004",
+      "partition": "BLIND",
+      "expected": "FAST_PATH_ENG"
+    },
+    {
+      "strategy": "GLOBAL_MULTILINGUAL",
+      "lang": "eng+hin+ori",
+      "script": "UNKNOWN",
+      "counts": {},
+      "probe_uncertain": true,
+      "ms": 44.08,
+      "pass": false,
+      "sha256": "f85bdf81aafe1230da3b0e1c439d4ce7512a189bb4e9effbd289d30b79cd2d72",
+      "id": "doclaynet_005",
+      "partition": "BLIND",
+      "expected": "FAST_PATH_ENG"
+    },
+    {
+      "strategy": "REGION_AWARE_ROUTING",
+      "lang": "auto",
+      "script": "MIXED_ODIA_LATIN",
+      "counts": {
+        "latin": 54,
+        "devanagari": 0,
+        "odia": 23,
+        "total": 77
+      },
+      "probe_uncertain": false,
+      "ms": 1182.48,
+      "pass": true,
+      "sha256": "348263e0996f9846584c19526dd7ec89d0cd7879cea0e7e14270521a699ad615",
+      "id": "CHALLENGE_02_ORI_ENG_2COL",
+      "partition": "BLIND",
+      "expected": "INDIC_OR_MULTI"
+    },
+    {
+      "strategy": "GLOBAL_MULTILINGUAL",
+      "lang": "eng+hin+ori",
+      "script": "MIXED_DEVANAGARI_LATIN",
+      "counts": {
+        "latin": 21,
+        "devanagari": 25,
+        "odia": 7,
+        "total": 53
+      },
+      "probe_uncertain": false,
+      "ms": 1550.6,
+      "pass": true,
+      "sha256": "0456db8b21aca6403047e7e137a7de58967110fd1793c6ec5f58bca1796d5489",
+      "id": "CHALLENGE_03_HIN_ENG_GRID",
+      "partition": "BLIND",
+      "expected": "INDIC_OR_MULTI"
+    },
+    {
+      "strategy": "FAST_PATH_ENG",
+      "lang": "eng",
+      "script": "LATIN",
+      "counts": {
+        "latin": 41,
+        "devanagari": 0,
+        "odia": 0,
+        "total": 41
+      },
+      "probe_uncertain": false,
+      "ms": 1248.87,
+      "pass": true,
+      "sha256": "5559716ac267c696546b1267cb8a56517c75e86db3a3ed343afe47728405af1c",
+      "id": "CHALLENGE_06_FAINT_SEAL",
+      "partition": "BLIND",
+      "expected": "FAST_PATH_ENG"
+    },
+    {
+      "strategy": "GLOBAL_MULTILINGUAL",
+      "lang": "eng+hin+ori",
+      "script": "MIXED_DEVANAGARI_LATIN",
+      "counts": {
+        "latin": 29,
+        "devanagari": 29,
+        "odia": 15,
+        "total": 73
+      },
+      "probe_uncertain": false,
+      "ms": 545.97,
+      "pass": true,
+      "sha256": "ee184de542057334ea6897f4d567b4279eedd6226b5f7bb244ed2f304ba9829a",
+      "id": "DOC_EXT_02_PENSION",
+      "partition": "BLIND",
+      "expected": "INDIC_OR_MULTI"
+    },
+    {
+      "strategy": "GLOBAL_MULTILINGUAL",
+      "lang": "eng+hin+ori",
+      "script": "MIXED_ODIA_LATIN",
+      "counts": {
+        "latin": 55,
+        "devanagari": 0,
+        "odia": 18,
+        "total": 73
+      },
+      "probe_uncertain": false,
+      "ms": 425.78,
+      "pass": true,
+      "sha256": "06252b6ad0fb0a647bdb3eb97b8f387d9101a6ca9f4d44a7e4e03bb96b968d03",
+      "id": "DOC_EXT_03_DEGREE",
+      "partition": "BLIND",
+      "expected": "INDIC_OR_MULTI"
+    },
+    {
+      "strategy": "GLOBAL_MULTILINGUAL",
+      "lang": "eng+hin",
+      "script": "MIXED_DEVANAGARI_LATIN",
+      "counts": {
+        "latin": 25,
+        "devanagari": 38,
+        "odia": 0,
+        "total": 63
+      },
+      "probe_uncertain": false,
+      "ms": 567.08,
+      "pass": true,
+      "sha256": "bfb9904e19aa78e8d112a3de5404be7033eda351886db94345f1b10db0e89238",
+      "id": "DOC_EXT_04_KHATAUNI",
+      "partition": "BLIND",
+      "expected": "INDIC_OR_MULTI"
+    },
+    {
+      "strategy": "GLOBAL_MULTILINGUAL",
+      "lang": "eng+hin",
+      "script": "MIXED_DEVANAGARI_LATIN",
+      "counts": {
+        "latin": 82,
+        "devanagari": 26,
+        "odia": 0,
+        "total": 108
+      },
+      "probe_uncertain": false,
+      "ms": 650.87,
+      "pass": true,
+      "sha256": "c8ef0919a6c5a631e6449a681ef2c4b3a6fe450b47d053f897106825dd1b3f18",
+      "id": "DOC_EXT_05_HEALTH",
+      "partition": "BLIND",
+      "expected": "INDIC_OR_MULTI"
+    },
+    {
+      "strategy": "GLOBAL_MULTILINGUAL",
+      "lang": "eng+hin",
+      "script": "MIXED_DEVANAGARI_LATIN",
+      "counts": {
+        "latin": 81,
+        "devanagari": 16,
+        "odia": 0,
+        "total": 97
+      },
+      "probe_uncertain": false,
+      "ms": 763.12,
+      "pass": true,
+      "sha256": "3d9e242009cdea41cc7718f036729b2339f6a1de6573b3f3236a707a7e57da2e",
+      "id": "DOC_EXT_07_DIPLOMA",
+      "partition": "BLIND",
+      "expected": "INDIC_OR_MULTI"
+    },
+    {
+      "strategy": "GLOBAL_MULTILINGUAL",
+      "lang": "eng+hin+ori",
+      "script": "MIXED_DEVANAGARI_LATIN",
+      "counts": {
+        "latin": 54,
+        "devanagari": 23,
+        "odia": 4,
+        "total": 81
+      },
+      "probe_uncertain": false,
+      "ms": 683.14,
+      "pass": true,
+      "sha256": "a3e5bef8ea257408246576bd3eb3edcc49089f5357cfbeb0a54c2639cb71a324",
+      "id": "DOC_EXT_08_LIFE_CERT",
+      "partition": "BLIND",
+      "expected": "INDIC_OR_MULTI"
+    },
+    {
+      "strategy": "GLOBAL_MULTILINGUAL",
+      "lang": "eng+hin",
+      "script": "MIXED_DEVANAGARI_LATIN",
+      "counts": {
+        "latin": 118,
+        "devanagari": 24,
+        "odia": 0,
+        "total": 142
+      },
+      "probe_uncertain": false,
+      "ms": 1056.52,
+      "pass": true,
+      "sha256": "de642aefdaa9df1b9c2136f59673849e7aa66260d9b2f915c92ca5daa880e02c",
+      "id": "DOC_EXT_09_RTI",
+      "partition": "BLIND",
+      "expected": "INDIC_OR_MULTI"
+    },
+    {
+      "strategy": "GLOBAL_MULTILINGUAL",
+      "lang": "eng+hin+ori",
+      "script": "MIXED_ODIA_LATIN",
+      "counts": {
+        "latin": 36,
+        "devanagari": 0,
+        "odia": 135,
+        "total": 171
+      },
+      "probe_uncertain": false,
+      "ms": 939.82,
+      "pass": true,
+      "sha256": "5f56d40031794e6abc07cd70ff92357c349f4711d0b3017a57f3b71e333b42ec",
+      "id": "DOC_MULTI_01_TRISCRIPT",
+      "partition": "BLIND",
+      "expected": "INDIC_OR_MULTI"
+    },
+    {
+      "strategy": "FAST_PATH_ENG",
+      "lang": "eng",
+      "script": "LATIN",
+      "counts": {
+        "latin": 23,
+        "devanagari": 2,
+        "odia": 0,
+        "total": 25
+      },
+      "probe_uncertain": false,
+      "ms": 395.72,
+      "pass": true,
+      "sha256": "4161defad20f843e1a35879dc93ada9cf8896157535d483acd91003c847b6e7d",
+      "id": "STRESS_02_STAMP",
+      "partition": "BLIND",
+      "expected": "FAST_PATH_ENG"
+    }
+  ],
+  "synthetic_positive": [
+    {
+      "strategy": "GLOBAL_MULTILINGUAL",
+      "lang": "eng+hin",
+      "script": "MIXED_DEVANAGARI_LATIN",
+      "counts": {
+        "latin": 69,
+        "devanagari": 150,
+        "odia": 0,
+        "total": 219
+      },
+      "probe_uncertain": false,
+      "ms": 1278.6,
+      "pass": true,
+      "sha256": "2da8d62558abf12abcb0d7d88dbd84235d9550a1b573a5eb4dd3972517ffbfec",
+      "id": "SYN_DEV_HDR_LAT_ID",
+      "expected": "INDIC_OR_MULTI"
+    },
+    {
+      "strategy": "GLOBAL_MULTILINGUAL",
+      "lang": "eng+hin+ori",
+      "script": "MIXED_ODIA_LATIN",
+      "counts": {
+        "latin": 102,
+        "devanagari": 0,
+        "odia": 25,
+        "total": 127
+      },
+      "probe_uncertain": false,
+      "ms": 745.6,
+      "pass": true,
+      "sha256": "f2a218ae74e27c688278cb724306b9156dbb41164bfc08157c1c4a333a47f8c0",
+      "id": "SYN_ORI_HDR_LAT_ID",
+      "expected": "INDIC_OR_MULTI"
+    },
+    {
+      "strategy": "GLOBAL_MULTILINGUAL",
+      "lang": "eng+hin",
+      "script": "MIXED_DEVANAGARI_LATIN",
+      "counts": {
+        "latin": 287,
+        "devanagari": 150,
+        "odia": 0,
+        "total": 437
+      },
+      "probe_uncertain": false,
+      "ms": 1359.73,
+      "pass": true,
+      "sha256": "74a3b8950760e056edaf57481e5a523fbb7b5c1faff1c3432582c3e34f7d5719",
+      "id": "SYN_DEV_HDR_LAT_BODY",
+      "expected": "INDIC_OR_MULTI"
+    },
+    {
+      "strategy": "GLOBAL_MULTILINGUAL",
+      "lang": "eng+hin+ori",
+      "script": "MIXED_ODIA_LATIN",
+      "counts": {
+        "latin": 321,
+        "devanagari": 0,
+        "odia": 25,
+        "total": 346
+      },
+      "probe_uncertain": false,
+      "ms": 1163.7,
+      "pass": true,
+      "sha256": "907340f41d3991b000a10a3ee96543a8f76b95117a073736cb80cb9ecfbfd0c0",
+      "id": "SYN_ORI_HDR_LAT_BODY",
+      "expected": "INDIC_OR_MULTI"
+    },
+    {
+      "strategy": "GLOBAL_MULTILINGUAL",
+      "lang": "eng+hin",
+      "script": "MIXED_DEVANAGARI_LATIN",
+      "counts": {
+        "latin": 39,
+        "devanagari": 78,
+        "odia": 0,
+        "total": 117
+      },
+      "probe_uncertain": false,
+      "ms": 792.48,
+      "pass": true,
+      "sha256": "666541b894032f34f690b6c653e83315a7f3090fd320fd5b14ece77a5e627246",
+      "id": "SYN_LAT_HDR_DEV_BODY",
+      "expected": "INDIC_OR_MULTI"
+    },
+    {
+      "strategy": "GLOBAL_MULTILINGUAL",
+      "lang": "eng+hin+ori",
+      "script": "MIXED_ODIA_LATIN",
+      "counts": {
+        "latin": 141,
+        "devanagari": 0,
+        "odia": 47,
+        "total": 188
+      },
+      "probe_uncertain": false,
+      "ms": 1452.41,
+      "pass": true,
+      "sha256": "745e669515e9d9769bbb3022cb26bf7b0a7575ee047da1df8ba37a5741f7ff02",
+      "id": "SYN_LAT_HDR_ORI_BODY",
+      "expected": "INDIC_OR_MULTI"
+    },
+    {
+      "strategy": "GLOBAL_MULTILINGUAL",
+      "lang": "eng+hin+ori",
+      "script": "UNKNOWN",
+      "counts": {},
+      "probe_uncertain": true,
+      "ms": 35.24,
+      "pass": true,
+      "sha256": "359de8d3bb114bb06801a24bb88e980ebbeb271bff6155d3739477bc58f0c423",
+      "id": "SYN_SHORT_UPPER_DEV",
+      "expected": "INDIC_OR_MULTI"
+    },
+    {
+      "strategy": "GLOBAL_MULTILINGUAL",
+      "lang": "eng+hin+ori",
+      "script": "UNKNOWN",
+      "counts": {},
+      "probe_uncertain": true,
+      "ms": 32.87,
+      "pass": true,
+      "sha256": "8b6e1bb8cc91fdb86f8e173dafbee88e55c8f24b86d2c49a99fa796ec4931a5d",
+      "id": "SYN_SHORT_UPPER_ORI",
+      "expected": "INDIC_OR_MULTI"
+    },
+    {
+      "strategy": "GLOBAL_MULTILINGUAL",
+      "lang": "eng+hin",
+      "script": "MIXED_DEVANAGARI_LATIN",
+      "counts": {
+        "latin": 226,
+        "devanagari": 128,
+        "odia": 0,
+        "total": 354
+      },
+      "probe_uncertain": false,
+      "ms": 1156.5,
+      "pass": true,
+      "sha256": "49e560240238d648a08b6eca8d720930f380829e0d3180750715dad3978edc04",
+      "id": "SYN47_SHALLOW_DEV_HDR",
+      "expected": "INDIC_OR_MULTI"
+    },
+    {
+      "strategy": "FAST_PATH_ENG",
+      "lang": "eng",
+      "script": "LATIN",
+      "counts": {
+        "latin": 216,
+        "devanagari": 0,
+        "odia": 0,
+        "total": 216
+      },
+      "probe_uncertain": false,
+      "ms": 780.18,
+      "pass": false,
+      "sha256": "a7c31939b8b7d9019f65692932a4293f864e6634b7fa2f635685d5fe7b51f457",
+      "id": "SYN47_SHALLOW_ORI_HDR",
+      "expected": "INDIC_OR_MULTI"
+    },
+    {
+      "strategy": "GLOBAL_MULTILINGUAL",
+      "lang": "eng+hin+ori",
+      "script": "MIXED_DEVANAGARI_LATIN",
+      "counts": {
+        "latin": 144,
+        "devanagari": 142,
+        "odia": 23,
+        "total": 309
+      },
+      "probe_uncertain": false,
+      "ms": 1477.45,
+      "pass": true,
+      "sha256": "446ea74c2451b10acdce4d326057d39e9ec01c3884e4d114a8c8af761ee467eb",
+      "id": "SYN47_INDIC_HDR_LAT_BODY_INDIC_TBL",
+      "expected": "INDIC_OR_MULTI"
+    }
+  ],
+  "synthetic_negative": [
+    {
+      "strategy": "FAST_PATH_ENG",
+      "lang": "eng",
+      "script": "LATIN",
+      "counts": {
+        "latin": 40,
+        "devanagari": 0,
+        "odia": 0,
+        "total": 40
+      },
+      "probe_uncertain": false,
+      "ms": 237.48,
+      "pass": true,
+      "sha256": "b36c85572bb38238743df7cdea0578d7ea8e479391b26654e4a53ecc805178dc",
+      "id": "NEG_ENG_CIRCULAR_SEAL",
+      "expected": "FAST_PATH_ENG"
+    },
+    {
+      "strategy": "FAST_PATH_ENG",
+      "lang": "eng",
+      "script": "LATIN",
+      "counts": {
+        "latin": 49,
+        "devanagari": 0,
+        "odia": 0,
+        "total": 49
+      },
+      "probe_uncertain": false,
+      "ms": 197.85,
+      "pass": true,
+      "sha256": "a5029faf2cea9263a46b5fd8f98016af120b0391bd51b85a1d66e07068eb3af3",
+      "id": "NEG_ENG_DECORATIVE_CREST",
+      "expected": "FAST_PATH_ENG"
+    },
+    {
+      "strategy": "FAST_PATH_ENG",
+      "lang": "eng",
+      "script": "LATIN",
+      "counts": {
+        "latin": 33,
+        "devanagari": 0,
+        "odia": 0,
+        "total": 33
+      },
+      "probe_uncertain": false,
+      "ms": 115.04,
+      "pass": true,
+      "sha256": "d577094756865af17a17eeffde3b58b59c38d45b4b693cfcd315f65c59c0956d",
+      "id": "NEG_ENG_UPPER_NOISE",
+      "expected": "FAST_PATH_ENG"
+    },
+    {
+      "strategy": "FAST_PATH_ENG",
+      "lang": "eng",
+      "script": "LATIN",
+      "counts": {
+        "latin": 36,
+        "devanagari": 0,
+        "odia": 0,
+        "total": 36
+      },
+      "probe_uncertain": false,
+      "ms": 178.1,
+      "pass": true,
+      "sha256": "9dfaf9daa99c1b352639b62a0dea4230d34479fd00739d2caf2e4dc97e8edc4d",
+      "id": "NEG_ENG_DIAGONAL_MARKS",
+      "expected": "FAST_PATH_ENG"
+    },
+    {
+      "strategy": "FAST_PATH_ENG",
+      "lang": "eng",
+      "script": "LATIN",
+      "counts": {
+        "latin": 240,
+        "devanagari": 0,
+        "odia": 0,
+        "total": 240
+      },
+      "probe_uncertain": false,
+      "ms": 502.8,
+      "pass": true,
+      "sha256": "d104e9c9251cbcca53267b79b14785cf67a1f1f137f7f313cf66d3749591c926",
+      "id": "NEG46_BLANK_UPPER_DENSE_LATIN",
+      "expected": "FAST_PATH_ENG"
+    },
+    {
+      "strategy": "FAST_PATH_ENG",
+      "lang": "eng",
+      "script": "LATIN",
+      "counts": {
+        "latin": 105,
+        "devanagari": 0,
+        "odia": 0,
+        "total": 105
+      },
+      "probe_uncertain": false,
+      "ms": 696.3,
+      "pass": true,
+      "sha256": "af2d217ce82ba38ee34d49ba5b198fce745cb050a50b7fb990b32ecbac9bedf3",
+      "id": "NEG46_AMBIGUOUS_TYPOGRAPHY",
+      "expected": "FAST_PATH_ENG"
+    },
+    {
+      "strategy": "FAST_PATH_ENG",
+      "lang": "eng",
+      "script": "LATIN",
+      "counts": {
+        "latin": 165,
+        "devanagari": 0,
+        "odia": 0,
+        "total": 165
+      },
+      "probe_uncertain": false,
+      "ms": 1363.83,
+      "pass": true,
+      "sha256": "ad0335d24aa3f6027b37b7142850e0543473f509df75b5092ff621b4d90c2ec0",
+      "id": "NEG46_OFFICIAL_STAMP_AND_WATERMARK",
+      "expected": "FAST_PATH_ENG"
+    },
+    {
+      "strategy": "FAST_PATH_ENG",
+      "lang": "eng",
+      "script": "LATIN",
+      "counts": {
+        "latin": 176,
+        "devanagari": 0,
+        "odia": 0,
+        "total": 176
+      },
+      "probe_uncertain": false,
+      "ms": 1022.3,
+      "pass": true,
+      "sha256": "4404334f9cf72a36b32415be10943fd7bf762deec13bf16a7fe5fa9b7e71c5c3",
+      "id": "NEG47_SIGNATURE_UPPER",
+      "expected": "FAST_PATH_ENG"
+    },
+    {
+      "strategy": "FAST_PATH_ENG",
+      "lang": "eng",
+      "script": "LATIN",
+      "counts": {
+        "latin": 154,
+        "devanagari": 0,
+        "odia": 0,
+        "total": 154
+      },
+      "probe_uncertain": false,
+      "ms": 1447.75,
+      "pass": true,
+      "sha256": "f579e59b411e2622206e03f109735bc635f9c4cfd38752915305aa915f76451d",
+      "id": "NEG47_INDIC_LIKE_DECORATIVE_MARKS",
+      "expected": "FAST_PATH_ENG"
+    },
+    {
+      "strategy": "FAST_PATH_ENG",
+      "lang": "eng",
+      "script": "LATIN",
+      "counts": {
+        "latin": 36,
+        "devanagari": 0,
+        "odia": 0,
+        "total": 36
+      },
+      "probe_uncertain": false,
+      "ms": 757.12,
+      "pass": true,
+      "sha256": "767a73e631c8c81ab21ca14f59956444fd890b6fab40634d0ea7287a35314bd1",
+      "id": "NEG47_ENGLISH_TABLE_FORM",
+      "expected": "FAST_PATH_ENG"
+    },
+    {
+      "strategy": "FAST_PATH_ENG",
+      "lang": "eng",
+      "script": "LATIN",
+      "counts": {
+        "latin": 174,
+        "devanagari": 0,
+        "odia": 0,
+        "total": 174
+      },
+      "probe_uncertain": false,
+      "ms": 482.9,
+      "pass": true,
+      "sha256": "3fe3d2cab19279ac89a6f880ee23b292a8959abbdf987c35f62e6a2124d3b8cf",
+      "id": "NEG47_LOW_QUALITY_BLUR_SCAN",
+      "expected": "FAST_PATH_ENG"
+    },
+    {
+      "strategy": "FAST_PATH_ENG",
+      "lang": "eng",
+      "script": "LATIN",
+      "counts": {
+        "latin": 190,
+        "devanagari": 0,
+        "odia": 3,
+        "total": 193
+      },
+      "probe_uncertain": false,
+      "ms": 943.12,
+      "pass": true,
+      "sha256": "de498d25d237f0e3c5eabd60c6c270b4212e42dea929199c78447a89f30ebd96",
+      "id": "NEG47_SPARSE_UPPER_TEXT",
+      "expected": "FAST_PATH_ENG"
+    }
+  ],
+  "overhead_decomposition": {
+    "ENG_BLANK_UPPER": {
+      "crop_resize_ms": 3.56,
+      "central_ms": 265.02,
+      "lower_ms": 146.13,
+      "upper_ms": 5.22,
+      "full_profile_ms": 453.97,
+      "full_e2e_ms": 1183.75
+    },
+    "ENG_INKED_UPPER_L17": {
+      "crop_resize_ms": 2.27,
+      "central_ms": 314.97,
+      "lower_ms": 186.52,
+      "upper_ms": 295.81,
+      "full_profile_ms": 830.0,
+      "full_e2e_ms": 1416.29
+    },
+    "ORI_HDR_LAT_BODY": {
+      "crop_resize_ms": 4.81,
+      "central_ms": 160.66,
+      "lower_ms": 86.7,
+      "upper_ms": 612.67,
+      "full_profile_ms": 1057.46,
+      "full_e2e_ms": 2720.37
+    },
+    "ORI_HDR_LAT_ID": {
+      "crop_resize_ms": 4.66,
+      "central_ms": 72.6,
+      "lower_ms": 9.17,
+      "upper_ms": 609.73,
+      "full_profile_ms": 771.44,
+      "full_e2e_ms": 2036.68
+    }
+  },
+  "performance": {
+    "L17_ENG": {
+      "warm_profile": {
+        "n": 30,
+        "mean_ms": 817.17,
+        "median_ms": 751.67,
+        "p95_ms": 1224.2,
+        "stdev_ms": 182.46,
+        "min_ms": 628.37,
+        "max_ms": 1239.98,
+        "raw_ms": [
+          791.12,
+          717.19,
+          840.34,
+          720.37,
+          729.27,
+          752.77,
+          1239.98,
+          1016.6,
+          629.98,
+          747.99,
+          793.41,
+          842.43,
+          1224.2,
+          1067.59,
+          1123.76,
+          628.37,
+          689.11,
+          656.95,
+          672.12,
+          727.97,
+          849.65,
+          777.73,
+          1182.64,
+          640.99,
+          650.86,
+          644.35,
+          773.19,
+          898.27,
+          735.34,
+          750.56
+        ]
+      },
+      "warm_e2e": {
+        "n": 30,
+        "mean_ms": 1326.98,
+        "median_ms": 1215.95,
+        "p95_ms": 1804.97,
+        "stdev_ms": 235.76,
+        "min_ms": 1050.67,
+        "max_ms": 1853.78,
+        "raw_ms": [
+          1675.12,
+          1488.89,
+          1129.33,
+          1729.97,
+          1733.78,
+          1213.99,
+          1255.52,
+          1265.66,
+          1658.61,
+          1206.22,
+          1853.78,
+          1217.91,
+          1239.02,
+          1332.77,
+          1113.44,
+          1153.65,
+          1050.67,
+          1327.06,
+          1067.35,
+          1362.18,
+          1187.85,
+          1487.7,
+          1197.95,
+          1195.87,
+          1176.02,
+          1206.32,
+          1804.97,
+          1110.3,
+          1202.52,
+          1164.83
+        ]
+      }
+    },
+    "L18_ORI": {
+      "warm_profile": {
+        "n": 30,
+        "mean_ms": 323.34,
+        "median_ms": 321.3,
+        "p95_ms": 494.36,
+        "stdev_ms": 112.95,
+        "min_ms": 134.11,
+        "max_ms": 535.6,
+        "raw_ms": [
+          298.26,
+          137.97,
+          154.11,
+          136.36,
+          134.11,
+          139.66,
+          166.91,
+          340.54,
+          332.73,
+          347.3,
+          456.46,
+          535.6,
+          440.79,
+          461.93,
+          320.59,
+          316.59,
+          440.25,
+          494.36,
+          350.33,
+          331.57,
+          322.01,
+          314.44,
+          282.7,
+          332.19,
+          309.34,
+          311.88,
+          488.52,
+          403.01,
+          297.56,
+          302.14
+        ]
+      },
+      "warm_e2e": {
+        "n": 30,
+        "mean_ms": 3100.91,
+        "median_ms": 3177.89,
+        "p95_ms": 5567.67,
+        "stdev_ms": 1161.57,
+        "min_ms": 1210.38,
+        "max_ms": 5948.16,
+        "raw_ms": [
+          2458.08,
+          1296.68,
+          1210.38,
+          1222.81,
+          1273.31,
+          1305.32,
+          3280.42,
+          3277.55,
+          4098.58,
+          5567.67,
+          5948.16,
+          4412.74,
+          4157.24,
+          3672.25,
+          3326.64,
+          3580.0,
+          3022.58,
+          3477.6,
+          3243.45,
+          3044.37,
+          3179.84,
+          2964.2,
+          2937.58,
+          3596.22,
+          3100.85,
+          2857.92,
+          3800.22,
+          3175.94,
+          2858.96,
+          1679.85
+        ]
+      }
+    },
+    "cold_subprocess": {
+      "L17_profile": {
+        "n": 5,
+        "mean_ms": 461.31,
+        "median_ms": 440.53,
+        "p95_ms": 555.08,
+        "stdev_ms": 52.99,
+        "min_ms": 425.86,
+        "max_ms": 555.08,
+        "raw_ms": [
+          447.36,
+          440.53,
+          555.08,
+          425.86,
+          437.71
+        ]
+      },
+      "L17_e2e": {
+        "n": 5,
+        "mean_ms": 780.28,
+        "median_ms": 786.22,
+        "p95_ms": 873.16,
+        "stdev_ms": 65.46,
+        "min_ms": 693.8,
+        "max_ms": 873.16,
+        "raw_ms": [
+          873.16,
+          752.64,
+          795.56,
+          693.8,
+          786.22
+        ]
+      },
+      "L18_profile": {
+        "n": 5,
+        "mean_ms": 2458.09,
+        "median_ms": 3380.18,
+        "p95_ms": 3954.94,
+        "stdev_ms": 1689.1,
+        "min_ms": 279.83,
+        "max_ms": 3954.94,
+        "raw_ms": [
+          279.83,
+          1005.89,
+          3954.94,
+          3380.18,
+          3669.61
+        ]
+      },
+      "L18_e2e": {
+        "n": 5,
+        "mean_ms": 16373.09,
+        "median_ms": 16013.64,
+        "p95_ms": 21427.55,
+        "stdev_ms": 4005.28,
+        "min_ms": 10511.86,
+        "max_ms": 21427.55,
+        "raw_ms": [
+          18271.13,
+          16013.64,
+          21427.55,
+          15641.26,
+          10511.86
+        ]
+      }
+    }
+  },
+  "coordinate_accuracy": {
+    "SYN_ORI_HDR_LAT_BODY": {
+      "upper_region_words": 36,
+      "body_region_words": 56,
+      "oob": 0
+    }
+  }
+}

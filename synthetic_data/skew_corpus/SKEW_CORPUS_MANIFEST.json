@@ -1,0 +1,495 @@
+{
+  "skew_clean_p00deg.pdf": {
+    "file_name": "skew_clean_p00deg.pdf",
+    "category": "clean_scan",
+    "ground_truth_skew_degrees": 0.0,
+    "width_px": 1654,
+    "height_px": 2339,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    }
+  },
+  "skew_clean_p02deg.pdf": {
+    "file_name": "skew_clean_p02deg.pdf",
+    "category": "clean_scan",
+    "ground_truth_skew_degrees": 2.0,
+    "width_px": 1736,
+    "height_px": 2397,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    }
+  },
+  "skew_clean_m02deg.pdf": {
+    "file_name": "skew_clean_m02deg.pdf",
+    "category": "clean_scan",
+    "ground_truth_skew_degrees": -2.0,
+    "width_px": 1736,
+    "height_px": 2397,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    }
+  },
+  "skew_clean_p03deg.pdf": {
+    "file_name": "skew_clean_p03deg.pdf",
+    "category": "clean_scan",
+    "ground_truth_skew_degrees": 3.0,
+    "width_px": 1776,
+    "height_px": 2423,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    }
+  },
+  "skew_clean_m03deg.pdf": {
+    "file_name": "skew_clean_m03deg.pdf",
+    "category": "clean_scan",
+    "ground_truth_skew_degrees": -3.0,
+    "width_px": 1776,
+    "height_px": 2423,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    }
+  },
+  "skew_clean_p05deg.pdf": {
+    "file_name": "skew_clean_p05deg.pdf",
+    "category": "clean_scan",
+    "ground_truth_skew_degrees": 5.0,
+    "width_px": 1852,
+    "height_px": 2475,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    }
+  },
+  "skew_clean_m05deg.pdf": {
+    "file_name": "skew_clean_m05deg.pdf",
+    "category": "clean_scan",
+    "ground_truth_skew_degrees": -5.0,
+    "width_px": 1852,
+    "height_px": 2475,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    }
+  },
+  "skew_clean_p07deg.pdf": {
+    "file_name": "skew_clean_p07deg.pdf",
+    "category": "clean_scan",
+    "ground_truth_skew_degrees": 7.0,
+    "width_px": 1928,
+    "height_px": 2525,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    }
+  },
+  "skew_clean_m07deg.pdf": {
+    "file_name": "skew_clean_m07deg.pdf",
+    "category": "clean_scan",
+    "ground_truth_skew_degrees": -7.0,
+    "width_px": 1928,
+    "height_px": 2525,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    }
+  },
+  "skew_clean_p10deg.pdf": {
+    "file_name": "skew_clean_p10deg.pdf",
+    "category": "clean_scan",
+    "ground_truth_skew_degrees": 10.0,
+    "width_px": 2036,
+    "height_px": 2591,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    }
+  },
+  "skew_clean_m10deg.pdf": {
+    "file_name": "skew_clean_m10deg.pdf",
+    "category": "clean_scan",
+    "ground_truth_skew_degrees": -10.0,
+    "width_px": 2036,
+    "height_px": 2591,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    }
+  },
+  "skew_clean_p12deg.pdf": {
+    "file_name": "skew_clean_p12deg.pdf",
+    "category": "clean_scan",
+    "ground_truth_skew_degrees": 12.0,
+    "width_px": 2106,
+    "height_px": 2633,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    }
+  },
+  "skew_clean_m12deg.pdf": {
+    "file_name": "skew_clean_m12deg.pdf",
+    "category": "clean_scan",
+    "ground_truth_skew_degrees": -12.0,
+    "width_px": 2106,
+    "height_px": 2633,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    }
+  },
+  "skew_clean_p15deg.pdf": {
+    "file_name": "skew_clean_p15deg.pdf",
+    "category": "clean_scan",
+    "ground_truth_skew_degrees": 15.0,
+    "width_px": 2204,
+    "height_px": 2689,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    }
+  },
+  "skew_clean_m15deg.pdf": {
+    "file_name": "skew_clean_m15deg.pdf",
+    "category": "clean_scan",
+    "ground_truth_skew_degrees": -15.0,
+    "width_px": 2204,
+    "height_px": 2689,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    }
+  },
+  "skew_clean_p20deg.pdf": {
+    "file_name": "skew_clean_p20deg.pdf",
+    "category": "clean_scan",
+    "ground_truth_skew_degrees": 20.0,
+    "width_px": 2356,
+    "height_px": 2765,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    }
+  },
+  "skew_clean_m20deg.pdf": {
+    "file_name": "skew_clean_m20deg.pdf",
+    "category": "clean_scan",
+    "ground_truth_skew_degrees": -20.0,
+    "width_px": 2356,
+    "height_px": 2765,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    }
+  },
+  "skew_clean_p25deg.pdf": {
+    "file_name": "skew_clean_p25deg.pdf",
+    "category": "clean_scan",
+    "ground_truth_skew_degrees": 25.0,
+    "width_px": 2488,
+    "height_px": 2819,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    }
+  },
+  "skew_clean_m25deg.pdf": {
+    "file_name": "skew_clean_m25deg.pdf",
+    "category": "clean_scan",
+    "ground_truth_skew_degrees": -25.0,
+    "width_px": 2488,
+    "height_px": 2819,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    }
+  },
+  "skew_clean_p30deg.pdf": {
+    "file_name": "skew_clean_p30deg.pdf",
+    "category": "clean_scan",
+    "ground_truth_skew_degrees": 30.0,
+    "width_px": 2602,
+    "height_px": 2853,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    }
+  },
+  "skew_clean_m30deg.pdf": {
+    "file_name": "skew_clean_m30deg.pdf",
+    "category": "clean_scan",
+    "ground_truth_skew_degrees": -30.0,
+    "width_px": 2602,
+    "height_px": 2853,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    }
+  },
+  "skew_clean_p35deg.pdf": {
+    "file_name": "skew_clean_p35deg.pdf",
+    "category": "clean_scan",
+    "ground_truth_skew_degrees": 35.0,
+    "width_px": 2698,
+    "height_px": 2865,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    }
+  },
+  "skew_clean_m35deg.pdf": {
+    "file_name": "skew_clean_m35deg.pdf",
+    "category": "clean_scan",
+    "ground_truth_skew_degrees": -35.0,
+    "width_px": 2698,
+    "height_px": 2865,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    }
+  },
+  "skew_clean_p45deg.pdf": {
+    "file_name": "skew_clean_p45deg.pdf",
+    "category": "clean_scan",
+    "ground_truth_skew_degrees": 45.0,
+    "width_px": 2824,
+    "height_px": 2825,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    }
+  },
+  "skew_clean_m45deg.pdf": {
+    "file_name": "skew_clean_m45deg.pdf",
+    "category": "clean_scan",
+    "ground_truth_skew_degrees": -45.0,
+    "width_px": 2824,
+    "height_px": 2825,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak",
+      "father_name": "Ramesh Chandra Nayak",
+      "annual_income": "Rs. 1,80,000/-",
+      "certificate_no": "E-INC/2025/104928"
+    }
+  },
+  "skew_low_dpi_p05deg.pdf": {
+    "file_name": "skew_low_dpi_p05deg.pdf",
+    "category": "low_dpi",
+    "ground_truth_skew_degrees": 5.0,
+    "width_px": 1852,
+    "height_px": 2475,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak"
+    }
+  },
+  "skew_low_dpi_m05deg.pdf": {
+    "file_name": "skew_low_dpi_m05deg.pdf",
+    "category": "low_dpi",
+    "ground_truth_skew_degrees": -5.0,
+    "width_px": 1852,
+    "height_px": 2475,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak"
+    }
+  },
+  "skew_low_dpi_p10deg.pdf": {
+    "file_name": "skew_low_dpi_p10deg.pdf",
+    "category": "low_dpi",
+    "ground_truth_skew_degrees": 10.0,
+    "width_px": 2036,
+    "height_px": 2591,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak"
+    }
+  },
+  "skew_low_dpi_m10deg.pdf": {
+    "file_name": "skew_low_dpi_m10deg.pdf",
+    "category": "low_dpi",
+    "ground_truth_skew_degrees": -10.0,
+    "width_px": 2036,
+    "height_px": 2591,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak"
+    }
+  },
+  "skew_low_dpi_p15deg.pdf": {
+    "file_name": "skew_low_dpi_p15deg.pdf",
+    "category": "low_dpi",
+    "ground_truth_skew_degrees": 15.0,
+    "width_px": 2204,
+    "height_px": 2689,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak"
+    }
+  },
+  "skew_low_dpi_m15deg.pdf": {
+    "file_name": "skew_low_dpi_m15deg.pdf",
+    "category": "low_dpi",
+    "ground_truth_skew_degrees": -15.0,
+    "width_px": 2204,
+    "height_px": 2689,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak"
+    }
+  },
+  "skew_shadow_p05deg.pdf": {
+    "file_name": "skew_shadow_p05deg.pdf",
+    "category": "shadow",
+    "ground_truth_skew_degrees": 5.0,
+    "width_px": 1852,
+    "height_px": 2475,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak"
+    }
+  },
+  "skew_shadow_m05deg.pdf": {
+    "file_name": "skew_shadow_m05deg.pdf",
+    "category": "shadow",
+    "ground_truth_skew_degrees": -5.0,
+    "width_px": 1852,
+    "height_px": 2475,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak"
+    }
+  },
+  "skew_shadow_p10deg.pdf": {
+    "file_name": "skew_shadow_p10deg.pdf",
+    "category": "shadow",
+    "ground_truth_skew_degrees": 10.0,
+    "width_px": 2036,
+    "height_px": 2591,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak"
+    }
+  },
+  "skew_shadow_m10deg.pdf": {
+    "file_name": "skew_shadow_m10deg.pdf",
+    "category": "shadow",
+    "ground_truth_skew_degrees": -10.0,
+    "width_px": 2036,
+    "height_px": 2591,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak"
+    }
+  },
+  "skew_shadow_p15deg.pdf": {
+    "file_name": "skew_shadow_p15deg.pdf",
+    "category": "shadow",
+    "ground_truth_skew_degrees": 15.0,
+    "width_px": 2204,
+    "height_px": 2689,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak"
+    }
+  },
+  "skew_shadow_m15deg.pdf": {
+    "file_name": "skew_shadow_m15deg.pdf",
+    "category": "shadow",
+    "ground_truth_skew_degrees": -15.0,
+    "width_px": 2204,
+    "height_px": 2689,
+    "expected_fields": {
+      "applicant_name": "Smruti Ranjan Nayak"
+    }
+  },
+  "skew_table_p05deg.pdf": {
+    "file_name": "skew_table_p05deg.pdf",
+    "category": "table",
+    "ground_truth_skew_degrees": 5.0,
+    "width_px": 1852,
+    "height_px": 2475,
+    "expected_fields": {}
+  },
+  "skew_table_m05deg.pdf": {
+    "file_name": "skew_table_m05deg.pdf",
+    "category": "table",
+    "ground_truth_skew_degrees": -5.0,
+    "width_px": 1852,
+    "height_px": 2475,
+    "expected_fields": {}
+  },
+  "skew_table_p10deg.pdf": {
+    "file_name": "skew_table_p10deg.pdf",
+    "category": "table",
+    "ground_truth_skew_degrees": 10.0,
+    "width_px": 2036,
+    "height_px": 2591,
+    "expected_fields": {}
+  },
+  "skew_table_m10deg.pdf": {
+    "file_name": "skew_table_m10deg.pdf",
+    "category": "table",
+    "ground_truth_skew_degrees": -10.0,
+    "width_px": 2036,
+    "height_px": 2591,
+    "expected_fields": {}
+  },
+  "skew_table_p15deg.pdf": {
+    "file_name": "skew_table_p15deg.pdf",
+    "category": "table",
+    "ground_truth_skew_degrees": 15.0,
+    "width_px": 2204,
+    "height_px": 2689,
+    "expected_fields": {}
+  },
+  "skew_table_m15deg.pdf": {
+    "file_name": "skew_table_m15deg.pdf",
+    "category": "table",
+    "ground_truth_skew_degrees": -15.0,
+    "width_px": 2204,
+    "height_px": 2689,
+    "expected_fields": {}
+  }
+}

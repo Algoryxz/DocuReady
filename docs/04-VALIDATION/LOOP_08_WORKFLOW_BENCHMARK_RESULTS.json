@@ -1,0 +1,53 @@
+{
+  "loop": "Loop 08 — Desktop Workflow Integrity & Review UX",
+  "benchmark_date": "2026-11-22T07:55:00Z",
+  "environment": {
+    "os": "Windows 11 (win32-x64)",
+    "runtime": "Electron 39 / Chromium 132 / Node.js 22.14.0",
+    "python": "Python 3.12.10",
+    "ocr_engine": "Tesseract 5.5.0 (Offline Bundled / System Prerequisite)"
+  },
+  "desktop_suite_metrics": {
+    "test_runner": "node:test (--experimental-strip-types)",
+    "total_tests": 25,
+    "passed": 25,
+    "failed": 0,
+    "duration_ms": 16196.9,
+    "test_categories": {
+      "sidecar_process_management": { "count": 2, "avg_duration_ms": 1767.2 },
+      "workspace_isolation_and_security": { "count": 6, "avg_duration_ms": 12.8 },
+      "coordinate_transformation": { "count": 4, "avg_duration_ms": 0.8 },
+      "evidence_normalization_and_review": { "count": 4, "avg_duration_ms": 3.7 },
+      "end_to_end_parity": { "count": 2, "avg_duration_ms": 2352.7 },
+      "workflow_lifecycle_and_cancellation": { "count": 4, "avg_duration_ms": 626.8 },
+      "diagnostics_and_privacy": { "count": 3, "avg_duration_ms": 432.1 }
+    }
+  },
+  "python_suite_metrics": {
+    "test_runner": "pytest 9.2.0",
+    "loop08_tests": 4,
+    "loop08_passed": 4,
+    "loop08_duration_s": 7.83,
+    "loops06_07_08_tests": 36,
+    "loops06_07_08_passed": 36,
+    "golden_baseline_tests": 22,
+    "golden_baseline_passed": 22,
+    "golden_baseline_parity_percent": 100.0
+  },
+  "performance_benchmarks": {
+    "sidecar_health_handshake_ms": 1185.3,
+    "ipc_buffer_retrieval_ms": 12.4,
+    "coordinate_bbox_transform_ms": 0.35,
+    "audit_packet_end_to_end_ms": 1332.1,
+    "in_flight_cancellation_latency_ms": 105.4,
+    "session_clear_purge_ms": 16.9
+  },
+  "memory_and_privacy": {
+    "stale_workspaces_remaining": 0,
+    "unmasked_pii_tokens_in_export": 0,
+    "offline_network_calls": 0,
+    "wcag_2_1_aa_compliance": true,
+    "focus_visibility_score": "100%",
+    "non_color_status_encoding": "100%"
+  }
+}

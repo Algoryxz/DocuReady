@@ -1,0 +1,662 @@
+[
+  {
+    "sample_id": "sroie_001",
+    "split": "DEV",
+    "png_path": "data\\sroie\\sroie_001.png",
+    "ground_truth": {
+      "company": "NATIONAL INFORMATICS CYBER CAFE",
+      "address": "SAHID NAGAR, PLOT 12B, BHUBANESWAR 751007",
+      "date": "01/01/2026",
+      "total": "150.00"
+    }
+  },
+  {
+    "sample_id": "sroie_002",
+    "split": "DEV",
+    "png_path": "data\\sroie\\sroie_002.png",
+    "ground_truth": {
+      "company": "COLLEGE BOOK EMPORIUM & XEROX",
+      "address": "CUTTACK ROAD, NEAR RAILWAY STATION, ODISHA 753003",
+      "date": "02/02/2026",
+      "total": "162.50"
+    }
+  },
+  {
+    "sample_id": "sroie_003",
+    "split": "DEV",
+    "png_path": "data\\sroie\\sroie_003.png",
+    "ground_truth": {
+      "company": "COLLEGE BOOK EMPORIUM & XEROX",
+      "address": "CUTTACK ROAD, NEAR RAILWAY STATION, ODISHA 753003",
+      "date": "03/03/2026",
+      "total": "175.00"
+    }
+  },
+  {
+    "sample_id": "sroie_004",
+    "split": "DEV",
+    "png_path": "data\\sroie\\sroie_004.png",
+    "ground_truth": {
+      "company": "ODISHA GOVERNMENT PRESS & STATIONERY",
+      "address": "UNIT-3, BHUBANESWAR, ODISHA 751001",
+      "date": "04/04/2026",
+      "total": "187.50"
+    }
+  },
+  {
+    "sample_id": "sroie_005",
+    "split": "DEV",
+    "png_path": "data\\sroie\\sroie_005.png",
+    "ground_truth": {
+      "company": "NATIONAL INFORMATICS CYBER CAFE",
+      "address": "SAHID NAGAR, PLOT 12B, BHUBANESWAR 751007",
+      "date": "05/05/2026",
+      "total": "200.00"
+    }
+  },
+  {
+    "sample_id": "sroie_006",
+    "split": "DEV",
+    "png_path": "data\\sroie\\sroie_006.png",
+    "ground_truth": {
+      "company": "NATIONAL INFORMATICS CYBER CAFE",
+      "address": "SAHID NAGAR, PLOT 12B, BHUBANESWAR 751007",
+      "date": "06/06/2026",
+      "total": "212.50"
+    }
+  },
+  {
+    "sample_id": "sroie_007",
+    "split": "DEV",
+    "png_path": "data\\sroie\\sroie_007.png",
+    "ground_truth": {
+      "company": "COLLEGE BOOK EMPORIUM & XEROX",
+      "address": "CUTTACK ROAD, NEAR RAILWAY STATION, ODISHA 753003",
+      "date": "07/07/2026",
+      "total": "225.00"
+    }
+  },
+  {
+    "sample_id": "sroie_008",
+    "split": "DEV",
+    "png_path": "data\\sroie\\sroie_008.png",
+    "ground_truth": {
+      "company": "ODISHA GOVERNMENT PRESS & STATIONERY",
+      "address": "UNIT-3, BHUBANESWAR, ODISHA 751001",
+      "date": "08/08/2026",
+      "total": "237.50"
+    }
+  },
+  {
+    "sample_id": "sroie_009",
+    "split": "DEV",
+    "png_path": "data\\sroie\\sroie_009.png",
+    "ground_truth": {
+      "company": "ODISHA GOVERNMENT PRESS & STATIONERY",
+      "address": "UNIT-3, BHUBANESWAR, ODISHA 751001",
+      "date": "09/09/2026",
+      "total": "250.00"
+    }
+  },
+  {
+    "sample_id": "sroie_010",
+    "split": "DEV",
+    "png_path": "data\\sroie\\sroie_010.png",
+    "ground_truth": {
+      "company": "ODISHA GOVERNMENT PRESS & STATIONERY",
+      "address": "UNIT-3, BHUBANESWAR, ODISHA 751001",
+      "date": "10/10/2026",
+      "total": "262.50"
+    }
+  },
+  {
+    "sample_id": "sroie_011",
+    "split": "DEV",
+    "png_path": "data\\sroie\\sroie_011.png",
+    "ground_truth": {
+      "company": "NATIONAL INFORMATICS CYBER CAFE",
+      "address": "SAHID NAGAR, PLOT 12B, BHUBANESWAR 751007",
+      "date": "11/11/2026",
+      "total": "275.00"
+    }
+  },
+  {
+    "sample_id": "sroie_012",
+    "split": "DEV",
+    "png_path": "data\\sroie\\sroie_012.png",
+    "ground_truth": {
+      "company": "STUDENT WELFARE CYBER & PHOTOCOPY",
+      "address": "STATION SQUARE, SAMBALPUR, ODISHA 768001",
+      "date": "12/12/2026",
+      "total": "287.50"
+    }
+  },
+  {
+    "sample_id": "sroie_013",
+    "split": "DEV",
+    "png_path": "data\\sroie\\sroie_013.png",
+    "ground_truth": {
+      "company": "ODISHA GOVERNMENT PRESS & STATIONERY",
+      "address": "UNIT-3, BHUBANESWAR, ODISHA 751001",
+      "date": "13/01/2026",
+      "total": "300.00"
+    }
+  },
+  {
+    "sample_id": "sroie_014",
+    "split": "DEV",
+    "png_path": "data\\sroie\\sroie_014.png",
+    "ground_truth": {
+      "company": "ODISHA GOVERNMENT PRESS & STATIONERY",
+      "address": "UNIT-3, BHUBANESWAR, ODISHA 751001",
+      "date": "14/02/2026",
+      "total": "312.50"
+    }
+  },
+  {
+    "sample_id": "sroie_015",
+    "split": "DEV",
+    "png_path": "data\\sroie\\sroie_015.png",
+    "ground_truth": {
+      "company": "STUDENT WELFARE CYBER & PHOTOCOPY",
+      "address": "STATION SQUARE, SAMBALPUR, ODISHA 768001",
+      "date": "15/03/2026",
+      "total": "325.00"
+    }
+  },
+  {
+    "sample_id": "sroie_016",
+    "split": "DEV",
+    "png_path": "data\\sroie\\sroie_016.png",
+    "ground_truth": {
+      "company": "STUDENT WELFARE CYBER & PHOTOCOPY",
+      "address": "STATION SQUARE, SAMBALPUR, ODISHA 768001",
+      "date": "16/04/2026",
+      "total": "337.50"
+    }
+  },
+  {
+    "sample_id": "sroie_017",
+    "split": "DEV",
+    "png_path": "data\\sroie\\sroie_017.png",
+    "ground_truth": {
+      "company": "NATIONAL INFORMATICS CYBER CAFE",
+      "address": "SAHID NAGAR, PLOT 12B, BHUBANESWAR 751007",
+      "date": "17/05/2026",
+      "total": "350.00"
+    }
+  },
+  {
+    "sample_id": "sroie_018",
+    "split": "DEV",
+    "png_path": "data\\sroie\\sroie_018.png",
+    "ground_truth": {
+      "company": "STUDENT WELFARE CYBER & PHOTOCOPY",
+      "address": "STATION SQUARE, SAMBALPUR, ODISHA 768001",
+      "date": "18/06/2026",
+      "total": "362.50"
+    }
+  },
+  {
+    "sample_id": "sroie_019",
+    "split": "DEV",
+    "png_path": "data\\sroie\\sroie_019.png",
+    "ground_truth": {
+      "company": "ODISHA GOVERNMENT PRESS & STATIONERY",
+      "address": "UNIT-3, BHUBANESWAR, ODISHA 751001",
+      "date": "19/07/2026",
+      "total": "375.00"
+    }
+  },
+  {
+    "sample_id": "sroie_020",
+    "split": "DEV",
+    "png_path": "data\\sroie\\sroie_020.png",
+    "ground_truth": {
+      "company": "ODISHA GOVERNMENT PRESS & STATIONERY",
+      "address": "UNIT-3, BHUBANESWAR, ODISHA 751001",
+      "date": "20/08/2026",
+      "total": "387.50"
+    }
+  },
+  {
+    "sample_id": "sroie_021",
+    "split": "DEV",
+    "png_path": "data\\sroie\\sroie_021.png",
+    "ground_truth": {
+      "company": "STUDENT WELFARE CYBER & PHOTOCOPY",
+      "address": "STATION SQUARE, SAMBALPUR, ODISHA 768001",
+      "date": "21/09/2026",
+      "total": "400.00"
+    }
+  },
+  {
+    "sample_id": "sroie_022",
+    "split": "DEV",
+    "png_path": "data\\sroie\\sroie_022.png",
+    "ground_truth": {
+      "company": "ODISHA GOVERNMENT PRESS & STATIONERY",
+      "address": "UNIT-3, BHUBANESWAR, ODISHA 751001",
+      "date": "22/10/2026",
+      "total": "412.50"
+    }
+  },
+  {
+    "sample_id": "sroie_023",
+    "split": "DEV",
+    "png_path": "data\\sroie\\sroie_023.png",
+    "ground_truth": {
+      "company": "NATIONAL INFORMATICS CYBER CAFE",
+      "address": "SAHID NAGAR, PLOT 12B, BHUBANESWAR 751007",
+      "date": "23/11/2026",
+      "total": "425.00"
+    }
+  },
+  {
+    "sample_id": "sroie_024",
+    "split": "DEV",
+    "png_path": "data\\sroie\\sroie_024.png",
+    "ground_truth": {
+      "company": "COLLEGE BOOK EMPORIUM & XEROX",
+      "address": "CUTTACK ROAD, NEAR RAILWAY STATION, ODISHA 753003",
+      "date": "24/12/2026",
+      "total": "437.50"
+    }
+  },
+  {
+    "sample_id": "sroie_025",
+    "split": "DEV",
+    "png_path": "data\\sroie\\sroie_025.png",
+    "ground_truth": {
+      "company": "COLLEGE BOOK EMPORIUM & XEROX",
+      "address": "CUTTACK ROAD, NEAR RAILWAY STATION, ODISHA 753003",
+      "date": "25/01/2026",
+      "total": "450.00"
+    }
+  },
+  {
+    "sample_id": "sroie_026",
+    "split": "VAL",
+    "png_path": "data\\sroie\\sroie_026.png",
+    "ground_truth": {
+      "company": "NATIONAL INFORMATICS CYBER CAFE",
+      "address": "SAHID NAGAR, PLOT 12B, BHUBANESWAR 751007",
+      "date": "26/02/2026",
+      "total": "462.50"
+    }
+  },
+  {
+    "sample_id": "sroie_027",
+    "split": "VAL",
+    "png_path": "data\\sroie\\sroie_027.png",
+    "ground_truth": {
+      "company": "ODISHA GOVERNMENT PRESS & STATIONERY",
+      "address": "UNIT-3, BHUBANESWAR, ODISHA 751001",
+      "date": "27/03/2026",
+      "total": "475.00"
+    }
+  },
+  {
+    "sample_id": "sroie_028",
+    "split": "VAL",
+    "png_path": "data\\sroie\\sroie_028.png",
+    "ground_truth": {
+      "company": "STUDENT WELFARE CYBER & PHOTOCOPY",
+      "address": "STATION SQUARE, SAMBALPUR, ODISHA 768001",
+      "date": "28/04/2026",
+      "total": "487.50"
+    }
+  },
+  {
+    "sample_id": "sroie_029",
+    "split": "VAL",
+    "png_path": "data\\sroie\\sroie_029.png",
+    "ground_truth": {
+      "company": "NATIONAL INFORMATICS CYBER CAFE",
+      "address": "SAHID NAGAR, PLOT 12B, BHUBANESWAR 751007",
+      "date": "01/05/2026",
+      "total": "500.00"
+    }
+  },
+  {
+    "sample_id": "sroie_030",
+    "split": "VAL",
+    "png_path": "data\\sroie\\sroie_030.png",
+    "ground_truth": {
+      "company": "NATIONAL INFORMATICS CYBER CAFE",
+      "address": "SAHID NAGAR, PLOT 12B, BHUBANESWAR 751007",
+      "date": "02/06/2026",
+      "total": "512.50"
+    }
+  },
+  {
+    "sample_id": "sroie_031",
+    "split": "VAL",
+    "png_path": "data\\sroie\\sroie_031.png",
+    "ground_truth": {
+      "company": "STUDENT WELFARE CYBER & PHOTOCOPY",
+      "address": "STATION SQUARE, SAMBALPUR, ODISHA 768001",
+      "date": "03/07/2026",
+      "total": "525.00"
+    }
+  },
+  {
+    "sample_id": "sroie_032",
+    "split": "VAL",
+    "png_path": "data\\sroie\\sroie_032.png",
+    "ground_truth": {
+      "company": "NATIONAL INFORMATICS CYBER CAFE",
+      "address": "SAHID NAGAR, PLOT 12B, BHUBANESWAR 751007",
+      "date": "04/08/2026",
+      "total": "537.50"
+    }
+  },
+  {
+    "sample_id": "sroie_033",
+    "split": "VAL",
+    "png_path": "data\\sroie\\sroie_033.png",
+    "ground_truth": {
+      "company": "NATIONAL INFORMATICS CYBER CAFE",
+      "address": "SAHID NAGAR, PLOT 12B, BHUBANESWAR 751007",
+      "date": "05/09/2026",
+      "total": "550.00"
+    }
+  },
+  {
+    "sample_id": "sroie_034",
+    "split": "VAL",
+    "png_path": "data\\sroie\\sroie_034.png",
+    "ground_truth": {
+      "company": "ODISHA GOVERNMENT PRESS & STATIONERY",
+      "address": "UNIT-3, BHUBANESWAR, ODISHA 751001",
+      "date": "06/10/2026",
+      "total": "562.50"
+    }
+  },
+  {
+    "sample_id": "sroie_035",
+    "split": "VAL",
+    "png_path": "data\\sroie\\sroie_035.png",
+    "ground_truth": {
+      "company": "STUDENT WELFARE CYBER & PHOTOCOPY",
+      "address": "STATION SQUARE, SAMBALPUR, ODISHA 768001",
+      "date": "07/11/2026",
+      "total": "575.00"
+    }
+  },
+  {
+    "sample_id": "sroie_036",
+    "split": "VAL",
+    "png_path": "data\\sroie\\sroie_036.png",
+    "ground_truth": {
+      "company": "STUDENT WELFARE CYBER & PHOTOCOPY",
+      "address": "STATION SQUARE, SAMBALPUR, ODISHA 768001",
+      "date": "08/12/2026",
+      "total": "587.50"
+    }
+  },
+  {
+    "sample_id": "sroie_037",
+    "split": "VAL",
+    "png_path": "data\\sroie\\sroie_037.png",
+    "ground_truth": {
+      "company": "STUDENT WELFARE CYBER & PHOTOCOPY",
+      "address": "STATION SQUARE, SAMBALPUR, ODISHA 768001",
+      "date": "09/01/2026",
+      "total": "600.00"
+    }
+  },
+  {
+    "sample_id": "sroie_038",
+    "split": "VAL",
+    "png_path": "data\\sroie\\sroie_038.png",
+    "ground_truth": {
+      "company": "COLLEGE BOOK EMPORIUM & XEROX",
+      "address": "CUTTACK ROAD, NEAR RAILWAY STATION, ODISHA 753003",
+      "date": "10/02/2026",
+      "total": "612.50"
+    }
+  },
+  {
+    "sample_id": "sroie_039",
+    "split": "VAL",
+    "png_path": "data\\sroie\\sroie_039.png",
+    "ground_truth": {
+      "company": "ODISHA GOVERNMENT PRESS & STATIONERY",
+      "address": "UNIT-3, BHUBANESWAR, ODISHA 751001",
+      "date": "11/03/2026",
+      "total": "625.00"
+    }
+  },
+  {
+    "sample_id": "sroie_040",
+    "split": "VAL",
+    "png_path": "data\\sroie\\sroie_040.png",
+    "ground_truth": {
+      "company": "STUDENT WELFARE CYBER & PHOTOCOPY",
+      "address": "STATION SQUARE, SAMBALPUR, ODISHA 768001",
+      "date": "12/04/2026",
+      "total": "637.50"
+    }
+  },
+  {
+    "sample_id": "sroie_041",
+    "split": "VAL",
+    "png_path": "data\\sroie\\sroie_041.png",
+    "ground_truth": {
+      "company": "NATIONAL INFORMATICS CYBER CAFE",
+      "address": "SAHID NAGAR, PLOT 12B, BHUBANESWAR 751007",
+      "date": "13/05/2026",
+      "total": "650.00"
+    }
+  },
+  {
+    "sample_id": "sroie_042",
+    "split": "VAL",
+    "png_path": "data\\sroie\\sroie_042.png",
+    "ground_truth": {
+      "company": "NATIONAL INFORMATICS CYBER CAFE",
+      "address": "SAHID NAGAR, PLOT 12B, BHUBANESWAR 751007",
+      "date": "14/06/2026",
+      "total": "662.50"
+    }
+  },
+  {
+    "sample_id": "sroie_043",
+    "split": "VAL",
+    "png_path": "data\\sroie\\sroie_043.png",
+    "ground_truth": {
+      "company": "COLLEGE BOOK EMPORIUM & XEROX",
+      "address": "CUTTACK ROAD, NEAR RAILWAY STATION, ODISHA 753003",
+      "date": "15/07/2026",
+      "total": "675.00"
+    }
+  },
+  {
+    "sample_id": "sroie_044",
+    "split": "VAL",
+    "png_path": "data\\sroie\\sroie_044.png",
+    "ground_truth": {
+      "company": "STUDENT WELFARE CYBER & PHOTOCOPY",
+      "address": "STATION SQUARE, SAMBALPUR, ODISHA 768001",
+      "date": "16/08/2026",
+      "total": "687.50"
+    }
+  },
+  {
+    "sample_id": "sroie_045",
+    "split": "VAL",
+    "png_path": "data\\sroie\\sroie_045.png",
+    "ground_truth": {
+      "company": "ODISHA GOVERNMENT PRESS & STATIONERY",
+      "address": "UNIT-3, BHUBANESWAR, ODISHA 751001",
+      "date": "17/09/2026",
+      "total": "700.00"
+    }
+  },
+  {
+    "sample_id": "sroie_046",
+    "split": "CHALLENGE",
+    "png_path": "data\\sroie\\sroie_046.png",
+    "ground_truth": {
+      "company": "NATIONAL INFORMATICS CYBER CAFE",
+      "address": "SAHID NAGAR, PLOT 12B, BHUBANESWAR 751007",
+      "date": "18/10/2026",
+      "total": "712.50"
+    }
+  },
+  {
+    "sample_id": "sroie_047",
+    "split": "CHALLENGE",
+    "png_path": "data\\sroie\\sroie_047.png",
+    "ground_truth": {
+      "company": "NATIONAL INFORMATICS CYBER CAFE",
+      "address": "SAHID NAGAR, PLOT 12B, BHUBANESWAR 751007",
+      "date": "19/11/2026",
+      "total": "725.00"
+    }
+  },
+  {
+    "sample_id": "sroie_048",
+    "split": "CHALLENGE",
+    "png_path": "data\\sroie\\sroie_048.png",
+    "ground_truth": {
+      "company": "STUDENT WELFARE CYBER & PHOTOCOPY",
+      "address": "STATION SQUARE, SAMBALPUR, ODISHA 768001",
+      "date": "20/12/2026",
+      "total": "737.50"
+    }
+  },
+  {
+    "sample_id": "sroie_049",
+    "split": "CHALLENGE",
+    "png_path": "data\\sroie\\sroie_049.png",
+    "ground_truth": {
+      "company": "COLLEGE BOOK EMPORIUM & XEROX",
+      "address": "CUTTACK ROAD, NEAR RAILWAY STATION, ODISHA 753003",
+      "date": "21/01/2026",
+      "total": "750.00"
+    }
+  },
+  {
+    "sample_id": "sroie_050",
+    "split": "CHALLENGE",
+    "png_path": "data\\sroie\\sroie_050.png",
+    "ground_truth": {
+      "company": "COLLEGE BOOK EMPORIUM & XEROX",
+      "address": "CUTTACK ROAD, NEAR RAILWAY STATION, ODISHA 753003",
+      "date": "22/02/2026",
+      "total": "762.50"
+    }
+  },
+  {
+    "sample_id": "sroie_051",
+    "split": "CHALLENGE",
+    "png_path": "data\\sroie\\sroie_051.png",
+    "ground_truth": {
+      "company": "NATIONAL INFORMATICS CYBER CAFE",
+      "address": "SAHID NAGAR, PLOT 12B, BHUBANESWAR 751007",
+      "date": "23/03/2026",
+      "total": "775.00"
+    }
+  },
+  {
+    "sample_id": "sroie_052",
+    "split": "CHALLENGE",
+    "png_path": "data\\sroie\\sroie_052.png",
+    "ground_truth": {
+      "company": "NATIONAL INFORMATICS CYBER CAFE",
+      "address": "SAHID NAGAR, PLOT 12B, BHUBANESWAR 751007",
+      "date": "24/04/2026",
+      "total": "787.50"
+    }
+  },
+  {
+    "sample_id": "sroie_053",
+    "split": "CHALLENGE",
+    "png_path": "data\\sroie\\sroie_053.png",
+    "ground_truth": {
+      "company": "COLLEGE BOOK EMPORIUM & XEROX",
+      "address": "CUTTACK ROAD, NEAR RAILWAY STATION, ODISHA 753003",
+      "date": "25/05/2026",
+      "total": "800.00"
+    }
+  },
+  {
+    "sample_id": "sroie_054",
+    "split": "CHALLENGE",
+    "png_path": "data\\sroie\\sroie_054.png",
+    "ground_truth": {
+      "company": "NATIONAL INFORMATICS CYBER CAFE",
+      "address": "SAHID NAGAR, PLOT 12B, BHUBANESWAR 751007",
+      "date": "26/06/2026",
+      "total": "812.50"
+    }
+  },
+  {
+    "sample_id": "sroie_055",
+    "split": "CHALLENGE",
+    "png_path": "data\\sroie\\sroie_055.png",
+    "ground_truth": {
+      "company": "ODISHA GOVERNMENT PRESS & STATIONERY",
+      "address": "UNIT-3, BHUBANESWAR, ODISHA 751001",
+      "date": "27/07/2026",
+      "total": "825.00"
+    }
+  },
+  {
+    "sample_id": "sroie_056",
+    "split": "CHALLENGE",
+    "png_path": "data\\sroie\\sroie_056.png",
+    "ground_truth": {
+      "company": "COLLEGE BOOK EMPORIUM & XEROX",
+      "address": "CUTTACK ROAD, NEAR RAILWAY STATION, ODISHA 753003",
+      "date": "28/08/2026",
+      "total": "837.50"
+    }
+  },
+  {
+    "sample_id": "sroie_057",
+    "split": "CHALLENGE",
+    "png_path": "data\\sroie\\sroie_057.png",
+    "ground_truth": {
+      "company": "STUDENT WELFARE CYBER & PHOTOCOPY",
+      "address": "STATION SQUARE, SAMBALPUR, ODISHA 768001",
+      "date": "01/09/2026",
+      "total": "850.00"
+    }
+  },
+  {
+    "sample_id": "sroie_058",
+    "split": "CHALLENGE",
+    "png_path": "data\\sroie\\sroie_058.png",
+    "ground_truth": {
+      "company": "ODISHA GOVERNMENT PRESS & STATIONERY",
+      "address": "UNIT-3, BHUBANESWAR, ODISHA 751001",
+      "date": "02/10/2026",
+      "total": "862.50"
+    }
+  },
+  {
+    "sample_id": "sroie_059",
+    "split": "CHALLENGE",
+    "png_path": "data\\sroie\\sroie_059.png",
+    "ground_truth": {
+      "company": "NATIONAL INFORMATICS CYBER CAFE",
+      "address": "SAHID NAGAR, PLOT 12B, BHUBANESWAR 751007",
+      "date": "03/11/2026",
+      "total": "875.00"
+    }
+  },
+  {
+    "sample_id": "sroie_060",
+    "split": "CHALLENGE",
+    "png_path": "data\\sroie\\sroie_060.png",
+    "ground_truth": {
+      "company": "COLLEGE BOOK EMPORIUM & XEROX",
+      "address": "CUTTACK ROAD, NEAR RAILWAY STATION, ODISHA 753003",
+      "date": "04/12/2026",
+      "total": "887.50"
+    }
+  }
+]

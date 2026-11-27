@@ -1,0 +1,12 @@
+[
+  {
+    "name": "app_901_verification_date",
+    "expected": "",
+    "row": 0,
+    "col": 2,
+    "type": "empty",
+    "target_pattern": "APP-901",
+    "is_trap": true,
+    "trap_note": "Blank cell under Verification Date must not return 'Verification Date'"
+  }
+]

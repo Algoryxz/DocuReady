@@ -1,0 +1,10 @@
+{
+  "fixture_id": "TAB_04_SIMILAR_ADJACENT_VALUES",
+  "category": "Category D: Similar Adjacent",
+  "critical_fields": {
+    "tier_01_topup": "10000",
+    "tier_02_base": "10000",
+    "tier_03_beneficiaries": "1080",
+    "tier_04_beneficiaries": "1800"
+  }
+}

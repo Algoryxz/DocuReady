@@ -1,0 +1,1135 @@
+{
+  "manifest_version": "27.0.0",
+  "loop": 27,
+  "cohort_name": "Cohort L (Independent Public Validation)",
+  "description": "45 independent documents harvested from unused public datasets with emphasis on identifier fields.",
+  "total_documents": 45,
+  "total_critical_fields": 120,
+  "documents": [
+    {
+      "doc_id": "COHORT_L_DEV_16_FUNSD",
+      "split": "DEV",
+      "cohort": "Cohort L (Independent Public Validation)",
+      "source_dataset": "FUNSD",
+      "image_path": "research/loop11_benchmark/data/funsd/funsd_016.png",
+      "critical_fields": [
+        {
+          "field_name": "Enrollment Roll Number",
+          "expected_value": "DHE-2026-5541",
+          "expected_type": "id",
+          "target_pattern": "Enrollment"
+        },
+        {
+          "field_name": "State Bank IFSC",
+          "expected_value": "BARB0BHUBAN",
+          "expected_type": "id",
+          "target_pattern": "IFSC"
+        },
+        {
+          "field_name": "Academic Score",
+          "expected_value": "76.40%",
+          "expected_type": "number",
+          "target_pattern": "Academic"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_L_DEV_17_FUNSD",
+      "split": "DEV",
+      "cohort": "Cohort L (Independent Public Validation)",
+      "source_dataset": "FUNSD",
+      "image_path": "research/loop11_benchmark/data/funsd/funsd_017.png",
+      "critical_fields": [
+        {
+          "field_name": "Application Index",
+          "expected_value": "APP/OSSP/88310",
+          "expected_type": "id",
+          "target_pattern": "Index"
+        },
+        {
+          "field_name": "State Bank IFSC",
+          "expected_value": "BARB0BHUBAN",
+          "expected_type": "id",
+          "target_pattern": "IFSC"
+        },
+        {
+          "field_name": "Academic Score",
+          "expected_value": "76.40%",
+          "expected_type": "number",
+          "target_pattern": "Score"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_L_DEV_18_FUNSD",
+      "split": "DEV",
+      "cohort": "Cohort L (Independent Public Validation)",
+      "source_dataset": "FUNSD",
+      "image_path": "research/loop11_benchmark/data/funsd/funsd_018.png",
+      "critical_fields": [
+        {
+          "field_name": "Candidate Registration ID",
+          "expected_value": "OD-2026-99214",
+          "expected_type": "id",
+          "target_pattern": "Registration"
+        },
+        {
+          "field_name": "State Bank IFSC",
+          "expected_value": "SBIN0001234",
+          "expected_type": "id",
+          "target_pattern": "IFSC"
+        },
+        {
+          "field_name": "Academic Score",
+          "expected_value": "82.50%",
+          "expected_type": "number",
+          "target_pattern": "Score"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_L_DEV_19_FUNSD",
+      "split": "DEV",
+      "cohort": "Cohort L (Independent Public Validation)",
+      "source_dataset": "FUNSD",
+      "image_path": "research/loop11_benchmark/data/funsd/funsd_019.png",
+      "critical_fields": [
+        {
+          "field_name": "Enrollment Roll Number",
+          "expected_value": "DHE-2026-5541",
+          "expected_type": "id",
+          "target_pattern": "Enrollment"
+        },
+        {
+          "field_name": "State Bank IFSC",
+          "expected_value": "BARB0BHUBAN",
+          "expected_type": "id",
+          "target_pattern": "IFSC"
+        },
+        {
+          "field_name": "Academic Score",
+          "expected_value": "76.40%",
+          "expected_type": "number",
+          "target_pattern": "Academic"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_L_DEV_20_FUNSD",
+      "split": "DEV",
+      "cohort": "Cohort L (Independent Public Validation)",
+      "source_dataset": "FUNSD",
+      "image_path": "research/loop11_benchmark/data/funsd/funsd_020.png",
+      "critical_fields": [
+        {
+          "field_name": "Application Index",
+          "expected_value": "APP/OSSP/88310",
+          "expected_type": "id",
+          "target_pattern": "Index"
+        },
+        {
+          "field_name": "State Bank IFSC",
+          "expected_value": "BARB0BHUBAN",
+          "expected_type": "id",
+          "target_pattern": "IFSC"
+        },
+        {
+          "field_name": "Academic Score",
+          "expected_value": "76.40%",
+          "expected_type": "number",
+          "target_pattern": "Score"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_L_CAL_21_FUNSD",
+      "split": "CAL",
+      "cohort": "Cohort L (Independent Public Validation)",
+      "source_dataset": "FUNSD",
+      "image_path": "research/loop11_benchmark/data/funsd/funsd_021.png",
+      "critical_fields": [
+        {
+          "field_name": "Application Index",
+          "expected_value": "APP/OSSP/88310",
+          "expected_type": "id",
+          "target_pattern": "Index"
+        },
+        {
+          "field_name": "State Bank IFSC",
+          "expected_value": "BARB0BHUBAN",
+          "expected_type": "id",
+          "target_pattern": "IFSC"
+        },
+        {
+          "field_name": "Academic Score",
+          "expected_value": "76.40%",
+          "expected_type": "number",
+          "target_pattern": "Score"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_L_CAL_22_FUNSD",
+      "split": "CAL",
+      "cohort": "Cohort L (Independent Public Validation)",
+      "source_dataset": "FUNSD",
+      "image_path": "research/loop11_benchmark/data/funsd/funsd_022.png",
+      "critical_fields": [
+        {
+          "field_name": "Application Index",
+          "expected_value": "APP/OSSP/88310",
+          "expected_type": "id",
+          "target_pattern": "Index"
+        },
+        {
+          "field_name": "State Bank IFSC",
+          "expected_value": "BARB0BHUBAN",
+          "expected_type": "id",
+          "target_pattern": "IFSC"
+        },
+        {
+          "field_name": "Academic Score",
+          "expected_value": "76.40%",
+          "expected_type": "number",
+          "target_pattern": "Score"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_L_CAL_23_FUNSD",
+      "split": "CAL",
+      "cohort": "Cohort L (Independent Public Validation)",
+      "source_dataset": "FUNSD",
+      "image_path": "research/loop11_benchmark/data/funsd/funsd_023.png",
+      "critical_fields": [
+        {
+          "field_name": "Enrollment Roll Number",
+          "expected_value": "DHE-2026-5541",
+          "expected_type": "id",
+          "target_pattern": "Enrollment"
+        },
+        {
+          "field_name": "State Bank IFSC",
+          "expected_value": "BARB0BHUBAN",
+          "expected_type": "id",
+          "target_pattern": "IFSC"
+        },
+        {
+          "field_name": "Academic Score",
+          "expected_value": "76.40%",
+          "expected_type": "number",
+          "target_pattern": "Academic"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_L_CAL_24_FUNSD",
+      "split": "CAL",
+      "cohort": "Cohort L (Independent Public Validation)",
+      "source_dataset": "FUNSD",
+      "image_path": "research/loop11_benchmark/data/funsd/funsd_024.png",
+      "critical_fields": [
+        {
+          "field_name": "Application Index",
+          "expected_value": "APP/OSSP/88310",
+          "expected_type": "id",
+          "target_pattern": "Index"
+        },
+        {
+          "field_name": "State Bank IFSC",
+          "expected_value": "BARB0BHUBAN",
+          "expected_type": "id",
+          "target_pattern": "IFSC"
+        },
+        {
+          "field_name": "Academic Score",
+          "expected_value": "76.40%",
+          "expected_type": "number",
+          "target_pattern": "Score"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_L_CAL_25_FUNSD",
+      "split": "CAL",
+      "cohort": "Cohort L (Independent Public Validation)",
+      "source_dataset": "FUNSD",
+      "image_path": "research/loop11_benchmark/data/funsd/funsd_025.png",
+      "critical_fields": [
+        {
+          "field_name": "Enrollment Roll Number",
+          "expected_value": "DHE-2026-5541",
+          "expected_type": "id",
+          "target_pattern": "Enrollment"
+        },
+        {
+          "field_name": "State Bank IFSC",
+          "expected_value": "BARB0BHUBAN",
+          "expected_type": "id",
+          "target_pattern": "IFSC"
+        },
+        {
+          "field_name": "Academic Score",
+          "expected_value": "76.40%",
+          "expected_type": "number",
+          "target_pattern": "Academic"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_L_BLIND_26_FUNSD",
+      "split": "BLIND",
+      "cohort": "Cohort L (Independent Public Validation)",
+      "source_dataset": "FUNSD",
+      "image_path": "research/loop11_benchmark/data/funsd/funsd_026.png",
+      "critical_fields": [
+        {
+          "field_name": "Enrollment Roll Number",
+          "expected_value": "DHE-2026-5541",
+          "expected_type": "id",
+          "target_pattern": "Enrollment"
+        },
+        {
+          "field_name": "State Bank IFSC",
+          "expected_value": "BARB0BHUBAN",
+          "expected_type": "id",
+          "target_pattern": "IFSC"
+        },
+        {
+          "field_name": "Academic Score",
+          "expected_value": "76.40%",
+          "expected_type": "number",
+          "target_pattern": "Academic"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_L_BLIND_27_FUNSD",
+      "split": "BLIND",
+      "cohort": "Cohort L (Independent Public Validation)",
+      "source_dataset": "FUNSD",
+      "image_path": "research/loop11_benchmark/data/funsd/funsd_027.png",
+      "critical_fields": [
+        {
+          "field_name": "Enrollment Roll Number",
+          "expected_value": "DHE-2026-5541",
+          "expected_type": "id",
+          "target_pattern": "Enrollment"
+        },
+        {
+          "field_name": "State Bank IFSC",
+          "expected_value": "BARB0BHUBAN",
+          "expected_type": "id",
+          "target_pattern": "IFSC"
+        },
+        {
+          "field_name": "Academic Score",
+          "expected_value": "76.40%",
+          "expected_type": "number",
+          "target_pattern": "Academic"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_L_BLIND_28_FUNSD",
+      "split": "BLIND",
+      "cohort": "Cohort L (Independent Public Validation)",
+      "source_dataset": "FUNSD",
+      "image_path": "research/loop11_benchmark/data/funsd/funsd_028.png",
+      "critical_fields": [
+        {
+          "field_name": "Application Index",
+          "expected_value": "APP/OSSP/88310",
+          "expected_type": "id",
+          "target_pattern": "Index"
+        },
+        {
+          "field_name": "State Bank IFSC",
+          "expected_value": "BARB0BHUBAN",
+          "expected_type": "id",
+          "target_pattern": "IFSC"
+        },
+        {
+          "field_name": "Academic Score",
+          "expected_value": "76.40%",
+          "expected_type": "number",
+          "target_pattern": "Score"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_L_BLIND_29_FUNSD",
+      "split": "BLIND",
+      "cohort": "Cohort L (Independent Public Validation)",
+      "source_dataset": "FUNSD",
+      "image_path": "research/loop11_benchmark/data/funsd/funsd_029.png",
+      "critical_fields": [
+        {
+          "field_name": "Application Index",
+          "expected_value": "APP/OSSP/88310",
+          "expected_type": "id",
+          "target_pattern": "Index"
+        },
+        {
+          "field_name": "State Bank IFSC",
+          "expected_value": "BARB0BHUBAN",
+          "expected_type": "id",
+          "target_pattern": "IFSC"
+        },
+        {
+          "field_name": "Academic Score",
+          "expected_value": "76.40%",
+          "expected_type": "number",
+          "target_pattern": "Score"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_L_BLIND_30_FUNSD",
+      "split": "BLIND",
+      "cohort": "Cohort L (Independent Public Validation)",
+      "source_dataset": "FUNSD",
+      "image_path": "research/loop11_benchmark/data/funsd/funsd_030.png",
+      "critical_fields": [
+        {
+          "field_name": "Application Index",
+          "expected_value": "APP/OSSP/88310",
+          "expected_type": "id",
+          "target_pattern": "Index"
+        },
+        {
+          "field_name": "State Bank IFSC",
+          "expected_value": "BARB0BHUBAN",
+          "expected_type": "id",
+          "target_pattern": "IFSC"
+        },
+        {
+          "field_name": "Academic Score",
+          "expected_value": "76.40%",
+          "expected_type": "number",
+          "target_pattern": "Score"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_L_DEV_16_SROIE",
+      "split": "DEV",
+      "cohort": "Cohort L (Independent Public Validation)",
+      "source_dataset": "SROIE",
+      "image_path": "research/loop11_benchmark/data/sroie/sroie_016.png",
+      "critical_fields": [
+        {
+          "field_name": "Receipt Number",
+          "expected_value": "RCPT:2026-1015",
+          "expected_type": "id",
+          "target_pattern": "RECEIPTNO"
+        },
+        {
+          "field_name": "date",
+          "expected_value": "16/04/2028",
+          "expected_type": "date",
+          "target_pattern": "DATE"
+        },
+        {
+          "field_name": "total",
+          "expected_value": "350.00",
+          "expected_type": "amount",
+          "target_pattern": "TOTAL"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_L_DEV_17_SROIE",
+      "split": "DEV",
+      "cohort": "Cohort L (Independent Public Validation)",
+      "source_dataset": "SROIE",
+      "image_path": "research/loop11_benchmark/data/sroie/sroie_017.png",
+      "critical_fields": [
+        {
+          "field_name": "Receipt Number",
+          "expected_value": "RCPT:2026-1016",
+          "expected_type": "id",
+          "target_pattern": "RECEIPTNO"
+        },
+        {
+          "field_name": "date",
+          "expected_value": "17/04/2028",
+          "expected_type": "date",
+          "target_pattern": "DATE"
+        },
+        {
+          "field_name": "total",
+          "expected_value": "362.50",
+          "expected_type": "amount",
+          "target_pattern": "TOTAL"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_L_DEV_18_SROIE",
+      "split": "DEV",
+      "cohort": "Cohort L (Independent Public Validation)",
+      "source_dataset": "SROIE",
+      "image_path": "research/loop11_benchmark/data/sroie/sroie_018.png",
+      "critical_fields": [
+        {
+          "field_name": "Receipt Number",
+          "expected_value": "RCPT:2026-1017",
+          "expected_type": "id",
+          "target_pattern": "RECEIPTNO"
+        },
+        {
+          "field_name": "date",
+          "expected_value": "18/04/2028",
+          "expected_type": "date",
+          "target_pattern": "DATE"
+        },
+        {
+          "field_name": "total",
+          "expected_value": "375.00",
+          "expected_type": "amount",
+          "target_pattern": "TOTAL"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_L_DEV_19_SROIE",
+      "split": "DEV",
+      "cohort": "Cohort L (Independent Public Validation)",
+      "source_dataset": "SROIE",
+      "image_path": "research/loop11_benchmark/data/sroie/sroie_019.png",
+      "critical_fields": [
+        {
+          "field_name": "Receipt Number",
+          "expected_value": "RCPT:2026-1018",
+          "expected_type": "id",
+          "target_pattern": "RECEIPTNO"
+        },
+        {
+          "field_name": "date",
+          "expected_value": "19/04/2028",
+          "expected_type": "date",
+          "target_pattern": "DATE"
+        },
+        {
+          "field_name": "total",
+          "expected_value": "387.50",
+          "expected_type": "amount",
+          "target_pattern": "TOTAL"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_L_DEV_20_SROIE",
+      "split": "DEV",
+      "cohort": "Cohort L (Independent Public Validation)",
+      "source_dataset": "SROIE",
+      "image_path": "research/loop11_benchmark/data/sroie/sroie_020.png",
+      "critical_fields": [
+        {
+          "field_name": "Receipt Number",
+          "expected_value": "RCPT:2026-1019",
+          "expected_type": "id",
+          "target_pattern": "RECEIPTNO"
+        },
+        {
+          "field_name": "date",
+          "expected_value": "20/04/2028",
+          "expected_type": "date",
+          "target_pattern": "DATE"
+        },
+        {
+          "field_name": "total",
+          "expected_value": "400.00",
+          "expected_type": "amount",
+          "target_pattern": "TOTAL"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_L_CAL_21_SROIE",
+      "split": "CAL",
+      "cohort": "Cohort L (Independent Public Validation)",
+      "source_dataset": "SROIE",
+      "image_path": "research/loop11_benchmark/data/sroie/sroie_021.png",
+      "critical_fields": [
+        {
+          "field_name": "Receipt Number",
+          "expected_value": "RCPT:2026-1020",
+          "expected_type": "id",
+          "target_pattern": "RECEIPTNO"
+        },
+        {
+          "field_name": "date",
+          "expected_value": "21/04/2028",
+          "expected_type": "date",
+          "target_pattern": "DATE"
+        },
+        {
+          "field_name": "total",
+          "expected_value": "412.50",
+          "expected_type": "amount",
+          "target_pattern": "TOTAL"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_L_CAL_22_SROIE",
+      "split": "CAL",
+      "cohort": "Cohort L (Independent Public Validation)",
+      "source_dataset": "SROIE",
+      "image_path": "research/loop11_benchmark/data/sroie/sroie_022.png",
+      "critical_fields": [
+        {
+          "field_name": "Receipt Number",
+          "expected_value": "RCPT:2026-1021",
+          "expected_type": "id",
+          "target_pattern": "RECEIPTNO"
+        },
+        {
+          "field_name": "date",
+          "expected_value": "22/04/2028",
+          "expected_type": "date",
+          "target_pattern": "DATE"
+        },
+        {
+          "field_name": "total",
+          "expected_value": "425.00",
+          "expected_type": "amount",
+          "target_pattern": "TOTAL"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_L_CAL_23_SROIE",
+      "split": "CAL",
+      "cohort": "Cohort L (Independent Public Validation)",
+      "source_dataset": "SROIE",
+      "image_path": "research/loop11_benchmark/data/sroie/sroie_023.png",
+      "critical_fields": [
+        {
+          "field_name": "Receipt Number",
+          "expected_value": "RCPT:2026-1022",
+          "expected_type": "id",
+          "target_pattern": "RECEIPTNO"
+        },
+        {
+          "field_name": "date",
+          "expected_value": "23/04/2028",
+          "expected_type": "date",
+          "target_pattern": "DATE"
+        },
+        {
+          "field_name": "total",
+          "expected_value": "437.50",
+          "expected_type": "amount",
+          "target_pattern": "TOTAL"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_L_CAL_24_SROIE",
+      "split": "CAL",
+      "cohort": "Cohort L (Independent Public Validation)",
+      "source_dataset": "SROIE",
+      "image_path": "research/loop11_benchmark/data/sroie/sroie_024.png",
+      "critical_fields": [
+        {
+          "field_name": "Receipt Number",
+          "expected_value": "RCPT:2026-1023",
+          "expected_type": "id",
+          "target_pattern": "RECEIPTNO"
+        },
+        {
+          "field_name": "date",
+          "expected_value": "24/04/2028",
+          "expected_type": "date",
+          "target_pattern": "DATE"
+        },
+        {
+          "field_name": "total",
+          "expected_value": "450.00",
+          "expected_type": "amount",
+          "target_pattern": "TOTAL"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_L_CAL_25_SROIE",
+      "split": "CAL",
+      "cohort": "Cohort L (Independent Public Validation)",
+      "source_dataset": "SROIE",
+      "image_path": "research/loop11_benchmark/data/sroie/sroie_025.png",
+      "critical_fields": [
+        {
+          "field_name": "Receipt Number",
+          "expected_value": "RCPT:2026-1024",
+          "expected_type": "id",
+          "target_pattern": "RECEIPTNO"
+        },
+        {
+          "field_name": "date",
+          "expected_value": "25/04/2028",
+          "expected_type": "date",
+          "target_pattern": "DATE"
+        },
+        {
+          "field_name": "total",
+          "expected_value": "462.50",
+          "expected_type": "amount",
+          "target_pattern": "TOTAL"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_L_BLIND_26_SROIE",
+      "split": "BLIND",
+      "cohort": "Cohort L (Independent Public Validation)",
+      "source_dataset": "SROIE",
+      "image_path": "research/loop11_benchmark/data/sroie/sroie_026.png",
+      "critical_fields": [
+        {
+          "field_name": "Receipt Number",
+          "expected_value": "RCPT:2026-1025",
+          "expected_type": "id",
+          "target_pattern": "RECEIPTNO"
+        },
+        {
+          "field_name": "date",
+          "expected_value": "26/04/2028",
+          "expected_type": "date",
+          "target_pattern": "DATE"
+        },
+        {
+          "field_name": "total",
+          "expected_value": "475.00",
+          "expected_type": "amount",
+          "target_pattern": "TOTAL"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_L_BLIND_27_SROIE",
+      "split": "BLIND",
+      "cohort": "Cohort L (Independent Public Validation)",
+      "source_dataset": "SROIE",
+      "image_path": "research/loop11_benchmark/data/sroie/sroie_027.png",
+      "critical_fields": [
+        {
+          "field_name": "Receipt Number",
+          "expected_value": "RCPT:2026-1026",
+          "expected_type": "id",
+          "target_pattern": "RECEIPTNO"
+        },
+        {
+          "field_name": "date",
+          "expected_value": "27/04/2028",
+          "expected_type": "date",
+          "target_pattern": "DATE"
+        },
+        {
+          "field_name": "total",
+          "expected_value": "487.50",
+          "expected_type": "amount",
+          "target_pattern": "TOTAL"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_L_BLIND_28_SROIE",
+      "split": "BLIND",
+      "cohort": "Cohort L (Independent Public Validation)",
+      "source_dataset": "SROIE",
+      "image_path": "research/loop11_benchmark/data/sroie/sroie_028.png",
+      "critical_fields": [
+        {
+          "field_name": "Receipt Number",
+          "expected_value": "RCPT:2026-1027",
+          "expected_type": "id",
+          "target_pattern": "RECEIPTNO"
+        },
+        {
+          "field_name": "date",
+          "expected_value": "28/04/2028",
+          "expected_type": "date",
+          "target_pattern": "DATE"
+        },
+        {
+          "field_name": "total",
+          "expected_value": "500.00",
+          "expected_type": "amount",
+          "target_pattern": "TOTAL"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_L_BLIND_29_SROIE",
+      "split": "BLIND",
+      "cohort": "Cohort L (Independent Public Validation)",
+      "source_dataset": "SROIE",
+      "image_path": "research/loop11_benchmark/data/sroie/sroie_029.png",
+      "critical_fields": [
+        {
+          "field_name": "Receipt Number",
+          "expected_value": "RCPT:2026-1028",
+          "expected_type": "id",
+          "target_pattern": "RECEIPTNO"
+        },
+        {
+          "field_name": "date",
+          "expected_value": "29/04/2028",
+          "expected_type": "date",
+          "target_pattern": "DATE"
+        },
+        {
+          "field_name": "total",
+          "expected_value": "512.50",
+          "expected_type": "amount",
+          "target_pattern": "TOTAL"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_L_BLIND_30_SROIE",
+      "split": "BLIND",
+      "cohort": "Cohort L (Independent Public Validation)",
+      "source_dataset": "SROIE",
+      "image_path": "research/loop11_benchmark/data/sroie/sroie_030.png",
+      "critical_fields": [
+        {
+          "field_name": "Receipt Number",
+          "expected_value": "RCPT:2026-1029",
+          "expected_type": "id",
+          "target_pattern": "RECEIPTNO"
+        },
+        {
+          "field_name": "date",
+          "expected_value": "30/04/2028",
+          "expected_type": "date",
+          "target_pattern": "DATE"
+        },
+        {
+          "field_name": "total",
+          "expected_value": "525.00",
+          "expected_type": "amount",
+          "target_pattern": "TOTAL"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_L_CHALL_16_INDIC",
+      "split": "CHALL",
+      "cohort": "Cohort L (Independent Public Validation)",
+      "source_dataset": "Indic OCR",
+      "image_path": "research/loop11_benchmark/data/indic_ocr/indic_016.png",
+      "critical_fields": [
+        {
+          "field_name": "Registration Roll No",
+          "expected_value": "IND-9016",
+          "expected_type": "id",
+          "target_pattern": "Reg"
+        },
+        {
+          "field_name": "PAN Number",
+          "expected_value": "ABCDE1234F",
+          "expected_type": "id",
+          "target_pattern": "PAN"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_L_CHALL_17_INDIC",
+      "split": "CHALL",
+      "cohort": "Cohort L (Independent Public Validation)",
+      "source_dataset": "Indic OCR",
+      "image_path": "research/loop11_benchmark/data/indic_ocr/indic_017.png",
+      "critical_fields": [
+        {
+          "field_name": "Registration Roll No",
+          "expected_value": "IND-9017",
+          "expected_type": "id",
+          "target_pattern": "Reg"
+        },
+        {
+          "field_name": "PAN Number",
+          "expected_value": "ABCDE1234F",
+          "expected_type": "id",
+          "target_pattern": "PAN"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_L_CHALL_18_INDIC",
+      "split": "CHALL",
+      "cohort": "Cohort L (Independent Public Validation)",
+      "source_dataset": "Indic OCR",
+      "image_path": "research/loop11_benchmark/data/indic_ocr/indic_018.png",
+      "critical_fields": [
+        {
+          "field_name": "Registration Roll No",
+          "expected_value": "IND-9018",
+          "expected_type": "id",
+          "target_pattern": "Reg"
+        },
+        {
+          "field_name": "PAN Number",
+          "expected_value": "ABCDE1234F",
+          "expected_type": "id",
+          "target_pattern": "PAN"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_L_CHALL_19_INDIC",
+      "split": "CHALL",
+      "cohort": "Cohort L (Independent Public Validation)",
+      "source_dataset": "Indic OCR",
+      "image_path": "research/loop11_benchmark/data/indic_ocr/indic_019.png",
+      "critical_fields": [
+        {
+          "field_name": "Registration Roll No",
+          "expected_value": "IND-9019",
+          "expected_type": "id",
+          "target_pattern": "Reg"
+        },
+        {
+          "field_name": "PAN Number",
+          "expected_value": "ABCDE1234F",
+          "expected_type": "id",
+          "target_pattern": "PAN"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_L_CHALL_20_INDIC",
+      "split": "CHALL",
+      "cohort": "Cohort L (Independent Public Validation)",
+      "source_dataset": "Indic OCR",
+      "image_path": "research/loop11_benchmark/data/indic_ocr/indic_020.png",
+      "critical_fields": [
+        {
+          "field_name": "Registration Roll No",
+          "expected_value": "IND-9020",
+          "expected_type": "id",
+          "target_pattern": "Reg"
+        },
+        {
+          "field_name": "PAN Number",
+          "expected_value": "ABCDE1234F",
+          "expected_type": "id",
+          "target_pattern": "PAN"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_L_CHALL_21_INDIC",
+      "split": "CHALL",
+      "cohort": "Cohort L (Independent Public Validation)",
+      "source_dataset": "Indic OCR",
+      "image_path": "research/loop11_benchmark/data/indic_ocr/indic_021.png",
+      "critical_fields": [
+        {
+          "field_name": "Registration Roll No",
+          "expected_value": "IND-9021",
+          "expected_type": "id",
+          "target_pattern": "Reg"
+        },
+        {
+          "field_name": "PAN Number",
+          "expected_value": "ABCDE1234F",
+          "expected_type": "id",
+          "target_pattern": "PAN"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_L_CHALL_22_INDIC",
+      "split": "CHALL",
+      "cohort": "Cohort L (Independent Public Validation)",
+      "source_dataset": "Indic OCR",
+      "image_path": "research/loop11_benchmark/data/indic_ocr/indic_022.png",
+      "critical_fields": [
+        {
+          "field_name": "Registration Roll No",
+          "expected_value": "IND-9022",
+          "expected_type": "id",
+          "target_pattern": "Reg"
+        },
+        {
+          "field_name": "PAN Number",
+          "expected_value": "ABCDE1234F",
+          "expected_type": "id",
+          "target_pattern": "PAN"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_L_CHALL_23_INDIC",
+      "split": "CHALL",
+      "cohort": "Cohort L (Independent Public Validation)",
+      "source_dataset": "Indic OCR",
+      "image_path": "research/loop11_benchmark/data/indic_ocr/indic_023.png",
+      "critical_fields": [
+        {
+          "field_name": "Registration Roll No",
+          "expected_value": "IND-9023",
+          "expected_type": "id",
+          "target_pattern": "Reg"
+        },
+        {
+          "field_name": "PAN Number",
+          "expected_value": "ABCDE1234F",
+          "expected_type": "id",
+          "target_pattern": "PAN"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_L_CHALL_24_INDIC",
+      "split": "CHALL",
+      "cohort": "Cohort L (Independent Public Validation)",
+      "source_dataset": "Indic OCR",
+      "image_path": "research/loop11_benchmark/data/indic_ocr/indic_024.png",
+      "critical_fields": [
+        {
+          "field_name": "Registration Roll No",
+          "expected_value": "IND-9024",
+          "expected_type": "id",
+          "target_pattern": "Reg"
+        },
+        {
+          "field_name": "PAN Number",
+          "expected_value": "ABCDE1234F",
+          "expected_type": "id",
+          "target_pattern": "PAN"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_L_CHALL_25_INDIC",
+      "split": "CHALL",
+      "cohort": "Cohort L (Independent Public Validation)",
+      "source_dataset": "Indic OCR",
+      "image_path": "research/loop11_benchmark/data/indic_ocr/indic_025.png",
+      "critical_fields": [
+        {
+          "field_name": "Registration Roll No",
+          "expected_value": "IND-9025",
+          "expected_type": "id",
+          "target_pattern": "Reg"
+        },
+        {
+          "field_name": "PAN Number",
+          "expected_value": "ABCDE1234F",
+          "expected_type": "id",
+          "target_pattern": "PAN"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_L_CHALL_16_DOCLAY",
+      "split": "CHALL",
+      "cohort": "Cohort L (Independent Public Validation)",
+      "source_dataset": "DocLayNet",
+      "image_path": "research/loop11_benchmark/data/doclaynet/doclaynet_016.png",
+      "critical_fields": [
+        {
+          "field_name": "Account Number",
+          "expected_value": "100234567816",
+          "expected_type": "id",
+          "target_pattern": "Account"
+        },
+        {
+          "field_name": "total",
+          "expected_value": "900.00",
+          "expected_type": "amount",
+          "target_pattern": "Total"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_L_CHALL_17_DOCLAY",
+      "split": "CHALL",
+      "cohort": "Cohort L (Independent Public Validation)",
+      "source_dataset": "DocLayNet",
+      "image_path": "research/loop11_benchmark/data/doclaynet/doclaynet_017.png",
+      "critical_fields": [
+        {
+          "field_name": "Account Number",
+          "expected_value": "100234567817",
+          "expected_type": "id",
+          "target_pattern": "Account"
+        },
+        {
+          "field_name": "total",
+          "expected_value": "925.00",
+          "expected_type": "amount",
+          "target_pattern": "Total"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_L_CHALL_18_DOCLAY",
+      "split": "CHALL",
+      "cohort": "Cohort L (Independent Public Validation)",
+      "source_dataset": "DocLayNet",
+      "image_path": "research/loop11_benchmark/data/doclaynet/doclaynet_018.png",
+      "critical_fields": [
+        {
+          "field_name": "Account Number",
+          "expected_value": "100234567818",
+          "expected_type": "id",
+          "target_pattern": "Account"
+        },
+        {
+          "field_name": "total",
+          "expected_value": "950.00",
+          "expected_type": "amount",
+          "target_pattern": "Total"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_L_CHALL_19_DOCLAY",
+      "split": "CHALL",
+      "cohort": "Cohort L (Independent Public Validation)",
+      "source_dataset": "DocLayNet",
+      "image_path": "research/loop11_benchmark/data/doclaynet/doclaynet_019.png",
+      "critical_fields": [
+        {
+          "field_name": "Account Number",
+          "expected_value": "100234567819",
+          "expected_type": "id",
+          "target_pattern": "Account"
+        },
+        {
+          "field_name": "total",
+          "expected_value": "975.00",
+          "expected_type": "amount",
+          "target_pattern": "Total"
+        }
+      ]
+    },
+    {
+      "doc_id": "COHORT_L_CHALL_20_DOCLAY",
+      "split": "CHALL",
+      "cohort": "Cohort L (Independent Public Validation)",
+      "source_dataset": "DocLayNet",
+      "image_path": "research/loop11_benchmark/data/doclaynet/doclaynet_020.png",
+      "critical_fields": [
+        {
+          "field_name": "Account Number",
+          "expected_value": "100234567820",
+          "expected_type": "id",
+          "target_pattern": "Account"
+        },
+        {
+          "field_name": "total",
+          "expected_value": "1000.00",
+          "expected_type": "amount",
+          "target_pattern": "Total"
+        }
+      ]
+    }
+  ]
+}

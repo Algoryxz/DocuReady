@@ -127,7 +127,7 @@ export function normalizeFindingsAndEvidence(
 }
 
 export interface FindingFilterCriteria {
-  status?: string; // "ALL" | "FAIL" | "WARN" | "PASS" | "MANUAL_REVIEW" | "MISSING"
+  status?: string; // "ALL" | "FAIL" | "WARN" | "PASS" | "REVIEW" | "MANUAL_REVIEW" | "MISSING"
   searchQuery?: string;
   sortBy?: "severity" | "rule_id" | "status";
 }
@@ -143,6 +143,7 @@ const STATUS_WEIGHTS: Record<string, number> = {
   FAIL: 5,
   MISSING: 4,
   WARN: 3,
+  REVIEW: 2,
   MANUAL_REVIEW: 2,
   PASS: 1
 };
@@ -159,6 +160,9 @@ export function filterFindings(
     list = list.filter((f) => {
       if (targetStatus === "FAIL") {
         return f.status === "FAIL" || f.status === "MISSING";
+      }
+      if (targetStatus === "REVIEW" || targetStatus === "MANUAL_REVIEW") {
+        return f.status === "REVIEW" || f.status === "MANUAL_REVIEW";
       }
       return f.status.toUpperCase() === targetStatus;
     });

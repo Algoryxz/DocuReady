@@ -1,0 +1,76 @@
+{
+  "sidecar_exe_count": 19,
+  "sidecar_exes": [
+    "ambiguous_words.exe",
+    "classifier_tester.exe",
+    "cntraining.exe",
+    "combine_lang_model.exe",
+    "combine_tessdata.exe",
+    "dawg2wordlist.exe",
+    "docuready_sidecar.exe",
+    "lstmeval.exe",
+    "lstmtraining.exe",
+    "merge_unicharsets.exe",
+    "mftraining.exe",
+    "set_unicharset_properties.exe",
+    "shapeclustering.exe",
+    "tesseract-uninstall.exe",
+    "tesseract.exe",
+    "text2image.exe",
+    "unicharset_extractor.exe",
+    "winpath.exe",
+    "wordlist2dawg.exe"
+  ],
+  "dll_count": 122,
+  "dlls_sample": [
+    "MSVCP140.dll",
+    "VCOMP140.DLL",
+    "VCRUNTIME140.dll",
+    "VCRUNTIME140_1.dll",
+    "api-ms-win-core-console-l1-1-0.dll",
+    "api-ms-win-core-datetime-l1-1-0.dll",
+    "api-ms-win-core-debug-l1-1-0.dll",
+    "api-ms-win-core-errorhandling-l1-1-0.dll",
+    "api-ms-win-core-fibers-l1-1-0.dll",
+    "api-ms-win-core-file-l1-1-0.dll",
+    "api-ms-win-core-file-l1-2-0.dll",
+    "api-ms-win-core-file-l2-1-0.dll",
+    "api-ms-win-core-handle-l1-1-0.dll",
+    "api-ms-win-core-heap-l1-1-0.dll",
+    "api-ms-win-core-interlocked-l1-1-0.dll",
+    "api-ms-win-core-libraryloader-l1-1-0.dll",
+    "api-ms-win-core-localization-l1-2-0.dll",
+    "api-ms-win-core-memory-l1-1-0.dll",
+    "api-ms-win-core-namedpipe-l1-1-0.dll",
+    "api-ms-win-core-processenvironment-l1-1-0.dll",
+    "api-ms-win-core-processthreads-l1-1-0.dll",
+    "api-ms-win-core-processthreads-l1-1-1.dll",
+    "api-ms-win-core-profile-l1-1-0.dll",
+    "api-ms-win-core-rtlsupport-l1-1-0.dll",
+    "api-ms-win-core-string-l1-1-0.dll",
+    "api-ms-win-core-synch-l1-1-0.dll",
+    "api-ms-win-core-synch-l1-2-0.dll",
+    "api-ms-win-core-sysinfo-l1-1-0.dll",
+    "api-ms-win-core-timezone-l1-1-0.dll",
+    "api-ms-win-core-util-l1-1-0.dll"
+  ],
+  "traineddata_files": [
+    {
+      "file": "eng.traineddata",
+      "size_bytes": 4113088
+    },
+    {
+      "file": "hin.traineddata",
+      "size_bytes": 1122751
+    },
+    {
+      "file": "ori.traineddata",
+      "size_bytes": 1480066
+    },
+    {
+      "file": "osd.traineddata",
+      "size_bytes": 10562727
+    }
+  ],
+  "vc_runtime_present": true
+}

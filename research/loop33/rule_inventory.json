@@ -1,0 +1,1810 @@
+{
+  "total_rules": 64,
+  "families": {
+    "A_Identity_and_Identifier": 19,
+    "B_Date_and_Chronology": 10,
+    "C_Numeric_and_Financial": 13,
+    "D_Table_and_Field_Association": 2,
+    "E_Cross_Document_Outcome": 3,
+    "F_Document_and_Scheme_Pack": 7,
+    "G_Confidence_and_Abstention": 0,
+    "H_Meta_and_Safety_Invariants": 10
+  },
+  "rules": [
+    {
+      "rule_id": "RULE-DOC-01",
+      "rule_name": "Mandatory Document Completeness",
+      "subsystem": "Declarative Scheme Pack (generic.demo)",
+      "family": "F",
+      "primitive": "require_document",
+      "inputs": {
+        "slot": "income_certificate"
+      },
+      "params": {
+        "min_pages": 1
+      },
+      "max_severity": "FAIL",
+      "citation": {
+        "source_id": "SRC-DOC-01",
+        "clause": "Section 7",
+        "status": "verified",
+        "issuing_body": "Ministry of Social Justice and Empowerment, Government of India",
+        "source_title": "Centrally Sponsored Scheme of Post-Matric Scholarships to the Students Belonging to Scheduled Castes for Studies in India (2020-21 to 2025-26)",
+        "supports_rule": true,
+        "notes": "Requires application form, qualifying marksheet, caste certificate (if applicable), income certificate, and bank passbook/account details."
+      },
+      "remediation": {
+        "authority": "Competent Revenue Authority",
+        "replacement_document": "income_certificate",
+        "steps": [
+          "Obtain and upload a valid Income Certificate before portal submission."
+        ]
+      },
+      "implementation_file": "packs/generic.demo/pack.yaml & src/docuready/rules/engine.py"
+    },
+    {
+      "rule_id": "RULE-DOC-02",
+      "rule_name": "Document Legibility & Evidence Integrity",
+      "subsystem": "Declarative Scheme Pack (generic.demo)",
+      "family": "F",
+      "primitive": "legible",
+      "inputs": {
+        "slot": "income_certificate"
+      },
+      "params": {
+        "min_confidence": 0.6
+      },
+      "max_severity": "WARN",
+      "citation": {
+        "source_id": "SRC-DOC-02",
+        "clause": "Portal Upload Instructions",
+        "status": "unverified",
+        "issuing_body": "National Scholarship Portal (NSP), Ministry of Electronics and Information Technology (MeitY)",
+        "source_title": "NSP Operational Guidelines & Portal User Instructions",
+        "supports_rule": false,
+        "notes": "NSP upload guidelines instruct users to upload legible documents, but specific numeric OCR thresholds (0.60) are internal DocuReady engineering heuristics rather than primary statutory clauses."
+      },
+      "remediation": {
+        "authority": "Applicant / Scanning Centre",
+        "steps": [
+          "Re-scan the document with at least 300 DPI flatbed scanner and ensure good lighting."
+        ]
+      },
+      "implementation_file": "packs/generic.demo/pack.yaml & src/docuready/rules/engine.py"
+    },
+    {
+      "rule_id": "RULE-FLD-01",
+      "rule_name": "Mandatory Field Completeness",
+      "subsystem": "Declarative Scheme Pack (generic.demo)",
+      "family": "D",
+      "primitive": "field_present",
+      "inputs": {
+        "field": "applicant_name",
+        "docs": [
+          "application_form",
+          "income_certificate",
+          "caste_certificate",
+          "residence_certificate",
+          "marksheet",
+          "bank_passbook"
+        ]
+      },
+      "params": {},
+      "max_severity": "FAIL",
+      "citation": {
+        "source_id": "SRC-FLD-01",
+        "clause": "Operational Guidance on Mandatory Attributes",
+        "status": "unverified",
+        "issuing_body": "Direct Benefit Transfer (DBT) Mission, Cabinet Secretariat",
+        "source_title": "DBT Guidelines on Beneficiary Verification",
+        "supports_rule": false,
+        "notes": "While DBT guidelines require beneficiary name and account routing data, the specific required field set is an application-level schema check."
+      },
+      "remediation": {
+        "authority": "State Scholarship Portal",
+        "steps": [
+          "Ensure mandatory applicant name is clearly visible and legible on all documents."
+        ]
+      },
+      "implementation_file": "packs/generic.demo/pack.yaml & src/docuready/rules/engine.py"
+    },
+    {
+      "rule_id": "RULE-NAME-01",
+      "rule_name": "Cross-Document Applicant Name Consistency",
+      "subsystem": "Declarative Scheme Pack (generic.demo)",
+      "family": "A",
+      "primitive": "match_across",
+      "inputs": {
+        "fields": [
+          "application_form.applicant_name",
+          "income_certificate.applicant_name",
+          "caste_certificate.applicant_name",
+          "residence_certificate.applicant_name",
+          "marksheet.applicant_name",
+          "bank_passbook.applicant_name"
+        ]
+      },
+      "params": {
+        "grade": "name"
+      },
+      "max_severity": "FAIL",
+      "citation": {
+        "source_id": "SRC-NAME-01",
+        "clause": "Demographic Verification Procedures",
+        "status": "unverified",
+        "issuing_body": "National Informatics Centre (NIC) / NSP",
+        "source_title": "NSP Verification Manual & Operational Guidance",
+        "supports_rule": false,
+        "notes": "Portal scrutiny procedures require applicant names to match across certificates, but exact algorithmic similarity thresholds (e.g. token sort ratio >= 80) are internal linter heuristics."
+      },
+      "remediation": {
+        "authority": "State Scholarship Portal / Revenue Authority",
+        "steps": [
+          "Ensure exact legal name is used across all documents or attach Gazette notification/affidavit."
+        ]
+      },
+      "implementation_file": "packs/generic.demo/pack.yaml & src/docuready/rules/engine.py"
+    },
+    {
+      "rule_id": "RULE-DOB-01",
+      "rule_name": "Cross-Document Date of Birth Consistency",
+      "subsystem": "Declarative Scheme Pack (generic.demo)",
+      "family": "B",
+      "primitive": "match_across",
+      "inputs": {
+        "fields": [
+          "application_form.dob",
+          "marksheet.dob"
+        ]
+      },
+      "params": {
+        "grade": "date"
+      },
+      "max_severity": "FAIL",
+      "citation": {
+        "source_id": "SRC-DOB-01",
+        "clause": "Rule 69.2 (Change/Correction in Date of Birth)",
+        "status": "verified",
+        "issuing_body": "Central Board of Secondary Education (CBSE)",
+        "source_title": "CBSE Examination Bye-Laws (Notification CBSE/Coord/2021)",
+        "supports_rule": true,
+        "notes": "Rule 69.2 governs date-of-birth records in CBSE secondary school certificates, which serve as standard age evidence across Indian government applications. Note: Governs certificate accuracy, not an overarching statutory scholarship decree."
+      },
+      "remediation": {
+        "authority": "Secondary Education Examination Board",
+        "steps": [
+          "Update Date of Birth on portal application to strictly match the Class 10 High School Certificate."
+        ]
+      },
+      "implementation_file": "packs/generic.demo/pack.yaml & src/docuready/rules/engine.py"
+    },
+    {
+      "rule_id": "RULE-INC-01",
+      "rule_name": "Statutory Income Ceiling Compliance",
+      "subsystem": "Declarative Scheme Pack (generic.demo)",
+      "family": "C",
+      "primitive": "numeric_cap",
+      "inputs": {
+        "field": "annual_income",
+        "docs": [
+          "income_certificate"
+        ]
+      },
+      "params": {
+        "cap": "$income_ceiling",
+        "comparator": "<="
+      },
+      "max_severity": "FAIL",
+      "citation": {
+        "source_id": "SRC-INC-01",
+        "clause": "Clause 3.1 (Conditions of Eligibility \u2014 Means Test Ceiling)",
+        "status": "verified",
+        "issuing_body": "Ministry of Social Justice and Empowerment, Government of India",
+        "source_title": "Centrally Sponsored Scheme of Post-Matric Scholarships to the Students Belonging to Scheduled Castes for Studies in India (2020-21 to 2025-26)",
+        "supports_rule": true,
+        "notes": "Explicitly sets the total annual family income ceiling at Rs. 2,50,000 for eligibility under the centrally sponsored scholarship scheme."
+      },
+      "remediation": {
+        "authority": "Ministry of Social Justice and Empowerment / Tahsil Office",
+        "steps": [
+          "Applicant exceeds statutory economic threshold of \u20b92,50,000 for this scheme."
+        ]
+      },
+      "implementation_file": "packs/generic.demo/pack.yaml & src/docuready/rules/engine.py"
+    },
+    {
+      "rule_id": "RULE-INC-02",
+      "rule_name": "Cross-Document Income Declaration Match",
+      "subsystem": "Declarative Scheme Pack (generic.demo)",
+      "family": "C",
+      "primitive": "numeric_consistency",
+      "inputs": {
+        "fields": [
+          "income_certificate.annual_income",
+          "application_form.annual_income"
+        ]
+      },
+      "params": {
+        "tolerance": "$income_tolerance"
+      },
+      "max_severity": "FAIL",
+      "citation": {
+        "source_id": "SRC-INC-02",
+        "clause": "Income Scrutiny Protocol",
+        "status": "unverified",
+        "issuing_body": "National Scholarship Portal (NSP)",
+        "source_title": "NSP Guidelines for Institute Nodal Officers",
+        "supports_rule": false,
+        "notes": "Reconciliation between portal declaration and revenue certificate is an administrative verification check; no enacted clause specifies exact zero-tolerance text matching."
+      },
+      "remediation": {
+        "authority": "State Scholarship Portal",
+        "steps": [
+          "Correct declared income in application form to exactly equal the certified income."
+        ]
+      },
+      "implementation_file": "packs/generic.demo/pack.yaml & src/docuready/rules/engine.py"
+    },
+    {
+      "rule_id": "RULE-EXP-01",
+      "rule_name": "Income Certificate Validity Period",
+      "subsystem": "Declarative Scheme Pack (generic.demo)",
+      "family": "B",
+      "primitive": "within_validity",
+      "inputs": {
+        "field": "issue_date",
+        "docs": [
+          "income_certificate"
+        ]
+      },
+      "params": {
+        "validity_years": "$income_cert_validity_years"
+      },
+      "max_severity": "FAIL",
+      "citation": {
+        "source_id": "SRC-EXP-01",
+        "clause": "State Executive Instructions on Income Certificate Duration",
+        "status": "unverified",
+        "issuing_body": "State Revenue Departments (Jurisdiction-Dependent)",
+        "source_title": "State Revenue Miscellaneous Certificates Regulations & Executive Orders",
+        "supports_rule": false,
+        "notes": "Revenue certificate validity varies by state and scheme. (Note: Odisha Miscellaneous Certificates Rules 2019 Rule 8 concerns cancellation, not duration; validity periods derive from separate executive notifications and vary across jurisdictions from 1 to 3 financial years). Marked unverified."
+      },
+      "remediation": {
+        "authority": "Revenue Department / Tahsil Office",
+        "steps": [
+          "Apply for a renewed Income Certificate at the nearest Tahsil Office or e-District portal."
+        ]
+      },
+      "implementation_file": "packs/generic.demo/pack.yaml & src/docuready/rules/engine.py"
+    },
+    {
+      "rule_id": "RULE-REF-01",
+      "rule_name": "Certificate Reference Number Match",
+      "subsystem": "Declarative Scheme Pack (generic.demo)",
+      "family": "A",
+      "primitive": "match_across",
+      "inputs": {
+        "fields": [
+          "application_form.income_cert_no",
+          "income_certificate.certificate_no"
+        ]
+      },
+      "params": {
+        "grade": "id"
+      },
+      "max_severity": "FAIL",
+      "citation": {
+        "source_id": "SRC-REF-01",
+        "clause": "e-District Online Verification Service Specifications",
+        "status": "unverified",
+        "issuing_body": "National Informatics Centre (NIC) - e-District MMP",
+        "source_title": "e-District Mission Mode Project Technical Architecture",
+        "supports_rule": false,
+        "notes": "e-District \u00a75.2 concerns identification of State Designated Agencies, not barcode verification APIs. Reference number string matching is an internal cross-document consistency check, not a statutory mandate."
+      },
+      "remediation": {
+        "authority": "State e-District Portal",
+        "steps": [
+          "Update certificate reference number in portal application to match uploaded certificate."
+        ]
+      },
+      "implementation_file": "packs/generic.demo/pack.yaml & src/docuready/rules/engine.py"
+    },
+    {
+      "rule_id": "RULE-REF-02",
+      "rule_name": "RULE-REF-02",
+      "subsystem": "Declarative Scheme Pack (generic.demo)",
+      "family": "A",
+      "primitive": "match_across",
+      "inputs": {
+        "fields": [
+          "application_form.caste_cert_no",
+          "caste_certificate.certificate_no"
+        ]
+      },
+      "params": {
+        "grade": "id"
+      },
+      "max_severity": "FAIL",
+      "citation": {
+        "source_id": "SRC-REF-01",
+        "clause": "Section 4.3",
+        "status": "unverified",
+        "issuing_body": "National Informatics Centre (NIC) - e-District MMP",
+        "source_title": "e-District Mission Mode Project Technical Architecture",
+        "supports_rule": false,
+        "notes": "e-District \u00a75.2 concerns identification of State Designated Agencies, not barcode verification APIs. Reference number string matching is an internal cross-document consistency check, not a statutory mandate."
+      },
+      "remediation": {
+        "authority": "State e-District Portal",
+        "steps": [
+          "Update caste certificate reference number on the portal."
+        ]
+      },
+      "implementation_file": "packs/generic.demo/pack.yaml & src/docuready/rules/engine.py"
+    },
+    {
+      "rule_id": "RULE-BNK-01",
+      "rule_name": "Bank IFSC Code Standard Format",
+      "subsystem": "Declarative Scheme Pack (generic.demo)",
+      "family": "A",
+      "primitive": "match_across",
+      "inputs": {
+        "field": "ifsc",
+        "docs": [
+          "bank_passbook"
+        ]
+      },
+      "params": {
+        "grade": "id"
+      },
+      "max_severity": "FAIL",
+      "citation": {
+        "source_id": "SRC-BNK-01",
+        "clause": "Chapter 2, Section 2.1 (IFSC Code Structure Specification)",
+        "status": "verified",
+        "issuing_body": "Reserve Bank of India (RBI)",
+        "source_title": "RBI Master Direction on Electronic Payment Systems \u2014 NEFT System Procedural Guidelines",
+        "supports_rule": true,
+        "notes": "Authoritatively defines the 11-character Indian Financial System Code (IFSC) format: 4 alpha characters, digit '0', and 6 alphanumeric branch characters."
+      },
+      "remediation": {
+        "authority": "Bank Branch / RBI Core Banking",
+        "steps": [
+          "Check the passbook or contact branch for the official 11-character RBI IFSC code."
+        ]
+      },
+      "implementation_file": "packs/generic.demo/pack.yaml & src/docuready/rules/engine.py"
+    },
+    {
+      "rule_id": "RULE-BNK-02",
+      "rule_name": "Bank Account Number Consistency",
+      "subsystem": "Declarative Scheme Pack (generic.demo)",
+      "family": "A",
+      "primitive": "match_across",
+      "inputs": {
+        "fields": [
+          "bank_passbook.account_no",
+          "application_form.account_no"
+        ]
+      },
+      "params": {
+        "grade": "id"
+      },
+      "max_severity": "FAIL",
+      "citation": {
+        "source_id": "SRC-BNK-02",
+        "clause": "Beneficiary Account Matching Operational Protocols",
+        "status": "unverified",
+        "issuing_body": "PFMS / Ministry of Finance",
+        "source_title": "PFMS Operational Guidelines for DBT Account Validation",
+        "supports_rule": false,
+        "notes": "Matching between declared account numbers and passbook scans is an administrative pre-check heuristic to avoid PFMS validation rejections."
+      },
+      "remediation": {
+        "authority": "Direct Benefit Transfer Mission",
+        "steps": [
+          "Ensure exact DBT bank account number is typed into scholarship portal."
+        ]
+      },
+      "implementation_file": "packs/generic.demo/pack.yaml & src/docuready/rules/engine.py"
+    },
+    {
+      "rule_id": "RULE-DOM-01",
+      "rule_name": "State Domicile Requirement",
+      "subsystem": "Declarative Scheme Pack (generic.demo)",
+      "family": "F",
+      "primitive": "enum_in",
+      "inputs": {
+        "field": "state",
+        "docs": [
+          "residence_certificate"
+        ]
+      },
+      "params": {
+        "values": [
+          "ODISHA"
+        ]
+      },
+      "max_severity": "FAIL",
+      "citation": {
+        "source_id": "SRC-DOM-01",
+        "clause": "Scheme Specific Domicile Clauses",
+        "status": "unverified",
+        "issuing_body": "State Higher Education / Welfare Departments",
+        "source_title": "State Scholarship Scheme Guidelines (e.g., e-Medhabruti / Odisha State Portal)",
+        "supports_rule": false,
+        "notes": "Domicile requirements are scheme- and state-specific. Validating state residence certificates against portal domicile declarations is an administrative eligibility check."
+      },
+      "remediation": {
+        "authority": "Revenue Authority of Odisha",
+        "steps": [
+          "Submit a valid Resident Certificate issued by Revenue Authority of ODISHA."
+        ]
+      },
+      "implementation_file": "packs/generic.demo/pack.yaml & src/docuready/rules/engine.py"
+    },
+    {
+      "rule_id": "RULE-MRK-01",
+      "rule_name": "Academic Cutoff Compliance & Category Relaxations",
+      "subsystem": "Declarative Scheme Pack (generic.demo)",
+      "family": "C",
+      "primitive": "numeric_cap",
+      "inputs": {
+        "field": "percentage",
+        "docs": [
+          "marksheet"
+        ]
+      },
+      "params": {
+        "cap": "$min_academic_percentage",
+        "comparator": ">="
+      },
+      "max_severity": "FAIL",
+      "citation": {
+        "source_id": "SRC-MRK-01",
+        "clause": "Clause 5.2",
+        "status": "verified",
+        "issuing_body": "Ministry of Social Justice and Empowerment, Government of India",
+        "source_title": "Centrally Sponsored Scheme of Post-Matric Scholarships to the Students Belonging to Scheduled Castes for Studies in India (2020-21 to 2025-26)",
+        "supports_rule": true,
+        "notes": "Recognizes qualifying examination passing requirements while enforcing statutory category relaxations for reserved category students."
+      },
+      "remediation": {
+        "authority": "Academic Council / Examination Board",
+        "steps": [
+          "Ensure candidate meets the minimum academic criteria or check reservation category."
+        ]
+      },
+      "implementation_file": "packs/generic.demo/pack.yaml & src/docuready/rules/engine.py"
+    },
+    {
+      "rule_id": "RULE-DOC-01_PROCEDURAL",
+      "base_rule_id": "RULE-DOC-01",
+      "rule_name": "Mandatory Document Completeness",
+      "subsystem": "Procedural Validator (DocuReadyValidator)",
+      "family": "F",
+      "primitive": "procedural_code",
+      "inputs": {
+        "field": "MANDATORY_DOCUMENT"
+      },
+      "params": {
+        "penalty": 35
+      },
+      "max_severity": "Severity.FATAL",
+      "citation": {
+        "source_id": "SRC-DOC-01",
+        "clause": "Section 7 (Documents to be submitted with application form)",
+        "status": "verified",
+        "issuing_body": "Ministry of Social Justice and Empowerment, Government of India",
+        "source_title": "Centrally Sponsored Scheme of Post-Matric Scholarships to the Students Belonging to Scheduled Castes for Studies in India (2020-21 to 2025-26)",
+        "supports_rule": true,
+        "notes": "Requires application form, qualifying marksheet, caste certificate (if applicable), income certificate, and bank passbook/account details."
+      },
+      "remediation": "Standard procedural remediation",
+      "implementation_file": "src/docuready/rules/validator.py"
+    },
+    {
+      "rule_id": "RULE-DOC-02_PROCEDURAL",
+      "base_rule_id": "RULE-DOC-02",
+      "rule_name": "Document Legibility & Evidence Integrity",
+      "subsystem": "Procedural Validator (DocuReadyValidator)",
+      "family": "F",
+      "primitive": "procedural_code",
+      "inputs": {
+        "field": "SCAN_QUALITY"
+      },
+      "params": {
+        "penalty": 25
+      },
+      "max_severity": "Severity.CRITICAL",
+      "citation": {
+        "source_id": "SRC-DOC-02",
+        "clause": "Portal Upload Instructions (General Document Guidelines)",
+        "status": "unverified",
+        "issuing_body": "National Scholarship Portal (NSP), Ministry of Electronics and Information Technology (MeitY)",
+        "source_title": "NSP Operational Guidelines & Portal User Instructions",
+        "supports_rule": false,
+        "notes": "NSP upload guidelines instruct users to upload legible documents, but specific numeric OCR thresholds (0.60) are internal DocuReady engineering heuristics rather than primary statutory clauses."
+      },
+      "remediation": "Standard procedural remediation",
+      "implementation_file": "src/docuready/rules/validator.py"
+    },
+    {
+      "rule_id": "RULE-NAME-UNCERTAIN_PROCEDURAL",
+      "base_rule_id": "RULE-NAME-UNCERTAIN",
+      "rule_name": "Cross-Document Name Verification (Uncertain OCR)",
+      "subsystem": "Procedural Validator (DocuReadyValidator)",
+      "family": "A",
+      "primitive": "procedural_code",
+      "inputs": {
+        "field": "APPLICANT_NAME_UNCERTAIN"
+      },
+      "params": {
+        "penalty": 10
+      },
+      "max_severity": "Severity.REVIEW",
+      "citation": {
+        "source_id": null,
+        "clause": "Statutory Framework",
+        "status": "unverified",
+        "issuing_body": "State / Central Scheme Authority",
+        "source_title": "Scheme Operational Guidelines",
+        "supports_rule": false,
+        "notes": ""
+      },
+      "remediation": "Standard procedural remediation",
+      "implementation_file": "src/docuready/rules/validator.py"
+    },
+    {
+      "rule_id": "RULE-NAME-01_PROCEDURAL",
+      "base_rule_id": "RULE-NAME-01",
+      "rule_name": "Cross-Document Applicant Name Consistency",
+      "subsystem": "Procedural Validator (DocuReadyValidator)",
+      "family": "A",
+      "primitive": "procedural_code",
+      "inputs": {
+        "field": "APPLICANT_NAME"
+      },
+      "params": {
+        "penalty": 25
+      },
+      "max_severity": "Severity.CRITICAL",
+      "citation": {
+        "source_id": "SRC-NAME-01",
+        "clause": "Demographic Verification Procedures",
+        "status": "unverified",
+        "issuing_body": "National Informatics Centre (NIC) / NSP",
+        "source_title": "NSP Verification Manual & Operational Guidance",
+        "supports_rule": false,
+        "notes": "Portal scrutiny procedures require applicant names to match across certificates, but exact algorithmic similarity thresholds (e.g. token sort ratio >= 80) are internal linter heuristics."
+      },
+      "remediation": "Standard procedural remediation",
+      "implementation_file": "src/docuready/rules/validator.py"
+    },
+    {
+      "rule_id": "RULE-NAME-PASS_PROCEDURAL",
+      "base_rule_id": "RULE-NAME-PASS",
+      "rule_name": "Cross-Document Applicant Name Consistency",
+      "subsystem": "Procedural Validator (DocuReadyValidator)",
+      "family": "A",
+      "primitive": "procedural_code",
+      "inputs": {
+        "field": "APPLICANT_NAME"
+      },
+      "params": {
+        "penalty": 0
+      },
+      "max_severity": "Severity.INFO",
+      "citation": {
+        "source_id": null,
+        "clause": "Statutory Framework",
+        "status": "unverified",
+        "issuing_body": "State / Central Scheme Authority",
+        "source_title": "Scheme Operational Guidelines",
+        "supports_rule": false,
+        "notes": ""
+      },
+      "remediation": "Standard procedural remediation",
+      "implementation_file": "src/docuready/rules/validator.py"
+    },
+    {
+      "rule_id": "RULE-DOB-03_PROCEDURAL",
+      "base_rule_id": "RULE-DOB-03",
+      "rule_name": "Date of Birth Format Validity",
+      "subsystem": "Procedural Validator (DocuReadyValidator)",
+      "family": "B",
+      "primitive": "procedural_code",
+      "inputs": {
+        "field": "DOB_FORMAT"
+      },
+      "params": {
+        "penalty": 25
+      },
+      "max_severity": "Severity.CRITICAL",
+      "citation": {
+        "source_id": null,
+        "clause": "Statutory Framework",
+        "status": "unverified",
+        "issuing_body": "State / Central Scheme Authority",
+        "source_title": "Scheme Operational Guidelines",
+        "supports_rule": false,
+        "notes": ""
+      },
+      "remediation": "Standard procedural remediation",
+      "implementation_file": "src/docuready/rules/validator.py"
+    },
+    {
+      "rule_id": "RULE-DOB-02_PROCEDURAL",
+      "base_rule_id": "RULE-DOB-02",
+      "rule_name": "Date of Birth Ambiguity",
+      "subsystem": "Procedural Validator (DocuReadyValidator)",
+      "family": "B",
+      "primitive": "procedural_code",
+      "inputs": {
+        "field": "DOB_AMBIGUITY"
+      },
+      "params": {
+        "penalty": 5
+      },
+      "max_severity": "Severity.REVIEW",
+      "citation": {
+        "source_id": null,
+        "clause": "Statutory Framework",
+        "status": "unverified",
+        "issuing_body": "State / Central Scheme Authority",
+        "source_title": "Scheme Operational Guidelines",
+        "supports_rule": false,
+        "notes": ""
+      },
+      "remediation": "Standard procedural remediation",
+      "implementation_file": "src/docuready/rules/validator.py"
+    },
+    {
+      "rule_id": "RULE-DOB-UNCERTAIN_PROCEDURAL",
+      "base_rule_id": "RULE-DOB-UNCERTAIN",
+      "rule_name": "Cross-Document Date of Birth (Uncertain OCR)",
+      "subsystem": "Procedural Validator (DocuReadyValidator)",
+      "family": "B",
+      "primitive": "procedural_code",
+      "inputs": {
+        "field": "DATE_OF_BIRTH_UNCERTAIN"
+      },
+      "params": {
+        "penalty": 10
+      },
+      "max_severity": "Severity.REVIEW",
+      "citation": {
+        "source_id": null,
+        "clause": "Statutory Framework",
+        "status": "unverified",
+        "issuing_body": "State / Central Scheme Authority",
+        "source_title": "Scheme Operational Guidelines",
+        "supports_rule": false,
+        "notes": ""
+      },
+      "remediation": "Standard procedural remediation",
+      "implementation_file": "src/docuready/rules/validator.py"
+    },
+    {
+      "rule_id": "RULE-DOB-01_PROCEDURAL",
+      "base_rule_id": "RULE-DOB-01",
+      "rule_name": "Cross-Document Date of Birth Consistency",
+      "subsystem": "Procedural Validator (DocuReadyValidator)",
+      "family": "B",
+      "primitive": "procedural_code",
+      "inputs": {
+        "field": "DATE_OF_BIRTH"
+      },
+      "params": {
+        "penalty": 25
+      },
+      "max_severity": "Severity.CRITICAL",
+      "citation": {
+        "source_id": "SRC-DOB-01",
+        "clause": "Rule 69.2 (Change/Correction in Date of Birth)",
+        "status": "verified",
+        "issuing_body": "Central Board of Secondary Education (CBSE)",
+        "source_title": "CBSE Examination Bye-Laws (Notification CBSE/Coord/2021)",
+        "supports_rule": true,
+        "notes": "Rule 69.2 governs date-of-birth records in CBSE secondary school certificates, which serve as standard age evidence across Indian government applications. Note: Governs certificate accuracy, not an overarching statutory scholarship decree."
+      },
+      "remediation": "Standard procedural remediation",
+      "implementation_file": "src/docuready/rules/validator.py"
+    },
+    {
+      "rule_id": "RULE-DOB-PASS_PROCEDURAL",
+      "base_rule_id": "RULE-DOB-PASS",
+      "rule_name": "Date of Birth Consistency",
+      "subsystem": "Procedural Validator (DocuReadyValidator)",
+      "family": "B",
+      "primitive": "procedural_code",
+      "inputs": {
+        "field": "DATE_OF_BIRTH"
+      },
+      "params": {
+        "penalty": 0
+      },
+      "max_severity": "Severity.INFO",
+      "citation": {
+        "source_id": null,
+        "clause": "Statutory Framework",
+        "status": "unverified",
+        "issuing_body": "State / Central Scheme Authority",
+        "source_title": "Scheme Operational Guidelines",
+        "supports_rule": false,
+        "notes": ""
+      },
+      "remediation": "Standard procedural remediation",
+      "implementation_file": "src/docuready/rules/validator.py"
+    },
+    {
+      "rule_id": "RULE-INC-03_PROCEDURAL",
+      "base_rule_id": "RULE-INC-03",
+      "rule_name": "Income Extraction",
+      "subsystem": "Procedural Validator (DocuReadyValidator)",
+      "family": "C",
+      "primitive": "procedural_code",
+      "inputs": {
+        "field": "INCOME_VALUE"
+      },
+      "params": {
+        "penalty": 20
+      },
+      "max_severity": "Severity.CRITICAL",
+      "citation": {
+        "source_id": null,
+        "clause": "Statutory Framework",
+        "status": "unverified",
+        "issuing_body": "State / Central Scheme Authority",
+        "source_title": "Scheme Operational Guidelines",
+        "supports_rule": false,
+        "notes": ""
+      },
+      "remediation": "Standard procedural remediation",
+      "implementation_file": "src/docuready/rules/validator.py"
+    },
+    {
+      "rule_id": "RULE-INC-CEIL-UNCERTAIN_PROCEDURAL",
+      "base_rule_id": "RULE-INC-CEIL-UNCERTAIN",
+      "rule_name": "Statutory Income Ceiling Compliance (Uncertain OCR)",
+      "subsystem": "Procedural Validator (DocuReadyValidator)",
+      "family": "C",
+      "primitive": "procedural_code",
+      "inputs": {
+        "field": "INCOME_CEILING_UNCERTAIN"
+      },
+      "params": {
+        "penalty": 10
+      },
+      "max_severity": "Severity.REVIEW",
+      "citation": {
+        "source_id": null,
+        "clause": "Statutory Framework",
+        "status": "unverified",
+        "issuing_body": "State / Central Scheme Authority",
+        "source_title": "Scheme Operational Guidelines",
+        "supports_rule": false,
+        "notes": ""
+      },
+      "remediation": "Standard procedural remediation",
+      "implementation_file": "src/docuready/rules/validator.py"
+    },
+    {
+      "rule_id": "RULE-INC-01_PROCEDURAL",
+      "base_rule_id": "RULE-INC-01",
+      "rule_name": "Statutory Income Ceiling Compliance",
+      "subsystem": "Procedural Validator (DocuReadyValidator)",
+      "family": "C",
+      "primitive": "procedural_code",
+      "inputs": {
+        "field": "INCOME_CEILING"
+      },
+      "params": {
+        "penalty": 35
+      },
+      "max_severity": "Severity.FATAL",
+      "citation": {
+        "source_id": "SRC-INC-01",
+        "clause": "Clause 3.1 (Conditions of Eligibility \u2014 Means Test Ceiling)",
+        "status": "verified",
+        "issuing_body": "Ministry of Social Justice and Empowerment, Government of India",
+        "source_title": "Centrally Sponsored Scheme of Post-Matric Scholarships to the Students Belonging to Scheduled Castes for Studies in India (2020-21 to 2025-26)",
+        "supports_rule": true,
+        "notes": "Explicitly sets the total annual family income ceiling at Rs. 2,50,000 for eligibility under the centrally sponsored scholarship scheme."
+      },
+      "remediation": "Standard procedural remediation",
+      "implementation_file": "src/docuready/rules/validator.py"
+    },
+    {
+      "rule_id": "RULE-INC-CEIL-PASS_PROCEDURAL",
+      "base_rule_id": "RULE-INC-CEIL-PASS",
+      "rule_name": "Statutory Income Ceiling Compliance",
+      "subsystem": "Procedural Validator (DocuReadyValidator)",
+      "family": "C",
+      "primitive": "procedural_code",
+      "inputs": {
+        "field": "INCOME_CEILING"
+      },
+      "params": {
+        "penalty": 0
+      },
+      "max_severity": "Severity.INFO",
+      "citation": {
+        "source_id": null,
+        "clause": "Statutory Framework",
+        "status": "unverified",
+        "issuing_body": "State / Central Scheme Authority",
+        "source_title": "Scheme Operational Guidelines",
+        "supports_rule": false,
+        "notes": ""
+      },
+      "remediation": "Standard procedural remediation",
+      "implementation_file": "src/docuready/rules/validator.py"
+    },
+    {
+      "rule_id": "RULE-INC-MISMATCH-UNCERTAIN_PROCEDURAL",
+      "base_rule_id": "RULE-INC-MISMATCH-UNCERTAIN",
+      "rule_name": "Income Consistency (Uncertain OCR)",
+      "subsystem": "Procedural Validator (DocuReadyValidator)",
+      "family": "C",
+      "primitive": "procedural_code",
+      "inputs": {
+        "field": "INCOME_MISMATCH_UNCERTAIN"
+      },
+      "params": {
+        "penalty": 10
+      },
+      "max_severity": "Severity.REVIEW",
+      "citation": {
+        "source_id": null,
+        "clause": "Statutory Framework",
+        "status": "unverified",
+        "issuing_body": "State / Central Scheme Authority",
+        "source_title": "Scheme Operational Guidelines",
+        "supports_rule": false,
+        "notes": ""
+      },
+      "remediation": "Standard procedural remediation",
+      "implementation_file": "src/docuready/rules/validator.py"
+    },
+    {
+      "rule_id": "RULE-INC-02_PROCEDURAL",
+      "base_rule_id": "RULE-INC-02",
+      "rule_name": "Income Consistency (Declared vs Certified)",
+      "subsystem": "Procedural Validator (DocuReadyValidator)",
+      "family": "C",
+      "primitive": "procedural_code",
+      "inputs": {
+        "field": "INCOME_MISMATCH"
+      },
+      "params": {
+        "penalty": 25
+      },
+      "max_severity": "Severity.CRITICAL",
+      "citation": {
+        "source_id": "SRC-INC-02",
+        "clause": "Income Scrutiny Protocol",
+        "status": "unverified",
+        "issuing_body": "National Scholarship Portal (NSP)",
+        "source_title": "NSP Guidelines for Institute Nodal Officers",
+        "supports_rule": false,
+        "notes": "Reconciliation between portal declaration and revenue certificate is an administrative verification check; no enacted clause specifies exact zero-tolerance text matching."
+      },
+      "remediation": "Standard procedural remediation",
+      "implementation_file": "src/docuready/rules/validator.py"
+    },
+    {
+      "rule_id": "RULE-INC-MATCH-PASS_PROCEDURAL",
+      "base_rule_id": "RULE-INC-MATCH-PASS",
+      "rule_name": "Income Consistency (Declared vs Certified)",
+      "subsystem": "Procedural Validator (DocuReadyValidator)",
+      "family": "C",
+      "primitive": "procedural_code",
+      "inputs": {
+        "field": "INCOME_MATCH"
+      },
+      "params": {
+        "penalty": 0
+      },
+      "max_severity": "Severity.INFO",
+      "citation": {
+        "source_id": null,
+        "clause": "Statutory Framework",
+        "status": "unverified",
+        "issuing_body": "State / Central Scheme Authority",
+        "source_title": "Scheme Operational Guidelines",
+        "supports_rule": false,
+        "notes": ""
+      },
+      "remediation": "Standard procedural remediation",
+      "implementation_file": "src/docuready/rules/validator.py"
+    },
+    {
+      "rule_id": "RULE-EXP-02_PROCEDURAL",
+      "base_rule_id": "RULE-EXP-02",
+      "rule_name": "Certificate Date Parseability",
+      "subsystem": "Procedural Validator (DocuReadyValidator)",
+      "family": "B",
+      "primitive": "procedural_code",
+      "inputs": {
+        "field": "CERT_DATE_PARSE"
+      },
+      "params": {
+        "penalty": 20
+      },
+      "max_severity": "Severity.CRITICAL",
+      "citation": {
+        "source_id": null,
+        "clause": "Statutory Framework",
+        "status": "unverified",
+        "issuing_body": "State / Central Scheme Authority",
+        "source_title": "Scheme Operational Guidelines",
+        "supports_rule": false,
+        "notes": ""
+      },
+      "remediation": "Standard procedural remediation",
+      "implementation_file": "src/docuready/rules/validator.py"
+    },
+    {
+      "rule_id": "RULE-EXP-01_PROCEDURAL",
+      "base_rule_id": "RULE-EXP-01",
+      "rule_name": "Income Certificate Statutory Validity Period",
+      "subsystem": "Procedural Validator (DocuReadyValidator)",
+      "family": "B",
+      "primitive": "procedural_code",
+      "inputs": {
+        "field": "CERTIFICATE_EXPIRY"
+      },
+      "params": {
+        "penalty": 25
+      },
+      "max_severity": "Severity.CRITICAL",
+      "citation": {
+        "source_id": "SRC-EXP-01",
+        "clause": "State Executive Instructions on Income Certificate Duration",
+        "status": "unverified",
+        "issuing_body": "State Revenue Departments (Jurisdiction-Dependent)",
+        "source_title": "State Revenue Miscellaneous Certificates Regulations & Executive Orders",
+        "supports_rule": false,
+        "notes": "Revenue certificate validity varies by state and scheme. (Note: Odisha Miscellaneous Certificates Rules 2019 Rule 8 concerns cancellation, not duration; validity periods derive from separate executive notifications and vary across jurisdictions from 1 to 3 financial years). Marked unverified."
+      },
+      "remediation": "Standard procedural remediation",
+      "implementation_file": "src/docuready/rules/validator.py"
+    },
+    {
+      "rule_id": "RULE-EXP-PASS_PROCEDURAL",
+      "base_rule_id": "RULE-EXP-PASS",
+      "rule_name": "Income Certificate Statutory Validity Period",
+      "subsystem": "Procedural Validator (DocuReadyValidator)",
+      "family": "B",
+      "primitive": "procedural_code",
+      "inputs": {
+        "field": "CERTIFICATE_VALIDITY"
+      },
+      "params": {
+        "penalty": 0
+      },
+      "max_severity": "Severity.INFO",
+      "citation": {
+        "source_id": null,
+        "clause": "Statutory Framework",
+        "status": "unverified",
+        "issuing_body": "State / Central Scheme Authority",
+        "source_title": "Scheme Operational Guidelines",
+        "supports_rule": false,
+        "notes": ""
+      },
+      "remediation": "Standard procedural remediation",
+      "implementation_file": "src/docuready/rules/validator.py"
+    },
+    {
+      "rule_id": "RULE-REF-01_PROCEDURAL",
+      "base_rule_id": "RULE-REF-01",
+      "rule_name": "Income Certificate Number Reference Match",
+      "subsystem": "Procedural Validator (DocuReadyValidator)",
+      "family": "A",
+      "primitive": "procedural_code",
+      "inputs": {
+        "field": "INCOME_CERT_NO_MISMATCH"
+      },
+      "params": {
+        "penalty": 25
+      },
+      "max_severity": "Severity.CRITICAL",
+      "citation": {
+        "source_id": "SRC-REF-01",
+        "clause": "e-District Online Verification Service Specifications",
+        "status": "unverified",
+        "issuing_body": "National Informatics Centre (NIC) - e-District MMP",
+        "source_title": "e-District Mission Mode Project Technical Architecture",
+        "supports_rule": false,
+        "notes": "e-District \u00a75.2 concerns identification of State Designated Agencies, not barcode verification APIs. Reference number string matching is an internal cross-document consistency check, not a statutory mandate."
+      },
+      "remediation": "Standard procedural remediation",
+      "implementation_file": "src/docuready/rules/validator.py"
+    },
+    {
+      "rule_id": "RULE-REF-INC-PASS_PROCEDURAL",
+      "base_rule_id": "RULE-REF-INC-PASS",
+      "rule_name": "Income Certificate Number Reference Match",
+      "subsystem": "Procedural Validator (DocuReadyValidator)",
+      "family": "A",
+      "primitive": "procedural_code",
+      "inputs": {
+        "field": "INCOME_CERT_NO_MATCH"
+      },
+      "params": {
+        "penalty": 0
+      },
+      "max_severity": "Severity.INFO",
+      "citation": {
+        "source_id": null,
+        "clause": "Statutory Framework",
+        "status": "unverified",
+        "issuing_body": "State / Central Scheme Authority",
+        "source_title": "Scheme Operational Guidelines",
+        "supports_rule": false,
+        "notes": ""
+      },
+      "remediation": "Standard procedural remediation",
+      "implementation_file": "src/docuready/rules/validator.py"
+    },
+    {
+      "rule_id": "RULE-REF-02_PROCEDURAL",
+      "base_rule_id": "RULE-REF-02",
+      "rule_name": "Caste Certificate Number Reference Match",
+      "subsystem": "Procedural Validator (DocuReadyValidator)",
+      "family": "A",
+      "primitive": "procedural_code",
+      "inputs": {
+        "field": "CASTE_CERT_NO_MISMATCH"
+      },
+      "params": {
+        "penalty": 25
+      },
+      "max_severity": "Severity.CRITICAL",
+      "citation": {
+        "source_id": null,
+        "clause": "Statutory Framework",
+        "status": "unverified",
+        "issuing_body": "State / Central Scheme Authority",
+        "source_title": "Scheme Operational Guidelines",
+        "supports_rule": false,
+        "notes": ""
+      },
+      "remediation": "Standard procedural remediation",
+      "implementation_file": "src/docuready/rules/validator.py"
+    },
+    {
+      "rule_id": "RULE-REF-CST-PASS_PROCEDURAL",
+      "base_rule_id": "RULE-REF-CST-PASS",
+      "rule_name": "Caste Certificate Number Reference Match",
+      "subsystem": "Procedural Validator (DocuReadyValidator)",
+      "family": "A",
+      "primitive": "procedural_code",
+      "inputs": {
+        "field": "CASTE_CERT_NO_MATCH"
+      },
+      "params": {
+        "penalty": 0
+      },
+      "max_severity": "Severity.INFO",
+      "citation": {
+        "source_id": null,
+        "clause": "Statutory Framework",
+        "status": "unverified",
+        "issuing_body": "State / Central Scheme Authority",
+        "source_title": "Scheme Operational Guidelines",
+        "supports_rule": false,
+        "notes": ""
+      },
+      "remediation": "Standard procedural remediation",
+      "implementation_file": "src/docuready/rules/validator.py"
+    },
+    {
+      "rule_id": "RULE-BNK-01_PROCEDURAL",
+      "base_rule_id": "RULE-BNK-01",
+      "rule_name": "Bank IFSC Code Standard Format",
+      "subsystem": "Procedural Validator (DocuReadyValidator)",
+      "family": "A",
+      "primitive": "procedural_code",
+      "inputs": {
+        "field": "IFSC_FORMAT"
+      },
+      "params": {
+        "penalty": 20
+      },
+      "max_severity": "Severity.CRITICAL",
+      "citation": {
+        "source_id": "SRC-BNK-01",
+        "clause": "Chapter 2, Section 2.1 (IFSC Code Structure Specification)",
+        "status": "verified",
+        "issuing_body": "Reserve Bank of India (RBI)",
+        "source_title": "RBI Master Direction on Electronic Payment Systems \u2014 NEFT System Procedural Guidelines",
+        "supports_rule": true,
+        "notes": "Authoritatively defines the 11-character Indian Financial System Code (IFSC) format: 4 alpha characters, digit '0', and 6 alphanumeric branch characters."
+      },
+      "remediation": "Standard procedural remediation",
+      "implementation_file": "src/docuready/rules/validator.py"
+    },
+    {
+      "rule_id": "RULE-BNK-IFSC-PASS_PROCEDURAL",
+      "base_rule_id": "RULE-BNK-IFSC-PASS",
+      "rule_name": "Bank IFSC Code Format",
+      "subsystem": "Procedural Validator (DocuReadyValidator)",
+      "family": "A",
+      "primitive": "procedural_code",
+      "inputs": {
+        "field": "IFSC_FORMAT"
+      },
+      "params": {
+        "penalty": 0
+      },
+      "max_severity": "Severity.INFO",
+      "citation": {
+        "source_id": null,
+        "clause": "Statutory Framework",
+        "status": "unverified",
+        "issuing_body": "State / Central Scheme Authority",
+        "source_title": "Scheme Operational Guidelines",
+        "supports_rule": false,
+        "notes": ""
+      },
+      "remediation": "Standard procedural remediation",
+      "implementation_file": "src/docuready/rules/validator.py"
+    },
+    {
+      "rule_id": "RULE-BNK-02_PROCEDURAL",
+      "base_rule_id": "RULE-BNK-02",
+      "rule_name": "Bank Account Number Consistency",
+      "subsystem": "Procedural Validator (DocuReadyValidator)",
+      "family": "A",
+      "primitive": "procedural_code",
+      "inputs": {
+        "field": "BANK_ACCOUNT_MISMATCH"
+      },
+      "params": {
+        "penalty": 25
+      },
+      "max_severity": "Severity.CRITICAL",
+      "citation": {
+        "source_id": "SRC-BNK-02",
+        "clause": "Beneficiary Account Matching Operational Protocols",
+        "status": "unverified",
+        "issuing_body": "PFMS / Ministry of Finance",
+        "source_title": "PFMS Operational Guidelines for DBT Account Validation",
+        "supports_rule": false,
+        "notes": "Matching between declared account numbers and passbook scans is an administrative pre-check heuristic to avoid PFMS validation rejections."
+      },
+      "remediation": "Standard procedural remediation",
+      "implementation_file": "src/docuready/rules/validator.py"
+    },
+    {
+      "rule_id": "RULE-DOM-01_PROCEDURAL",
+      "base_rule_id": "RULE-DOM-01",
+      "rule_name": "State Domicile Requirement",
+      "subsystem": "Procedural Validator (DocuReadyValidator)",
+      "family": "F",
+      "primitive": "procedural_code",
+      "inputs": {
+        "field": "DOMICILE_STATE"
+      },
+      "params": {
+        "penalty": 25
+      },
+      "max_severity": "Severity.CRITICAL",
+      "citation": {
+        "source_id": "SRC-DOM-01",
+        "clause": "Scheme Specific Domicile Clauses",
+        "status": "unverified",
+        "issuing_body": "State Higher Education / Welfare Departments",
+        "source_title": "State Scholarship Scheme Guidelines (e.g., e-Medhabruti / Odisha State Portal)",
+        "supports_rule": false,
+        "notes": "Domicile requirements are scheme- and state-specific. Validating state residence certificates against portal domicile declarations is an administrative eligibility check."
+      },
+      "remediation": "Standard procedural remediation",
+      "implementation_file": "src/docuready/rules/validator.py"
+    },
+    {
+      "rule_id": "RULE-DOM-PASS_PROCEDURAL",
+      "base_rule_id": "RULE-DOM-PASS",
+      "rule_name": "State Domicile Requirement",
+      "subsystem": "Procedural Validator (DocuReadyValidator)",
+      "family": "F",
+      "primitive": "procedural_code",
+      "inputs": {
+        "field": "DOMICILE_STATE"
+      },
+      "params": {
+        "penalty": 0
+      },
+      "max_severity": "Severity.INFO",
+      "citation": {
+        "source_id": null,
+        "clause": "Statutory Framework",
+        "status": "unverified",
+        "issuing_body": "State / Central Scheme Authority",
+        "source_title": "Scheme Operational Guidelines",
+        "supports_rule": false,
+        "notes": ""
+      },
+      "remediation": "Standard procedural remediation",
+      "implementation_file": "src/docuready/rules/validator.py"
+    },
+    {
+      "rule_id": "RULE-MRK-RELAX-PASS_PROCEDURAL",
+      "base_rule_id": "RULE-MRK-RELAX-PASS",
+      "rule_name": "Academic Eligibility Compliance (SC/ST Qualifying Pass)",
+      "subsystem": "Procedural Validator (DocuReadyValidator)",
+      "family": "C",
+      "primitive": "procedural_code",
+      "inputs": {
+        "field": "MERIT_PERCENTAGE"
+      },
+      "params": {
+        "penalty": 0
+      },
+      "max_severity": "Severity.INFO",
+      "citation": {
+        "source_id": null,
+        "clause": "Statutory Framework",
+        "status": "unverified",
+        "issuing_body": "State / Central Scheme Authority",
+        "source_title": "Scheme Operational Guidelines",
+        "supports_rule": false,
+        "notes": ""
+      },
+      "remediation": "Standard procedural remediation",
+      "implementation_file": "src/docuready/rules/validator.py"
+    },
+    {
+      "rule_id": "RULE-MRK-01_PROCEDURAL",
+      "base_rule_id": "RULE-MRK-01",
+      "rule_name": "Academic Cutoff Compliance (SC/ST Relaxed)",
+      "subsystem": "Procedural Validator (DocuReadyValidator)",
+      "family": "C",
+      "primitive": "procedural_code",
+      "inputs": {
+        "field": "MERIT_PERCENTAGE"
+      },
+      "params": {
+        "penalty": 25
+      },
+      "max_severity": "Severity.CRITICAL",
+      "citation": {
+        "source_id": "SRC-MRK-01",
+        "clause": "Section 4.2 (Eligibility & Academic Relaxation for Reserved Categories)",
+        "status": "verified",
+        "issuing_body": "Ministry of Social Justice and Empowerment, Government of India",
+        "source_title": "Centrally Sponsored Scheme of Post-Matric Scholarships to the Students Belonging to Scheduled Castes for Studies in India (2020-21 to 2025-26)",
+        "supports_rule": true,
+        "notes": "Recognizes qualifying examination passing requirements while enforcing statutory category relaxations for reserved category students."
+      },
+      "remediation": "Standard procedural remediation",
+      "implementation_file": "src/docuready/rules/validator.py"
+    },
+    {
+      "rule_id": "RULE-MRK-PASS_PROCEDURAL",
+      "base_rule_id": "RULE-MRK-PASS",
+      "rule_name": "Academic Cutoff Compliance",
+      "subsystem": "Procedural Validator (DocuReadyValidator)",
+      "family": "C",
+      "primitive": "procedural_code",
+      "inputs": {
+        "field": "MERIT_PERCENTAGE"
+      },
+      "params": {
+        "penalty": 0
+      },
+      "max_severity": "Severity.INFO",
+      "citation": {
+        "source_id": null,
+        "clause": "Statutory Framework",
+        "status": "unverified",
+        "issuing_body": "State / Central Scheme Authority",
+        "source_title": "Scheme Operational Guidelines",
+        "supports_rule": false,
+        "notes": ""
+      },
+      "remediation": "Standard procedural remediation",
+      "implementation_file": "src/docuready/rules/validator.py"
+    },
+    {
+      "rule_id": "RULE-SLOT-01",
+      "rule_name": "Document Slot Classification & Semantic Match",
+      "subsystem": "Document Slot Validator",
+      "family": "D",
+      "primitive": "validate_packet_slots",
+      "inputs": {
+        "slots": "all_mandatory_slots"
+      },
+      "params": {
+        "emit_for_unreadable": false
+      },
+      "max_severity": "CRITICAL",
+      "citation": {
+        "source_id": "SRC-DOC-01",
+        "clause": "Document Slot Validation Requirements",
+        "status": "verified",
+        "issuing_body": "Scheme Portal Upload Framework",
+        "source_title": "Portal Document Categorization Guidelines",
+        "supports_rule": true,
+        "notes": "Prevents verifying fields from documents uploaded to the wrong slot."
+      },
+      "remediation": "Upload the correct document type to the corresponding slot.",
+      "implementation_file": "src/docuready/rules/slot_validator.py"
+    },
+    {
+      "rule_id": "RULE-ID-VERHOEFF",
+      "rule_name": "Aadhaar / National ID Dihedral D5 Checksum Verification",
+      "subsystem": "Identifier Integrity Engine",
+      "family": "A",
+      "primitive": "validate_verhoeff",
+      "inputs": {
+        "identifier_type": "AADHAAR_NUMBER"
+      },
+      "params": {
+        "algorithm": "Verhoeff D5",
+        "length": 12
+      },
+      "max_severity": "FAIL",
+      "citation": {
+        "source_id": "SRC-ID-AADHAAR",
+        "clause": "Aadhaar (Targeted Delivery of Financial and other Subsidies, Benefits and Services) Act 2016",
+        "status": "verified",
+        "issuing_body": "UIDAI",
+        "source_title": "UIDAI Specification for 12-Digit Verhoeff UID",
+        "supports_rule": true,
+        "notes": "Mathematically detects all single-digit errors and all adjacent transposition errors."
+      },
+      "remediation": "Re-enter the correct 12-digit Aadhaar number with valid Verhoeff check-digit.",
+      "implementation_file": "src/docuready/ingest/identifier_validation.py"
+    },
+    {
+      "rule_id": "RULE-ID-PAN",
+      "rule_name": "Permanent Account Number (PAN) Strict Structure Validation",
+      "subsystem": "Identifier Integrity Engine",
+      "family": "A",
+      "primitive": "validate_pan_syntax",
+      "inputs": {
+        "identifier_type": "PAN_CARD"
+      },
+      "params": {
+        "pattern": "^[A-Z]{5}[0-9]{4}[A-Z]$"
+      },
+      "max_severity": "FAIL",
+      "citation": {
+        "source_id": "SRC-ID-PAN",
+        "clause": "Income-tax Act 1961, Section 139A & Rule 114",
+        "status": "verified",
+        "issuing_body": "Central Board of Direct Taxes (CBDT), Ministry of Finance",
+        "source_title": "CBDT PAN Allotment Specifications",
+        "supports_rule": true,
+        "notes": "Strict 10-character alphanumeric mask: 5 alpha, 4 numeric, 1 alpha."
+      },
+      "remediation": "Provide a valid 10-character PAN card matching statutory CBDT format.",
+      "implementation_file": "src/docuready/ingest/identifier_validation.py"
+    },
+    {
+      "rule_id": "RULE-ID-IFSC",
+      "rule_name": "Indian Financial System Code (IFSC) Strict Format Validation",
+      "subsystem": "Identifier Integrity Engine",
+      "family": "A",
+      "primitive": "validate_ifsc_code",
+      "inputs": {
+        "identifier_type": "IFSC_CODE"
+      },
+      "params": {
+        "pattern": "^[A-Z]{4}0[A-Z0-9]{6}$"
+      },
+      "max_severity": "FAIL",
+      "citation": {
+        "source_id": "SRC-BNK-01",
+        "clause": "Chapter 2, Section 2.1 (IFSC Code Structure Specification)",
+        "status": "verified",
+        "issuing_body": "Reserve Bank of India (RBI)",
+        "source_title": "RBI Master Direction on Electronic Payment Systems \u2014 NEFT Procedural Guidelines",
+        "supports_rule": true,
+        "notes": "5th character must be digit 0. Prevents confusable O/0 substitution."
+      },
+      "remediation": "Ensure 5th character of IFSC code is numeric zero (0), not alphabet 'O'.",
+      "implementation_file": "src/docuready/ingest/identifier_validation.py & src/docuready/normalize/normalizer.py"
+    },
+    {
+      "rule_id": "RULE-ID-CONFUSABLE-GLYPH",
+      "rule_name": "Identifier OCR Confusable Character Ambiguity Abstention",
+      "subsystem": "Identifier Integrity Engine",
+      "family": "A",
+      "primitive": "detect_confusable_glyphs",
+      "inputs": {
+        "identifier_candidate": "string"
+      },
+      "params": {
+        "confusable_pairs": [
+          [
+            "O",
+            "0"
+          ],
+          [
+            "I",
+            "1"
+          ],
+          [
+            "l",
+            "1"
+          ],
+          [
+            "S",
+            "5"
+          ],
+          [
+            "B",
+            "8"
+          ],
+          [
+            "Z",
+            "2"
+          ],
+          [
+            "G",
+            "6"
+          ]
+        ]
+      },
+      "max_severity": "REVIEW",
+      "citation": {
+        "source_id": "SRC-ENG-ABSTAIN",
+        "clause": "Architecture V2 \u00a76 Conservative Abstention Invariant",
+        "status": "verified",
+        "issuing_body": "DocuReady Core Engineering Standards",
+        "source_title": "Evaluation Integrity and False-Verification Prevention Guidelines",
+        "supports_rule": true,
+        "notes": "Abstains rather than guessing when OCR character ambiguity occurs at structural boundaries."
+      },
+      "remediation": "Verify and confirm character ambiguity manually.",
+      "implementation_file": "src/docuready/ingest/identifier_validation.py"
+    },
+    {
+      "rule_id": "RULE-XDOC-ENTITY-RES",
+      "rule_name": "Multi-Attribute Applicant Entity Resolution",
+      "subsystem": "Cross-Document Engine",
+      "family": "E",
+      "primitive": "resolve_entity_match",
+      "inputs": {
+        "candidate_entities": "multi_doc_attributes"
+      },
+      "params": {
+        "name_similarity_threshold": 0.85,
+        "dob_exact": true
+      },
+      "max_severity": "FAIL",
+      "citation": {
+        "source_id": "SRC-XDOC-01",
+        "clause": "Beneficiary Identity Resolution Architecture V2 \u00a78",
+        "status": "verified",
+        "issuing_body": "DocuReady Architecture Standards",
+        "source_title": "Cross-Document Entity Grounding Protocol",
+        "supports_rule": true,
+        "notes": "Guarantees claims are verified against identical individual across distinct certificates."
+      },
+      "remediation": "Applicant attributes across submitted documents belong to distinct individuals.",
+      "implementation_file": "src/docuready/evidence/cross_document.py"
+    },
+    {
+      "rule_id": "RULE-XDOC-CONTRADICTION",
+      "rule_name": "Cross-Document Fact Contradiction Detection",
+      "subsystem": "Cross-Document Engine",
+      "family": "E",
+      "primitive": "evaluate_semantic_claim_equivalence",
+      "inputs": {
+        "claim_a": "fact_1",
+        "claim_b": "fact_2"
+      },
+      "params": {
+        "policy_conflict_strict": true,
+        "physical_conversion_policy_required": true
+      },
+      "max_severity": "FAIL",
+      "citation": {
+        "source_id": "SRC-XDOC-02",
+        "clause": "Evidence Policy Conflict and Physical Unit Separation Standards",
+        "status": "verified",
+        "issuing_body": "DocuReady Verification Policy",
+        "source_title": "Cross-Document Contradiction and Corroboration Framework",
+        "supports_rule": true,
+        "notes": "Detects mutual contradictions between independent document claims without false collapse."
+      },
+      "remediation": "Reconcile contradictory information across documents before resubmission.",
+      "implementation_file": "src/docuready/evidence/cross_document.py"
+    },
+    {
+      "rule_id": "RULE-XDOC-INDEPENDENCE",
+      "rule_name": "Document Provenance & OCR Pipeline Independence",
+      "subsystem": "Cross-Document Engine",
+      "family": "E",
+      "primitive": "detect_document_independence",
+      "inputs": {
+        "doc_a": "ExtractedDocument",
+        "doc_b": "ExtractedDocument"
+      },
+      "params": {
+        "artifact_hash_distinct": true,
+        "source_distinct": true
+      },
+      "max_severity": "REVIEW",
+      "citation": {
+        "source_id": "SRC-XDOC-03",
+        "clause": "Corroboration Independence Requirement",
+        "status": "verified",
+        "issuing_body": "DocuReady Evidence Integrity Group",
+        "source_title": "Multi-Document Verification Reliability Manual",
+        "supports_rule": true,
+        "notes": "Treats identical repeated OCR misreads across shared pages as correlated errors rather than independent corroboration."
+      },
+      "remediation": "Submit independent source document verification records.",
+      "implementation_file": "src/docuready/evidence/cross_document.py"
+    },
+    {
+      "rule_id": "RULE-SAFETY-INV-01",
+      "rule_name": "Decision Safety Invariant 1: No Unsupported Pass on Missing Evidence",
+      "subsystem": "Decision Safety Layer",
+      "family": "H",
+      "primitive": "DecisionSafetyLayer.enforce",
+      "inputs": {
+        "findings": "List[Finding]",
+        "documents": "Dict[DocumentType, ExtractedDocument]"
+      },
+      "params": {
+        "invariant_index": 1
+      },
+      "max_severity": "FAIL_CLOSED",
+      "citation": {
+        "source_id": "SRC-SAFETY-01",
+        "clause": "Section 9 Invariant 1 (Fail-Safe Auditing)",
+        "status": "verified",
+        "issuing_body": "DocuReady Core Safety Specification",
+        "source_title": "Decision Safety Layer Architectural Specifications",
+        "supports_rule": true,
+        "notes": "Missing or unreadable evidence cannot produce PASS."
+      },
+      "remediation": "System enforces fail-safe abstention or blocks unsupported statutory clearance.",
+      "implementation_file": "src/docuready/outcome/safety_layer.py"
+    },
+    {
+      "rule_id": "RULE-SAFETY-INV-02",
+      "rule_name": "Decision Safety Invariant 2: No Unsupported Fail on Ambiguous Evidence",
+      "subsystem": "Decision Safety Layer",
+      "family": "H",
+      "primitive": "DecisionSafetyLayer.enforce",
+      "inputs": {
+        "findings": "List[Finding]",
+        "documents": "Dict[DocumentType, ExtractedDocument]"
+      },
+      "params": {
+        "invariant_index": 2
+      },
+      "max_severity": "FAIL_CLOSED",
+      "citation": {
+        "source_id": "SRC-SAFETY-01",
+        "clause": "Section 9 Invariant 2 (Fail-Safe Auditing)",
+        "status": "verified",
+        "issuing_body": "DocuReady Core Safety Specification",
+        "source_title": "Decision Safety Layer Architectural Specifications",
+        "supports_rule": true,
+        "notes": "Ambiguous evidence cannot trigger statutory FAIL unless decision-invariant."
+      },
+      "remediation": "System enforces fail-safe abstention or blocks unsupported statutory clearance.",
+      "implementation_file": "src/docuready/outcome/safety_layer.py"
+    },
+    {
+      "rule_id": "RULE-SAFETY-INV-03",
+      "rule_name": "Decision Safety Invariant 3: Date Ambiguity Expiration Invariant",
+      "subsystem": "Decision Safety Layer",
+      "family": "H",
+      "primitive": "DecisionSafetyLayer.enforce",
+      "inputs": {
+        "findings": "List[Finding]",
+        "documents": "Dict[DocumentType, ExtractedDocument]"
+      },
+      "params": {
+        "invariant_index": 3
+      },
+      "max_severity": "FAIL_CLOSED",
+      "citation": {
+        "source_id": "SRC-SAFETY-01",
+        "clause": "Section 9 Invariant 3 (Fail-Safe Auditing)",
+        "status": "verified",
+        "issuing_body": "DocuReady Core Safety Specification",
+        "source_title": "Decision Safety Layer Architectural Specifications",
+        "supports_rule": true,
+        "notes": "Ambiguous dates on expiration checks only resolve if all interpretations agree."
+      },
+      "remediation": "System enforces fail-safe abstention or blocks unsupported statutory clearance.",
+      "implementation_file": "src/docuready/outcome/safety_layer.py"
+    },
+    {
+      "rule_id": "RULE-SAFETY-INV-04",
+      "rule_name": "Decision Safety Invariant 4: Single Source Verification Bar",
+      "subsystem": "Decision Safety Layer",
+      "family": "H",
+      "primitive": "DecisionSafetyLayer.enforce",
+      "inputs": {
+        "findings": "List[Finding]",
+        "documents": "Dict[DocumentType, ExtractedDocument]"
+      },
+      "params": {
+        "invariant_index": 4
+      },
+      "max_severity": "FAIL_CLOSED",
+      "citation": {
+        "source_id": "SRC-SAFETY-01",
+        "clause": "Section 9 Invariant 4 (Fail-Safe Auditing)",
+        "status": "verified",
+        "issuing_body": "DocuReady Core Safety Specification",
+        "source_title": "Decision Safety Layer Architectural Specifications",
+        "supports_rule": true,
+        "notes": "Statutory claims require independent corroboration where mandated."
+      },
+      "remediation": "System enforces fail-safe abstention or blocks unsupported statutory clearance.",
+      "implementation_file": "src/docuready/outcome/safety_layer.py"
+    },
+    {
+      "rule_id": "RULE-SAFETY-INV-05",
+      "rule_name": "Decision Safety Invariant 5: Traceable Provenance Mandate",
+      "subsystem": "Decision Safety Layer",
+      "family": "H",
+      "primitive": "DecisionSafetyLayer.enforce",
+      "inputs": {
+        "findings": "List[Finding]",
+        "documents": "Dict[DocumentType, ExtractedDocument]"
+      },
+      "params": {
+        "invariant_index": 5
+      },
+      "max_severity": "FAIL_CLOSED",
+      "citation": {
+        "source_id": "SRC-SAFETY-01",
+        "clause": "Section 9 Invariant 5 (Fail-Safe Auditing)",
+        "status": "verified",
+        "issuing_body": "DocuReady Core Safety Specification",
+        "source_title": "Decision Safety Layer Architectural Specifications",
+        "supports_rule": true,
+        "notes": "Every finding must cite snippet, bounding box, page, and file."
+      },
+      "remediation": "System enforces fail-safe abstention or blocks unsupported statutory clearance.",
+      "implementation_file": "src/docuready/outcome/safety_layer.py"
+    },
+    {
+      "rule_id": "RULE-SAFETY-INV-06",
+      "rule_name": "Decision Safety Invariant 6: Slot Mismatch Quarantine",
+      "subsystem": "Decision Safety Layer",
+      "family": "H",
+      "primitive": "DecisionSafetyLayer.enforce",
+      "inputs": {
+        "findings": "List[Finding]",
+        "documents": "Dict[DocumentType, ExtractedDocument]"
+      },
+      "params": {
+        "invariant_index": 6
+      },
+      "max_severity": "FAIL_CLOSED",
+      "citation": {
+        "source_id": "SRC-SAFETY-01",
+        "clause": "Section 9 Invariant 6 (Fail-Safe Auditing)",
+        "status": "verified",
+        "issuing_body": "DocuReady Core Safety Specification",
+        "source_title": "Decision Safety Layer Architectural Specifications",
+        "supports_rule": true,
+        "notes": "Mismatched document slots invalidate all child field extractions."
+      },
+      "remediation": "System enforces fail-safe abstention or blocks unsupported statutory clearance.",
+      "implementation_file": "src/docuready/outcome/safety_layer.py"
+    },
+    {
+      "rule_id": "RULE-SAFETY-INV-07",
+      "rule_name": "Decision Safety Invariant 7: Confidence Floor Enforcement",
+      "subsystem": "Decision Safety Layer",
+      "family": "H",
+      "primitive": "DecisionSafetyLayer.enforce",
+      "inputs": {
+        "findings": "List[Finding]",
+        "documents": "Dict[DocumentType, ExtractedDocument]"
+      },
+      "params": {
+        "invariant_index": 7
+      },
+      "max_severity": "FAIL_CLOSED",
+      "citation": {
+        "source_id": "SRC-SAFETY-01",
+        "clause": "Section 9 Invariant 7 (Fail-Safe Auditing)",
+        "status": "verified",
+        "issuing_body": "DocuReady Core Safety Specification",
+        "source_title": "Decision Safety Layer Architectural Specifications",
+        "supports_rule": true,
+        "notes": "Extractions below T* = 70.0 cannot claim VERIFIED status."
+      },
+      "remediation": "System enforces fail-safe abstention or blocks unsupported statutory clearance.",
+      "implementation_file": "src/docuready/outcome/safety_layer.py"
+    },
+    {
+      "rule_id": "RULE-SAFETY-INV-08",
+      "rule_name": "Decision Safety Invariant 8: Category Exemption Preservation",
+      "subsystem": "Decision Safety Layer",
+      "family": "H",
+      "primitive": "DecisionSafetyLayer.enforce",
+      "inputs": {
+        "findings": "List[Finding]",
+        "documents": "Dict[DocumentType, ExtractedDocument]"
+      },
+      "params": {
+        "invariant_index": 8
+      },
+      "max_severity": "FAIL_CLOSED",
+      "citation": {
+        "source_id": "SRC-SAFETY-01",
+        "clause": "Section 9 Invariant 8 (Fail-Safe Auditing)",
+        "status": "verified",
+        "issuing_body": "DocuReady Core Safety Specification",
+        "source_title": "Decision Safety Layer Architectural Specifications",
+        "supports_rule": true,
+        "notes": "Exempt rules must resolve to NOT_APPLICABLE, never FAIL."
+      },
+      "remediation": "System enforces fail-safe abstention or blocks unsupported statutory clearance.",
+      "implementation_file": "src/docuready/outcome/safety_layer.py"
+    },
+    {
+      "rule_id": "RULE-SAFETY-INV-09",
+      "rule_name": "Decision Safety Invariant 9: Weakest-Evidence Outcome Propagation",
+      "subsystem": "Decision Safety Layer",
+      "family": "H",
+      "primitive": "DecisionSafetyLayer.enforce",
+      "inputs": {
+        "findings": "List[Finding]",
+        "documents": "Dict[DocumentType, ExtractedDocument]"
+      },
+      "params": {
+        "invariant_index": 9
+      },
+      "max_severity": "FAIL_CLOSED",
+      "citation": {
+        "source_id": "SRC-SAFETY-01",
+        "clause": "Section 9 Invariant 9 (Fail-Safe Auditing)",
+        "status": "verified",
+        "issuing_body": "DocuReady Core Safety Specification",
+        "source_title": "Decision Safety Layer Architectural Specifications",
+        "supports_rule": true,
+        "notes": "Overall outcome must reflect weakest link in evidentiary chain."
+      },
+      "remediation": "System enforces fail-safe abstention or blocks unsupported statutory clearance.",
+      "implementation_file": "src/docuready/outcome/safety_layer.py"
+    },
+    {
+      "rule_id": "RULE-SAFETY-INV-10",
+      "rule_name": "Decision Safety Invariant 10: Deterministic Clock Invariance",
+      "subsystem": "Decision Safety Layer",
+      "family": "H",
+      "primitive": "DecisionSafetyLayer.enforce",
+      "inputs": {
+        "findings": "List[Finding]",
+        "documents": "Dict[DocumentType, ExtractedDocument]"
+      },
+      "params": {
+        "invariant_index": 10
+      },
+      "max_severity": "FAIL_CLOSED",
+      "citation": {
+        "source_id": "SRC-SAFETY-01",
+        "clause": "Section 9 Invariant 10 (Fail-Safe Auditing)",
+        "status": "verified",
+        "issuing_body": "DocuReady Core Safety Specification",
+        "source_title": "Decision Safety Layer Architectural Specifications",
+        "supports_rule": true,
+        "notes": "Evaluations must use injected as_of clock, zero wall-clock drift."
+      },
+      "remediation": "System enforces fail-safe abstention or blocks unsupported statutory clearance.",
+      "implementation_file": "src/docuready/outcome/safety_layer.py"
+    }
+  ]
+}

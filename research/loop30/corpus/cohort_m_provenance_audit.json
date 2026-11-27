@@ -1,0 +1,56 @@
+{
+  "audit_version": "30.0.0",
+  "corpus_name": "Cohort M (Cross-Document Generalization Suite)",
+  "synthetic_classification": "SYNTHETIC_GENERATED_EVALUATION_SUITE",
+  "real_world_scanned": false,
+  "sha256": "c33c7491bc78f769e856d1dcc476a42ba537eefefae87598bd693cc630280722",
+  "file_size_bytes": 57071,
+  "total_packets": 30,
+  "total_documents": 59,
+  "total_claims": 103,
+  "family_breakdown": {
+    "Trade & Customs": {
+      "packets": 5,
+      "claims": 13,
+      "documents": 10,
+      "contradictions": 3
+    },
+    "Education & Admissions": {
+      "packets": 5,
+      "claims": 10,
+      "documents": 9,
+      "contradictions": 2
+    },
+    "Clinical Diagnostics": {
+      "packets": 5,
+      "claims": 20,
+      "documents": 10,
+      "contradictions": 4
+    },
+    "Banking & Underwriting": {
+      "packets": 5,
+      "claims": 20,
+      "documents": 10,
+      "contradictions": 4
+    },
+    "Land Records & Governance": {
+      "packets": 5,
+      "claims": 20,
+      "documents": 10,
+      "contradictions": 4
+    },
+    "Corporate Compliance": {
+      "packets": 5,
+      "claims": 20,
+      "documents": 10,
+      "contradictions": 4
+    }
+  },
+  "outcome_breakdown": {
+    "VERIFY": 78,
+    "UNIT_OR_CURRENCY_MISMATCH": 2,
+    "CONTRADICTION_DETECTED": 21,
+    "ENTITY_AMBIGUOUS": 1,
+    "MISSING_EVIDENCE": 1
+  }
+}

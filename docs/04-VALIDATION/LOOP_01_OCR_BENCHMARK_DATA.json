@@ -1,0 +1,213 @@
+{
+  "timestamp": "2026-11-21T20:20:55Z",
+  "system_info": {
+    "os": "Windows 11 (AMD64)",
+    "python": "3.12.10",
+    "cpu_count": 12,
+    "total_ram_gb": 15.73,
+    "tesseract_version": "5.4.0.20240606",
+    "tesseract_languages": [
+      "eng"
+    ],
+    "pymupdf_version": "2.1",
+    "pillow_version": "12.3.0"
+  },
+  "stage_breakdown": {
+    "render_legacy_ms": {
+      "median": 222.29,
+      "mean": 222.95
+    },
+    "render_direct_buffer_ms": {
+      "median": 43.57,
+      "mean": 43.78
+    },
+    "osd_full_ms": {
+      "median": 1383.61,
+      "mean": 1361.62
+    },
+    "token_ocr_ms": {
+      "median": 1024.3,
+      "mean": 1033.69
+    },
+    "fast_path_gate_eval_ms": {
+      "median": 0.33,
+      "mean": 0.39
+    },
+    "clustering_ms": {
+      "median": 0.79,
+      "mean": 0.73
+    },
+    "search_ms": {
+      "median": 0.09,
+      "mean": 0.29
+    },
+    "optimized_ocr_page_ms": {
+      "median": 1067.45,
+      "mean": 1082.46
+    }
+  },
+  "workload_results": [
+    {
+      "id": "1_native_text",
+      "category": "Native-text PDF",
+      "path": "synthetic_data/realistic_corpus_60/smp_01_income_cert_clean.pdf",
+      "is_packet": false,
+      "results": {
+        "iterations": 5,
+        "total_ms": {
+          "mean": 25.5,
+          "median": 21.1,
+          "min": 20.46,
+          "max": 41.63
+        },
+        "peak_rss_mb": 118.68,
+        "status": "VALID",
+        "fields_count": 6
+      }
+    },
+    {
+      "id": "2_clean_scan",
+      "category": "Clean scanned PDF",
+      "path": "synthetic_data/realistic_corpus_60/smp_11_raster_scan.pdf",
+      "is_packet": false,
+      "results": {
+        "iterations": 5,
+        "total_ms": {
+          "mean": 1123.69,
+          "median": 1140.25,
+          "min": 1084.74,
+          "max": 1152.83
+        },
+        "peak_rss_mb": 118.7,
+        "status": "VALID",
+        "fields_count": 6
+      }
+    },
+    {
+      "id": "3_rotated_90",
+      "category": "Rotated scanned page (90\u00b0)",
+      "path": "synthetic_data/realistic_corpus_60/smp_23_rotated_90deg.pdf",
+      "is_packet": false,
+      "results": {
+        "iterations": 5,
+        "total_ms": {
+          "mean": 3313.74,
+          "median": 3296.25,
+          "min": 3288.94,
+          "max": 3366.3
+        },
+        "peak_rss_mb": 118.79,
+        "status": "VALID",
+        "fields_count": 6
+      }
+    },
+    {
+      "id": "4_rotated_180",
+      "category": "Rotated scanned page (180\u00b0)",
+      "path": "synthetic_data/realistic_corpus_60/smp_24_rotated_180deg.pdf",
+      "is_packet": false,
+      "results": {
+        "iterations": 5,
+        "total_ms": {
+          "mean": 3306.03,
+          "median": 3327.2,
+          "min": 3190.44,
+          "max": 3385.75
+        },
+        "peak_rss_mb": 118.79,
+        "status": "VALID",
+        "fields_count": 6
+      }
+    },
+    {
+      "id": "5_rotated_270",
+      "category": "Rotated scanned page (270\u00b0)",
+      "path": "synthetic_data/realistic_corpus_60/smp_61_rotated_270deg.pdf",
+      "is_packet": false,
+      "results": {
+        "iterations": 5,
+        "total_ms": {
+          "mean": 3368.5,
+          "median": 3364.1,
+          "min": 3258.52,
+          "max": 3444.19
+        },
+        "peak_rss_mb": 118.73,
+        "status": "VALID",
+        "fields_count": 6
+      }
+    },
+    {
+      "id": "6_low_quality_dpi",
+      "category": "Low-quality scan (Low DPI)",
+      "path": "synthetic_data/realistic_corpus_60/smp_25_low_dpi.pdf",
+      "is_packet": false,
+      "results": {
+        "iterations": 5,
+        "total_ms": {
+          "mean": 1116.76,
+          "median": 1113.06,
+          "min": 1091.21,
+          "max": 1143.63
+        },
+        "peak_rss_mb": 118.73,
+        "status": "VALID",
+        "fields_count": 5
+      }
+    },
+    {
+      "id": "7_low_quality_shadow",
+      "category": "Low-quality scan (Shadow gradient)",
+      "path": "synthetic_data/realistic_corpus_60/smp_37_shadow_gradient.pdf",
+      "is_packet": false,
+      "results": {
+        "iterations": 5,
+        "total_ms": {
+          "mean": 1033.48,
+          "median": 1035.38,
+          "min": 1009.4,
+          "max": 1061.19
+        },
+        "peak_rss_mb": 118.73,
+        "status": "VALID",
+        "fields_count": 3
+      }
+    },
+    {
+      "id": "8_multipage_packet",
+      "category": "Multi-page layout (4 pages)",
+      "path": "synthetic_data/realistic_corpus_60/smp_55_multipage_layout_1.pdf",
+      "is_packet": false,
+      "results": {
+        "iterations": 5,
+        "total_ms": {
+          "mean": 25.97,
+          "median": 26.76,
+          "min": 21.77,
+          "max": 31.07
+        },
+        "peak_rss_mb": 118.85,
+        "status": "VALID",
+        "fields_count": 1
+      }
+    },
+    {
+      "id": "9_mixed_packet_6docs",
+      "category": "Mixed native/scanned PDF packet (6 docs)",
+      "path": "synthetic_data/pkt_loop3_demo",
+      "is_packet": true,
+      "results": {
+        "iterations": 5,
+        "total_ms": {
+          "mean": 4532.18,
+          "median": 4522.16,
+          "min": 4476.66,
+          "max": 4599.01
+        },
+        "peak_rss_mb": 119.07,
+        "status": "NEEDS_CHECKS",
+        "findings_count": 8
+      }
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "manifest_version": "1.0.0",
+  "milestone": "Loop 34",
+  "freeze_timestamp": "2026-11-26T15:00:00Z",
+  "partitions": {
+    "DEV": {
+      "document_count": 15,
+      "field_count": 77,
+      "sha256_hash": "63029a8e030749e7d7dac41d166f9f2f3dae6cba753197a0412a6653b7bbf5a5",
+      "purpose": "Algorithm inspection, error discovery, and minimal bugfix development"
+    },
+    "CAL": {
+      "document_count": 15,
+      "field_count": 77,
+      "sha256_hash": "def7b049a43e136e98d2b799b08898492ce3c1be0dd7127ab4742bf159d85cb7",
+      "purpose": "Confidence calibration, threshold verification, and reliability tuning"
+    },
+    "BLIND": {
+      "document_count": 30,
+      "field_count": 153,
+      "sha256_hash": "0caeabf10b7987a24fc867164dc497689b8a64d5a7958b6d33aa20d6247a49ce",
+      "purpose": "Strict un-tuned generalization assessment and statistical qualification"
+    }
+  }
+}

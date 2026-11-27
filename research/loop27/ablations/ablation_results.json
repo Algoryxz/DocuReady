@@ -1,0 +1,78 @@
+{
+  "ten_false_verification_reproduction": {
+    "BASELINE": {
+      "total_reproduction_cases": 10,
+      "false_verifications_eliminated": 0,
+      "remaining_false_verifications": 10,
+      "suppression_rate_pct": 0.0
+    },
+    "SYNTAX_ONLY": {
+      "total_reproduction_cases": 10,
+      "false_verifications_eliminated": 8,
+      "remaining_false_verifications": 2,
+      "suppression_rate_pct": 80.0
+    },
+    "AMBIGUITY_AND_SYNTAX": {
+      "total_reproduction_cases": 10,
+      "false_verifications_eliminated": 10,
+      "remaining_false_verifications": 0,
+      "suppression_rate_pct": 100.0
+    },
+    "FULL_POLICY": {
+      "total_reproduction_cases": 10,
+      "false_verifications_eliminated": 10,
+      "remaining_false_verifications": 0,
+      "suppression_rate_pct": 100.0
+    }
+  },
+  "adversarial_corpus_ablation": {
+    "BASELINE": {
+      "total_evaluated": 44,
+      "verified_claims": 44,
+      "exact_matches": 4,
+      "false_verifications": 40,
+      "abstentions": 0,
+      "verified_precision_pct": 9.09,
+      "false_verification_rate_pct": 90.91,
+      "coverage_pct": 100.0,
+      "abstention_rate_pct": 0.0,
+      "upper_risk_bound_95_pct": 96.41
+    },
+    "SYNTAX_ONLY": {
+      "total_evaluated": 44,
+      "verified_claims": 19,
+      "exact_matches": 4,
+      "false_verifications": 15,
+      "abstentions": 25,
+      "verified_precision_pct": 21.05,
+      "false_verification_rate_pct": 78.95,
+      "coverage_pct": 43.18,
+      "abstention_rate_pct": 56.82,
+      "upper_risk_bound_95_pct": 91.49
+    },
+    "AMBIGUITY_AND_SYNTAX": {
+      "total_evaluated": 44,
+      "verified_claims": 16,
+      "exact_matches": 11,
+      "false_verifications": 5,
+      "abstentions": 28,
+      "verified_precision_pct": 68.75,
+      "false_verification_rate_pct": 31.25,
+      "coverage_pct": 36.36,
+      "abstention_rate_pct": 63.64,
+      "upper_risk_bound_95_pct": 55.6
+    },
+    "FULL_POLICY": {
+      "total_evaluated": 44,
+      "verified_claims": 16,
+      "exact_matches": 11,
+      "false_verifications": 5,
+      "abstentions": 28,
+      "verified_precision_pct": 68.75,
+      "false_verification_rate_pct": 31.25,
+      "coverage_pct": 36.36,
+      "abstention_rate_pct": 63.64,
+      "upper_risk_bound_95_pct": 55.6
+    }
+  }
+}

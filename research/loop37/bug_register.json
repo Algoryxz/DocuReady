@@ -1,0 +1,23 @@
+{
+  "milestone": "Loop 37",
+  "bugs": [
+    {
+      "id": "BUG-036-001",
+      "severity": "Medium",
+      "status": "Open (No authorized cert in Windows stores)",
+      "description": "Unsigned Windows executables (NotSigned)."
+    },
+    {
+      "id": "BUG-036-002",
+      "severity": "Low",
+      "status": "Verified Safe to Exclude (63.41 MB saved in isolated test)",
+      "description": "17 extra Tesseract training/utility EXEs bundled in Loop 10 sidecar."
+    },
+    {
+      "id": "BUG-036-003",
+      "severity": "Low",
+      "status": "Diagnosed (Environment-Dependent Tesseract 5.4.0 Subprocess Variance)",
+      "description": "Loop 17 (1317.63 ms vs <850 ms) and Loop 18 (1625.94 ms vs <1400 ms) dominated by eng+hin+ori 3-model Tesseract load (1738.2 ms vs 3.6 ms image prep)."
+    }
+  ]
+}

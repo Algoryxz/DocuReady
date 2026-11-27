@@ -1,0 +1,2167 @@
+{
+  "metadata": {
+    "loop": "17",
+    "date": "2026-11-22",
+    "total_documents": 20,
+    "strategies": {
+      "STRATEGY_A_ENG": "English-only OCR",
+      "STRATEGY_B_HIN": "Hindi-only OCR",
+      "STRATEGY_C_ORI": "Odia-only OCR",
+      "STRATEGY_D_ENG_HIN": "English + Hindi compound",
+      "STRATEGY_E_ENG_ORI": "English + Odia compound",
+      "STRATEGY_F_GLOBAL_ALL": "Global English+Hindi+Odia",
+      "STRATEGY_G_PAGE_ROUTING": "Loop 14 Whole-Page Script Routing",
+      "STRATEGY_H_REGION_ROUTING": "Loop 15 Region-Aware Routing",
+      "STRATEGY_I_REGION_FALLBACK": "Loop 15 Region Routing + Fallback",
+      "STRATEGY_J_ADAPTIVE": "Loop 17 Optimized Adaptive Strategy Selector"
+    }
+  },
+  "summary_overall": {
+    "STRATEGY_A_ENG": {
+      "mean_cer": 0.7999,
+      "mean_wer": 0.9606,
+      "mean_inversion_rate": 0.0,
+      "mean_latency_ms": 778.15,
+      "median_latency_ms": 768.51,
+      "p95_latency_ms": 929.75,
+      "mean_invocations": 1.0,
+      "mean_critical_field_match_rate": 0.9757
+    },
+    "STRATEGY_B_HIN": {
+      "mean_cer": 1.054,
+      "mean_wer": 1.2777,
+      "mean_inversion_rate": 0.0,
+      "mean_latency_ms": 975.58,
+      "median_latency_ms": 855.29,
+      "p95_latency_ms": 1398.31,
+      "mean_invocations": 1.0,
+      "mean_critical_field_match_rate": 0.6852
+    },
+    "STRATEGY_C_ORI": {
+      "mean_cer": 1.2092,
+      "mean_wer": 1.5624,
+      "mean_inversion_rate": 0.0,
+      "mean_latency_ms": 940.79,
+      "median_latency_ms": 928.83,
+      "p95_latency_ms": 1183.92,
+      "mean_invocations": 1.0,
+      "mean_critical_field_match_rate": 0.7831
+    },
+    "STRATEGY_D_ENG_HIN": {
+      "mean_cer": 0.662,
+      "mean_wer": 0.8249,
+      "mean_inversion_rate": 0.0,
+      "mean_latency_ms": 1110.59,
+      "median_latency_ms": 1028.08,
+      "p95_latency_ms": 1540.81,
+      "mean_invocations": 1.0,
+      "mean_critical_field_match_rate": 1.0
+    },
+    "STRATEGY_E_ENG_ORI": {
+      "mean_cer": 0.7131,
+      "mean_wer": 0.8923,
+      "mean_inversion_rate": 0.0,
+      "mean_latency_ms": 1092.92,
+      "median_latency_ms": 1006.54,
+      "p95_latency_ms": 1432.03,
+      "mean_invocations": 1.0,
+      "mean_critical_field_match_rate": 0.9757
+    },
+    "STRATEGY_F_GLOBAL_ALL": {
+      "mean_cer": 0.5784,
+      "mean_wer": 0.7635,
+      "mean_inversion_rate": 0.0,
+      "mean_latency_ms": 1380.45,
+      "median_latency_ms": 1260.67,
+      "p95_latency_ms": 2119.47,
+      "mean_invocations": 1.0,
+      "mean_critical_field_match_rate": 1.0
+    },
+    "STRATEGY_G_PAGE_ROUTING": {
+      "mean_cer": 0.7645,
+      "mean_wer": 0.9284,
+      "mean_inversion_rate": 0.0,
+      "mean_latency_ms": 1771.15,
+      "median_latency_ms": 1804.95,
+      "p95_latency_ms": 2232.11,
+      "mean_invocations": 1.9,
+      "mean_critical_field_match_rate": 0.9757
+    },
+    "STRATEGY_H_REGION_ROUTING": {
+      "mean_cer": 0.5847,
+      "mean_wer": 0.7845,
+      "mean_inversion_rate": 0.0,
+      "mean_latency_ms": 4264.69,
+      "median_latency_ms": 2985.11,
+      "p95_latency_ms": 11255.89,
+      "mean_invocations": 1.2,
+      "mean_critical_field_match_rate": 1.0
+    },
+    "STRATEGY_I_REGION_FALLBACK": {
+      "mean_cer": 0.5847,
+      "mean_wer": 0.7845,
+      "mean_inversion_rate": 0.0,
+      "mean_latency_ms": 4192.49,
+      "median_latency_ms": 3067.44,
+      "p95_latency_ms": 11744.81,
+      "mean_invocations": 1.2,
+      "mean_critical_field_match_rate": 1.0
+    },
+    "STRATEGY_J_ADAPTIVE": {
+      "mean_cer": 0.5198,
+      "mean_wer": 0.7011,
+      "mean_inversion_rate": 0.0,
+      "mean_latency_ms": 1962.41,
+      "median_latency_ms": 1986.47,
+      "p95_latency_ms": 3159.54,
+      "mean_invocations": 1.15,
+      "mean_critical_field_match_rate": 1.0
+    }
+  },
+  "summary_validation": {
+    "STRATEGY_A_ENG": {
+      "mean_cer": 0.971,
+      "mean_wer": 1.1783,
+      "mean_inversion_rate": 0.0,
+      "mean_latency_ms": 820.85,
+      "median_latency_ms": 789.27,
+      "p95_latency_ms": 1712.92,
+      "mean_invocations": 1.0,
+      "mean_critical_field_match_rate": 0.9796
+    },
+    "STRATEGY_B_HIN": {
+      "mean_cer": 1.1777,
+      "mean_wer": 1.437,
+      "mean_inversion_rate": 0.0,
+      "mean_latency_ms": 1036.47,
+      "median_latency_ms": 866.93,
+      "p95_latency_ms": 2469.89,
+      "mean_invocations": 1.0,
+      "mean_critical_field_match_rate": 0.6646
+    },
+    "STRATEGY_C_ORI": {
+      "mean_cer": 1.3511,
+      "mean_wer": 1.7601,
+      "mean_inversion_rate": 0.0,
+      "mean_latency_ms": 1001.45,
+      "median_latency_ms": 952.96,
+      "p95_latency_ms": 2488.79,
+      "mean_invocations": 1.0,
+      "mean_critical_field_match_rate": 0.7544
+    },
+    "STRATEGY_D_ENG_HIN": {
+      "mean_cer": 0.8049,
+      "mean_wer": 1.0026,
+      "mean_inversion_rate": 0.0,
+      "mean_latency_ms": 1196.42,
+      "median_latency_ms": 1050.57,
+      "p95_latency_ms": 2565.4,
+      "mean_invocations": 1.0,
+      "mean_critical_field_match_rate": 1.0
+    },
+    "STRATEGY_E_ENG_ORI": {
+      "mean_cer": 0.8503,
+      "mean_wer": 1.0828,
+      "mean_inversion_rate": 0.0,
+      "mean_latency_ms": 1205.06,
+      "median_latency_ms": 1108.8,
+      "p95_latency_ms": 2637.15,
+      "mean_invocations": 1.0,
+      "mean_critical_field_match_rate": 0.9796
+    },
+    "STRATEGY_F_GLOBAL_ALL": {
+      "mean_cer": 0.6869,
+      "mean_wer": 0.9206,
+      "mean_inversion_rate": 0.0,
+      "mean_latency_ms": 1536.89,
+      "median_latency_ms": 1465.82,
+      "p95_latency_ms": 3464.76,
+      "mean_invocations": 1.0,
+      "mean_critical_field_match_rate": 1.0
+    },
+    "STRATEGY_G_PAGE_ROUTING": {
+      "mean_cer": 0.9205,
+      "mean_wer": 1.1323,
+      "mean_inversion_rate": 0.0,
+      "mean_latency_ms": 1861.06,
+      "median_latency_ms": 1915.99,
+      "p95_latency_ms": 2232.11,
+      "mean_invocations": 1.93,
+      "mean_critical_field_match_rate": 0.9796
+    },
+    "STRATEGY_H_REGION_ROUTING": {
+      "mean_cer": 0.7183,
+      "mean_wer": 0.953,
+      "mean_inversion_rate": 0.0,
+      "mean_latency_ms": 4971.86,
+      "median_latency_ms": 3090.57,
+      "p95_latency_ms": 19665.06,
+      "mean_invocations": 1.29,
+      "mean_critical_field_match_rate": 1.0
+    },
+    "STRATEGY_I_REGION_FALLBACK": {
+      "mean_cer": 0.7183,
+      "mean_wer": 0.953,
+      "mean_inversion_rate": 0.0,
+      "mean_latency_ms": 4874.12,
+      "median_latency_ms": 3074.18,
+      "p95_latency_ms": 18703.1,
+      "mean_invocations": 1.29,
+      "mean_critical_field_match_rate": 1.0
+    },
+    "STRATEGY_J_ADAPTIVE": {
+      "mean_cer": 0.6874,
+      "mean_wer": 0.9207,
+      "mean_inversion_rate": 0.0,
+      "mean_latency_ms": 2171.9,
+      "median_latency_ms": 2059.91,
+      "p95_latency_ms": 3530.85,
+      "mean_invocations": 1.14,
+      "mean_critical_field_match_rate": 1.0
+    }
+  },
+  "summary_challenge": {
+    "STRATEGY_A_ENG": {
+      "mean_cer": 0.4006,
+      "mean_wer": 0.4526,
+      "mean_inversion_rate": 0.0,
+      "mean_latency_ms": 678.5,
+      "median_latency_ms": 670.26,
+      "p95_latency_ms": 799.65,
+      "mean_invocations": 1.0,
+      "mean_critical_field_match_rate": 0.9667
+    },
+    "STRATEGY_B_HIN": {
+      "mean_cer": 0.7654,
+      "mean_wer": 0.906,
+      "mean_inversion_rate": 0.0,
+      "mean_latency_ms": 833.51,
+      "median_latency_ms": 824.74,
+      "p95_latency_ms": 1148.79,
+      "mean_invocations": 1.0,
+      "mean_critical_field_match_rate": 0.7333
+    },
+    "STRATEGY_C_ORI": {
+      "mean_cer": 0.8781,
+      "mean_wer": 1.1013,
+      "mean_inversion_rate": 0.0,
+      "mean_latency_ms": 799.23,
+      "median_latency_ms": 832.2,
+      "p95_latency_ms": 952.62,
+      "mean_invocations": 1.0,
+      "mean_critical_field_match_rate": 0.85
+    },
+    "STRATEGY_D_ENG_HIN": {
+      "mean_cer": 0.3287,
+      "mean_wer": 0.41,
+      "mean_inversion_rate": 0.0,
+      "mean_latency_ms": 910.31,
+      "median_latency_ms": 915.83,
+      "p95_latency_ms": 1160.92,
+      "mean_invocations": 1.0,
+      "mean_critical_field_match_rate": 1.0
+    },
+    "STRATEGY_E_ENG_ORI": {
+      "mean_cer": 0.3929,
+      "mean_wer": 0.4478,
+      "mean_inversion_rate": 0.0,
+      "mean_latency_ms": 831.28,
+      "median_latency_ms": 876.02,
+      "p95_latency_ms": 1006.54,
+      "mean_invocations": 1.0,
+      "mean_critical_field_match_rate": 0.9667
+    },
+    "STRATEGY_F_GLOBAL_ALL": {
+      "mean_cer": 0.325,
+      "mean_wer": 0.397,
+      "mean_inversion_rate": 0.0,
+      "mean_latency_ms": 1015.45,
+      "median_latency_ms": 1016.88,
+      "p95_latency_ms": 1421.93,
+      "mean_invocations": 1.0,
+      "mean_critical_field_match_rate": 1.0
+    },
+    "STRATEGY_G_PAGE_ROUTING": {
+      "mean_cer": 0.4006,
+      "mean_wer": 0.4526,
+      "mean_inversion_rate": 0.0,
+      "mean_latency_ms": 1561.35,
+      "median_latency_ms": 1798.23,
+      "p95_latency_ms": 2313.6,
+      "mean_invocations": 1.83,
+      "mean_critical_field_match_rate": 0.9667
+    },
+    "STRATEGY_H_REGION_ROUTING": {
+      "mean_cer": 0.2729,
+      "mean_wer": 0.3915,
+      "mean_inversion_rate": 0.0,
+      "mean_latency_ms": 2614.61,
+      "median_latency_ms": 2815.05,
+      "p95_latency_ms": 5214.3,
+      "mean_invocations": 1.0,
+      "mean_critical_field_match_rate": 1.0
+    },
+    "STRATEGY_I_REGION_FALLBACK": {
+      "mean_cer": 0.2729,
+      "mean_wer": 0.3915,
+      "mean_inversion_rate": 0.0,
+      "mean_latency_ms": 2602.01,
+      "median_latency_ms": 2762.31,
+      "p95_latency_ms": 5353.49,
+      "mean_invocations": 1.0,
+      "mean_critical_field_match_rate": 1.0
+    },
+    "STRATEGY_J_ADAPTIVE": {
+      "mean_cer": 0.1288,
+      "mean_wer": 0.1885,
+      "mean_inversion_rate": 0.0,
+      "mean_latency_ms": 1473.59,
+      "median_latency_ms": 1986.47,
+      "p95_latency_ms": 2224.02,
+      "mean_invocations": 1.17,
+      "mean_critical_field_match_rate": 1.0
+    }
+  },
+  "per_sample_results": {
+    "DOC_EXT_01_MOSPI_NADA_GUIDE": {
+      "STRATEGY_A_ENG": {
+        "cer": 7.8414,
+        "wer": 9.5238,
+        "inversion_rate": 0.0,
+        "latency_ms": 1712.92,
+        "peak_ram_mb": 1.93,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_B_HIN": {
+        "cer": 8.5517,
+        "wer": 10.2857,
+        "inversion_rate": 0.0,
+        "latency_ms": 2469.89,
+        "peak_ram_mb": 1.23,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_C_ORI": {
+        "cer": 9.8897,
+        "wer": 13.1429,
+        "inversion_rate": 0.0,
+        "latency_ms": 2488.79,
+        "peak_ram_mb": 1.23,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_D_ENG_HIN": {
+        "cer": 7.8,
+        "wer": 9.2381,
+        "inversion_rate": 0.0,
+        "latency_ms": 2565.4,
+        "peak_ram_mb": 1.23,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_E_ENG_ORI": {
+        "cer": 7.8483,
+        "wer": 9.5238,
+        "inversion_rate": 0.0,
+        "latency_ms": 2637.15,
+        "peak_ram_mb": 1.23,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_F_GLOBAL_ALL": {
+        "cer": 7.869,
+        "wer": 9.5714,
+        "inversion_rate": 0.0,
+        "latency_ms": 3464.76,
+        "peak_ram_mb": 1.23,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_G_PAGE_ROUTING": {
+        "cer": 7.8414,
+        "wer": 9.5238,
+        "inversion_rate": 0.0,
+        "latency_ms": 1676.58,
+        "peak_ram_mb": 1.23,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_H_REGION_ROUTING": {
+        "cer": 7.8414,
+        "wer": 9.5238,
+        "inversion_rate": 0.0,
+        "latency_ms": 2030.41,
+        "peak_ram_mb": 1.23,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_I_REGION_FALLBACK": {
+        "cer": 7.8414,
+        "wer": 9.5238,
+        "inversion_rate": 0.0,
+        "latency_ms": 1762.66,
+        "peak_ram_mb": 1.23,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_J_ADAPTIVE": {
+        "cer": 7.8414,
+        "wer": 9.5238,
+        "inversion_rate": 0.0,
+        "latency_ms": 1831.7,
+        "peak_ram_mb": 1.23,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      }
+    },
+    "DOC_CTRL_01_ENGLISH_CERTIFICATE": {
+      "STRATEGY_A_ENG": {
+        "cer": 0.0,
+        "wer": 0.0,
+        "inversion_rate": 0.0,
+        "latency_ms": 801.08,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_B_HIN": {
+        "cer": 0.8249,
+        "wer": 1.0,
+        "inversion_rate": 0.0,
+        "latency_ms": 995.59,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 0.0
+      },
+      "STRATEGY_C_ORI": {
+        "cer": 0.8883,
+        "wer": 1.1695,
+        "inversion_rate": 0.0,
+        "latency_ms": 736.48,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 0.5
+      },
+      "STRATEGY_D_ENG_HIN": {
+        "cer": 0.0,
+        "wer": 0.0,
+        "inversion_rate": 0.0,
+        "latency_ms": 625.09,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_E_ENG_ORI": {
+        "cer": 0.0,
+        "wer": 0.0,
+        "inversion_rate": 0.0,
+        "latency_ms": 743.78,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_F_GLOBAL_ALL": {
+        "cer": 0.0,
+        "wer": 0.0,
+        "inversion_rate": 0.0,
+        "latency_ms": 733.19,
+        "peak_ram_mb": 1.2,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_G_PAGE_ROUTING": {
+        "cer": 0.0,
+        "wer": 0.0,
+        "inversion_rate": 0.0,
+        "latency_ms": 1892.97,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 2,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_H_REGION_ROUTING": {
+        "cer": 0.0,
+        "wer": 0.0,
+        "inversion_rate": 0.0,
+        "latency_ms": 2546.32,
+        "peak_ram_mb": 1.43,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_I_REGION_FALLBACK": {
+        "cer": 0.0,
+        "wer": 0.0,
+        "inversion_rate": 0.0,
+        "latency_ms": 2235.12,
+        "peak_ram_mb": 1.43,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_J_ADAPTIVE": {
+        "cer": 0.0,
+        "wer": 0.0,
+        "inversion_rate": 0.0,
+        "latency_ms": 1507.39,
+        "peak_ram_mb": 1.93,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      }
+    },
+    "DOC_HIN_01_ADMIN_CIRCULAR": {
+      "STRATEGY_A_ENG": {
+        "cer": 0.8221,
+        "wer": 1.0274,
+        "inversion_rate": 0.0,
+        "latency_ms": 768.51,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_B_HIN": {
+        "cer": 0.115,
+        "wer": 0.3836,
+        "inversion_rate": 0.0,
+        "latency_ms": 766.34,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_C_ORI": {
+        "cer": 0.8482,
+        "wer": 1.0959,
+        "inversion_rate": 0.0,
+        "latency_ms": 794.88,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_D_ENG_HIN": {
+        "cer": 0.1822,
+        "wer": 0.4247,
+        "inversion_rate": 0.0,
+        "latency_ms": 1028.08,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_E_ENG_ORI": {
+        "cer": 0.8243,
+        "wer": 1.0548,
+        "inversion_rate": 0.0,
+        "latency_ms": 1306.59,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_F_GLOBAL_ALL": {
+        "cer": 0.1844,
+        "wer": 0.4384,
+        "inversion_rate": 0.0,
+        "latency_ms": 1539.88,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_G_PAGE_ROUTING": {
+        "cer": 0.115,
+        "wer": 0.3836,
+        "inversion_rate": 0.0,
+        "latency_ms": 1456.35,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 2,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_H_REGION_ROUTING": {
+        "cer": 0.115,
+        "wer": 0.3836,
+        "inversion_rate": 0.0,
+        "latency_ms": 3090.57,
+        "peak_ram_mb": 1.43,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_I_REGION_FALLBACK": {
+        "cer": 0.115,
+        "wer": 0.3836,
+        "inversion_rate": 0.0,
+        "latency_ms": 2843.25,
+        "peak_ram_mb": 1.43,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_J_ADAPTIVE": {
+        "cer": 0.115,
+        "wer": 0.3836,
+        "inversion_rate": 0.0,
+        "latency_ms": 1841.8,
+        "peak_ram_mb": 1.93,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      }
+    },
+    "DOC_ORI_01_ADMIN_CIRCULAR": {
+      "STRATEGY_A_ENG": {
+        "cer": 0.8433,
+        "wer": 1.0345,
+        "inversion_rate": 0.0,
+        "latency_ms": 626.4,
+        "peak_ram_mb": 1.2,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_B_HIN": {
+        "cer": 0.8209,
+        "wer": 1.0,
+        "inversion_rate": 0.0,
+        "latency_ms": 794.2,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_C_ORI": {
+        "cer": 0.0721,
+        "wer": 0.3793,
+        "inversion_rate": 0.0,
+        "latency_ms": 674.76,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_D_ENG_HIN": {
+        "cer": 0.8358,
+        "wer": 1.0172,
+        "inversion_rate": 0.0,
+        "latency_ms": 1040.32,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_E_ENG_ORI": {
+        "cer": 0.0746,
+        "wer": 0.3966,
+        "inversion_rate": 0.0,
+        "latency_ms": 992.39,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_F_GLOBAL_ALL": {
+        "cer": 0.0721,
+        "wer": 0.3793,
+        "inversion_rate": 0.0,
+        "latency_ms": 1233.88,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_G_PAGE_ROUTING": {
+        "cer": 0.8433,
+        "wer": 1.0345,
+        "inversion_rate": 0.0,
+        "latency_ms": 2025.87,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 2,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_H_REGION_ROUTING": {
+        "cer": 0.0995,
+        "wer": 0.3966,
+        "inversion_rate": 0.0,
+        "latency_ms": 2985.11,
+        "peak_ram_mb": 1.43,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_I_REGION_FALLBACK": {
+        "cer": 0.0995,
+        "wer": 0.3966,
+        "inversion_rate": 0.0,
+        "latency_ms": 3067.44,
+        "peak_ram_mb": 1.43,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_J_ADAPTIVE": {
+        "cer": 0.0721,
+        "wer": 0.3793,
+        "inversion_rate": 0.0,
+        "latency_ms": 1704.6,
+        "peak_ram_mb": 1.93,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      }
+    },
+    "DOC_MIX_01_HIN_ENG_SCHOLARSHIP": {
+      "STRATEGY_A_ENG": {
+        "cer": 0.32,
+        "wer": 0.3585,
+        "inversion_rate": 0.0,
+        "latency_ms": 662.33,
+        "peak_ram_mb": 1.2,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_B_HIN": {
+        "cer": 0.5114,
+        "wer": 0.6226,
+        "inversion_rate": 0.0,
+        "latency_ms": 682.79,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 0.0
+      },
+      "STRATEGY_C_ORI": {
+        "cer": 0.8371,
+        "wer": 0.9245,
+        "inversion_rate": 0.0,
+        "latency_ms": 716.77,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 0.2
+      },
+      "STRATEGY_D_ENG_HIN": {
+        "cer": 0.0743,
+        "wer": 0.1698,
+        "inversion_rate": 0.0,
+        "latency_ms": 894.61,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_E_ENG_ORI": {
+        "cer": 0.32,
+        "wer": 0.3774,
+        "inversion_rate": 0.0,
+        "latency_ms": 942.83,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_F_GLOBAL_ALL": {
+        "cer": 0.0743,
+        "wer": 0.1698,
+        "inversion_rate": 0.0,
+        "latency_ms": 1249.78,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_G_PAGE_ROUTING": {
+        "cer": 0.32,
+        "wer": 0.3585,
+        "inversion_rate": 0.0,
+        "latency_ms": 1426.07,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 2,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_H_REGION_ROUTING": {
+        "cer": 0.0771,
+        "wer": 0.1887,
+        "inversion_rate": 0.0,
+        "latency_ms": 2977.21,
+        "peak_ram_mb": 1.43,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_I_REGION_FALLBACK": {
+        "cer": 0.0771,
+        "wer": 0.1887,
+        "inversion_rate": 0.0,
+        "latency_ms": 3074.18,
+        "peak_ram_mb": 1.43,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_J_ADAPTIVE": {
+        "cer": 0.0743,
+        "wer": 0.1698,
+        "inversion_rate": 0.0,
+        "latency_ms": 1916.89,
+        "peak_ram_mb": 1.93,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      }
+    },
+    "DOC_MIX_02_ORI_ENG_SCHOLARSHIP": {
+      "STRATEGY_A_ENG": {
+        "cer": 0.3478,
+        "wer": 0.3478,
+        "inversion_rate": 0.0,
+        "latency_ms": 614.5,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_B_HIN": {
+        "cer": 0.7826,
+        "wer": 0.8478,
+        "inversion_rate": 0.0,
+        "latency_ms": 671.4,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_C_ORI": {
+        "cer": 0.5385,
+        "wer": 0.6304,
+        "inversion_rate": 0.0,
+        "latency_ms": 706.15,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_D_ENG_HIN": {
+        "cer": 0.3512,
+        "wer": 0.3478,
+        "inversion_rate": 0.0,
+        "latency_ms": 937.84,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_E_ENG_ORI": {
+        "cer": 0.087,
+        "wer": 0.1957,
+        "inversion_rate": 0.0,
+        "latency_ms": 941.03,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_F_GLOBAL_ALL": {
+        "cer": 0.0569,
+        "wer": 0.1522,
+        "inversion_rate": 0.0,
+        "latency_ms": 1029.82,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_G_PAGE_ROUTING": {
+        "cer": 0.3478,
+        "wer": 0.3478,
+        "inversion_rate": 0.0,
+        "latency_ms": 1915.99,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 2,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_H_REGION_ROUTING": {
+        "cer": 0.1003,
+        "wer": 0.2174,
+        "inversion_rate": 0.0,
+        "latency_ms": 2898.52,
+        "peak_ram_mb": 1.43,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_I_REGION_FALLBACK": {
+        "cer": 0.1003,
+        "wer": 0.2174,
+        "inversion_rate": 0.0,
+        "latency_ms": 2899.88,
+        "peak_ram_mb": 1.43,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_J_ADAPTIVE": {
+        "cer": 0.087,
+        "wer": 0.1957,
+        "inversion_rate": 0.0,
+        "latency_ms": 1593.69,
+        "peak_ram_mb": 1.93,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      }
+    },
+    "DOC_MULTI_01_TRI_SCRIPT_GAZETTE": {
+      "STRATEGY_A_ENG": {
+        "cer": 0.4926,
+        "wer": 0.6406,
+        "inversion_rate": 0.0,
+        "latency_ms": 929.75,
+        "peak_ram_mb": 1.22,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_B_HIN": {
+        "cer": 0.6243,
+        "wer": 0.7656,
+        "inversion_rate": 0.0,
+        "latency_ms": 1156.03,
+        "peak_ram_mb": 1.22,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_C_ORI": {
+        "cer": 0.6005,
+        "wer": 0.9609,
+        "inversion_rate": 0.0,
+        "latency_ms": 1183.92,
+        "peak_ram_mb": 1.22,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_D_ENG_HIN": {
+        "cer": 0.2963,
+        "wer": 0.4375,
+        "inversion_rate": 0.0,
+        "latency_ms": 1468.64,
+        "peak_ram_mb": 1.22,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_E_ENG_ORI": {
+        "cer": 0.3008,
+        "wer": 0.5,
+        "inversion_rate": 0.0,
+        "latency_ms": 1432.03,
+        "peak_ram_mb": 1.22,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_F_GLOBAL_ALL": {
+        "cer": 0.1112,
+        "wer": 0.2578,
+        "inversion_rate": 0.0,
+        "latency_ms": 1963.57,
+        "peak_ram_mb": 1.22,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_G_PAGE_ROUTING": {
+        "cer": 0.4926,
+        "wer": 0.6406,
+        "inversion_rate": 0.0,
+        "latency_ms": 2160.57,
+        "peak_ram_mb": 1.22,
+        "ocr_invocations": 2,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_H_REGION_ROUTING": {
+        "cer": 0.2963,
+        "wer": 0.4375,
+        "inversion_rate": 0.0,
+        "latency_ms": 4346.89,
+        "peak_ram_mb": 2.29,
+        "ocr_invocations": 2,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_I_REGION_FALLBACK": {
+        "cer": 0.2963,
+        "wer": 0.4375,
+        "inversion_rate": 0.0,
+        "latency_ms": 4396.99,
+        "peak_ram_mb": 2.29,
+        "ocr_invocations": 2,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_J_ADAPTIVE": {
+        "cer": 0.1112,
+        "wer": 0.2578,
+        "inversion_rate": 0.0,
+        "latency_ms": 3159.54,
+        "peak_ram_mb": 2.36,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      }
+    },
+    "DOC_MULTI_02_BILINGUAL_COLUMNS_HIN_ENG": {
+      "STRATEGY_A_ENG": {
+        "cer": 0.3333,
+        "wer": 0.4505,
+        "inversion_rate": 0.0,
+        "latency_ms": 805.33,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_B_HIN": {
+        "cer": 0.5482,
+        "wer": 0.6813,
+        "inversion_rate": 0.0,
+        "latency_ms": 855.29,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_C_ORI": {
+        "cer": 0.8629,
+        "wer": 1.0549,
+        "inversion_rate": 0.0,
+        "latency_ms": 928.83,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_D_ENG_HIN": {
+        "cer": 0.0541,
+        "wer": 0.1648,
+        "inversion_rate": 0.0,
+        "latency_ms": 961.2,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_E_ENG_ORI": {
+        "cer": 0.3333,
+        "wer": 0.4725,
+        "inversion_rate": 0.0,
+        "latency_ms": 1042.98,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_F_GLOBAL_ALL": {
+        "cer": 0.0541,
+        "wer": 0.1648,
+        "inversion_rate": 0.0,
+        "latency_ms": 1260.67,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_G_PAGE_ROUTING": {
+        "cer": 0.3333,
+        "wer": 0.4505,
+        "inversion_rate": 0.0,
+        "latency_ms": 2000.04,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 2,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_H_REGION_ROUTING": {
+        "cer": 0.1286,
+        "wer": 0.2418,
+        "inversion_rate": 0.0,
+        "latency_ms": 3265.76,
+        "peak_ram_mb": 1.43,
+        "ocr_invocations": 2,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_I_REGION_FALLBACK": {
+        "cer": 0.1286,
+        "wer": 0.2418,
+        "inversion_rate": 0.0,
+        "latency_ms": 3220.48,
+        "peak_ram_mb": 1.43,
+        "ocr_invocations": 2,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_J_ADAPTIVE": {
+        "cer": 0.2538,
+        "wer": 0.3736,
+        "inversion_rate": 0.0,
+        "latency_ms": 2582.95,
+        "peak_ram_mb": 1.93,
+        "ocr_invocations": 2,
+        "critical_field_match_rate": 1.0
+      }
+    },
+    "DOC_MULTI_03_BILINGUAL_COLUMNS_ORI_ENG": {
+      "STRATEGY_A_ENG": {
+        "cer": 0.642,
+        "wer": 0.7531,
+        "inversion_rate": 0.0,
+        "latency_ms": 808.09,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_B_HIN": {
+        "cer": 0.8716,
+        "wer": 0.9877,
+        "inversion_rate": 0.0,
+        "latency_ms": 833.5,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_C_ORI": {
+        "cer": 0.8499,
+        "wer": 0.963,
+        "inversion_rate": 0.0,
+        "latency_ms": 805.07,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_D_ENG_HIN": {
+        "cer": 0.6474,
+        "wer": 0.7531,
+        "inversion_rate": 0.0,
+        "latency_ms": 1050.57,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_E_ENG_ORI": {
+        "cer": 0.604,
+        "wer": 0.7037,
+        "inversion_rate": 0.0,
+        "latency_ms": 1108.8,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_F_GLOBAL_ALL": {
+        "cer": 0.6076,
+        "wer": 0.716,
+        "inversion_rate": 0.0,
+        "latency_ms": 1269.36,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_G_PAGE_ROUTING": {
+        "cer": 0.642,
+        "wer": 0.7531,
+        "inversion_rate": 0.0,
+        "latency_ms": 1719.28,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 2,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_H_REGION_ROUTING": {
+        "cer": 0.1212,
+        "wer": 0.2346,
+        "inversion_rate": 0.0,
+        "latency_ms": 2868.72,
+        "peak_ram_mb": 1.43,
+        "ocr_invocations": 2,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_I_REGION_FALLBACK": {
+        "cer": 0.1212,
+        "wer": 0.2346,
+        "inversion_rate": 0.0,
+        "latency_ms": 2814.44,
+        "peak_ram_mb": 1.43,
+        "ocr_invocations": 2,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_J_ADAPTIVE": {
+        "cer": 0.481,
+        "wer": 0.5679,
+        "inversion_rate": 0.0,
+        "latency_ms": 2406.09,
+        "peak_ram_mb": 1.93,
+        "ocr_invocations": 2,
+        "critical_field_match_rate": 1.0
+      }
+    },
+    "DOC_MULTI_04_MARKSHEET_INDIC_GRID": {
+      "STRATEGY_A_ENG": {
+        "cer": 0.4016,
+        "wer": 0.4557,
+        "inversion_rate": 0.0,
+        "latency_ms": 689.88,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_B_HIN": {
+        "cer": 0.6369,
+        "wer": 0.7975,
+        "inversion_rate": 0.0,
+        "latency_ms": 866.93,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 0.4
+      },
+      "STRATEGY_C_ORI": {
+        "cer": 0.7951,
+        "wer": 0.9873,
+        "inversion_rate": 0.0,
+        "latency_ms": 952.96,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 0.6
+      },
+      "STRATEGY_D_ENG_HIN": {
+        "cer": 0.288,
+        "wer": 0.4051,
+        "inversion_rate": 0.0,
+        "latency_ms": 956.71,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_E_ENG_ORI": {
+        "cer": 0.3996,
+        "wer": 0.4684,
+        "inversion_rate": 0.0,
+        "latency_ms": 861.65,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_F_GLOBAL_ALL": {
+        "cer": 0.288,
+        "wer": 0.4051,
+        "inversion_rate": 0.0,
+        "latency_ms": 1061.87,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_G_PAGE_ROUTING": {
+        "cer": 0.4016,
+        "wer": 0.4557,
+        "inversion_rate": 0.0,
+        "latency_ms": 2005.02,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 2,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_H_REGION_ROUTING": {
+        "cer": 0.1298,
+        "wer": 0.2911,
+        "inversion_rate": 0.0,
+        "latency_ms": 11255.89,
+        "peak_ram_mb": 1.43,
+        "ocr_invocations": 2,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_I_REGION_FALLBACK": {
+        "cer": 0.1298,
+        "wer": 0.2911,
+        "inversion_rate": 0.0,
+        "latency_ms": 11744.81,
+        "peak_ram_mb": 1.43,
+        "ocr_invocations": 2,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_J_ADAPTIVE": {
+        "cer": 0.288,
+        "wer": 0.4051,
+        "inversion_rate": 0.0,
+        "latency_ms": 1910.57,
+        "peak_ram_mb": 1.93,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      }
+    },
+    "DOC_DEG_01_MULTI_SCRIPT_SKEWED": {
+      "STRATEGY_A_ENG": {
+        "cer": 0.5392,
+        "wer": 0.6484,
+        "inversion_rate": 0.0,
+        "latency_ms": 791.33,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_B_HIN": {
+        "cer": 0.6152,
+        "wer": 0.7812,
+        "inversion_rate": 0.0,
+        "latency_ms": 1398.31,
+        "peak_ram_mb": 1.22,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_C_ORI": {
+        "cer": 0.6436,
+        "wer": 0.8047,
+        "inversion_rate": 0.0,
+        "latency_ms": 996.0,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_D_ENG_HIN": {
+        "cer": 0.3337,
+        "wer": 0.5,
+        "inversion_rate": 0.0,
+        "latency_ms": 1540.81,
+        "peak_ram_mb": 1.22,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_E_ENG_ORI": {
+        "cer": 0.3496,
+        "wer": 0.4609,
+        "inversion_rate": 0.0,
+        "latency_ms": 1072.21,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_F_GLOBAL_ALL": {
+        "cer": 0.143,
+        "wer": 0.3047,
+        "inversion_rate": 0.0,
+        "latency_ms": 2119.47,
+        "peak_ram_mb": 1.22,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_G_PAGE_ROUTING": {
+        "cer": 0.5392,
+        "wer": 0.6484,
+        "inversion_rate": 0.0,
+        "latency_ms": 1801.4,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 2,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_H_REGION_ROUTING": {
+        "cer": 0.5392,
+        "wer": 0.6484,
+        "inversion_rate": 0.0,
+        "latency_ms": 869.62,
+        "peak_ram_mb": 2.29,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_I_REGION_FALLBACK": {
+        "cer": 0.5392,
+        "wer": 0.6484,
+        "inversion_rate": 0.0,
+        "latency_ms": 844.27,
+        "peak_ram_mb": 2.29,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_J_ADAPTIVE": {
+        "cer": 0.143,
+        "wer": 0.3047,
+        "inversion_rate": 0.0,
+        "latency_ms": 3530.85,
+        "peak_ram_mb": 2.36,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      }
+    },
+    "DOC_EXT_02_PENSION_DISBURSEMENT_ORDER": {
+      "STRATEGY_A_ENG": {
+        "cer": 0.2562,
+        "wer": 0.3077,
+        "inversion_rate": 0.0,
+        "latency_ms": 789.27,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_B_HIN": {
+        "cer": 0.5271,
+        "wer": 0.6442,
+        "inversion_rate": 0.0,
+        "latency_ms": 938.73,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 0.1667
+      },
+      "STRATEGY_C_ORI": {
+        "cer": 0.7775,
+        "wer": 0.8846,
+        "inversion_rate": 0.0,
+        "latency_ms": 1053.35,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 0.5
+      },
+      "STRATEGY_D_ENG_HIN": {
+        "cer": 0.0571,
+        "wer": 0.1058,
+        "inversion_rate": 0.0,
+        "latency_ms": 1325.05,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_E_ENG_ORI": {
+        "cer": 0.2562,
+        "wer": 0.3077,
+        "inversion_rate": 0.0,
+        "latency_ms": 1243.48,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_F_GLOBAL_ALL": {
+        "cer": 0.0571,
+        "wer": 0.1058,
+        "inversion_rate": 0.0,
+        "latency_ms": 1614.46,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_G_PAGE_ROUTING": {
+        "cer": 0.2562,
+        "wer": 0.3077,
+        "inversion_rate": 0.0,
+        "latency_ms": 2232.11,
+        "peak_ram_mb": 1.25,
+        "ocr_invocations": 2,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_H_REGION_ROUTING": {
+        "cer": 0.0571,
+        "wer": 0.1058,
+        "inversion_rate": 0.0,
+        "latency_ms": 5591.9,
+        "peak_ram_mb": 2.48,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_I_REGION_FALLBACK": {
+        "cer": 0.0571,
+        "wer": 0.1058,
+        "inversion_rate": 0.0,
+        "latency_ms": 5552.42,
+        "peak_ram_mb": 2.48,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_J_ADAPTIVE": {
+        "cer": 0.0571,
+        "wer": 0.1058,
+        "inversion_rate": 0.0,
+        "latency_ms": 2059.91,
+        "peak_ram_mb": 2.48,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      }
+    },
+    "DOC_EXT_03_UNIVERSITY_CONVOCATION_DEGREE": {
+      "STRATEGY_A_ENG": {
+        "cer": 0.2655,
+        "wer": 0.2857,
+        "inversion_rate": 0.0,
+        "latency_ms": 754.77,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_B_HIN": {
+        "cer": 0.7782,
+        "wer": 0.8452,
+        "inversion_rate": 0.0,
+        "latency_ms": 1227.94,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 0.1667
+      },
+      "STRATEGY_C_ORI": {
+        "cer": 0.5597,
+        "wer": 0.631,
+        "inversion_rate": 0.0,
+        "latency_ms": 969.15,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 0.3333
+      },
+      "STRATEGY_D_ENG_HIN": {
+        "cer": 0.2672,
+        "wer": 0.2857,
+        "inversion_rate": 0.0,
+        "latency_ms": 1250.07,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_E_ENG_ORI": {
+        "cer": 0.0185,
+        "wer": 0.0357,
+        "inversion_rate": 0.0,
+        "latency_ms": 1200.87,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_F_GLOBAL_ALL": {
+        "cer": 0.0185,
+        "wer": 0.0357,
+        "inversion_rate": 0.0,
+        "latency_ms": 1465.82,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_G_PAGE_ROUTING": {
+        "cer": 0.2655,
+        "wer": 0.2857,
+        "inversion_rate": 0.0,
+        "latency_ms": 2026.96,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 2,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_H_REGION_ROUTING": {
+        "cer": 0.0286,
+        "wer": 0.0476,
+        "inversion_rate": 0.0,
+        "latency_ms": 19665.06,
+        "peak_ram_mb": 2.71,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_I_REGION_FALLBACK": {
+        "cer": 0.0286,
+        "wer": 0.0476,
+        "inversion_rate": 0.0,
+        "latency_ms": 18703.1,
+        "peak_ram_mb": 2.71,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_J_ADAPTIVE": {
+        "cer": 0.0185,
+        "wer": 0.0357,
+        "inversion_rate": 0.0,
+        "latency_ms": 2118.66,
+        "peak_ram_mb": 2.71,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      }
+    },
+    "DOC_EXT_04_LAND_REVENUE_KHATAUNI_RECORD": {
+      "STRATEGY_A_ENG": {
+        "cer": 0.4887,
+        "wer": 0.6625,
+        "inversion_rate": 0.0,
+        "latency_ms": 737.78,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 0.7143
+      },
+      "STRATEGY_B_HIN": {
+        "cer": 0.2801,
+        "wer": 0.475,
+        "inversion_rate": 0.0,
+        "latency_ms": 853.63,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 0.5714
+      },
+      "STRATEGY_C_ORI": {
+        "cer": 0.7519,
+        "wer": 1.0125,
+        "inversion_rate": 0.0,
+        "latency_ms": 1013.23,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 0.4286
+      },
+      "STRATEGY_D_ENG_HIN": {
+        "cer": 0.0808,
+        "wer": 0.1875,
+        "inversion_rate": 0.0,
+        "latency_ms": 1105.54,
+        "peak_ram_mb": 1.23,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_E_ENG_ORI": {
+        "cer": 0.4887,
+        "wer": 0.6625,
+        "inversion_rate": 0.0,
+        "latency_ms": 1344.99,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 0.7143
+      },
+      "STRATEGY_F_GLOBAL_ALL": {
+        "cer": 0.0808,
+        "wer": 0.1875,
+        "inversion_rate": 0.0,
+        "latency_ms": 1509.88,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_G_PAGE_ROUTING": {
+        "cer": 0.4887,
+        "wer": 0.6625,
+        "inversion_rate": 0.0,
+        "latency_ms": 1715.67,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 2,
+        "critical_field_match_rate": 0.7143
+      },
+      "STRATEGY_H_REGION_ROUTING": {
+        "cer": 0.5226,
+        "wer": 0.625,
+        "inversion_rate": 0.0,
+        "latency_ms": 5214.12,
+        "peak_ram_mb": 2.48,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_I_REGION_FALLBACK": {
+        "cer": 0.5226,
+        "wer": 0.625,
+        "inversion_rate": 0.0,
+        "latency_ms": 5078.58,
+        "peak_ram_mb": 2.48,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_J_ADAPTIVE": {
+        "cer": 0.0808,
+        "wer": 0.1875,
+        "inversion_rate": 0.0,
+        "latency_ms": 2242.02,
+        "peak_ram_mb": 2.48,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      }
+    },
+    "CHALLENGE_01_NATIVE_PDF_BILINGUAL": {
+      "STRATEGY_A_ENG": {
+        "cer": 0.0,
+        "wer": 0.0,
+        "inversion_rate": 0.0,
+        "latency_ms": 778.38,
+        "peak_ram_mb": 1.2,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_B_HIN": {
+        "cer": 0.8163,
+        "wer": 0.8947,
+        "inversion_rate": 0.0,
+        "latency_ms": 993.31,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_C_ORI": {
+        "cer": 0.9354,
+        "wer": 1.3947,
+        "inversion_rate": 0.0,
+        "latency_ms": 952.62,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_D_ENG_HIN": {
+        "cer": 0.0,
+        "wer": 0.0,
+        "inversion_rate": 0.0,
+        "latency_ms": 915.83,
+        "peak_ram_mb": 1.2,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_E_ENG_ORI": {
+        "cer": 0.0,
+        "wer": 0.0,
+        "inversion_rate": 0.0,
+        "latency_ms": 842.3,
+        "peak_ram_mb": 1.2,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_F_GLOBAL_ALL": {
+        "cer": 0.0,
+        "wer": 0.0,
+        "inversion_rate": 0.0,
+        "latency_ms": 876.67,
+        "peak_ram_mb": 1.2,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_G_PAGE_ROUTING": {
+        "cer": 0.0,
+        "wer": 0.0,
+        "inversion_rate": 0.0,
+        "latency_ms": 826.69,
+        "peak_ram_mb": 1.2,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_H_REGION_ROUTING": {
+        "cer": 0.0,
+        "wer": 0.0,
+        "inversion_rate": 0.0,
+        "latency_ms": 935.18,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_I_REGION_FALLBACK": {
+        "cer": 0.0,
+        "wer": 0.0,
+        "inversion_rate": 0.0,
+        "latency_ms": 1031.95,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_J_ADAPTIVE": {
+        "cer": 0.0,
+        "wer": 0.0,
+        "inversion_rate": 0.0,
+        "latency_ms": 888.82,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      }
+    },
+    "CHALLENGE_02_ODIA_ENGLISH_GAZETTE_TWO_COL": {
+      "STRATEGY_A_ENG": {
+        "cer": 0.5792,
+        "wer": 0.7419,
+        "inversion_rate": 0.0,
+        "latency_ms": 663.31,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_B_HIN": {
+        "cer": 0.8571,
+        "wer": 0.9355,
+        "inversion_rate": 0.0,
+        "latency_ms": 756.04,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_C_ORI": {
+        "cer": 0.8675,
+        "wer": 0.9839,
+        "inversion_rate": 0.0,
+        "latency_ms": 739.12,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_D_ENG_HIN": {
+        "cer": 0.5792,
+        "wer": 0.7419,
+        "inversion_rate": 0.0,
+        "latency_ms": 743.79,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_E_ENG_ORI": {
+        "cer": 0.5506,
+        "wer": 0.6774,
+        "inversion_rate": 0.0,
+        "latency_ms": 940.78,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_F_GLOBAL_ALL": {
+        "cer": 0.5506,
+        "wer": 0.6774,
+        "inversion_rate": 0.0,
+        "latency_ms": 1016.88,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_G_PAGE_ROUTING": {
+        "cer": 0.5792,
+        "wer": 0.7419,
+        "inversion_rate": 0.0,
+        "latency_ms": 1804.95,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 2,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_H_REGION_ROUTING": {
+        "cer": 0.1636,
+        "wer": 0.2581,
+        "inversion_rate": 0.0,
+        "latency_ms": 2815.05,
+        "peak_ram_mb": 1.43,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_I_REGION_FALLBACK": {
+        "cer": 0.1636,
+        "wer": 0.2581,
+        "inversion_rate": 0.0,
+        "latency_ms": 2762.31,
+        "peak_ram_mb": 1.43,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_J_ADAPTIVE": {
+        "cer": 0.2364,
+        "wer": 0.3387,
+        "inversion_rate": 0.0,
+        "latency_ms": 2103.41,
+        "peak_ram_mb": 1.93,
+        "ocr_invocations": 2,
+        "critical_field_match_rate": 1.0
+      }
+    },
+    "CHALLENGE_03_HINDI_ENGLISH_MARKSHEET_ROW_GRID": {
+      "STRATEGY_A_ENG": {
+        "cer": 0.337,
+        "wer": 0.3425,
+        "inversion_rate": 0.0,
+        "latency_ms": 649.18,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 0.8
+      },
+      "STRATEGY_B_HIN": {
+        "cer": 0.5144,
+        "wer": 0.7808,
+        "inversion_rate": 0.0,
+        "latency_ms": 824.74,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 0.4
+      },
+      "STRATEGY_C_ORI": {
+        "cer": 0.7228,
+        "wer": 0.8767,
+        "inversion_rate": 0.0,
+        "latency_ms": 773.99,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 0.6
+      },
+      "STRATEGY_D_ENG_HIN": {
+        "cer": 0.1419,
+        "wer": 0.274,
+        "inversion_rate": 0.0,
+        "latency_ms": 1027.72,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_E_ENG_ORI": {
+        "cer": 0.3215,
+        "wer": 0.3562,
+        "inversion_rate": 0.0,
+        "latency_ms": 876.02,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 0.8
+      },
+      "STRATEGY_F_GLOBAL_ALL": {
+        "cer": 0.1508,
+        "wer": 0.2603,
+        "inversion_rate": 0.0,
+        "latency_ms": 1056.71,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_G_PAGE_ROUTING": {
+        "cer": 0.337,
+        "wer": 0.3425,
+        "inversion_rate": 0.0,
+        "latency_ms": 1689.96,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 2,
+        "critical_field_match_rate": 0.8
+      },
+      "STRATEGY_H_REGION_ROUTING": {
+        "cer": 0.2217,
+        "wer": 0.6575,
+        "inversion_rate": 0.0,
+        "latency_ms": 5214.3,
+        "peak_ram_mb": 1.43,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_I_REGION_FALLBACK": {
+        "cer": 0.2217,
+        "wer": 0.6575,
+        "inversion_rate": 0.0,
+        "latency_ms": 5353.49,
+        "peak_ram_mb": 1.43,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_J_ADAPTIVE": {
+        "cer": 0.1508,
+        "wer": 0.2603,
+        "inversion_rate": 0.0,
+        "latency_ms": 1986.47,
+        "peak_ram_mb": 1.93,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      }
+    },
+    "CHALLENGE_04_LOW_CONTRAST_UNREADABLE_STRESS": {
+      "STRATEGY_A_ENG": {
+        "cer": 1.0,
+        "wer": 1.0,
+        "inversion_rate": 0.0,
+        "latency_ms": 510.24,
+        "peak_ram_mb": 1.2,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_B_HIN": {
+        "cer": 1.0,
+        "wer": 1.0,
+        "inversion_rate": 0.0,
+        "latency_ms": 511.58,
+        "peak_ram_mb": 1.2,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_C_ORI": {
+        "cer": 1.0,
+        "wer": 1.0,
+        "inversion_rate": 0.0,
+        "latency_ms": 551.9,
+        "peak_ram_mb": 1.2,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_D_ENG_HIN": {
+        "cer": 1.0,
+        "wer": 1.0,
+        "inversion_rate": 0.0,
+        "latency_ms": 775.91,
+        "peak_ram_mb": 1.2,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_E_ENG_ORI": {
+        "cer": 1.0,
+        "wer": 1.0,
+        "inversion_rate": 0.0,
+        "latency_ms": 642.55,
+        "peak_ram_mb": 1.2,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_F_GLOBAL_ALL": {
+        "cer": 1.0,
+        "wer": 1.0,
+        "inversion_rate": 0.0,
+        "latency_ms": 781.86,
+        "peak_ram_mb": 1.2,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_G_PAGE_ROUTING": {
+        "cer": 1.0,
+        "wer": 1.0,
+        "inversion_rate": 0.0,
+        "latency_ms": 934.67,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 2,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_H_REGION_ROUTING": {
+        "cer": 1.0,
+        "wer": 1.0,
+        "inversion_rate": 0.0,
+        "latency_ms": 549.35,
+        "peak_ram_mb": 1.43,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_I_REGION_FALLBACK": {
+        "cer": 1.0,
+        "wer": 1.0,
+        "inversion_rate": 0.0,
+        "latency_ms": 515.55,
+        "peak_ram_mb": 1.43,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_J_ADAPTIVE": {
+        "cer": 0.0,
+        "wer": 0.0,
+        "inversion_rate": 0.0,
+        "latency_ms": 20.62,
+        "peak_ram_mb": 1.43,
+        "ocr_invocations": 0,
+        "critical_field_match_rate": 1.0
+      }
+    },
+    "CHALLENGE_05_ROTATED_SKEW_GAZETTE": {
+      "STRATEGY_A_ENG": {
+        "cer": 0.3401,
+        "wer": 0.4615,
+        "inversion_rate": 0.0,
+        "latency_ms": 799.65,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_B_HIN": {
+        "cer": 0.5719,
+        "wer": 0.7912,
+        "inversion_rate": 0.0,
+        "latency_ms": 1148.79,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_C_ORI": {
+        "cer": 0.8494,
+        "wer": 1.1319,
+        "inversion_rate": 0.0,
+        "latency_ms": 945.57,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_D_ENG_HIN": {
+        "cer": 0.1168,
+        "wer": 0.2747,
+        "inversion_rate": 0.0,
+        "latency_ms": 1160.92,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_E_ENG_ORI": {
+        "cer": 0.3384,
+        "wer": 0.4835,
+        "inversion_rate": 0.0,
+        "latency_ms": 1006.54,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_F_GLOBAL_ALL": {
+        "cer": 0.1168,
+        "wer": 0.2747,
+        "inversion_rate": 0.0,
+        "latency_ms": 1421.93,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_G_PAGE_ROUTING": {
+        "cer": 0.3401,
+        "wer": 0.4615,
+        "inversion_rate": 0.0,
+        "latency_ms": 2313.6,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 2,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_H_REGION_ROUTING": {
+        "cer": 0.1049,
+        "wer": 0.2637,
+        "inversion_rate": 0.0,
+        "latency_ms": 3586.91,
+        "peak_ram_mb": 1.43,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_I_REGION_FALLBACK": {
+        "cer": 0.1049,
+        "wer": 0.2637,
+        "inversion_rate": 0.0,
+        "latency_ms": 3681.46,
+        "peak_ram_mb": 1.43,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_J_ADAPTIVE": {
+        "cer": 0.2386,
+        "wer": 0.3626,
+        "inversion_rate": 0.0,
+        "latency_ms": 2224.02,
+        "peak_ram_mb": 1.93,
+        "ocr_invocations": 2,
+        "critical_field_match_rate": 1.0
+      }
+    },
+    "CHALLENGE_06_FAINT_SEAL_OVER_NUMERIC_ID": {
+      "STRATEGY_A_ENG": {
+        "cer": 0.1472,
+        "wer": 0.1695,
+        "inversion_rate": 0.0,
+        "latency_ms": 670.26,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_B_HIN": {
+        "cer": 0.8325,
+        "wer": 1.0339,
+        "inversion_rate": 0.0,
+        "latency_ms": 766.59,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 0.0
+      },
+      "STRATEGY_C_ORI": {
+        "cer": 0.8934,
+        "wer": 1.2203,
+        "inversion_rate": 0.0,
+        "latency_ms": 832.2,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 0.5
+      },
+      "STRATEGY_D_ENG_HIN": {
+        "cer": 0.1345,
+        "wer": 0.1695,
+        "inversion_rate": 0.0,
+        "latency_ms": 837.7,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_E_ENG_ORI": {
+        "cer": 0.1472,
+        "wer": 0.1695,
+        "inversion_rate": 0.0,
+        "latency_ms": 679.52,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_F_GLOBAL_ALL": {
+        "cer": 0.132,
+        "wer": 0.1695,
+        "inversion_rate": 0.0,
+        "latency_ms": 938.64,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_G_PAGE_ROUTING": {
+        "cer": 0.1472,
+        "wer": 0.1695,
+        "inversion_rate": 0.0,
+        "latency_ms": 1798.23,
+        "peak_ram_mb": 1.21,
+        "ocr_invocations": 2,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_H_REGION_ROUTING": {
+        "cer": 0.1472,
+        "wer": 0.1695,
+        "inversion_rate": 0.0,
+        "latency_ms": 2586.85,
+        "peak_ram_mb": 1.43,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_I_REGION_FALLBACK": {
+        "cer": 0.1472,
+        "wer": 0.1695,
+        "inversion_rate": 0.0,
+        "latency_ms": 2267.33,
+        "peak_ram_mb": 1.43,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      },
+      "STRATEGY_J_ADAPTIVE": {
+        "cer": 0.1472,
+        "wer": 0.1695,
+        "inversion_rate": 0.0,
+        "latency_ms": 1618.22,
+        "peak_ram_mb": 1.93,
+        "ocr_invocations": 1,
+        "critical_field_match_rate": 1.0
+      }
+    }
+  }
+}

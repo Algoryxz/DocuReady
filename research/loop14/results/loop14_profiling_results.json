@@ -1,0 +1,8 @@
+{
+  "iterations": 200,
+  "script_detection_latency_microseconds": 5.65,
+  "ocr_latency_english_ms": 303.11,
+  "ocr_latency_hindi_ms": 262.05,
+  "ocr_latency_odia_ms": 247.44,
+  "peak_memory_overhead_kb": 1285.26
+}

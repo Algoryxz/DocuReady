@@ -1,0 +1,7 @@
+{
+  "script_router": "src/docuready/ingest/script_router.py:detect_unicode_script",
+  "mixed_threshold": 0.15,
+  "monolingual_threshold": 0.4,
+  "probe_used_when_no_native_text": "eng+hin+ori (--psm 6) on central crop",
+  "observation": "On single-column raster pages, probe + OCR spawns 2 Tesseract subprocesses, making adaptive slower than single-pass eng+hin+ori (2280 ms vs 1221 ms on DOC_CTRL_01)."
+}

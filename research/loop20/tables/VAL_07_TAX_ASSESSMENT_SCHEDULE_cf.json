@@ -1,0 +1,18 @@
+[
+  {
+    "name": "commercial_net_tax",
+    "expected": "28800",
+    "row": 1,
+    "col": 5,
+    "type": "amount",
+    "target_pattern": "Commercial Complex"
+  },
+  {
+    "name": "residence_rebate",
+    "expected": "6000",
+    "row": 0,
+    "col": 4,
+    "type": "amount",
+    "target_pattern": "Residential RCC"
+  }
+]

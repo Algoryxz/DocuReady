@@ -1,0 +1,126 @@
+{
+  "l05_clean_income_standard.pdf": {
+    "file_name": "l05_clean_income_standard.pdf",
+    "doc_type": "INCOME_CERT",
+    "category": "lakh_text_in_parentheses",
+    "expected_fields": {
+      "applicant_name": "SMRUTI RANJAN NAYAK",
+      "father_name": "RAMESH CHANDRA NAYAK",
+      "annual_income": 180000.0,
+      "issue_date": "2025-01-10",
+      "certificate_no": "EINC/2025/104928"
+    }
+  },
+  "l05_kumar_middle_name.pdf": {
+    "file_name": "l05_kumar_middle_name.pdf",
+    "doc_type": "INCOME_CERT",
+    "category": "kumar_middle_name",
+    "expected_fields": {
+      "applicant_name": "SANTOSH NAYAK",
+      "father_name": "RAMESH CHANDRA NAYAK",
+      "annual_income": 240000.0,
+      "issue_date": "2025-02-15"
+    }
+  },
+  "l05_kumar_given_name.pdf": {
+    "file_name": "l05_kumar_given_name.pdf",
+    "doc_type": "MARKSHEET",
+    "category": "kumar_given_name",
+    "expected_fields": {
+      "applicant_name": "KUMAR GAURAV",
+      "father_name": "RAMESH CHANDRA GAURAV",
+      "dob": "2004-08-15",
+      "roll_no": "2309BA1042",
+      "percentage": 78.5
+    }
+  },
+  "l05_date_dot_delimited.pdf": {
+    "file_name": "l05_date_dot_delimited.pdf",
+    "doc_type": "RESIDENCE_CERT",
+    "category": "date_dot_delimited",
+    "expected_fields": {
+      "applicant_name": "SMRUTI RANJAN NAYAK",
+      "father_name": "RAMESH CHANDRA NAYAK",
+      "issue_date": "2025-01-10",
+      "state": "ODISHA"
+    }
+  },
+  "l05_date_named_month.pdf": {
+    "file_name": "l05_date_named_month.pdf",
+    "doc_type": "RESIDENCE_CERT",
+    "category": "date_named_month",
+    "expected_fields": {
+      "applicant_name": "SMRUTI RANJAN NAYAK",
+      "issue_date": "2025-01-10"
+    }
+  },
+  "l05_date_dash_delimited.pdf": {
+    "file_name": "l05_date_dash_delimited.pdf",
+    "doc_type": "CASTE_CERT",
+    "category": "date_dash_delimited",
+    "expected_fields": {
+      "applicant_name": "SMRUTI RANJAN NAYAK",
+      "issue_date": "2025-01-10",
+      "caste_category": "SEBC"
+    }
+  },
+  "l05_table_boxed_layout.pdf": {
+    "file_name": "l05_table_boxed_layout.pdf",
+    "doc_type": "INCOME_CERT",
+    "category": "table_pipe_layout",
+    "expected_fields": {
+      "applicant_name": "SMRUTI RANJAN NAYAK",
+      "father_name": "RAMESH CHANDRA NAYAK",
+      "annual_income": 180000.0,
+      "certificate_no": "EINC/2025/778899"
+    }
+  },
+  "l05_competing_amounts_conflict.pdf": {
+    "file_name": "l05_competing_amounts_conflict.pdf",
+    "doc_type": "INCOME_CERT",
+    "category": "competing_amounts_ambiguity",
+    "expected_fields": {
+      "applicant_name": "SMRUTI RANJAN NAYAK",
+      "annual_income": 180000.0
+    }
+  },
+  "l05_father_name_no_comma.pdf": {
+    "file_name": "l05_father_name_no_comma.pdf",
+    "doc_type": "INCOME_CERT",
+    "category": "father_name_so_no_comma",
+    "expected_fields": {
+      "applicant_name": "SMRUTI RANJAN NAYAK",
+      "father_name": "RAMESH CHANDRA NAYAK",
+      "annual_income": 180000.0
+    }
+  },
+  "l05_aadhaar_card_standard.pdf": {
+    "file_name": "l05_aadhaar_card_standard.pdf",
+    "doc_type": "AADHAAR",
+    "category": "aadhaar_card_extraction",
+    "expected_fields": {
+      "applicant_name": "SMRUTI RANJAN NAYAK",
+      "dob": "2005-01-10",
+      "gender": "MALE",
+      "aadhaar_no": "XXXXXXXX1234"
+    }
+  },
+  "l05_income_lpa_format.pdf": {
+    "file_name": "l05_income_lpa_format.pdf",
+    "doc_type": "INCOME_CERT",
+    "category": "income_lpa_multiplier",
+    "expected_fields": {
+      "applicant_name": "SMRUTI RANJAN NAYAK",
+      "annual_income": 180000.0
+    }
+  },
+  "l05_ocr_digit_confused_cert.pdf": {
+    "file_name": "l05_ocr_digit_confused_cert.pdf",
+    "doc_type": "INCOME_CERT",
+    "category": "ocr_digit_confused_cert",
+    "expected_fields": {
+      "applicant_name": "SMRUTI RANJAN NAYAK",
+      "certificate_no": "EINC/2025/104928"
+    }
+  }
+}
