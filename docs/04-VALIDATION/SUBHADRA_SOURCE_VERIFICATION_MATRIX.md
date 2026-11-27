@@ -5,8 +5,8 @@
 **Version:** v1.4 (independent-review revision)  
 **Prepared / matrix re-verification:** 22 November 2026  
 **Reviewer clarification revision:** 24 November 2026  
-**Review status:** Reviewer clarifications incorporated on 24 November 2026; awaiting Akriti's explicit final confirmation; **implementation not authorized**  
-**Implementation gate:** HOLD — this revision changes documentation/source metadata only. No pack execution, rule, schema, exporter, or test implementation changes are authorized.
+**Review status:** Reviewer clarifications incorporated on 24 November 2026; PR #85 (`fe73c4db957a8fbfea7bef00d2c3ce27b60139f0`) merged into `main` at `fb630d6ed642bba7a67468761eeeb431e305de23`, delivering the T3.3 `odisha.subhadra` pack scaffold, source registry and verification matrix, associated tests, Product Owner-approved historical FY 2024–25 disclaimer, and production report exporter integration. Akriti's explicit source-review confirmation remains pending; T3.3 acceptance remains open.
+**Implementation gate:** HOLD for remaining rule/primitive changes — PR #85 did not authorize later changes or implement the outstanding `RULE-SUB-DOC-01` (Aadhaar rule) correction or shared `field_present` cross-pack correction, which remain blocked pending Akriti's explicit source-review confirmation and cross-pack technical review.
 
 > This matrix separates (1) what the Government source establishes, (2) what DocuReady can safely verify from supplied evidence, and (3) what is actually implemented. A verified legal requirement is not automatically an automatable rule. This is a document-verification aid, not an eligibility decision or Government determination.
 
@@ -99,6 +99,13 @@ Status vocabulary:
 
 These are acceptance requirements for a later implementation change; they have not been added or run because implementation remains on hold. The cross-pack regression requirement is mandatory because `field_present` is shared engine behaviour; Subhadra-only tests are insufficient to establish safety for other pack consumers.
 
+**Post-merge cross-pack audit findings (27 November 2026):** The 27 November 2026 diagnostic audit reproduced the missing-source and false-`PASS` cases using synthetic fixtures and a temporary external diagnostic script; the required committed cross-pack regression tests for the eventual correction have not yet been added or run, and production primitive changes remain on HOLD.
+1. Missing, unreadable, or slot-mismatched required sources are silently skipped by `eval_field_present()` (`continue` when `doc is None or doc.status != "VALID"`).
+2. In multi-source rules, this allows `generic.demo` `RULE-FLD-01` to produce a rule-level false `PASS` (`CONFIRMED_OK`) when one required document is absent or unreadable while other documents contain a `VERIFIED` field.
+3. Subhadra `RULE-SUB-FLD-01` produces misleading `Raw.SATISFIED` outcomes ("present and non-empty") for unavailable Aadhaar evidence.
+4. This matrix also requires a `VALID` document with an absent, empty, or whitespace-only extracted field to resolve as `INDETERMINATE` / `UNCERTAIN`, whereas `eval_field_present()` currently returns `Raw.VIOLATED` / `EvidenceState.VERIFIED`.
+5. Mixed cases (e.g., one `VALID` document missing the field plus another required document absent or unreadable) must not turn extraction gaps into confirmed defects.
+
 ### Age transition and baseline scope
 
 - Keep the fixed 01-07-2024 date only for the FY 2024–25 baseline rule.
@@ -143,7 +150,7 @@ These are acceptance requirements for a later implementation change; they have n
 | Report exporter | PO wording decision resolved (`DEMO SNAPSHOT — FY 2024–25 REFERENCE MATERIALS` disclaimer); production exporter emits the disclosure for `demo_snapshot` packs and is tested in `tests/test_subhadra_pack.py`. | Wording resolved by PO; Akriti matrix review still pending |
 | 31-03-2025 | Demo metadata only; not an official closing date | No official deadline claim |
 | 16-09-2026 reopening announcement | Secondary report recorded as UNVERIFIED / supports_rule:false; corresponding Government written notification not produced and remains UNVERIFIED. | No rule or effective-date change until official written notice is reviewed |
-| Implementation PR / merge | Not opened / not authorized by this matrix | Wait for Akriti's explicit written agreement |
+| Implementation PR / merge | PR #85 (`fe73c4db957a8fbfea7bef00d2c3ce27b60139f0`) merged into `main` at `fb630d6ed642bba7a67468761eeeb431e305de23` (pack scaffold, source registry/matrix, tests, PO-approved FY 2024–25 disclaimer, and exporter integration); does not approve `RULE-SUB-DOC-01` or shared `field_present` changes or authorize later work; T3.3 acceptance remains open | Wait for Akriti's explicit written agreement & cross-pack `field_present` review |
 
 **T3.3 owner:** Susmita. This document preserves T3.3 ownership and does not transfer acceptance criteria or authorize changes outside the T3.3 boundary.
 
