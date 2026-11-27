@@ -244,17 +244,18 @@ def eval_field_present(
     params: Dict[str, Any],
     context: ExecutionContext,
 ) -> PrimitiveResult:
-    """Evaluate presence and non-emptiness of extracted field(s) with weakest-evidence propagation."""
+    """Evaluate presence and non-emptiness of extracted field(s) with fail-closed abstention."""
     field_name = inputs.get("field", "")
     docs = inputs.get("docs") or inputs.get("slots") or []
 
     if not docs:
         docs = [d.doc_type.value for d in documents.values() if hasattr(d, "doc_type")]
 
-    missing_in = []
-    found_evidences = []
-    found_states = []
-    doc_labels = []
+    unavailable_docs: List[str] = []
+    missing_field_docs: List[str] = []
+    found_evidences: List[EvidenceProvenance] = []
+    found_states: List[EvidenceState] = []
+    doc_labels: List[str] = []
 
     for doc_name in docs:
         doc = get_document(documents, doc_name, context.mismatched_slots)
@@ -263,26 +264,54 @@ def eval_field_present(
         doc_labels.append(doc_label)
 
         if doc is None or doc.status != "VALID":
+            unavailable_docs.append(doc_label)
             continue
 
         f = get_field_from_doc(doc, field_name)
         if not f or not f.raw_value or not f.raw_value.strip():
-            missing_in.append(doc_label)
+            missing_field_docs.append(doc_label)
         else:
             found_states.append(get_field_evidence_state(f))
             if f.provenance:
                 found_evidences.append(f.provenance)
 
-    if missing_in:
+    incomplete_docs = unavailable_docs + missing_field_docs
+    if incomplete_docs:
+        if unavailable_docs and missing_field_docs:
+            msg = (
+                f"Mandatory field '{field_name}' cannot be assessed: unavailable source(s) "
+                f"{', '.join(unavailable_docs)} and unextracted or empty field in {', '.join(missing_field_docs)}."
+            )
+        elif unavailable_docs:
+            msg = (
+                f"Source document(s) {', '.join(unavailable_docs)} unavailable or not VALID; "
+                f"mandatory field '{field_name}' cannot be assessed."
+            )
+        else:
+            msg = (
+                f"Mandatory field '{field_name}' could not be extracted or is empty "
+                f"in {', '.join(missing_field_docs)}."
+            )
         return PrimitiveResult(
-            raw=Raw.VIOLATED,
+            raw=Raw.INDETERMINATE,
             field_name=field_name.upper(),
-            documents_involved=missing_in,
-            evidence_state=EvidenceState.VERIFIED,
-            message=f"Mandatory field '{field_name}' is missing or unextracted in {', '.join(missing_in)}.",
+            documents_involved=incomplete_docs,
+            evidence=found_evidences,
+            evidence_state=EvidenceState.UNCERTAIN,
+            message=msg,
         )
 
-    weakest = weakest_evidence(found_states) if found_states else EvidenceState.UNCERTAIN
+    if not found_states:
+        return PrimitiveResult(
+            raw=Raw.INDETERMINATE,
+            field_name=field_name.upper(),
+            documents_involved=doc_labels,
+            evidence=[],
+            evidence_state=EvidenceState.UNCERTAIN,
+            message=f"No valid source evidence available to assess mandatory field '{field_name}'.",
+        )
+
+    weakest = weakest_evidence(found_states)
 
     return PrimitiveResult(
         raw=Raw.SATISFIED,
