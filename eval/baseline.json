@@ -1,0 +1,10 @@
+{
+  "schema_version": "2.0",
+  "data_label": "synthetic",
+  "pack_id": "odisha.subhadra",
+  "max_false_pass_rate": 0.0,
+  "false_pass_tolerance": 0.02,
+  "max_false_fail_rate": 0.05,
+  "min_coverage": 0.10,
+  "max_ece_10bin": 0.35
+}

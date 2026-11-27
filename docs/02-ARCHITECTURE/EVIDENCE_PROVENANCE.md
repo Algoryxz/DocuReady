@@ -107,4 +107,7 @@ stateDiagram-v2
 
 - **VERIFIED ($P \ge 0.85$)**: High certainty. Suitable for hard blocking statutory checks (e.g., scheme income limit exceeded).
 - **PROVISIONAL ($0.60 \le P < 0.85$)**: Plausible extraction with slight visual or linguistic noise. Generates warnings rather than rejections.
-- **UNCERTAIN ($P < 0.60$)**: Severe degradation, heavy blur, or ambiguous match. Downstream safety layers automatically downgrade violations to `MANUAL REVIEW` or `UNCERTAIN EVIDENCE`.
+- **UNCERTAIN ($P < 0.60$)**: Severe degradation, heavy blur, or ambiguous match. Downstream `resolve_outcome()` automatically downgrades violations to `Status.REVIEW` (`ReasonCode.EVIDENCE_UNCERTAIN`) and prevents unsupported `PASS` outcomes (`ReasonCode.CANNOT_CONFIRM`).
+
+> [!IMPORTANT]
+> OCR confidence and `EvidenceState.VERIFIED` measure extraction certainty only. They never establish statutory verification, document authenticity, or government approval.

@@ -19,7 +19,8 @@ sources:
     reviewed_by: "Susmita (Domain Rules, Evidence & Evaluation Lead)"
     clause: "Letter No. 19188/WCD dated 29.08.2024, Sections 5.1, 5.2, 6, 7"
     supports_rule: true
-    notes: "Circulated English guidelines establishing eligibility (§5.1), exclusion categories with family-member scope (§5.2), beneficiary identification via field inquiry (§6), and benefit delivery (§7)."
+    original_rule_id: "RULE-SUB-EXCLUSIONS-UNIMPLEMENTED, RULE-SUB-INCOME-UNIMPLEMENTED"
+    notes: "Circulated English guidelines establishing eligibility (§5.1), exclusion categories with family-member scope (§5.2), beneficiary identification via field inquiry (§6), and benefit delivery (§7). Note: Exclusion rules (income tax payees, government employees, 4-wheeler motor vehicle owners) and conditional NFSA/SFSS income ceiling checks are intentionally unimplemented because DocuReady lacks trusted external government database interfaces (HRMS, Vahan, Income Tax, FS&CW)."
 
   - id: "SRC-SUB-GAZETTE-2024"
     title: "The Odisha Gazette Extraordinary No. 1637 — Resolution No. 19898—WCD-SUBH-SCHM-0008/2024/WCD"
@@ -28,9 +29,14 @@ sources:
     retrieved_on: 2026-11-21
     status: "verified"
     reviewed_by: "Susmita (Domain Rules, Evidence & Evaluation Lead)"
-    clause: "Gazette No. 1637 dated 05.09.2024, Sections 1(e), 2(a), 3.1(c)–(e), 3.2, 5(a)(i), 5(a)(iii)"
+    clause: "Gazette No. 1637 dated 05.09.2024, Sections 1(e), 2(a), 3.1(a), 3.1(c)–(e), 3.2, 5(a)(i), 5(a)(iii)"
     supports_rule: true
-    notes: "Published Gazette resolution specifying scheme duration (§2(a)), single-holder DBT bank accounts (§1(e), §5(a)(iii)), age bracket 21 to <60 as on 01.07.2024 tied to Aadhaar DOB (§3.1(c)–(e)), exclusions (§3.2), and mandatory Aadhaar requirement (§5(a)(i))."
+    original_rule_id: "RULE-SUB-DOC-01, RULE-SUB-AGE-01, RULE-SUB-NAME-01"
+    scheme_dependent_params:
+      age_reference_date: "2024-07-01"
+      min_age: 21
+      max_age: 59
+    notes: "Published Gazette resolution specifying scheme duration (§2(a)), single-holder DBT bank accounts (§1(e), §5(a)(iii)), age bracket 21 to <60 as on 01.07.2024 tied to Aadhaar DOB (§3.1(c)–(e)), exclusions (§3.2), and mandatory Aadhaar requirement (§5(a)(i)). Note on residency: Under Gazette §3.1(a) and Guidelines §5.1(a), applicant must be a resident of Odisha. In DocuReady, RULE-SUB-DOC-01 verifies presence of an Aadhaar identity card under §5(a)(i) for digital pre-check, but DocuReady does NOT extract or parse address or verify Odisha state residency; Aadhaar card presence does not prove Odisha residency, and no automated residency PASS or FAIL finding is generated. Cites parameters $age_reference_date, $min_age, $max_age. Known limitation: Bank passbook OCR demographic comparison is advisory and does not verify NPCI Aadhaar DBT seeding or account operational status."
 
   - id: "SRC-SUB-SOP-2024"
     title: "Standard Operating Procedure (SOP) for Implementation of SUBHADRA Yojana (Letter No. 26139/WCD)"
@@ -41,7 +47,8 @@ sources:
     reviewed_by: "Susmita (Domain Rules, Evidence & Evaluation Lead)"
     clause: "Document dated October 2024, forwarded via Letter No. 26139/WCD dated 11.11.2024, Sections 2, 4, 4.1, Annexure 3"
     supports_rule: true
-    notes: "Standard operating procedure detailing physical application submission at Mo Seva Kendras (§2), Aadhaar e-KYC and DBT bank scrutiny (§4, §4.1), and Annexure 3 self-declaration form for family gross annual income."
+    original_rule_id: "RULE-SUB-FLD-01"
+    notes: "Standard operating procedure detailing physical application submission at Mo Seva Kendras (§2), Aadhaar e-KYC and DBT bank scrutiny (§4, §4.1), and Annexure 3 self-declaration form for family gross annual income. Note: Self-declared Annexure 3 gross income values are mapped at slot-level only and cannot serve as legal proof of statutory eligibility without trusted database verification."
 
   - id: "SRC-SUB-INTAKE-WINDOW"
     title: "Government Application Intake Period Status"
@@ -53,7 +60,6 @@ sources:
     clause: "Administrative Portal Reference"
     supports_rule: false
     notes: "Statutory Gazette No. 1637 Section 2(a) defines the multi-year scheme lifespan (FY 2024–25 to FY 2028–29) but does not enact a definitive application intake closing date. The portal URL is only a general administrative reference, not proof of a specific intake window or closing deadline. Status remains UNVERIFIED. The 16.09.2026 secondary report about a proposed 01.04.2027 reopening is recorded separately as SRC-SUB-ANNOUNCEMENT-2026-09-16 with supports_rule: false; no corresponding date-specific official written notification has been produced or verified. The historical 2024-09-05 to 2025-03-31 demo snapshot boundary is not an established Government application closing date."
-
 
 # Secondary reporting is retained for chronology only. These records must remain
 # status: "unverified" and supports_rule: false; they do not support pack rules

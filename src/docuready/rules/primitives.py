@@ -319,7 +319,7 @@ def eval_field_present(
         documents_involved=doc_labels,
         evidence=found_evidences,
         evidence_state=weakest,
-        message=f"Mandatory field '{field_name}' is present and non-empty.",
+        message=f"Field '{field_name}' was extracted from the supplied document(s).",
     )
 
 

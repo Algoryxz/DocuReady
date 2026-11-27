@@ -283,6 +283,74 @@ def test_field_present_unavailable_and_mixed_sources(ctx):
     assert out_mixed_prov.reason_code == ReasonCode.INSUFFICIENT_DATA.value
 
 
+def test_field_present_fail_closed_matrix(ctx):
+    """Verify all 8 fail-closed cases for eval_field_present."""
+    # 1. Source absent from packet
+    res_absent = eval_field_present({}, {"field": "applicant_name", "docs": ["aadhaar_card"]}, {}, ctx)
+    assert res_absent.raw is Raw.INDETERMINATE
+    assert res_absent.evidence_state is EvidenceState.UNCERTAIN
+    assert "AADHAAR" in res_absent.documents_involved
+
+    # 2. Explicit document status: MISSING
+    doc_missing = ExtractedDocument(
+        doc_type=DocumentType.AADHAAR,
+        file_path="",
+        status="MISSING",
+        page_count=0,
+        fields={},
+    )
+    res_doc_missing = eval_field_present({DocumentType.AADHAAR: doc_missing}, {"field": "applicant_name", "docs": ["aadhaar_card"]}, {}, ctx)
+    assert res_doc_missing.raw is Raw.INDETERMINATE
+    assert res_doc_missing.evidence_state is EvidenceState.UNCERTAIN
+
+    # 3. UNREADABLE and CORRUPTED source documents
+    for bad_status in ("UNREADABLE", "CORRUPTED"):
+        doc_bad = ExtractedDocument(
+            doc_type=DocumentType.AADHAAR,
+            file_path="bad.pdf",
+            status=bad_status,
+            page_count=1,
+            fields={},
+        )
+        res_bad = eval_field_present({DocumentType.AADHAAR: doc_bad}, {"field": "applicant_name", "docs": ["aadhaar_card"]}, {}, ctx)
+        assert res_bad.raw is Raw.INDETERMINATE
+        assert res_bad.evidence_state is EvidenceState.UNCERTAIN
+
+    # 4. VALID document with empty or whitespace-only field
+    for blank in ("", "   \t\n "):
+        doc_blank = _make_doc(
+            DocumentType.AADHAAR,
+            fields={"applicant_name": _make_field("AADHAAR", "applicant_name", blank)},
+        )
+        res_blank = eval_field_present({DocumentType.AADHAAR: doc_blank}, {"field": "applicant_name", "docs": ["aadhaar_card"]}, {}, ctx)
+        assert res_blank.raw is Raw.INDETERMINATE
+        assert res_blank.evidence_state is EvidenceState.UNCERTAIN
+
+    # 5. VALID document with provisional field -> SATISFIED / PROVISIONAL
+    doc_prov = _make_doc(
+        DocumentType.AADHAAR,
+        fields={"applicant_name": _make_field("AADHAAR", "applicant_name", "Aarav Sharma", evidence_state=EvidenceState.PROVISIONAL)},
+    )
+    res_prov = eval_field_present({DocumentType.AADHAAR: doc_prov}, {"field": "applicant_name", "docs": ["aadhaar_card"]}, {}, ctx)
+    assert res_prov.raw is Raw.SATISFIED
+    assert res_prov.evidence_state is EvidenceState.PROVISIONAL
+
+    # 6. Multi-source case: one valid with field, one absent -> INDETERMINATE / UNCERTAIN
+    doc_ok = _make_doc(
+        DocumentType.APPLICATION_FORM,
+        fields={"applicant_name": _make_field("APPLICATION_FORM", "applicant_name", "Aarav Sharma")},
+    )
+    res_multi = eval_field_present(
+        {DocumentType.APPLICATION_FORM: doc_ok},
+        {"field": "applicant_name", "docs": ["application_form", "aadhaar_card"]},
+        {},
+        ctx,
+    )
+    assert res_multi.raw is Raw.INDETERMINATE
+    assert res_multi.evidence_state is EvidenceState.UNCERTAIN
+    assert "AADHAAR" in res_multi.documents_involved
+
+
 # ---------------------------------------------------------------------------
 # 3. match_across with weakest-evidence and multi-field propagation
 # ---------------------------------------------------------------------------

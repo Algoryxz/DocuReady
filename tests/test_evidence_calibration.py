@@ -143,3 +143,72 @@ def test_calibrator_abstention_threshold():
     )
     assert res_noise["calibrated_confidence"] < cal.tau_abstain
     assert res_noise["is_uncertain"] is True
+
+
+def test_nine_feature_vector_and_logistic_fit():
+    from docuready.evidence import (
+        FEATURE_NAMES,
+        compute_nine_features,
+        discretize_probability,
+    )
+
+    assert len(FEATURE_NAMES) == 9
+
+    cal = ConfidenceCalibrator()
+    res = cal.calibrate(
+        field_name="applicant_name",
+        raw_value="Pravasini Sahoo",
+        extraction_method=ExtractionMethod.LOCAL_OCR,
+        token_confidence=0.90,
+        label_detected=True,
+        label_distance_pt=12.0,
+        label_match_confidence=0.95,
+        candidate_count=1,
+        supporting_tokens_count=2,
+        layout_consistency=0.95,
+        rotation_deg=1.5,
+    )
+    assert set(res["features"].keys()) == set(FEATURE_NAMES)
+    assert res["canonical_evidence_state"] == EvidenceState.VERIFIED
+
+    # Test rotation degradation lowers probability
+    res_skewed = cal.calibrate(
+        field_name="applicant_name",
+        raw_value="Pravasini Sahoo",
+        extraction_method=ExtractionMethod.LOCAL_OCR,
+        token_confidence=0.90,
+        label_detected=True,
+        label_distance_pt=12.0,
+        label_match_confidence=0.95,
+        candidate_count=1,
+        supporting_tokens_count=2,
+        layout_consistency=0.40,
+        rotation_deg=15.0,
+    )
+    assert res_skewed["calibrated_confidence"] < res["calibrated_confidence"]
+
+    # Test logistic fit() on synthetic calibration samples
+    fv_pos = compute_nine_features(
+        field_name="dob",
+        extraction_method=ExtractionMethod.LOCAL_OCR,
+        is_syntax_valid=True,
+        token_confidence=0.95,
+        supporting_tokens_count=1,
+    )
+    fv_neg = compute_nine_features(
+        field_name="dob",
+        extraction_method=ExtractionMethod.LOCAL_OCR,
+        is_syntax_valid=False,
+        token_confidence=0.20,
+        label_detected=False,
+        supporting_tokens_count=1,
+    )
+    fitted = ConfidenceCalibrator().fit([fv_pos] * 10 + [fv_neg] * 10, [1] * 10 + [0] * 10, epochs=200)
+    assert fitted.predict_proba(fv_pos) > 0.85
+    assert fitted.predict_proba(fv_neg) < 0.25
+
+    # Tri-state canonical lifecycle
+    assert discretize_probability(0.90) == EvidenceState.VERIFIED
+    assert discretize_probability(0.72) == EvidenceState.PROVISIONAL
+    assert discretize_probability(0.40) == EvidenceState.UNCERTAIN
+    assert discretize_probability(0.95, is_ambiguous=True) == EvidenceState.UNCERTAIN

@@ -4,9 +4,12 @@ Maps raw OCR token confidences and layout features into calibrated correctness p
 and discrete epistemic evidence states.
 """
 
+import math
 import re
-from typing import Dict, Any, Tuple, Optional
+from typing import Dict, Any, Tuple, Optional, Sequence
 from docuready.domain.models import EvidenceState, ExtractionMethod
+from docuready.evidence.features import CalibrationFeatureVector, compute_nine_features
+from docuready.evidence.states import discretize_probability
 from docuready.normalize.normalizer import parse_and_normalize_date, validate_ifsc_code, normalize_income
 
 
@@ -88,26 +91,100 @@ def validate_field_syntax(field_name: str, raw_value: str) -> Tuple[bool, Option
     return True, None
 
 
+# Default 9-feature logistic parameters: Logit = beta_0 + sum(beta_i * x_i)
+DEFAULT_INTERCEPT: float = -4.0
+DEFAULT_WEIGHTS: Tuple[float, ...] = (
+    4.0,   # x1: ocr_token_confidence
+    0.6,   # x2: supporting_token_count
+    0.8,   # x3: anchor_label_proximity
+    0.6,   # x4: label_match_confidence
+    1.8,   # x5: format_validation
+    -1.8,  # x6: candidate_ambiguity
+    0.5,   # x7: layout_consistency
+    -0.5,  # x8: extraction_source (OCR penalty relative to native vector)
+    -1.2,  # x9: rotation_skew
+)
+
+
+def _sigmoid(z: float) -> float:
+    if z >= 0:
+        return 1.0 / (1.0 + math.exp(-z))
+    ez = math.exp(z)
+    return ez / (1.0 + ez)
+
+
 class ConfidenceCalibrator:
     """
     Computes calibrated field-level correctness probability and evidence state.
-    Uses multi-feature regression: token confidence, label proximity, format validity,
-    and candidate multiplicity.
+    Implements the 9-feature logistic calibration engine:
+      Logit = beta_0 + sum_{i=1}^9 beta_i * x_i
+      P(Correct | x) = sigmoid(Logit)
     """
 
     def __init__(
         self,
         tau_high: float = 0.70,     # Below this, OCR fields downgrade to LOW_CONFIDENCE
-        tau_abstain: float = 0.45,  # Below this, the extractor completely abstains (NOT_FOUND / UNREADABLE)
+        tau_abstain: float = 0.45,  # Below this, the extractor completely abstains
         w_token: float = 0.55,
         w_label: float = 0.20,
-        w_format: float = 0.25
+        w_format: float = 0.25,
+        intercept: float = DEFAULT_INTERCEPT,
+        weights: Optional[Sequence[float]] = None,
     ):
         self.tau_high = tau_high
         self.tau_abstain = tau_abstain
+        # Legacy scalar weights retained as attributes for backward compatibility
         self.w_token = w_token
         self.w_label = w_label
         self.w_format = w_format
+        self.intercept = float(intercept)
+        self.weights = tuple(float(w) for w in (weights if weights is not None else DEFAULT_WEIGHTS))
+        if len(self.weights) != 9:
+            raise ValueError(f"Expected 9 logistic weights, got {len(self.weights)}")
+
+    def predict_proba(self, features: CalibrationFeatureVector) -> float:
+        """Compute calibrated correctness probability P(Correct | x) via 9-feature logistic model."""
+        vec = features.to_list()
+        logit = self.intercept + sum(w * x for w, x in zip(self.weights, vec))
+        return round(_sigmoid(logit), 3)
+
+    def fit(
+        self,
+        feature_vectors: Sequence[CalibrationFeatureVector],
+        labels: Sequence[int],
+        *,
+        lr: float = 0.25,
+        epochs: int = 500,
+        l2: float = 1e-3,
+    ) -> "ConfidenceCalibrator":
+        """Fit logistic regression parameters (intercept and 9 weights) on a calibration split."""
+        if len(feature_vectors) != len(labels):
+            raise ValueError("feature_vectors and labels must have equal length")
+        if not feature_vectors:
+            raise ValueError("Cannot fit calibrator on empty calibration split")
+
+        n = len(feature_vectors)
+        b0 = self.intercept
+        ws = list(self.weights)
+
+        for _ in range(epochs):
+            grad_b0 = 0.0
+            grad_w = [0.0] * 9
+            for fv, y in zip(feature_vectors, labels):
+                x = fv.to_list()
+                p = _sigmoid(b0 + sum(w * xi for w, xi in zip(ws, x)))
+                err = p - float(y)
+                grad_b0 += err
+                for i in range(9):
+                    grad_w[i] += err * x[i]
+
+            b0 -= lr * (grad_b0 / n)
+            for i in range(9):
+                ws[i] -= lr * ((grad_w[i] / n) + l2 * ws[i])
+
+        self.intercept = round(b0, 6)
+        self.weights = tuple(round(w, 6) for w in ws)
+        return self
 
     def calibrate(
         self,
@@ -119,15 +196,34 @@ class ConfidenceCalibrator:
         label_distance_pt: float = 0.0,
         candidate_count: int = 1,
         supporting_tokens_count: int = 1,
-        page_has_date_ambiguity: bool = False
+        page_has_date_ambiguity: bool = False,
+        label_match_confidence: Optional[float] = None,
+        layout_consistency: float = 0.90,
+        rotation_deg: float = 0.0,
     ) -> Dict[str, Any]:
         """
-        Calculates calibrated correctness probability and assigns the discrete EvidenceState.
+        Calculates calibrated correctness probability using the 9-feature logistic model
+        and assigns both transitional and canonical EvidenceState.
         """
         # 1. Format Syntax Check
         is_syntax_valid, syntax_err = validate_field_syntax(field_name, raw_value)
 
-        # 2. Native Vector Handling
+        # 2. Compute 9-dimensional feature vector
+        features = compute_nine_features(
+            field_name=field_name,
+            extraction_method=extraction_method,
+            is_syntax_valid=is_syntax_valid,
+            token_confidence=token_confidence,
+            label_detected=label_detected,
+            label_distance_pt=label_distance_pt,
+            label_match_confidence=label_match_confidence,
+            candidate_count=candidate_count,
+            supporting_tokens_count=supporting_tokens_count,
+            layout_consistency=layout_consistency,
+            rotation_deg=rotation_deg,
+        )
+
+        # 3. Native Vector Handling (preserves golden snapshot 0.98 / 0.75 contract)
         if extraction_method == ExtractionMethod.NATIVE_VECTOR:
             calibrated_prob = 0.98 if is_syntax_valid else 0.75
             if not is_syntax_valid:
@@ -137,48 +233,24 @@ class ConfidenceCalibrator:
             else:
                 state = EvidenceState.VERIFIED_TEXT
 
+            canonical_state = discretize_probability(
+                calibrated_prob,
+                is_ambiguous=(state in (EvidenceState.AMBIGUOUS, EvidenceState.LOW_CONFIDENCE)),
+            )
             return {
                 "calibrated_confidence": calibrated_prob,
                 "evidence_state": state,
+                "canonical_evidence_state": canonical_state,
+                "features": features.as_dict(),
                 "format_valid": is_syntax_valid,
                 "syntax_reason": syntax_err,
                 "is_uncertain": state in [EvidenceState.AMBIGUOUS, EvidenceState.LOW_CONFIDENCE],
-                "uncertainty_reason": syntax_err if not is_syntax_valid else ("Date format ambiguity (DD/MM vs MM/DD)" if state == EvidenceState.AMBIGUOUS else None)
+                "uncertainty_reason": syntax_err if not is_syntax_valid else ("Date format ambiguity (DD/MM vs MM/DD)" if state == EvidenceState.AMBIGUOUS else None),
             }
 
-        # 3. Local OCR Handling
-        s_tok = float(token_confidence) if token_confidence is not None else 0.50
-        s_tok = max(0.0, min(1.0, s_tok))
+        # 4. Local OCR Handling (9-feature logistic probability)
+        calibrated_prob = self.predict_proba(features)
 
-        # Label proximity score
-        if not label_detected:
-            s_lbl = 0.20
-        elif label_distance_pt <= 25.0:
-            s_lbl = 1.00
-        elif label_distance_pt <= 60.0:
-            s_lbl = 0.75
-        elif label_distance_pt <= 150.0:
-            s_lbl = 0.50
-        else:
-            s_lbl = 0.30
-
-        # Syntax format score
-        s_fmt = 1.00 if is_syntax_valid else 0.10
-
-        # Multi-feature linear combination
-        raw_prob = (self.w_token * s_tok) + (self.w_label * s_lbl) + (self.w_format * s_fmt)
-
-        # Penalties for ambiguity and token fragmentation
-        penalty = 0.0
-        if candidate_count > 1:
-            penalty += 0.15 * min(3, candidate_count - 1)
-        if field_name in ["applicant_name", "father_name"] and supporting_tokens_count < 2:
-            penalty += 0.20
-
-        calibrated_prob = max(0.05, min(0.99, raw_prob - penalty))
-        calibrated_prob = round(calibrated_prob, 3)
-
-        # Determine EvidenceState
         if not is_syntax_valid:
             state = EvidenceState.LOW_CONFIDENCE
             unc_reason = f"Syntactic format failure: {syntax_err}"
@@ -196,12 +268,15 @@ class ConfidenceCalibrator:
             unc_reason = None
 
         is_unc = state in [EvidenceState.AMBIGUOUS, EvidenceState.LOW_CONFIDENCE]
+        canonical_state = discretize_probability(calibrated_prob, is_ambiguous=is_unc)
 
         return {
             "calibrated_confidence": calibrated_prob,
             "evidence_state": state,
+            "canonical_evidence_state": canonical_state,
+            "features": features.as_dict(),
             "format_valid": is_syntax_valid,
             "syntax_reason": syntax_err,
             "is_uncertain": is_unc,
-            "uncertainty_reason": unc_reason
+            "uncertainty_reason": unc_reason,
         }
