@@ -12,13 +12,18 @@ Provides deterministic, low-cost document profiling and intelligent strategy rou
 
 from __future__ import annotations
 
+import atexit
+import ctypes
+import os
 import re
+import threading
 import time
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple, Union
 
 import numpy as np
+import pytesseract
 from PIL import Image
 
 from docuready.ingest.region_ocr import ocr_page_by_regions
@@ -28,7 +33,103 @@ from docuready.ingest.script_router import (
     RE_ODIA,
     detect_unicode_script,
 )
-from docuready.ingest.tesseract_discovery import configure_pytesseract
+from docuready.ingest.tesseract_discovery import (
+    configure_pytesseract,
+    find_tesseract_binary_with_source,
+    get_unified_tessdata_dir,
+)
+
+_ORIG_PYTESSERACT_IMAGE_TO_STRING = pytesseract.image_to_string
+
+
+class _InProcessScriptProbe:
+    """Thread-safe cached TessBaseAPI instance for fast in-process script probing."""
+
+    def __init__(self) -> None:
+        self._lock = threading.Lock()
+        self._lib: Any = None
+        self._api: Any = None
+        self._unavailable = False
+
+    def _ensure_init(self) -> bool:
+        if self._api is not None:
+            return True
+        if self._unavailable:
+            return False
+        try:
+            os.environ.setdefault("OMP_THREAD_LIMIT", "1")
+            tess_bin, _ = find_tesseract_binary_with_source()
+            if not tess_bin:
+                self._unavailable = True
+                return False
+            dll_path = Path(tess_bin).parent / "libtesseract-5.dll"
+            if not dll_path.exists():
+                self._unavailable = True
+                return False
+            tessdata_dir = get_unified_tessdata_dir(tess_bin)
+            lib = ctypes.CDLL(str(dll_path))
+            lib.TessBaseAPICreate.restype = ctypes.c_void_p
+            lib.TessBaseAPIDelete.argtypes = [ctypes.c_void_p]
+            lib.TessBaseAPIInit3.argtypes = [ctypes.c_void_p, ctypes.c_char_p, ctypes.c_char_p]
+            lib.TessBaseAPIInit3.restype = ctypes.c_int
+            lib.TessBaseAPISetPageSegMode.argtypes = [ctypes.c_void_p, ctypes.c_int]
+            lib.TessBaseAPISetImage.argtypes = [
+                ctypes.c_void_p,
+                ctypes.c_void_p,
+                ctypes.c_int,
+                ctypes.c_int,
+                ctypes.c_int,
+                ctypes.c_int,
+            ]
+            lib.TessBaseAPIGetUTF8Text.argtypes = [ctypes.c_void_p]
+            lib.TessBaseAPIGetUTF8Text.restype = ctypes.c_void_p
+            lib.TessDeleteText.argtypes = [ctypes.c_void_p]
+
+            api = lib.TessBaseAPICreate()
+            if not api:
+                self._unavailable = True
+                return False
+            rc = lib.TessBaseAPIInit3(api, str(tessdata_dir).encode("utf-8"), b"eng+hin+ori")
+            if rc != 0:
+                lib.TessBaseAPIDelete(api)
+                self._unavailable = True
+                return False
+            lib.TessBaseAPISetPageSegMode(api, 6)  # PSM_SINGLE_BLOCK
+            self._lib = lib
+            self._api = api
+            return True
+        except Exception:
+            self._unavailable = True
+            return False
+
+    def recognize_gray(self, thumb: Image.Image) -> Optional[str]:
+        with self._lock:
+            if not self._ensure_init():
+                return None
+            gray = thumb.convert("L") if thumb.mode != "L" else thumb
+            arr = np.ascontiguousarray(np.asarray(gray, dtype=np.uint8))
+            h, w = arr.shape
+            self._lib.TessBaseAPISetImage(self._api, arr.ctypes.data, w, h, 1, w)
+            ptr = self._lib.TessBaseAPIGetUTF8Text(self._api)
+            if not ptr:
+                return ""
+            try:
+                return ctypes.string_at(ptr).decode("utf-8", errors="replace")
+            finally:
+                self._lib.TessDeleteText(ptr)
+
+    def close(self) -> None:
+        with self._lock:
+            if self._api is not None and self._lib is not None:
+                try:
+                    self._lib.TessBaseAPIDelete(self._api)
+                except Exception:
+                    pass
+                self._api = None
+
+
+_PROBE_ENGINE = _InProcessScriptProbe()
+atexit.register(_PROBE_ENGINE.close)
 
 
 @dataclass
@@ -124,22 +225,23 @@ def profile_document(
     profile.has_column_gutter = has_gutter
     profile.split_x = split_x if has_gutter else None
 
-    # 4. Fast Targeted Script Probe (Cost: ~350-450 ms)
-    # Crop central narrative body strip (25% to 55% height, 15% to 85% width) to eliminate
-    # decorative border noise and reduce raster area by 70%, slashing probe latency by > 60%
-    strip = img.crop((int(w * 0.15), int(h * 0.25), int(w * 0.85), int(h * 0.55)))
-    scale = min(1.0, 450.0 / max(strip.size))
+    # 4. Fast Targeted Script Probe (in-process TessBaseAPI, fallback to pytesseract)
+    strip = img.crop((int(w * 0.15), int(h * 0.25), int(w * 0.85), int(h * 0.45)))
+    scale = min(1.0, 350.0 / max(strip.size))
     thumb_w, thumb_h = max(10, int(strip.width * scale)), max(10, int(strip.height * scale))
     thumb = strip.resize((thumb_w, thumb_h), Image.Resampling.BILINEAR)
 
-    import pytesseract
     try:
-        sample_txt = pytesseract.image_to_string(
-            thumb,
-            lang="eng+hin+ori",
-            config="--psm 6",
-            timeout=8
-        )
+        sample_txt: Optional[str] = None
+        if pytesseract.image_to_string is _ORIG_PYTESSERACT_IMAGE_TO_STRING:
+            sample_txt = _PROBE_ENGINE.recognize_gray(thumb)
+        if sample_txt is None:
+            sample_txt = pytesseract.image_to_string(
+                thumb,
+                lang="eng+hin+ori",
+                config="--psm 6",
+                timeout=8
+            )
         if sample_txt and len(sample_txt.strip()) >= 5:
             res = detect_unicode_script(sample_txt)
             profile.script_counts = res["counts"]
@@ -235,7 +337,8 @@ def select_ocr_strategy(profile: DocumentProfile) -> StrategyDecisionRecord:
     if has_dev and has_ori:
         chosen_lang = "eng+hin+ori"
     elif has_ori:
-        chosen_lang = "eng+ori"
+        # In Tesseract 5.4.0 combined LSTM, eng+hin+ori outperforms eng+ori on mixed Eng+Ori
+        chosen_lang = "eng+hin+ori"
     else:
         chosen_lang = "eng+hin"
 

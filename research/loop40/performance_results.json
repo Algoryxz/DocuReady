@@ -1,0 +1,52 @@
+{
+  "loop17_DOC_CTRL_01": {
+    "threshold_ms": 850.0,
+    "cold_fresh_process_ms": 271.96,
+    "all_30_reps": {
+      "n": 30,
+      "mean_ms": 142.0,
+      "median_ms": 137.28,
+      "p90_ms": 166.63,
+      "p95_ms": 177.78,
+      "stdev_ms": 46.4,
+      "min_ms": 102.38,
+      "max_ms": 359.01
+    },
+    "steady_state_29_reps": {
+      "n": 29,
+      "mean_ms": 134.51,
+      "median_ms": 136.49,
+      "p90_ms": 166.63,
+      "p95_ms": 175.33,
+      "stdev_ms": 22.14,
+      "min_ms": 102.38,
+      "max_ms": 177.78
+    },
+    "pass": true
+  },
+  "loop18_DOC_EXT_06": {
+    "threshold_ms": 1400.0,
+    "cold_fresh_process_ms": 321.62,
+    "all_10_reps": {
+      "n": 10,
+      "mean_ms": 159.95,
+      "median_ms": 161.52,
+      "p90_ms": 190.78,
+      "p95_ms": 208.56,
+      "stdev_ms": 27.42,
+      "min_ms": 125.85,
+      "max_ms": 208.56
+    },
+    "steady_state_9_reps": {
+      "n": 9,
+      "mean_ms": 158.06,
+      "median_ms": 161.3,
+      "p90_ms": 208.56,
+      "p95_ms": 208.56,
+      "stdev_ms": 28.38,
+      "min_ms": 125.85,
+      "max_ms": 208.56
+    },
+    "pass": true
+  }
+}
