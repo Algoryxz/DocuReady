@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import os
 import shutil
+import subprocess
 import sys
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple, Union
@@ -178,13 +179,26 @@ def get_ocr_runtime_info() -> Dict[str, Any]:
             "error": f"Tesseract execution failed: {err}",
         }
 
-    # Discover traineddata languages via pytesseract first (handles distro-specific tessdata dirs on Linux/macOS/Windows)
+    # Discover traineddata languages directly via tesseract --list-langs (uncached)
     try:
-        import pytesseract
-        pytess_langs = pytesseract.get_languages(config="")
-        for lang in pytess_langs:
-            if lang not in ("osd", "pdf", "snum") and lang not in languages:
-                languages.append(lang)
+        proc_env = os.environ.copy()
+        tessdata_next_to_bin = bin_path.parent / "tessdata"
+        if tessdata_next_to_bin.is_dir() and "TESSDATA_PREFIX" not in proc_env:
+            proc_env["TESSDATA_PREFIX"] = str(tessdata_next_to_bin)
+        proc = subprocess.run(
+            [str(bin_path), "--list-langs"],
+            capture_output=True,
+            text=True,
+            timeout=10,
+            env=proc_env,
+        )
+        if proc.returncode == 0 and proc.stdout:
+            for line in proc.stdout.splitlines():
+                lang = line.strip()
+                if not lang or lang.lower().startswith("list of available languages"):
+                    continue
+                if lang not in ("osd", "pdf", "snum") and lang not in languages:
+                    languages.append(lang)
     except Exception:
         pass
 

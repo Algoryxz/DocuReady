@@ -68,24 +68,25 @@ class AuditPipeline:
         pid = packet_id or os.path.basename(packet_dir)
         logger.info("Starting audit for packet_id=%s in directory=%s", pid, os.path.basename(packet_dir))
 
-        # Expected filenames or auto-detect
-        type_mapping = {
-            "income_cert.pdf": DocumentType.INCOME_CERT,
-            "caste_cert.pdf": DocumentType.CASTE_CERT,
-            "residence_cert.pdf": DocumentType.RESIDENCE_CERT,
-            "marksheet.pdf": DocumentType.MARKSHEET,
-            "bank_passbook.pdf": DocumentType.BANK_PASSBOOK,
-            "application_form.pdf": DocumentType.APPLICATION_FORM,
-            "aadhaar.pdf": DocumentType.AADHAAR
+        # Expected canonical filename stems or auto-detect
+        stem_mapping = {
+            "income_cert": DocumentType.INCOME_CERT,
+            "caste_cert": DocumentType.CASTE_CERT,
+            "residence_cert": DocumentType.RESIDENCE_CERT,
+            "marksheet": DocumentType.MARKSHEET,
+            "bank_passbook": DocumentType.BANK_PASSBOOK,
+            "application_form": DocumentType.APPLICATION_FORM,
+            "aadhaar": DocumentType.AADHAAR,
         }
 
         extracted_docs: Dict[DocumentType, ExtractedDocument] = {}
 
         if os.path.exists(packet_dir):
             for file_name in os.listdir(packet_dir):
-                if file_name.lower().endswith(".pdf") or file_name.lower().endswith(".png") or file_name.lower().endswith(".jpg"):
+                stem, ext = os.path.splitext(file_name.lower())
+                if ext in (".pdf", ".png", ".jpg"):
                     file_path = os.path.join(packet_dir, file_name)
-                    expected_type = type_mapping.get(file_name.lower())
+                    expected_type = stem_mapping.get(stem)
                     slot_langs = get_slot_ocr_langs(self.pack, expected_type)
                     extracted = self.extractor.extract_document(
                         file_path, expected_type=expected_type, ocr_langs=slot_langs

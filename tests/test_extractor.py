@@ -212,3 +212,140 @@ def test_subhadra_slots_and_replacement_preserve_ocr_langs(tmp_path: Path):
                 assert mock_tess.call_count == 1
                 assert mock_tess.call_args.kwargs["lang"] == "eng+ori"
                 assert replaced_docs[DocumentType.AADHAAR].ocr_lang == "eng+ori"
+
+
+def _make_blank_image(tmp_path: Path, name: str, fmt: str = "PNG") -> Path:
+    img = Image.new("RGB", (400, 200), color="white")
+    out_path = tmp_path / name
+    img.save(str(out_path), format=fmt)
+    return out_path
+
+
+def test_image_extensions_resolve_pack_ocr_slots(tmp_path: Path):
+    """Verify aadhaar.pdf/.png/.jpg receive eng+ori, bank_passbook.png receives eng, and replacement preserves config."""
+    pack, _ = load_pack(_REPO_ROOT / "packs" / "odisha.subhadra")
+    _make_blank_raster_pdf(tmp_path, "aadhaar.pdf")
+    aadhaar_png = _make_blank_image(tmp_path, "aadhaar.png", fmt="PNG")
+    _make_blank_image(tmp_path, "aadhaar.jpg", fmt="JPEG")
+    _make_blank_image(tmp_path, "bank_passbook.png", fmt="PNG")
+
+    # Test each file individually in its own sub-folder so identical stems don't overwrite in dict
+    expected_cases = [
+        ("case_pdf", "aadhaar.pdf", "eng+ori", DocumentType.AADHAAR),
+        ("case_png", "aadhaar.png", "eng+ori", DocumentType.AADHAAR),
+        ("case_jpg", "aadhaar.jpg", "eng+ori", DocumentType.AADHAAR),
+        ("case_passbook_png", "bank_passbook.png", "eng", DocumentType.BANK_PASSBOOK),
+    ]
+
+    pipeline = AuditPipeline(pack=pack)
+    for subdir_name, fname, expected_lang, expected_dt in expected_cases:
+        sub = tmp_path / subdir_name
+        sub.mkdir()
+        src_file = tmp_path / fname
+        (sub / fname).write_bytes(src_file.read_bytes())
+
+        with patch("docuready.ingest.extractor.check_ocr_language_availability", return_value={
+            "available": True, "binary_available": True, "requested_lang": expected_lang,
+            "requested_langs": expected_lang.split("+"), "installed_langs": ["eng", "ori"],
+            "missing_langs": [], "error": None,
+        }):
+            with patch("pytesseract.image_to_osd", side_effect=RuntimeError("no osd")):
+                with patch("pytesseract.image_to_data", return_value=_mock_ocr_payload()) as mock_tess:
+                    _, docs = pipeline.load_and_audit_packet(str(sub), packet_id=f"PKT_{subdir_name}")
+                    assert mock_tess.call_count == 1
+                    assert mock_tess.call_args.kwargs["lang"] == expected_lang
+                    assert docs[expected_dt].ocr_lang == expected_lang
+
+    # Replacement ingestion with image file also preserves eng+ori
+    with patch("docuready.ingest.extractor.check_ocr_language_availability", return_value={
+        "available": True, "binary_available": True, "requested_lang": "eng+ori",
+        "requested_langs": ["eng", "ori"], "installed_langs": ["eng", "ori"], "missing_langs": [], "error": None,
+    }):
+        with patch("pytesseract.image_to_osd", side_effect=RuntimeError("no osd")):
+            with patch("pytesseract.image_to_data", return_value=_mock_ocr_payload()) as mock_tess:
+                _, repl_docs = pipeline.replace_document_and_reaudit(
+                    {}, str(aadhaar_png), DocumentType.AADHAAR, packet_id="PKT_REPL_PNG"
+                )
+                assert mock_tess.call_count == 1
+                assert mock_tess.call_args.kwargs["lang"] == "eng+ori"
+                assert repl_docs[DocumentType.AADHAAR].ocr_lang == "eng+ori"
+
+
+def test_uncached_tesseract_language_discovery_detects_newly_installed_ori():
+    """Simulate ori traineddata installed in-process after initial eng-only check."""
+    from types import SimpleNamespace
+
+    list_outputs = [
+        SimpleNamespace(returncode=0, stdout="List of available languages in \"/usr/share/tesseract-ocr/5/tessdata/\" (2):\neng\nosd\n"),
+        SimpleNamespace(returncode=0, stdout="List of available languages in \"/usr/share/tesseract-ocr/5/tessdata/\" (3):\neng\nori\nosd\n"),
+        SimpleNamespace(returncode=0, stdout="List of available languages in \"/usr/share/tesseract-ocr/5/tessdata/\" (3):\neng\nori\nosd\n"),
+    ]
+
+    with patch("docuready.ingest.tesseract_discovery.find_tesseract_binary_with_source", return_value=(Path("/usr/bin/tesseract"), "system_prerequisite")):
+        with patch("pytesseract.get_tesseract_version", return_value="5.3.0"):
+            with patch("docuready.ingest.tesseract_discovery.subprocess.run", side_effect=list_outputs) as mock_run:
+                # 1. Initial runtime exposes only eng
+                avail_before = check_ocr_language_availability(["eng", "ori"])
+                assert avail_before["available"] is False
+                assert avail_before["missing_langs"] == ["ori"]
+
+                # 2. ori is installed afterward -> subsequent check detects ori without process restart
+                avail_after = check_ocr_language_availability(["eng", "ori"])
+                assert avail_after["available"] is True
+                assert avail_after["missing_langs"] == []
+                assert "ori" in avail_after["installed_langs"]
+
+                # 3. Actually missing language (hin) is still rejected
+                avail_hin = check_ocr_language_availability(["eng", "hin"])
+                assert avail_hin["available"] is False
+                assert avail_hin["missing_langs"] == ["hin"]
+
+                assert mock_run.call_count == 3
+
+
+def test_missing_language_diagnostics_distinct_from_unreadable_scan_in_reports(tmp_path: Path):
+    """Missing ori produces actionable installation guidance in public reports; unreadable scans keep re-scan guidance."""
+    from docuready.report.exporter import export_audit_report_json, generate_readiness_summary_markdown
+    import json
+
+    pack, _ = load_pack(_REPO_ROOT / "packs" / "odisha.subhadra")
+    sub = tmp_path / "missing_ori_pkt"
+    sub.mkdir()
+    _make_blank_raster_pdf(sub, "aadhaar.pdf")
+
+    pipeline = AuditPipeline(pack=pack)
+    with patch("docuready.ingest.tesseract_discovery.get_ocr_runtime_info", return_value={
+        "available": True, "version": "5.3.0", "binary_path": "tesseract", "languages": ["eng"],
+        "source": "system_prerequisite", "is_bundled": False, "error": None,
+    }):
+        result_missing, _ = pipeline.load_and_audit_packet(str(sub), packet_id="PKT_MISSING_ORI")
+
+    md_missing = generate_readiness_summary_markdown(result_missing, redact=True)
+    json_path = tmp_path / "missing_ori.json"
+    export_audit_report_json(result_missing, str(json_path), redact=True)
+    payload_missing = json.loads(json_path.read_text(encoding="utf-8"))
+
+    assert "ori" in md_missing
+    assert "install" in md_missing.lower()
+    assert "re-scan" not in md_missing.lower()
+    missing_findings = [f for f in payload_missing["findings"] if f["rule_id"] == "RULE-DOC-02"]
+    assert len(missing_findings) == 1
+    assert missing_findings[0]["field"] == "OCR_LANGUAGE_PACK"
+    assert "ori" in missing_findings[0]["message"]
+    assert "install" in missing_findings[0]["remediation"].lower()
+
+    # Genuinely unreadable scan retains SCAN_QUALITY and re-scan guidance
+    unreadable_pkt = tmp_path / "unreadable_pkt"
+    unreadable_pkt.mkdir()
+    (unreadable_pkt / "income_cert.pdf").write_bytes(
+        Path(get_doc_path("pkt_07_unreadable_doc/income_cert.pdf")).read_bytes()
+    )
+    plain_pipeline = AuditPipeline()
+    result_unreadable, _ = plain_pipeline.load_and_audit_packet(str(unreadable_pkt), packet_id="PKT_UNREADABLE")
+    md_unreadable = generate_readiness_summary_markdown(result_unreadable, redact=True)
+
+    assert "re-scan" in md_unreadable.lower()
+    assert "traineddata" not in md_unreadable.lower()
+    unreadable_findings = [f for f in result_unreadable.to_public_dict()["findings"] if f["rule_id"] == "RULE-DOC-02"]
+    assert len(unreadable_findings) == 1
+    assert unreadable_findings[0]["field"] == "SCAN_QUALITY"
