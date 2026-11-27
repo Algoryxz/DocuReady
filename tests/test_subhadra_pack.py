@@ -193,96 +193,127 @@ def test_subhadra_exact_official_clause_citations():
 
 
 def test_subhadra_rules_citation_clause_mapping():
-    """Verify each declarative rule cites the exact official clause."""
+    """Verify each declarative rule cites the exact official clause and RULE-SUB-DOC-01 is absent."""
     pack, _ = load_pack(_SUBHADRA_PACK_DIR)
     rules_by_id = {r.id: r for r in pack.rules}
 
-    assert len(pack.rules) == 4
+    assert len(pack.rules) == 3
     assert len(pack.parameters) == 3
     assert "income_ceiling" not in pack.parameters
     assert "RULE-SUB-INC-01" not in rules_by_id
+    assert "RULE-SUB-DOC-01" not in rules_by_id
+    assert "aadhaar_card" in pack.doc_slots
+    assert pack.doc_slots["aadhaar_card"].required is False
 
-    assert rules_by_id["RULE-SUB-DOC-01"].citation.clause == "Section 5(a)(i)"
     assert rules_by_id["RULE-SUB-FLD-01"].citation.clause == "Section 2, Section 4.1"
     assert rules_by_id["RULE-SUB-AGE-01"].citation.clause == "Section 3.1(c)–(e)"
     assert rules_by_id["RULE-SUB-NAME-01"].citation.clause == "Section 1(e), Section 5(a)(iii)"
 
 
 # =============================================================================
-# 2. Aadhaar Evidence Semantics (No Statutory FAIL on Scan Absence/Unreadability)
+# 2. Aadhaar Evidence Semantics (Optional Upload; REVIEW Abstention)
 # =============================================================================
 
-def test_subhadra_aadhaar_scan_unavailable_yields_missing_not_statutory_fail(subhadra_engine):
-    """Absence of uploaded Aadhaar scan yields MISSING: pre-check evidence absent, not statutory disqualification."""
-    # Synthetic application packet with Aadhaar omitted and optional documents omitted
+def test_subhadra_aadhaar_scan_unavailable_yields_review_not_missing_or_fail(subhadra_engine):
+    """Absence of optional Aadhaar scan yields no Status.MISSING; dependent rules (incl. NAME-01) abstain to REVIEW."""
     packet = _make_subhadra_packet(
         omit_aadhaar=True,
-        passbook_name=None,
+        passbook_name="Pravasini Sahoo",
         annual_income=None,
         nfsa_status=None,
     )
     result = subhadra_engine.validate_packet("PKT_NO_AADHAAR_SCAN", packet, as_of=date(2024, 7, 1))
 
-    # Pre-submission packet is NOT_READY due to missing upload, but NO statutory FAIL is declared
-    assert result.readiness is Readiness.NOT_READY
+    assert result.readiness is Readiness.NEEDS_CHECKS
     assert not any(f.resolved_status is Status.FAIL for f in result.findings)
+    assert not any(f.resolved_status is Status.MISSING for f in result.findings)
+    assert not any(f.rule_id in ("RULE-DOC-01", "RULE-SUB-DOC-01") for f in result.findings)
 
-    # 1. Structural slot validation does not generate duplicate finding
-    assert not any(f.rule_id == "RULE-DOC-01" for f in result.findings)
-    aadhaar_findings = [f for f in result.findings if f.rule_id in ("RULE-DOC-01", "RULE-SUB-DOC-01")]
-    assert len(aadhaar_findings) == 1
+    f_fld = next((f for f in result.findings if f.rule_id == "RULE-SUB-FLD-01"), None)
+    assert f_fld is not None
+    assert f_fld.raw_result is Raw.INDETERMINATE
+    assert f_fld.resolved_status is Status.REVIEW
+    assert f_fld.reason_code == ReasonCode.INSUFFICIENT_DATA.value
 
-    # 2. Declarative rule RULE-SUB-DOC-01 exact assertion
-    f_doc = next((f for f in result.findings if f.rule_id == "RULE-SUB-DOC-01"), None)
-    assert f_doc is not None
-    assert f_doc.rule_id == "RULE-SUB-DOC-01"
-    assert f_doc.raw_result is Raw.DOC_ABSENT
-    assert f_doc.resolved_status is Status.MISSING
-    assert f_doc.reason_code == ReasonCode.DOC_ABSENT.value
-    assert f_doc.severity == Severity.FATAL
-    assert f_doc.message == "Mandatory document 'AADHAAR' is missing from the application packet."
-    assert "mo seva kendra" in f_doc.remediation.lower()
-    assert "not indicate a government rejection" in f_doc.remediation.lower()
-    assert "not mandatory" in f_doc.remediation.lower()
-
-    # 3. Downstream rules abstain to REVIEW (not FAIL) due to missing document evidence
     f_age = next((f for f in result.findings if f.rule_id == "RULE-SUB-AGE-01"), None)
     assert f_age is not None
     assert f_age.raw_result is Raw.INDETERMINATE
     assert f_age.resolved_status is Status.REVIEW
     assert f_age.reason_code == ReasonCode.INSUFFICIENT_DATA.value
 
+    f_name = next((f for f in result.findings if f.rule_id == "RULE-SUB-NAME-01"), None)
+    assert f_name is not None
+    assert f_name.raw_result is Raw.INDETERMINATE
+    assert f_name.resolved_status is Status.REVIEW
+    assert f_name.reason_code == ReasonCode.INSUFFICIENT_DATA.value
 
-def test_subhadra_unreadable_aadhaar_yields_review_not_ineligibility(subhadra_engine):
-    """Unreadable/corrupted Aadhaar scan yields REVIEW/UNCERTAIN, not proof of ineligibility."""
-    packet = _make_subhadra_packet(
-        corrupt_aadhaar=True,
-        passbook_name=None,
-        annual_income=None,
-        nfsa_status=None,
-    )
-    result = subhadra_engine.validate_packet("PKT_CORRUPT_AADHAAR", packet, as_of=date(2024, 7, 1))
 
-    # Packet readiness is NEEDS_CHECKS (uncertain evidence requiring review, not NOT_READY rejection)
-    assert result.readiness is Readiness.NEEDS_CHECKS
-    assert not any(f.resolved_status is Status.FAIL for f in result.findings)
-    assert not any(f.resolved_status is Status.MISSING for f in result.findings)
+def test_subhadra_unreadable_or_corrupted_aadhaar_yields_review_not_ineligibility(subhadra_engine):
+    """Unreadable or corrupted Aadhaar scan yields REVIEW/INSUFFICIENT_DATA across all Aadhaar-dependent rules."""
+    for bad_status in ("UNREADABLE", "CORRUPTED"):
+        packet = {
+            DocumentType.AADHAAR: ExtractedDocument(
+                doc_type=DocumentType.AADHAAR,
+                file_path="aadhaar_card.pdf",
+                status=bad_status,
+                raw_text="",
+                fields={},
+            ),
+            DocumentType.BANK_PASSBOOK: ExtractedDocument(
+                doc_type=DocumentType.BANK_PASSBOOK,
+                file_path="bank_passbook.pdf",
+                status="VALID",
+                raw_text="SAVINGS BANK PASSBOOK",
+                fields={
+                    "applicant_name": _make_field("BANK_PASSBOOK", "applicant_name", "Pravasini Sahoo"),
+                },
+            ),
+        }
+        result = subhadra_engine.validate_packet(f"PKT_{bad_status}_AADHAAR", packet, as_of=date(2024, 7, 1))
 
-    # Exact finding assertions for RULE-SUB-DOC-01 on unreadable scan
-    f_doc = next((f for f in result.findings if f.rule_id == "RULE-SUB-DOC-01"), None)
-    assert f_doc is not None
-    assert f_doc.rule_id == "RULE-SUB-DOC-01"
-    assert f_doc.raw_result is Raw.INDETERMINATE
-    assert f_doc.resolved_status is Status.REVIEW
-    assert f_doc.reason_code == ReasonCode.INSUFFICIENT_DATA.value
-    assert f_doc.severity == Severity.REVIEW
-    assert f_doc.message == "Document 'AADHAAR' is unreadable or corrupted. Clear evidence cannot be extracted."
+        assert result.readiness is Readiness.NEEDS_CHECKS
+        assert not any(f.resolved_status is Status.FAIL for f in result.findings)
+        assert not any(f.resolved_status is Status.MISSING for f in result.findings)
 
-    # Downstream rules also abstain to REVIEW
-    f_age = next((f for f in result.findings if f.rule_id == "RULE-SUB-AGE-01"), None)
-    assert f_age is not None
-    assert f_age.raw_result is Raw.INDETERMINATE
-    assert f_age.resolved_status is Status.REVIEW
+        f_fld = next((f for f in result.findings if f.rule_id == "RULE-SUB-FLD-01"), None)
+        assert f_fld is not None
+        assert f_fld.raw_result is Raw.INDETERMINATE
+        assert f_fld.resolved_status is Status.REVIEW
+        assert f_fld.reason_code == ReasonCode.INSUFFICIENT_DATA.value
+
+        f_age = next((f for f in result.findings if f.rule_id == "RULE-SUB-AGE-01"), None)
+        assert f_age is not None
+        assert f_age.raw_result is Raw.INDETERMINATE
+        assert f_age.resolved_status is Status.REVIEW
+        assert f_age.reason_code == ReasonCode.INSUFFICIENT_DATA.value
+
+        f_name = next((f for f in result.findings if f.rule_id == "RULE-SUB-NAME-01"), None)
+        assert f_name is not None
+        assert f_name.raw_result is Raw.INDETERMINATE
+        assert f_name.resolved_status is Status.REVIEW
+        assert f_name.reason_code == ReasonCode.INSUFFICIENT_DATA.value
+
+
+def test_subhadra_aadhaar_name_evidence_states_preserved(subhadra_engine):
+    """RULE-SUB-FLD-01 preserves VERIFIED, PROVISIONAL, and UNCERTAIN evidence semantics."""
+    for ev_state, is_unc, expected_status, expected_reason in (
+        (EvidenceState.VERIFIED, False, Status.PASS, ReasonCode.CONFIRMED_OK.value),
+        (EvidenceState.PROVISIONAL, False, Status.REVIEW, ReasonCode.CANNOT_CONFIRM.value),
+        (EvidenceState.UNCERTAIN, True, Status.REVIEW, ReasonCode.CANNOT_CONFIRM.value),
+    ):
+        packet = _make_subhadra_packet(dob="15/05/1990", annual_income=180000.0)
+        packet[DocumentType.AADHAAR].fields["applicant_name"] = ExtractedField(
+            field_name="applicant_name",
+            raw_value="Pravasini Sahoo",
+            normalized_value="Pravasini Sahoo",
+            evidence_state=ev_state,
+            is_uncertain=is_unc,
+        )
+        result = subhadra_engine.validate_packet(f"PKT_SUB_FLD_{ev_state.value}", packet, as_of=date(2024, 7, 1))
+        f_fld = next(f for f in result.findings if f.rule_id == "RULE-SUB-FLD-01")
+        assert f_fld.raw_result is Raw.SATISFIED
+        assert f_fld.resolved_status is expected_status
+        assert f_fld.reason_code == expected_reason
 
 
 # =============================================================================
@@ -516,11 +547,12 @@ def test_subhadra_external_database_exclusions_not_falsely_claimed():
     overlap = rule_ids.intersection(prohibited_fabrications)
     assert not overlap, f"Prohibited fabricated rules found: {overlap}"
 
-    # Exactly 4 declarative rules, 3 parameters, no income ceiling
-    assert len(pack.rules) == 4
+    # Exactly 3 declarative rules, 3 parameters, no income ceiling, no RULE-SUB-DOC-01
+    assert len(pack.rules) == 3
     assert len(pack.parameters) == 3
     assert "income_ceiling" not in pack.parameters
     assert "RULE-SUB-INC-01" not in rule_ids
+    assert "RULE-SUB-DOC-01" not in rule_ids
 
     # Only statutory age check is FAIL-capable
     fail_capable_rules = [r for r in pack.rules if r.max_severity == MaxSeverity.FAIL]

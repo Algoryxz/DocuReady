@@ -150,10 +150,137 @@ def test_field_present(ctx):
     assert res_unc.raw is Raw.SATISFIED
     assert res_unc.evidence_state is EvidenceState.UNCERTAIN
 
-    # Missing field
+    # Missing field on VALID doc -> INDETERMINATE / UNCERTAIN (never VIOLATED/VERIFIED)
     res_missing = eval_field_present(docs, {"field": "dob", "docs": ["application_form"]}, {}, ctx)
-    assert res_missing.raw is Raw.VIOLATED
+    assert res_missing.raw is Raw.INDETERMINATE
+    assert res_missing.evidence_state is EvidenceState.UNCERTAIN
     assert "DOB" in res_missing.field_name
+    assert res_missing.documents_involved == ["APPLICATION_FORM"]
+    assert "could not be extracted" in res_missing.message.lower()
+
+
+def test_field_present_unavailable_and_mixed_sources(ctx):
+    from docuready.domain.enums import ReasonCode, Status
+    from docuready.outcome.resolver import resolve_outcome
+
+    # 1. Absent source
+    res_absent = eval_field_present({}, {"field": "applicant_name", "docs": ["aadhaar_card"]}, {}, ctx)
+    assert res_absent.raw is Raw.INDETERMINATE
+    assert res_absent.evidence_state is EvidenceState.UNCERTAIN
+    assert res_absent.documents_involved == ["AADHAAR"]
+    assert "unavailable" in res_absent.message.lower()
+    assert res_absent.evidence == []
+    out_absent = resolve_outcome(res_absent.raw, res_absent.evidence_state)
+    assert out_absent.status is Status.REVIEW
+    assert out_absent.reason_code == ReasonCode.INSUFFICIENT_DATA.value
+
+    # 2. Explicit MISSING, UNREADABLE, CORRUPTED sources
+    for bad_status in ("MISSING", "UNREADABLE", "CORRUPTED"):
+        bad_doc = _make_doc(DocumentType.AADHAAR, status=bad_status, fields={})
+        res_bad = eval_field_present(
+            {DocumentType.AADHAAR: bad_doc}, {"field": "applicant_name", "docs": ["aadhaar_card"]}, {}, ctx
+        )
+        assert res_bad.raw is Raw.INDETERMINATE
+        assert res_bad.evidence_state is EvidenceState.UNCERTAIN
+        assert res_bad.documents_involved == ["AADHAAR"]
+        out_bad = resolve_outcome(res_bad.raw, res_bad.evidence_state)
+        assert out_bad.status is Status.REVIEW
+        assert out_bad.reason_code == ReasonCode.INSUFFICIENT_DATA.value
+
+    # 3. Slot mismatch (via ExecutionContext.mismatched_slots)
+    valid_doc = _make_doc(
+        DocumentType.AADHAAR,
+        fields={"applicant_name": _make_field("AADHAAR", "applicant_name", "Pravasini Sahoo")},
+    )
+    mismatch_ctx = ExecutionContext(as_of=ctx.as_of, mismatched_slots={DocumentType.AADHAAR})
+    res_mismatch = eval_field_present(
+        {DocumentType.AADHAAR: valid_doc}, {"field": "applicant_name", "docs": ["aadhaar_card"]}, {}, mismatch_ctx
+    )
+    assert res_mismatch.raw is Raw.INDETERMINATE
+    assert res_mismatch.evidence_state is EvidenceState.UNCERTAIN
+    assert res_mismatch.documents_involved == ["AADHAAR"]
+
+    # 4. Empty and whitespace-only field values on VALID doc
+    for blank in ("", "   "):
+        blank_doc = _make_doc(
+            DocumentType.APPLICATION_FORM,
+            fields={"applicant_name": _make_field("APPLICATION_FORM", "applicant_name", blank)},
+        )
+        res_blank = eval_field_present(
+            {DocumentType.APPLICATION_FORM: blank_doc},
+            {"field": "applicant_name", "docs": ["application_form"]},
+            {},
+            ctx,
+        )
+        assert res_blank.raw is Raw.INDETERMINATE
+        assert res_blank.evidence_state is EvidenceState.UNCERTAIN
+        assert res_blank.documents_involved == ["APPLICATION_FORM"]
+        assert "present" not in res_blank.message.lower()
+
+    # 5. Non-empty PROVISIONAL value -> SATISFIED / PROVISIONAL -> REVIEW / CANNOT_CONFIRM
+    prov_field = ExtractedField(
+        field_name="applicant_name",
+        raw_value="Aarav Sharma",
+        normalized_value="Aarav Sharma",
+        evidence_state=EvidenceState.PROVISIONAL,
+        provenance=EvidenceProvenance(
+            document_type="APPLICATION_FORM",
+            file_name="app.pdf",
+            extracted_field="applicant_name",
+            raw_snippet="Aarav Sharma",
+        ),
+    )
+    res_prov = eval_field_present(
+        {DocumentType.APPLICATION_FORM: _make_doc(DocumentType.APPLICATION_FORM, fields={"applicant_name": prov_field})},
+        {"field": "applicant_name", "docs": ["application_form"]},
+        {},
+        ctx,
+    )
+    assert res_prov.raw is Raw.SATISFIED
+    assert res_prov.evidence_state is EvidenceState.PROVISIONAL
+    out_prov = resolve_outcome(res_prov.raw, res_prov.evidence_state)
+    assert out_prov.status is Status.REVIEW
+    assert out_prov.reason_code == ReasonCode.CANNOT_CONFIRM.value
+
+    # 6. Mixed: one VALID doc missing field + another source absent -> INDETERMINATE (never VIOLATED/PASS)
+    mixed_docs = {
+        DocumentType.APPLICATION_FORM: _make_doc(DocumentType.APPLICATION_FORM, fields={}),
+    }
+    res_mixed = eval_field_present(
+        mixed_docs,
+        {"field": "applicant_name", "docs": ["application_form", "income_certificate"]},
+        {},
+        ctx,
+    )
+    assert res_mixed.raw is Raw.INDETERMINATE
+    assert res_mixed.evidence_state is EvidenceState.UNCERTAIN
+    assert set(res_mixed.documents_involved) == {"INCOME_CERT", "APPLICATION_FORM"}
+    out_mixed = resolve_outcome(res_mixed.raw, res_mixed.evidence_state)
+    assert out_mixed.status is Status.REVIEW
+    assert out_mixed.reason_code == ReasonCode.INSUFFICIENT_DATA.value
+
+    # 7. Mixed provenance: one VALID doc with extracted field + genuine provenance, another source absent
+    mixed_prov_docs = {
+        DocumentType.APPLICATION_FORM: _make_doc(
+            DocumentType.APPLICATION_FORM,
+            fields={"applicant_name": _make_field("APPLICATION_FORM", "applicant_name", "Aarav Sharma")},
+        ),
+    }
+    res_mixed_prov = eval_field_present(
+        mixed_prov_docs,
+        {"field": "applicant_name", "docs": ["application_form", "income_certificate"]},
+        {},
+        ctx,
+    )
+    assert res_mixed_prov.raw is Raw.INDETERMINATE
+    assert res_mixed_prov.evidence_state is EvidenceState.UNCERTAIN
+    assert res_mixed_prov.documents_involved == ["INCOME_CERT"]
+    assert len(res_mixed_prov.evidence) == 1
+    assert res_mixed_prov.evidence[0].document_type == "APPLICATION_FORM"
+    assert res_mixed_prov.evidence[0].extracted_field == "applicant_name"
+    out_mixed_prov = resolve_outcome(res_mixed_prov.raw, res_mixed_prov.evidence_state)
+    assert out_mixed_prov.status is Status.REVIEW
+    assert out_mixed_prov.reason_code == ReasonCode.INSUFFICIENT_DATA.value
 
 
 # ---------------------------------------------------------------------------

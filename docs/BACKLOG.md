@@ -326,6 +326,7 @@ T1.x tasks are independent of each other and can run in parallel once G0 passes.
 
 #### T3.3 — First real pack: `odisha.subhadra` (demo snapshot)
 - **Behaviour:** Build from primary sources only (the scheme guidelines and official notices). Record the historical FY 2024–25 reference window, age reference date, exclusion conditions, and required documents with their URLs and retrieval dates. Mark `status: demo_snapshot` and set `effective` to the historical FY 2024–25 reference metadata (`2024-09-05` to `2025-03-31`, without claiming `2025-03-31` as an officially verified application closing date), so reports display the PO-approved historical demo disclaimer plainly. Reuse any structure from the earlier standalone bundle only after checking each rule against a source.
+- **Status note (27 November 2026):** PR #85 merged at `fb630d6`; governance PR #86 merged at `c1d6976`. On 27 November 2026, the Product Owner confirmed Akriti's agreement with the source matrix/Aadhaar-upload interpretation and authorized the shared `field_present` correction. `RULE-SUB-DOC-01` removal (`2024.1.1`), `eval_field_present()` correction, and cross-pack regression tests are implemented on `fix/T3.3-aadhaar-and-field-present-safety` awaiting PO review, PR/CI, and formal T3.3 acceptance.
 - **Acceptance:**
   - [ ] Every parameter traces to a `sources.yaml` entry; anything unconfirmed is `UNVERIFIED` and excluded from FAIL-capable rules
   - [ ] Synthetic good/defective packets with expected findings are committed and tested

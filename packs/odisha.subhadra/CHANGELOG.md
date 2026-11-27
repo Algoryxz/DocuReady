@@ -2,6 +2,14 @@
 
 All notable changes to the `odisha.subhadra` scheme pack are documented in this file.
 
+## [2024.1.1] - 2026-11-27
+
+### Changed
+- Removed `RULE-SUB-DOC-01` (`require_document` on `aadhaar_card`) per Akriti's source-review agreement and Product Owner authorization (27 November 2026), while preserving the optional `doc_slots.aadhaar_card` (`required: false`) slot.
+- Distinguished Government Aadhaar requirements (holding an Aadhaar card/number in own name, linked mobile, DBT-enabled bank account, and carrying Aadhaar for assisted CSC/MSK e-KYC) from uploading a digital scan in DocuReady: an absent digital scan now emits no standalone `Status.MISSING` finding, and Aadhaar-dependent rules abstain to `Status.REVIEW` / `ReasonCode.INSUFFICIENT_DATA` (`Readiness.NEEDS_CHECKS`).
+- Relies on the corrected shared `field_present` primitive so unavailable or unextracted Aadhaar evidence resolves to `REVIEW` / `INSUFFICIENT_DATA` without misleading `Raw.SATISFIED` outcomes.
+- `packs/odisha.subhadra/sources.yaml` remains at `version: "2024.1"` because its source records did not change in this pack release.
+
 ## [2024.1] - 2024-09-05 (Demonstration Snapshot Baseline)
 
 ### Added

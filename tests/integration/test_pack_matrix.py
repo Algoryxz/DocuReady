@@ -231,7 +231,103 @@ def test_pack_grp02_mandatory_field_missing(pack_engine):
 
     res = pack_engine.validate_packet("PKT_MISSING_NAME_FLD", packet, as_of=date(2026, 11, 15))
     fld_finding = next(f for f in res.findings if f.rule_id == "RULE-FLD-01")
-    assert fld_finding.resolved_status in (Status.FAIL, Status.REVIEW)
+    assert fld_finding.raw_result is Raw.INDETERMINATE
+    assert fld_finding.resolved_status is Status.REVIEW
+    assert fld_finding.reason_code == ReasonCode.INSUFFICIENT_DATA.value
+
+
+def test_pack_grp02_all_six_valid_verified_passes(pack_engine):
+    packet = _make_clean_packet()
+    res = pack_engine.validate_packet("PKT_ALL_SIX_FLD", packet, as_of=date(2026, 11, 15))
+    fld_finding = next(f for f in res.findings if f.rule_id == "RULE-FLD-01")
+    assert fld_finding.raw_result is Raw.SATISFIED
+    assert fld_finding.resolved_status is Status.PASS
+    assert fld_finding.reason_code == ReasonCode.CONFIRMED_OK.value
+
+
+def test_pack_grp02_one_absent_source_does_not_false_pass(pack_engine):
+    packet = _make_clean_packet()
+    del packet[DocumentType.INCOME_CERT]
+    res = pack_engine.validate_packet("PKT_ONE_ABSENT_FLD", packet, as_of=date(2026, 11, 15))
+    fld_finding = next(f for f in res.findings if f.rule_id == "RULE-FLD-01")
+    assert fld_finding.raw_result is Raw.INDETERMINATE
+    assert fld_finding.resolved_status is Status.REVIEW
+    assert fld_finding.reason_code == ReasonCode.INSUFFICIENT_DATA.value
+    # Structural RULE-DOC-01 missing finding remains separate
+    assert any(f.rule_id == "RULE-DOC-01" and f.resolved_status is Status.MISSING for f in res.findings)
+
+
+def test_pack_grp02_one_unreadable_source_yields_review(pack_engine):
+    packet = _make_clean_packet()
+    packet[DocumentType.INCOME_CERT] = ExtractedDocument(
+        doc_type=DocumentType.INCOME_CERT,
+        file_path="income_cert.pdf",
+        status="UNREADABLE",
+        raw_text="",
+        fields={},
+    )
+    res = pack_engine.validate_packet("PKT_ONE_UNREADABLE_FLD", packet, as_of=date(2026, 11, 15))
+    fld_finding = next(f for f in res.findings if f.rule_id == "RULE-FLD-01")
+    assert fld_finding.raw_result is Raw.INDETERMINATE
+    assert fld_finding.resolved_status is Status.REVIEW
+    assert fld_finding.reason_code == ReasonCode.INSUFFICIENT_DATA.value
+
+
+def test_pack_grp02_slot_mismatched_source_yields_review_and_preserves_slot_finding(pack_engine):
+    packet = _make_clean_packet()
+    packet[DocumentType.INCOME_CERT] = ExtractedDocument(
+        doc_type=DocumentType.INCOME_CERT,
+        file_path="wrong_slot.pdf",
+        status="VALID",
+        raw_text="SAVINGS BANK PASSBOOK\nACCOUNT HOLDER: Aarav Sharma\nACCOUNT NUMBER: 123456789012\nIFSC: SBIN0001234\nBRANCH: Bhubaneswar",
+        fields={"applicant_name": _make_field(DocumentType.INCOME_CERT, "applicant_name", "Aarav Sharma")},
+    )
+    res = pack_engine.validate_packet("PKT_MISMATCH_FLD", packet, as_of=date(2026, 11, 15))
+    fld_finding = next(f for f in res.findings if f.rule_id == "RULE-FLD-01")
+    assert fld_finding.raw_result is Raw.INDETERMINATE
+    assert fld_finding.resolved_status is Status.REVIEW
+    assert fld_finding.reason_code == ReasonCode.INSUFFICIENT_DATA.value
+    assert any(f.rule_id == "RULE-SLOT-01" and f.reason_code == ReasonCode.WRONG_DOCUMENT_TYPE.value for f in res.findings)
+
+
+def test_pack_grp02_empty_whitespace_and_mixed_gaps_yield_review(pack_engine):
+    for label, val in (("EMPTY", ""), ("WS", "   ")):
+        packet = _make_clean_packet()
+        packet[DocumentType.MARKSHEET].fields["applicant_name"] = _make_field(
+            DocumentType.MARKSHEET, "applicant_name", val
+        )
+        res = pack_engine.validate_packet(f"PKT_{label}_FLD", packet, as_of=date(2026, 11, 15))
+        fld_finding = next(f for f in res.findings if f.rule_id == "RULE-FLD-01")
+        assert fld_finding.raw_result is Raw.INDETERMINATE
+        assert fld_finding.resolved_status is Status.REVIEW
+        assert fld_finding.reason_code == ReasonCode.INSUFFICIENT_DATA.value
+
+    # Mixed: one VALID missing field + one absent doc
+    mixed = _make_clean_packet()
+    del mixed[DocumentType.CASTE_CERT]
+    del mixed[DocumentType.INCOME_CERT].fields["applicant_name"]
+    res_mixed = pack_engine.validate_packet("PKT_MIXED_FLD", mixed, as_of=date(2026, 11, 15))
+    fld_mixed = next(f for f in res_mixed.findings if f.rule_id == "RULE-FLD-01")
+    assert fld_mixed.raw_result is Raw.INDETERMINATE
+    assert fld_mixed.resolved_status is Status.REVIEW
+    assert fld_mixed.reason_code == ReasonCode.INSUFFICIENT_DATA.value
+
+
+def test_pack_grp02_provisional_and_uncertain_never_pass(pack_engine):
+    for ev_state, is_unc in ((EvidenceState.PROVISIONAL, False), (EvidenceState.UNCERTAIN, True)):
+        packet = _make_clean_packet()
+        packet[DocumentType.BANK_PASSBOOK].fields["applicant_name"] = ExtractedField(
+            field_name="applicant_name",
+            raw_value="Aarav Sharma",
+            normalized_value="Aarav Sharma",
+            evidence_state=ev_state,
+            is_uncertain=is_unc,
+        )
+        res = pack_engine.validate_packet(f"PKT_{ev_state.value}_FLD", packet, as_of=date(2026, 11, 15))
+        fld_finding = next(f for f in res.findings if f.rule_id == "RULE-FLD-01")
+        assert fld_finding.raw_result is Raw.SATISFIED
+        assert fld_finding.resolved_status is Status.REVIEW
+        assert fld_finding.reason_code == ReasonCode.CANNOT_CONFIRM.value
 
 
 # ---------------------------------------------------------------------------
