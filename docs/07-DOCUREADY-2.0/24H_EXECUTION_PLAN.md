@@ -1,7 +1,7 @@
 # DocuReady 2.0 — 24-Hour Execution Plan
 
 **Time Budget:** 24 Hours
-**Updated Base origin/main SHA:** 70b7ea5f001a5a30404a13b7d347527c641a434b
+**Updated Base origin/main SHA:** aa29d07dfa3bea486a2b19cb78380edea8eb83ab
 **Target Vertical Slice:** Guided Application Workspace → Document Intelligence → Evidence Review → Correct → Re-audit → Redacted Report
 
 ---

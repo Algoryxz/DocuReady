@@ -1,7 +1,7 @@
 # DocuReady 2.0 — Baseline Forensic Audit
 
 **Audit Date:** 28 November 2026 (Previous baseline: `9717ae5`)
-**Inspected `origin/main` SHA:** `70b7ea5f001a5a30404a13b7d347527c641a434b`
+**Inspected `origin/main` SHA:** `aa29d07dfa3bea486a2b19cb78380edea8eb83ab`
 **Audit Method:** Parallel read-only inspection of `src/`, `sidecar/`, `packs/`, `eval/`, `apps/desktop/`, `site/`, `.github/workflows/`, `tests/`, and `docs/` + GitHub CLI (`gh`) inspection of PR #94 and Actions runs.
 
 ---
@@ -79,6 +79,7 @@ All workflows use **GitHub-hosted runners** (`ubuntu-24.04` and `windows-2022`).
 | PR #95 (`fix/T4.2-indic-candidate-dedup`) | OCR candidate dedup | `1eca2a5` | **merged** | Merged into `main` (`1eca2a5`): normalized Indic digits in OCR candidate deduplication (`extractor.py`, `tests/test_extractor.py`); broader T4.2/quality work continues. |
 | PR #96 (`fix/ocr-tessdata-and-benchmark-integrity`) | OCR & benchmark integrity | `0e14a6e` | **merged** | Merged into `main` (`0e14a6e`): resolved system tessdata, verified loaded langs/symbols, and enforced dataset provenance hashes (`tesseract_discovery.py`, `generate_dataset_provenance.py`). |
 | PR #97 (`fix/final-ocr-benchmark-review`) | OCR & benchmark review | `70b7ea5` | **merged** | Merged into `main` (`70b7ea5`): completed extra tessdata discovery, enforced audit manifest checks, and added unavailable probe spy tests. |
+| PR #98 (`fix/ocr-cache-identity-and-manifest-type`) | OCR cache & manifest type | `aa29d07` | **merged** | Merged into `main` (`aa29d07`): verified cached `.traineddata` identity via size + SHA-256 (`_files_match` in `tesseract_discovery.py`) and rejected boolean `file_size_bytes` (`type(...) is int` in `test_loop12_benchmark_integrity.py`). |
 
 ---
 

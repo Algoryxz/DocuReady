@@ -1,8 +1,8 @@
 # DocuReady 2.0 — Documentation Baseline
 
-**Repository:** `Algoryxz/DocuReady`  
-**Verified Base `origin/main` SHA:** `9717ae56b3e672d0c6046ea4a918794db1cf1368`  
-**Branch:** `docs/docuready-2.0-kickoff-baseline`  
+**Repository:** `Algoryxz/DocuReady` (Previous baseline: `9717ae5`)
+**Updated Base `origin/main` SHA:** `aa29d07dfa3bea486a2b19cb78380edea8eb83ab`
+**Branch:** `docs/docuready-2.0-kickoff-baseline`
 **Status:** Loop 0 — Shared Team Execution Baseline
 
 ---
@@ -33,4 +33,4 @@
 2. **Human review never mutates engine verdicts:** Session-level human annotations and review acknowledgements are advisory metadata only; they must never silently overwrite `PASS`/`FAIL`/`REVIEW` outcomes.
 3. **Ephemeral session handling:** Do not persist sensitive citizen documents or create a local document history without an explicit retention, deletion, and security design.
 4. **No new dependencies without necessity & licence review:** PyMuPDF (`AGPLv3`) legal clearance remains an open release blocker (`LICENSING_DECISION.md`).
-5. **Respect merged PRs #94–#97 & frozen artifacts:** PRs #94–#97 are merged in `70b7ea5`; preserve historical Loop 10 release artifacts and historical loop reports.
+5. **Respect merged PRs #94–#97 & frozen artifacts:** PRs #94–#98 are merged in `aa29d07`; preserve historical Loop 10 release artifacts and historical loop reports.
