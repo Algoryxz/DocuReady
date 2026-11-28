@@ -5,6 +5,7 @@ resources, explicit environment overrides, or platform installation paths.
 """
 from __future__ import annotations
 
+import hashlib
 import os
 import shutil
 import subprocess
@@ -166,6 +167,24 @@ def _resolve_base_tessdata_dir(bin_path: Path) -> Optional[Path]:
     return sibling if sibling.is_dir() else None
 
 
+def _file_sha256(path: Path) -> str:
+    """Compute SHA-256 digest of a file using streaming reads."""
+    h = hashlib.sha256()
+    with path.open("rb") as f:
+        while chunk := f.read(65536):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def _files_match(src: Path, dst: Path) -> bool:
+    """Return True only when dst exists and matches src in both size and SHA-256."""
+    if not dst.is_file():
+        return False
+    if dst.stat().st_size != src.stat().st_size:
+        return False
+    return _file_sha256(src) == _file_sha256(dst)
+
+
 def get_unified_tessdata_dir(bin_path: Path) -> Optional[Path]:
     """Resolves or prepares a unified tessdata directory containing both base and extra language models.
 
@@ -225,9 +244,9 @@ def get_unified_tessdata_dir(bin_path: Path) -> Optional[Path]:
     for model_name, src_file in selected_models.items():
         dst = unified_dir / model_name
         try:
-            if not dst.exists() or dst.stat().st_size != src_file.stat().st_size:
+            if not _files_match(src_file, dst):
                 shutil.copy2(src_file, dst)
-        except Exception:
+        except OSError:
             pass
 
     return unified_dir
