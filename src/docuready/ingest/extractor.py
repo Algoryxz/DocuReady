@@ -495,7 +495,7 @@ def _find_field_in_ocr_page(ocr_data: PageOCRData, patterns: List[str]) -> Tuple
                 score = conf - (0.001 * label_dist_pt)
 
                 # Canonical representation for equivalence check
-                canon_val = re.sub(r'[\s\|\:\-\=/,.]', '', val.upper())
+                canon_val = re.sub(r'[\s\|\:\-\=/,.]', '', normalize_indic_digits(val).upper())
                 if canon_val:
                     seen_canonical_values.add(canon_val)
 
