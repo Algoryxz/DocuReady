@@ -537,3 +537,67 @@ def test_indic_identifier_extraction_preserves_raw_and_normalizes_canonical(tmp_
         if doc_type == DocumentType.BANK_PASSBOOK:
             assert doc.fields["ifsc"].raw_value == "SBIN०००१२३४"
             assert doc.fields["ifsc"].normalized_value == "SBIN0001234"
+
+
+def test_indic_date_and_amount_extraction_preserves_raw_and_normalizes(tmp_path: Path):
+    """Verify extraction-level Odia and Devanagari date and annual_income normalization."""
+    ext = DocumentExtractor()
+    pdf_path = _make_blank_raster_pdf(tmp_path, "indic_dates_amounts.pdf")
+
+    cases = [
+        # Odia issue_date + Odia annual_income in INCOME_CERT
+        (
+            DocumentType.INCOME_CERT,
+            [
+                "GOVERNMENT OF ODISHA",
+                "INCOME CERTIFICATE",
+                "Applicant Name: Pravasini Sahoo",
+                "Issue Date: ୧୫/୦୫/୨୦୨୫",
+                "Annual Family Income: ₹ ୧,୮୦,୦୦୦/-",
+                "Certificate No: E-INC/2025/104928",
+            ],
+            {
+                "issue_date": ("୧୫/୦୫/୨୦୨୫", "2025-05-15"),
+                "annual_income": ("₹ ୧,୮୦,୦୦୦/-", 180000.0),
+            },
+        ),
+        # Devanagari dob in MARKSHEET
+        (
+            DocumentType.MARKSHEET,
+            [
+                "ACADEMIC MARKSHEET",
+                "Candidate Name: Pravasini Sahoo",
+                "Date of Birth: १५/०५/१९९०",
+                "Roll No: 2309BA1042",
+            ],
+            {
+                "dob": ("१५/०५/१९९०", "1990-05-15"),
+            },
+        ),
+        # Devanagari dob + Devanagari annual_income in APPLICATION_FORM
+        (
+            DocumentType.APPLICATION_FORM,
+            [
+                "SCHEME APPLICATION FORM",
+                "Applicant Name: Pravasini Sahoo",
+                "Date of Birth (DOB): १५/०५/१९९०",
+                "Declared Annual Family Income: ₹ २,५०,०००/-",
+            ],
+            {
+                "dob": ("१५/०५/१९९०", "1990-05-15"),
+                "annual_income": ("₹ २,५०,०००/-", 250000.0),
+            },
+        ),
+    ]
+
+    for doc_type, lines, expected_map in cases:
+        payload = _mock_ocr_payload_from_lines(lines)
+        with patch("pytesseract.image_to_osd", side_effect=RuntimeError("no osd")):
+            with patch("pytesseract.image_to_data", return_value=payload):
+                doc = ext.extract_document(str(pdf_path), expected_type=doc_type)
+
+        assert doc.status == "VALID"
+        for field_name, (exp_raw, exp_norm) in expected_map.items():
+            assert field_name in doc.fields, f"{field_name} missing for {doc_type}"
+            assert doc.fields[field_name].raw_value == exp_raw
+            assert doc.fields[field_name].normalized_value == exp_norm
