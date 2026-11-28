@@ -35,10 +35,23 @@ _PAGE_W, _PAGE_H = 850, 1100
 _WHITE = (255, 255, 255)
 _BLACK = (0, 0, 0)
 
-try:
-    _FONT = ImageFont.truetype("arial.ttf", 24)
-except OSError:
-    _FONT = ImageFont.load_default()
+def _load_latin_font(size: int) -> ImageFont.ImageFont:
+    for cand in (
+        "arial.ttf",
+        "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+        "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf",
+    ):
+        try:
+            return ImageFont.truetype(cand, size)
+        except OSError:
+            continue
+    try:
+        return ImageFont.load_default(size=size)
+    except TypeError:
+        return ImageFont.load_default()
+
+
+_FONT = _load_latin_font(24)
 
 
 def _blank_page() -> Image.Image:
@@ -363,10 +376,7 @@ class TestStrategyDThreshold:
         crop_r = crop.resize((int(w * 0.85), int(h * 0.16)), Image.Resampling.BILINEAR)
         page.paste(crop_r, (int(w * 0.075), int(h * 0.05)))
         draw = ImageDraw.Draw(page)
-        try:
-            fnt = ImageFont.truetype("arial.ttf", 34)
-        except OSError:
-            fnt = _FONT
+        fnt = _load_latin_font(34)
         draw.text((int(w * 0.18), int(h * 0.28)), "GOVERNMENT IDENTITY RECORD", fill=_BLACK, font=fnt)
         draw.text((int(w * 0.18), int(h * 0.33)), "Name: Ramachandra Nayak", fill=_BLACK, font=fnt)
         draw.text((int(w * 0.18), int(h * 0.38)), "ID: OD-2024-78451", fill=_BLACK, font=fnt)
@@ -388,10 +398,7 @@ class TestStrategyDThreshold:
         w, h = 1200, 1600
         page = Image.new("RGB", (w, h), _WHITE)
         draw = ImageDraw.Draw(page)
-        try:
-            fnt = ImageFont.truetype("arial.ttf", 34)
-        except OSError:
-            fnt = _FONT
+        fnt = _load_latin_font(34)
         draw.ellipse((int(w * 0.18), int(h * 0.07), int(w * 0.28), int(h * 0.17)), outline=_BLACK, width=4)
         draw.text((int(w * 0.32), int(h * 0.10)), "OFFICIAL SEAL 2024", fill=_BLACK, font=fnt)
         draw.text((int(w * 0.18), int(h * 0.28)), "CERTIFICATE OF DOMICILE", fill=_BLACK, font=fnt)

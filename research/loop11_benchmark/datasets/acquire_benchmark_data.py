@@ -16,7 +16,6 @@ import random
 from pathlib import Path
 from typing import Any, Dict, List, Tuple
 
-import cv2
 import numpy as np
 import PIL.Image
 import PIL.ImageDraw

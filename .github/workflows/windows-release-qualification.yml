@@ -112,6 +112,10 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -e ".[all]" "pyinstaller>=6,<7"
           python -c "import pytesseract; print('pytesseract languages:', pytesseract.get_languages())"
+
+      - name: Run Python test suite
+        shell: pwsh
+        run: |
           python -m pytest -q
 
       - name: Build standalone Python sidecar
@@ -167,6 +171,13 @@ jobs:
           if (-not (Test-Path $zip)) { throw "Portable ZIP missing: $zip" }
           Get-FileHash $setup -Algorithm SHA256 | Format-List
           Get-FileHash $zip -Algorithm SHA256 | Format-List
+
+      - name: Verify packaged release integrity & demo reliability (Loop 09 & Loop 10)
+        shell: pwsh
+        env:
+          DOCUREADY_REQUIRE_RELEASE_ARTIFACTS: "1"
+        run: |
+          python -m pytest tests/test_loop09_release_integrity.py tests/test_loop10_demo_reliability.py -v
 
       - name: Install, launch, smoke-test sidecar, and uninstall
         shell: pwsh

@@ -14,8 +14,11 @@ from __future__ import annotations
 
 import atexit
 import ctypes
+import ctypes.util
+import logging
 import os
 import re
+import sys
 import threading
 import time
 from dataclasses import dataclass, field
@@ -41,6 +44,7 @@ from docuready.ingest.tesseract_discovery import (
 
 _ORIG_PYTESSERACT_IMAGE_TO_STRING = pytesseract.image_to_string
 _ORIG_PYTESSERACT_IMAGE_TO_DATA = pytesseract.image_to_data
+_logger = logging.getLogger(__name__)
 
 
 class _InProcessScriptProbe:
@@ -53,6 +57,7 @@ class _InProcessScriptProbe:
         self._apis: Dict[Tuple[str, int], Any] = {}
         self._tessdata_dir: Optional[str] = None
         self._unavailable = False
+        self._init_error: Optional[str] = None
 
     def _ensure_lib(self) -> bool:
         if self._lib is not None:
@@ -63,14 +68,55 @@ class _InProcessScriptProbe:
             os.environ.setdefault("OMP_THREAD_LIMIT", "1")
             tess_bin, _ = find_tesseract_binary_with_source()
             if not tess_bin:
+                self._init_error = "tesseract_binary_not_found"
                 self._unavailable = True
                 return False
-            dll_path = Path(tess_bin).parent / "libtesseract-5.dll"
-            if not dll_path.exists():
+
+            tess_dir = Path(tess_bin).parent
+            lib_candidates: List[str] = []
+            if sys.platform == "win32":
+                lib_candidates.append(str(tess_dir / "libtesseract-5.dll"))
+            else:
+                for name in ("libtesseract.so.5", "libtesseract.so", "libtesseract.dylib"):
+                    lib_candidates.append(str(tess_dir / name))
+                found = ctypes.util.find_library("tesseract")
+                if found:
+                    lib_candidates.append(found)
+                lib_candidates.extend(["libtesseract.so.5", "libtesseract.so"])
+
+            lib = None
+            for cand in lib_candidates:
+                if os.path.isabs(cand) and not Path(cand).exists():
+                    continue
+                try:
+                    lib = ctypes.CDLL(cand)
+                    break
+                except OSError:
+                    continue
+            if lib is None:
+                self._init_error = f"libtesseract_not_found: tried={lib_candidates}"
+                _logger.warning("In-process Tesseract library unavailable (%s)", self._init_error)
                 self._unavailable = True
                 return False
-            self._tessdata_dir = str(get_unified_tessdata_dir(tess_bin))
-            lib = ctypes.CDLL(str(dll_path))
+
+            unified_dir = get_unified_tessdata_dir(Path(tess_bin))
+            if unified_dir is not None:
+                self._tessdata_dir = str(unified_dir)
+            elif os.environ.get("TESSDATA_PREFIX"):
+                self._tessdata_dir = os.environ["TESSDATA_PREFIX"]
+            else:
+                self._tessdata_dir = None
+                for td_cand in (
+                    "/usr/share/tesseract-ocr/5/tessdata",
+                    "/usr/share/tesseract-ocr/4.00/tessdata",
+                    "/usr/share/tesseract-ocr/tessdata",
+                    "/usr/share/tessdata",
+                    "/opt/homebrew/share/tessdata",
+                    "/usr/local/share/tessdata",
+                ):
+                    if (Path(td_cand) / "eng.traineddata").is_file():
+                        self._tessdata_dir = td_cand
+                        break
             lib.TessBaseAPICreate.restype = ctypes.c_void_p
             lib.TessBaseAPIDelete.argtypes = [ctypes.c_void_p]
             lib.TessBaseAPIInit3.argtypes = [ctypes.c_void_p, ctypes.c_char_p, ctypes.c_char_p]
@@ -91,8 +137,11 @@ class _InProcessScriptProbe:
                 lib.TessBaseAPIGetTsvText.restype = ctypes.c_void_p
             lib.TessDeleteText.argtypes = [ctypes.c_void_p]
             self._lib = lib
+            self._init_error = None
             return True
-        except Exception:
+        except (OSError, RuntimeError, ValueError) as exc:
+            self._init_error = f"init_error: {type(exc).__name__}: {exc}"
+            _logger.warning("In-process Tesseract probe init failed: %s", self._init_error)
             self._unavailable = True
             return False
 
@@ -107,12 +156,16 @@ class _InProcessScriptProbe:
         api = self._lib.TessBaseAPICreate()
         if not api:
             if key == ("eng+hin+ori", 6):
+                self._init_error = "tessbaseapi_create_failed"
                 self._unavailable = True
             return None
-        rc = self._lib.TessBaseAPIInit3(api, self._tessdata_dir.encode("utf-8"), lang.encode("utf-8"))
+        tessdata_arg = self._tessdata_dir.encode("utf-8") if self._tessdata_dir else None
+        rc = self._lib.TessBaseAPIInit3(api, tessdata_arg, lang.encode("utf-8"))
         if rc != 0:
             self._lib.TessBaseAPIDelete(api)
             if key == ("eng+hin+ori", 6):
+                self._init_error = f"tessbaseapi_init_failed: rc={rc}, lang={lang}, tessdata={self._tessdata_dir}"
+                _logger.warning("In-process TessBaseAPIInit3 failed: %s", self._init_error)
                 self._unavailable = True
             return None
         self._lib.TessBaseAPISetPageSegMode(api, psm)

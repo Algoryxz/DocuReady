@@ -26,10 +26,23 @@ W, H = 1200, 1600
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 
-try:
-    FONT = ImageFont.truetype("arial.ttf", 34)
-except OSError:
-    FONT = ImageFont.load_default()
+def _load_latin_font(size: int) -> ImageFont.ImageFont:
+    for cand in (
+        "arial.ttf",
+        "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+        "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf",
+    ):
+        try:
+            return ImageFont.truetype(cand, size)
+        except OSError:
+            continue
+    try:
+        return ImageFont.load_default(size=size)
+    except TypeError:
+        return ImageFont.load_default()
+
+
+FONT = _load_latin_font(34)
 
 
 def _paste_crop(img: Image.Image, crop: Image.Image, y0_f: float, y1_f: float) -> None:
