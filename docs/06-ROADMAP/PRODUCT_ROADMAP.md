@@ -1,5 +1,8 @@
 # DocuReady Product Roadmap
 
+> [!WARNING]
+> **Superseded for DocuReady 2.0:** The 2027 WhatsApp, Flutter Android, DigiLocker, and Streamlit-only items below reflect an early V1 roadmap and are **out of scope / superseded** for DocuReady 2.0. See [docs/07-DOCUREADY-2.0/PRODUCT_BRIEF.md](../07-DOCUREADY-2.0/PRODUCT_BRIEF.md) and [docs/07-DOCUREADY-2.0/24H_EXECUTION_PLAN.md](../07-DOCUREADY-2.0/24H_EXECUTION_PLAN.md) for the active Electron + Python Sidecar roadmap.
+
 ## Vision
 
 Empower every Indian student and citizen to submit verified, error-free applications to government scholarship portals, higher education admissions, and public welfare schemes.

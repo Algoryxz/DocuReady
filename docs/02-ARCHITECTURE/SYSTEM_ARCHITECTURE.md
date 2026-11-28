@@ -1,5 +1,8 @@
 # DocuReady — System Architecture Specification
 
+> [!WARNING]
+> **Historical V1 Architecture (Superseded):** This document describes the legacy flat `src/ui.py` / `src/validator.py` Streamlit architecture and V1 status vocabulary. It is preserved for historical reference only. The canonical architecture is [docs/07-DOCUREADY-2.0/ARCHITECTURE.md](../07-DOCUREADY-2.0/ARCHITECTURE.md) (alongside [docs/ARCHITECTURE_V2.md](../ARCHITECTURE_V2.md)).
+
 ## Ownership & Contribution Responsibilities
 
 | Role | Assignee | Primary Scope & Focus |

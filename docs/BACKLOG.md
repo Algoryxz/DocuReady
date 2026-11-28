@@ -1,5 +1,8 @@
 # DocuReady — Delivery Backlog (V2)
 
+> [!NOTE]
+> **DocuReady 2.0 Execution:** For the active 24-hour DocuReady 2.0 vertical slice, shared contracts, and four-person workstreams, see [docs/07-DOCUREADY-2.0/24H_EXECUTION_PLAN.md](07-DOCUREADY-2.0/24H_EXECUTION_PLAN.md) and [docs/07-DOCUREADY-2.0/TEAM_WORKSTREAMS.md](07-DOCUREADY-2.0/TEAM_WORKSTREAMS.md).
+
 Companion to `ARCHITECTURE_V2.md`. Copy this file to `docs/BACKLOG.md` in the repo.
 
 **Team Model:**

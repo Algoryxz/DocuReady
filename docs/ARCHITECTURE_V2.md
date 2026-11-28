@@ -1,5 +1,8 @@
 # DocuReady — Architecture V2
 
+> [!NOTE]
+> **DocuReady 2.0 Canonical Architecture:** This document defines the V2 domain, status, and safety contracts. For the live inspected Electron + Sidecar + Python architecture baseline, see [docs/07-DOCUREADY-2.0/ARCHITECTURE.md](07-DOCUREADY-2.0/ARCHITECTURE.md).
+
 **Status:** proposed baseline · **Owner:** Claude (core architecture) · **Date:** 2026-11-13
 **Canonical codebase:** `github.com/Algoryxz/DocuReady`
 **Evidence base:** README, PUBLICATION_REPORT, SECURITY, CONTRIBUTING, LICENSE, `.gitignore`, `requirements.txt`, plus the Arena notes.

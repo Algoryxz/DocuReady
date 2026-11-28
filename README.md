@@ -5,12 +5,12 @@
 </div>
 
 [![CI Tests](https://github.com/Algoryxz/DocuReady/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/Algoryxz/DocuReady/actions/workflows/tests.yml)
-[![Desktop Tests](https://img.shields.io/badge/Desktop%20Tests-25%2F25%20Passed-brightgreen.svg)](apps/desktop)
-[![Python Tests](https://img.shields.io/badge/Python%20Tests-916%20Passed-brightgreen.svg)](tests)
+[![Windows Qualification](https://github.com/Algoryxz/DocuReady/actions/workflows/windows-release-qualification.yml/badge.svg?branch=main)](https://github.com/Algoryxz/DocuReady/actions/workflows/windows-release-qualification.yml)
+[![DocuReady 2.0 Baseline](https://img.shields.io/badge/DocuReady_2.0-Kickoff_Baseline-0A2540.svg)](docs/07-DOCUREADY-2.0/README.md)
 [![Project Source License: Apache 2.0](https://img.shields.io/badge/Project%20Source-Apache_2.0-blue.svg)](LICENSE)
 [![Python: 3.11–3.14](https://img.shields.io/badge/Python-3.11%20%7C%203.12%20%7C%203.13%20%7C%203.14-0A2540.svg)](pyproject.toml)
 [![Privacy: Local Processing](https://img.shields.io/badge/Privacy-Local%20Processing-0A2540.svg)](PRIVACY_NETWORK_AUDIT.md)
-[![Platform: Windows x64](https://img.shields.io/badge/Platform-Windows%20x64%20(Packaged)-blueviolet.svg)](apps/desktop/out/make)
+[![Platform: Windows x64](https://img.shields.io/badge/Platform-Windows%20x64-blueviolet.svg)](#windows-desktop-download--installation)
 
 ---
 
@@ -83,13 +83,13 @@ flowchart TD
 
 ### Windows Desktop Download & Installation
 
-The desktop application is packaged for 64-bit Windows systems with self-contained runtimes:
+The desktop application is packaged for 64-bit Windows systems with self-contained runtimes via GitHub Actions ([Windows desktop release qualification](.github/workflows/windows-release-qualification.yml)) or local source builds (`apps/desktop/out/make/` is generated at build time and not committed to git):
 
 1. **Standard Windows Installer (`.exe`):**
-   - Download `DocuReady-Setup-0.1.0.exe` from `apps/desktop/out/make/squirrel.windows/x64/`.
+   - Download `DocuReady-0.1.0-Setup.exe` from the workflow artifact (or build locally into `apps/desktop/out/make/squirrel.windows/x64/`).
    - Run the installer. Creates desktop/start-menu shortcuts and an uninstaller.
 2. **Portable Standalone Distribution (`.zip`):**
-   - Download `DocuReady-win32-x64-0.1.0.zip` from `apps/desktop/out/make/zip/win32/x64/`.
+   - Download `DocuReady-win32-x64-0.1.0.zip` from the workflow artifact (or build locally into `apps/desktop/out/make/zip/win32/x64/`).
    - Extract and launch `DocuReady.exe` directly without administrative installation.
 3. **Bundled OCR Runtime:**
    - Bundles an isolated Tesseract 5.4.0 executable, `eng.traineddata`, and native DLLs alongside the Python PyInstaller sidecar. No external system software installation is required for packaged execution.
@@ -135,7 +135,7 @@ Every extracted datum retains its physical page number, bounding box coordinates
 - Handles coordinate transformations across $0^\circ$, $90^\circ$, $180^\circ$, and $270^\circ$ viewport rotations.
 
 ### 3. Interactive Single-Document Replacement
-Applicants can replace a single defective document (e.g. upload a refreshed Income Certificate) and re-audit the entire packet in-memory in under 1 second without re-uploading the entire bundle.
+In the Python `AuditPipeline` (`replace_document_and_reaudit`, verified in `tests/test_replacement_rerun.py`), applicants can replace a single defective document and re-audit the packet in-memory without re-uploading the entire bundle. Wiring this per-slot replacement flow into the Electron Desktop UI is a core deliverable of [DocuReady 2.0](docs/07-DOCUREADY-2.0/README.md).
 
 ### 4. Domain-Specific Normalizers
 - **Aadhaar Verhoeff Checksum:** Checks the checksum structure of a 12-digit value using the Verhoeff algorithm; it does not authenticate an Aadhaar holder or verify the number with UIDAI.
@@ -164,10 +164,10 @@ DocuReady/
 │       ├── src/
 │       │   ├── main.ts                 # Hardened Electron main process & lifecycle
 │       │   ├── preload.ts              # Context-isolated secure IPC bridge
-│       │   ├── renderer/               # React 19 UI with Tailwind CSS & PDF.js
-│       │   ├── sidecar.ts              # Python sidecar child-process lifecycle manager
-│       │   └── workspace.ts            # Ephemeral workspace manager & path traversal guard
-│       └── tests/                      # Desktop Node test suite (21 tests)
+│       │   ├── main/                   # IPC registry, CSP/security, sidecar & workspace managers
+│       │   ├── shared/                 # Shared DTO types, coordinate math & evidence normalization
+│       │   └── renderer/               # React 19 UI with PDF.js evidence viewer
+│       └── tests/                      # Desktop Node test suite (10 test files)
 │
 ├── sidecar/                            # Standalone Python sidecar packaging
 │   ├── docuready_sidecar.py            # JSON-RPC stdio protocol bridge
@@ -186,9 +186,10 @@ DocuReady/
 │       └── interfaces/                 # Console CLI ("docuready") and Streamlit reference UI
 │
 ├── packs/                              # Declarative scheme packs
-│   └── generic.demo/                   # Canonical reference pack (pack.yaml & sources.yaml)
+│   ├── generic.demo/                   # Canonical reference pack (status: draft)
+│   └── odisha.subhadra/                # Subhadra demo snapshot pack (status: demo_snapshot)
 │
-├── tests/                              # Comprehensive test suite (612 test items)
+├── tests/                              # Comprehensive Python test suite (80 test files)
 │   ├── contract/                       # Claims register & zero-network contract tests
 │   ├── integration/                    # Rule matrix & scheme pack matrix integration tests
 │   ├── unit/                           # Outcome resolver per-rule truth tables
@@ -204,6 +205,7 @@ DocuReady/
 │   └── pkt_01_clean/ ... pkt_08/       # Canonical test packets
 │
 ├── docs/                               # Engineering documentation & decision records
+│   ├── 07-DOCUREADY-2.0/               # Canonical DocuReady 2.0 baseline, contracts & workstreams
 │   ├── START_HERE.md                   # Onboarding & architecture overview
 │   ├── ARCHITECTURE_V2.md              # Target modular architecture specification
 │   ├── ARCHITECTURE_REVIEW.md          # Deep architectural critique and risk register
@@ -280,27 +282,27 @@ The distributables will be output to `apps/desktop/out/make/`.
 
 ## Verification & Test Metrics
 
-DocuReady enforces end-to-end automated testing across all layers:
+DocuReady runs automated testing across Python and Desktop TypeScript layers (see the live CI badges above and [docs/07-DOCUREADY-2.0/STATUS.md](docs/07-DOCUREADY-2.0/STATUS.md) for current run status):
 
 ```bash
-# 1. Run Python Audit Engine Test Suite (916 passing tests)
+# 1. Run Python Audit Engine Test Suite
 pytest
 
-# 2. Run Desktop Node Test Suite (25 passing tests)
+# 2. Run Desktop Node Test Suite
 npm --prefix apps/desktop test
 
-# 3. Verify TypeScript Type Safety (0 errors)
+# 3. Verify TypeScript Type Safety
 npm --prefix apps/desktop run lint:types
 ```
 
 ### Test Suite Summary
 
-| Test Domain | Target Suite | Status | Key Verifications |
+| Test Domain | Target Suite | Scope | Key Verifications |
 | :--- | :--- | :--- | :--- |
-| **Python Audit Engine** | `pytest` (916 items) | **916 Passed, 0 Failed** | Golden baselines, statutory rule matrix, scheme packs, slot validation, match grades, date invariance, safety downgrades, zero-network egress invariants, adversarial document handling, and Loops 01–46 multilingual/table/spatial suites. |
-| **Desktop Shell & IPC** | `apps/desktop/tests/` | **25 Passed, 0 Failed** | Packaged sidecar execution, health handshake, crash recovery, workspace traversal defense, file magic-byte validation, Content Security Policy, zero-PII diagnostics, and workflow lifecycle state machine. |
-| **Evidence Math & Viewport** | `apps/desktop/tests/evidence.test.ts` | **Passed** | Bounding box normalization, clamp behavior, viewport transformations across $0^\circ$, $90^\circ$, $180^\circ$, and $270^\circ$ rotations. |
-| **TypeScript Type Checking** | `tsc --noEmit` | **0 Errors** | Strict type compliance across main process, preload bridge, and renderer UI. |
+| **Python Audit Engine** | `tests/` (80 test files) | `CI Tests` (Py 3.11–3.14) | Golden baselines, statutory rule matrix, scheme packs, slot validation, match grades, date invariance, safety downgrades, zero-network egress invariants, adversarial document handling, and multilingual/table/spatial suites. |
+| **Desktop Shell & IPC** | `apps/desktop/tests/` (10 test files) | `Windows Qualification` | Packaged sidecar execution, health handshake, crash recovery, workspace traversal defense, file magic-byte validation, Content Security Policy, zero-PII diagnostics, and workflow lifecycle state machine. |
+| **Evidence Math & Viewport** | `apps/desktop/tests/evidence.test.ts`, `coordinates.test.ts` | `Windows Qualification` | Bounding box normalization, clamp behavior, viewport transformations across $0^\circ$, $90^\circ$, $180^\circ$, and $270^\circ$ rotations. |
+| **TypeScript Type Checking** | `tsc --noEmit` | `Windows Qualification` | Strict type compliance across main process, preload bridge, and renderer UI. |
 
 ### Test Suite Structure
 
@@ -335,7 +337,7 @@ Evaluation performed on reference hardware against the synthetic validation suit
 | **Canonical Synthetic Packets** | 48 Documents | 100.0% | 0.38s | Native Vector Extraction |
 | **Controlled Degraded-Scan Test Set** | 60 Documents | 91.7% | 1.15s | Vector + Local Tesseract OCR |
 
-*Note: Benchmarks reflect performance on synthetic test datasets under controlled test conditions and do not represent field portal acceptance guarantees. Results are limited to the named controlled test corpora and conditions. The provenance of the degraded-scan set has not been independently established here; do not describe its score as field or real-world accuracy. These results do not establish real-world prevalence or portal acceptance.*
+*Note: Benchmarks reflect performance on synthetic test datasets under controlled test conditions and do not represent field portal acceptance guarantees. Results are limited to the named controlled test corpora and conditions. On the T4.1 held-out synthetic `test` split (`n=48`, [eval/EVAL_CARD.md](eval/EVAL_CARD.md)), the pack harness recorded `0/24` false-pass and `0/24` false-fail (`95%` Wilson interval `[0, 0.1380]`) with `12.5%` (6/48) decision coverage and `87.5%` (42/48) abstention; real-world OCR accuracy remains `UNVERIFIED`. The provenance of the degraded-scan set has not been independently established here; do not describe its score as field or real-world accuracy. These results do not establish real-world prevalence or portal acceptance.*
 
 ---
 
