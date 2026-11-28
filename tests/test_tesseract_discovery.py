@@ -187,3 +187,56 @@ def test_base_eng_hin_supplemented_by_extra_ori(tmp_path: Path, monkeypatch) -> 
     assert (unified / "eng.traineddata").read_bytes() == b"BASE-ENG"
     assert (unified / "hin.traineddata").read_bytes() == b"BASE-HIN"
     assert (unified / "ori.traineddata").read_bytes() == b"EXTRA-ORI"
+
+
+def test_unified_cache_replaces_same_size_different_content_and_reuses_unchanged(tmp_path: Path, monkeypatch) -> None:
+    """Same-size stale cached model must be replaced; genuinely unchanged models must not be recopied."""
+    import shutil
+
+    monkeypatch.delenv("TESSDATA_PREFIX", raising=False)
+
+    fake_bin = tmp_path / "usr" / "bin" / "tesseract"
+    fake_bin.parent.mkdir(parents=True)
+    fake_bin.write_text("", encoding="utf-8")
+
+    sys_td = tmp_path / "usr" / "share" / "tesseract-ocr" / "5" / "tessdata"
+    sys_td.mkdir(parents=True)
+    (sys_td / "eng.traineddata").write_bytes(b"BASE-ENG-MODEL")
+
+    fake_repo = tmp_path / "repo"
+    extra_td = fake_repo / "sidecar" / "tessdata_extra"
+    extra_td.mkdir(parents=True)
+    new_ori = b"NEW-ORI-MODEL-01"
+    stale_ori = b"OLD-ORI-CACHE-99"
+    assert len(new_ori) == len(stale_ori)
+    (extra_td / "ori.traineddata").write_bytes(new_ori)
+
+    fake_mod_file = fake_repo / "src" / "docuready" / "ingest" / "tesseract_discovery.py"
+    fake_mod_file.parent.mkdir(parents=True)
+    fake_mod_file.write_text("", encoding="utf-8")
+
+    temp_root = tmp_path / "temp_cache"
+    cached_dir = temp_root / "docuready_unified_tessdata"
+    cached_dir.mkdir(parents=True)
+    (cached_dir / "ori.traineddata").write_bytes(stale_ori)
+
+    monkeypatch.setattr(tesseract_discovery, "__file__", str(fake_mod_file))
+    monkeypatch.setattr(tempfile, "gettempdir", lambda: str(temp_root))
+
+    unified = tesseract_discovery.get_unified_tessdata_dir(fake_bin)
+    assert unified == cached_dir
+    assert (unified / "ori.traineddata").read_bytes() == new_ori
+    assert (unified / "eng.traineddata").read_bytes() == b"BASE-ENG-MODEL"
+
+    # Second call with unchanged files must not recopy
+    copy_calls = []
+    orig_copy2 = shutil.copy2
+
+    def _spy_copy2(src, dst, *args, **kwargs):
+        copy_calls.append((Path(src).name, Path(dst).name))
+        return orig_copy2(src, dst, *args, **kwargs)
+
+    monkeypatch.setattr(shutil, "copy2", _spy_copy2)
+    unified2 = tesseract_discovery.get_unified_tessdata_dir(fake_bin)
+    assert unified2 == cached_dir
+    assert copy_calls == []

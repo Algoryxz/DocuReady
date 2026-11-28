@@ -97,7 +97,7 @@ def _verify_manifest_structure(records: list[dict], data_root: Path = BENCHMARK_
         assert r["provenance_status"] == "VERIFIED_SYNTHETIC_MODEL"
         assert r["is_external_raw_download"] is False
         assert re.fullmatch(r"[0-9a-fA-F]{64}", str(r["sha256"])), f"Invalid SHA-256 for {sid}"
-        assert isinstance(r["file_size_bytes"], int) and r["file_size_bytes"] > 0, f"Invalid file size for {sid}"
+        assert type(r["file_size_bytes"]) is int and r["file_size_bytes"] > 0, f"Invalid file size for {sid}"
 
         _resolve_provenance_path(r["file_path"], data_root=data_root, repo_root=repo_root)
 
@@ -221,6 +221,15 @@ def test_valid_generated_manifest_does_not_mask_invalid_audit_manifest(tmp_path:
     del missing_field_records[0]["sha256"]
     audit_file.write_text(json.dumps(missing_field_records, indent=2), encoding="utf-8")
     with pytest.raises(AssertionError, match="Missing required field 'sha256'"):
+        _validate_audit_and_generated_manifests(
+            provenance_file=audit_file, generated_file=gen_file, data_root=data_dir, repo_root=tmp_path
+        )
+
+    # Case 5: Boolean file_size_bytes must be rejected (bool is a subclass of int in Python)
+    bool_size_records = [dict(r) for r in base_records]
+    bool_size_records[0]["file_size_bytes"] = True
+    audit_file.write_text(json.dumps(bool_size_records, indent=2), encoding="utf-8")
+    with pytest.raises(AssertionError, match="Invalid file size"):
         _validate_audit_and_generated_manifests(
             provenance_file=audit_file, generated_file=gen_file, data_root=data_dir, repo_root=tmp_path
         )
