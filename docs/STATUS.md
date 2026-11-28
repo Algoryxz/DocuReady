@@ -1,5 +1,8 @@
 # DocuReady V2 — Project Status
 
+> [!NOTE]
+> **DocuReady 2.0 Active Status:** For the live DocuReady 2.0 kickoff baseline, four-person workstreams, and PR #94 CI status, see [docs/07-DOCUREADY-2.0/STATUS.md](07-DOCUREADY-2.0/STATUS.md). Historical Gate G0–G5 records are preserved below.
+
 **Last reviewed:** 28 November 2026
 **Canonical repository:** `Algoryxz/DocuReady`
 **Status note:** This coordination snapshot is based on verified GitHub repository, PR, and CI evidence. Verified `main` HEAD at this update: `99e5f142df1a75c957879da9ad9be75ab5523b8c` (merge commit for PR #90). Gate G1 was formally ACCEPTED on 15 November 2026, Gate G2 was formally ACCEPTED on 16 November 2026, and Gate G3 was formally AUTHORIZED on 16 November 2026; formal Gate G3 closure remains pending. Tasks T3.1, T3.2 and T3.2.1 were formally accepted by Product Owner Deeptiman. Under Gate G4, PRs #85, #86, #88 and #90 are merged; PR #90 completed the current T3.3 domain/evidence handover, but explicit Product Owner formal acceptance of T3.3 remains pending. Under Gate G5, T4.1 (evaluation harness), T4.3 (synthetic generator) and T4.4 (real-sample protocol) implementation were delivered in PR #90 and merged; T4.2 Indic-script comparison with/without Indic OCR languages remains pending. The T4.1 test split contains 48 synthetic packets: 0/24 false passes and 0/24 false fails, each with a 95% Wilson interval of [0, 0.1380]; decision coverage is 6/48 (12.5%) and abstention is 42/48 (87.5%). These are synthetic-only results, not real-world OCR accuracy or eligibility evidence. Formal T4.1/T4.3 and Gate G5 acceptance remains pending. Golden baseline checksum remains intact and unchanged at `E8FB1A6B842A47089937777133DE79E1E7F704BEE591D5B4471A1A90BC8C5FA9`.

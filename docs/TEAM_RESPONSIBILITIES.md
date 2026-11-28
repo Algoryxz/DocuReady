@@ -1,5 +1,8 @@
 # DocuReady — Team Responsibilities and PRD/TRD Ownership
 
+> [!NOTE]
+> **DocuReady 2.0 Update (28 Nov 2026):** For the active DocuReady 2.0 & Windows Release Plan, team ownership is split across four contributors — **Akriti** (PR #95, Testing & Quality, `feat/pr95-akriti`), **Susmita** (Backend & Document Intelligence, `feat/backend-susmita`), **Project frontend owner** (Frontend & Electron, `feat/frontend-electron`), and **Deepti** (CI/CD via PR #94 `fix/ci-verification-stabilisation` / `fix/ci-cd-deepti`, then Frontend & QA collaboration). See the canonical ownership matrix in [docs/07-DOCUREADY-2.0/TEAM_WORKSTREAMS.md](07-DOCUREADY-2.0/TEAM_WORKSTREAMS.md).
+
 **Version:** 1.0 · **Date:** 14 November 2026
 **Repository:** `Algoryxz/DocuReady`
 **Purpose:** Give Deeptiman, Akriti and Susmita a clear division of responsibilities so each person's ChatGPT/Antigravity workspace can understand the product, the assigned documents, the implementation boundaries and the review path.

@@ -1,6 +1,9 @@
 # ADR-002: Deployment Architecture & Hosting Strategy
 
-**Status:** Decided (Multi-tier execution architecture: Local Desktop primary, Mobile LAN field tier, Streamlit Community Cloud demo tier; reject Vercel Serverless for monolithic Python core)  
+> [!WARNING]
+> **Superseded for Desktop Product:** This Streamlit 3-tier ADR is superseded for the canonical desktop application by [ADR-002-desktop-runtime-and-sidecar.md](ADR-002-desktop-runtime-and-sidecar.md) and [docs/07-DOCUREADY-2.0/ARCHITECTURE.md](../07-DOCUREADY-2.0/ARCHITECTURE.md).
+
+**Status:** Decided (Superseded for Desktop by ADR-002-desktop-runtime-and-sidecar; Streamlit Cloud demo tier / Vercel static showcase context preserved)
 **Date:** 15 November 2026  
 **Deciders:** Deeptiman (Architecture Lead & Product Owner), Antigravity (Implementation Engineer)  
 **Task:** Gate G1 Closeout / Track B (Mobile Web MVP) / Deployment Resolution  

@@ -1,5 +1,8 @@
 # DocuReady V2 — Handoff Pack
 
+> [!NOTE]
+> **DocuReady 2.0 Kickoff:** Start at [docs/07-DOCUREADY-2.0/README.md](07-DOCUREADY-2.0/README.md) for the active DocuReady 2.0 baseline, architecture, contracts, and four-person workstreams.
+
 This pack contains four working documents prepared from the supplied V2 architecture/backlog and read-only review of the canonical GitHub repository:
 
 1. `ARCHITECTURE_REVIEW.md` — architecture assessment, Track A/B review, CI/golden issue and corrected execution order.

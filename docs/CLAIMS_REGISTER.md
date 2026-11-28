@@ -1,5 +1,8 @@
 # DocuReady — Public Claims Register
 
+> [!NOTE]
+> **DocuReady 2.0 Audit Addendum (28 Nov 2026):** Loop 0 forensics ([docs/07-DOCUREADY-2.0/BASELINE_AUDIT.md](07-DOCUREADY-2.0/BASELINE_AUDIT.md)) flagged two remaining public-surface items for remediation in 2.0: (1) `apps/desktop/src/renderer/main.tsx:486` still displays `"100% Offline · Local Workspace"` (reconcile to `"Local Processing · Ephemeral Workspace"`), and (2) `site/index.html` still describes the local app as `"the Python/Streamlit application"` and links to `#installation--setup`.
+
 **Version:** 1.0.0  
 **Authority:** Deeptiman (Product Owner & Architecture Lead)  
 **Governance Task:** T1.1 / WS1 (Trust & Compliance)  
