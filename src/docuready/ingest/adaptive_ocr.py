@@ -106,36 +106,59 @@ class _InProcessScriptProbe:
                 self._tessdata_dir = os.environ["TESSDATA_PREFIX"]
             else:
                 self._tessdata_dir = None
-                for td_cand in (
-                    "/usr/share/tesseract-ocr/5/tessdata",
-                    "/usr/share/tesseract-ocr/4.00/tessdata",
-                    "/usr/share/tesseract-ocr/tessdata",
-                    "/usr/share/tessdata",
-                    "/opt/homebrew/share/tessdata",
-                    "/usr/local/share/tessdata",
-                ):
-                    if (Path(td_cand) / "eng.traineddata").is_file():
-                        self._tessdata_dir = td_cand
-                        break
-            lib.TessBaseAPICreate.restype = ctypes.c_void_p
-            lib.TessBaseAPIDelete.argtypes = [ctypes.c_void_p]
-            lib.TessBaseAPIInit3.argtypes = [ctypes.c_void_p, ctypes.c_char_p, ctypes.c_char_p]
-            lib.TessBaseAPIInit3.restype = ctypes.c_int
-            lib.TessBaseAPISetPageSegMode.argtypes = [ctypes.c_void_p, ctypes.c_int]
-            lib.TessBaseAPISetImage.argtypes = [
-                ctypes.c_void_p,
-                ctypes.c_void_p,
-                ctypes.c_int,
-                ctypes.c_int,
-                ctypes.c_int,
-                ctypes.c_int,
+
+            required_langs = ("eng", "hin", "ori")
+            if not self._tessdata_dir or not Path(self._tessdata_dir).is_dir():
+                self._init_error = f"tessdata_dir_not_found: tessdata_dir={self._tessdata_dir}"
+                _logger.warning("In-process Tesseract tessdata unavailable (%s)", self._init_error)
+                self._unavailable = True
+                return False
+
+            missing_langs = [
+                lang_code
+                for lang_code in required_langs
+                if not (Path(self._tessdata_dir) / f"{lang_code}.traineddata").is_file()
+                or (Path(self._tessdata_dir) / f"{lang_code}.traineddata").stat().st_size == 0
             ]
-            lib.TessBaseAPIGetUTF8Text.argtypes = [ctypes.c_void_p]
-            lib.TessBaseAPIGetUTF8Text.restype = ctypes.c_void_p
-            if hasattr(lib, "TessBaseAPIGetTsvText"):
-                lib.TessBaseAPIGetTsvText.argtypes = [ctypes.c_void_p, ctypes.c_int]
-                lib.TessBaseAPIGetTsvText.restype = ctypes.c_void_p
-            lib.TessDeleteText.argtypes = [ctypes.c_void_p]
+            if missing_langs:
+                self._init_error = (
+                    f"missing_traineddata: missing={missing_langs}, tessdata_dir={self._tessdata_dir}"
+                )
+                _logger.warning("In-process Tesseract models incomplete (%s)", self._init_error)
+                self._unavailable = True
+                return False
+
+            try:
+                lib.TessBaseAPICreate.restype = ctypes.c_void_p
+                lib.TessBaseAPIDelete.argtypes = [ctypes.c_void_p]
+                lib.TessBaseAPIInit3.argtypes = [ctypes.c_void_p, ctypes.c_char_p, ctypes.c_char_p]
+                lib.TessBaseAPIInit3.restype = ctypes.c_int
+                lib.TessBaseAPISetPageSegMode.argtypes = [ctypes.c_void_p, ctypes.c_int]
+                lib.TessBaseAPISetImage.argtypes = [
+                    ctypes.c_void_p,
+                    ctypes.c_void_p,
+                    ctypes.c_int,
+                    ctypes.c_int,
+                    ctypes.c_int,
+                    ctypes.c_int,
+                ]
+                lib.TessBaseAPIGetUTF8Text.argtypes = [ctypes.c_void_p]
+                lib.TessBaseAPIGetUTF8Text.restype = ctypes.c_void_p
+                if hasattr(lib, "TessBaseAPIGetTsvText"):
+                    lib.TessBaseAPIGetTsvText.argtypes = [ctypes.c_void_p, ctypes.c_int]
+                    lib.TessBaseAPIGetTsvText.restype = ctypes.c_void_p
+                if hasattr(lib, "TessBaseAPIGetLoadedLanguagesAsVector"):
+                    lib.TessBaseAPIGetLoadedLanguagesAsVector.argtypes = [ctypes.c_void_p]
+                    lib.TessBaseAPIGetLoadedLanguagesAsVector.restype = ctypes.POINTER(ctypes.c_char_p)
+                if hasattr(lib, "TessDeleteTextArray"):
+                    lib.TessDeleteTextArray.argtypes = [ctypes.POINTER(ctypes.c_char_p)]
+                lib.TessDeleteText.argtypes = [ctypes.c_void_p]
+            except AttributeError as exc:
+                self._init_error = f"missing_c_api_symbol: {exc}"
+                _logger.warning("In-process Tesseract C API symbol missing (%s)", self._init_error)
+                self._unavailable = True
+                return False
+
             self._lib = lib
             self._init_error = None
             return True
@@ -168,6 +191,30 @@ class _InProcessScriptProbe:
                 _logger.warning("In-process TessBaseAPIInit3 failed: %s", self._init_error)
                 self._unavailable = True
             return None
+        if hasattr(self._lib, "TessBaseAPIGetLoadedLanguagesAsVector"):
+            vec = self._lib.TessBaseAPIGetLoadedLanguagesAsVector(api)
+            loaded_langs: List[str] = []
+            if vec:
+                try:
+                    idx = 0
+                    while vec[idx]:
+                        loaded_langs.append(vec[idx].decode("utf-8", errors="replace"))
+                        idx += 1
+                finally:
+                    if hasattr(self._lib, "TessDeleteTextArray"):
+                        self._lib.TessDeleteTextArray(vec)
+            requested_langs = [part for part in lang.split("+") if part]
+            missing_loaded = [req for req in requested_langs if req not in loaded_langs]
+            if missing_loaded:
+                self._lib.TessBaseAPIDelete(api)
+                if key == ("eng+hin+ori", 6):
+                    self._init_error = (
+                        f"tessbaseapi_missing_loaded_langs: missing={missing_loaded}, "
+                        f"loaded={loaded_langs}, tessdata={self._tessdata_dir}"
+                    )
+                    _logger.warning("In-process Tesseract missing loaded languages: %s", self._init_error)
+                    self._unavailable = True
+                return None
         self._lib.TessBaseAPISetPageSegMode(api, psm)
         if key == ("eng+hin+ori", 6):
             self._api = api
