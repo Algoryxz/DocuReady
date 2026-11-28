@@ -97,6 +97,7 @@ def build_funsd_suite() -> Dict[str, Any]:
 
     splits = ["DEV"] * 20 + ["VAL"] * 15 + ["CHALLENGE"] * 15
 
+    np_rng = np.random.default_rng(20261123)
     for idx, split in enumerate(splits):
         sample_id = f"funsd_{idx+1:03d}"
         tpl = rng.choice(form_templates)
@@ -104,7 +105,7 @@ def build_funsd_suite() -> Dict[str, Any]:
         png_path = funsd_dir / f"{sample_id}.png"
 
         # Create PDF with known layout
-        c = canvas.Canvas(str(pdf_path), pagesize=letter)
+        c = canvas.Canvas(str(pdf_path), pagesize=letter, invariant=1)
         w, h = letter
 
         words_ground_truth = []
@@ -188,6 +189,7 @@ def build_sroie_suite() -> Dict[str, Any]:
 
     splits = ["DEV"] * 25 + ["VAL"] * 20 + ["CHALLENGE"] * 15
 
+    np_rng = np.random.default_rng(20261123)
     for idx, split in enumerate(splits):
         sample_id = f"sroie_{idx+1:03d}"
         comp, addr = rng.choice(companies)
@@ -224,7 +226,7 @@ def build_sroie_suite() -> Dict[str, Any]:
         # Add slight realistic thermal printer noise
         if idx % 2 == 1:
             arr = np.array(img)
-            noise = np.random.normal(0, 3, arr.shape).astype(np.int16)
+            noise = np_rng.normal(0, 3, arr.shape).astype(np.int16)
             arr = np.clip(arr + noise, 0, 255).astype(np.uint8)
             img = PIL.Image.fromarray(arr)
 
@@ -314,6 +316,7 @@ def build_indic_ocr_suite() -> Dict[str, Any]:
 
     splits = ["DEV"] * 15 + ["VAL"] * 15 + ["CHALLENGE"] * 10
 
+    np_rng = np.random.default_rng(20261123)
     for idx, split in enumerate(splits):
         sample_id = f"indic_{idx+1:03d}"
         pool = hindi_samples if idx % 2 == 0 else odia_samples
@@ -322,7 +325,7 @@ def build_indic_ocr_suite() -> Dict[str, Any]:
         pdf_path = indic_dir / f"{sample_id}.pdf"
         png_path = indic_dir / f"{sample_id}.png"
 
-        c = canvas.Canvas(str(pdf_path), pagesize=letter)
+        c = canvas.Canvas(str(pdf_path), pagesize=letter, invariant=1)
         w, h = letter
 
         c.setFont("Helvetica-Bold", 14)
@@ -386,12 +389,13 @@ def build_doclaynet_suite() -> Dict[str, Any]:
 
     splits = ["DEV"] * 10 + ["VAL"] * 10 + ["CHALLENGE"] * 10
 
+    np_rng = np.random.default_rng(20261123)
     for idx, split in enumerate(splits):
         sample_id = f"doclaynet_{idx+1:03d}"
         pdf_path = layout_dir / f"{sample_id}.pdf"
         png_path = layout_dir / f"{sample_id}.png"
 
-        c = canvas.Canvas(str(pdf_path), pagesize=letter)
+        c = canvas.Canvas(str(pdf_path), pagesize=letter, invariant=1)
         w, h = letter
 
         # Section Header
@@ -530,7 +534,8 @@ def build_degradation_suite() -> Dict[str, Any]:
             elif regime_name == "noise":
                 # Gaussian noise injection
                 arr = np.array(clean_img).astype(np.float32)
-                gauss = np.random.normal(0, param, arr.shape)
+                np_deg_rng = np.random.default_rng(20261126 + sample_counter)
+                gauss = np_deg_rng.normal(0, param, arr.shape)
                 arr = np.clip(arr + gauss, 0, 255).astype(np.uint8)
                 deg_img = PIL.Image.fromarray(arr)
             elif regime_name == "contrast":
@@ -567,7 +572,7 @@ def build_degradation_suite() -> Dict[str, Any]:
     return {"dataset": "DEGRADATION", "count": len(manifest), "ground_truth": str(gt_file)}
 
 
-def main() -> None:
+def main(write_summary: bool = True) -> None:
     setup_directories()
     results = []
     print("=== SYNTHESIZING & VERIFYING INDEPENDENT BENCHMARK SUITES ===")
@@ -577,10 +582,11 @@ def main() -> None:
     results.append(build_doclaynet_suite())
     results.append(build_degradation_suite())
 
-    summary_file = BASE_DIR / "benchmark_suites_summary.json"
-    summary_file.write_text(json.dumps(results, indent=2), encoding="utf-8")
+    if write_summary:
+        summary_file = BASE_DIR / "benchmark_suites_summary.json"
+        summary_file.write_text(json.dumps(results, indent=2), encoding="utf-8")
+        print("Summary saved to:", summary_file)
     print(f"Synthesized {sum(r['count'] for r in results)} total independent benchmark samples across 5 suites.")
-    print("Summary saved to:", summary_file)
 
 
 if __name__ == "__main__":

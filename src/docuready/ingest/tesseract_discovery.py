@@ -116,13 +116,65 @@ def find_tesseract_binary() -> Optional[Path]:
     return bin_path
 
 
+_SYSTEM_TESSDATA_CANDIDATES = (
+    Path("/usr/share/tesseract-ocr/5/tessdata"),
+    Path("/usr/share/tesseract-ocr/4.00/tessdata"),
+    Path("/usr/share/tesseract-ocr/tessdata"),
+    Path("/usr/share/tessdata"),
+    Path("/opt/homebrew/share/tessdata"),
+    Path("/usr/local/share/tessdata"),
+)
+
+
+def _has_traineddata(directory: Path) -> bool:
+    return directory.is_dir() and any(directory.glob("*.traineddata"))
+
+
+def _resolve_base_tessdata_dir(bin_path: Path) -> Optional[Path]:
+    """Resolves the base tessdata directory for the given Tesseract executable."""
+    bin_path = Path(bin_path)
+
+    # 1. Explicit TESSDATA_PREFIX override (ignore our own unified temp dir)
+    env_prefix = os.environ.get("TESSDATA_PREFIX")
+    if env_prefix:
+        env_dir = Path(env_prefix)
+        if env_dir.name != "docuready_unified_tessdata" and _has_traineddata(env_dir):
+            return env_dir
+
+    # 2. Adjacent tessdata directory (Windows / bundled / PyInstaller layouts)
+    sibling = bin_path.parent / "tessdata"
+    if _has_traineddata(sibling):
+        return sibling
+
+    # 3. Prefix-relative share/tessdata layouts (e.g. /usr/bin/tesseract -> /usr/share/...)
+    prefix_dir = bin_path.parent.parent
+    prefix_candidates = (
+        prefix_dir / "share" / "tesseract-ocr" / "5" / "tessdata",
+        prefix_dir / "share" / "tesseract-ocr" / "4.00" / "tessdata",
+        prefix_dir / "share" / "tesseract-ocr" / "tessdata",
+        prefix_dir / "share" / "tessdata",
+    )
+    for cand in prefix_candidates:
+        if _has_traineddata(cand):
+            return cand
+
+    # 4. Standard system tessdata locations
+    for cand in _SYSTEM_TESSDATA_CANDIDATES:
+        if _has_traineddata(cand):
+            return cand
+
+    return sibling if sibling.is_dir() else None
+
+
 def get_unified_tessdata_dir(bin_path: Path) -> Optional[Path]:
     """Resolves or prepares a unified tessdata directory containing both base and extra language models."""
     import tempfile
-    
-    # 1. Base tessdata next to tesseract binary
-    base_tessdata = bin_path.parent / "tessdata"
-    
+
+    bin_path = Path(bin_path)
+
+    # 1. Resolve actual base tessdata directory for this installation
+    base_tessdata = _resolve_base_tessdata_dir(bin_path)
+
     # 2. Extra tessdata candidates in repository / sidecar / bundle
     extra_candidates = [
         Path(__file__).resolve().parents[3] / "sidecar" / "tessdata_extra",
@@ -135,15 +187,19 @@ def get_unified_tessdata_dir(bin_path: Path) -> Optional[Path]:
 
     extra_tessdata = None
     for cand in extra_candidates:
-        if cand.is_dir() and (cand / "hin.traineddata").exists():
+        if cand.is_dir() and any(
+            (cand / f"{lang}.traineddata").is_file() for lang in ("hin", "ori")
+        ):
             extra_tessdata = cand
             break
 
     if not extra_tessdata:
-        return base_tessdata if base_tessdata.is_dir() else None
+        return base_tessdata if (base_tessdata and base_tessdata.is_dir()) else None
 
-    # If base_tessdata already has hin.traineddata, just return it
-    if base_tessdata.is_dir() and (base_tessdata / "hin.traineddata").exists():
+    # If base_tessdata already has eng, hin, and ori, return it directly
+    if base_tessdata and base_tessdata.is_dir() and all(
+        (base_tessdata / f"{lang}.traineddata").is_file() for lang in ("eng", "hin", "ori")
+    ):
         return base_tessdata
 
     # Otherwise, create/update a cached unified tessdata folder in tempdir
@@ -151,7 +207,7 @@ def get_unified_tessdata_dir(bin_path: Path) -> Optional[Path]:
     unified_dir.mkdir(parents=True, exist_ok=True)
 
     # Populate from base
-    if base_tessdata.is_dir():
+    if base_tessdata and base_tessdata.is_dir():
         for f in base_tessdata.glob("*.traineddata"):
             dst = unified_dir / f.name
             try:

@@ -11,6 +11,7 @@ Verifies:
 6. Failure Taxonomy Reconciliation Invariants (every Loop 11 failure accounted for)
 """
 
+import hashlib
 import json
 import os
 import re
@@ -22,7 +23,9 @@ import pytest
 REPO_ROOT = Path(__file__).resolve().parents[1]
 AUDIT_DIR = REPO_ROOT / "research" / "loop12_audit"
 BENCHMARK_DIR = REPO_ROOT / "research" / "loop11_benchmark"
+BENCHMARK_DATA_DIR = BENCHMARK_DIR / "data"
 PROVENANCE_FILE = AUDIT_DIR / "loop12_dataset_provenance.json"
+GENERATED_PROVENANCE_FILE = BENCHMARK_DATA_DIR / "loop12_generated_provenance.json"
 METRIC_AUDIT_FILE = AUDIT_DIR / "loop12_metric_audit.json"
 CORRECTED_BENCHMARK_FILE = AUDIT_DIR / "loop12_corrected_benchmark.json"
 FAILURE_RECON_FILE = AUDIT_DIR / "loop12_failure_reconciliation.json"
@@ -41,16 +44,29 @@ from research.loop12_audit.reference_scorer import (
 # 1. DATASET PROVENANCE & AUTHENTICITY TESTS
 # ============================================================================
 
-def test_provenance_manifest_complete_and_valid():
-    """Verifies that all 230 benchmark samples are accounted for in the provenance manifest."""
-    assert PROVENANCE_FILE.is_file(), f"Missing {PROVENANCE_FILE}"
-    records = json.loads(PROVENANCE_FILE.read_text(encoding="utf-8"))
+def _resolve_provenance_path(raw_file_path: str, data_root: Path = BENCHMARK_DATA_DIR, repo_root: Path = REPO_ROOT) -> Path:
+    """Resolve a provenance file path safely within the benchmark data directory."""
+    rel_path = Path(*raw_file_path.replace("\\", "/").split("/"))
+    resolved = (repo_root / rel_path).resolve()
+    allowed_root = data_root.resolve()
+    if not resolved.is_relative_to(allowed_root):
+        raise AssertionError(f"Provenance path escapes benchmark data directory: {raw_file_path}")
+    return resolved
 
+
+def _find_missing_benchmark_files(records: list[dict], data_root: Path = BENCHMARK_DATA_DIR, repo_root: Path = REPO_ROOT) -> list[str]:
+    """Return sample_ids whose declared files are missing on disk."""
+    missing = []
+    for r in records:
+        sample_path = _resolve_provenance_path(r["file_path"], data_root=data_root, repo_root=repo_root)
+        if not sample_path.is_file():
+            missing.append(r["sample_id"])
+    return missing
+
+
+def _verify_provenance_records(records: list[dict], data_root: Path = BENCHMARK_DATA_DIR, repo_root: Path = REPO_ROOT) -> None:
+    """Verify schema, completeness, path containment, byte size, and SHA-256 for all 230 records."""
     assert len(records) == 230, f"Expected exactly 230 samples, got {len(records)}"
-
-    if not (BENCHMARK_DIR / "data" / "funsd" / "funsd_001.pdf").is_file():
-        from research.loop11_benchmark.datasets.acquire_benchmark_data import main as generate_benchmark_data
-        generate_benchmark_data()
 
     sample_ids = set()
     suite_counts = {"FUNSD": 0, "SROIE": 0, "INDIC_OCR": 0, "DOCLAYNET": 0, "DEGRADATION": 0}
@@ -64,14 +80,25 @@ def test_provenance_manifest_complete_and_valid():
         assert family in suite_counts, f"Unknown family: {family}"
         suite_counts[family] += 1
 
-        # Check required fields
         assert r["provenance_status"] == "VERIFIED_SYNTHETIC_MODEL"
         assert r["is_external_raw_download"] is False
         assert len(r["sha256"]) == 64, f"Invalid SHA-256 for {sid}"
         assert r["file_size_bytes"] > 0, f"Zero file size for {sid}"
-        rel_path = Path(*r["file_path"].replace("\\", "/").split("/"))
-        sample_path = REPO_ROOT / rel_path
-        assert sample_path.is_file(), f"File does not exist: {r['file_path']}"
+
+        sample_path = _resolve_provenance_path(r["file_path"], data_root=data_root, repo_root=repo_root)
+        assert sample_path.is_file(), f"File does not exist for {sid}: {r['file_path']}"
+
+        actual_bytes = sample_path.read_bytes()
+        actual_size = len(actual_bytes)
+        assert actual_size == r["file_size_bytes"], (
+            f"Byte size mismatch for {sid} ({r['file_path']}): "
+            f"expected {r['file_size_bytes']}, got {actual_size}"
+        )
+        actual_sha256 = hashlib.sha256(actual_bytes).hexdigest()
+        assert actual_sha256 == r["sha256"], (
+            f"SHA-256 mismatch for {sid} ({r['file_path']}): "
+            f"expected {r['sha256']}, got {actual_sha256}"
+        )
 
     assert suite_counts == {
         "FUNSD": 50,
@@ -80,6 +107,78 @@ def test_provenance_manifest_complete_and_valid():
         "DOCLAYNET": 30,
         "DEGRADATION": 50
     }
+
+
+def test_provenance_manifest_complete_and_valid():
+    """Verifies that all 230 benchmark samples exist and match their recorded SHA-256 and byte sizes."""
+    assert PROVENANCE_FILE.is_file(), f"Missing {PROVENANCE_FILE}"
+    base_records = json.loads(PROVENANCE_FILE.read_text(encoding="utf-8"))
+
+    missing = _find_missing_benchmark_files(base_records)
+    if missing:
+        from research.loop11_benchmark.datasets.acquire_benchmark_data import main as generate_benchmark_data
+        from research.loop12_audit.generate_dataset_provenance import build_provenance_records
+
+        generate_benchmark_data(write_summary=False)
+        generated_records = build_provenance_records()
+        GENERATED_PROVENANCE_FILE.write_text(json.dumps(generated_records, indent=2), encoding="utf-8")
+        records = generated_records
+    elif GENERATED_PROVENANCE_FILE.is_file():
+        records = json.loads(GENERATED_PROVENANCE_FILE.read_text(encoding="utf-8"))
+    else:
+        records = base_records
+
+    _verify_provenance_records(records)
+
+
+def test_partial_benchmark_dataset_detected_even_when_funsd_exists(tmp_path: Path):
+    """If funsd_001.pdf exists but another suite's file is missing, completeness check must detect it."""
+    data_dir = tmp_path / "research" / "loop11_benchmark" / "data"
+    (data_dir / "funsd").mkdir(parents=True)
+    funsd_file = data_dir / "funsd" / "funsd_001.pdf"
+    funsd_file.write_bytes(b"%PDF-1.4\n")
+
+    records = [
+        {"sample_id": "funsd_001", "file_path": r"research\loop11_benchmark\data\funsd\funsd_001.pdf"},
+        {"sample_id": "degradation_050", "file_path": r"research\loop11_benchmark\data\degradation\degradation_050.png"},
+    ]
+    missing = _find_missing_benchmark_files(records, data_root=data_dir, repo_root=tmp_path)
+    assert missing == ["degradation_050"]
+
+
+def test_provenance_hash_and_size_mismatch_detected(tmp_path: Path):
+    """Altered sample content must fail provenance SHA-256 / byte-size verification."""
+    assert PROVENANCE_FILE.is_file()
+    base_records = json.loads(PROVENANCE_FILE.read_text(encoding="utf-8"))
+    # Build minimal valid copy for 230 records in tmp_path, then corrupt one sample
+    data_dir = tmp_path / "research" / "loop11_benchmark" / "data"
+    records = []
+    for r in base_records:
+        rel = Path(*r["file_path"].replace("\\", "/").split("/"))
+        target = tmp_path / rel
+        target.parent.mkdir(parents=True, exist_ok=True)
+        payload = f"synthetic-{r['sample_id']}".encode("utf-8")
+        target.write_bytes(payload)
+        rec = dict(r)
+        rec["file_size_bytes"] = len(payload)
+        rec["sha256"] = hashlib.sha256(payload).hexdigest()
+        records.append(rec)
+
+    _verify_provenance_records(records, data_root=data_dir, repo_root=tmp_path)
+
+    # Corrupt one file from a non-FUNSD suite without updating manifest
+    corrupted_rel = Path(*records[100]["file_path"].replace("\\", "/").split("/"))
+    (tmp_path / corrupted_rel).write_bytes(b"corrupted-bytes")
+    with pytest.raises(AssertionError, match=records[100]["sample_id"]):
+        _verify_provenance_records(records, data_root=data_dir, repo_root=tmp_path)
+
+
+def test_provenance_path_traversal_rejected(tmp_path: Path):
+    """Manifest paths escaping research/loop11_benchmark/data must be rejected."""
+    data_dir = tmp_path / "research" / "loop11_benchmark" / "data"
+    data_dir.mkdir(parents=True)
+    with pytest.raises(AssertionError, match="escapes benchmark data directory"):
+        _resolve_provenance_path("../../outside.pdf", data_root=data_dir, repo_root=tmp_path)
 
 
 def test_ground_truth_schemas_and_unicode_integrity():
