@@ -11,6 +11,7 @@ Verifies:
 6. Failure Taxonomy Reconciliation Invariants (every Loop 11 failure accounted for)
 """
 
+import hashlib
 import json
 import os
 import re
@@ -41,16 +42,8 @@ from research.loop12_audit.reference_scorer import (
 # 1. DATASET PROVENANCE & AUTHENTICITY TESTS
 # ============================================================================
 
-def test_provenance_manifest_complete_and_valid():
-    """Verifies that all 230 benchmark samples are accounted for in the provenance manifest."""
-    assert PROVENANCE_FILE.is_file(), f"Missing {PROVENANCE_FILE}"
-    records = json.loads(PROVENANCE_FILE.read_text(encoding="utf-8"))
-
+def _assert_provenance_records(records, sample_root=None):
     assert len(records) == 230, f"Expected exactly 230 samples, got {len(records)}"
-
-    if not (BENCHMARK_DIR / "data" / "funsd" / "funsd_001.pdf").is_file():
-        from research.loop11_benchmark.datasets.acquire_benchmark_data import main as generate_benchmark_data
-        generate_benchmark_data()
 
     sample_ids = set()
     suite_counts = {"FUNSD": 0, "SROIE": 0, "INDIC_OCR": 0, "DOCLAYNET": 0, "DEGRADATION": 0}
@@ -69,9 +62,13 @@ def test_provenance_manifest_complete_and_valid():
         assert r["is_external_raw_download"] is False
         assert len(r["sha256"]) == 64, f"Invalid SHA-256 for {sid}"
         assert r["file_size_bytes"] > 0, f"Zero file size for {sid}"
-        rel_path = Path(*r["file_path"].replace("\\", "/").split("/"))
-        sample_path = REPO_ROOT / rel_path
-        assert sample_path.is_file(), f"File does not exist: {r['file_path']}"
+        if sample_root is not None:
+            rel_path = Path(*r["file_path"].replace("\\", "/").split("/"))
+            sample_path = sample_root / rel_path
+            assert sample_path.is_file(), f"File does not exist: {r['file_path']}"
+            sample_bytes = sample_path.read_bytes()
+            assert len(sample_bytes) == r["file_size_bytes"], f"Byte size mismatch for {sid}"
+            assert hashlib.sha256(sample_bytes).hexdigest() == r["sha256"], f"SHA-256 mismatch for {sid}"
 
     assert suite_counts == {
         "FUNSD": 50,
@@ -80,6 +77,31 @@ def test_provenance_manifest_complete_and_valid():
         "DOCLAYNET": 30,
         "DEGRADATION": 50
     }
+
+
+def test_provenance_manifest_complete_and_valid(tmp_path, monkeypatch):
+    """Checks the provenance metadata and fingerprints of all 230 benchmark samples."""
+    assert PROVENANCE_FILE.is_file(), f"Missing {PROVENANCE_FILE}"
+    records = json.loads(PROVENANCE_FILE.read_text(encoding="utf-8"))
+
+    if (BENCHMARK_DIR / "data").exists():
+        _assert_provenance_records(records, REPO_ROOT)
+        return
+
+    # A clean checkout has no sample files. Fingerprint the files from this run
+    # while keeping the checked-in audit and ground truth intact.
+    _assert_provenance_records(records)
+    from research.loop11_benchmark.datasets import acquire_benchmark_data
+    from research.loop12_audit.generate_dataset_provenance import main as generate_provenance
+
+    benchmark_dir = tmp_path / BENCHMARK_DIR.relative_to(REPO_ROOT)
+    monkeypatch.setattr(acquire_benchmark_data, "BASE_DIR", benchmark_dir)
+    monkeypatch.setattr(acquire_benchmark_data, "DATA_DIR", benchmark_dir / "data")
+    monkeypatch.setattr(acquire_benchmark_data, "GROUND_TRUTH_DIR", benchmark_dir / "ground_truth")
+    acquire_benchmark_data.main()
+    manifest_path = generate_provenance(tmp_path)
+    generated_records = json.loads(manifest_path.read_text(encoding="utf-8"))
+    _assert_provenance_records(generated_records, tmp_path)
 
 
 def test_ground_truth_schemas_and_unicode_integrity():
