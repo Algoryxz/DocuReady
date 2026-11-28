@@ -601,3 +601,57 @@ def test_indic_date_and_amount_extraction_preserves_raw_and_normalizes(tmp_path:
             assert field_name in doc.fields, f"{field_name} missing for {doc_type}"
             assert doc.fields[field_name].raw_value == exp_raw
             assert doc.fields[field_name].normalized_value == exp_norm
+
+
+def test_indic_ocr_candidate_deduplication(tmp_path: Path):
+    """Verify equivalent Indic/ASCII OCR candidates deduplicate to candidate_count==1 while preserving raw_value."""
+    ext = DocumentExtractor()
+    pdf_path = _make_blank_raster_pdf(tmp_path, "cand_dedup.pdf")
+
+    # 1. Equivalent Devanagari + ASCII candidates -> candidate_count == 1
+    payload_eq = _mock_ocr_payload_from_lines([
+        "GOVERNMENT OF ODISHA",
+        "INCOME CERTIFICATE",
+        "Applicant Name: Pravasini Sahoo",
+        "Certificate No: २०२५/१०४९२८",
+        "Certificate No: 2025/104928",
+    ])
+    with patch("pytesseract.image_to_osd", side_effect=RuntimeError("no osd")):
+        with patch("pytesseract.image_to_data", return_value=payload_eq):
+            doc_eq = ext.extract_document(str(pdf_path), expected_type=DocumentType.INCOME_CERT)
+
+    assert doc_eq.fields["certificate_no"].candidate_count == 1
+    assert doc_eq.fields["certificate_no"].raw_value == "२०२५/१०४९२८"
+    assert doc_eq.fields["certificate_no"].normalized_value == "2025/104928"
+
+    # 2. Mixed-script equivalent candidates (Odia + Devanagari + ASCII) -> candidate_count == 1
+    payload_mixed = _mock_ocr_payload_from_lines([
+        "GOVERNMENT OF ODISHA",
+        "INCOME CERTIFICATE",
+        "Applicant Name: Pravasini Sahoo",
+        "Certificate No: ୨୦୨୫/୧୦୪୯୨୮",
+        "Certificate No: २०२५/१०४९२८",
+        "Certificate No: 2025/104928",
+    ])
+    with patch("pytesseract.image_to_osd", side_effect=RuntimeError("no osd")):
+        with patch("pytesseract.image_to_data", return_value=payload_mixed):
+            doc_mixed = ext.extract_document(str(pdf_path), expected_type=DocumentType.INCOME_CERT)
+
+    assert doc_mixed.fields["certificate_no"].candidate_count == 1
+    assert doc_mixed.fields["certificate_no"].raw_value == "୨୦୨୫/୧୦୪୯୨୮"
+    assert doc_mixed.fields["certificate_no"].normalized_value == "2025/104928"
+
+    # 3. Different identifiers -> candidate_count == 2
+    payload_diff = _mock_ocr_payload_from_lines([
+        "GOVERNMENT OF ODISHA",
+        "INCOME CERTIFICATE",
+        "Applicant Name: Pravasini Sahoo",
+        "Certificate No: २०२५/१०४९२८",
+        "Certificate No: २०२५/१०४९२९",
+    ])
+    with patch("pytesseract.image_to_osd", side_effect=RuntimeError("no osd")):
+        with patch("pytesseract.image_to_data", return_value=payload_diff):
+            doc_diff = ext.extract_document(str(pdf_path), expected_type=DocumentType.INCOME_CERT)
+
+    assert doc_diff.fields["certificate_no"].candidate_count == 2
+    assert doc_diff.fields["certificate_no"].raw_value == "२०२५/१०४९२८"
