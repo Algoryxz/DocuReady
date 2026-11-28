@@ -55,3 +55,26 @@ def test_inprocess_probe_fallback_parity_and_unavailable():
     probe = _InProcessScriptProbe()
     probe._unavailable = True
     assert probe.recognize_gray(thumb) is None
+
+
+def test_inprocess_probe_diagnostics_on_missing_binary(monkeypatch):
+    probe = _InProcessScriptProbe()
+    monkeypatch.setattr(
+        "docuready.ingest.adaptive_ocr.find_tesseract_binary_with_source",
+        lambda: (None, "none"),
+    )
+    assert probe._ensure_lib() is False
+    assert probe._unavailable is True
+    assert probe._init_error == "tesseract_binary_not_found"
+
+
+def test_inprocess_probe_ensure_lib_does_not_raise_name_error(monkeypatch):
+    probe = _InProcessScriptProbe()
+    monkeypatch.setattr(
+        "docuready.ingest.adaptive_ocr.find_tesseract_binary_with_source",
+        lambda: ("/nonexistent/bin/tesseract", "mock"),
+    )
+    assert probe._ensure_lib() is False
+    assert probe._unavailable is True
+    assert probe._init_error is not None
+    assert probe._init_error.startswith("libtesseract_not_found:")
