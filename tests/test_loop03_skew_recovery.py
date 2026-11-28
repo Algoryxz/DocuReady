@@ -157,30 +157,78 @@ def test_repeated_deskew_memory_stability():
     import subprocess
     import sys
 
-    fpath = SKEW_CORPUS_DIR / "skew_clean_p05deg.pdf"
-    if not fpath.exists():
-        fpath = REALISTIC_CORPUS_DIR / "smp_21_rotated_5deg.pdf"
+    preferred_path = SKEW_CORPUS_DIR / "skew_clean_p05deg.pdf"
+    fallback_path = REALISTIC_CORPUS_DIR / "smp_21_rotated_5deg.pdf"
+    if preferred_path.is_file():
+        fpath = preferred_path.resolve()
+    elif fallback_path.is_file():
+        fpath = fallback_path.resolve()
+    else:
+        raise AssertionError(
+            f"Neither skew memory fixture exists: preferred={preferred_path}, fallback={fallback_path}"
+        )
+    assert fpath.is_file(), f"Selected fixture is not a regular file: {fpath}"
 
     probe_script = (
         "import gc, json, os, psutil\n"
-        "from docuready.ingest.extractor import DocumentExtractor\n"
+        "import docuready.ingest.extractor as ext_mod\n"
         f"fpath = {str(fpath)!r}\n"
         "proc = psutil.Process(os.getpid())\n"
-        "ext = DocumentExtractor()\n"
+        "orig_estimate = ext_mod.estimate_skew_angle\n"
+        "orig_deskew = ext_mod.deskew_image\n"
+        "estimate_calls = 0\n"
+        "deskew_calls = 0\n"
+        "skew_diags = []\n"
+        "def wrapped_estimate(*args, **kwargs):\n"
+        "    global estimate_calls\n"
+        "    estimate_calls += 1\n"
+        "    ang, conf = orig_estimate(*args, **kwargs)\n"
+        "    skew_diags.append({'angle': round(float(ang), 3), 'confidence': round(float(conf), 3)})\n"
+        "    return ang, conf\n"
+        "def wrapped_deskew(*args, **kwargs):\n"
+        "    global deskew_calls\n"
+        "    deskew_calls += 1\n"
+        "    return orig_deskew(*args, **kwargs)\n"
+        "ext_mod.estimate_skew_angle = wrapped_estimate\n"
+        "ext_mod.deskew_image = wrapped_deskew\n"
+        "ext = ext_mod.DocumentExtractor()\n"
+        "def validate_res(res, phase, idx):\n"
+        "    assert res is not None, f'{phase}[{idx}] returned None'\n"
+        "    method = getattr(res.extraction_method, 'value', res.extraction_method)\n"
+        "    status = getattr(res.status, 'value', res.status)\n"
+        "    assert res.page_count > 0, f'{phase}[{idx}] page_count={res.page_count}'\n"
+        "    assert method == 'LOCAL_OCR', f'{phase}[{idx}] expected LOCAL_OCR, got {method}'\n"
+        "    assert status in ('VALID', 'UNREADABLE'), f'{phase}[{idx}] unexpected status={status}'\n"
+        "    return {'cycle': idx, 'page_count': res.page_count, 'method': method, 'status': status}\n"
         "def sample():\n"
         "    gc.collect()\n"
         "    mi = proc.memory_full_info()\n"
         "    return {'rss_mb': round(mi.rss / (1024*1024), 3), 'uss_mb': round(getattr(mi, 'uss', mi.rss) / (1024*1024), 3)}\n"
-        "for _ in range(2):\n"
+        "warmup_diags = []\n"
+        "for i in range(2):\n"
         "    res = ext.extract_document(fpath)\n"
+        "    warmup_diags.append(validate_res(res, 'warmup', i))\n"
         "    del res\n"
         "baseline = sample()\n"
         "cycles = []\n"
-        "for _ in range(6):\n"
+        "measured_diags = []\n"
+        "for i in range(6):\n"
         "    res = ext.extract_document(fpath)\n"
+        "    measured_diags.append(validate_res(res, 'measured', i))\n"
         "    del res\n"
         "    cycles.append(sample())\n"
-        "print(json.dumps({'baseline': baseline, 'cycles': cycles}))\n"
+        "assert estimate_calls >= 8, f'Expected >=8 estimate_skew_angle calls, got {estimate_calls}'\n"
+        "assert deskew_calls >= 8, f'Expected >=8 deskew_image calls, got {deskew_calls}'\n"
+        "print(json.dumps({\n"
+        "    'fixture_path': fpath,\n"
+        "    'baseline': baseline,\n"
+        "    'cycles': cycles,\n"
+        "    'warmup_extractions': warmup_diags,\n"
+        "    'measured_extractions': measured_diags,\n"
+        "    'estimate_skew_calls': estimate_calls,\n"
+        "    'deskew_image_calls': deskew_calls,\n"
+        "    'skew_diagnostics': skew_diags,\n"
+        "}))\n"
     )
 
     proc_res = subprocess.run(
@@ -191,6 +239,12 @@ def test_repeated_deskew_memory_stability():
         check=True,
     )
     metrics = json.loads(proc_res.stdout.strip().splitlines()[-1])
+    assert metrics["estimate_skew_calls"] >= 8
+    assert metrics["deskew_image_calls"] >= 8
+    assert len(metrics["warmup_extractions"]) == 2
+    assert len(metrics["measured_extractions"]) == 6
+    assert len(metrics["cycles"]) == 6
+
     baseline_rss = metrics["baseline"]["rss_mb"]
     final_rss = metrics["cycles"][-1]["rss_mb"]
     growth_mb = final_rss - baseline_rss
@@ -198,5 +252,6 @@ def test_repeated_deskew_memory_stability():
     # Allow max 10.0 MB steady-state retained RSS overhead across 6 consecutive extractions
     assert growth_mb < 10.0, (
         f"Memory leak detected during deskew processing: {growth_mb:.2f} MB growth "
-        f"(baseline={metrics['baseline']}, cycles={metrics['cycles']})"
+        f"(baseline={metrics['baseline']}, cycles={metrics['cycles']}, "
+        f"estimate_calls={metrics['estimate_skew_calls']}, deskew_calls={metrics['deskew_image_calls']})"
     )
