@@ -249,17 +249,33 @@ def test_inprocess_probe_handles_missing_c_api_symbol_and_surfaces_name_error(tm
 
 
 def test_indic_fallback_still_classifies_indic_when_inprocess_unavailable(monkeypatch):
-    """When in-process probe is unavailable, Indic content must still route via fallback, never as Latin."""
+    """When in-process probe is unavailable, _probe_band must call it, get None, and classify Indic via fallback."""
     from docuready.ingest import adaptive_ocr
 
     fake_probe = _InProcessScriptProbe()
     fake_probe._unavailable = True
+
+    probe_calls = []
+    probe_returns = []
+    orig_recognize_gray = fake_probe.recognize_gray
+
+    def _spy_recognize_gray(thumb):
+        probe_calls.append(thumb)
+        res = orig_recognize_gray(thumb)
+        probe_returns.append(res)
+        return res
+
+    fake_probe.recognize_gray = _spy_recognize_gray  # type: ignore[method-assign]
+
+    fallback_calls = []
+
+    def _fallback_stub(*args, **kwargs):
+        fallback_calls.append((args, kwargs))
+        return "ପ୍ରମାଣ ପତ୍ର ଓଡ଼ିଶା ସରକାର"
+
     monkeypatch.setattr(adaptive_ocr, "_PROBE_ENGINE", fake_probe)
-    monkeypatch.setattr(
-        adaptive_ocr.pytesseract,
-        "image_to_string",
-        lambda *_a, **_kw: "ପ୍ରମାଣ ପତ୍ର ଓଡ଼ିଶା ସରକାର",
-    )
+    monkeypatch.setattr(adaptive_ocr.pytesseract, "image_to_string", _fallback_stub)
+    monkeypatch.setattr(adaptive_ocr, "_ORIG_PYTESSERACT_IMAGE_TO_STRING", _fallback_stub)
 
     img = Image.new("RGB", (600, 800), "white")
     # Draw non-blank ink so ink ratio >= 0.003
@@ -268,5 +284,8 @@ def test_indic_fallback_still_classifies_indic_when_inprocess_unavailable(monkey
 
     prof = profile_document(img)
     dec = adaptive_ocr.select_ocr_strategy(prof)
+    assert len(probe_calls) >= 1
+    assert all(r is None for r in probe_returns)
+    assert len(fallback_calls) >= 1
     assert prof.primary_script != "LATIN"
     assert dec.selected_strategy != "FAST_PATH_ENG"

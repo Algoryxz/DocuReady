@@ -118,3 +118,72 @@ def test_missing_system_tessdata_returns_none(tmp_path: Path, monkeypatch) -> No
     fake_bin.write_text("", encoding="utf-8")
 
     assert tesseract_discovery._resolve_base_tessdata_dir(fake_bin) is None
+
+
+def test_extra_candidates_continue_across_incomplete_first_dir(tmp_path: Path, monkeypatch) -> None:
+    """Base eng + first extra ori-only + second extra hin+ori yields all 3 models with deterministic precedence."""
+    monkeypatch.delenv("TESSDATA_PREFIX", raising=False)
+
+    fake_bin = tmp_path / "usr" / "bin" / "tesseract"
+    fake_bin.parent.mkdir(parents=True)
+    fake_bin.write_text("", encoding="utf-8")
+
+    sys_td = tmp_path / "usr" / "share" / "tesseract-ocr" / "5" / "tessdata"
+    sys_td.mkdir(parents=True)
+    (sys_td / "eng.traineddata").write_bytes(b"BASE-ENG-MODEL")
+
+    fake_repo = tmp_path / "repo"
+    first_extra = fake_repo / "sidecar" / "tessdata_extra"
+    first_extra.mkdir(parents=True)
+    (first_extra / "ori.traineddata").write_bytes(b"FIRST-ORI-MODEL")
+
+    second_extra = fake_repo / "sidecar" / "tessdata"
+    second_extra.mkdir(parents=True)
+    (second_extra / "hin.traineddata").write_bytes(b"SECOND-HIN-MODEL")
+    (second_extra / "ori.traineddata").write_bytes(b"SECOND-ORI-DUPLICATE")
+    (second_extra / "eng.traineddata").write_bytes(b"SECOND-ENG-DUPLICATE")
+
+    fake_mod_file = fake_repo / "src" / "docuready" / "ingest" / "tesseract_discovery.py"
+    fake_mod_file.parent.mkdir(parents=True)
+    fake_mod_file.write_text("", encoding="utf-8")
+
+    monkeypatch.setattr(tesseract_discovery, "__file__", str(fake_mod_file))
+    monkeypatch.setattr(tempfile, "gettempdir", lambda: str(tmp_path / "temp"))
+
+    unified = tesseract_discovery.get_unified_tessdata_dir(fake_bin)
+    assert unified is not None
+    assert (unified / "eng.traineddata").read_bytes() == b"BASE-ENG-MODEL"
+    assert (unified / "ori.traineddata").read_bytes() == b"FIRST-ORI-MODEL"
+    assert (unified / "hin.traineddata").read_bytes() == b"SECOND-HIN-MODEL"
+
+
+def test_base_eng_hin_supplemented_by_extra_ori(tmp_path: Path, monkeypatch) -> None:
+    """Base with eng+hin and extra with ori produces unified dir with all three."""
+    monkeypatch.delenv("TESSDATA_PREFIX", raising=False)
+
+    fake_bin = tmp_path / "usr" / "bin" / "tesseract"
+    fake_bin.parent.mkdir(parents=True)
+    fake_bin.write_text("", encoding="utf-8")
+
+    sys_td = tmp_path / "usr" / "share" / "tesseract-ocr" / "5" / "tessdata"
+    sys_td.mkdir(parents=True)
+    (sys_td / "eng.traineddata").write_bytes(b"BASE-ENG")
+    (sys_td / "hin.traineddata").write_bytes(b"BASE-HIN")
+
+    fake_repo = tmp_path / "repo"
+    extra_td = fake_repo / "sidecar" / "tessdata_extra"
+    extra_td.mkdir(parents=True)
+    (extra_td / "ori.traineddata").write_bytes(b"EXTRA-ORI")
+
+    fake_mod_file = fake_repo / "src" / "docuready" / "ingest" / "tesseract_discovery.py"
+    fake_mod_file.parent.mkdir(parents=True)
+    fake_mod_file.write_text("", encoding="utf-8")
+
+    monkeypatch.setattr(tesseract_discovery, "__file__", str(fake_mod_file))
+    monkeypatch.setattr(tempfile, "gettempdir", lambda: str(tmp_path / "temp2"))
+
+    unified = tesseract_discovery.get_unified_tessdata_dir(fake_bin)
+    assert unified is not None
+    assert (unified / "eng.traineddata").read_bytes() == b"BASE-ENG"
+    assert (unified / "hin.traineddata").read_bytes() == b"BASE-HIN"
+    assert (unified / "ori.traineddata").read_bytes() == b"EXTRA-ORI"

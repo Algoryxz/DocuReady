@@ -64,14 +64,28 @@ def _find_missing_benchmark_files(records: list[dict], data_root: Path = BENCHMA
     return missing
 
 
-def _verify_provenance_records(records: list[dict], data_root: Path = BENCHMARK_DATA_DIR, repo_root: Path = REPO_ROOT) -> None:
-    """Verify schema, completeness, path containment, byte size, and SHA-256 for all 230 records."""
+_REQUIRED_PROVENANCE_FIELDS = (
+    "sample_id",
+    "dataset_family",
+    "file_path",
+    "file_size_bytes",
+    "sha256",
+    "provenance_status",
+    "is_external_raw_download",
+)
+
+
+def _verify_manifest_structure(records: list[dict], data_root: Path = BENCHMARK_DATA_DIR, repo_root: Path = REPO_ROOT) -> None:
+    """Verify structural completeness, uniqueness, family counts, and path safety of a manifest."""
     assert len(records) == 230, f"Expected exactly 230 samples, got {len(records)}"
 
     sample_ids = set()
     suite_counts = {"FUNSD": 0, "SROIE": 0, "INDIC_OCR": 0, "DOCLAYNET": 0, "DEGRADATION": 0}
 
-    for r in records:
+    for idx, r in enumerate(records):
+        for req_field in _REQUIRED_PROVENANCE_FIELDS:
+            assert req_field in r, f"Missing required field '{req_field}' in manifest record #{idx}"
+
         sid = r["sample_id"]
         assert sid not in sample_ids, f"Duplicate sample ID detected: {sid}"
         sample_ids.add(sid)
@@ -82,9 +96,24 @@ def _verify_provenance_records(records: list[dict], data_root: Path = BENCHMARK_
 
         assert r["provenance_status"] == "VERIFIED_SYNTHETIC_MODEL"
         assert r["is_external_raw_download"] is False
-        assert len(r["sha256"]) == 64, f"Invalid SHA-256 for {sid}"
-        assert r["file_size_bytes"] > 0, f"Zero file size for {sid}"
+        assert re.fullmatch(r"[0-9a-fA-F]{64}", str(r["sha256"])), f"Invalid SHA-256 for {sid}"
+        assert isinstance(r["file_size_bytes"], int) and r["file_size_bytes"] > 0, f"Invalid file size for {sid}"
 
+        _resolve_provenance_path(r["file_path"], data_root=data_root, repo_root=repo_root)
+
+    assert suite_counts == {
+        "FUNSD": 50,
+        "SROIE": 60,
+        "INDIC_OCR": 40,
+        "DOCLAYNET": 30,
+        "DEGRADATION": 50
+    }, f"Unexpected family distribution: {suite_counts}"
+
+
+def _verify_provenance_file_contents(records: list[dict], data_root: Path = BENCHMARK_DATA_DIR, repo_root: Path = REPO_ROOT) -> None:
+    """Verify physical file existence, byte size, and SHA-256 for all records."""
+    for r in records:
+        sid = r["sample_id"]
         sample_path = _resolve_provenance_path(r["file_path"], data_root=data_root, repo_root=repo_root)
         assert sample_path.is_file(), f"File does not exist for {sid}: {r['file_path']}"
 
@@ -100,35 +129,101 @@ def _verify_provenance_records(records: list[dict], data_root: Path = BENCHMARK_
             f"expected {r['sha256']}, got {actual_sha256}"
         )
 
-    assert suite_counts == {
-        "FUNSD": 50,
-        "SROIE": 60,
-        "INDIC_OCR": 40,
-        "DOCLAYNET": 30,
-        "DEGRADATION": 50
-    }
+
+def _verify_provenance_records(records: list[dict], data_root: Path = BENCHMARK_DATA_DIR, repo_root: Path = REPO_ROOT) -> None:
+    """Verify both manifest structure and physical file contents."""
+    _verify_manifest_structure(records, data_root=data_root, repo_root=repo_root)
+    _verify_provenance_file_contents(records, data_root=data_root, repo_root=repo_root)
 
 
-def test_provenance_manifest_complete_and_valid():
-    """Verifies that all 230 benchmark samples exist and match their recorded SHA-256 and byte sizes."""
-    assert PROVENANCE_FILE.is_file(), f"Missing {PROVENANCE_FILE}"
-    base_records = json.loads(PROVENANCE_FILE.read_text(encoding="utf-8"))
+def _validate_audit_and_generated_manifests(
+    provenance_file: Path = PROVENANCE_FILE,
+    generated_file: Path = GENERATED_PROVENANCE_FILE,
+    data_root: Path = BENCHMARK_DATA_DIR,
+    repo_root: Path = REPO_ROOT,
+) -> None:
+    """Always validate the original audit manifest structurally, then verify physical file contents."""
+    assert provenance_file.is_file(), f"Missing {provenance_file}"
+    base_records = json.loads(provenance_file.read_text(encoding="utf-8"))
+    _verify_manifest_structure(base_records, data_root=data_root, repo_root=repo_root)
 
-    missing = _find_missing_benchmark_files(base_records)
+    missing = _find_missing_benchmark_files(base_records, data_root=data_root, repo_root=repo_root)
     if missing:
         from research.loop11_benchmark.datasets.acquire_benchmark_data import main as generate_benchmark_data
         from research.loop12_audit.generate_dataset_provenance import build_provenance_records
 
         generate_benchmark_data(write_summary=False)
         generated_records = build_provenance_records()
-        GENERATED_PROVENANCE_FILE.write_text(json.dumps(generated_records, indent=2), encoding="utf-8")
-        records = generated_records
-    elif GENERATED_PROVENANCE_FILE.is_file():
-        records = json.loads(GENERATED_PROVENANCE_FILE.read_text(encoding="utf-8"))
+        generated_file.write_text(json.dumps(generated_records, indent=2), encoding="utf-8")
+        _verify_manifest_structure(generated_records, data_root=data_root, repo_root=repo_root)
+        _verify_provenance_file_contents(generated_records, data_root=data_root, repo_root=repo_root)
+    elif generated_file.is_file():
+        generated_records = json.loads(generated_file.read_text(encoding="utf-8"))
+        _verify_manifest_structure(generated_records, data_root=data_root, repo_root=repo_root)
+        _verify_provenance_file_contents(generated_records, data_root=data_root, repo_root=repo_root)
     else:
-        records = base_records
+        _verify_provenance_file_contents(base_records, data_root=data_root, repo_root=repo_root)
 
-    _verify_provenance_records(records)
+
+def test_provenance_manifest_complete_and_valid():
+    """Verifies that the audit manifest is structurally complete and all 230 files match SHA-256 and byte sizes."""
+    _validate_audit_and_generated_manifests()
+
+
+def test_valid_generated_manifest_does_not_mask_invalid_audit_manifest(tmp_path: Path):
+    """Deleting a record from the original audit manifest must fail even when generated manifest and files are valid."""
+    assert PROVENANCE_FILE.is_file()
+    base_records = json.loads(PROVENANCE_FILE.read_text(encoding="utf-8"))
+    data_dir = tmp_path / "research" / "loop11_benchmark" / "data"
+    gen_records = []
+    for r in base_records:
+        rel = Path(*r["file_path"].replace("\\", "/").split("/"))
+        target = tmp_path / rel
+        target.parent.mkdir(parents=True, exist_ok=True)
+        payload = f"synthetic-{r['sample_id']}".encode("utf-8")
+        target.write_bytes(payload)
+        rec = dict(r)
+        rec["file_size_bytes"] = len(payload)
+        rec["sha256"] = hashlib.sha256(payload).hexdigest()
+        gen_records.append(rec)
+
+    gen_file = data_dir / "loop12_generated_provenance.json"
+    gen_file.write_text(json.dumps(gen_records, indent=2), encoding="utf-8")
+
+    # Case 1: Original audit manifest has one record removed
+    audit_file = tmp_path / "loop12_dataset_provenance.json"
+    audit_file.write_text(json.dumps(base_records[:-1], indent=2), encoding="utf-8")
+    with pytest.raises(AssertionError, match="Expected exactly 230 samples"):
+        _validate_audit_and_generated_manifests(
+            provenance_file=audit_file, generated_file=gen_file, data_root=data_dir, repo_root=tmp_path
+        )
+
+    # Case 2: Duplicate sample ID
+    dup_records = list(base_records)
+    dup_records[-1] = dict(base_records[0])
+    audit_file.write_text(json.dumps(dup_records, indent=2), encoding="utf-8")
+    with pytest.raises(AssertionError, match="Duplicate sample ID"):
+        _validate_audit_and_generated_manifests(
+            provenance_file=audit_file, generated_file=gen_file, data_root=data_dir, repo_root=tmp_path
+        )
+
+    # Case 3: Incorrect family count
+    bad_family_records = [dict(r) for r in base_records]
+    bad_family_records[-1]["dataset_family"] = "FUNSD"
+    audit_file.write_text(json.dumps(bad_family_records, indent=2), encoding="utf-8")
+    with pytest.raises(AssertionError, match="Unexpected family distribution"):
+        _validate_audit_and_generated_manifests(
+            provenance_file=audit_file, generated_file=gen_file, data_root=data_dir, repo_root=tmp_path
+        )
+
+    # Case 4: Missing required field
+    missing_field_records = [dict(r) for r in base_records]
+    del missing_field_records[0]["sha256"]
+    audit_file.write_text(json.dumps(missing_field_records, indent=2), encoding="utf-8")
+    with pytest.raises(AssertionError, match="Missing required field 'sha256'"):
+        _validate_audit_and_generated_manifests(
+            provenance_file=audit_file, generated_file=gen_file, data_root=data_dir, repo_root=tmp_path
+        )
 
 
 def test_partial_benchmark_dataset_detected_even_when_funsd_exists(tmp_path: Path):

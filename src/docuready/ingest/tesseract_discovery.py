@@ -167,15 +167,23 @@ def _resolve_base_tessdata_dir(bin_path: Path) -> Optional[Path]:
 
 
 def get_unified_tessdata_dir(bin_path: Path) -> Optional[Path]:
-    """Resolves or prepares a unified tessdata directory containing both base and extra language models."""
+    """Resolves or prepares a unified tessdata directory containing both base and extra language models.
+
+    Precedence policy when merging into the unified directory:
+    1. Base tessdata models have highest precedence and are never overwritten by extra candidates.
+    2. Extra candidate directories are examined in priority order until all required models
+       (eng, hin, ori) are collected or all candidates are exhausted; the first extra candidate
+       providing a given model filename wins over later duplicates.
+    """
     import tempfile
 
     bin_path = Path(bin_path)
+    required_langs = ("eng", "hin", "ori")
 
     # 1. Resolve actual base tessdata directory for this installation
     base_tessdata = _resolve_base_tessdata_dir(bin_path)
 
-    # 2. Extra tessdata candidates in repository / sidecar / bundle
+    # 2. Extra tessdata candidates in repository / sidecar / bundle (ordered by precedence)
     extra_candidates = [
         Path(__file__).resolve().parents[3] / "sidecar" / "tessdata_extra",
         Path(__file__).resolve().parents[3] / "sidecar" / "tessdata",
@@ -185,43 +193,40 @@ def get_unified_tessdata_dir(bin_path: Path) -> Optional[Path]:
         extra_candidates.append(Path(sys._MEIPASS) / "tessdata")
         extra_candidates.append(Path(sys._MEIPASS) / "tessdata_extra")
 
-    extra_tessdata = None
-    for cand in extra_candidates:
-        if cand.is_dir() and any(
-            (cand / f"{lang}.traineddata").is_file() for lang in ("hin", "ori")
-        ):
-            extra_tessdata = cand
-            break
+    extra_dirs = [cand for cand in extra_candidates if _has_traineddata(cand)]
 
-    if not extra_tessdata:
+    if not extra_dirs:
         return base_tessdata if (base_tessdata and base_tessdata.is_dir()) else None
 
     # If base_tessdata already has eng, hin, and ori, return it directly
     if base_tessdata and base_tessdata.is_dir() and all(
-        (base_tessdata / f"{lang}.traineddata").is_file() for lang in ("eng", "hin", "ori")
+        (base_tessdata / f"{lang}.traineddata").is_file() for lang in required_langs
     ):
         return base_tessdata
 
-    # Otherwise, create/update a cached unified tessdata folder in tempdir
+    # Otherwise, collect models deterministically (base first, then extra_dirs in order)
+    selected_models: Dict[str, Path] = {}
+    if base_tessdata and base_tessdata.is_dir():
+        for f in sorted(base_tessdata.glob("*.traineddata")):
+            selected_models.setdefault(f.name, f)
+
+    for extra_dir in extra_dirs:
+        for f in sorted(extra_dir.glob("*.traineddata")):
+            selected_models.setdefault(f.name, f)
+        if all(f"{lang}.traineddata" in selected_models for lang in required_langs):
+            break
+
+    if not selected_models:
+        return base_tessdata if (base_tessdata and base_tessdata.is_dir()) else None
+
     unified_dir = Path(tempfile.gettempdir()) / "docuready_unified_tessdata"
     unified_dir.mkdir(parents=True, exist_ok=True)
 
-    # Populate from base
-    if base_tessdata and base_tessdata.is_dir():
-        for f in base_tessdata.glob("*.traineddata"):
-            dst = unified_dir / f.name
-            try:
-                if not dst.exists() or dst.stat().st_size != f.stat().st_size:
-                    shutil.copy2(f, dst)
-            except Exception:
-                pass
-
-    # Populate from extra
-    for f in extra_tessdata.glob("*.traineddata"):
-        dst = unified_dir / f.name
+    for model_name, src_file in selected_models.items():
+        dst = unified_dir / model_name
         try:
-            if not dst.exists() or dst.stat().st_size != f.stat().st_size:
-                shutil.copy2(f, dst)
+            if not dst.exists() or dst.stat().st_size != src_file.stat().st_size:
+                shutil.copy2(src_file, dst)
         except Exception:
             pass
 
