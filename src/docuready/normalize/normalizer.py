@@ -445,7 +445,8 @@ def validate_ifsc_code(ifsc: Optional[str]) -> bool:
     """RBI standard format: 4 alphabetic characters, followed by 0, followed by 6 alphanumeric characters."""
     if not ifsc or not isinstance(ifsc, str):
         return False
-    return bool(re.match(r'^[A-Z]{4}0[A-Z0-9]{6}$', ifsc.strip().upper()))
+    normalized = normalize_indic_digits(ifsc).strip().upper()
+    return bool(re.match(r'^[A-Z]{4}0[A-Z0-9]{6}$', normalized))
 
 
 # ----------------- CERTIFICATE NUMBER NORMALIZATION -----------------
