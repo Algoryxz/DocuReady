@@ -1,0 +1,745 @@
+{
+  "corpus_name": "docuready-t4-2-indic-ocr",
+  "corpus_version": "1.0.0",
+  "created_date": "2026-11-28",
+  "evaluation_purpose": "Paired baseline ('eng') vs Indic ('eng+ori' / 'eng+hin') LOCAL_OCR evaluation on held-out synthetic Odia and Hindi documents.",
+  "evaluation_role": "held_out",
+  "training_eligible": false,
+  "extraction_mode": "LOCAL_OCR",
+  "native_text_layer": false,
+  "generator_version": "1.0.0",
+  "generator_seed": 20261128,
+  "languages": [
+    "ori",
+    "hin"
+  ],
+  "scripts": [
+    "ODIA",
+    "DEVANAGARI"
+  ],
+  "sample_counts": {
+    "ori": 12,
+    "hin": 12,
+    "total": 24
+  },
+  "paired_evaluation_matrix": [
+    {
+      "language": "ori",
+      "script": "ODIA",
+      "baseline_ocr_lang": "eng",
+      "indic_ocr_lang": "eng+ori"
+    },
+    {
+      "language": "hin",
+      "script": "DEVANAGARI",
+      "baseline_ocr_lang": "eng",
+      "indic_ocr_lang": "eng+hin"
+    }
+  ],
+  "ground_truth_files": {
+    "raw": "ground_truth/raw.json",
+    "normalized": "ground_truth/normalized.json",
+    "raw_sha256": "c8e9dd29a868def6b821de5e104e8b80444402bc1a3e5633746ab618b763edab",
+    "normalized_sha256": "710e3ed715f1cc5afa1046e5524b3e2545a598e63005b136701d5f735582e1b7"
+  },
+  "font_provenance_file": "generation/font_provenance.json",
+  "document_hashes_file": "document_hashes.json",
+  "documents": [
+    {
+      "document_id": "T42_ORI_001",
+      "path": "documents/odia/T42_ORI_001.png",
+      "format": "PNG",
+      "dimensions_px": {
+        "width": 1653,
+        "height": 2339
+      },
+      "dpi": 200,
+      "language": "ori",
+      "script": "ODIA",
+      "layout": "INCOME_CERTIFICATE_PORTRAIT",
+      "digit_mode": "all_odia_digits",
+      "mild_degradation": false,
+      "font_key": "Kalinga",
+      "font_family": "Kalinga",
+      "font_filename": "kalinga.ttf",
+      "fields": [
+        "annual_income",
+        "certificate_number",
+        "dob",
+        "issue_date"
+      ],
+      "sha256": "52eb9056ed712fb073e3220a1cd6ba330085166855faf41344cce3343cd15c29",
+      "native_text_layer": false,
+      "extraction_mode": "LOCAL_OCR",
+      "evaluation_role": "held_out",
+      "training_eligible": false
+    },
+    {
+      "document_id": "T42_ORI_002",
+      "path": "documents/odia/T42_ORI_002.png",
+      "format": "PNG",
+      "dimensions_px": {
+        "width": 1653,
+        "height": 2339
+      },
+      "dpi": 200,
+      "language": "ori",
+      "script": "ODIA",
+      "layout": "BILINGUAL_TWO_COLUMN_TABLE",
+      "digit_mode": "all_odia_digits",
+      "mild_degradation": false,
+      "font_key": "NirmalaUI",
+      "font_family": "Nirmala UI",
+      "font_filename": "Nirmala.ttc",
+      "fields": [
+        "annual_income",
+        "certificate_number",
+        "dob",
+        "issue_date"
+      ],
+      "sha256": "1984c2446a81b0346e9b8aeeaddb03b8ab94b08151908fe83273fadb841b84af",
+      "native_text_layer": false,
+      "extraction_mode": "LOCAL_OCR",
+      "evaluation_role": "held_out",
+      "training_eligible": false
+    },
+    {
+      "document_id": "T42_ORI_003",
+      "path": "documents/odia/T42_ORI_003.png",
+      "format": "PNG",
+      "dimensions_px": {
+        "width": 1653,
+        "height": 2339
+      },
+      "dpi": 200,
+      "language": "ori",
+      "script": "ODIA",
+      "layout": "COMPACT_BOXED_REGISTER",
+      "digit_mode": "mixed_digits",
+      "mild_degradation": false,
+      "font_key": "Kalinga",
+      "font_family": "Kalinga",
+      "font_filename": "kalinga.ttf",
+      "fields": [
+        "annual_income",
+        "certificate_number",
+        "dob",
+        "issue_date"
+      ],
+      "sha256": "9b88df9c287c4b15be04de55716aa0755af33d86191a533c30c433b630ffe84e",
+      "native_text_layer": false,
+      "extraction_mode": "LOCAL_OCR",
+      "evaluation_role": "held_out",
+      "training_eligible": false
+    },
+    {
+      "document_id": "T42_ORI_004",
+      "path": "documents/odia/T42_ORI_004.png",
+      "format": "PNG",
+      "dimensions_px": {
+        "width": 1653,
+        "height": 2339
+      },
+      "dpi": 200,
+      "language": "ori",
+      "script": "ODIA",
+      "layout": "SUBHADRA_STYLE_WELFARE_SLIP",
+      "digit_mode": "all_odia_digits",
+      "mild_degradation": true,
+      "font_key": "NirmalaUI",
+      "font_family": "Nirmala UI",
+      "font_filename": "Nirmala.ttc",
+      "fields": [
+        "annual_income",
+        "certificate_number",
+        "dob",
+        "issue_date"
+      ],
+      "sha256": "5ec034fe87c1f2a610b0cc0eeb7385a2bc07719718ccb00b9059984f37b1c57d",
+      "native_text_layer": false,
+      "extraction_mode": "LOCAL_OCR",
+      "evaluation_role": "held_out",
+      "training_eligible": false
+    },
+    {
+      "document_id": "T42_ORI_005",
+      "path": "documents/odia/T42_ORI_005.png",
+      "format": "PNG",
+      "dimensions_px": {
+        "width": 1653,
+        "height": 2339
+      },
+      "dpi": 200,
+      "language": "ori",
+      "script": "ODIA",
+      "layout": "INCOME_CERTIFICATE_PORTRAIT",
+      "digit_mode": "mixed_digits",
+      "mild_degradation": false,
+      "font_key": "NirmalaUI",
+      "font_family": "Nirmala UI",
+      "font_filename": "Nirmala.ttc",
+      "fields": [
+        "annual_income",
+        "certificate_number",
+        "dob",
+        "issue_date"
+      ],
+      "sha256": "62a3901f0876cae28886ee073d5ecb0fc32cdb839133389c6c0b84332338deed",
+      "native_text_layer": false,
+      "extraction_mode": "LOCAL_OCR",
+      "evaluation_role": "held_out",
+      "training_eligible": false
+    },
+    {
+      "document_id": "T42_ORI_006",
+      "path": "documents/odia/T42_ORI_006.png",
+      "format": "PNG",
+      "dimensions_px": {
+        "width": 1653,
+        "height": 2339
+      },
+      "dpi": 200,
+      "language": "ori",
+      "script": "ODIA",
+      "layout": "BILINGUAL_TWO_COLUMN_TABLE",
+      "digit_mode": "all_odia_digits",
+      "mild_degradation": false,
+      "font_key": "Kalinga",
+      "font_family": "Kalinga",
+      "font_filename": "kalinga.ttf",
+      "fields": [
+        "annual_income",
+        "certificate_number",
+        "dob",
+        "issue_date"
+      ],
+      "sha256": "ef2af2e2e5af561f199dda2b18f5e2dbb36a08b56647918051bfee3b51cbde36",
+      "native_text_layer": false,
+      "extraction_mode": "LOCAL_OCR",
+      "evaluation_role": "held_out",
+      "training_eligible": false
+    },
+    {
+      "document_id": "T42_ORI_007",
+      "path": "documents/odia/T42_ORI_007.png",
+      "format": "PNG",
+      "dimensions_px": {
+        "width": 1653,
+        "height": 2339
+      },
+      "dpi": 200,
+      "language": "ori",
+      "script": "ODIA",
+      "layout": "COMPACT_BOXED_REGISTER",
+      "digit_mode": "ascii_digits_with_odia_labels",
+      "mild_degradation": false,
+      "font_key": "NirmalaUI",
+      "font_family": "Nirmala UI",
+      "font_filename": "Nirmala.ttc",
+      "fields": [
+        "annual_income",
+        "certificate_number",
+        "dob",
+        "issue_date"
+      ],
+      "sha256": "44cb3ce11e76b50fe8eab0efa7aaa995c2b5b17b8fcec398a4fd169fefdba0ca",
+      "native_text_layer": false,
+      "extraction_mode": "LOCAL_OCR",
+      "evaluation_role": "held_out",
+      "training_eligible": false
+    },
+    {
+      "document_id": "T42_ORI_008",
+      "path": "documents/odia/T42_ORI_008.png",
+      "format": "PNG",
+      "dimensions_px": {
+        "width": 1653,
+        "height": 2339
+      },
+      "dpi": 200,
+      "language": "ori",
+      "script": "ODIA",
+      "layout": "SUBHADRA_STYLE_WELFARE_SLIP",
+      "digit_mode": "all_odia_digits",
+      "mild_degradation": true,
+      "font_key": "Kalinga",
+      "font_family": "Kalinga",
+      "font_filename": "kalinga.ttf",
+      "fields": [
+        "annual_income",
+        "certificate_number",
+        "dob",
+        "issue_date"
+      ],
+      "sha256": "c258e13ae0644ef171ebb174ff1a5cc6cdcdbe7f31b7acc919fd5d34515ec916",
+      "native_text_layer": false,
+      "extraction_mode": "LOCAL_OCR",
+      "evaluation_role": "held_out",
+      "training_eligible": false
+    },
+    {
+      "document_id": "T42_ORI_009",
+      "path": "documents/odia/T42_ORI_009.png",
+      "format": "PNG",
+      "dimensions_px": {
+        "width": 1653,
+        "height": 2339
+      },
+      "dpi": 200,
+      "language": "ori",
+      "script": "ODIA",
+      "layout": "INCOME_CERTIFICATE_PORTRAIT",
+      "digit_mode": "mixed_digits",
+      "mild_degradation": false,
+      "font_key": "Kalinga",
+      "font_family": "Kalinga",
+      "font_filename": "kalinga.ttf",
+      "fields": [
+        "annual_income",
+        "certificate_number",
+        "dob",
+        "issue_date"
+      ],
+      "sha256": "20475a2a5d39b59a718c7ffa3880219ee476fc97c545dc87aede3ae15f5e27f8",
+      "native_text_layer": false,
+      "extraction_mode": "LOCAL_OCR",
+      "evaluation_role": "held_out",
+      "training_eligible": false
+    },
+    {
+      "document_id": "T42_ORI_010",
+      "path": "documents/odia/T42_ORI_010.png",
+      "format": "PNG",
+      "dimensions_px": {
+        "width": 1653,
+        "height": 2339
+      },
+      "dpi": 200,
+      "language": "ori",
+      "script": "ODIA",
+      "layout": "BILINGUAL_TWO_COLUMN_TABLE",
+      "digit_mode": "all_odia_digits",
+      "mild_degradation": false,
+      "font_key": "NirmalaUI",
+      "font_family": "Nirmala UI",
+      "font_filename": "Nirmala.ttc",
+      "fields": [
+        "annual_income",
+        "certificate_number",
+        "dob",
+        "issue_date"
+      ],
+      "sha256": "56d03609a4e61bd8fda31d1f25c14746115cd8c89965f1be1428576a3b70d08c",
+      "native_text_layer": false,
+      "extraction_mode": "LOCAL_OCR",
+      "evaluation_role": "held_out",
+      "training_eligible": false
+    },
+    {
+      "document_id": "T42_ORI_011",
+      "path": "documents/odia/T42_ORI_011.png",
+      "format": "PNG",
+      "dimensions_px": {
+        "width": 1653,
+        "height": 2339
+      },
+      "dpi": 200,
+      "language": "ori",
+      "script": "ODIA",
+      "layout": "COMPACT_BOXED_REGISTER",
+      "digit_mode": "all_odia_digits",
+      "mild_degradation": false,
+      "font_key": "Kalinga",
+      "font_family": "Kalinga",
+      "font_filename": "kalinga.ttf",
+      "fields": [
+        "annual_income",
+        "certificate_number",
+        "dob",
+        "issue_date"
+      ],
+      "sha256": "285c6f98ad5c57bf859de293673835497ec659462f7ef47b1407caa05b8de867",
+      "native_text_layer": false,
+      "extraction_mode": "LOCAL_OCR",
+      "evaluation_role": "held_out",
+      "training_eligible": false
+    },
+    {
+      "document_id": "T42_ORI_012",
+      "path": "documents/odia/T42_ORI_012.png",
+      "format": "PNG",
+      "dimensions_px": {
+        "width": 1653,
+        "height": 2339
+      },
+      "dpi": 200,
+      "language": "ori",
+      "script": "ODIA",
+      "layout": "SUBHADRA_STYLE_WELFARE_SLIP",
+      "digit_mode": "mixed_digits",
+      "mild_degradation": true,
+      "font_key": "NirmalaUI",
+      "font_family": "Nirmala UI",
+      "font_filename": "Nirmala.ttc",
+      "fields": [
+        "annual_income",
+        "certificate_number",
+        "dob",
+        "issue_date"
+      ],
+      "sha256": "87713c242a88015afdefb2631ae59242273a94393adc1c98ed40e9a4016a8284",
+      "native_text_layer": false,
+      "extraction_mode": "LOCAL_OCR",
+      "evaluation_role": "held_out",
+      "training_eligible": false
+    },
+    {
+      "document_id": "T42_HIN_001",
+      "path": "documents/hindi/T42_HIN_001.png",
+      "format": "PNG",
+      "dimensions_px": {
+        "width": 1653,
+        "height": 2339
+      },
+      "dpi": 200,
+      "language": "hin",
+      "script": "DEVANAGARI",
+      "layout": "INCOME_CERTIFICATE_PORTRAIT",
+      "digit_mode": "all_deva_digits",
+      "mild_degradation": false,
+      "font_key": "Mangal",
+      "font_family": "Mangal",
+      "font_filename": "mangal.ttf",
+      "fields": [
+        "annual_income",
+        "certificate_number",
+        "dob",
+        "issue_date"
+      ],
+      "sha256": "4e3701e8ec0e35bc090b1832f19b549f548f78c74e4bc8215ede7b4c078ac52b",
+      "native_text_layer": false,
+      "extraction_mode": "LOCAL_OCR",
+      "evaluation_role": "held_out",
+      "training_eligible": false
+    },
+    {
+      "document_id": "T42_HIN_002",
+      "path": "documents/hindi/T42_HIN_002.png",
+      "format": "PNG",
+      "dimensions_px": {
+        "width": 1653,
+        "height": 2339
+      },
+      "dpi": 200,
+      "language": "hin",
+      "script": "DEVANAGARI",
+      "layout": "BILINGUAL_TWO_COLUMN_TABLE",
+      "digit_mode": "all_deva_digits",
+      "mild_degradation": false,
+      "font_key": "NirmalaUI",
+      "font_family": "Nirmala UI",
+      "font_filename": "Nirmala.ttc",
+      "fields": [
+        "annual_income",
+        "certificate_number",
+        "dob",
+        "issue_date"
+      ],
+      "sha256": "28fb6103c1b4af7615449c0c97a66d37911adfbcd4ea173acfd7da2291971d92",
+      "native_text_layer": false,
+      "extraction_mode": "LOCAL_OCR",
+      "evaluation_role": "held_out",
+      "training_eligible": false
+    },
+    {
+      "document_id": "T42_HIN_003",
+      "path": "documents/hindi/T42_HIN_003.png",
+      "format": "PNG",
+      "dimensions_px": {
+        "width": 1653,
+        "height": 2339
+      },
+      "dpi": 200,
+      "language": "hin",
+      "script": "DEVANAGARI",
+      "layout": "COMPACT_BOXED_REGISTER",
+      "digit_mode": "mixed_digits",
+      "mild_degradation": false,
+      "font_key": "Mangal",
+      "font_family": "Mangal",
+      "font_filename": "mangal.ttf",
+      "fields": [
+        "annual_income",
+        "certificate_number",
+        "dob",
+        "issue_date"
+      ],
+      "sha256": "d67671aa11d5936a37866ce30d13f820eb8e698117121cf25d18baff5d67685b",
+      "native_text_layer": false,
+      "extraction_mode": "LOCAL_OCR",
+      "evaluation_role": "held_out",
+      "training_eligible": false
+    },
+    {
+      "document_id": "T42_HIN_004",
+      "path": "documents/hindi/T42_HIN_004.png",
+      "format": "PNG",
+      "dimensions_px": {
+        "width": 1653,
+        "height": 2339
+      },
+      "dpi": 200,
+      "language": "hin",
+      "script": "DEVANAGARI",
+      "layout": "SUBHADRA_STYLE_WELFARE_SLIP",
+      "digit_mode": "all_deva_digits",
+      "mild_degradation": true,
+      "font_key": "NirmalaUI",
+      "font_family": "Nirmala UI",
+      "font_filename": "Nirmala.ttc",
+      "fields": [
+        "annual_income",
+        "certificate_number",
+        "dob",
+        "issue_date"
+      ],
+      "sha256": "a25d6a212868738adf3a9a6c60d73a9ba8bec7a668f37327387ad442d9653c1b",
+      "native_text_layer": false,
+      "extraction_mode": "LOCAL_OCR",
+      "evaluation_role": "held_out",
+      "training_eligible": false
+    },
+    {
+      "document_id": "T42_HIN_005",
+      "path": "documents/hindi/T42_HIN_005.png",
+      "format": "PNG",
+      "dimensions_px": {
+        "width": 1653,
+        "height": 2339
+      },
+      "dpi": 200,
+      "language": "hin",
+      "script": "DEVANAGARI",
+      "layout": "INCOME_CERTIFICATE_PORTRAIT",
+      "digit_mode": "mixed_digits",
+      "mild_degradation": false,
+      "font_key": "NirmalaUI",
+      "font_family": "Nirmala UI",
+      "font_filename": "Nirmala.ttc",
+      "fields": [
+        "annual_income",
+        "certificate_number",
+        "dob",
+        "issue_date"
+      ],
+      "sha256": "62848f5d7fbb4cf51a2843199738304796b272116d7cb3919c61fa12bf492c1d",
+      "native_text_layer": false,
+      "extraction_mode": "LOCAL_OCR",
+      "evaluation_role": "held_out",
+      "training_eligible": false
+    },
+    {
+      "document_id": "T42_HIN_006",
+      "path": "documents/hindi/T42_HIN_006.png",
+      "format": "PNG",
+      "dimensions_px": {
+        "width": 1653,
+        "height": 2339
+      },
+      "dpi": 200,
+      "language": "hin",
+      "script": "DEVANAGARI",
+      "layout": "BILINGUAL_TWO_COLUMN_TABLE",
+      "digit_mode": "all_deva_digits",
+      "mild_degradation": false,
+      "font_key": "Mangal",
+      "font_family": "Mangal",
+      "font_filename": "mangal.ttf",
+      "fields": [
+        "annual_income",
+        "certificate_number",
+        "dob",
+        "issue_date"
+      ],
+      "sha256": "82dfeb4dda401182a422417fab7b786d4ee6f453c09bd8e8018f7d81552eacd0",
+      "native_text_layer": false,
+      "extraction_mode": "LOCAL_OCR",
+      "evaluation_role": "held_out",
+      "training_eligible": false
+    },
+    {
+      "document_id": "T42_HIN_007",
+      "path": "documents/hindi/T42_HIN_007.png",
+      "format": "PNG",
+      "dimensions_px": {
+        "width": 1653,
+        "height": 2339
+      },
+      "dpi": 200,
+      "language": "hin",
+      "script": "DEVANAGARI",
+      "layout": "COMPACT_BOXED_REGISTER",
+      "digit_mode": "ascii_digits_with_deva_labels",
+      "mild_degradation": false,
+      "font_key": "NirmalaUI",
+      "font_family": "Nirmala UI",
+      "font_filename": "Nirmala.ttc",
+      "fields": [
+        "annual_income",
+        "certificate_number",
+        "dob",
+        "issue_date"
+      ],
+      "sha256": "152714b385a48e4c5946329480ae6eea085a34f300dccf1a411de47bf27abc13",
+      "native_text_layer": false,
+      "extraction_mode": "LOCAL_OCR",
+      "evaluation_role": "held_out",
+      "training_eligible": false
+    },
+    {
+      "document_id": "T42_HIN_008",
+      "path": "documents/hindi/T42_HIN_008.png",
+      "format": "PNG",
+      "dimensions_px": {
+        "width": 1653,
+        "height": 2339
+      },
+      "dpi": 200,
+      "language": "hin",
+      "script": "DEVANAGARI",
+      "layout": "SUBHADRA_STYLE_WELFARE_SLIP",
+      "digit_mode": "all_deva_digits",
+      "mild_degradation": true,
+      "font_key": "Mangal",
+      "font_family": "Mangal",
+      "font_filename": "mangal.ttf",
+      "fields": [
+        "annual_income",
+        "certificate_number",
+        "dob",
+        "issue_date"
+      ],
+      "sha256": "62574e14a5b8ab30a10f6e5b181ceb49812678e97e1aee51f5d12ac929715a4c",
+      "native_text_layer": false,
+      "extraction_mode": "LOCAL_OCR",
+      "evaluation_role": "held_out",
+      "training_eligible": false
+    },
+    {
+      "document_id": "T42_HIN_009",
+      "path": "documents/hindi/T42_HIN_009.png",
+      "format": "PNG",
+      "dimensions_px": {
+        "width": 1653,
+        "height": 2339
+      },
+      "dpi": 200,
+      "language": "hin",
+      "script": "DEVANAGARI",
+      "layout": "INCOME_CERTIFICATE_PORTRAIT",
+      "digit_mode": "mixed_digits",
+      "mild_degradation": false,
+      "font_key": "Mangal",
+      "font_family": "Mangal",
+      "font_filename": "mangal.ttf",
+      "fields": [
+        "annual_income",
+        "certificate_number",
+        "dob",
+        "issue_date"
+      ],
+      "sha256": "bc293b0aff446a538dc0efcb5278245cda143a32c835ed9b1254f2ece39ce729",
+      "native_text_layer": false,
+      "extraction_mode": "LOCAL_OCR",
+      "evaluation_role": "held_out",
+      "training_eligible": false
+    },
+    {
+      "document_id": "T42_HIN_010",
+      "path": "documents/hindi/T42_HIN_010.png",
+      "format": "PNG",
+      "dimensions_px": {
+        "width": 1653,
+        "height": 2339
+      },
+      "dpi": 200,
+      "language": "hin",
+      "script": "DEVANAGARI",
+      "layout": "BILINGUAL_TWO_COLUMN_TABLE",
+      "digit_mode": "all_deva_digits",
+      "mild_degradation": false,
+      "font_key": "NirmalaUI",
+      "font_family": "Nirmala UI",
+      "font_filename": "Nirmala.ttc",
+      "fields": [
+        "annual_income",
+        "certificate_number",
+        "dob",
+        "issue_date"
+      ],
+      "sha256": "76f90ca57c1b620bfec3e79c5596e0f6b4aa1545b830879338895ed785d1f440",
+      "native_text_layer": false,
+      "extraction_mode": "LOCAL_OCR",
+      "evaluation_role": "held_out",
+      "training_eligible": false
+    },
+    {
+      "document_id": "T42_HIN_011",
+      "path": "documents/hindi/T42_HIN_011.png",
+      "format": "PNG",
+      "dimensions_px": {
+        "width": 1653,
+        "height": 2339
+      },
+      "dpi": 200,
+      "language": "hin",
+      "script": "DEVANAGARI",
+      "layout": "COMPACT_BOXED_REGISTER",
+      "digit_mode": "all_deva_digits",
+      "mild_degradation": false,
+      "font_key": "Mangal",
+      "font_family": "Mangal",
+      "font_filename": "mangal.ttf",
+      "fields": [
+        "annual_income",
+        "certificate_number",
+        "dob",
+        "issue_date"
+      ],
+      "sha256": "a06bacf94a459030851a5753ad38b30e1c9b6e2807da1797673c93250aa3ab64",
+      "native_text_layer": false,
+      "extraction_mode": "LOCAL_OCR",
+      "evaluation_role": "held_out",
+      "training_eligible": false
+    },
+    {
+      "document_id": "T42_HIN_012",
+      "path": "documents/hindi/T42_HIN_012.png",
+      "format": "PNG",
+      "dimensions_px": {
+        "width": 1653,
+        "height": 2339
+      },
+      "dpi": 200,
+      "language": "hin",
+      "script": "DEVANAGARI",
+      "layout": "SUBHADRA_STYLE_WELFARE_SLIP",
+      "digit_mode": "mixed_digits",
+      "mild_degradation": true,
+      "font_key": "NirmalaUI",
+      "font_family": "Nirmala UI",
+      "font_filename": "Nirmala.ttc",
+      "fields": [
+        "annual_income",
+        "certificate_number",
+        "dob",
+        "issue_date"
+      ],
+      "sha256": "5b211299d6b09c834f4e66ca62246b38d94f374831353675bb4f1f02ac3a295d",
+      "native_text_layer": false,
+      "extraction_mode": "LOCAL_OCR",
+      "evaluation_role": "held_out",
+      "training_eligible": false
+    }
+  ]
+}

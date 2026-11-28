@@ -1,0 +1,56 @@
+{
+  "corpus_version": "1.0.0",
+  "rendering_engine": "PyMuPDF 2.1 (HarfBuzz HTML/CSS shaping -> 200 DPI PNG)",
+  "pillow_version": "13.0.0",
+  "python_version": "3.12.0",
+  "platform": "Windows-11-10.0.26300-SP0",
+  "fonts": {
+    "NirmalaUI": {
+      "family": "Nirmala UI",
+      "filename": "Nirmala.ttc",
+      "host_path": "C:\\Windows\\Fonts\\Nirmala.ttc",
+      "sha256": "ad02cdfc06e144ac45f318e8e5a64cbe04c7479d4beb91d25f5a319a466b1767",
+      "source": "Microsoft Windows System Font (C:\\Windows\\Fonts\\Nirmala.ttc)",
+      "license_note": "Microsoft Windows proprietary system font; not redistributed in repository.",
+      "scripts_supported": [
+        "ODIA",
+        "DEVANAGARI",
+        "LATIN"
+      ],
+      "glyph_coverage_verified": {
+        "ODIA": true,
+        "DEVANAGARI": true
+      }
+    },
+    "Kalinga": {
+      "family": "Kalinga",
+      "filename": "kalinga.ttf",
+      "host_path": "C:\\Windows\\Fonts\\kalinga.ttf",
+      "sha256": "398728876df03a2296f1d1620c219d012613dd3dd698364d1f00b1e79aa7a03d",
+      "source": "Microsoft Windows System Font (C:\\Windows\\Fonts\\kalinga.ttf)",
+      "license_note": "Microsoft Windows proprietary system font; not redistributed in repository.",
+      "scripts_supported": [
+        "ODIA",
+        "LATIN"
+      ],
+      "glyph_coverage_verified": {
+        "ODIA": true
+      }
+    },
+    "Mangal": {
+      "family": "Mangal",
+      "filename": "mangal.ttf",
+      "host_path": "C:\\Windows\\Fonts\\mangal.ttf",
+      "sha256": "d3c37c04314c6d2cd4949119ce1b979eb029af3979dd9c366f1b8097b71d47ed",
+      "source": "Microsoft Windows System Font (C:\\Windows\\Fonts\\mangal.ttf)",
+      "license_note": "Microsoft Windows proprietary system font; not redistributed in repository.",
+      "scripts_supported": [
+        "DEVANAGARI",
+        "LATIN"
+      ],
+      "glyph_coverage_verified": {
+        "DEVANAGARI": true
+      }
+    }
+  }
+}

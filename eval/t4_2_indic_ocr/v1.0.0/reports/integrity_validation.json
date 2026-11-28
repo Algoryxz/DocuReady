@@ -1,0 +1,15 @@
+{
+  "corpus_version": "1.0.0",
+  "status": "PASS",
+  "hash_verification": {
+    "verified": true,
+    "files_checked": 27,
+    "mismatches": []
+  },
+  "unique_document_ids": true,
+  "unique_document_images": true,
+  "unreferenced_files": [],
+  "missing_files": [],
+  "deterministic_regeneration_verified": true,
+  "determinism_mismatches": []
+}

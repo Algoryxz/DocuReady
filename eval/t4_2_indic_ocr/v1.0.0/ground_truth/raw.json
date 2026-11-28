@@ -1,0 +1,1545 @@
+{
+  "corpus_name": "docuready-t4-2-indic-ocr",
+  "corpus_version": "1.0.0",
+  "evaluation_role": "held_out",
+  "training_eligible": false,
+  "record_count": 96,
+  "records": [
+    {
+      "document_id": "T42_ORI_001",
+      "language": "ori",
+      "script": "ODIA",
+      "field_name": "dob",
+      "raw_value": "୧୫/୦୮/୧୯୯୫",
+      "normalization_rule": "normalize_indic_digits + parse_and_normalize_date",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "52eb9056ed712fb073e3220a1cd6ba330085166855faf41344cce3343cd15c29",
+        "layout": "INCOME_CERTIFICATE_PORTRAIT",
+        "font_key": "Kalinga",
+        "digit_mode": "all_odia_digits"
+      }
+    },
+    {
+      "document_id": "T42_ORI_001",
+      "language": "ori",
+      "script": "ODIA",
+      "field_name": "issue_date",
+      "raw_value": "୧୪/୧୧/୨୦୨୬",
+      "normalization_rule": "normalize_indic_digits + parse_and_normalize_date",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "52eb9056ed712fb073e3220a1cd6ba330085166855faf41344cce3343cd15c29",
+        "layout": "INCOME_CERTIFICATE_PORTRAIT",
+        "font_key": "Kalinga",
+        "digit_mode": "all_odia_digits"
+      }
+    },
+    {
+      "document_id": "T42_ORI_001",
+      "language": "ori",
+      "script": "ODIA",
+      "field_name": "annual_income",
+      "raw_value": "₹ ୮୫,୦୦୦/-",
+      "normalization_rule": "normalize_indic_digits + normalize_income",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "52eb9056ed712fb073e3220a1cd6ba330085166855faf41344cce3343cd15c29",
+        "layout": "INCOME_CERTIFICATE_PORTRAIT",
+        "font_key": "Kalinga",
+        "digit_mode": "all_odia_digits"
+      }
+    },
+    {
+      "document_id": "T42_ORI_001",
+      "language": "ori",
+      "script": "ODIA",
+      "field_name": "certificate_number",
+      "raw_value": "OD/INC/୨୦୨୬/୧୦୪୯୨୮",
+      "normalization_rule": "normalize_indic_digits + normalize_cert_number",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "52eb9056ed712fb073e3220a1cd6ba330085166855faf41344cce3343cd15c29",
+        "layout": "INCOME_CERTIFICATE_PORTRAIT",
+        "font_key": "Kalinga",
+        "digit_mode": "all_odia_digits"
+      }
+    },
+    {
+      "document_id": "T42_ORI_002",
+      "language": "ori",
+      "script": "ODIA",
+      "field_name": "dob",
+      "raw_value": "୨୨-୦୩-୧୯୯୧",
+      "normalization_rule": "normalize_indic_digits + parse_and_normalize_date",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "1984c2446a81b0346e9b8aeeaddb03b8ab94b08151908fe83273fadb841b84af",
+        "layout": "BILINGUAL_TWO_COLUMN_TABLE",
+        "font_key": "NirmalaUI",
+        "digit_mode": "all_odia_digits"
+      }
+    },
+    {
+      "document_id": "T42_ORI_002",
+      "language": "ori",
+      "script": "ODIA",
+      "field_name": "issue_date",
+      "raw_value": "୧୦-୧୦-୨୦୨୬",
+      "normalization_rule": "normalize_indic_digits + parse_and_normalize_date",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "1984c2446a81b0346e9b8aeeaddb03b8ab94b08151908fe83273fadb841b84af",
+        "layout": "BILINGUAL_TWO_COLUMN_TABLE",
+        "font_key": "NirmalaUI",
+        "digit_mode": "all_odia_digits"
+      }
+    },
+    {
+      "document_id": "T42_ORI_002",
+      "language": "ori",
+      "script": "ODIA",
+      "field_name": "annual_income",
+      "raw_value": "₹ ୧,୨୦,୦୦୦/-",
+      "normalization_rule": "normalize_indic_digits + normalize_income",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "1984c2446a81b0346e9b8aeeaddb03b8ab94b08151908fe83273fadb841b84af",
+        "layout": "BILINGUAL_TWO_COLUMN_TABLE",
+        "font_key": "NirmalaUI",
+        "digit_mode": "all_odia_digits"
+      }
+    },
+    {
+      "document_id": "T42_ORI_002",
+      "language": "ori",
+      "script": "ODIA",
+      "field_name": "certificate_number",
+      "raw_value": "OD/INC/୨୦୨୬/୨୦୮୭୪୧",
+      "normalization_rule": "normalize_indic_digits + normalize_cert_number",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "1984c2446a81b0346e9b8aeeaddb03b8ab94b08151908fe83273fadb841b84af",
+        "layout": "BILINGUAL_TWO_COLUMN_TABLE",
+        "font_key": "NirmalaUI",
+        "digit_mode": "all_odia_digits"
+      }
+    },
+    {
+      "document_id": "T42_ORI_003",
+      "language": "ori",
+      "script": "ODIA",
+      "field_name": "dob",
+      "raw_value": "୦୯.୧୨.୧୯୮୮",
+      "normalization_rule": "normalize_indic_digits + parse_and_normalize_date",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "9b88df9c287c4b15be04de55716aa0755af33d86191a533c30c433b630ffe84e",
+        "layout": "COMPACT_BOXED_REGISTER",
+        "font_key": "Kalinga",
+        "digit_mode": "mixed_digits"
+      }
+    },
+    {
+      "document_id": "T42_ORI_003",
+      "language": "ori",
+      "script": "ODIA",
+      "field_name": "issue_date",
+      "raw_value": "05.09.2026",
+      "normalization_rule": "normalize_indic_digits + parse_and_normalize_date",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "9b88df9c287c4b15be04de55716aa0755af33d86191a533c30c433b630ffe84e",
+        "layout": "COMPACT_BOXED_REGISTER",
+        "font_key": "Kalinga",
+        "digit_mode": "mixed_digits"
+      }
+    },
+    {
+      "document_id": "T42_ORI_003",
+      "language": "ori",
+      "script": "ODIA",
+      "field_name": "annual_income",
+      "raw_value": "Rs. ୯୫,୫୦୦/-",
+      "normalization_rule": "normalize_indic_digits + normalize_income",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "9b88df9c287c4b15be04de55716aa0755af33d86191a533c30c433b630ffe84e",
+        "layout": "COMPACT_BOXED_REGISTER",
+        "font_key": "Kalinga",
+        "digit_mode": "mixed_digits"
+      }
+    },
+    {
+      "document_id": "T42_ORI_003",
+      "language": "ori",
+      "script": "ODIA",
+      "field_name": "certificate_number",
+      "raw_value": "OD-INC-2୦୨୬-୩୧୯୦୪୨",
+      "normalization_rule": "normalize_indic_digits + normalize_cert_number",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "9b88df9c287c4b15be04de55716aa0755af33d86191a533c30c433b630ffe84e",
+        "layout": "COMPACT_BOXED_REGISTER",
+        "font_key": "Kalinga",
+        "digit_mode": "mixed_digits"
+      }
+    },
+    {
+      "document_id": "T42_ORI_004",
+      "language": "ori",
+      "script": "ODIA",
+      "field_name": "dob",
+      "raw_value": "୧୮/୦୭/୧୯୯୮",
+      "normalization_rule": "normalize_indic_digits + parse_and_normalize_date",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "5ec034fe87c1f2a610b0cc0eeb7385a2bc07719718ccb00b9059984f37b1c57d",
+        "layout": "SUBHADRA_STYLE_WELFARE_SLIP",
+        "font_key": "NirmalaUI",
+        "digit_mode": "all_odia_digits"
+      }
+    },
+    {
+      "document_id": "T42_ORI_004",
+      "language": "ori",
+      "script": "ODIA",
+      "field_name": "issue_date",
+      "raw_value": "୧୯/୧୧/୨୦୨୬",
+      "normalization_rule": "normalize_indic_digits + parse_and_normalize_date",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "5ec034fe87c1f2a610b0cc0eeb7385a2bc07719718ccb00b9059984f37b1c57d",
+        "layout": "SUBHADRA_STYLE_WELFARE_SLIP",
+        "font_key": "NirmalaUI",
+        "digit_mode": "all_odia_digits"
+      }
+    },
+    {
+      "document_id": "T42_ORI_004",
+      "language": "ori",
+      "script": "ODIA",
+      "field_name": "annual_income",
+      "raw_value": "₹ ୧,୪୫,୦୦୦/-",
+      "normalization_rule": "normalize_indic_digits + normalize_income",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "5ec034fe87c1f2a610b0cc0eeb7385a2bc07719718ccb00b9059984f37b1c57d",
+        "layout": "SUBHADRA_STYLE_WELFARE_SLIP",
+        "font_key": "NirmalaUI",
+        "digit_mode": "all_odia_digits"
+      }
+    },
+    {
+      "document_id": "T42_ORI_004",
+      "language": "ori",
+      "script": "ODIA",
+      "field_name": "certificate_number",
+      "raw_value": "OD/SUB/୨୦୨୬/୪୧୦୨୫୬",
+      "normalization_rule": "normalize_indic_digits + normalize_cert_number",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "5ec034fe87c1f2a610b0cc0eeb7385a2bc07719718ccb00b9059984f37b1c57d",
+        "layout": "SUBHADRA_STYLE_WELFARE_SLIP",
+        "font_key": "NirmalaUI",
+        "digit_mode": "all_odia_digits"
+      }
+    },
+    {
+      "document_id": "T42_ORI_005",
+      "language": "ori",
+      "script": "ODIA",
+      "field_name": "dob",
+      "raw_value": "୨୭/୦୧/୧୯୯୩",
+      "normalization_rule": "normalize_indic_digits + parse_and_normalize_date",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "62a3901f0876cae28886ee073d5ecb0fc32cdb839133389c6c0b84332338deed",
+        "layout": "INCOME_CERTIFICATE_PORTRAIT",
+        "font_key": "NirmalaUI",
+        "digit_mode": "mixed_digits"
+      }
+    },
+    {
+      "document_id": "T42_ORI_005",
+      "language": "ori",
+      "script": "ODIA",
+      "field_name": "issue_date",
+      "raw_value": "02/11/2026",
+      "normalization_rule": "normalize_indic_digits + parse_and_normalize_date",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "62a3901f0876cae28886ee073d5ecb0fc32cdb839133389c6c0b84332338deed",
+        "layout": "INCOME_CERTIFICATE_PORTRAIT",
+        "font_key": "NirmalaUI",
+        "digit_mode": "mixed_digits"
+      }
+    },
+    {
+      "document_id": "T42_ORI_005",
+      "language": "ori",
+      "script": "ODIA",
+      "field_name": "annual_income",
+      "raw_value": "୧.୮ LPA",
+      "normalization_rule": "normalize_indic_digits + normalize_income",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "62a3901f0876cae28886ee073d5ecb0fc32cdb839133389c6c0b84332338deed",
+        "layout": "INCOME_CERTIFICATE_PORTRAIT",
+        "font_key": "NirmalaUI",
+        "digit_mode": "mixed_digits"
+      }
+    },
+    {
+      "document_id": "T42_ORI_005",
+      "language": "ori",
+      "script": "ODIA",
+      "field_name": "certificate_number",
+      "raw_value": "OD/INC/2୦୨୬/୫୧୨୮୩୯",
+      "normalization_rule": "normalize_indic_digits + normalize_cert_number",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "62a3901f0876cae28886ee073d5ecb0fc32cdb839133389c6c0b84332338deed",
+        "layout": "INCOME_CERTIFICATE_PORTRAIT",
+        "font_key": "NirmalaUI",
+        "digit_mode": "mixed_digits"
+      }
+    },
+    {
+      "document_id": "T42_ORI_006",
+      "language": "ori",
+      "script": "ODIA",
+      "field_name": "dob",
+      "raw_value": "୧୪-୦୫-୧୯୯୬",
+      "normalization_rule": "normalize_indic_digits + parse_and_normalize_date",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "ef2af2e2e5af561f199dda2b18f5e2dbb36a08b56647918051bfee3b51cbde36",
+        "layout": "BILINGUAL_TWO_COLUMN_TABLE",
+        "font_key": "Kalinga",
+        "digit_mode": "all_odia_digits"
+      }
+    },
+    {
+      "document_id": "T42_ORI_006",
+      "language": "ori",
+      "script": "ODIA",
+      "field_name": "issue_date",
+      "raw_value": "୨୧-୧୦-୨୦୨୬",
+      "normalization_rule": "normalize_indic_digits + parse_and_normalize_date",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "ef2af2e2e5af561f199dda2b18f5e2dbb36a08b56647918051bfee3b51cbde36",
+        "layout": "BILINGUAL_TWO_COLUMN_TABLE",
+        "font_key": "Kalinga",
+        "digit_mode": "all_odia_digits"
+      }
+    },
+    {
+      "document_id": "T42_ORI_006",
+      "language": "ori",
+      "script": "ODIA",
+      "field_name": "annual_income",
+      "raw_value": "₹ ୭୨,୦୦୦/-",
+      "normalization_rule": "normalize_indic_digits + normalize_income",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "ef2af2e2e5af561f199dda2b18f5e2dbb36a08b56647918051bfee3b51cbde36",
+        "layout": "BILINGUAL_TWO_COLUMN_TABLE",
+        "font_key": "Kalinga",
+        "digit_mode": "all_odia_digits"
+      }
+    },
+    {
+      "document_id": "T42_ORI_006",
+      "language": "ori",
+      "script": "ODIA",
+      "field_name": "certificate_number",
+      "raw_value": "OD/INC/୨୦୨୬/୬୨୩୯୧୪",
+      "normalization_rule": "normalize_indic_digits + normalize_cert_number",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "ef2af2e2e5af561f199dda2b18f5e2dbb36a08b56647918051bfee3b51cbde36",
+        "layout": "BILINGUAL_TWO_COLUMN_TABLE",
+        "font_key": "Kalinga",
+        "digit_mode": "all_odia_digits"
+      }
+    },
+    {
+      "document_id": "T42_ORI_007",
+      "language": "ori",
+      "script": "ODIA",
+      "field_name": "dob",
+      "raw_value": "03/11/1989",
+      "normalization_rule": "normalize_indic_digits + parse_and_normalize_date",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "44cb3ce11e76b50fe8eab0efa7aaa995c2b5b17b8fcec398a4fd169fefdba0ca",
+        "layout": "COMPACT_BOXED_REGISTER",
+        "font_key": "NirmalaUI",
+        "digit_mode": "ascii_digits_with_odia_labels"
+      }
+    },
+    {
+      "document_id": "T42_ORI_007",
+      "language": "ori",
+      "script": "ODIA",
+      "field_name": "issue_date",
+      "raw_value": "12/08/2026",
+      "normalization_rule": "normalize_indic_digits + parse_and_normalize_date",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "44cb3ce11e76b50fe8eab0efa7aaa995c2b5b17b8fcec398a4fd169fefdba0ca",
+        "layout": "COMPACT_BOXED_REGISTER",
+        "font_key": "NirmalaUI",
+        "digit_mode": "ascii_digits_with_odia_labels"
+      }
+    },
+    {
+      "document_id": "T42_ORI_007",
+      "language": "ori",
+      "script": "ODIA",
+      "field_name": "annual_income",
+      "raw_value": "Rs. 2,10,000/-",
+      "normalization_rule": "normalize_indic_digits + normalize_income",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "44cb3ce11e76b50fe8eab0efa7aaa995c2b5b17b8fcec398a4fd169fefdba0ca",
+        "layout": "COMPACT_BOXED_REGISTER",
+        "font_key": "NirmalaUI",
+        "digit_mode": "ascii_digits_with_odia_labels"
+      }
+    },
+    {
+      "document_id": "T42_ORI_007",
+      "language": "ori",
+      "script": "ODIA",
+      "field_name": "certificate_number",
+      "raw_value": "OD-RES-2026-734125",
+      "normalization_rule": "normalize_indic_digits + normalize_cert_number",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "44cb3ce11e76b50fe8eab0efa7aaa995c2b5b17b8fcec398a4fd169fefdba0ca",
+        "layout": "COMPACT_BOXED_REGISTER",
+        "font_key": "NirmalaUI",
+        "digit_mode": "ascii_digits_with_odia_labels"
+      }
+    },
+    {
+      "document_id": "T42_ORI_008",
+      "language": "ori",
+      "script": "ODIA",
+      "field_name": "dob",
+      "raw_value": "୨୯-୦୬-୧୯୯୪",
+      "normalization_rule": "normalize_indic_digits + parse_and_normalize_date",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "c258e13ae0644ef171ebb174ff1a5cc6cdcdbe7f31b7acc919fd5d34515ec916",
+        "layout": "SUBHADRA_STYLE_WELFARE_SLIP",
+        "font_key": "Kalinga",
+        "digit_mode": "all_odia_digits"
+      }
+    },
+    {
+      "document_id": "T42_ORI_008",
+      "language": "ori",
+      "script": "ODIA",
+      "field_name": "issue_date",
+      "raw_value": "୧୭/୧୧/୨୦୨୬",
+      "normalization_rule": "normalize_indic_digits + parse_and_normalize_date",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "c258e13ae0644ef171ebb174ff1a5cc6cdcdbe7f31b7acc919fd5d34515ec916",
+        "layout": "SUBHADRA_STYLE_WELFARE_SLIP",
+        "font_key": "Kalinga",
+        "digit_mode": "all_odia_digits"
+      }
+    },
+    {
+      "document_id": "T42_ORI_008",
+      "language": "ori",
+      "script": "ODIA",
+      "field_name": "annual_income",
+      "raw_value": "₹ ୬୪,୦୦୦/-",
+      "normalization_rule": "normalize_indic_digits + normalize_income",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "c258e13ae0644ef171ebb174ff1a5cc6cdcdbe7f31b7acc919fd5d34515ec916",
+        "layout": "SUBHADRA_STYLE_WELFARE_SLIP",
+        "font_key": "Kalinga",
+        "digit_mode": "all_odia_digits"
+      }
+    },
+    {
+      "document_id": "T42_ORI_008",
+      "language": "ori",
+      "script": "ODIA",
+      "field_name": "certificate_number",
+      "raw_value": "OD/SUB/୨୦୨୬/୮୪୫୨୩୬",
+      "normalization_rule": "normalize_indic_digits + normalize_cert_number",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "c258e13ae0644ef171ebb174ff1a5cc6cdcdbe7f31b7acc919fd5d34515ec916",
+        "layout": "SUBHADRA_STYLE_WELFARE_SLIP",
+        "font_key": "Kalinga",
+        "digit_mode": "all_odia_digits"
+      }
+    },
+    {
+      "document_id": "T42_ORI_009",
+      "language": "ori",
+      "script": "ODIA",
+      "field_name": "dob",
+      "raw_value": "୧୧.୦୪.୧୯୯୭",
+      "normalization_rule": "normalize_indic_digits + parse_and_normalize_date",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "20475a2a5d39b59a718c7ffa3880219ee476fc97c545dc87aede3ae15f5e27f8",
+        "layout": "INCOME_CERTIFICATE_PORTRAIT",
+        "font_key": "Kalinga",
+        "digit_mode": "mixed_digits"
+      }
+    },
+    {
+      "document_id": "T42_ORI_009",
+      "language": "ori",
+      "script": "ODIA",
+      "field_name": "issue_date",
+      "raw_value": "25.10.2026",
+      "normalization_rule": "normalize_indic_digits + parse_and_normalize_date",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "20475a2a5d39b59a718c7ffa3880219ee476fc97c545dc87aede3ae15f5e27f8",
+        "layout": "INCOME_CERTIFICATE_PORTRAIT",
+        "font_key": "Kalinga",
+        "digit_mode": "mixed_digits"
+      }
+    },
+    {
+      "document_id": "T42_ORI_009",
+      "language": "ori",
+      "script": "ODIA",
+      "field_name": "annual_income",
+      "raw_value": "୨.୪ Lakh",
+      "normalization_rule": "normalize_indic_digits + normalize_income",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "20475a2a5d39b59a718c7ffa3880219ee476fc97c545dc87aede3ae15f5e27f8",
+        "layout": "INCOME_CERTIFICATE_PORTRAIT",
+        "font_key": "Kalinga",
+        "digit_mode": "mixed_digits"
+      }
+    },
+    {
+      "document_id": "T42_ORI_009",
+      "language": "ori",
+      "script": "ODIA",
+      "field_name": "certificate_number",
+      "raw_value": "OD/INC/2୦୨୬/୯୫୬୩୪୭",
+      "normalization_rule": "normalize_indic_digits + normalize_cert_number",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "20475a2a5d39b59a718c7ffa3880219ee476fc97c545dc87aede3ae15f5e27f8",
+        "layout": "INCOME_CERTIFICATE_PORTRAIT",
+        "font_key": "Kalinga",
+        "digit_mode": "mixed_digits"
+      }
+    },
+    {
+      "document_id": "T42_ORI_010",
+      "language": "ori",
+      "script": "ODIA",
+      "field_name": "dob",
+      "raw_value": "୦୮/୦୯/୧୯୯୦",
+      "normalization_rule": "normalize_indic_digits + parse_and_normalize_date",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "56d03609a4e61bd8fda31d1f25c14746115cd8c89965f1be1428576a3b70d08c",
+        "layout": "BILINGUAL_TWO_COLUMN_TABLE",
+        "font_key": "NirmalaUI",
+        "digit_mode": "all_odia_digits"
+      }
+    },
+    {
+      "document_id": "T42_ORI_010",
+      "language": "ori",
+      "script": "ODIA",
+      "field_name": "issue_date",
+      "raw_value": "୦୧/୧୧/୨୦୨୬",
+      "normalization_rule": "normalize_indic_digits + parse_and_normalize_date",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "56d03609a4e61bd8fda31d1f25c14746115cd8c89965f1be1428576a3b70d08c",
+        "layout": "BILINGUAL_TWO_COLUMN_TABLE",
+        "font_key": "NirmalaUI",
+        "digit_mode": "all_odia_digits"
+      }
+    },
+    {
+      "document_id": "T42_ORI_010",
+      "language": "ori",
+      "script": "ODIA",
+      "field_name": "annual_income",
+      "raw_value": "₹ ୧,୬୫,୦୦୦/-",
+      "normalization_rule": "normalize_indic_digits + normalize_income",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "56d03609a4e61bd8fda31d1f25c14746115cd8c89965f1be1428576a3b70d08c",
+        "layout": "BILINGUAL_TWO_COLUMN_TABLE",
+        "font_key": "NirmalaUI",
+        "digit_mode": "all_odia_digits"
+      }
+    },
+    {
+      "document_id": "T42_ORI_010",
+      "language": "ori",
+      "script": "ODIA",
+      "field_name": "certificate_number",
+      "raw_value": "OD/INC/୨୦୨୬/୧୬୭୪୫୮",
+      "normalization_rule": "normalize_indic_digits + normalize_cert_number",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "56d03609a4e61bd8fda31d1f25c14746115cd8c89965f1be1428576a3b70d08c",
+        "layout": "BILINGUAL_TWO_COLUMN_TABLE",
+        "font_key": "NirmalaUI",
+        "digit_mode": "all_odia_digits"
+      }
+    },
+    {
+      "document_id": "T42_ORI_011",
+      "language": "ori",
+      "script": "ODIA",
+      "field_name": "dob",
+      "raw_value": "୨୦-୧୨-୧୯୮୬",
+      "normalization_rule": "normalize_indic_digits + parse_and_normalize_date",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "285c6f98ad5c57bf859de293673835497ec659462f7ef47b1407caa05b8de867",
+        "layout": "COMPACT_BOXED_REGISTER",
+        "font_key": "Kalinga",
+        "digit_mode": "all_odia_digits"
+      }
+    },
+    {
+      "document_id": "T42_ORI_011",
+      "language": "ori",
+      "script": "ODIA",
+      "field_name": "issue_date",
+      "raw_value": "୧୫-୦୯-୨୦୨୬",
+      "normalization_rule": "normalize_indic_digits + parse_and_normalize_date",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "285c6f98ad5c57bf859de293673835497ec659462f7ef47b1407caa05b8de867",
+        "layout": "COMPACT_BOXED_REGISTER",
+        "font_key": "Kalinga",
+        "digit_mode": "all_odia_digits"
+      }
+    },
+    {
+      "document_id": "T42_ORI_011",
+      "language": "ori",
+      "script": "ODIA",
+      "field_name": "annual_income",
+      "raw_value": "₹ ୧,୧୦,୦୦୦/-",
+      "normalization_rule": "normalize_indic_digits + normalize_income",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "285c6f98ad5c57bf859de293673835497ec659462f7ef47b1407caa05b8de867",
+        "layout": "COMPACT_BOXED_REGISTER",
+        "font_key": "Kalinga",
+        "digit_mode": "all_odia_digits"
+      }
+    },
+    {
+      "document_id": "T42_ORI_011",
+      "language": "ori",
+      "script": "ODIA",
+      "field_name": "certificate_number",
+      "raw_value": "OD-INC-୨୦୨୬-୨୭୮୫୬୯",
+      "normalization_rule": "normalize_indic_digits + normalize_cert_number",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "285c6f98ad5c57bf859de293673835497ec659462f7ef47b1407caa05b8de867",
+        "layout": "COMPACT_BOXED_REGISTER",
+        "font_key": "Kalinga",
+        "digit_mode": "all_odia_digits"
+      }
+    },
+    {
+      "document_id": "T42_ORI_012",
+      "language": "ori",
+      "script": "ODIA",
+      "field_name": "dob",
+      "raw_value": "୦୫/୦୨/୧୯୯୯",
+      "normalization_rule": "normalize_indic_digits + parse_and_normalize_date",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "87713c242a88015afdefb2631ae59242273a94393adc1c98ed40e9a4016a8284",
+        "layout": "SUBHADRA_STYLE_WELFARE_SLIP",
+        "font_key": "NirmalaUI",
+        "digit_mode": "mixed_digits"
+      }
+    },
+    {
+      "document_id": "T42_ORI_012",
+      "language": "ori",
+      "script": "ODIA",
+      "field_name": "issue_date",
+      "raw_value": "23/11/2026",
+      "normalization_rule": "normalize_indic_digits + parse_and_normalize_date",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "87713c242a88015afdefb2631ae59242273a94393adc1c98ed40e9a4016a8284",
+        "layout": "SUBHADRA_STYLE_WELFARE_SLIP",
+        "font_key": "NirmalaUI",
+        "digit_mode": "mixed_digits"
+      }
+    },
+    {
+      "document_id": "T42_ORI_012",
+      "language": "ori",
+      "script": "ODIA",
+      "field_name": "annual_income",
+      "raw_value": "Rs. ୯୦,୦୦୦/-",
+      "normalization_rule": "normalize_indic_digits + normalize_income",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "87713c242a88015afdefb2631ae59242273a94393adc1c98ed40e9a4016a8284",
+        "layout": "SUBHADRA_STYLE_WELFARE_SLIP",
+        "font_key": "NirmalaUI",
+        "digit_mode": "mixed_digits"
+      }
+    },
+    {
+      "document_id": "T42_ORI_012",
+      "language": "ori",
+      "script": "ODIA",
+      "field_name": "certificate_number",
+      "raw_value": "OD/SUB/2୦୨୬/୩୮୯୬୭୦",
+      "normalization_rule": "normalize_indic_digits + normalize_cert_number",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "87713c242a88015afdefb2631ae59242273a94393adc1c98ed40e9a4016a8284",
+        "layout": "SUBHADRA_STYLE_WELFARE_SLIP",
+        "font_key": "NirmalaUI",
+        "digit_mode": "mixed_digits"
+      }
+    },
+    {
+      "document_id": "T42_HIN_001",
+      "language": "hin",
+      "script": "DEVANAGARI",
+      "field_name": "dob",
+      "raw_value": "१५/०८/१९९५",
+      "normalization_rule": "normalize_indic_digits + parse_and_normalize_date",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "4e3701e8ec0e35bc090b1832f19b549f548f78c74e4bc8215ede7b4c078ac52b",
+        "layout": "INCOME_CERTIFICATE_PORTRAIT",
+        "font_key": "Mangal",
+        "digit_mode": "all_deva_digits"
+      }
+    },
+    {
+      "document_id": "T42_HIN_001",
+      "language": "hin",
+      "script": "DEVANAGARI",
+      "field_name": "issue_date",
+      "raw_value": "१४/११/२०२६",
+      "normalization_rule": "normalize_indic_digits + parse_and_normalize_date",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "4e3701e8ec0e35bc090b1832f19b549f548f78c74e4bc8215ede7b4c078ac52b",
+        "layout": "INCOME_CERTIFICATE_PORTRAIT",
+        "font_key": "Mangal",
+        "digit_mode": "all_deva_digits"
+      }
+    },
+    {
+      "document_id": "T42_HIN_001",
+      "language": "hin",
+      "script": "DEVANAGARI",
+      "field_name": "annual_income",
+      "raw_value": "₹ ८५,०००/-",
+      "normalization_rule": "normalize_indic_digits + normalize_income",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "4e3701e8ec0e35bc090b1832f19b549f548f78c74e4bc8215ede7b4c078ac52b",
+        "layout": "INCOME_CERTIFICATE_PORTRAIT",
+        "font_key": "Mangal",
+        "digit_mode": "all_deva_digits"
+      }
+    },
+    {
+      "document_id": "T42_HIN_001",
+      "language": "hin",
+      "script": "DEVANAGARI",
+      "field_name": "certificate_number",
+      "raw_value": "MH/INC/२०२६/१०४९२८",
+      "normalization_rule": "normalize_indic_digits + normalize_cert_number",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "4e3701e8ec0e35bc090b1832f19b549f548f78c74e4bc8215ede7b4c078ac52b",
+        "layout": "INCOME_CERTIFICATE_PORTRAIT",
+        "font_key": "Mangal",
+        "digit_mode": "all_deva_digits"
+      }
+    },
+    {
+      "document_id": "T42_HIN_002",
+      "language": "hin",
+      "script": "DEVANAGARI",
+      "field_name": "dob",
+      "raw_value": "२२-०३-१९९१",
+      "normalization_rule": "normalize_indic_digits + parse_and_normalize_date",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "28fb6103c1b4af7615449c0c97a66d37911adfbcd4ea173acfd7da2291971d92",
+        "layout": "BILINGUAL_TWO_COLUMN_TABLE",
+        "font_key": "NirmalaUI",
+        "digit_mode": "all_deva_digits"
+      }
+    },
+    {
+      "document_id": "T42_HIN_002",
+      "language": "hin",
+      "script": "DEVANAGARI",
+      "field_name": "issue_date",
+      "raw_value": "१०-१०-२०२६",
+      "normalization_rule": "normalize_indic_digits + parse_and_normalize_date",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "28fb6103c1b4af7615449c0c97a66d37911adfbcd4ea173acfd7da2291971d92",
+        "layout": "BILINGUAL_TWO_COLUMN_TABLE",
+        "font_key": "NirmalaUI",
+        "digit_mode": "all_deva_digits"
+      }
+    },
+    {
+      "document_id": "T42_HIN_002",
+      "language": "hin",
+      "script": "DEVANAGARI",
+      "field_name": "annual_income",
+      "raw_value": "₹ १,२०,०००/-",
+      "normalization_rule": "normalize_indic_digits + normalize_income",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "28fb6103c1b4af7615449c0c97a66d37911adfbcd4ea173acfd7da2291971d92",
+        "layout": "BILINGUAL_TWO_COLUMN_TABLE",
+        "font_key": "NirmalaUI",
+        "digit_mode": "all_deva_digits"
+      }
+    },
+    {
+      "document_id": "T42_HIN_002",
+      "language": "hin",
+      "script": "DEVANAGARI",
+      "field_name": "certificate_number",
+      "raw_value": "UP/INC/२०२६/२०८७४१",
+      "normalization_rule": "normalize_indic_digits + normalize_cert_number",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "28fb6103c1b4af7615449c0c97a66d37911adfbcd4ea173acfd7da2291971d92",
+        "layout": "BILINGUAL_TWO_COLUMN_TABLE",
+        "font_key": "NirmalaUI",
+        "digit_mode": "all_deva_digits"
+      }
+    },
+    {
+      "document_id": "T42_HIN_003",
+      "language": "hin",
+      "script": "DEVANAGARI",
+      "field_name": "dob",
+      "raw_value": "०९.१२.१९८८",
+      "normalization_rule": "normalize_indic_digits + parse_and_normalize_date",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "d67671aa11d5936a37866ce30d13f820eb8e698117121cf25d18baff5d67685b",
+        "layout": "COMPACT_BOXED_REGISTER",
+        "font_key": "Mangal",
+        "digit_mode": "mixed_digits"
+      }
+    },
+    {
+      "document_id": "T42_HIN_003",
+      "language": "hin",
+      "script": "DEVANAGARI",
+      "field_name": "issue_date",
+      "raw_value": "05.09.2026",
+      "normalization_rule": "normalize_indic_digits + parse_and_normalize_date",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "d67671aa11d5936a37866ce30d13f820eb8e698117121cf25d18baff5d67685b",
+        "layout": "COMPACT_BOXED_REGISTER",
+        "font_key": "Mangal",
+        "digit_mode": "mixed_digits"
+      }
+    },
+    {
+      "document_id": "T42_HIN_003",
+      "language": "hin",
+      "script": "DEVANAGARI",
+      "field_name": "annual_income",
+      "raw_value": "Rs. ९५,५००/-",
+      "normalization_rule": "normalize_indic_digits + normalize_income",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "d67671aa11d5936a37866ce30d13f820eb8e698117121cf25d18baff5d67685b",
+        "layout": "COMPACT_BOXED_REGISTER",
+        "font_key": "Mangal",
+        "digit_mode": "mixed_digits"
+      }
+    },
+    {
+      "document_id": "T42_HIN_003",
+      "language": "hin",
+      "script": "DEVANAGARI",
+      "field_name": "certificate_number",
+      "raw_value": "RJ-INC-2०२६-३१९०४२",
+      "normalization_rule": "normalize_indic_digits + normalize_cert_number",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "d67671aa11d5936a37866ce30d13f820eb8e698117121cf25d18baff5d67685b",
+        "layout": "COMPACT_BOXED_REGISTER",
+        "font_key": "Mangal",
+        "digit_mode": "mixed_digits"
+      }
+    },
+    {
+      "document_id": "T42_HIN_004",
+      "language": "hin",
+      "script": "DEVANAGARI",
+      "field_name": "dob",
+      "raw_value": "१८/०७/१९९८",
+      "normalization_rule": "normalize_indic_digits + parse_and_normalize_date",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "a25d6a212868738adf3a9a6c60d73a9ba8bec7a668f37327387ad442d9653c1b",
+        "layout": "SUBHADRA_STYLE_WELFARE_SLIP",
+        "font_key": "NirmalaUI",
+        "digit_mode": "all_deva_digits"
+      }
+    },
+    {
+      "document_id": "T42_HIN_004",
+      "language": "hin",
+      "script": "DEVANAGARI",
+      "field_name": "issue_date",
+      "raw_value": "१९/११/२०२६",
+      "normalization_rule": "normalize_indic_digits + parse_and_normalize_date",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "a25d6a212868738adf3a9a6c60d73a9ba8bec7a668f37327387ad442d9653c1b",
+        "layout": "SUBHADRA_STYLE_WELFARE_SLIP",
+        "font_key": "NirmalaUI",
+        "digit_mode": "all_deva_digits"
+      }
+    },
+    {
+      "document_id": "T42_HIN_004",
+      "language": "hin",
+      "script": "DEVANAGARI",
+      "field_name": "annual_income",
+      "raw_value": "₹ १,४५,०००/-",
+      "normalization_rule": "normalize_indic_digits + normalize_income",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "a25d6a212868738adf3a9a6c60d73a9ba8bec7a668f37327387ad442d9653c1b",
+        "layout": "SUBHADRA_STYLE_WELFARE_SLIP",
+        "font_key": "NirmalaUI",
+        "digit_mode": "all_deva_digits"
+      }
+    },
+    {
+      "document_id": "T42_HIN_004",
+      "language": "hin",
+      "script": "DEVANAGARI",
+      "field_name": "certificate_number",
+      "raw_value": "MP/WEL/२०२६/४१०२५६",
+      "normalization_rule": "normalize_indic_digits + normalize_cert_number",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "a25d6a212868738adf3a9a6c60d73a9ba8bec7a668f37327387ad442d9653c1b",
+        "layout": "SUBHADRA_STYLE_WELFARE_SLIP",
+        "font_key": "NirmalaUI",
+        "digit_mode": "all_deva_digits"
+      }
+    },
+    {
+      "document_id": "T42_HIN_005",
+      "language": "hin",
+      "script": "DEVANAGARI",
+      "field_name": "dob",
+      "raw_value": "२७/०१/१९९३",
+      "normalization_rule": "normalize_indic_digits + parse_and_normalize_date",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "62848f5d7fbb4cf51a2843199738304796b272116d7cb3919c61fa12bf492c1d",
+        "layout": "INCOME_CERTIFICATE_PORTRAIT",
+        "font_key": "NirmalaUI",
+        "digit_mode": "mixed_digits"
+      }
+    },
+    {
+      "document_id": "T42_HIN_005",
+      "language": "hin",
+      "script": "DEVANAGARI",
+      "field_name": "issue_date",
+      "raw_value": "02/11/2026",
+      "normalization_rule": "normalize_indic_digits + parse_and_normalize_date",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "62848f5d7fbb4cf51a2843199738304796b272116d7cb3919c61fa12bf492c1d",
+        "layout": "INCOME_CERTIFICATE_PORTRAIT",
+        "font_key": "NirmalaUI",
+        "digit_mode": "mixed_digits"
+      }
+    },
+    {
+      "document_id": "T42_HIN_005",
+      "language": "hin",
+      "script": "DEVANAGARI",
+      "field_name": "annual_income",
+      "raw_value": "१.८ LPA",
+      "normalization_rule": "normalize_indic_digits + normalize_income",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "62848f5d7fbb4cf51a2843199738304796b272116d7cb3919c61fa12bf492c1d",
+        "layout": "INCOME_CERTIFICATE_PORTRAIT",
+        "font_key": "NirmalaUI",
+        "digit_mode": "mixed_digits"
+      }
+    },
+    {
+      "document_id": "T42_HIN_005",
+      "language": "hin",
+      "script": "DEVANAGARI",
+      "field_name": "certificate_number",
+      "raw_value": "BR/INC/2०२६/५१२८३९",
+      "normalization_rule": "normalize_indic_digits + normalize_cert_number",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "62848f5d7fbb4cf51a2843199738304796b272116d7cb3919c61fa12bf492c1d",
+        "layout": "INCOME_CERTIFICATE_PORTRAIT",
+        "font_key": "NirmalaUI",
+        "digit_mode": "mixed_digits"
+      }
+    },
+    {
+      "document_id": "T42_HIN_006",
+      "language": "hin",
+      "script": "DEVANAGARI",
+      "field_name": "dob",
+      "raw_value": "१४-०५-१९९६",
+      "normalization_rule": "normalize_indic_digits + parse_and_normalize_date",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "82dfeb4dda401182a422417fab7b786d4ee6f453c09bd8e8018f7d81552eacd0",
+        "layout": "BILINGUAL_TWO_COLUMN_TABLE",
+        "font_key": "Mangal",
+        "digit_mode": "all_deva_digits"
+      }
+    },
+    {
+      "document_id": "T42_HIN_006",
+      "language": "hin",
+      "script": "DEVANAGARI",
+      "field_name": "issue_date",
+      "raw_value": "२१-१०-२०२६",
+      "normalization_rule": "normalize_indic_digits + parse_and_normalize_date",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "82dfeb4dda401182a422417fab7b786d4ee6f453c09bd8e8018f7d81552eacd0",
+        "layout": "BILINGUAL_TWO_COLUMN_TABLE",
+        "font_key": "Mangal",
+        "digit_mode": "all_deva_digits"
+      }
+    },
+    {
+      "document_id": "T42_HIN_006",
+      "language": "hin",
+      "script": "DEVANAGARI",
+      "field_name": "annual_income",
+      "raw_value": "₹ ७२,०००/-",
+      "normalization_rule": "normalize_indic_digits + normalize_income",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "82dfeb4dda401182a422417fab7b786d4ee6f453c09bd8e8018f7d81552eacd0",
+        "layout": "BILINGUAL_TWO_COLUMN_TABLE",
+        "font_key": "Mangal",
+        "digit_mode": "all_deva_digits"
+      }
+    },
+    {
+      "document_id": "T42_HIN_006",
+      "language": "hin",
+      "script": "DEVANAGARI",
+      "field_name": "certificate_number",
+      "raw_value": "CG/INC/२०२६/६२३९१४",
+      "normalization_rule": "normalize_indic_digits + normalize_cert_number",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "82dfeb4dda401182a422417fab7b786d4ee6f453c09bd8e8018f7d81552eacd0",
+        "layout": "BILINGUAL_TWO_COLUMN_TABLE",
+        "font_key": "Mangal",
+        "digit_mode": "all_deva_digits"
+      }
+    },
+    {
+      "document_id": "T42_HIN_007",
+      "language": "hin",
+      "script": "DEVANAGARI",
+      "field_name": "dob",
+      "raw_value": "03/11/1989",
+      "normalization_rule": "normalize_indic_digits + parse_and_normalize_date",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "152714b385a48e4c5946329480ae6eea085a34f300dccf1a411de47bf27abc13",
+        "layout": "COMPACT_BOXED_REGISTER",
+        "font_key": "NirmalaUI",
+        "digit_mode": "ascii_digits_with_deva_labels"
+      }
+    },
+    {
+      "document_id": "T42_HIN_007",
+      "language": "hin",
+      "script": "DEVANAGARI",
+      "field_name": "issue_date",
+      "raw_value": "12/08/2026",
+      "normalization_rule": "normalize_indic_digits + parse_and_normalize_date",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "152714b385a48e4c5946329480ae6eea085a34f300dccf1a411de47bf27abc13",
+        "layout": "COMPACT_BOXED_REGISTER",
+        "font_key": "NirmalaUI",
+        "digit_mode": "ascii_digits_with_deva_labels"
+      }
+    },
+    {
+      "document_id": "T42_HIN_007",
+      "language": "hin",
+      "script": "DEVANAGARI",
+      "field_name": "annual_income",
+      "raw_value": "Rs. 2,10,000/-",
+      "normalization_rule": "normalize_indic_digits + normalize_income",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "152714b385a48e4c5946329480ae6eea085a34f300dccf1a411de47bf27abc13",
+        "layout": "COMPACT_BOXED_REGISTER",
+        "font_key": "NirmalaUI",
+        "digit_mode": "ascii_digits_with_deva_labels"
+      }
+    },
+    {
+      "document_id": "T42_HIN_007",
+      "language": "hin",
+      "script": "DEVANAGARI",
+      "field_name": "certificate_number",
+      "raw_value": "JH-RES-2026-734125",
+      "normalization_rule": "normalize_indic_digits + normalize_cert_number",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "152714b385a48e4c5946329480ae6eea085a34f300dccf1a411de47bf27abc13",
+        "layout": "COMPACT_BOXED_REGISTER",
+        "font_key": "NirmalaUI",
+        "digit_mode": "ascii_digits_with_deva_labels"
+      }
+    },
+    {
+      "document_id": "T42_HIN_008",
+      "language": "hin",
+      "script": "DEVANAGARI",
+      "field_name": "dob",
+      "raw_value": "२९-०६-१९९४",
+      "normalization_rule": "normalize_indic_digits + parse_and_normalize_date",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "62574e14a5b8ab30a10f6e5b181ceb49812678e97e1aee51f5d12ac929715a4c",
+        "layout": "SUBHADRA_STYLE_WELFARE_SLIP",
+        "font_key": "Mangal",
+        "digit_mode": "all_deva_digits"
+      }
+    },
+    {
+      "document_id": "T42_HIN_008",
+      "language": "hin",
+      "script": "DEVANAGARI",
+      "field_name": "issue_date",
+      "raw_value": "१७/११/२०२६",
+      "normalization_rule": "normalize_indic_digits + parse_and_normalize_date",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "62574e14a5b8ab30a10f6e5b181ceb49812678e97e1aee51f5d12ac929715a4c",
+        "layout": "SUBHADRA_STYLE_WELFARE_SLIP",
+        "font_key": "Mangal",
+        "digit_mode": "all_deva_digits"
+      }
+    },
+    {
+      "document_id": "T42_HIN_008",
+      "language": "hin",
+      "script": "DEVANAGARI",
+      "field_name": "annual_income",
+      "raw_value": "₹ ६४,०००/-",
+      "normalization_rule": "normalize_indic_digits + normalize_income",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "62574e14a5b8ab30a10f6e5b181ceb49812678e97e1aee51f5d12ac929715a4c",
+        "layout": "SUBHADRA_STYLE_WELFARE_SLIP",
+        "font_key": "Mangal",
+        "digit_mode": "all_deva_digits"
+      }
+    },
+    {
+      "document_id": "T42_HIN_008",
+      "language": "hin",
+      "script": "DEVANAGARI",
+      "field_name": "certificate_number",
+      "raw_value": "UP/WEL/२०२६/८४५२३६",
+      "normalization_rule": "normalize_indic_digits + normalize_cert_number",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "62574e14a5b8ab30a10f6e5b181ceb49812678e97e1aee51f5d12ac929715a4c",
+        "layout": "SUBHADRA_STYLE_WELFARE_SLIP",
+        "font_key": "Mangal",
+        "digit_mode": "all_deva_digits"
+      }
+    },
+    {
+      "document_id": "T42_HIN_009",
+      "language": "hin",
+      "script": "DEVANAGARI",
+      "field_name": "dob",
+      "raw_value": "११.०४.१९९७",
+      "normalization_rule": "normalize_indic_digits + parse_and_normalize_date",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "bc293b0aff446a538dc0efcb5278245cda143a32c835ed9b1254f2ece39ce729",
+        "layout": "INCOME_CERTIFICATE_PORTRAIT",
+        "font_key": "Mangal",
+        "digit_mode": "mixed_digits"
+      }
+    },
+    {
+      "document_id": "T42_HIN_009",
+      "language": "hin",
+      "script": "DEVANAGARI",
+      "field_name": "issue_date",
+      "raw_value": "25.10.2026",
+      "normalization_rule": "normalize_indic_digits + parse_and_normalize_date",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "bc293b0aff446a538dc0efcb5278245cda143a32c835ed9b1254f2ece39ce729",
+        "layout": "INCOME_CERTIFICATE_PORTRAIT",
+        "font_key": "Mangal",
+        "digit_mode": "mixed_digits"
+      }
+    },
+    {
+      "document_id": "T42_HIN_009",
+      "language": "hin",
+      "script": "DEVANAGARI",
+      "field_name": "annual_income",
+      "raw_value": "२.४ Lakh",
+      "normalization_rule": "normalize_indic_digits + normalize_income",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "bc293b0aff446a538dc0efcb5278245cda143a32c835ed9b1254f2ece39ce729",
+        "layout": "INCOME_CERTIFICATE_PORTRAIT",
+        "font_key": "Mangal",
+        "digit_mode": "mixed_digits"
+      }
+    },
+    {
+      "document_id": "T42_HIN_009",
+      "language": "hin",
+      "script": "DEVANAGARI",
+      "field_name": "certificate_number",
+      "raw_value": "HR/INC/2०२६/९५६३४७",
+      "normalization_rule": "normalize_indic_digits + normalize_cert_number",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "bc293b0aff446a538dc0efcb5278245cda143a32c835ed9b1254f2ece39ce729",
+        "layout": "INCOME_CERTIFICATE_PORTRAIT",
+        "font_key": "Mangal",
+        "digit_mode": "mixed_digits"
+      }
+    },
+    {
+      "document_id": "T42_HIN_010",
+      "language": "hin",
+      "script": "DEVANAGARI",
+      "field_name": "dob",
+      "raw_value": "०८/०९/१९९०",
+      "normalization_rule": "normalize_indic_digits + parse_and_normalize_date",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "76f90ca57c1b620bfec3e79c5596e0f6b4aa1545b830879338895ed785d1f440",
+        "layout": "BILINGUAL_TWO_COLUMN_TABLE",
+        "font_key": "NirmalaUI",
+        "digit_mode": "all_deva_digits"
+      }
+    },
+    {
+      "document_id": "T42_HIN_010",
+      "language": "hin",
+      "script": "DEVANAGARI",
+      "field_name": "issue_date",
+      "raw_value": "०१/११/२०२६",
+      "normalization_rule": "normalize_indic_digits + parse_and_normalize_date",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "76f90ca57c1b620bfec3e79c5596e0f6b4aa1545b830879338895ed785d1f440",
+        "layout": "BILINGUAL_TWO_COLUMN_TABLE",
+        "font_key": "NirmalaUI",
+        "digit_mode": "all_deva_digits"
+      }
+    },
+    {
+      "document_id": "T42_HIN_010",
+      "language": "hin",
+      "script": "DEVANAGARI",
+      "field_name": "annual_income",
+      "raw_value": "₹ १,६५,०००/-",
+      "normalization_rule": "normalize_indic_digits + normalize_income",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "76f90ca57c1b620bfec3e79c5596e0f6b4aa1545b830879338895ed785d1f440",
+        "layout": "BILINGUAL_TWO_COLUMN_TABLE",
+        "font_key": "NirmalaUI",
+        "digit_mode": "all_deva_digits"
+      }
+    },
+    {
+      "document_id": "T42_HIN_010",
+      "language": "hin",
+      "script": "DEVANAGARI",
+      "field_name": "certificate_number",
+      "raw_value": "UK/INC/२०२६/१६७४५८",
+      "normalization_rule": "normalize_indic_digits + normalize_cert_number",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "76f90ca57c1b620bfec3e79c5596e0f6b4aa1545b830879338895ed785d1f440",
+        "layout": "BILINGUAL_TWO_COLUMN_TABLE",
+        "font_key": "NirmalaUI",
+        "digit_mode": "all_deva_digits"
+      }
+    },
+    {
+      "document_id": "T42_HIN_011",
+      "language": "hin",
+      "script": "DEVANAGARI",
+      "field_name": "dob",
+      "raw_value": "२०-१२-१९८६",
+      "normalization_rule": "normalize_indic_digits + parse_and_normalize_date",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "a06bacf94a459030851a5753ad38b30e1c9b6e2807da1797673c93250aa3ab64",
+        "layout": "COMPACT_BOXED_REGISTER",
+        "font_key": "Mangal",
+        "digit_mode": "all_deva_digits"
+      }
+    },
+    {
+      "document_id": "T42_HIN_011",
+      "language": "hin",
+      "script": "DEVANAGARI",
+      "field_name": "issue_date",
+      "raw_value": "१५-०९-२०२६",
+      "normalization_rule": "normalize_indic_digits + parse_and_normalize_date",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "a06bacf94a459030851a5753ad38b30e1c9b6e2807da1797673c93250aa3ab64",
+        "layout": "COMPACT_BOXED_REGISTER",
+        "font_key": "Mangal",
+        "digit_mode": "all_deva_digits"
+      }
+    },
+    {
+      "document_id": "T42_HIN_011",
+      "language": "hin",
+      "script": "DEVANAGARI",
+      "field_name": "annual_income",
+      "raw_value": "₹ १,१०,०००/-",
+      "normalization_rule": "normalize_indic_digits + normalize_income",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "a06bacf94a459030851a5753ad38b30e1c9b6e2807da1797673c93250aa3ab64",
+        "layout": "COMPACT_BOXED_REGISTER",
+        "font_key": "Mangal",
+        "digit_mode": "all_deva_digits"
+      }
+    },
+    {
+      "document_id": "T42_HIN_011",
+      "language": "hin",
+      "script": "DEVANAGARI",
+      "field_name": "certificate_number",
+      "raw_value": "DL-INC-२०२६-२७८५६९",
+      "normalization_rule": "normalize_indic_digits + normalize_cert_number",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "a06bacf94a459030851a5753ad38b30e1c9b6e2807da1797673c93250aa3ab64",
+        "layout": "COMPACT_BOXED_REGISTER",
+        "font_key": "Mangal",
+        "digit_mode": "all_deva_digits"
+      }
+    },
+    {
+      "document_id": "T42_HIN_012",
+      "language": "hin",
+      "script": "DEVANAGARI",
+      "field_name": "dob",
+      "raw_value": "०५/०२/१९९९",
+      "normalization_rule": "normalize_indic_digits + parse_and_normalize_date",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "5b211299d6b09c834f4e66ca62246b38d94f374831353675bb4f1f02ac3a295d",
+        "layout": "SUBHADRA_STYLE_WELFARE_SLIP",
+        "font_key": "NirmalaUI",
+        "digit_mode": "mixed_digits"
+      }
+    },
+    {
+      "document_id": "T42_HIN_012",
+      "language": "hin",
+      "script": "DEVANAGARI",
+      "field_name": "issue_date",
+      "raw_value": "23/11/2026",
+      "normalization_rule": "normalize_indic_digits + parse_and_normalize_date",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "5b211299d6b09c834f4e66ca62246b38d94f374831353675bb4f1f02ac3a295d",
+        "layout": "SUBHADRA_STYLE_WELFARE_SLIP",
+        "font_key": "NirmalaUI",
+        "digit_mode": "mixed_digits"
+      }
+    },
+    {
+      "document_id": "T42_HIN_012",
+      "language": "hin",
+      "script": "DEVANAGARI",
+      "field_name": "annual_income",
+      "raw_value": "Rs. ९०,०००/-",
+      "normalization_rule": "normalize_indic_digits + normalize_income",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "5b211299d6b09c834f4e66ca62246b38d94f374831353675bb4f1f02ac3a295d",
+        "layout": "SUBHADRA_STYLE_WELFARE_SLIP",
+        "font_key": "NirmalaUI",
+        "digit_mode": "mixed_digits"
+      }
+    },
+    {
+      "document_id": "T42_HIN_012",
+      "language": "hin",
+      "script": "DEVANAGARI",
+      "field_name": "certificate_number",
+      "raw_value": "MP/WEL/2०२६/३८९६७०",
+      "normalization_rule": "normalize_indic_digits + normalize_cert_number",
+      "provenance": {
+        "generator_version": "1.0.0",
+        "generator_seed": 20261128,
+        "document_sha256": "5b211299d6b09c834f4e66ca62246b38d94f374831353675bb4f1f02ac3a295d",
+        "layout": "SUBHADRA_STYLE_WELFARE_SLIP",
+        "font_key": "NirmalaUI",
+        "digit_mode": "mixed_digits"
+      }
+    }
+  ]
+}

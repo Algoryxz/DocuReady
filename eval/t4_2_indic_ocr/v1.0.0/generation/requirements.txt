@@ -1,0 +1,4 @@
+# T4.2 Indic OCR Evaluation Corpus v1.0.0 generation dependencies
+# Verified environment versions on Windows 11 (Python 3.12.0)
+PyMuPDF==2.1
+pillow>=10.0.0
