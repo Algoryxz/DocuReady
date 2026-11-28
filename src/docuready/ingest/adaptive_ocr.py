@@ -99,6 +99,17 @@ class _InProcessScriptProbe:
                 self._tessdata_dir = os.environ["TESSDATA_PREFIX"]
             else:
                 self._tessdata_dir = None
+                for td_cand in (
+                    "/usr/share/tesseract-ocr/5/tessdata",
+                    "/usr/share/tesseract-ocr/4.00/tessdata",
+                    "/usr/share/tesseract-ocr/tessdata",
+                    "/usr/share/tessdata",
+                    "/opt/homebrew/share/tessdata",
+                    "/usr/local/share/tessdata",
+                ):
+                    if (Path(td_cand) / "eng.traineddata").is_file():
+                        self._tessdata_dir = td_cand
+                        break
             lib.TessBaseAPICreate.restype = ctypes.c_void_p
             lib.TessBaseAPIDelete.argtypes = [ctypes.c_void_p]
             lib.TessBaseAPIInit3.argtypes = [ctypes.c_void_p, ctypes.c_char_p, ctypes.c_char_p]
