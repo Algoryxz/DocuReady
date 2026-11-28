@@ -99,7 +99,7 @@ class _InProcessScriptProbe:
                 self._unavailable = True
                 return False
 
-            unified_dir = get_unified_tessdata_dir(tess_bin)
+            unified_dir = get_unified_tessdata_dir(Path(tess_bin))
             if unified_dir is not None:
                 self._tessdata_dir = str(unified_dir)
             elif os.environ.get("TESSDATA_PREFIX"):
