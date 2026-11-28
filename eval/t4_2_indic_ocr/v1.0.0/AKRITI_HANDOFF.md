@@ -1,5 +1,6 @@
 # T4.2 Indic OCR Evaluation — Handoff to Akriti
 
+- **Branch:** `feat/t4-2-indic-ocr-evaluation-corpus` (base commit: `4791c18`, branched from `main` at `9e2b4cf`)
 - **Corpus Version:** `1.0.0`
 - **Repository Path:** `eval/t4_2_indic_ocr/v1.0.0/`
 - **Evaluation Role:** `held_out` (`training_eligible: false`, `extraction_mode: LOCAL_OCR`, `native_text_layer: false`)
@@ -32,6 +33,10 @@ First verification command you can run immediately:
 .\.venv\Scripts\python.exe -m pytest tests\test_t4_2_indic_ocr_corpus.py -q
 ```
 Then iterate `manifest.json["documents"]` with `DocumentExtractor().extract_document(doc_path, expected_type=DocumentType.INCOME_CERT, ocr_langs=...)` to record paired `eng` vs `eng+ori` / `eng+hin` metrics.
+
+## Pending Comparative Benchmark (For Akriti)
+- **Status:** **Pending Akriti** — the completed smoke check only exercised `T42_ORI_001.png` and `T42_HIN_001.png` to verify the `LOCAL_OCR` interface; it is **not** a 24-document accuracy benchmark.
+- **Scope Limitation:** This is an initial synthetic held-out corpus (`n=24`), not proof of real-world OCR accuracy.
 
 ## Remaining Notes / Blockers
 - Requires Tesseract with `eng`, `ori`, and `hin` traineddata installed (e.g., user-local `%LOCALAPPDATA%\DocuReady-OCR\tesseract-env` on Windows or `tesseract-ocr-{eng,ori,hin}` in CI).
