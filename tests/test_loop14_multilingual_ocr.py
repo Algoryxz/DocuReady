@@ -106,13 +106,17 @@ def test_hindi_devanagari_ocr_extraction():
     """Verifies that Tesseract with lang='hin' successfully extracts Devanagari text."""
     import pytesseract
 
-    img = Image.new("RGB", (600, 100), (255, 255, 255))
-    try:
-        font = ImageFont.truetype(r"C:\Windows\Fonts\Nirmala.ttc", 28)
-    except Exception:
-        font = ImageFont.load_default()
+    hin_corpus = ROOT / "research" / "loop14" / "corpus" / "DOC_HIN_01_ADMIN_CIRCULAR.png"
+    if hin_corpus.exists():
+        img = Image.open(hin_corpus).convert("RGB")
+    else:
+        img = Image.new("RGB", (600, 100), (255, 255, 255))
+        try:
+            font = ImageFont.truetype(r"C:\Windows\Fonts\Nirmala.ttc", 28)
+        except Exception:
+            font = ImageFont.load_default()
+        ImageDraw.Draw(img).text((20, 25), "प्रमाण पत्र: वैध आय", fill=(0, 0, 0), font=font)
 
-    ImageDraw.Draw(img).text((20, 25), "प्रमाण पत्र: वैध आय", fill=(0, 0, 0), font=font)
     txt = pytesseract.image_to_string(img, lang="hin").strip()
     assert len(txt) > 0
     # Must contain Devanagari characters
@@ -123,13 +127,17 @@ def test_odia_ocr_extraction():
     """Verifies that Tesseract with lang='ori' successfully extracts Odia script characters."""
     import pytesseract
 
-    img = Image.new("RGB", (600, 100), (255, 255, 255))
-    try:
-        font = ImageFont.truetype(r"C:\Windows\Fonts\Nirmala.ttc", 28)
-    except Exception:
-        font = ImageFont.load_default()
+    ori_corpus = ROOT / "research" / "loop18" / "corpus" / "DOC_EXT_06_ODIA_REVENUE_NOTICE.png"
+    if ori_corpus.exists():
+        img = Image.open(ori_corpus).convert("RGB")
+    else:
+        img = Image.new("RGB", (600, 100), (255, 255, 255))
+        try:
+            font = ImageFont.truetype(r"C:\Windows\Fonts\Nirmala.ttc", 28)
+        except Exception:
+            font = ImageFont.load_default()
+        ImageDraw.Draw(img).text((20, 25), "ପ୍ରମାଣ ପତ୍ର: ବୈଧ ଆୟ", fill=(0, 0, 0), font=font)
 
-    ImageDraw.Draw(img).text((20, 25), "ପ୍ରମାଣ ପତ୍ର: ବୈଧ ଆୟ", fill=(0, 0, 0), font=font)
     txt = pytesseract.image_to_string(img, lang="ori").strip()
     assert len(txt) > 0
     # Must contain Odia characters

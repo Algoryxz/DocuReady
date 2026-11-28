@@ -65,12 +65,40 @@ class _InProcessScriptProbe:
             if not tess_bin:
                 self._unavailable = True
                 return False
-            dll_path = Path(tess_bin).parent / "libtesseract-5.dll"
-            if not dll_path.exists():
+            import ctypes.util
+
+            tess_dir = Path(tess_bin).parent
+            lib_candidates: List[str] = []
+            if sys.platform == "win32":
+                lib_candidates.append(str(tess_dir / "libtesseract-5.dll"))
+            else:
+                for name in ("libtesseract.so.5", "libtesseract.so", "libtesseract.dylib"):
+                    lib_candidates.append(str(tess_dir / name))
+                found = ctypes.util.find_library("tesseract")
+                if found:
+                    lib_candidates.append(found)
+                lib_candidates.extend(["libtesseract.so.5", "libtesseract.so"])
+
+            lib = None
+            for cand in lib_candidates:
+                if os.path.isabs(cand) and not Path(cand).exists():
+                    continue
+                try:
+                    lib = ctypes.CDLL(cand)
+                    break
+                except OSError:
+                    continue
+            if lib is None:
                 self._unavailable = True
                 return False
-            self._tessdata_dir = str(get_unified_tessdata_dir(tess_bin))
-            lib = ctypes.CDLL(str(dll_path))
+
+            unified_dir = get_unified_tessdata_dir(tess_bin)
+            if unified_dir is not None:
+                self._tessdata_dir = str(unified_dir)
+            elif os.environ.get("TESSDATA_PREFIX"):
+                self._tessdata_dir = os.environ["TESSDATA_PREFIX"]
+            else:
+                self._tessdata_dir = None
             lib.TessBaseAPICreate.restype = ctypes.c_void_p
             lib.TessBaseAPIDelete.argtypes = [ctypes.c_void_p]
             lib.TessBaseAPIInit3.argtypes = [ctypes.c_void_p, ctypes.c_char_p, ctypes.c_char_p]
@@ -109,7 +137,8 @@ class _InProcessScriptProbe:
             if key == ("eng+hin+ori", 6):
                 self._unavailable = True
             return None
-        rc = self._lib.TessBaseAPIInit3(api, self._tessdata_dir.encode("utf-8"), lang.encode("utf-8"))
+        tessdata_arg = self._tessdata_dir.encode("utf-8") if self._tessdata_dir else None
+        rc = self._lib.TessBaseAPIInit3(api, tessdata_arg, lang.encode("utf-8"))
         if rc != 0:
             self._lib.TessBaseAPIDelete(api)
             if key == ("eng+hin+ori", 6):

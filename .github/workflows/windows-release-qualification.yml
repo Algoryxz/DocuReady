@@ -168,6 +168,13 @@ jobs:
           Get-FileHash $setup -Algorithm SHA256 | Format-List
           Get-FileHash $zip -Algorithm SHA256 | Format-List
 
+      - name: Verify packaged release integrity & demo reliability (Loop 09 & Loop 10)
+        shell: pwsh
+        env:
+          DOCUREADY_REQUIRE_RELEASE_ARTIFACTS: "1"
+        run: |
+          python -m pytest tests/test_loop09_release_integrity.py tests/test_loop10_demo_reliability.py -v
+
       - name: Install, launch, smoke-test sidecar, and uninstall
         shell: pwsh
         run: ./scripts/verify_clean_windows_runtime.ps1

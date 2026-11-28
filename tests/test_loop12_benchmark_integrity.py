@@ -48,6 +48,10 @@ def test_provenance_manifest_complete_and_valid():
 
     assert len(records) == 230, f"Expected exactly 230 samples, got {len(records)}"
 
+    if not (BENCHMARK_DIR / "data" / "funsd" / "funsd_001.pdf").is_file():
+        from research.loop11_benchmark.datasets.acquire_benchmark_data import main as generate_benchmark_data
+        generate_benchmark_data()
+
     sample_ids = set()
     suite_counts = {"FUNSD": 0, "SROIE": 0, "INDIC_OCR": 0, "DOCLAYNET": 0, "DEGRADATION": 0}
 
@@ -65,7 +69,9 @@ def test_provenance_manifest_complete_and_valid():
         assert r["is_external_raw_download"] is False
         assert len(r["sha256"]) == 64, f"Invalid SHA-256 for {sid}"
         assert r["file_size_bytes"] > 0, f"Zero file size for {sid}"
-        assert Path(r["file_path"]).is_file(), f"File does not exist: {r['file_path']}"
+        rel_path = Path(*r["file_path"].replace("\\", "/").split("/"))
+        sample_path = REPO_ROOT / rel_path
+        assert sample_path.is_file(), f"File does not exist: {r['file_path']}"
 
     assert suite_counts == {
         "FUNSD": 50,
