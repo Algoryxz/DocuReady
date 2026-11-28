@@ -30,7 +30,10 @@ def estimate_skew_angle(
     scale = float(thumb_height) / max(img.height, 1)
     new_w = max(int(img.width * scale), 1)
     thumb = img.resize((new_w, thumb_height), PIL.Image.Resampling.BILINEAR).convert("L")
-    arr = np.array(thumb)
+    try:
+        arr = np.array(thumb)
+    finally:
+        thumb.close()
 
     # Dynamic percentile thresholding:
     # Captures faint text (carbon copies) and handles shadow gradients robustly
@@ -49,92 +52,96 @@ def estimate_skew_angle(
         return 0.0, 0.0
 
     bin_pil = PIL.Image.fromarray(bin_arr * 255)
+    try:
+        # Coarse search: 1.5 degree increments across [-max_angle, +max_angle]
+        coarse_angles = np.arange(-max_angle, max_angle + 1.5, 1.5)
+        coarse_scores = []
 
-    # Coarse search: 1.5 degree increments across [-max_angle, +max_angle]
-    coarse_angles = np.arange(-max_angle, max_angle + 1.5, 1.5)
-    coarse_scores = []
-
-    for a in coarse_angles:
-        if abs(a) < 0.01:
-            rot_arr = bin_arr
-        else:
-            rot_arr = np.array(bin_pil.rotate(float(a), resample=PIL.Image.Resampling.NEAREST))
-        proj = np.sum(rot_arr, axis=1)
-        score = float(np.sum(np.diff(proj) ** 2))
-        coarse_scores.append(score)
-
-    coarse_scores = np.array(coarse_scores)
-    median_score = float(np.median(coarse_scores))
-    if median_score <= 0:
-        median_score = 1e-6
-
-    # Detect prominent local peaks (higher than neighbors)
-    peaks = []
-    for i in range(len(coarse_scores)):
-        prev_s = coarse_scores[i - 1] if i > 0 else -1.0
-        next_s = coarse_scores[i + 1] if i < len(coarse_scores) - 1 else -1.0
-        if coarse_scores[i] >= prev_s and coarse_scores[i] >= next_s:
-            peaks.append((coarse_scores[i], float(coarse_angles[i])))
-
-    peaks.sort(key=lambda x: x[0], reverse=True)
-    if not peaks:
-        return 0.0, 0.0
-
-    best_score, best_angle = peaks[0]
-    peak_ratio = best_score / median_score
-    selected_angle = best_angle
-    confidence = peak_ratio
-
-    # Ambiguity and multi-signal resolution
-    if hint_angle is not None:
-        dist_best = abs(best_angle - hint_angle)
-        if dist_best <= 2.5:
-            selected_angle = best_angle
-            confidence = peak_ratio
-        else:
-            # Best peak does not match token slope (likely watermark or border).
-            # Look for a candidate peak that matches the hint angle within 2.5°
-            matching_peaks = [p for p in peaks if abs(p[1] - hint_angle) <= 2.5 and (p[0] / median_score) >= min_confidence]
-            if matching_peaks:
-                selected_angle = matching_peaks[0][1]
-                confidence = matching_peaks[0][0] / median_score
+        for a in coarse_angles:
+            if abs(a) < 0.01:
+                rot_arr = bin_arr
             else:
-                confidence = peak_ratio * 0.3
-    else:
-        # No hint available
-        if abs(best_angle) > 25.0:
-            # Extreme angle typical of diagonal watermarks; check plausible physical skew range
-            plausible_peaks = [p for p in peaks if abs(p[1]) <= 25.0 and (p[0] / median_score) >= min_confidence]
-            if plausible_peaks:
-                selected_angle = plausible_peaks[0][1]
-                confidence = plausible_peaks[0][0] / median_score
+                with bin_pil.rotate(float(a), resample=PIL.Image.Resampling.NEAREST) as rot_pil:
+                    rot_arr = np.array(rot_pil)
+            proj = np.sum(rot_arr, axis=1)
+            score = float(np.sum(np.diff(proj) ** 2))
+            coarse_scores.append(score)
+
+        coarse_scores = np.array(coarse_scores)
+        median_score = float(np.median(coarse_scores))
+        if median_score <= 0:
+            median_score = 1e-6
+
+        # Detect prominent local peaks (higher than neighbors)
+        peaks = []
+        for i in range(len(coarse_scores)):
+            prev_s = coarse_scores[i - 1] if i > 0 else -1.0
+            next_s = coarse_scores[i + 1] if i < len(coarse_scores) - 1 else -1.0
+            if coarse_scores[i] >= prev_s and coarse_scores[i] >= next_s:
+                peaks.append((coarse_scores[i], float(coarse_angles[i])))
+
+        peaks.sort(key=lambda x: x[0], reverse=True)
+        if not peaks:
+            return 0.0, 0.0
+
+        best_score, best_angle = peaks[0]
+        peak_ratio = best_score / median_score
+        selected_angle = best_angle
+        confidence = peak_ratio
+
+        # Ambiguity and multi-signal resolution
+        if hint_angle is not None:
+            dist_best = abs(best_angle - hint_angle)
+            if dist_best <= 2.5:
+                selected_angle = best_angle
+                confidence = peak_ratio
             else:
-                confidence = peak_ratio * 0.5
+                # Best peak does not match token slope (likely watermark or border).
+                # Look for a candidate peak that matches the hint angle within 2.5°
+                matching_peaks = [p for p in peaks if abs(p[1] - hint_angle) <= 2.5 and (p[0] / median_score) >= min_confidence]
+                if matching_peaks:
+                    selected_angle = matching_peaks[0][1]
+                    confidence = matching_peaks[0][0] / median_score
+                else:
+                    confidence = peak_ratio * 0.3
         else:
-            # Plausible range: check dominance ratio against competing secondary peaks
-            secondary_peaks = [p for p in peaks[1:] if abs(p[1] - best_angle) >= 3.0]
-            if secondary_peaks:
-                sec_score, sec_angle = secondary_peaks[0]
-                dominance_ratio = best_score / max(sec_score, 1e-6)
-                if dominance_ratio < 1.35:
-                    confidence = peak_ratio * (dominance_ratio / 1.35)
+            # No hint available
+            if abs(best_angle) > 25.0:
+                # Extreme angle typical of diagonal watermarks; check plausible physical skew range
+                plausible_peaks = [p for p in peaks if abs(p[1]) <= 25.0 and (p[0] / median_score) >= min_confidence]
+                if plausible_peaks:
+                    selected_angle = plausible_peaks[0][1]
+                    confidence = plausible_peaks[0][0] / median_score
+                else:
+                    confidence = peak_ratio * 0.5
+            else:
+                # Plausible range: check dominance ratio against competing secondary peaks
+                secondary_peaks = [p for p in peaks[1:] if abs(p[1] - best_angle) >= 3.0]
+                if secondary_peaks:
+                    sec_score, sec_angle = secondary_peaks[0]
+                    dominance_ratio = best_score / max(sec_score, 1e-6)
+                    if dominance_ratio < 1.35:
+                        confidence = peak_ratio * (dominance_ratio / 1.35)
 
-    # If peak-to-median ratio is weak, no reliable horizontal line structure exists
-    if confidence < min_confidence:
-        return 0.0, confidence
+        # If peak-to-median ratio is weak, no reliable horizontal line structure exists
+        if confidence < min_confidence:
+            return 0.0, confidence
 
-    # Fine search: 0.1 degree increments in ±1.5 degrees around selected coarse peak
-    fine_angles = np.arange(selected_angle - 1.5, selected_angle + 1.55, 0.1)
-    best_fine_angle = selected_angle
-    best_fine_score = -1.0
+        # Fine search: 0.1 degree increments in ±1.5 degrees around selected coarse peak
+        fine_angles = np.arange(selected_angle - 1.5, selected_angle + 1.55, 0.1)
+        best_fine_angle = selected_angle
+        best_fine_score = -1.0
 
-    for a in fine_angles:
-        rot_arr = np.array(bin_pil.rotate(float(a), resample=PIL.Image.Resampling.NEAREST))
-        proj = np.sum(rot_arr, axis=1)
-        score = float(np.sum(np.diff(proj) ** 2))
-        if score > best_fine_score:
-            best_fine_score = score
-            best_fine_angle = float(a)
+        for a in fine_angles:
+            with bin_pil.rotate(float(a), resample=PIL.Image.Resampling.NEAREST) as rot_pil:
+                rot_arr = np.array(rot_pil)
+            proj = np.sum(rot_arr, axis=1)
+            score = float(np.sum(np.diff(proj) ** 2))
+            if score > best_fine_score:
+                best_fine_score = score
+                best_fine_angle = float(a)
+    finally:
+        bin_pil.close()
 
     best_angle = round(best_fine_angle, 2)
 

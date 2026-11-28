@@ -1,6 +1,6 @@
 # DocuReady 2.0 — System Architecture
 
-**Canonical Status:** Active DocuReady 2.0 Architecture (reconciles `docs/ARCHITECTURE_V2.md` and `docs/adr/ADR-002-desktop-runtime-and-sidecar.md` against verified `origin/main` source at `aa29d07dfa3bea486a2b19cb78380edea8eb83ab`, updated from `9717ae5`).
+**Canonical Status:** Active DocuReady 2.0 Architecture (reconciles `docs/ARCHITECTURE_V2.md` and `docs/adr/ADR-002-desktop-runtime-and-sidecar.md` against verified `origin/main` source at `9e2b4cf84c8cc0b562dad5de317d44ce23da0783`, updated from `aa29d07`).
 
 ---
 

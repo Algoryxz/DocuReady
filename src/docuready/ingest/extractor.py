@@ -351,102 +351,115 @@ def _ocr_page(page: pymupdf.Page, dpi: int = 200, preferred_lang: Optional[str] 
     finally:
         pix = None  # Free native C pixmap memory immediately
 
-    rot_applied = 0
-    orig_size = (img.width, img.height)
-    rot_size = (img.width, img.height)
-
-    ocr_error: Optional[str] = None
-    # Step 1: Speculative token OCR on initial 0° image
     try:
-        data = pytesseract.image_to_data(img, lang=lang_to_use, output_type=pytesseract.Output.DICT, timeout=OCR_TIMEOUT_SECONDS)
-    except Exception as exc:
-        data = {"text": [], "conf": [], "left": [], "top": [], "width": [], "height": []}
-        ocr_error = f"Local OCR execution failed for language '{lang_to_use}': {type(exc).__name__}"
+        rot_applied = 0
+        orig_size = (img.width, img.height)
+        rot_size = (img.width, img.height)
 
-    # Step 2: Conservative Fast-Path check
-    # If the page is demonstrably upright with high token confidence and horizontal geometry, skip OSD and deskew!
-    if _is_demonstrably_upright(data):
-        return PageOCRData(data, dpi=dpi, rotation_applied=0, ocr_lang=lang_to_use, ocr_error=ocr_error)
-
-    # Step 3: Skew Analysis & Recovery for non-orthogonal rotations
-    try:
-        hint_angle = extract_token_baseline_slope(data)
-        corr_angle, skew_conf = estimate_skew_angle(img, max_angle=45.0, hint_angle=hint_angle)
-        if abs(corr_angle) >= 1.0 and skew_conf >= 5.0:
-            deskewed_img, o_sz, r_sz = deskew_image(img, corr_angle)
-            deskew_data = pytesseract.image_to_data(
-                deskewed_img,
-                lang=lang_to_use,
-                output_type=pytesseract.Output.DICT,
-                timeout=OCR_TIMEOUT_SECONDS
-            )
-            deskew_valid_count = sum(1 for w, c in zip(deskew_data.get("text", []), deskew_data.get("conf", [])) if str(w).strip() and float(c) >= 0)
-            initial_valid_count = sum(1 for w, c in zip(data.get("text", []), data.get("conf", [])) if str(w).strip() and float(c) >= 0)
-            if _is_demonstrably_upright(deskew_data) or deskew_valid_count > initial_valid_count:
-                return PageOCRData(
-                    deskew_data,
-                    dpi=dpi,
-                    rotation_applied=0,
-                    ocr_lang=lang_to_use,
-                    ocr_error=ocr_error,
-                    skew_angle=corr_angle,
-                    orig_size=o_sz,
-                    rot_size=r_sz
-                )
-    except Exception:
-        pass
-
-    # Step 4: If not deskewed, check if there are 0 valid tokens (e.g. blank scan), skip OSD to avoid 'Too few characters' error.
-    valid_token_count = sum(1 for w, c in zip(data.get("text", []), data.get("conf", [])) if str(w).strip() and float(c) >= 0)
-    if valid_token_count == 0:
-        return PageOCRData(data, dpi=dpi, rotation_applied=0, ocr_lang=lang_to_use, ocr_error=ocr_error)
-
-    # Step 5: Fallback to OSD for orthogonal orientation recovery on 90°, 180°, 270° pages
-    try:
-        rot = None
-        # Tier A: Fast downsampled OSD (0.60x) saves ~25-30% compute time on rotated scans
+        ocr_error: Optional[str] = None
+        # Step 1: Speculative token OCR on initial 0° image
         try:
-            target_size = (int(img.width * 0.60), int(img.height * 0.60))
-            small_img = img.resize(target_size, PIL.Image.Resampling.BILINEAR)
-            osd = pytesseract.image_to_osd(small_img, timeout=OSD_TIMEOUT_SECONDS)
-            rot_match = [line for line in osd.split("\n") if "Rotate:" in line]
-            if rot_match:
-                r = int(rot_match[0].split(":")[1].strip())
-                if r in [90, 180, 270]:
-                    rot = r
+            data = pytesseract.image_to_data(img, lang=lang_to_use, output_type=pytesseract.Output.DICT, timeout=OCR_TIMEOUT_SECONDS)
+        except Exception as exc:
+            data = {"text": [], "conf": [], "left": [], "top": [], "width": [], "height": []}
+            ocr_error = f"Local OCR execution failed for language '{lang_to_use}': {type(exc).__name__}"
+
+        # Step 2: Conservative Fast-Path check
+        # If the page is demonstrably upright with high token confidence and horizontal geometry, skip OSD and deskew!
+        if _is_demonstrably_upright(data):
+            return PageOCRData(data, dpi=dpi, rotation_applied=0, ocr_lang=lang_to_use, ocr_error=ocr_error)
+
+        # Step 3: Skew Analysis & Recovery for non-orthogonal rotations
+        try:
+            hint_angle = extract_token_baseline_slope(data)
+            corr_angle, skew_conf = estimate_skew_angle(img, max_angle=45.0, hint_angle=hint_angle)
+            if abs(corr_angle) >= 1.0 and skew_conf >= 5.0:
+                deskewed_img, o_sz, r_sz = deskew_image(img, corr_angle)
+                try:
+                    deskew_data = pytesseract.image_to_data(
+                        deskewed_img,
+                        lang=lang_to_use,
+                        output_type=pytesseract.Output.DICT,
+                        timeout=OCR_TIMEOUT_SECONDS
+                    )
+                finally:
+                    if deskewed_img is not img:
+                        deskewed_img.close()
+                deskew_valid_count = sum(1 for w, c in zip(deskew_data.get("text", []), deskew_data.get("conf", [])) if str(w).strip() and float(c) >= 0)
+                initial_valid_count = sum(1 for w, c in zip(data.get("text", []), data.get("conf", [])) if str(w).strip() and float(c) >= 0)
+                if _is_demonstrably_upright(deskew_data) or deskew_valid_count > initial_valid_count:
+                    return PageOCRData(
+                        deskew_data,
+                        dpi=dpi,
+                        rotation_applied=0,
+                        ocr_lang=lang_to_use,
+                        ocr_error=ocr_error,
+                        skew_angle=corr_angle,
+                        orig_size=o_sz,
+                        rot_size=r_sz
+                    )
         except Exception:
             pass
 
-        # Tier B: Full-resolution OSD fallback if Tier A did not detect an orthogonal rotation
-        if rot is None:
-            osd = pytesseract.image_to_osd(img, timeout=OSD_TIMEOUT_SECONDS)
-            rot_match = [line for line in osd.split("\n") if "Rotate:" in line]
-            if rot_match:
-                r = int(rot_match[0].split(":")[1].strip())
-                if r in [90, 180, 270]:
-                    rot = r
+        # Step 4: If not deskewed, check if there are 0 valid tokens (e.g. blank scan), skip OSD to avoid 'Too few characters' error.
+        valid_token_count = sum(1 for w, c in zip(data.get("text", []), data.get("conf", [])) if str(w).strip() and float(c) >= 0)
+        if valid_token_count == 0:
+            return PageOCRData(data, dpi=dpi, rotation_applied=0, ocr_lang=lang_to_use, ocr_error=ocr_error)
 
-        if rot in [90, 180, 270]:
-            rotated_img = img.rotate(360 - rot, expand=True, fillcolor=(255, 255, 255))
-            rot_applied = rot
-            orig_size = (img.width, img.height)
-            rot_size = (rotated_img.width, rotated_img.height)
-            # Re-run token OCR on the rotated upright image
+        # Step 5: Fallback to OSD for orthogonal orientation recovery on 90°, 180°, 270° pages
+        try:
+            rot = None
+            # Tier A: Fast downsampled OSD (0.60x) saves ~25-30% compute time on rotated scans
             try:
-                data = pytesseract.image_to_data(rotated_img, lang=lang_to_use, output_type=pytesseract.Output.DICT, timeout=OCR_TIMEOUT_SECONDS)
+                target_size = (int(img.width * 0.60), int(img.height * 0.60))
+                small_img = img.resize(target_size, PIL.Image.Resampling.BILINEAR)
+                try:
+                    osd = pytesseract.image_to_osd(small_img, timeout=OSD_TIMEOUT_SECONDS)
+                finally:
+                    small_img.close()
+                rot_match = [line for line in osd.split("\n") if "Rotate:" in line]
+                if rot_match:
+                    r = int(rot_match[0].split(":")[1].strip())
+                    if r in [90, 180, 270]:
+                        rot = r
             except Exception:
-                pass  # Keep initial data on secondary failure
-    except Exception:
-        pass  # Graceful fallback: retain initial token data if OSD fails or times out
+                pass
 
-    return PageOCRData(
-        data,
-        dpi=dpi,
-        rotation_applied=rot_applied,
-        ocr_lang=lang_to_use,
-        ocr_error=ocr_error,
-        skew_angle=0.0
-    )
+            # Tier B: Full-resolution OSD fallback if Tier A did not detect an orthogonal rotation
+            if rot is None:
+                osd = pytesseract.image_to_osd(img, timeout=OSD_TIMEOUT_SECONDS)
+                rot_match = [line for line in osd.split("\n") if "Rotate:" in line]
+                if rot_match:
+                    r = int(rot_match[0].split(":")[1].strip())
+                    if r in [90, 180, 270]:
+                        rot = r
+
+            if rot in [90, 180, 270]:
+                rotated_img = img.rotate(360 - rot, expand=True, fillcolor=(255, 255, 255))
+                try:
+                    rot_applied = rot
+                    orig_size = (img.width, img.height)
+                    rot_size = (rotated_img.width, rotated_img.height)
+                    # Re-run token OCR on the rotated upright image
+                    try:
+                        data = pytesseract.image_to_data(rotated_img, lang=lang_to_use, output_type=pytesseract.Output.DICT, timeout=OCR_TIMEOUT_SECONDS)
+                    except Exception:
+                        pass  # Keep initial data on secondary failure
+                finally:
+                    rotated_img.close()
+        except Exception:
+            pass  # Graceful fallback: retain initial token data if OSD fails or times out
+
+        return PageOCRData(
+            data,
+            dpi=dpi,
+            rotation_applied=rot_applied,
+            ocr_lang=lang_to_use,
+            ocr_error=ocr_error,
+            skew_angle=0.0
+        )
+    finally:
+        img.close()
 
 
 def _find_field_in_ocr_page(ocr_data: PageOCRData, patterns: List[str]) -> Tuple[Optional[str], Optional[List[float]], str, float, bool, float, int]:

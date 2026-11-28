@@ -223,25 +223,46 @@ def test_end_to_end_audit_integrity_under_skew(tmp_path):
 
 def test_memory_stability_across_repeated_deskew_ingestion():
     """Verifies that repeated deskew operations release image memory without cumulative heap growth."""
-    gc.collect()
     process = psutil.Process(os.getpid())
-    rss_start = process.memory_info().rss / (1024 * 1024)
 
+    # 1. Construct all test fixtures BEFORE taking the baseline measurement
     test_img = PIL.Image.new("RGB", (1600, 2200), (255, 255, 255))
     draw = PIL.ImageDraw.Draw(test_img)
     font = PIL.ImageFont.load_default()
     for row in range(25):
         draw.text((150, 100 + row * 60), f"Memory Stability Test Row {row:02d} Invariant", fill=(20, 20, 20), font=font)
     rot_test = test_img.rotate(7.0, expand=True, fillcolor=(255, 255, 255))
+    test_img.close()
+    del test_img, draw
 
-    for i in range(10):
-        ang, c = estimate_skew_angle(rot_test)
-        d_img, o_sz, r_sz = deskew_image(rot_test, ang)
-        del d_img
-        if i % 3 == 0:
-            gc.collect()
+    try:
+        # 2. Warm up deskew path so one-time NumPy/PIL/glibc buffers are initialized
+        ang_w, _ = estimate_skew_angle(rot_test)
+        d_w, _, _ = deskew_image(rot_test, ang_w)
+        if d_w is not rot_test:
+            d_w.close()
+        del d_w
+        gc.collect()
 
-    gc.collect()
-    rss_end = process.memory_info().rss / (1024 * 1024)
-    rss_growth = rss_end - rss_start
-    assert rss_growth < 50.0, f"Excessive memory growth during repeated deskew: {rss_growth:.1f} MB"
+        rss_start = process.memory_info().rss / (1024 * 1024)
+        cycle_rss = []
+
+        for i in range(10):
+            ang, _ = estimate_skew_angle(rot_test)
+            d_img, _, _ = deskew_image(rot_test, ang)
+            if d_img is not rot_test:
+                d_img.close()
+            del d_img
+            if i % 3 == 0:
+                gc.collect()
+            cycle_rss.append(round(process.memory_info().rss / (1024 * 1024), 2))
+
+        gc.collect()
+        rss_end = process.memory_info().rss / (1024 * 1024)
+        rss_growth = rss_end - rss_start
+        assert rss_growth < 50.0, (
+            f"Excessive memory growth during repeated deskew: {rss_growth:.2f} MB "
+            f"(baseline={rss_start:.2f} MB, end={rss_end:.2f} MB, cycles={cycle_rss})"
+        )
+    finally:
+        rot_test.close()

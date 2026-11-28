@@ -152,27 +152,51 @@ def test_field_extraction_recovery_on_10deg_skew():
 
 
 def test_repeated_deskew_memory_stability():
-    """Confirms no cumulative memory growth during repeated deskew and OCR processing."""
-    import psutil
-    process = psutil.Process()
+    """Confirms no cumulative memory growth during repeated deskew and OCR processing in an isolated subprocess."""
+    import json
+    import subprocess
+    import sys
+
     fpath = SKEW_CORPUS_DIR / "skew_clean_p05deg.pdf"
     if not fpath.exists():
         fpath = REALISTIC_CORPUS_DIR / "smp_21_rotated_5deg.pdf"
 
-    extractor = DocumentExtractor()
+    probe_script = (
+        "import gc, json, os, psutil\n"
+        "from docuready.ingest.extractor import DocumentExtractor\n"
+        f"fpath = {str(fpath)!r}\n"
+        "proc = psutil.Process(os.getpid())\n"
+        "ext = DocumentExtractor()\n"
+        "def sample():\n"
+        "    gc.collect()\n"
+        "    mi = proc.memory_full_info()\n"
+        "    return {'rss_mb': round(mi.rss / (1024*1024), 3), 'uss_mb': round(getattr(mi, 'uss', mi.rss) / (1024*1024), 3)}\n"
+        "for _ in range(2):\n"
+        "    res = ext.extract_document(fpath)\n"
+        "    del res\n"
+        "baseline = sample()\n"
+        "cycles = []\n"
+        "for _ in range(6):\n"
+        "    res = ext.extract_document(fpath)\n"
+        "    del res\n"
+        "    cycles.append(sample())\n"
+        "print(json.dumps({'baseline': baseline, 'cycles': cycles}))\n"
+    )
 
-    # Warmup
-    extractor.extract_document(str(fpath))
-    gc.collect()
-    mem_initial = process.memory_info().rss / (1024 * 1024)
+    proc_res = subprocess.run(
+        [sys.executable, "-c", probe_script],
+        capture_output=True,
+        text=True,
+        timeout=120,
+        check=True,
+    )
+    metrics = json.loads(proc_res.stdout.strip().splitlines()[-1])
+    baseline_rss = metrics["baseline"]["rss_mb"]
+    final_rss = metrics["cycles"][-1]["rss_mb"]
+    growth_mb = final_rss - baseline_rss
 
-    # 4 consecutive extraction cycles
-    for _ in range(4):
-        extractor.extract_document(str(fpath))
-
-    gc.collect()
-    mem_final = process.memory_info().rss / (1024 * 1024)
-    growth_mb = mem_final - mem_initial
-
-    # Allow max 10.0 MB overhead for Python runtime buffers
-    assert growth_mb < 10.0, f"Memory leak detected during deskew processing: {growth_mb:.2f} MB growth"
+    # Allow max 10.0 MB steady-state retained RSS overhead across 6 consecutive extractions
+    assert growth_mb < 10.0, (
+        f"Memory leak detected during deskew processing: {growth_mb:.2f} MB growth "
+        f"(baseline={metrics['baseline']}, cycles={metrics['cycles']})"
+    )
