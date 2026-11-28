@@ -262,13 +262,34 @@ def test_indic_dates_amounts_identifiers_and_verhoeff():
 
 
 def test_cross_script_name_matching_boundary():
-    """Verify cross-script names yield AMBIGUOUS (never CONFLICT or PASS)."""
+    """Verify cross-script names yield AMBIGUOUS, legacy status='FAIL', and V2 Status.REVIEW."""
+    from docuready.domain.enums import EvidenceState, MaxSeverity, Raw, Status
+    from docuready.outcome.resolver import resolve_outcome
+
     res_ori = compare_names("Pravasini Sahoo", "ପ୍ରଭାସିନୀ ସାହୁ")
     assert res_ori["grade"] == MatchGrade.AMBIGUOUS
-    assert res_ori["grade"] != MatchGrade.CONFLICT
-    assert res_ori["status"] != "PASS"
+    assert res_ori["status"] == "FAIL"
+    assert res_ori["type"] == "EMPTY_FIELD"
+    resolved_ori = resolve_outcome(
+        raw=Raw.INDETERMINATE,
+        weakest_evidence=EvidenceState.VERIFIED,
+        max_severity=MaxSeverity.FAIL,
+        match_grade=res_ori["grade"],
+    )
+    assert resolved_ori.status is Status.REVIEW
 
     res_hin = compare_names("Pravasini Sahoo", "प्रभासिनी साहू")
     assert res_hin["grade"] == MatchGrade.AMBIGUOUS
-    assert res_hin["grade"] != MatchGrade.CONFLICT
-    assert res_hin["status"] != "PASS"
+    assert res_hin["status"] == "FAIL"
+    assert res_hin["type"] == "EMPTY_FIELD"
+    resolved_hin = resolve_outcome(
+        raw=Raw.INDETERMINATE,
+        weakest_evidence=EvidenceState.VERIFIED,
+        max_severity=MaxSeverity.FAIL,
+        match_grade=res_hin["grade"],
+    )
+    assert resolved_hin.status is Status.REVIEW
+
+    assert validate_ifsc_code("SBIN୦୦୦୧୨୩୪") is True
+    assert validate_ifsc_code("SBIN०००१२३४") is True
+    assert validate_ifsc_code("SBI୦୦୦୧୨୩୪") is False

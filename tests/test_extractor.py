@@ -414,3 +414,126 @@ def test_tessdata_isolation_and_no_false_english_fallback(tmp_path: Path, monkey
                 info_default = get_ocr_runtime_info()
                 assert info_default["languages"] == ["eng"]
                 assert check_ocr_language_availability("eng")["available"] is True
+
+
+def _mock_ocr_payload_from_lines(lines):
+    words, confs, lefts, tops, widths, heights = [], [], [], [], [], []
+    for row_idx, line in enumerate(lines):
+        x = 10
+        y = 10 + row_idx * 30
+        for tok in line.split():
+            words.append(tok)
+            confs.append(92)
+            lefts.append(x)
+            tops.append(y)
+            widths.append(max(20, len(tok) * 8))
+            heights.append(15)
+            x += max(25, len(tok) * 8 + 6)
+    return {
+        "text": words,
+        "conf": confs,
+        "left": lefts,
+        "top": tops,
+        "width": widths,
+        "height": heights,
+    }
+
+
+def test_indic_identifier_extraction_preserves_raw_and_normalizes_canonical(tmp_path: Path):
+    """Verify extraction-level Indic cert_no, account_no, roll_no, and IFSC normalization."""
+    ext = DocumentExtractor()
+    pdf_path = _make_blank_raster_pdf(tmp_path, "indic_ids.pdf")
+
+    cases = [
+        # Odia certificate number
+        (
+            DocumentType.INCOME_CERT,
+            [
+                "GOVERNMENT OF ODISHA",
+                "INCOME CERTIFICATE",
+                "Certificate No: E-INC/୨୦୨୫/୧୦୪୯୨୮",
+                "Applicant Name: Pravasini Sahoo",
+                "Annual Family Income: 180000",
+            ],
+            "certificate_no",
+            "E-INC/୨୦୨୫/୧୦୪୯୨୮",
+            "EINC/2025/104928",
+        ),
+        # Devanagari certificate number
+        (
+            DocumentType.CASTE_CERT,
+            [
+                "GOVERNMENT OF ODISHA",
+                "CASTE CERTIFICATE",
+                "Certificate No: CST/२०२५/८८१९२",
+                "Applicant Name: Pravasini Sahoo",
+            ],
+            "certificate_no",
+            "CST/२०२५/८८१९२",
+            "CST/2025/88192",
+        ),
+        # Mixed-script certificate references on APPLICATION_FORM
+        (
+            DocumentType.APPLICATION_FORM,
+            [
+                "SCHEME APPLICATION FORM",
+                "Applicant Name: Pravasini Sahoo",
+                "Income Certificate Reference No: INC-୨୦୨୫/०१99",
+                "Caste Certificate Reference No: CST-୨୦୨୫/०२88",
+                "Residence Certificate Reference No: RES-२०२५/୦୩77",
+                "Bank Account Number: ୩୦୯୮୭୬୫୪୩୦୧",
+                "Bank IFSC Code: SBIN୦୦୦୧୨୩୪",
+            ],
+            "income_cert_no",
+            "INC-୨୦୨୫/०१99",
+            "INC2025/0199",
+        ),
+        # Marksheet roll_no with Odia digits
+        (
+            DocumentType.MARKSHEET,
+            [
+                "ACADEMIC MARKSHEET",
+                "Candidate Name: Pravasini Sahoo",
+                "Roll No: ୨୩୦୯BA୧୦୪୨",
+            ],
+            "roll_no",
+            "୨୩୦୯BA୧୦୪୨",
+            "2309BA1042",
+        ),
+        # Bank passbook account_no and IFSC with Devanagari digits
+        (
+            DocumentType.BANK_PASSBOOK,
+            [
+                "BANK PASSBOOK",
+                "Account Holder Name: Pravasini Sahoo",
+                "Account Number: ३०९८७६५४३०१",
+                "Bank IFSC Code: SBIN०००१२३४",
+            ],
+            "account_no",
+            "३०९८७६५४३०१",
+            "30987654301",
+        ),
+    ]
+
+    for doc_type, lines, field_name, exp_raw, exp_norm in cases:
+        payload = _mock_ocr_payload_from_lines(lines)
+        with patch("pytesseract.image_to_osd", side_effect=RuntimeError("no osd")):
+            with patch("pytesseract.image_to_data", return_value=payload):
+                doc = ext.extract_document(str(pdf_path), expected_type=doc_type)
+
+        assert field_name in doc.fields, f"{field_name} missing for {doc_type}"
+        assert doc.fields[field_name].raw_value == exp_raw
+        assert doc.fields[field_name].normalized_value == exp_norm
+
+        if doc_type == DocumentType.APPLICATION_FORM:
+            assert doc.fields["caste_cert_no"].raw_value == "CST-୨୦୨୫/०२88"
+            assert doc.fields["caste_cert_no"].normalized_value == "CST2025/0288"
+            assert doc.fields["residence_cert_no"].raw_value == "RES-२०२५/୦୩77"
+            assert doc.fields["residence_cert_no"].normalized_value == "RES2025/0377"
+            assert doc.fields["account_no"].raw_value == "୩୦୯୮୭୬୫୪୩୦୧"
+            assert doc.fields["account_no"].normalized_value == "30987654301"
+            assert doc.fields["ifsc"].raw_value == "SBIN୦୦୦୧୨୩୪"
+            assert doc.fields["ifsc"].normalized_value == "SBIN0001234"
+        if doc_type == DocumentType.BANK_PASSBOOK:
+            assert doc.fields["ifsc"].raw_value == "SBIN०००१२३४"
+            assert doc.fields["ifsc"].normalized_value == "SBIN0001234"

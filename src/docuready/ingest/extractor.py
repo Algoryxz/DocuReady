@@ -21,7 +21,7 @@ from docuready.domain.models import (
 )
 from docuready.normalize.normalizer import (
     normalize_name, parse_and_normalize_date, normalize_income,
-    validate_ifsc_code, normalize_cert_number
+    validate_ifsc_code, normalize_cert_number, normalize_indic_digits,
 )
 from docuready.evidence.calibrator import ConfidenceCalibrator, validate_field_syntax
 from docuready.ingest.tesseract_discovery import (
@@ -932,12 +932,20 @@ class DocumentExtractor:
             except Exception:
                 return None
 
+        def norm_ident(v):
+            return normalize_indic_digits(v).strip() if v else None
+
+        def norm_ifsc(v):
+            return normalize_indic_digits(v).strip().upper() if v else None
+
+        cert_chars = r"A-Za-z0-9\u0B66-\u0B6F\u0966-\u096F/\-"
+
         if doc_type == DocumentType.INCOME_CERT:
             add_field_func("applicant_name", [r"certify\s+that\s+([^,]+),", r"Applicant\s*Name\s*[:\|\-]?(.*)", r"certify\s+that\s+([A-Za-z\s]+?)(?:,|\s+(?:Son|Daughter|Son/Daughter|S/o|D/o|W/o)\b|\s+resident|\s+residing|\s+R/o|$)", r"Name\s*[:\|\-]?(.*)"], normalize_name)
             add_field_func("father_name", [r"Son/Daughter\s+of\s+([^,]+),", r"(?:Son/Daughter|Son|Daughter)\s+of\s+([A-Za-z\s]+?)(?:,|\s+resident|\s+residing|\s+R/o|$)", r"(?:S/o|D/o|W/o)\s*(?:of|/o)?\s*[:\|\-]?\s*([A-Za-z\s]+?)(?:,|\s+resident|\s+residing|\s+R/o|$)", r"Father['\s]*s?\s*Name\s*[:\|\-]?(.*)"], normalize_name)
             add_field_func("annual_income", [r"(?:Annual\s+)?(?:Family\s+)?Income\s*\(in\s+figures\)\s*[:\-]?(.*)", r"Annual\s+Family\s+Income\s*\(in\s+figures\)\s*[:\-]?(.*)", r"(?:Total\s+Annual|Annual\s+Family|Total\s+Family|Total|Annual)\s+(?:Family\s+)?Income[^\n:|]*[:\|\-]\s*(.*)", r"Annual\s+Family\s+Income[^\n:]*[:\-]?(.*)", r"(?:Total|Annual)\s+Income\s*[:\|\-]\s*(.*)"], normalize_income)
             add_field_func("issue_date", [r"Issue\s+Date\s*[:\-]?\s*(\d{2}/\d{2}/\d{4}|\d{4}-\d{2}-\d{2})", r"Date\s+of\s+Issue\s*[:\-]?\s*(\d{2}/\d{2}/\d{4}|\d{4}-\d{2}-\d{2})", r"(?:Issue\s+Date|Date\s+of\s+Issue|Date)\s*[:\|\-]?\s*([0-9]{1,4}[/\.\-\s]+[A-Za-z0-9]{1,9}[/\.\-\s]+[0-9]{2,4})"], parse_dt)
-            add_field_func("certificate_no", [r"Certificate\s+No\s*[:\-]?\s*([A-Za-z0-9/\-]+)", r"Cert\s+No\s*[:\-]?\s*([A-Za-z0-9/\-]+)", r"Certificate\s+(?:No|Number)\s*[:\|\-]?\s*([A-Za-z0-9/\-]+)"], normalize_cert_number)
+            add_field_func("certificate_no", [rf"Certificate\s+No\s*[:\-]?\s*([{cert_chars}]+)", rf"Cert\s+No\s*[:\-]?\s*([{cert_chars}]+)", rf"Certificate\s+(?:No|Number)\s*[:\|\-]?\s*([{cert_chars}]+)"], normalize_cert_number)
             add_field_func("state", [r"GOVERNMENT\s+OF\s+([^\n]+)", r"State\s+of\s+([^,\n]+)"], lambda s: s.strip().upper() if s else None)
 
         elif doc_type == DocumentType.CASTE_CERT:
@@ -945,7 +953,7 @@ class DocumentExtractor:
             add_field_func("father_name", [r"Son/Daughter\s+of\s+([^,]+),", r"(?:Son/Daughter|Son|Daughter)\s+of\s+([A-Za-z\s]+?)(?:,|\s+resident|\s+residing|\s+R/o|$)", r"(?:S/o|D/o|W/o)\s*(?:of|/o)?\s*[:\|\-]?\s*([A-Za-z\s]+?)(?:,|\s+resident|\s+residing|\s+R/o|$)", r"Father['\s]*s?\s*Name\s*[:\|\-]?(.*)"], normalize_name)
             add_field_func("caste_category", [r"Recognized\s+Category\s*[:\-]?(.*)", r"recognized\s+as\s+a\s+([A-Z/ ]+)\s+under"], lambda s: s.strip().upper() if s else None)
             add_field_func("sub_caste", [r"Sub-Caste[^\n:]*[:\-]?(.*)", r"belongs\s+to\s+the\s+([^\n]+)\s+community"], lambda s: s.strip().upper() if s else None)
-            add_field_func("certificate_no", [r"Certificate\s+No\s*[:\-]?\s*([A-Za-z0-9/\-]+)", r"Cert\s+No\s*[:\-]?\s*([A-Za-z0-9/\-]+)", r"Certificate\s+(?:No|Number)\s*[:\|\-]?\s*([A-Za-z0-9/\-]+)"], normalize_cert_number)
+            add_field_func("certificate_no", [rf"Certificate\s+No\s*[:\-]?\s*([{cert_chars}]+)", rf"Cert\s+No\s*[:\-]?\s*([{cert_chars}]+)", rf"Certificate\s+(?:No|Number)\s*[:\|\-]?\s*([{cert_chars}]+)"], normalize_cert_number)
             add_field_func("issue_date", [r"Issue\s+Date\s*[:\-]?\s*(\d{2}/\d{2}/\d{4}|\d{4}-\d{2}-\d{2})", r"(?:Issue\s+Date|Date\s+of\s+Issue|Date)\s*[:\|\-]?\s*([0-9]{1,4}[/\.\-\s]+[A-Za-z0-9]{1,9}[/\.\-\s]+[0-9]{2,4})"], parse_dt)
             add_field_func("state", [r"GOVERNMENT\s+OF\s+([^\n]+)", r"State\s+of\s+([^,\n]+)"], lambda s: s.strip().upper() if s else None)
 
@@ -953,20 +961,20 @@ class DocumentExtractor:
             add_field_func("applicant_name", [r"Applicant\s*Full\s*Name\s*[:\|\-]?(.*)", r"certify\s+that\s+([^,]+),", r"Applicant\s*Name\s*[:\|\-]?(.*)", r"Name\s*[:\|\-]?(.*)"], normalize_name)
             add_field_func("father_name", [r"Father['\s]*s?\s*/\s*Guardian['\s]*s?\s*Name\s*[:\|\-]?(.*)", r"Son/Daughter\s+of\s+([^,]+),", r"(?:Son/Daughter|Son|Daughter)\s+of\s+([A-Za-z\s]+?)(?:,|\s+resident|\s+residing|\s+R/o|$)", r"(?:S/o|D/o|W/o)\s*(?:of|/o)?\s*[:\|\-]?\s*([A-Za-z\s]+?)(?:,|\s+resident|\s+residing|\s+R/o|$)", r"Father['\s]*s?\s*Name\s*[:\|\-]?(.*)"], normalize_name)
             add_field_func("state", [r"Domicile\s+State\s*[:\|\-]?(.*)", r"State\s+of\s+([A-Za-z]+)", r"State\s*[:\|\-]?(.*)"], lambda s: s.strip().upper() if s else None)
-            add_field_func("certificate_no", [r"Certificate\s+No\s*[:\-]?\s*([A-Za-z0-9/\-]+)", r"Cert\s+No\s*[:\-]?\s*([A-Za-z0-9/\-]+)", r"Certificate\s+(?:No|Number)\s*[:\|\-]?\s*([A-Za-z0-9/\-]+)"], normalize_cert_number)
+            add_field_func("certificate_no", [rf"Certificate\s+No\s*[:\-]?\s*([{cert_chars}]+)", rf"Cert\s+No\s*[:\-]?\s*([{cert_chars}]+)", rf"Certificate\s+(?:No|Number)\s*[:\|\-]?\s*([{cert_chars}]+)"], normalize_cert_number)
             add_field_func("issue_date", [r"Issue\s+Date\s*[:\-]?\s*(\d{2}/\d{2}/\d{4}|\d{4}-\d{2}-\d{2})", r"(?:Issue\s+Date|Date\s+of\s+Issue|Date)\s*[:\|\-]?\s*([0-9]{1,4}[/\.\-\s]+[A-Za-z0-9]{1,9}[/\.\-\s]+[0-9]{2,4})"], parse_dt)
 
         elif doc_type == DocumentType.MARKSHEET:
             add_field_func("applicant_name", [r"Candidate\s+Name\s*[:\-]?(.*)", r"Applicant\s*Name\s*[:\-]?(.*)", r"Name\s*[:\-]?(.*)"], normalize_name)
             add_field_func("father_name", [r"Father['\s]*s?\s*Name\s*[:\-]?(.*)", r"(?:S/o|D/o|W/o)\s*[:\-]?\s*([A-Za-z\s]+)"], normalize_name)
             add_field_func("dob", [r"Date\s+of\s+Birth\s*[:\-]?(.*)", r"DOB\s*[:\-]?(.*)", r"(?:Date\s+of\s+Birth|DOB)\s*[:\-]?\s*([0-9]{1,4}[/\.\-\s]+[A-Za-z0-9]{1,9}[/\.\-\s]+[0-9]{2,4})"], parse_dt)
-            add_field_func("roll_no", [r"Roll\s+No\s*[:\-]?(.*)"], lambda s: s.strip() if s else None)
+            add_field_func("roll_no", [r"Roll\s+No\s*[:\-]?(.*)"], norm_ident)
             add_field_func("percentage", [r"AGGREGATE\s+RESULT[^\(]*\(([\d.]+)%\)", r"([\d.]+)%"], parse_pct)
 
         elif doc_type == DocumentType.BANK_PASSBOOK:
             add_field_func("applicant_name", [r"Account\s+Holder\s+Name\s*[:\-]?(.*)", r"Holder\s+Name\s*[:\-]?(.*)", r"Applicant\s*Name\s*[:\-]?(.*)"], normalize_name)
-            add_field_func("account_no", [r"Account\s+Number\s*[:\-]?(.*)"], lambda s: s.strip() if s else None)
-            add_field_func("ifsc", [r"Bank\s+IFSC\s+Code\s*[:\-]?(.*)", r"IFSC\s*[:\-]?(.*)"], lambda s: s.strip().upper() if s else None)
+            add_field_func("account_no", [r"Account\s+Number\s*[:\-]?(.*)"], norm_ident)
+            add_field_func("ifsc", [r"Bank\s+IFSC\s+Code\s*[:\-]?(.*)", r"IFSC\s*[:\-]?(.*)"], norm_ifsc)
             add_field_func("dbt_seeded", [r"DBT\s*/\s*Aadhaar\s+Seeding\s*[:\-]?(.*)", r"DBT\s*[:\-]?(.*)"], lambda s: True if s and ("ACTIVE" in s.upper() or "SEEDED" in s.upper()) else False)
 
         elif doc_type == DocumentType.APPLICATION_FORM:
@@ -975,11 +983,11 @@ class DocumentExtractor:
             add_field_func("dob", [r"Date\s+of\s+Birth\s*\(DOB\)\s*[:\-]?(.*)", r"Date\s+of\s+Birth\s*[:\-]?(.*)", r"DOB\s*[:\-]?(.*)"], parse_dt)
             add_field_func("caste_category", [r"Social\s+Category\s*[:\-]?(.*)"], lambda s: s.strip().upper() if s else None)
             add_field_func("annual_income", [r"Declared\s+Annual\s+Family\s+Income\s*[:\-]?(.*)", r"(?:Total\s+)?(?:Annual\s+)?(?:Family\s+)?Income\s*[:\|\-]\s*(.*)"], normalize_income)
-            add_field_func("income_cert_no", [r"Income\s+Certificate\s+Reference\s+No\s*[:\-]?\s*([A-Za-z0-9/\-]+)", r"(?:Income\s+)?Certificate\s+(?:Reference\s+)?(?:No|Number)\s*[:\|\-]?\s*([A-Za-z0-9/\-]+)"], normalize_cert_number)
-            add_field_func("caste_cert_no", [r"Caste\s+Certificate\s+Reference\s+No\s*[:\-]?\s*([A-Za-z0-9/\-]+)"], normalize_cert_number)
-            add_field_func("residence_cert_no", [r"Residence\s+Certificate\s+Reference\s+No\s*[:\-]?\s*([A-Za-z0-9/\-]+)"], normalize_cert_number)
-            add_field_func("account_no", [r"Bank\s+Account\s+Number\s*[:\-]?(.*)", r"Account\s+Number\s*[:\-]?(.*)"], lambda s: s.strip() if s else None)
-            add_field_func("ifsc", [r"Bank\s+IFSC\s+Code\s*[:\-]?(.*)", r"IFSC\s*[:\-]?(.*)"], lambda s: s.strip().upper() if s else None)
+            add_field_func("income_cert_no", [rf"Income\s+Certificate\s+Reference\s+No\s*[:\-]?\s*([{cert_chars}]+)", rf"(?:Income\s+)?Certificate\s+(?:Reference\s+)?(?:No|Number)\s*[:\|\-]?\s*([{cert_chars}]+)"], normalize_cert_number)
+            add_field_func("caste_cert_no", [rf"Caste\s+Certificate\s+Reference\s+No\s*[:\-]?\s*([{cert_chars}]+)"], normalize_cert_number)
+            add_field_func("residence_cert_no", [rf"Residence\s+Certificate\s+Reference\s+No\s*[:\-]?\s*([{cert_chars}]+)"], normalize_cert_number)
+            add_field_func("account_no", [r"Bank\s+Account\s+Number\s*[:\-]?(.*)", r"Account\s+Number\s*[:\-]?(.*)"], norm_ident)
+            add_field_func("ifsc", [r"Bank\s+IFSC\s+Code\s*[:\-]?(.*)", r"IFSC\s*[:\-]?(.*)"], norm_ifsc)
 
         elif doc_type == DocumentType.AADHAAR:
             add_field_func("applicant_name", [r"Government\s+of\s+India[^\n]*\n\s*([A-Za-z\s]+)", r"Name\s*[:\-]?\s*([A-Za-z\s]+)", r"To\s*[:\-]?\s*([A-Za-z\s]+)", r"([A-Z][a-z]+(?:\s+[A-Z][a-z]+)+)"], normalize_name)
