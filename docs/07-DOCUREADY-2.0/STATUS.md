@@ -1,25 +1,32 @@
 # DocuReady 2.0 — Status Tracker
 
-**Last Updated:** 28 November 2026  
-**Verified `origin/main` SHA:** `9717ae56b3e672d0c6046ea4a918794db1cf1368`  
+**Last Updated:** 28 November 2026
+**Previous Baseline SHA:** `9717ae56b3e672d0c6046ea4a918794db1cf1368`
+**Updated `origin/main` SHA:** `70b7ea5f001a5a30404a13b7d347527c641a434b`
 **Historical Gate Status:** See [../STATUS.md](../STATUS.md) for Loop 1–47 / Gate G0–G5 records.
 
 ---
 
 ## Active Workstreams
 
-| Workstream | Owner | Branch | PR | State | Blockers / Notes |
+| Workstream | Owner | Branch (Proposed if not yet created) | PR / Historical Ref | State | Blockers / Notes |
 |---|---|---|---|---|---|
-| **Loop 0 — Docs & Baseline** | Team | `docs/docuready-2.0-kickoff-baseline` | Pending PR | `in_review` | Reconciled baseline & Windows release plan; must merge to `main` as shared starting point. |
-| **CI/CD → Frontend & QA** | Deepti | `fix/ci-verification-stabilisation` (preserve) / `fix/ci-cd-deepti` | [#94](https://github.com/Algoryxz/DocuReady/pull/94) | `in_progress` | `CI Tests` run `46140310777` **PASSED** (Py 3.11–3.14); `Windows desktop release qualification` run `46140310782` `in_progress` at snapshot. Phase 2 pairs with Frontend owner. |
-| **PR #95, Testing & Quality** | Akriti | `feat/pr95-akriti` (preserve PR #95 if open) | #95 | `ready` | Complete PR #95, expand tests, run post-integration regressions & benchmark comparisons. |
-| **Backend & Doc Intelligence** | Susmita | `feat/backend-susmita` | — | `ready` | Own `src/docuready/**`, `sidecar/`, `packs/`, API contracts, extraction/OCR reliability. |
-| **Frontend & Electron** | Project frontend owner | `feat/frontend-electron` | — | `ready` | Own `apps/desktop/**`, IPC/sidecar integration, Windows installer & `site/` download section. |
+| **Docs & Baseline** | Team | `docs/docuready-2.0-kickoff-baseline` | Pending PR | `in_review` | Rebased onto `70b7ea5`; must merge to `main` as shared starting point. |
+| **CI/CD → Frontend & QA** | Deepti | `fix/ci-cd-deepti` *(proposed)* | [PR #94](https://github.com/Algoryxz/DocuReady/pull/94) (`merged`, `b66b82b`) | `active` | Phase 1: CI/CD & Windows release pipeline (PR #94 merged). Phase 2: pair with Frontend owner on integration & QA. |
+| **Testing & Quality** | Akriti | `feat/pr95-akriti` *(proposed)* | [PR #95](https://github.com/Algoryxz/DocuReady/pull/95) (`merged`, `1eca2a5`) | `ready` | PR #95 Indic dedup merged; continue regression coverage, benchmark experiments, negative controls & before/after metrics. |
+| **Backend & Doc Intelligence** | Susmita | `feat/backend-susmita` *(proposed)* | — | `ready` | Own `src/docuready/**`, `sidecar/`, `packs/**`, API contracts, extraction/normalization/validation & regression compatibility. |
+| **Frontend & Electron** | Project frontend owner | `feat/frontend-electron` *(proposed)* | — | `ready` | Own `apps/desktop/**`, Evidence Review Workspace, doc nav & finding-panel workflows, backend integration, Windows installer & `site/` download section. |
 
 ---
 
-## Verified CI & Release Gate Snapshot (28 November 2026)
+## Merged Upstream PRs (`9717ae5..70b7ea5`)
 
-- **`main` (`9717ae5`):** `CI Tests` (`46129673099`) `failure`; `Windows desktop release qualification` (`46129673088`) `failure`.
-- **PR #94 (`fix/ci-verification-stabilisation`):** `CI Tests` (`46140310777`) `success` across Python `3.11`, `3.12`, `3.13`, `3.14`; `CodeRabbit` `success`; `Vercel` `success`.
-- **Distribution & Licensing Gate:** **OPEN** — AGPLv3 distribution clearance for bundled PyMuPDF/MuPDF (`LICENSING_DECISION.md`) must be resolved before publishing a permanent public installer.
+- **PR #94 (`b66b82b`, `fix/ci-verification-stabilisation`):** **Merged.** Stabilized cross-platform OCR, POSIX `adaptive_ocr.py` tessdata resolution, probe diagnostics, and `.github/workflows/windows-release-qualification.yml`.
+- **PR #95 (`1eca2a5`, `fix/T4.2-indic-candidate-dedup`):** **Merged.** Normalized Indic digits in OCR candidate deduplication (`src/docuready/ingest/extractor.py`, `tests/test_extractor.py`).
+- **PR #96 (`0e14a6e`, `fix/ocr-tessdata-and-benchmark-integrity`):** **Merged.** Resolved system tessdata, verified loaded languages/symbols, and enforced dataset provenance hashes (`adaptive_ocr.py`, `tesseract_discovery.py`, `generate_dataset_provenance.py`).
+- **PR #97 (`70b7ea5`, `fix/final-ocr-benchmark-review`):** **Merged.** Completed extra tessdata discovery, enforced audit manifest checks, and added unavailable probe spy tests (`tesseract_discovery.py`, `tests/test_tesseract_discovery.py`).
+
+## Release & Licensing Gates
+
+- **Windows Qualification Artifacts:** Existing GitHub Actions qualification artifacts are temporary CI outputs, not a permanent public release.
+- **Distribution & Licensing Gate:** **OPEN** — AGPLv3/PyMuPDF/MuPDF (`pymupdf==2.1`) distribution clearance (`LICENSING_DECISION.md`) requires a qualified licensing review of third-party license obligations, corresponding-source, and notice requirements before public distribution. No legal clearance is claimed.

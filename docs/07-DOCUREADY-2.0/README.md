@@ -33,4 +33,4 @@
 2. **Human review never mutates engine verdicts:** Session-level human annotations and review acknowledgements are advisory metadata only; they must never silently overwrite `PASS`/`FAIL`/`REVIEW` outcomes.
 3. **Ephemeral session handling:** Do not persist sensitive citizen documents or create a local document history without an explicit retention, deletion, and security design.
 4. **No new dependencies without necessity & licence review:** PyMuPDF (`AGPLv3`) legal clearance remains an open release blocker (`LICENSING_DECISION.md`).
-5. **Respect PR #94 & frozen artifacts:** Deeptiman owns CI recovery PR #94 (`fix/ci-verification-stabilisation`); do not overwrite his branch or modify frozen Loop 10 release artifacts or historical loop reports.
+5. **Respect merged PRs #94–#97 & frozen artifacts:** PRs #94–#97 are merged in `70b7ea5`; preserve historical Loop 10 release artifacts and historical loop reports.

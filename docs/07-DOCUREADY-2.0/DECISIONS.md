@@ -8,7 +8,7 @@
 | **D-002** | **Session-only human review annotations never alter engine verdicts.** | Preserves deterministic audit integrity and conservative abstention (`PASS`/`FAIL`/`REVIEW` come solely from the engine + `DecisionSafetyLayer`). |
 | **D-003** | **No persistent citizen document history in 2.0.** | Prevents unencrypted PII retention on disk without a dedicated retention, encryption, and deletion architecture. |
 | **D-004** | **Honest local-processing claims only.** | Replace `"100% Offline · Local Workspace"` in `main.tsx:486` with `"Local Processing · Ephemeral Workspace"` to align with `PRIVACY_NETWORK_AUDIT.md` §7. |
-| **D-005** | **GitHub-hosted Actions only (`ubuntu-24.04`, `windows-2022`).** | Self-hosted runners are prohibited; PR #94 (`fix/ci-verification-stabilisation`) remains owned by Deeptiman. |
+| **D-005** | **GitHub-hosted Actions only (`ubuntu-24.04`, `windows-2022`).** | Self-hosted runners are prohibited; PR #94 (`fix/ci-verification-stabilisation`) is merged in `main` (`b66b82b`); CI/CD and Windows release pipeline ownership remains with Deepti. |
 
 ---
 

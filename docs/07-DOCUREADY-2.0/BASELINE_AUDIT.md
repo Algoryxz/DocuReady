@@ -1,7 +1,7 @@
 # DocuReady 2.0 — Baseline Forensic Audit
 
-**Audit Date:** 28 November 2026  
-**Inspected `origin/main` SHA:** `9717ae56b3e672d0c6046ea4a918794db1cf1368`  
+**Audit Date:** 28 November 2026 (Previous baseline: `9717ae5`)
+**Inspected `origin/main` SHA:** `70b7ea5f001a5a30404a13b7d347527c641a434b`
 **Audit Method:** Parallel read-only inspection of `src/`, `sidecar/`, `packs/`, `eval/`, `apps/desktop/`, `site/`, `.github/workflows/`, `tests/`, and `docs/` + GitHub CLI (`gh`) inspection of PR #94 and Actions runs.
 
 ---
@@ -75,8 +75,10 @@ All workflows use **GitHub-hosted runners** (`ubuntu-24.04` and `windows-2022`).
 |---|---|---|---|---|
 | `main` (`9717ae5`) | `CI Tests` | `46129673099` | `failure` | Baseline failures: `test_loop09_release_integrity.py` (missing `apps/desktop/out/DocuReady-win32-x64`), `test_loop10_demo_reliability.py` (missing `DocuReady.exe`), `test_loop12_benchmark_integrity.py` (missing `research/loop11_benchmark/data/funsd/funsd_001.pdf`), `test_loop14_multilingual_ocr.py`, `test_loop41_inprocess_reliability.py`, `test_loop44_upper_band.py`, `test_loop46_indic_header_latin_body.py`. |
 | `main` (`9717ae5`) | `Windows desktop release qualification` | `46129673088` | `failure` | Failed on `main` baseline. |
-| PR #94 (`fix/ci-verification-stabilisation`, Deeptiman) | `CI Tests` | `46140310777` | `success` | **Passed on Python 3.11, 3.12, 3.13, 3.14** (replaces earlier failed runs `46139887884`, `46131038651`, `46130590018`). |
-| PR #94 (`fix/ci-verification-stabilisation`, Deeptiman) | `Windows desktop release qualification` | `46140310782` | `in_progress` | Running at kickoff snapshot (earlier runs `46131038688`, `46130589951` failed; `46139887889` cancelled). |
+| PR #94 (`fix/ci-verification-stabilisation`) | `CI Tests` & `Windows desktop release qualification` | `46140310777` / `b66b82b` | **merged** | Merged into `main` (`b66b82b`): stabilized cross-platform OCR, POSIX `adaptive_ocr.py` tessdata resolution, probe diagnostics, and Windows CI workflow. |
+| PR #95 (`fix/T4.2-indic-candidate-dedup`) | OCR candidate dedup | `1eca2a5` | **merged** | Merged into `main` (`1eca2a5`): normalized Indic digits in OCR candidate deduplication (`extractor.py`, `tests/test_extractor.py`); broader T4.2/quality work continues. |
+| PR #96 (`fix/ocr-tessdata-and-benchmark-integrity`) | OCR & benchmark integrity | `0e14a6e` | **merged** | Merged into `main` (`0e14a6e`): resolved system tessdata, verified loaded langs/symbols, and enforced dataset provenance hashes (`tesseract_discovery.py`, `generate_dataset_provenance.py`). |
+| PR #97 (`fix/final-ocr-benchmark-review`) | OCR & benchmark review | `70b7ea5` | **merged** | Merged into `main` (`70b7ea5`): completed extra tessdata discovery, enforced audit manifest checks, and added unavailable probe spy tests. |
 
 ---
 

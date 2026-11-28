@@ -36,7 +36,7 @@ The installer must:
 
 ### Backend and OCR
 - [ ] Backend tests pass.
-- [ ] Sidecar starts successfully.
+- [ ] Sidecar starts successfully and health check passes.
 - [ ] OCR resources are bundled.
 - [ ] English OCR tested.
 - [ ] Hindi OCR tested.
@@ -51,7 +51,7 @@ The installer must:
 - [ ] Installed application launches.
 - [ ] Uninstallation tested.
 - [ ] SHA-256 checksums generated (`SHA256SUMS.txt`).
-- [ ] Artifact upload verified.
+- [ ] Artifact upload verified *(note: GitHub Actions qualification artifacts are temporary CI builds and must not be represented as a permanent public release)*.
 - [ ] Download instructions tested by another team member.
 
 ### Quality

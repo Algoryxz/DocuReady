@@ -1,6 +1,7 @@
 # DocuReady 2.0 — 24-Hour Execution Plan
 
-**Time Budget:** 24 Hours  
+**Time Budget:** 24 Hours
+**Updated Base origin/main SHA:** 70b7ea5f001a5a30404a13b7d347527c641a434b
 **Target Vertical Slice:** Guided Application Workspace → Document Intelligence → Evidence Review → Correct → Re-audit → Redacted Report
 
 ---
@@ -9,8 +10,8 @@
 
 | Window | Milestone | Owners | Key Deliverables |
 |---|---|---|---|
-| **H0–H2** | **Baseline & CI Green** | All + Deeptiman | Merge Loop 0 docs baseline (`docs/docuready-2.0-kickoff-baseline`) and PR #94 (`fix/ci-verification-stabilisation`). Sync shared types in `apps/desktop/src/shared/types.ts`. |
-| **H2–H10** | **Core Slice Implementation (Parallel)** | User (WS1), Akriti (WS2), Susmita (WS3) | **WS1:** `schemeId` forwarding, `packet:replace-document` IPC, workspace hardening.<br>**WS2:** Pack/slot wiring, raw-vs-normalized field DTOs, `documentId` provenance, sidecar contract fixes.<br>**WS3:** Guided slot checklist UI, raw-vs-normalized & cross-doc comparison, uncertainty UX, per-slot replace button, session annotations. |
-| **H10–H16** | **Integration & Regression Testing** | User, Akriti, Susmita | Wire Electron ↔ Sidecar ↔ Renderer end-to-end; run Python regressions, Desktop Node tests, `tsc --noEmit`, new IPC/UI/replacement/redaction tests. |
-| **H16–H20** | **Qualification & QA Review** | Deeptiman (WS4) + All | GitHub-hosted `CI Tests` (3.11–3.14) and `Windows desktop release qualification` green; Deeptiman UX, accessibility, and integration QA pass. |
-| **H20–H24** | **Demo Rehearsal & Freeze** | All | Verify clean Windows packaged app demo of the full 6-step flow; confirm zero regressions on golden baseline (`E8FB1A6B...`) and privacy/redaction invariants. |
+| **H0–H2** | **Baseline Sync & Contract Freeze** | All | Merge docs/docuready-2.0-kickoff-baseline (rebased onto 70b7ea5, with PRs #94–#97 merged). Freeze shared types in pps/desktop/src/shared/types.ts and sidecar/docuready_sidecar.py. |
+| **H2–H10** | **Core Slice Implementation (Parallel)** | Susmita, Project frontend owner, Akriti, Deepti | **Susmita (eat/backend-susmita proposed):** Backend & document intelligence (src/docuready/**, sidecar/, packs/**), pack/slot wiring, extraction/normalization/validation, API contracts, documentId provenance, sidecar contract fixes.<br>**Project frontend owner (eat/frontend-electron proposed):** Electron & React integration (pps/desktop/**), Evidence Review Workspace, document nav & finding-panel workflows, schemeId forwarding, packet:replace-document IPC, guided slot checklist, raw-vs-normalized & cross-doc comparison, session annotations.<br>**Akriti (eat/pr95-akriti proposed; PR #95 merged):** Expand regression coverage, benchmark experiments, failure & negative-control investigation, before/after metrics.<br>**Deepti (ix/ci-cd-deepti proposed; PR #94 merged):** Phase 1 CI/CD stabilization and Windows release pipeline (DocuReady-Setup.exe, DocuReady-Portable.zip, SHA256SUMS.txt). |
+| **H10–H16** | **Integration & Regression Testing** | Susmita, Project frontend owner, Akriti | Wire Electron ↔ Sidecar ↔ Renderer end-to-end; run Python regressions, Desktop Node tests, 	sc --noEmit, and new IPC/UI/replacement/redaction tests; Akriti coordinates quality evidence & before/after comparisons. |
+| **H16–H20** | **Qualification & QA Review** | Deepti (Phase 2) + All | Deepti collaborates with the Project frontend owner on integration and QA; verify GitHub-hosted CI Tests (3.11–3.14), Windows packaging, clean-machine install/launch/uninstall, portable launch, English/Hindi/Odia OCR, sidecar health, and SHA-256 verification. |
+| **H20–H24** | **Demo Rehearsal & Freeze** | All | Rehearse full 6-step Windows flow; confirm zero regressions on golden baseline (E8FB1A6B...) and privacy/redaction invariants; confirm AGPLv3/PyMuPDF licensing gate remains OPEN pending qualified legal review before any permanent public release. |
